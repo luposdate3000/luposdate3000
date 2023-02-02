@@ -44,3 +44,4 @@ LogicalOptimizerDistinctUpID
 LogicalOptimizerStoreToValuesID
 PhysicalOptimizerVisualisationID
 PhysicalOptimizerSplitMergePartitionID
+PhysicalOptimizerPartitionJoinTopologyID

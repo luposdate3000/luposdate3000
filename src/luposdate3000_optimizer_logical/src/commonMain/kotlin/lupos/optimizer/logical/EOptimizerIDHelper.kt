@@ -29,6 +29,7 @@ public class EOptimizerIDHelper {
         try {
             optional = BooleanArray(EOptimizerIDExt.values_size) {
                 when (it) {
+ EOptimizerIDExt.PhysicalOptimizerPartitionJoinTopologyID->true
                     EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
                     EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
                     EOptimizerIDExt.LogicalOptimizerSortDownID -> true
@@ -81,6 +82,7 @@ public class EOptimizerIDHelper {
 
             repeatOnChange = BooleanArray(EOptimizerIDExt.values_size) {
                 when (it) {
+ EOptimizerIDExt.PhysicalOptimizerPartitionJoinTopologyID->true
                     EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
                     EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
                     EOptimizerIDExt.LogicalOptimizerSortDownID -> true
@@ -133,7 +135,7 @@ public class EOptimizerIDHelper {
         } catch (e: Throwable) {
             optional = BooleanArray(0) { true }
             repeatOnChange = BooleanArray(0) { true }
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:135"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/EOptimizerIDHelper.kt:137"/*SOURCE_FILE_END*/)
         }
     }
 }

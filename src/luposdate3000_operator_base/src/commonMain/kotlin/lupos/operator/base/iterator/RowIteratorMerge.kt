@@ -26,7 +26,8 @@ import kotlin.jvm.JvmField
 public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<DictionaryValueType>, @JvmField public val compCount: Int) : RowIterator() {
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<DictionaryValueType>, compCount: Int, columns: Array<String>): RowIterator {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:28"/*SOURCE_FILE_END*/ }, { columns.size == a.columns.size })
+println("RowIteratorMerge .. ${columns.toList()} .. ${a.columns.size}")
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:29"/*SOURCE_FILE_END*/ }, { columns.size == a.columns.size })
             var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var done = false
@@ -169,7 +170,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                 }
                 j++
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:171"/*SOURCE_FILE_END*/ }, { resultList.size > 0 })
+            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:172"/*SOURCE_FILE_END*/ }, { resultList.size > 0 })
             return resultList[resultList.size - 1]!!
         }
     }
@@ -185,11 +186,11 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
 
     init {
         SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:187"/*SOURCE_FILE_END*/ },
+            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:188"/*SOURCE_FILE_END*/ },
             {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:189"/*SOURCE_FILE_END*/ }, { a.columns.size == b.columns.size })
+                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:190"/*SOURCE_FILE_END*/ }, { a.columns.size == b.columns.size })
                 for (i in a.columns.indices) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:191"/*SOURCE_FILE_END*/ }, { a.columns[i] == b.columns[i] })
+                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:192"/*SOURCE_FILE_END*/ }, { a.columns[i] == b.columns[i] })
                 }
             }
         )

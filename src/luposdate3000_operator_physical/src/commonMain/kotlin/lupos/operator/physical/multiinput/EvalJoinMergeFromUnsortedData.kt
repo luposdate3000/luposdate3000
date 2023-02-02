@@ -87,26 +87,12 @@ public object EvalJoinMergeFromUnsortedData {
         }
     }
 
-    internal fun logData(data: Array<MutableList<DictionaryValueTypeArray>>, len: Long) {
-        println(">>> $len rows >>>")
-        for (i in 0 until len + 1) {
-            val a = i / bufferArrayLen
-            val b = i - a * bufferArrayLen
-            for (c in data) {
-                print("${c[a.toInt()][b.toInt()]},")
-            }
-            println(" .... $a $b >> $i")
-        }
-        println("<<< <<<")
-    }
-
     public operator fun invoke(
         query: IQuery,
         child0: IteratorBundle,
         child1: IteratorBundle,
         projectedVariables: List<String>,
     ): IteratorBundle {
-// buffer the data
         val joinColumns = mutableListOf<String>()
         for (name in child0.columns.keys) {
             if (child1.columns.keys.contains(name)) {
@@ -135,22 +121,13 @@ public object EvalJoinMergeFromUnsortedData {
                 }
                 d[idx++] = next
                 if (next == DictionaryValueHelper.nullValue) {
-// val debugCopy= DictionaryValueTypeArray(idx)
-// for(i in 0 until idx){ 
-// debugCopy[i]=d[i]
-// }
-// child0Buf[i][child0Buf[i].size-1]=debugCopy
                     child0BufLen[i].add(idx.toLong() - 1)
                     break
                 }
                 next = iter.next()
             }
         }
-        // println("before sorting :: C0 ${child0BufLen[0].sum()}")
-        // logData(child0Buf, child0BufLen[0].sum())
         quickSort(child0Buf, joinColumns.map { child0Names.indexOf(it) }.toIntArray(), child0BufLen[0].sum())
-        // println("sorted by :: ${joinColumns.map { child0Names.indexOf(it) }} :: C0 ")
-        // logData(child0Buf, child0BufLen[0].sum())
         val child0Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child0Names.size) {
             child0Iterators[child0Names[i]] = ColumnIteratorMultiIterator(child0Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child0BufLen[i][idx].toInt()) })
@@ -177,22 +154,13 @@ public object EvalJoinMergeFromUnsortedData {
                 }
                 d[idx++] = next
                 if (next == DictionaryValueHelper.nullValue) {
-// val debugCopy= DictionaryValueTypeArray(idx)
-// for(i in 0 until idx){
-// debugCopy[i]=d[i]
-// }
-// child1Buf[i][child1Buf[i].size-1]=debugCopy
                     child1BufLen[i].add(idx.toLong() - 1)
                     break
                 }
                 next = iter.next()
             }
         }
-        // println("before sorting :: C1 ${child1BufLen[0].sum()}")
-        // logData(child1Buf, child1BufLen[0].sum())
         quickSort(child1Buf, joinColumns.map { child1Names.indexOf(it) }.toIntArray(), child1BufLen[0].sum())
-        // println("sorted by :: ${joinColumns.map { child1Names.indexOf(it) }} :: C1 ")
-        // logData(child1Buf, child1BufLen[0].sum())
         val child1Iterators = mutableMapOf<String, ColumnIterator>()
         for (i in 0 until child1Names.size) {
             child1Iterators[child1Names[i]] = ColumnIteratorMultiIterator(child1Buf[i].mapIndexed { idx, it -> ColumnIteratorMultiValue(it, child1BufLen[i][idx].toInt()) })
@@ -207,101 +175,5 @@ public object EvalJoinMergeFromUnsortedData {
         return EvalJoinMerge(query, child0Sorted, child1Sorted, projectedVariables, joinColumns)
 // return EvalJoinHashMap(query,child0Sorted,child1Sorted,false,projectedVariables,-1)
 
-/*
-xxxxx
-
-        if (child0BufLen[0].sum() == 0L || child1BufLen[0].sum() == 0L) {
-            val outMap = mutableMapOf<String, ColumnIterator>()
-            for (name in projectedVariables) {
-                outMap[name] = ColumnIteratorEmpty()
-            }
-            return IteratorBundle(outMap)
-        }
-
-
-
-
-
-
-        // setup columns
-        val columnsINO0 = mutableListOf<ColumnIterator>()
-        val columnsINO1 = mutableListOf<ColumnIterator>()
-        val columnsINJ0 = mutableListOf<ColumnIterator>()
-        val columnsINJ1 = mutableListOf<ColumnIterator>()
-        val columnsOUT0 = mutableListOf<ColumnIteratorChildIterator>()
-        val columnsOUT1 = mutableListOf<ColumnIteratorChildIterator>()
-        val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
-        val outIterators = mutableListOf<Pair<String, Int>>() // Key_in_outMap, which_outIteratorsCounter (J,O0,O1,none)
-        val outMap = mutableMapOf<String, ColumnIterator>()
-        val tmp = mutableListOf<String>()
-        tmp.addAll(child1Iterators.keys)
-        for (name in child0Iterators.keys) {
-            if (tmp.contains(name)) {
-                if (projectedVariables.contains(name)) {
-                    outIterators.add(Pair(name, 0))
-                    columnsINJ0.add(0, child0Iterators[name]!!)
-                    columnsINJ1.add(0, child1Iterators[name]!!)
-                } else {
-                    columnsINJ0.add(child0Iterators[name]!!)
-                    columnsINJ1.add(child1Iterators[name]!!)
-                }
-                tmp.remove(name)
-            } else {
-                outIterators.add(Pair(name, 1))
-                columnsINO0.add(child0Iterators[name]!!)
-            }
-        }
-        for (name in tmp) {
-            outIterators.add(Pair(name, 2))
-            columnsINO1.add(child1Iterators[name]!!)
-        }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:257"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeFromUnsortedData.kt:258"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
-        val emptyColumnsWithJoin = outIterators.size == 0
-        if (emptyColumnsWithJoin) {
-            outIterators.add(Pair("", 3))
-        }
-        val key0 = DictionaryValueTypeArray(columnsINJ0.size)
-        val key1 = DictionaryValueTypeArray(columnsINJ1.size)
-        for ((first, second) in outIterators) {
-            val iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
-            when (second) {
-                0 -> {
-                    outMap[first] = iterator
-                    columnsOUTJ.add(iterator)
-                }
-                1 -> {
-                    outMap[first] = iterator
-                    columnsOUT0.add(iterator)
-                }
-                2 -> {
-                    outMap[first] = iterator
-                    columnsOUT1.add(iterator)
-                }
-                3 -> {
-                    columnsOUTJ.add(iterator)
-                }
-            }
-        }
-        val res: IteratorBundle
-        if (emptyColumnsWithJoin) {
-            res = POPJoinMerge_Bundle(columnsINJ0, columnsINJ1, columnsOUTJ[0])
-            for (it in columnsINO0) {
-                it.close()
-            }
-            for (it in columnsINO1) {
-                it.close()
-            }
-        } else {
-            res = IteratorBundle(outMap)
-        }
-        for (i in 0 until columnsINJ0.size) {
-            key0[i] = columnsINJ0[i].next()
-        }
-        for (i in 0 until columnsINJ1.size) {
-            key1[i] = columnsINJ1[i].next()
-        }
-        return res
-*/
     }
 }

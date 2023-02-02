@@ -19,7 +19,6 @@ package lupos.operator.physical.multiinput
 import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
-import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 public object EvalJoinMerge {
@@ -31,70 +30,71 @@ public object EvalJoinMerge {
         joinVariableOrder: List<String>,
     ): IteratorBundle {
         // setup columns
+
+        for (v in child0.columns.keys) {
+            if (v in child1.columns.keys) {
+                if (v !in joinVariableOrder) {
+                    TODO("missing join sort column order")
+                }
+            }
+        }
+
+val columnsJSize=joinVariableOrder.size
+val columnsO0Size=child0.columns.keys.size-columnsJSize
+val columnsO1Size=child1.columns.keys.size-columnsJSize
+
         val columnsINO0 = mutableListOf<ColumnIterator>()
         val columnsINO1 = mutableListOf<ColumnIterator>()
         val columnsINJ0 = mutableListOf<ColumnIterator>()
         val columnsINJ1 = mutableListOf<ColumnIterator>()
-        val columnsOUT0 = mutableListOf<ColumnIteratorChildIterator>()
-        val columnsOUT1 = mutableListOf<ColumnIteratorChildIterator>()
-        val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
-        val outIterators = mutableListOf<Pair<String, Int>>() // Key_in_outMap, which_outIteratorsCounter (J,O0,O1,none)
+        val columnsOUT0 = mutableListOf<ColumnIteratorChildIterator?>()
+        val columnsOUT1 = mutableListOf<ColumnIteratorChildIterator?>()
+        val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator?>()
+
         val outMap = mutableMapOf<String, ColumnIterator>()
-        val tmp = mutableListOf<String>()
-        tmp.addAll(child1.columns.keys)
+
+        val key0 = DictionaryValueTypeArray(columnsJSize)
+        val key1 = DictionaryValueTypeArray(columnsJSize)
+
+
         for (name in joinVariableOrder) {
+            var iterator: POPJoinMerge_Iterator? = null
+            if (projectedVariables.contains(name)) {
+                iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
+                outMap[name] = iterator
+            }
             columnsINJ0.add(child0.columns[name]!!)
             columnsINJ1.add(child1.columns[name]!!)
-            if (projectedVariables.contains(name)) {
-                outIterators.add(Pair(name, 0))
-            }
+            columnsOUTJ.add(iterator)
         }
         for (name in child0.columns.keys) {
-            if (tmp.contains(name)) {
-                if (!joinVariableOrder.contains(name)) {
-                    TODO("error")
+            if (!joinVariableOrder.contains(name)) {
+                var iterator: POPJoinMerge_Iterator? = null
+                if (projectedVariables.contains(name)) {
+                    iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
+                    outMap[name] = iterator
                 }
-                tmp.remove(name)
-            } else {
-                outIterators.add(Pair(name, 1))
                 columnsINO0.add(child0.columns[name]!!)
+                columnsOUT0.add(iterator)
             }
         }
-        for (name in tmp) {
-            outIterators.add(Pair(name, 2))
-            columnsINO1.add(child1.columns[name]!!)
-        }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:66"/*SOURCE_FILE_END*/ }, { columnsINJ0.size > 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMerge.kt:67"/*SOURCE_FILE_END*/ }, { columnsINJ0.size == columnsINJ1.size })
-        val emptyColumnsWithJoin = outIterators.size == 0
-        if (emptyColumnsWithJoin) {
-            outIterators.add(Pair("", 3))
-        }
-        val key0 = DictionaryValueTypeArray(columnsINJ0.size)
-        val key1 = DictionaryValueTypeArray(columnsINJ1.size)
-        for ((first, second) in outIterators) {
-            val iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1)
-            when (second) {
-                0 -> {
-                    outMap[first] = iterator
-                    columnsOUTJ.add(iterator)
+        for (name in child1.columns.keys) {
+            if (!joinVariableOrder.contains(name)) {
+                var iterator: POPJoinMerge_Iterator? = null
+                if (projectedVariables.contains(name)) {
+                    iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
+                    outMap[name] = iterator
                 }
-                1 -> {
-                    outMap[first] = iterator
-                    columnsOUT0.add(iterator)
-                }
-                2 -> {
-                    outMap[first] = iterator
-                    columnsOUT1.add(iterator)
-                }
-                3 -> {
-                    columnsOUTJ.add(iterator)
-                }
+                columnsINO1.add(child1.columns[name]!!)
+                columnsOUT1.add(iterator)
             }
         }
+
         val res: IteratorBundle
-        if (emptyColumnsWithJoin) {
-            res = POPJoinMerge_Bundle(columnsINJ0, columnsINJ1, columnsOUTJ[0])
+        if (projectedVariables.size == 0) {
+            val x = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
+            columnsOUTJ.add(0,x)
+            res = POPJoinMerge_Bundle(columnsINJ0, columnsINJ1, x)
             for (it in columnsINO0) {
                 it.close()
             }
@@ -104,10 +104,10 @@ public object EvalJoinMerge {
         } else {
             res = IteratorBundle(outMap)
         }
-        for (i in 0 until columnsINJ0.size) {
+        for (i in 0 until columnsJSize) {
             key0[i] = columnsINJ0[i].next()
         }
-        for (i in 0 until columnsINJ1.size) {
+        for (i in 0 until columnsJSize) {
             key1[i] = columnsINJ1[i].next()
         }
         return res
