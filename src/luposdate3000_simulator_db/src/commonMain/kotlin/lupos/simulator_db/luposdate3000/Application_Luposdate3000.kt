@@ -1038,7 +1038,7 @@ public class Application_Luposdate3000 public constructor(
                                 var inputBytes = inputSizes.sum()
                                 var outputBytes = outputSizes.sum()
 
-                                if (inputBytes <outputBytes && usedInputs.size > 0) {
+/*                                if (inputBytes !=outputBytes && usedInputs.size > 0) {
                                     println()
                                     println()
                                     println("all input sizes : $inputSizes ($inputBytes) -> output $outputSizes ($outputBytes)")
@@ -1046,7 +1046,7 @@ public class Application_Luposdate3000 public constructor(
                                     println()
                                     println()
                                 }
-
+*/
                                 for (p in packagesToSent) {
                                     p.sendTheData()
                                 }
