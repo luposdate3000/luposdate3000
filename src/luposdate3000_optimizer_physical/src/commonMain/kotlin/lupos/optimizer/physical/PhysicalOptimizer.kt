@@ -37,6 +37,10 @@ public class PhysicalOptimizer public constructor(query: Query) : OptimizerCompo
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
         ),
         arrayOf(
+            PhysicalOptimizerPartitionJoinTopology(query), //
+            PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
+        ),
+        arrayOf(
             PhysicalOptimizerPartitionExpandPartitionTowardsStore(query), //
             PhysicalOptimizerPartitionExpandTowardsRoot(query), //
             PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator(query), //
