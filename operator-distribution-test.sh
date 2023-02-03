@@ -22,7 +22,7 @@ for joindistributionlocation in src/luposdate3000_simulator_db/src/jvmMain/resou
 do
 for relocateOperatorsIfTooMuchDataIsSent in src/luposdate3000_simulator_db/src/jvmMain/resources/relocateOperatorsIfTooMuchDataIsSent/*
 do
-echo "echo" $cmd \
+echo $cmd \
 $sosa \
 $topology \
 $programDistribution \
