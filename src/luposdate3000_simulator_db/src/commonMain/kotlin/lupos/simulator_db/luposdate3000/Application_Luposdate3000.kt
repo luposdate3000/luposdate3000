@@ -140,6 +140,7 @@ public class Application_Luposdate3000 public constructor(
         instance.queryDistributionMode = EQueryDistributionModeExt.names.indexOf(config.getOrDefault("queryDistributionMode", EQueryDistributionModeExt.names[Luposdate3000Config.queryDistributionMode]))
         instance.useDictionaryInlineEncoding = config.getOrDefault("useDictionaryInlineEncoding", Luposdate3000Config.useDictionaryInlineEncoding)
         instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
+instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOperatorsIfTooMuchDataIsSent", Luposdate3000Config.relocateOperatorsIfTooMuchDataIsSent)
         instance.queue_size = 2048
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
         instance.maxThreads = ((2.0).pow(ceil(log2(instance.LUPOS_PROCESS_URLS_ALL.size.toDouble())))).toInt()
@@ -960,7 +961,7 @@ public class Application_Luposdate3000 public constructor(
                                 queryCache.remove(w.queryID)
                             }
 // println()
-//                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
+                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
 //                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             if (w.dataID <0) {
                                 val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, true).first
@@ -1037,18 +1038,41 @@ public class Application_Luposdate3000 public constructor(
 
                                 var inputBytes = inputSizes.sum()
                                 var outputBytes = outputSizes.sum()
-
-/*                                if (inputBytes !=outputBytes && usedInputs.size > 0) {
-                                    println()
-                                    println()
-                                    println("all input sizes : $inputSizes ($inputBytes) -> output $outputSizes ($outputBytes)")
-                                    println("my address: $ownAdress -> targets: ${packagesToSent.map{it.target}}")
-                                    println()
-                                    println()
+                                var hadSentOperatorsOrData = false
+                                if (instance.relocateOperatorsIfTooMuchDataIsSent) {
+                                    if (inputBytes < outputBytes && usedInputs.size > 0) {
+                                        var flag = false
+                                        var targets = packagesToSent.map { it.target }
+                                        var target = targets.first()
+                                        for (t in targets) {
+                                            flag = flag || t != ownAdress
+                                            if (t != target) {
+                                                flag = false
+                                                break
+                                            }
+                                        }
+                                        if (flag) {
+					// TODO("this could be redirected_redirected_redirected_redirected")
+                                            val compactedOperatorGraph = ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))
+                                            for ((k, v) in usedInputs) {
+                                                router!!.send(target, Package_Luposdate3000_Abstract(w.queryID, "simulator-intermediate-result", mapOf("key" to "${k.second}", "query" to "${k.first}"), v as ByteArrayWrapper))
+                                            }
+                                            router!!.send(target, Package_Luposdate3000_Operatorgraph(w.queryID, compactedOperatorGraph, w.destinations.toMutableMap(), w.onFinish, w.expectedResult, w.verifyAction, w.query, w.lastRootOperator))
+                                            hadSentOperatorsOrData = true
+                                            println()
+                                            println()
+                                            println("all input sizes : $inputSizes ($inputBytes) -> output $outputSizes ($outputBytes)")
+                                            println("my address: $ownAdress -> targets: ${packagesToSent.map{it.target}}")
+                                            println("forwarded everything to another node")
+                                            println()
+                                            println()
+                                        }
+                                    }
                                 }
-*/
-                                for (p in packagesToSent) {
-                                    p.sendTheData()
+                                if (!hadSentOperatorsOrData) {
+                                    for (p in packagesToSent) {
+                                        p.sendTheData()
+                                    }
                                 }
                             }
                             break
@@ -1057,7 +1081,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1059"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1084"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1083,7 +1107,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1085"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1110"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

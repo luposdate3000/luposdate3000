@@ -25,7 +25,7 @@ import simora.applications.IApplicationStack_Middleware
 
 // import kotlin.io.println as kotlinprintln
 internal class OutputStreamToPackage(val queryID: Int, val target: Int, val path: String, val params: Map<String, String>, val router: IApplicationStack_Middleware, val shouldSendImmediately: Boolean) : IMyOutputStream {
-    val buffer = ByteArrayWrapper()
+    var buffer = ByteArrayWrapper()
     var isClosed = false
     override fun flush() {}
     fun sendTheData() {
