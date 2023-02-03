@@ -5,6 +5,7 @@ cmd=$(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Co
 
 tasksfile="tasks.sh"
 truncate -s0 $tasksfile
+ctr=0
 for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json operator-distribution-test-optimizer-topology-only.json
 do
 for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json
@@ -22,7 +23,7 @@ for joindistributionlocation in src/luposdate3000_simulator_db/src/jvmMain/resou
 do
 for relocateOperatorsIfTooMuchDataIsSent in src/luposdate3000_simulator_db/src/jvmMain/resources/relocateOperatorsIfTooMuchDataIsSent/*
 do
-echo $cmd \
+c="$cmd \
 $sosa \
 $topology \
 $programDistribution \
@@ -35,7 +36,9 @@ $routing \
 src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_execution_enabled.json \
 $optimizer \
 $relocateOperatorsIfTooMuchDataIsSent \
-operator-distribution-test.json >> $tasksfile
+operator-distribution-test.json"
+echo "echo $c into logfile_$ctr ; $c > logfile_$ctr" >> $tasksfile
+ctr=$((ctr+1))
 
 done
 done
