@@ -1,4 +1,4 @@
-#./gradlew assemble --offline  -q > /dev/null 2>&1
+./gradlew assemble --offline  -q > /dev/null 2>&1
 
 tasksfile="./tasks.sh"
 rm -rf *.svg *.dot
@@ -52,6 +52,6 @@ done
 
 #cat $tasksfile | sed "s/java -Xmx100g/java -Xmx10g/g" | shuf > ${tasksfile}.tmp
 #mv ${tasksfile}.tmp $tasksfile
-#cat ${tasksfile} | parallel -j 20
-chmod +x $tasksfile
-$tasksfile
+cat ${tasksfile} | parallel -j 20
+#chmod +x $tasksfile
+#$tasksfile

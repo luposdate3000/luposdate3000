@@ -250,7 +250,12 @@ instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOpera
             try {
                 var hasSort = false
                 var limitOperators = mutableListOf<IPOPLimit>()
-                val localOP = (op as OPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
+val storeoptimizer=instance.optimizer
+instance.optimizer=EOptimizerExt.Default
+val q2 = Query(instance)
+val op2=LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, q2, queryString)
+instance.optimizer=storeoptimizer
+                val localOP = (op2 as OPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
                 if (limitOperators.size > 0 && !hasSort && localOP != null) {
                     val iteratorBundle = localOP.evaluateRootBundle()
                     val buf = MyPrintWriter(true)
@@ -282,7 +287,7 @@ instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOpera
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:284"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:289"/*SOURCE_FILE_END*/)
             }
         }
         q.setTransactionID(pck.queryID.toLong())
@@ -346,7 +351,7 @@ instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOpera
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:348"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:353"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -1081,7 +1086,7 @@ instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOpera
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1083"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1088"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1107,7 +1112,7 @@ instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOpera
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1109"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1114"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
