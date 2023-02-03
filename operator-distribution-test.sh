@@ -37,7 +37,7 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_executi
 $optimizer \
 $relocateOperatorsIfTooMuchDataIsSent \
 operator-distribution-test.json"
-echo "echo $c into logfile_$ctr ; $c > logfile_$ctr" >> $tasksfile
+echo "echo $c into logfile_$ctr ; $c &> logfile_$ctr" >> $tasksfile
 ctr=$((ctr+1))
 
 done
