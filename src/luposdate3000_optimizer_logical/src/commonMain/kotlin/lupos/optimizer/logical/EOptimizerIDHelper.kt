@@ -29,7 +29,7 @@ public class EOptimizerIDHelper {
         try {
             optional = BooleanArray(EOptimizerIDExt.values_size) {
                 when (it) {
- EOptimizerIDExt.PhysicalOptimizerPartitionJoinTopologyID->true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionJoinTopologyID -> true
                     EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
                     EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
                     EOptimizerIDExt.LogicalOptimizerSortDownID -> true
@@ -82,7 +82,7 @@ public class EOptimizerIDHelper {
 
             repeatOnChange = BooleanArray(EOptimizerIDExt.values_size) {
                 when (it) {
- EOptimizerIDExt.PhysicalOptimizerPartitionJoinTopologyID->true
+                    EOptimizerIDExt.PhysicalOptimizerPartitionJoinTopologyID -> true
                     EOptimizerIDExt.LogicalOptimizerMinusAddSortID -> true
                     EOptimizerIDExt.LogicalOptimizerDistinctSplitID -> true
                     EOptimizerIDExt.LogicalOptimizerSortDownID -> true

@@ -26,7 +26,7 @@ import kotlin.jvm.JvmField
 public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<DictionaryValueType>, @JvmField public val compCount: Int) : RowIterator() {
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<DictionaryValueType>, compCount: Int, columns: Array<String>): RowIterator {
-println("RowIteratorMerge .. ${columns.toList()} .. ${a.columns.size}")
+            println("RowIteratorMerge .. ${columns.toList()} .. ${a.columns.size}")
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:29"/*SOURCE_FILE_END*/ }, { columns.size == a.columns.size })
             var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)

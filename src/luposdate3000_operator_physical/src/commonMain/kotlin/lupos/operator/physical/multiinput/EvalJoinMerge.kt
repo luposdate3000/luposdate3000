@@ -39,9 +39,9 @@ public object EvalJoinMerge {
             }
         }
 
-val columnsJSize=joinVariableOrder.size
-val columnsO0Size=child0.columns.keys.size-columnsJSize
-val columnsO1Size=child1.columns.keys.size-columnsJSize
+        val columnsJSize = joinVariableOrder.size
+        val columnsO0Size = child0.columns.keys.size - columnsJSize
+        val columnsO1Size = child1.columns.keys.size - columnsJSize
 
         val columnsINO0 = mutableListOf<ColumnIterator>()
         val columnsINO1 = mutableListOf<ColumnIterator>()
@@ -56,11 +56,10 @@ val columnsO1Size=child1.columns.keys.size-columnsJSize
         val key0 = DictionaryValueTypeArray(columnsJSize)
         val key1 = DictionaryValueTypeArray(columnsJSize)
 
-
         for (name in joinVariableOrder) {
             var iterator: POPJoinMerge_Iterator? = null
             if (projectedVariables.contains(name)) {
-                iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
+                iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
                 outMap[name] = iterator
             }
             columnsINJ0.add(child0.columns[name]!!)
@@ -71,7 +70,7 @@ val columnsO1Size=child1.columns.keys.size-columnsJSize
             if (!joinVariableOrder.contains(name)) {
                 var iterator: POPJoinMerge_Iterator? = null
                 if (projectedVariables.contains(name)) {
-                    iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
+                    iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
                     outMap[name] = iterator
                 }
                 columnsINO0.add(child0.columns[name]!!)
@@ -82,7 +81,7 @@ val columnsO1Size=child1.columns.keys.size-columnsJSize
             if (!joinVariableOrder.contains(name)) {
                 var iterator: POPJoinMerge_Iterator? = null
                 if (projectedVariables.contains(name)) {
-                    iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
+                    iterator = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
                     outMap[name] = iterator
                 }
                 columnsINO1.add(child1.columns[name]!!)
@@ -92,8 +91,8 @@ val columnsO1Size=child1.columns.keys.size-columnsJSize
 
         val res: IteratorBundle
         if (projectedVariables.size == 0) {
-            val x = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1,columnsJSize,columnsO0Size,columnsO1Size)
-            columnsOUTJ.add(0,x)
+            val x = POPJoinMerge_Iterator(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
+            columnsOUTJ.add(0, x)
             res = POPJoinMerge_Bundle(columnsINJ0, columnsINJ1, x)
             for (it in columnsINO0) {
                 it.close()

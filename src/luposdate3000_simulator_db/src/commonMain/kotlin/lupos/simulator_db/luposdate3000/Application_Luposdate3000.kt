@@ -779,7 +779,7 @@ public class Application_Luposdate3000 public constructor(
             for (key in keys) {
             }
             val out = Array<IMyOutputStream?>(keys.size) { OutputStreamToPackage(queryID, destinations[keys[it]]!!, "simulator-intermediate-result", mapOf("key" to "${keys[it]}", "query" to "$queryID"), router!!, shouldSendImmediately) }
-            packagesToSent.addAll(out.map{it as OutputStreamToPackage})
+            packagesToSent.addAll(out.map { it as OutputStreamToPackage })
             EvalDistributedSendWrapper(child, { EvalDistributedSendMulti(out, child, name, instance.timeout) })
         }
         assignOP(EOperatorIDExt.POPDistributedReceiveSingleID) { _, data, off, _ ->
@@ -859,10 +859,10 @@ public class Application_Luposdate3000 public constructor(
                 }
                 var isCartesian = projected0.intersect(projected1).size == 0
                 val x = if (isCartesian) {
-//println("joining cart :: $projected0 + $projected1 -> $finalSet")
+// println("joining cart :: $projected0 + $projected1 -> $finalSet")
                     EvalJoinCartesianProduct(query, child0, child1, false)
                 } else {
-//println("joining merge :: $projected0 + $projected1 -> $finalSet")
+// println("joining merge :: $projected0 + $projected1 -> $finalSet")
                     EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
 // EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
                 }
@@ -870,7 +870,7 @@ public class Application_Luposdate3000 public constructor(
                 inputIterators.add(x)
                 childProjectedVariables.add(finalSet.toMutableList())
             }
-//println("Application_Luposdate3000 ... EOperatorIDExt.LOPJoinTopologyID projected at the end ... ${childProjectedVariables} but should have been ${projectedVariables} ... ${inputIterators.size} ${inputIterators[0].columns.keys}")
+// println("Application_Luposdate3000 ... EOperatorIDExt.LOPJoinTopologyID projected at the end ... ${childProjectedVariables} but should have been ${projectedVariables} ... ${inputIterators.size} ${inputIterators[0].columns.keys}")
 // println()
 // println()
 // println()

@@ -174,6 +174,5 @@ public object EvalJoinMergeFromUnsortedData {
 
         return EvalJoinMerge(query, child0Sorted, child1Sorted, projectedVariables, joinColumns)
 // return EvalJoinHashMap(query,child0Sorted,child1Sorted,false,projectedVariables,-1)
-
     }
 }

@@ -30,12 +30,12 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         if (node is LOPJoinTopology) {
-            //println("PhysicalOptimizerPartitionJoinTopology check")
+            // println("PhysicalOptimizerPartitionJoinTopology check")
             if (parent !is POPMergePartitionOrderedByIntId && parent !is POPMergePartition) {
-                //println()
-                //println()
-                //println()
-                //println("PhysicalOptimizerPartitionJoinTopology start")
+                // println()
+                // println()
+                // println()
+                // println("PhysicalOptimizerPartitionJoinTopology start")
 
                 val variableNamesAndWhereTheyAppear = mutableMapOf<String, MutableSet<Int>>()
                 val partitionings = mutableMapOf<String, MutableSet<Int>>()
@@ -83,11 +83,11 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                         }
                     }
                 }
-                    //println("found ${node.children.size} childs")
-                    //println("original variable mapping is: $variableNamesAndWhereTheyAppear")
-                    //println("join variable mapping is: $variableNamesAndWhereTheyAppear")
-                    //println("partitions $partitionings")
-                    //println("possible partitions $possiblePartitions")
+                // println("found ${node.children.size} childs")
+                // println("original variable mapping is: $variableNamesAndWhereTheyAppear")
+                // println("join variable mapping is: $variableNamesAndWhereTheyAppear")
+                // println("partitions $partitionings")
+                // println("possible partitions $possiblePartitions")
                 if (possiblePartitions.size> 0) {
                     var largestC = 0
                     var largestV = "" to 0
@@ -97,41 +97,42 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                             largestV = k
                         }
                     }
-if(largestC>1){
-                    val choosenPartition = possiblePartitions[largestV]!!
+                    if (largestC> 1) {
+                        val choosenPartition = possiblePartitions[largestV]!!
 
-                    val childInputs = mutableListOf<IOPBase>()
-                    val parentInputs = mutableListOf<IOPBase>()
-                    for (i in 0 until node.children.size) {
-                        if (i in choosenPartition) {
-                            childInputs.add(node.children[i])
-                        } else {
-                            parentInputs.add(node.children[i])
+                        val childInputs = mutableListOf<IOPBase>()
+                        val parentInputs = mutableListOf<IOPBase>()
+                        for (i in 0 until node.children.size) {
+                            if (i in choosenPartition) {
+                                childInputs.add(node.children[i])
+                            } else {
+                                parentInputs.add(node.children[i])
+                            }
                         }
-                    }
-//println("childInputs.size "+childInputs.size)
-                    val partitionID = query.getNextPartitionOperatorID()
+// println("childInputs.size "+childInputs.size)
+                        val partitionID = query.getNextPartitionOperatorID()
 
-                    val childInputs2 = childInputs.map { POPSplitPartition(query, it.getProvidedVariableNames(), largestV.first, largestV.second, partitionID, it) }
+                        val childInputs2 = childInputs.map { POPSplitPartition(query, it.getProvidedVariableNames(), largestV.first, largestV.second, partitionID, it) }
 
-                    for (c in childInputs2) {
-                        query.addPartitionOperator(c.getUUID(), partitionID)
-                    }
+                        for (c in childInputs2) {
+                            query.addPartitionOperator(c.getUUID(), partitionID)
+                        }
 
-                    val child = LOPJoinTopology(node.query, childInputs2.toTypedArray())
-                    parentInputs.add(POPMergePartition(query, childInputs.map { it.getProvidedVariableNames() }.flatten(), largestV.first, largestV.second, partitionID, child))
-                    query.addPartitionOperator(parentInputs.last().getUUID(), partitionID)
+                        val child = LOPJoinTopology(node.query, childInputs2.toTypedArray())
+                        parentInputs.add(POPMergePartition(query, childInputs.map { it.getProvidedVariableNames() }.flatten(), largestV.first, largestV.second, partitionID, child))
+                        query.addPartitionOperator(parentInputs.last().getUUID(), partitionID)
 
-                    onChange()
-                    val res = LOPJoinTopology(node.query, parentInputs.toTypedArray())
-                    res.projectedVariables = node.projectedVariables
-                    //println("PhysicalOptimizerPartitionJoinTopology end")
-                    //println()
-                    //println()
+                        onChange()
+                        val res = LOPJoinTopology(node.query, parentInputs.toTypedArray())
+                        res.projectedVariables = node.projectedVariables
+                        // println("PhysicalOptimizerPartitionJoinTopology end")
+                        // println()
+                        // println()
 //                    println(res)
-                    return res
-               } }
-            } 
+                        return res
+                    }
+                }
+            }
         }
         return node
     }
