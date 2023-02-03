@@ -1,9 +1,9 @@
-./gradlew assemble --offline  -q > /dev/null 2>&1
+#./gradlew assemble --offline  -q > /dev/null 2>&1
 
+tasksfile="./tasks.sh"
 rm -rf *.svg *.dot
 cmd=$(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Config | grep ^exec | sed "s/exec :: //g")
 
-tasksfile="tasks.sh"
 truncate -s0 $tasksfile
 ctr=0
 for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json operator-distribution-test-optimizer-topology-only.json
@@ -37,7 +37,8 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_executi
 $optimizer \
 $relocateOperatorsIfTooMuchDataIsSent \
 operator-distribution-test.json"
-echo "echo $c into logfile_$ctr ; $c &> logfile_$ctr" >> $tasksfile
+echo "$c > logfile_$ctr.log 2> logfile_$ctr.err" >> $tasksfile
+$c > logfile_$ctr.log 2> logfile_$ctr.err
 ctr=$((ctr+1))
 
 done
@@ -49,6 +50,8 @@ done
 done
 done
 
-cat $tasksfile | sed "s/java -Xmx100g/java -Xmx10g/g" | shuf > ${tasksfile}.tmp
-mv ${tasksfile}.tmp $tasksfile
-cat ${tasksfile} | parallel -j 20
+#cat $tasksfile | sed "s/java -Xmx100g/java -Xmx10g/g" | shuf > ${tasksfile}.tmp
+#mv ${tasksfile}.tmp $tasksfile
+#cat ${tasksfile} | parallel -j 20
+chmod +x $tasksfile
+$tasksfile
