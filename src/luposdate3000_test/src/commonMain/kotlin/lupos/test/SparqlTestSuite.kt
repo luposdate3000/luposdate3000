@@ -622,7 +622,7 @@ if(SanityCheck.enabled){if(!( lopNode2 == lopNode2.cloneOP() )){throw Exception(
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:624"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-if(SanityCheck.enabled){if(!( popNode.toSparqlQuery() )){throw Exception("SanityCheck failed")}}
+            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:625"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println{ x }
@@ -649,9 +649,9 @@ if(SanityCheck.enabled){if(!( popNode.toSparqlQuery() )){throw Exception("Sanity
                     LuposdateEndpoint.close(instance)
                     return false
                 } else {
-if(SanityCheck.enabled){if(!(] Original" )){throw Exception("SanityCheck failed")}}
+                    SanityCheck.println{ "OutputData Graph[${it["name"]}] Original" }
                     SanityCheck.println{ outputData }
-if(SanityCheck.enabled){if(!(] ... target,actual" )){throw Exception("SanityCheck failed")}}
+                    SanityCheck.println{ "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
                 }
                 verifiedOutput = true
             }
