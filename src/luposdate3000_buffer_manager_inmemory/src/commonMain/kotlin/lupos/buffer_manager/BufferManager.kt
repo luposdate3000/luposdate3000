@@ -87,8 +87,8 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:91"/*SOURCE_FILE_END*/ },
             {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:93"/*SOURCE_FILE_END*/ }, { pageid < counter }, { "$pageid < $counter" })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:94"/*SOURCE_FILE_END*/ }, { pageid >= 0 }, { "$pageid >= 0" })
+if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( pageid >= 0 )){throw Exception("SanityCheck failed")}}
                 for (i in 0 until freeListSize) {
 if(SanityCheck.enabled){if(!( freeList[i] != pageid )){throw Exception("SanityCheck failed")}}
                 }
@@ -169,7 +169,7 @@ if(SanityCheck.enabled){if(!( BufferManagerPage.getPageID(allPages[pageid]) == p
                         allErrors[i] = allPagesRefcounters[i]
                     }
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:177"/*SOURCE_FILE_END*/ }, { allErrors.isEmpty() }, { "$allErrors" })
+if(SanityCheck.enabled){if(!( allErrors.isEmpty() )){throw Exception("SanityCheck failed")}}
             }
         )
     }

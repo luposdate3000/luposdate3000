@@ -271,18 +271,18 @@ if(SanityCheck.enabled){if(!( componentYear < (1L shl 48) )){throw Exception("Sa
     }
 
     public fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int, hasTimeZone: Boolean) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:273"/*SOURCE_FILE_END*/ }, { month >= 0 }, { "dateTimeToByteArray.month : $month" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:274"/*SOURCE_FILE_END*/ }, { month <= 99 }, { "dateTimeToByteArray.month : $month" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:275"/*SOURCE_FILE_END*/ }, { day >= 0 }, { "dateTimeToByteArray.day : $day" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:276"/*SOURCE_FILE_END*/ }, { day <= 99 }, { "dateTimeToByteArray.day : $day" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:277"/*SOURCE_FILE_END*/ }, { hours >= 0 }, { "dateTimeToByteArray.hours : $hours" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:278"/*SOURCE_FILE_END*/ }, { hours <= 24 }, { "dateTimeToByteArray.hours : $hours" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:279"/*SOURCE_FILE_END*/ }, { minutes >= 0 }, { "dateTimeToByteArray.minutes : $minutes" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:280"/*SOURCE_FILE_END*/ }, { minutes <= 99 }, { "dateTimeToByteArray.minutes : $minutes" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:281"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneHours >= -24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:282"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneHours <= 24 }, { "dateTimeToByteArray.timezoneHours : $timezoneHours" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:283"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneMinutes >= 0 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:284"/*SOURCE_FILE_END*/ }, { !hasTimeZone || timezoneMinutes <= 99 }, { "dateTimeToByteArray.timezoneMinutes : $timezoneMinutes" })
+if(SanityCheck.enabled){if(!( month >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( month <= 99 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( day >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( day <= 99 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( hours >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( hours <= 24 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( minutes >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( minutes <= 99 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneHours >= -24 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneHours <= 24 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneMinutes >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneMinutes <= 99 )){throw Exception("SanityCheck failed")}}
         val buf1 = DictionaryHelper.helper_intToByteArray(year)
         val buf2 = DictionaryHelper.helper_decimalToByteArray(seconds)
         val l1 = buf1.size
@@ -477,7 +477,7 @@ if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){thro
                 typedToByteArray(buffer, DictionaryHelper.removeQuotesFromString(value.substring(0, typeIdx + 1)), value.substring(typeIdx + 4, value.length - 1))
                 return
             } else {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:479"/*SOURCE_FILE_END*/ }, { langIdx > 0 }, { "$langIdx :: $value" })
+if(SanityCheck.enabled){if(!( langIdx > 0 )){throw Exception("SanityCheck failed")}}
                 DictionaryHelper.langToByteArray(buffer, DictionaryHelper.removeQuotesFromString(value.substring(0, langIdx + 1)), value.substring(langIdx + 2, value.length))
                 return
             }

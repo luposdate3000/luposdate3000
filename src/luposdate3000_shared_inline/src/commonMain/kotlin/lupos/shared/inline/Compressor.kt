@@ -47,9 +47,9 @@ if(SanityCheck.enabled){if(!( counter0 <= corrected0 )){throw Exception("SanityC
 if(SanityCheck.enabled){if(!( counter1 <= corrected1 )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( counter2 <= corrected2 )){throw Exception("SanityCheck failed")}}
                 decodeTripleHeader(header) { c0, c1, c2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:49"/*SOURCE_FILE_END*/ }, { c0 == corrected0 }, { "$c0 == $corrected0" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:50"/*SOURCE_FILE_END*/ }, { c1 == corrected1 }, { "$c1 == $corrected1" })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:51"/*SOURCE_FILE_END*/ }, { c2 == corrected2 }, { "$c2 == $corrected2" })
+if(SanityCheck.enabled){if(!( c0 == corrected0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( c1 == corrected1 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( c2 == corrected2 )){throw Exception("SanityCheck failed")}}
                 }
             }
         )

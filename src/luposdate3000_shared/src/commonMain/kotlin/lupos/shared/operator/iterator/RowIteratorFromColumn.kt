@@ -36,7 +36,7 @@ if(SanityCheck.enabled){if(!( bundle.hasColumnMode() )){throw Exception("SanityC
             for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
                 if (tmp == DictionaryValueHelper.nullValue) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/RowIteratorFromColumn.kt:38"/*SOURCE_FILE_END*/ }, { columnIndex == 0 }, { "" + iterators[columnIndex] })
+if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
                     res = -1
                     close()
                     break

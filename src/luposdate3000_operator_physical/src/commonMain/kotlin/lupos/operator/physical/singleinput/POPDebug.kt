@@ -160,7 +160,7 @@ if(SanityCheck.enabled){if(!( target.containsAll(rowMode) )){throw Exception("Sa
                             outMap[k] = iterator
                         }
 if(SanityCheck.enabled){if(!( columnMode.containsAll(target) )){throw Exception("SanityCheck failed")}}
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:177"/*SOURCE_FILE_END*/ }, { target.containsAll(columnMode) }, { "$uuid $target $columnMode" })
+if(SanityCheck.enabled){if(!( target.containsAll(columnMode) )){throw Exception("SanityCheck failed")}}
                         return IteratorBundle(outMap)
                     }
                     child.hasRowMode() -> {

@@ -151,8 +151,8 @@ public abstract class OPBase public constructor(
             {
                 val v1 = getProvidedVariableNames()
                 val v2 = histogramResult!!.values.keys
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:153"/*SOURCE_FILE_END*/ }, { v1.containsAll(v2) }, { "getHistogramSanity1 $classname $v1 $v2" })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:154"/*SOURCE_FILE_END*/ }, { v2.containsAll(v1) }, { "getHistogramSanity2 $classname $v1 $v2" })
+if(SanityCheck.enabled){if(!( v1.containsAll(v2) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( v2.containsAll(v1) )){throw Exception("SanityCheck failed")}}
             }
         )
         return histogramResult!!

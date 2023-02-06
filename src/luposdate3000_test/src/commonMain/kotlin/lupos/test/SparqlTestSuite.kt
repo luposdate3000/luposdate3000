@@ -606,7 +606,7 @@ if(SanityCheck.enabled){if(!( description == null )){throw Exception("SanityChec
             SanityCheck.println{ "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(query)
             val lopNode = visitor.visit(astNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:609"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
+if(SanityCheck.enabled){if(!( lopNode == lopNode.cloneOP() )){throw Exception("SanityCheck failed")}}
             SanityCheck.suspended {
                 val x = lopNode.toString()
                 SanityCheck.println{ x }
@@ -621,7 +621,7 @@ if(SanityCheck.enabled){if(!( lopNode2 == lopNode2.cloneOP() )){throw Exception(
             SanityCheck.println{ "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:624"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
+if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("SanityCheck failed")}}
             SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:625"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             SanityCheck.suspended {
                 val x = popNode.toString()

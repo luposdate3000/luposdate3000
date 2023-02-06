@@ -56,7 +56,7 @@ if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this)
     }
 
     override fun isLocalValue(value: DictionaryValueType): Boolean {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/ADictionary.kt:58"/*SOURCE_FILE_END*/ }, { isLocal != (instance.nodeGlobalDictionary == this) }, { "$this $isLocal" })
+if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this) )){throw Exception("SanityCheck failed")}}
         return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal
     }
 

@@ -168,7 +168,7 @@ if(SanityCheck.enabled){if(!( !tmp.contains(uuid) )){throw Exception("SanityChec
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:170"/*SOURCE_FILE_END*/ }, { tmp.contains(uuid) }, { "$uuid $id .. $root" })
+if(SanityCheck.enabled){if(!( tmp.contains(uuid) )){throw Exception("SanityCheck failed")}}
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

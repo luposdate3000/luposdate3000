@@ -139,8 +139,8 @@ internal object DictionaryHelper {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun headerEncode(buffer: ByteArrayWrapper, type: ETripleComponentType, flag: Int) {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:140"/*SOURCE_FILE_END*/ }, { (type and ETripleComponentTypeExt.values_mask) == type }, { "DictionaryHelper.headerEncode type is bad ${type.toString(16)} ... ${ETripleComponentTypeExt.values_mask.toString(16)} " })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:141"/*SOURCE_FILE_END*/ }, { (flag and ETripleComponentTypeExt.values_mask_inversed) == flag }, { "DictionaryHelper.headerEncode flag is bad" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:142"/*SOURCE_FILE_END*/ }, { (type or flag) <= 0xff }, { "DictionaryHelper.headerEncode can not be encoded in 1 byte" })
+if(SanityCheck.enabled){if(!( (flag and ETripleComponentTypeExt.values_mask_inversed) == flag )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( (type or flag) <= 0xff )){throw Exception("SanityCheck failed")}}
         ByteArrayWrapperExt.writeInt1(buffer, 0, type or flag)
     }
 
@@ -666,8 +666,8 @@ if(SanityCheck.enabled){if(!( byteArrayToBoolean(buffer) == value )){throw Excep
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToType(buffer: ByteArrayWrapper): ETripleComponentType {
         val res = headerDecodeType(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:668"/*SOURCE_FILE_END*/ }, { res >= 0 }, { "$res" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:669"/*SOURCE_FILE_END*/ }, { res < ETripleComponentTypeExt.values_size }, { "$res" })
+if(SanityCheck.enabled){if(!( res >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( res < ETripleComponentTypeExt.values_size )){throw Exception("SanityCheck failed")}}
         return res
     }
 

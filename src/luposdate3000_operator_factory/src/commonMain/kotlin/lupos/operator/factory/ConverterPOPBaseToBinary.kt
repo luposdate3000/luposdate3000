@@ -109,7 +109,7 @@ public object ConverterPOPBaseToBinary {
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
                                         EOperatorIDExt.POPDistributedSendSingleID -> {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:111"/*SOURCE_FILE_END*/ }, { ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 })
+if(SanityCheck.enabled){if(!( ByteArrayWrapperExt.readInt4(data, off2 + 4, )){throw Exception("SanityCheck failed")}}
                                             ByteArrayWrapperExt.writeInt4(data, off2 + 4, key0, { "POPDistributedSendSingle.key" })
                                         }
                                         EOperatorIDExt.POPDistributedSendMultiID -> {
