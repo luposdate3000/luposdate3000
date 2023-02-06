@@ -9,11 +9,13 @@ ctr=0
 for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json operator-distribution-test-optimizer-topology-only.json
 do
 for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json
+#for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json
 do
 ##for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/*16DB.json
 for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/Random16DB.json
 do
-for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_*.json
+##for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_*.json
+for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S.json
 do
 for programDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/programDistribution/distributed*
 do
@@ -39,9 +41,8 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_executi
 $optimizer \
 $relocateOperatorsIfTooMuchDataIsSent \
 operator-distribution-test.json"
-#echo "timeout -s SIGKILL 300s $c > logfile_$ctr.log 2> logfile_$ctr.err" >> $tasksfile
-echo "timeout -s SIGKILL 300s $c > logfile_$ctr.log 2> logfile_$ctr.err"
-timeout -s SIGKILL 300s $c >> logfile_$ctr.log 2>> logfile_$ctr.err
+echo "timeout -s SIGKILL 30m $c > logfile_$ctr.log 2> logfile_$ctr.err" >> $tasksfile
+#timeout -s SIGKILL 30m $c >> logfile_$ctr.log 2>> logfile_$ctr.err
 ctr=$((ctr+1))
 
 done
@@ -53,8 +54,8 @@ done
 done
 done
 
-#cat $tasksfile | sed "s/java -Xmx100g/java -Xmx10g/g" | shuf > ${tasksfile}.tmp
-#mv ${tasksfile}.tmp $tasksfile
-#cat ${tasksfile} | parallel -j 20
+cat $tasksfile | sed "s/java -Xmx100g/java -Xmx10g/g" > ${tasksfile}.tmp
+mv ${tasksfile}.tmp $tasksfile
+cat ${tasksfile} | /usr/bin/parallel -j 10
 #chmod +x $tasksfile
 #$tasksfile

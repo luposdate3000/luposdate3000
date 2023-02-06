@@ -49,7 +49,7 @@ internal class NodeLeafIterator(@JvmField var node: BufferManagerPageWrapper, @J
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun updateRemaining() {
+    private fun updateRemaining() {
         remaining--
         if (remaining == 0) {
             needsReset = true

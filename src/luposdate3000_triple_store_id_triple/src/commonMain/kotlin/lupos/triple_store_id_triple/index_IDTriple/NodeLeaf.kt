@@ -28,7 +28,7 @@ internal object NodeLeaf {
     const val START_OFFSET = 12
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstTriple(node: BufferManagerPageWrapper, b: DictionaryValueTypeArray) {
+    internal fun getFirstTriple(node: BufferManagerPageWrapper, b: DictionaryValueTypeArray) {
         NodeShared.readTriple111(node, START_OFFSET, 0, 0, 0) { v0, v1, v2 ->
             b[0] = v0
             b[1] = v1
@@ -37,12 +37,12 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun iterator(node: BufferManagerPageWrapper, nodeid: Int, nodeManager: NodeManager): TripleIterator {
+    internal fun iterator(node: BufferManagerPageWrapper, nodeid: Int, nodeManager: NodeManager): TripleIterator {
         return NodeLeafIterator(node, nodeid, nodeManager)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(node: BufferManagerPageWrapper, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator(node: BufferManagerPageWrapper, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return when (component) {
             0 -> {
                 NodeLeafColumnIterator0(node, nodeid, lock, nodeManager, timeout)
@@ -60,17 +60,17 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator3(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock, nodeManager, timeout)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator2(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock, nodeManager, timeout)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator1(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return when (component) {
             1 -> {
                 NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock, nodeManager, timeout)
@@ -85,7 +85,7 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: BufferManagerPageWrapper, iterator: TripleIterator) {
+    internal fun initializeWith(node: BufferManagerPageWrapper, iterator: TripleIterator) {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:88"/*SOURCE_FILE_END*/ }, { iterator.hasNext() })
         var writtenTriples: MutableList<DictionaryValueType>? = null
         SanityCheck(

@@ -29,7 +29,7 @@ internal object NodeInner {
     const val MAX_POINTER_SIZE = 4
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstTriple(data: BufferManagerPageWrapper, b: DictionaryValueTypeArray, nodeManager: NodeManager) {
+    internal fun getFirstTriple(data: BufferManagerPageWrapper, b: DictionaryValueTypeArray, nodeManager: NodeManager) {
         var node = data
         var done = false
         var nodeid = getFirstChild(node)
@@ -53,28 +53,28 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setFirstChild(node: BufferManagerPageWrapper, data: Int) {
+    internal fun setFirstChild(node: BufferManagerPageWrapper, data: Int) {
         BufferManagerPage.writeInt4(node, 12, data)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFirstChild(node: BufferManagerPageWrapper): Int {
+    internal fun getFirstChild(node: BufferManagerPageWrapper): Int {
         return BufferManagerPage.readInt4(node, 12)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeChildPointer(node: BufferManagerPageWrapper, offset: Int, pointer: Int): Int {
+    internal fun writeChildPointer(node: BufferManagerPageWrapper, offset: Int, pointer: Int): Int {
         BufferManagerPage.writeInt4(node, offset, pointer)
         return 4
     }
 
-    internal inline fun readChildPointer(node: BufferManagerPageWrapper, offset: Int, crossinline action: (pointer: Int) -> Unit): Int {
+    internal fun readChildPointer(node: BufferManagerPageWrapper, offset: Int,  action: (pointer: Int) -> Unit): Int {
         action(BufferManagerPage.readInt4(node, offset))
         return 4
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun iterator(_node: BufferManagerPageWrapper, nodeManager: NodeManager): TripleIterator {
+    internal fun iterator(_node: BufferManagerPageWrapper, nodeManager: NodeManager): TripleIterator {
         var iterator: TripleIterator? = null
         var node = _node
         while (true) {
@@ -99,7 +99,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator(_node: BufferManagerPageWrapper, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+     internal fun iterator(_node: BufferManagerPageWrapper, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var iterator: ColumnIterator? = null
         var node = _node
         while (true) {
@@ -123,7 +123,7 @@ internal object NodeInner {
         return iterator!!
     }
 
-    internal inline /*suspend*/ fun forEachChild(node: BufferManagerPageWrapper, crossinline action: /*suspend*/ (Int) -> Unit) {
+    internal   fun forEachChild(node: BufferManagerPageWrapper,  action:  (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var lastChildPointer = getFirstChild(node)
@@ -138,7 +138,7 @@ internal object NodeInner {
         }
     }
 
-    /*suspend*/ internal inline fun findIteratorN(node: BufferManagerPageWrapper, crossinline checkTooSmall: /*suspend*/ (value0: DictionaryValueType, value1: DictionaryValueType, value2: DictionaryValueType) -> Boolean, crossinline action: /*suspend*/ (Int) -> Unit) {
+     internal fun findIteratorN(node: BufferManagerPageWrapper,  checkTooSmall:  (value0: DictionaryValueType, value1: DictionaryValueType, value2: DictionaryValueType) -> Boolean,  action:  (Int) -> Unit) {
         var remaining = NodeShared.getTripleCount(node)
         var offset = START_OFFSET
         var value0: DictionaryValueType = 0
@@ -163,7 +163,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator3(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+     internal fun iterator3(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -197,7 +197,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator2(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+     internal fun iterator2(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -231,7 +231,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun iterator1(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+     internal fun iterator1(_node: BufferManagerPageWrapper, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         var node = _node
         var iterator: ColumnIterator? = null
         var nodeid = 0
@@ -265,7 +265,7 @@ internal object NodeInner {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun initializeWith(node: BufferManagerPageWrapper, childs: MutableList<Int>, nodeManager: NodeManager) {
+    internal fun initializeWith(node: BufferManagerPageWrapper, childs: MutableList<Int>, nodeManager: NodeManager) {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:268"/*SOURCE_FILE_END*/ }, { childs.size > 0 })
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<DictionaryValueType>? = null

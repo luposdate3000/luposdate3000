@@ -145,7 +145,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setFirstLeaf(value: Int) {
+    internal fun setFirstLeaf(value: Int) {
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:148"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 16, value)
         firstLeaf_ = value
@@ -154,7 +154,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setRoot(value: Int) {
+    internal fun setRoot(value: Int) {
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:157"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 4, value)
         root_ = value
@@ -163,7 +163,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setCountPrimary(value: Int) {
+    internal fun setCountPrimary(value: Int) {
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:166"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 8, value)
         countPrimary_ = value
@@ -172,7 +172,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setDistinctPrimary(value: Int) {
+    internal fun setDistinctPrimary(value: Int) {
         val rootPage = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:175"/*SOURCE_FILE_END*/, rootPageID)
         BufferManagerPage.writeInt4(rootPage, 12, value)
         distinctPrimary_ = value
@@ -181,7 +181,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun clearCachedHistogram() {
+    private fun clearCachedHistogram() {
         cachedHistograms1Size = 0
         cachedHistograms2Size = 0
         cachedHistograms1Cursor = 0
@@ -411,7 +411,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
         return res
     }
 
-    private inline fun importHelper(a: Int, b: Int, crossinline combinator: (TripleIterator, TripleIterator) -> TripleIterator): Int {
+    private  fun importHelper(a: Int, b: Int,  combinator: (TripleIterator, TripleIterator) -> TripleIterator): Int {
         var nodeA: BufferManagerPageWrapper? = null
         var nodeB: BufferManagerPageWrapper? = null
         nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:416"/*SOURCE_FILE_END*/, a) {
@@ -461,13 +461,13 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun flushContinueWithWriteLock() {
+    private fun flushContinueWithWriteLock() {
         lock.writeLock()
         flushAssumeLocks()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun flushContinueWithReadLock() {
+    private fun flushContinueWithReadLock() {
         var hasLock = false
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:471"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) })
         while (pendingImport.size > 0) {
@@ -488,7 +488,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun collapseList(l: MutableList<Int?>): Int {
+    private fun collapseList(l: MutableList<Int?>): Int {
         var j = 1
         while (j < l.size) {
             if (l[j] == null) {
@@ -572,7 +572,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                 NodeLeaf.initializeWith(node, iterator)
             }
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:573"/*SOURCE_FILE_END*/ }, { currentLayer.size > 0 })
-// work around the crossinline here, because the method would be too large
+// work around the  here, because the method would be too large
             while (currentLayer.size > 1) {
                 val tmp = mutableListOf<Int>()
                 var prev2: BufferManagerPageWrapper? = null

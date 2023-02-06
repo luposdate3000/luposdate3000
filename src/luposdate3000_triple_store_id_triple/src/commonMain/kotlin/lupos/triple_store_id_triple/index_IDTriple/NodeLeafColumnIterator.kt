@@ -39,13 +39,13 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManager
     var needsReset = true
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun __init() {
+    /*suspend*/ internal fun __init() {
         lock.readLock()
         remaining = NodeShared.getTripleCount(node)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun _close() {
+    /*suspend*/ internal fun _close() {
         if (label == 3) {
 /* "__init" was never called*/
             label = 0
@@ -65,7 +65,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManager
         _close()
     }
 
-    /*suspend*/ internal inline fun updateRemaining(crossinline setDone: () -> Unit = {}) {
+    /*suspend*/ internal fun updateRemaining( setDone: () -> Unit = {}) {
         if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
             TODO("timeoutInMs")
         }
