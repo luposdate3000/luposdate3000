@@ -131,7 +131,6 @@ public open class SparqlTestSuite {
         try {
             var numberOfErrors = 0
             var numberOfTests = 0
-            SanityCheck.println { "Reading file $filename..." }
             val data = createSevenIndices(prefix + filename)
             val newprefix = prefix + filename.substringBeforeLast("/") + "/"
             val manifestEntries = data.po(("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>"), ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#Manifest>"))
@@ -247,7 +246,7 @@ public open class SparqlTestSuite {
                                         outputDataGraph.add(graph)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#result>") -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + second }
+                                        println ( "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + second )
                                     }
                                     else -> {
                                         TODO("SparqlTestSuite" + first + " # " + second)
@@ -277,10 +276,10 @@ public open class SparqlTestSuite {
                                         queryFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/ns/sparql-service-description#entailmentRegime>") -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + second }
+                                        println( "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + second )
                                     }
                                     ("<http://www.w3.org/ns/sparql-service-description#EntailmentProfile>") -> {
-                                        SanityCheck.println { "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + second }
+                                        println( "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + second )
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData>") -> {
                                         val graph = mutableMapOf<String, String>()
@@ -383,16 +382,16 @@ public open class SparqlTestSuite {
                     comment = extractValueFromIriOrString(second)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval>") -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + second }
+                    println( "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + second )
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy>") -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + second }
+                    println( "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + second )
                 }
                 ("<http://www.w3.org/2000/01/rdf-schema#seeAlso>") -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + second }
+                    println( "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + second )
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm>") -> {
-                    SanityCheck.println { "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second }
+                    println( "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second )
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description>") -> {
                     SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:397"/*SOURCE_FILE_END*/ }, { description == null })
@@ -403,18 +402,18 @@ public open class SparqlTestSuite {
                 }
             }
         }
-        SanityCheck.println { "testType : $testType" }
-        SanityCheck.println { "names : $names" }
-        SanityCheck.println { "comment : $comment" }
-        SanityCheck.println { "description : $description" }
-        SanityCheck.println { "features : $features" }
-        SanityCheck.println { "inputDataGraph : $inputDataGraph" }
-        SanityCheck.println { "outputDataGraph : $outputDataGraph" }
-        SanityCheck.println { "expectedResult : $expectedResult" }
-        SanityCheck.println { "queryFile : $queryFile" }
-        SanityCheck.println { "inputDataFile : $inputDataFile" }
-        SanityCheck.println { "resultFile : $resultFile" }
-        SanityCheck.println { "services : $services" }
+        println( "testType : $testType" )
+        println( "names : $names" )
+        println( "comment : $comment" )
+        println( "description : $description" )
+        println( "features : $features" )
+        println( "inputDataGraph : $inputDataGraph" )
+        println( "outputDataGraph : $outputDataGraph" )
+        println( "expectedResult : $expectedResult" )
+        println( "queryFile : $queryFile" )
+        println( "inputDataFile : $inputDataFile" )
+        println( "resultFile : $resultFile" )
+        println( "services : $services" )
         if (queryFile == null) {
             return true
         }
@@ -594,43 +593,43 @@ public open class SparqlTestSuite {
             val query = Query(instance)
             query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
             var res: Boolean
-            SanityCheck.println { "----------String Query" }
+            SanityCheck.println{ "----------String Query" }
             println(toParse)
-            SanityCheck.println { "----------Abstract Syntax Tree" }
+            SanityCheck.println{ "----------Abstract Syntax Tree" }
             val stream = MyStringStream(toParse)
             val parser: SparqlParser = SparqlParser(stream)
             parser.parserDefinedParse()
             val astNode = parser.getResult() as ASTSparqlDoc
             parser.close()
             stream.close()
-            SanityCheck.println { astNode }
-            SanityCheck.println { "----------Logical Operator Graph" }
+            SanityCheck.println{ astNode }
+            SanityCheck.println{ "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(query)
             val lopNode = visitor.visit(astNode)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:609"/*SOURCE_FILE_END*/ }, { lopNode == lopNode.cloneOP() }, { lopNode.toString() + " - " + lopNode.cloneOP().toString() })
             SanityCheck.suspended {
                 val x = lopNode.toString()
-                SanityCheck.println { x }
+                SanityCheck.println{ x }
             }
-            SanityCheck.println { "----------Logical Operator Graph optimized" }
+            SanityCheck.println{ "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:616"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
             SanityCheck.suspended {
                 val x = lopNode2.toString()
-                SanityCheck.println { x }
+                SanityCheck.println{ x }
             }
-            SanityCheck.println { "----------Physical Operator Graph" }
+            SanityCheck.println{ "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:624"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
             SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:625"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
             SanityCheck.suspended {
                 val x = popNode.toString()
-                SanityCheck.println { x }
+                SanityCheck.println{ x }
             }
             val xmlQueryResult: MemoryTable? = null
             if (outputDataGraph.isNotEmpty() || (resultData != null && resultDataFileName != null)) {
-                SanityCheck.println { "----------Query Result" }
+                SanityCheck.println{ "----------Query Result" }
                 instance.tripleStoreManager!!.commit(query)
                 query.commited = true
             }
@@ -650,17 +649,17 @@ public open class SparqlTestSuite {
                     LuposdateEndpoint.close(instance)
                     return false
                 } else {
-                    SanityCheck.println { "OutputData Graph[${it["name"]}] Original" }
-                    SanityCheck.println { outputData }
-                    SanityCheck.println { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
+                    SanityCheck.println{ "OutputData Graph[${it["name"]}] Original" }
+                    SanityCheck.println{ outputData }
+                    SanityCheck.println{ "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
                 }
                 verifiedOutput = true
             }
             if (resultData != null && resultDataFileName != null) {
-                SanityCheck.println { "----------Target Result" }
+                SanityCheck.println{ "----------Target Result" }
                 val xmlQueryTarget = MemoryTable.parseFromAny(resultData, resultDataFileName, query)!!
 
-                SanityCheck.println { resultData }
+                SanityCheck.println{ resultData }
                 if (!ignoreJena) {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
@@ -691,10 +690,10 @@ public open class SparqlTestSuite {
                     val query4 = Query(instance)
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val popNodeRecovered = XMLElementToOPBase(query4, xmlPOP)
-                    SanityCheck.println { xmlPOP.toPrettyString() }
+                    SanityCheck.println{ xmlPOP.toPrettyString() }
                     SanityCheck.suspended {
                         val x = popNodeRecovered.toString()
-                        SanityCheck.println { x }
+                        SanityCheck.println{ x }
                     }
                     val xmlQueryResultRecovered = QueryResultToMemoryTable()(popNodeRecovered.evaluateRootBundle())
                     instance.tripleStoreManager!!.commit(query4)
@@ -750,7 +749,7 @@ public open class SparqlTestSuite {
         } catch (e: Throwable) {
             e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:750"/*SOURCE_FILE_END*/)
             if (expectedResult) {
-                SanityCheck.println { e }
+                SanityCheck.println{ e }
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(ParseError)")
             } else {

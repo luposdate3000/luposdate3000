@@ -359,27 +359,17 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToOperatorgraphB(instance: Luposdate3000Instance, q: Query, query: String, logOperatorGraph: Boolean): IOPBase {
         try {
-            SanityCheck.println { "----------String Query" }
-            SanityCheck.println { query }
-            SanityCheck.println { "----------Abstract Syntax Tree" }
             val stream = MyStringStream(query)
             val parser: SparqlParser = SparqlParser(stream)
             parser.parserDefinedParse()
             val astNode = parser.getResult() as ASTSparqlDoc
             parser.close()
             stream.close()
-            SanityCheck.println { astNode }
-            SanityCheck.println { "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(q)
             val lopNode: IOPBase = visitor.visit(astNode)
-            SanityCheck.println { lopNode }
-            SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
-            SanityCheck.println { lopNode2 }
-            SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(q)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-            SanityCheck.println { popNode }
             if (logOperatorGraph) {
                 println("----------")
                 println(query)
@@ -417,21 +407,14 @@ public object LuposdateEndpoint {
     @JsName("evaluate_sparql_to_logical_operatorgraph_b")
     /*suspend*/ public fun evaluateSparqlToLogicalOperatorgraphB(instance: Luposdate3000Instance, query: String): IOPBase {
         val q = Query(instance)
-        SanityCheck.println { "----------String Query" }
-        SanityCheck.println { query }
-        SanityCheck.println { "----------Abstract Syntax Tree" }
         val stream = MyStringStream(query)
         val parser: SparqlParser = SparqlParser(stream)
         parser.parserDefinedParse()
         val astNode = parser.getResult() as ASTSparqlDoc
         parser.close()
         stream.close()
-        SanityCheck.println { astNode }
-        SanityCheck.println { "----------Logical Operator Graph" }
         val visitor = OperatorGraphVisitor(q)
         val lopNode: IOPBase = visitor.visit(astNode)
-        SanityCheck.println { lopNode }
-        SanityCheck.println { "----------Logical Operator Graph optimized" }
         val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
         return lopNode2
     }
@@ -536,17 +519,10 @@ public object LuposdateEndpoint {
     /*suspend*/ public fun evaluateOperatorgraphxmlToResultB(instance: Luposdate3000Instance, query: String, logOperatorGraph: Boolean): String {
         val q = Query(instance)
         val popNode = XMLElementToOPBase(q, XMLElementFromXML()(query)!!)
-        SanityCheck.println { popNode }
         if (logOperatorGraph) {
             SanityCheck.suspended {
-                SanityCheck.println { "----------" }
-                SanityCheck.println { query }
-                SanityCheck.println { ">>>>>>>>>>" }
                 val a = popNode.toString()
-                SanityCheck.println { a }
-                SanityCheck.println { "<<<<<<<<<<" }
                 val b = OperatorGraphToLatex(popNode.toString(), "")
-                SanityCheck.println { b }
             }
         }
         val buf = MyPrintWriter(true)

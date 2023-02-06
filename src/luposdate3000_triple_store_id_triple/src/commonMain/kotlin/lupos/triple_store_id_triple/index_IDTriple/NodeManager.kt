@@ -31,24 +31,20 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
 
     @Suppress("NOTHING_TO_INLINE")
     internal fun releaseNode(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.releaseNode($nodeid) : $call_location" }
         bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:34"/*SOURCE_FILE_END*/, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal fun flushNode(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.flushNode($nodeid) : $call_location" }
         bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:40"/*SOURCE_FILE_END*/, nodeid)
     }
 
     internal fun getNodeLeaf(call_location: String, nodeid: Int,  actionLeaf: (BufferManagerPageWrapper) -> Unit) {
-        SanityCheck.println_nodemanager { "NodeManager.getNodeLeaf($nodeid) : $call_location" }
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:45"/*SOURCE_FILE_END*/, nodeid)
         actionLeaf(node)
     }
 
     internal fun getNodeAny(call_location: String, nodeid: Int,  actionLeaf: (BufferManagerPageWrapper) -> Unit,  actionInner: (BufferManagerPageWrapper) -> Unit) {
-        SanityCheck.println_nodemanager { "NodeManager.getNodeAny($nodeid) : $call_location" }
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:51"/*SOURCE_FILE_END*/, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
@@ -64,7 +60,6 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
     }
 
      internal fun getNodeAnySuspended(call_location: String, nodeid: Int,  actionLeaf:  (BufferManagerPageWrapper) -> Unit,  actionInner:  (BufferManagerPageWrapper) -> Unit) {
-        SanityCheck.println_nodemanager { "NodeManager.getNodeAnySuspended($nodeid) : $call_location" }
         val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:67"/*SOURCE_FILE_END*/, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
@@ -85,7 +80,6 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
         NodeShared.setNodeType(node, nodeTypeLeaf)
         NodeShared.setNextNode(node, nodeNullPointer)
         NodeShared.setTripleCount(node, 0)
-        SanityCheck.println_nodemanager { "NodeManager.allocateNodeLeaf($nodeid) : $call_location" }
         action(node, nodeid)
     }
 
@@ -95,25 +89,21 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
         NodeShared.setNodeType(node, nodeTypeInner)
         NodeShared.setNextNode(node, nodeNullPointer)
         NodeShared.setTripleCount(node, 0)
-        SanityCheck.println_nodemanager { "NodeManager.allocateNodeInner($nodeid) : $call_location" }
         action(node, nodeid)
     }
 
      @Suppress("NOTHING_TO_INLINE")
     internal fun freeNode(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.freeNode($nodeid) : $call_location" }
         bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:104"/*SOURCE_FILE_END*/, nodeid)
     }
 
      @Suppress("NOTHING_TO_INLINE")
     internal    fun freeNodeAndAllRelated(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelated($nodeid) : $call_location" }
         releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:110"/*SOURCE_FILE_END*/, nodeid)
         freeNodeAndAllRelatedInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:111"/*SOURCE_FILE_END*/, nodeid)
     }
 
      private fun freeNodeAndAllRelatedInternal(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.freeNodeAndAllRelatedInternal($nodeid) : $call_location" }
         if (nodeid != nodeNullPointer) {
             var node: BufferManagerPageWrapper? = null
             getNodeAny(
@@ -136,13 +126,11 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
 
      @Suppress("NOTHING_TO_INLINE")
     internal    fun freeAllInner(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.freeAllInner($nodeid) : $call_location" }
         releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:139"/*SOURCE_FILE_END*/, nodeid)
         freeAllInnerInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:140"/*SOURCE_FILE_END*/, nodeid)
     }
 
      private fun freeAllInnerInternal(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.freeAllInnerInternal($nodeid) : $call_location" }
         if (nodeid != nodeNullPointer) {
             var node: BufferManagerPageWrapper? = null
             getNodeAny(
@@ -167,7 +155,6 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
 
     @Suppress("NOTHING_TO_INLINE")
      internal fun freeAllLeaves(call_location: String, nodeid: Int) {
-        SanityCheck.println_nodemanager { "NodeManager.freeAllLeaves($nodeid) : $call_location" }
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             val id = pageid

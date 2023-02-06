@@ -180,7 +180,6 @@ public class POPSplitPartition public constructor(
                                 var cacheSize: Int
                                 if (q == DictionaryValueHelper.undefValue) {
                                     // broadcast undef to every partition
-                                    SanityCheck.println { " attention may increase result count here - this is always ok, _if there is a join afterwards immediately - otherwise probably not" }
                                     cacheSize = partitionCount
                                     cacheArr[0] = 0
                                 } else {

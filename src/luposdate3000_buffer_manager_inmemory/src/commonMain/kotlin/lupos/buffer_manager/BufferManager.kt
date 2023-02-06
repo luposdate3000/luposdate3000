@@ -69,24 +69,20 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                         tmp[i] = allPagesRefcounters[i]
                     }
                 }
-                SanityCheck.println_buffermanager { "getNumberOfReferencedPages = $tmp" }
             }
         )
         return res
     }
 
     override fun flushPage(call_location: String, pageid: Int) {
-        SanityCheck.println_buffermanager { "BufferManager.flushPage($pageid) : $call_location" }
     }
 
     override fun releasePage(call_location: String, pageid: Int) {
-        SanityCheck.println_buffermanager { "BufferManager.releasePage($pageid) : $call_location" }
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:83"/*SOURCE_FILE_END*/ }, { allPagesRefcounters[pageid] > 0 }, { "Failed requirement allPagesRefcounters[$pageid] = ${allPagesRefcounters[pageid]} > 0" })
         allPagesRefcounters[pageid]--
     }
 
     override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper {
-        SanityCheck.println_buffermanager { "BufferManager.getPage($pageid) : $call_location" }
         // no locking required, assuming an assignment to 'allPages' is atomic
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:91"/*SOURCE_FILE_END*/ },
@@ -132,12 +128,10 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:131"/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(allPages[pageid]) == -1 }, { "${BufferManagerPage.getPageID(allPages[pageid])} $pageid" })
             BufferManagerPage.setPageID(allPages[pageid], pageid)
         }
-        SanityCheck.println_buffermanager { "BufferManager.allocPage($pageid) : $call_location" }
         return pageid
     }
 
     /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
-        SanityCheck.println_buffermanager { "BufferManager.deletePage($pageid) : $call_location" }
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/BufferManager.kt:141"/*SOURCE_FILE_END*/ },
             {

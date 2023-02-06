@@ -52,12 +52,10 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
             }
             EPOPDebugModeExt.DEBUG1 -> {
                 val target = getChildren()[0].getProvidedVariableNames()
-                SanityCheck.println { "POPDebug-child-mode ... $uuid ${getChildren()[0].getUUID()}" }
                 if (child.hasColumnMode()) {
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        SanityCheck.println { "debugchildclassname::" + getChildren()[0].getClassname() }
                         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:60"/*SOURCE_FILE_END*/)
                     }
                     val columnMode = mutableListOf<String>()
@@ -97,13 +95,11 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
             }
             EPOPDebugModeExt.DEBUG2 -> {
                 val target = getChildren()[0].getProvidedVariableNames()
-                SanityCheck.println { "POPDebug-child-mode ... $uuid ${getChildren()[0].getUUID()}" }
                 when {
                     child.hasColumnMode() -> {
                         try {
                             child.columns
                         } catch (e: Throwable) {
-                            SanityCheck.println { "debugchildclassname2::" + getChildren()[0].getClassname() }
                             e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:106"/*SOURCE_FILE_END*/)
                         }
                         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -111,19 +107,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         for ((k, v) in child.columns) {
                             columnMode.add(k)
                             var counter = 0
-                            SanityCheck.println { "$uuid $k opened" }
                             val iterator = object : ColumnIterator() {
                                 @JvmField
                                 var label = 1
                                 override /*suspend*/ fun next(): DictionaryValueType {
                                     return if (label != 0) {
-                                        SanityCheck.println { "$uuid $k next call" }
                                         val res = v.next()
                                         if (res == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
-                                            SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
@@ -133,14 +125,11 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
 
                                 override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
                                     if (label != 0) {
-                                        SanityCheck.println { "$uuid $k next call minValue SIP" }
                                         v.nextSIP(minValue, resultValue, resultSkip)
                                         val res = resultValue[0]
                                         if (res == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
-                                            SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                     } else {
                                         resultSkip[0] = 0
@@ -150,13 +139,10 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
 
                                 override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
                                     return if (label != 0) {
-                                        SanityCheck.println { "$uuid $k next call skip SIP" }
                                         val res = v.skipSIP(skipCount)
                                         if (res == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.println { "$uuid $k next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                                         } else {
                                             counter++
-                                            SanityCheck.println { "$uuid $k next return $counter ${parent.data} ${res.toString(16)}" }
                                         }
                                         res
                                     } else {
@@ -167,7 +153,6 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                                 override /*suspend*/ fun close() {
                                     if (label != 0) {
                                         label = 0
-                                        SanityCheck.println { "$uuid $k closed $counter ${parent.data}" }
                                         v.close()
                                     }
                                 }
@@ -186,19 +171,15 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         var counter = 0
                         iterator.columns = child.rows.columns
                         iterator.next = {
-                            SanityCheck.println { "$uuid next call" }
                             val res = child.rows.next()
                             iterator.buf = child.rows.buf
                             if (res < 0) {
-                                SanityCheck.println { "$uuid next return closed $counter ${parent.data} DictionaryValueHelper.nullValue" }
                             } else {
                                 counter++
-                                SanityCheck.println { "$uuid next return $counter ${parent.data} ${iterator.buf.map { it.toString(16) }}" }
                             }
                             res
                         }
                         iterator.close = {
-                            SanityCheck.println { "$uuid closed $counter ${parent.data}" }
                             child.rows.close()
                             iterator._close()
                         }
