@@ -66,7 +66,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                     if (flag && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:68"/*SOURCE_FILE_END*/ }, { tmp2.hasCountMode() })
+if(SanityCheck.enabled){if(!( tmp2.hasCountMode() )){throw Exception("SanityCheck failed")}}
                     res = if (tmp2.count() > 0) { // closed childs due to reading from count
                         OPEmptyRow(query)
                     } else {
@@ -87,7 +87,7 @@ public class LogicalOptimizerStoreToValues(query: Query) : OptimizerBase(query, 
                         query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
                     }
                     val columns = tmp2.columns
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerStoreToValues.kt:89"/*SOURCE_FILE_END*/ }, { columns.size == 1 })
+if(SanityCheck.enabled){if(!( columns.size == 1 )){throw Exception("SanityCheck failed")}}
                     val data = DictionaryValueTypeArray(5)
                     var i = 0
                     val iterator = columns[variables[0]]!!

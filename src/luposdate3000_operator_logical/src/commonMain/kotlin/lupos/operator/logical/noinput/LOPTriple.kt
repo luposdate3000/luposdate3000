@@ -91,7 +91,7 @@ public class LOPTriple public constructor(
             }
             // than sort order
             for (s in sortPriority) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/noinput/LOPTriple.kt:93"/*SOURCE_FILE_END*/ }, { s != "_" })
+if(SanityCheck.enabled){if(!( s != "_" )){throw Exception("SanityCheck failed")}}
                 if (c0 is AOPVariable && c0.name == s) {
                     resString += "S"
                 } else if (c1 is AOPVariable && c1.name == s) {
@@ -155,7 +155,7 @@ public class LOPTriple public constructor(
         if (res.count == -1) {
             res.count = 0
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/noinput/LOPTriple.kt:157"/*SOURCE_FILE_END*/ }, { res.count != -1 })
+if(SanityCheck.enabled){if(!( res.count != -1 )){throw Exception("SanityCheck failed")}}
         return res
     }
 }

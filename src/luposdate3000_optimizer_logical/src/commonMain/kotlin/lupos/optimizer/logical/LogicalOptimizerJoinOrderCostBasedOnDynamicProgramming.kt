@@ -26,7 +26,7 @@ import kotlin.math.pow
 
 public object LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming.kt:28"/*SOURCE_FILE_END*/ }, { allChilds.isNotEmpty() })
+if(SanityCheck.enabled){if(!( allChilds.isNotEmpty() )){throw Exception("SanityCheck failed")}}
 
         if (allChilds.size> 18) {
             (root.query as Query).machineLearningAbort = true

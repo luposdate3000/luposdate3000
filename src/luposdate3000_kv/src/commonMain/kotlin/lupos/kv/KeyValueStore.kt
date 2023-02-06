@@ -99,7 +99,7 @@ public class KeyValueStore public constructor(
                 pageid = nextPage
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:101"/*SOURCE_FILE_END*/ }, { pageid == lastPage })
+if(SanityCheck.enabled){if(!( pageid == lastPage )){throw Exception("SanityCheck failed")}}
         bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:102"/*SOURCE_FILE_END*/, lastPage)
         bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:103"/*SOURCE_FILE_END*/, lastPage)
         mappingID2Page.delete()
@@ -207,8 +207,8 @@ public class KeyValueStore public constructor(
     }
 
     public fun getValue(data: ByteArrayWrapper, value: Int) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:209"/*SOURCE_FILE_END*/ }, { value < nextID })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:210"/*SOURCE_FILE_END*/ }, { value >= 0 })
+if(SanityCheck.enabled){if(!( value < nextID )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( value >= 0 )){throw Exception("SanityCheck failed")}}
         readData(data, mappingID2Page[value], mappingID2Off[value])
     }
 }

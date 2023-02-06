@@ -55,14 +55,14 @@ public class POPChangePartitionOrderedByIntId public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:57"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
         if (partitionIDFrom == idFrom) {
             partitionIDFrom = idTo
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:64"/*SOURCE_FILE_END*/ }, { partitionIDTo == idFrom })
+if(SanityCheck.enabled){if(!( partitionIDTo == idFrom )){throw Exception("SanityCheck failed")}}
             partitionIDTo = idTo
         }
     }
@@ -139,14 +139,14 @@ public class POPChangePartitionOrderedByIntId public constructor(
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:141"/*SOURCE_FILE_END*/ }, { partitionCountTo < partitionCountFrom })
+if(SanityCheck.enabled){if(!( partitionCountTo < partitionCountFrom )){throw Exception("SanityCheck failed")}}
         val partitionCountSrc = partitionCountFrom / partitionCountTo
         var error: Throwable? = null
         val variables = getProvidedVariableNames()
         val variables0 = children[0].getProvidedVariableNames()
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:146"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:147"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-        // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:148"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+if(SanityCheck.enabled){if(!( variables0.containsAll(variables) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( variables.containsAll(variables0) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exception("SanityCheck failed")}}
         var queue_size = query.getInstance().queue_size
         var elementsPerRing = queue_size * variables.size
         var buffersize = elementsPerRing * partitionCountSrc
@@ -276,8 +276,8 @@ public class POPChangePartitionOrderedByIntId public constructor(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:275"/*SOURCE_FILE_END*/ },
             {
                 for (x in sortColumns.indices) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:278"/*SOURCE_FILE_END*/ }, { sortColumns[x] >= 0 })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:279"/*SOURCE_FILE_END*/ }, { mySortPriority[x].sortType == ESortTypeExt.FAST })
+if(SanityCheck.enabled){if(!( sortColumns[x] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( mySortPriority[x].sortType == ESortTypeExt.FAST )){throw Exception("SanityCheck failed")}}
                 }
             }
         )

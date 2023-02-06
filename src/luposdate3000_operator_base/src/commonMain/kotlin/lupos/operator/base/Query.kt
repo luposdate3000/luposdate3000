@@ -160,7 +160,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/Query.kt:162"/*SOURCE_FILE_END*/ }, { !tmp.contains(uuid) })
+if(SanityCheck.enabled){if(!( !tmp.contains(uuid) )){throw Exception("SanityCheck failed")}}
             tmp.add(uuid)
         }
     }

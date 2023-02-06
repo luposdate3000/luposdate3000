@@ -57,7 +57,7 @@ public object EvalBind {
                     boundIndex = variableIndex
                 }
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:59"/*SOURCE_FILE_END*/ }, { boundIndex != -1 })
+if(SanityCheck.enabled){if(!( boundIndex != -1 )){throw Exception("SanityCheck failed")}}
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in variablesLocal.indices) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
@@ -74,7 +74,7 @@ public object EvalBind {
                                     if (boundIndex != variableIndex2) {
                                         val value2 = columnsIn[variableIndex2]!!.next()
                                         if (value2 == DictionaryValueHelper.nullValue) {
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:76"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) })
+if(SanityCheck.enabled){if(!( variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1) )){throw Exception("SanityCheck failed")}}
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
@@ -113,7 +113,7 @@ public object EvalBind {
             columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
         }
         expression = value.evaluateID(IteratorBundle(localMap))
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalBind.kt:115"/*SOURCE_FILE_END*/ }, { variablesLocal.isNotEmpty() })
+if(SanityCheck.enabled){if(!( variablesLocal.isNotEmpty() )){throw Exception("SanityCheck failed")}}
         return IteratorBundle(outMap)
     }
 }

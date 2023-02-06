@@ -266,7 +266,7 @@ internal object NodeInner {
 
     @Suppress("NOTHING_TO_INLINE")
     internal fun initializeWith(node: BufferManagerPageWrapper, childs: MutableList<Int>, nodeManager: NodeManager) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:268"/*SOURCE_FILE_END*/ }, { childs.size > 0 })
+if(SanityCheck.enabled){if(!( childs.size > 0 )){throw Exception("SanityCheck failed")}}
         var writtenHeaders: MutableList<Int>? = null
         var writtenTriples: MutableList<DictionaryValueType>? = null
         SanityCheck(
@@ -323,7 +323,7 @@ internal object NodeInner {
                 var remaining = NodeShared.getTripleCount(node)
                 var offset2 = START_OFFSET
                 var lastChildPointer = getFirstChild(node)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:325"/*SOURCE_FILE_END*/ }, { lastChildPointer == writtenHeaders!![0] })
+if(SanityCheck.enabled){if(!( lastChildPointer == writtenHeaders!![0] )){throw Exception("SanityCheck failed")}}
                 var i = 0
                 var value0: DictionaryValueType = 0
                 var value1: DictionaryValueType = 0
@@ -334,13 +334,13 @@ internal object NodeInner {
                         value1 = v1
                         value2 = v2
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:336"/*SOURCE_FILE_END*/ }, { value0 == writtenTriples!![i * 3] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:337"/*SOURCE_FILE_END*/ }, { value1 == writtenTriples!![i * 3 + 1] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:338"/*SOURCE_FILE_END*/ }, { value2 == writtenTriples!![i * 3 + 2] })
+if(SanityCheck.enabled){if(!( value0 == writtenTriples!![i * 3] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( value1 == writtenTriples!![i * 3 + 1] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( value2 == writtenTriples!![i * 3 + 2] )){throw Exception("SanityCheck failed")}}
                     offset2 += readChildPointer(node, offset2) {
                         lastChildPointer = it
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:342"/*SOURCE_FILE_END*/ }, { lastChildPointer == writtenHeaders!![i + 1] })
+if(SanityCheck.enabled){if(!( lastChildPointer == writtenHeaders!![i + 1] )){throw Exception("SanityCheck failed")}}
                     remaining--
                     i++
                 }

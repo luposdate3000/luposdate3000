@@ -50,7 +50,7 @@ public object EvalTripleStoreIterator {
             val i = EIndexPatternHelper.tripleIndicees[index][ii]
             val param = children[i]
             if (param.first) {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:52"/*SOURCE_FILE_END*/ }, { filter2.size == ii })
+if(SanityCheck.enabled){if(!( filter2.size == ii )){throw Exception("SanityCheck failed")}}
                 val v = param.second.first
                 if (query.getDictionary().isLocalValue(v)) {
                     filter2.add(DictionaryValueHelper.nullValue)

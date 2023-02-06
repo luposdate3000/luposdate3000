@@ -318,8 +318,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun getIterator(query: IQuery, filter: DictionaryValueTypeArray, projection: List<String>): IteratorBundle {
         var res: IteratorBundle
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:320"/*SOURCE_FILE_END*/ }, { filter.size in 0..3 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:321"/*SOURCE_FILE_END*/ }, { projection.size + filter.size == 3 })
+if(SanityCheck.enabled){if(!( filter.size in 0..3 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( projection.size + filter.size == 3 )){throw Exception("SanityCheck failed")}}
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
@@ -384,7 +384,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                     res = IteratorBundle(count)
                 }
             } else {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:386"/*SOURCE_FILE_END*/ }, { filter.isEmpty() })
+if(SanityCheck.enabled){if(!( filter.isEmpty() )){throw Exception("SanityCheck failed")}}
                 if (projection[0] != "_") {
                     columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager, query.getInstance().timeout)
                     if (projection[1] != "_") {
@@ -452,7 +452,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
     }
 
     override fun flush() {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:454"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) })
+if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
         if (pendingImport.size > 0) {
             lock.writeLock()
             flushAssumeLocks()
@@ -469,7 +469,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
     @Suppress("NOTHING_TO_INLINE")
     private fun flushContinueWithReadLock() {
         var hasLock = false
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:471"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) })
+if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
         while (pendingImport.size > 0) {
             if (lock.tryWriteLock()) {
                 flushAssumeLocks()
@@ -500,14 +500,14 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
             }
             j++
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:502"/*SOURCE_FILE_END*/ }, { l.size > 0 })
+if(SanityCheck.enabled){if(!( l.size > 0 )){throw Exception("SanityCheck failed")}}
         val res = l[l.size - 1]!!
         l.clear()
         return res
     }
 
     private fun flushAssumeLocks() {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:509"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) })
+if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
         if (pendingImport.size > 0) {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             val insertID = collapseList(pendingImport)
@@ -531,9 +531,9 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                     node = it
                 }
             )
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:533"/*SOURCE_FILE_END*/ }, { rootNode == null })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:534"/*SOURCE_FILE_END*/ }, { root_ == NodeManager.nodeNullPointer })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:535"/*SOURCE_FILE_END*/ }, { firstLeaf_ == NodeManager.nodeNullPointer })
+if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( root_ == NodeManager.nodeNullPointer )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( firstLeaf_ == NodeManager.nodeNullPointer )){throw Exception("SanityCheck failed")}}
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -571,7 +571,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                 }
                 NodeLeaf.initializeWith(node, iterator)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:573"/*SOURCE_FILE_END*/ }, { currentLayer.size > 0 })
+if(SanityCheck.enabled){if(!( currentLayer.size > 0 )){throw Exception("SanityCheck failed")}}
 // work around the  here, because the method would be too large
             while (currentLayer.size > 1) {
                 val tmp = mutableListOf<Int>()
@@ -607,7 +607,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
             nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:606"/*SOURCE_FILE_END*/, nodeid)
             nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:607"/*SOURCE_FILE_END*/, nodeid)
             var rootNodeIsLeaf = false
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:609"/*SOURCE_FILE_END*/ }, { rootNode == null })
+if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck failed")}}
             val codeSection2 = {
                 nodeManager.getNodeAny(
                     /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:612"/*SOURCE_FILE_END*/,
@@ -634,7 +634,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
             codeSection2()
         } else {
 // this index is cleared completely
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:636"/*SOURCE_FILE_END*/ }, { rootNode == null })
+if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck failed")}}
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -701,7 +701,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:703"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+if(SanityCheck.enabled){if(!( order[i] == debugSortOrder[i] )){throw Exception("SanityCheck failed")}}
                     }
                 }
             )
@@ -786,7 +786,7 @@ TODO("row from before missing afterwards")
                         debugSortOrder = order
                     }
                     for (i in 0 until 3) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:788"/*SOURCE_FILE_END*/ }, { order[i] == debugSortOrder[i] })
+if(SanityCheck.enabled){if(!( order[i] == debugSortOrder[i] )){throw Exception("SanityCheck failed")}}
                     }
                 }
             )
@@ -794,7 +794,7 @@ TODO("row from before missing afterwards")
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:796"/*SOURCE_FILE_END*/ }, { pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) })
+if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
             if (pendingImport.size > 0) {
                 pendingRemove.add(importHelper(BulkImportIterator(data, dataSize, order)))
             }

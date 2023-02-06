@@ -213,7 +213,7 @@ public abstract class OPBase public constructor(
                     if (idx == c.size) {
                         target.remove(c)
                     } else {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:215"/*SOURCE_FILE_END*/ }, { idx == data.size })
+if(SanityCheck.enabled){if(!( idx == data.size )){throw Exception("SanityCheck failed")}}
                         needToAdd = false
                     }
                     break@loop
@@ -332,7 +332,7 @@ public abstract class OPBase public constructor(
                         res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                     }
                     else -> {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:334"/*SOURCE_FILE_END*/ }, { provided.isEmpty() })
+if(SanityCheck.enabled){if(!( provided.isEmpty() )){throw Exception("SanityCheck failed")}}
                     }
                 }
             }
@@ -405,7 +405,7 @@ public abstract class OPBase public constructor(
 
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:407"/*SOURCE_FILE_END*/ }, { i < children.size })
+if(SanityCheck.enabled){if(!( i < children.size )){throw Exception("SanityCheck failed")}}
         children[i] = child
     }
 
@@ -422,7 +422,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:424"/*SOURCE_FILE_END*/ }, { parent.getChildren()[parentIdx] == this })
+if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw Exception("SanityCheck failed")}}
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -549,7 +549,7 @@ public abstract class OPBase public constructor(
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:551"/*SOURCE_FILE_END*/ }, { children.isNotEmpty() })
+if(SanityCheck.enabled){if(!( children.isNotEmpty() )){throw Exception("SanityCheck failed")}}
         this.getChildren()[0] = child
         return child
     }

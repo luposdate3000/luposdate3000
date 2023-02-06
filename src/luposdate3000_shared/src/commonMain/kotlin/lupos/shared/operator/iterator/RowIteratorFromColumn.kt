@@ -26,7 +26,7 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
     public var iterators: Array<ColumnIterator>
 
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/RowIteratorFromColumn.kt:28"/*SOURCE_FILE_END*/ }, { bundle.hasColumnMode() })
+if(SanityCheck.enabled){if(!( bundle.hasColumnMode() )){throw Exception("SanityCheck failed")}}
         val keys = bundle.columns.keys.toList()
         columns = Array(bundle.columns.size) { keys[it] }
         iterators = Array(bundle.columns.size) { bundle.columns[columns[it]]!! }

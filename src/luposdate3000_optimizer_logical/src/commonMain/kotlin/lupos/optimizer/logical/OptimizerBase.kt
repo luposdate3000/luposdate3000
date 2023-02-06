@@ -35,7 +35,7 @@ public abstract class OptimizerBase public constructor(@JvmField public val quer
                             break
                         }
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerBase.kt:37"/*SOURCE_FILE_END*/ }, { found })
+if(SanityCheck.enabled){if(!( found )){throw Exception("SanityCheck failed")}}
                 }
             }
         )

@@ -69,7 +69,7 @@ public class DictionaryKV internal constructor(
     internal var closed = false
     override fun close() {
         lock.withWriteLock {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:71"/*SOURCE_FILE_END*/ }, { !closed })
+if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
             closed = true
             kv.close()
             vk.close()

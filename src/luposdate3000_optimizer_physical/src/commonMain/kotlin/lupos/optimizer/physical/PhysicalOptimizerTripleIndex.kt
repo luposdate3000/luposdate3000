@@ -57,7 +57,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                     { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerTripleIndex.kt:56"/*SOURCE_FILE_END*/ },
                     {
                         if (res2 is AOPVariable) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerTripleIndex.kt:59"/*SOURCE_FILE_END*/ }, { projectedVariables.contains(res2.name) || res2.name == "_" })
+if(SanityCheck.enabled){if(!( projectedVariables.contains(res2.name) || res2.name == "_" )){throw Exception("SanityCheck failed")}}
                         }
                     }
                 )
@@ -67,7 +67,7 @@ public class PhysicalOptimizerTripleIndex(query: Query) : OptimizerBase(query, E
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerTripleIndex.kt:66"/*SOURCE_FILE_END*/ },
                 {
                     for (i in 0 until node.mySortPriority.size) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerTripleIndex.kt:69"/*SOURCE_FILE_END*/ }, { node.mySortPriority[i].sortType == ESortTypeExt.FAST })
+if(SanityCheck.enabled){if(!( node.mySortPriority[i].sortType == ESortTypeExt.FAST )){throw Exception("SanityCheck failed")}}
                     }
                 }
             )

@@ -65,7 +65,7 @@ public open class IteratorBundle {
         get() {
             return when (mode) {
                 IteratorBundleModeExt.COLUMN -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:67"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
+if(SanityCheck.enabled){if(!( _columns!!.isNotEmpty() )){throw Exception("SanityCheck failed")}}
                     _columns!!
                 }
                 IteratorBundleModeExt.ROW -> {
@@ -86,7 +86,7 @@ public open class IteratorBundle {
                     _rows!!
                 }
                 IteratorBundleModeExt.COLUMN -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/operator/iterator/IteratorBundle.kt:88"/*SOURCE_FILE_END*/ }, { _columns!!.isNotEmpty() })
+if(SanityCheck.enabled){if(!( _columns!!.isNotEmpty() )){throw Exception("SanityCheck failed")}}
                     if (_rows == null) {
                         _rows = RowIteratorFromColumn(this)
                     }

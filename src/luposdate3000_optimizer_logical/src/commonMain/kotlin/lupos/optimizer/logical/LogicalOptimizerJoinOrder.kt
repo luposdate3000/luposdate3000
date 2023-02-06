@@ -145,7 +145,7 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrder.kt:147"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+if(SanityCheck.enabled){if(!( nodes.size == 1 )){throw Exception("SanityCheck failed")}}
                 return nodes[0]
             }
         }

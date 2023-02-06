@@ -130,8 +130,8 @@ public class TripleStoreIndexDescriptionPartitionedByID(
     override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(i)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:132"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:133"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
+if(SanityCheck.enabled){if(!( hostnames[i] == "" )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( keys[i] == "" )){throw Exception("SanityCheck failed")}}
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

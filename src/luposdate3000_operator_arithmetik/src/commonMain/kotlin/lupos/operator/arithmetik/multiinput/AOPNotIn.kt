@@ -30,7 +30,7 @@ public class AOPNotIn public constructor(query: IQuery, childA: AOPBase, childB:
     override fun equals(other: Any?): Boolean = other is AOPNotIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
     override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
         val childA = (children[0] as AOPBase).evaluate(row)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPNotIn.kt:32"/*SOURCE_FILE_END*/ }, { children[1] is AOPSet })
+if(SanityCheck.enabled){if(!( children[1] is AOPSet )){throw Exception("SanityCheck failed")}}
         val childsB = Array(children[1].getChildren().size) { (children[1].getChildren()[it] as AOPBase).evaluate(row) }
         val buffer = ByteArrayWrapper()
         return {

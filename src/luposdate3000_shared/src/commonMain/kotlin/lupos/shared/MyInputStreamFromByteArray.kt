@@ -44,21 +44,21 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
     }
 
     override fun readDictionaryValueType(): DictionaryValueType {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MyInputStreamFromByteArray.kt:46"/*SOURCE_FILE_END*/ }, { offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) })
+if(SanityCheck.enabled){if(!( offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data) )){throw Exception("SanityCheck failed")}}
         val res = DictionaryValueHelper.fromByteArray(data, offset)
         offset += DictionaryValueHelper.getSize()
         return res
     }
 
     override fun readLong(): Long {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MyInputStreamFromByteArray.kt:53"/*SOURCE_FILE_END*/ }, { offset + 8 <= ByteArrayWrapperExt.getSize(data) })
+if(SanityCheck.enabled){if(!( offset + 8 <= ByteArrayWrapperExt.getSize(data) )){throw Exception("SanityCheck failed")}}
         val res = ByteArrayWrapperExt.readLong8(data, offset)
         offset += 8
         return res
     }
 
     override fun readInt(): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/MyInputStreamFromByteArray.kt:60"/*SOURCE_FILE_END*/ }, { offset + 4 <= ByteArrayWrapperExt.getSize(data) })
+if(SanityCheck.enabled){if(!( offset + 4 <= ByteArrayWrapperExt.getSize(data) )){throw Exception("SanityCheck failed")}}
         val res = ByteArrayWrapperExt.readInt4(data, offset)
         offset += 4
         return res

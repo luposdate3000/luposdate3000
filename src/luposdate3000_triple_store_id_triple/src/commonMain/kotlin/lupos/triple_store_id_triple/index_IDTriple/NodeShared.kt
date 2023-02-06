@@ -148,15 +148,15 @@ internal object NodeShared {
         val b0 = l[0] xor d[0]
         val b1 = l[1] xor d[1]
         val b2 = l[2] xor d[2]
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:150"/*SOURCE_FILE_END*/ }, { d[0] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:151"/*SOURCE_FILE_END*/ }, { d[1] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:152"/*SOURCE_FILE_END*/ }, { d[2] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:153"/*SOURCE_FILE_END*/ }, { l[0] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:154"/*SOURCE_FILE_END*/ }, { l[1] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:155"/*SOURCE_FILE_END*/ }, { l[2] >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:156"/*SOURCE_FILE_END*/ }, { b0 >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:157"/*SOURCE_FILE_END*/ }, { b1 >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:158"/*SOURCE_FILE_END*/ }, { b2 >= 0 })
+if(SanityCheck.enabled){if(!( d[0] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( d[1] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( d[2] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( l[0] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( l[1] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( l[2] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( b0 >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( b1 >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( b2 >= 0 )){throw Exception("SanityCheck failed")}}
         var counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
         var counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
         var counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
@@ -177,35 +177,35 @@ internal object NodeShared {
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:176"/*SOURCE_FILE_END*/ },
             {
                 var size = readTriple000(node, offset)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:179"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
                 size = readTriple100(node, offset, l[0]) { n0 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:181"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
+if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:183"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
                 size = readTriple010(node, offset, l[1]) { n1 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:185"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
+if(SanityCheck.enabled){if(!( n1 == d[1] )){throw Exception("SanityCheck failed")}}
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:187"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
                 size = readTriple001(node, offset, l[2]) { n2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:189"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
+if(SanityCheck.enabled){if(!( n2 == d[2] )){throw Exception("SanityCheck failed")}}
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:191"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
                 size = readTriple110(node, offset, l[0], l[1]) { n0, n1 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:193"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:194"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
+if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( n1 == d[1] )){throw Exception("SanityCheck failed")}}
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:196"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
                 size = readTriple101(node, offset, l[0], l[2]) { n0, n2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:198"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:199"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
+if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( n2 == d[2] )){throw Exception("SanityCheck failed")}}
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:201"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
                 size = readTriple111(node, offset, l[0], l[1], l[2]) { n0, n1, n2 ->
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:203"/*SOURCE_FILE_END*/ }, { n0 == d[0] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:204"/*SOURCE_FILE_END*/ }, { n1 == d[1] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:205"/*SOURCE_FILE_END*/ }, { n2 == d[2] })
+if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( n1 == d[1] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( n2 == d[2] )){throw Exception("SanityCheck failed")}}
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:207"/*SOURCE_FILE_END*/ }, { size == localOff - offset })
+if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
             }
         )
         l[0] = d[0]

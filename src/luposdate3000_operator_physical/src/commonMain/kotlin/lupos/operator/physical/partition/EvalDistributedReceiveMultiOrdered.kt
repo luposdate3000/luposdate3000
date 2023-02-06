@@ -64,7 +64,7 @@ public object EvalDistributedReceiveMultiOrdered {
                 openInputs[kk]!!.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:66"/*SOURCE_FILE_END*/ }, { j >= 0 && j < variables.size })
+if(SanityCheck.enabled){if(!( j >= 0 && j < variables.size )){throw Exception("SanityCheck failed")}}
                 openInputMappings[off + i] = off + j
             }
             for (i in 0 until variables.size) {

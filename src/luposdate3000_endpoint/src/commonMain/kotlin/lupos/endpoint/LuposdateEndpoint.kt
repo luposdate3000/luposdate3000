@@ -84,7 +84,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:86"/*SOURCE_FILE_END*/ }, { instance.LUPOS_PROCESS_ID == 0 })
+if(SanityCheck.enabled){if(!( instance.LUPOS_PROCESS_ID == 0 )){throw Exception("SanityCheck failed")}}
         val dict = instance.nodeGlobalDictionary!!
         val cache2 = instance.nodeGlobalOntologyCache
         val cache = if (cache2 == null) {

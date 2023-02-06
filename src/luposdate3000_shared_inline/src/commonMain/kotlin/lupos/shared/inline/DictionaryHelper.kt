@@ -302,7 +302,7 @@ internal object DictionaryHelper {
             ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
             buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
             off += l2
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:304"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
+if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){throw Exception("SanityCheck failed")}}
             val seconds = helper_decimalFromByteArray(buf2)
             return seconds
         }
@@ -376,7 +376,7 @@ internal object DictionaryHelper {
         } else {
             headerEncode(buffer, ETripleComponentTypeExt.BOOLEAN, 0x00)
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:378"/*SOURCE_FILE_END*/ }, { byteArrayToBoolean(buffer) == value })
+if(SanityCheck.enabled){if(!( byteArrayToBoolean(buffer) == value )){throw Exception("SanityCheck failed")}}
     }
 
     @Suppress("NOTHING_TO_INLINE")

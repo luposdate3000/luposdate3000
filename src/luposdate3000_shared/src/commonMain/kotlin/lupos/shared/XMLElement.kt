@@ -311,19 +311,19 @@ public class XMLElement(tag: String) {
     }
 
     public fun addContent(content: String): XMLElement {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/XMLElement.kt:313"/*SOURCE_FILE_END*/ }, { childs.isEmpty() })
+if(SanityCheck.enabled){if(!( childs.isEmpty() )){throw Exception("SanityCheck failed")}}
         this.content += decodeText(content)
         return this
     }
 
     public fun addContent(childs: Collection<XMLElement>): XMLElement {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/XMLElement.kt:319"/*SOURCE_FILE_END*/ }, { content.isEmpty() })
+if(SanityCheck.enabled){if(!( content.isEmpty() )){throw Exception("SanityCheck failed")}}
         this.childs.addAll(childs)
         return this
     }
 
     public fun addContent(child: XMLElement): XMLElement {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/XMLElement.kt:325"/*SOURCE_FILE_END*/ }, { content.isEmpty() })
+if(SanityCheck.enabled){if(!( content.isEmpty() )){throw Exception("SanityCheck failed")}}
         childs.add(child)
         return this
     }

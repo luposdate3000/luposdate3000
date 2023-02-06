@@ -61,9 +61,9 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual operator fun get(idx: Int): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:63"/*SOURCE_FILE_END*/ }, { !closed })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:64"/*SOURCE_FILE_END*/ }, { idx >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:65"/*SOURCE_FILE_END*/ }, { idx < _size })
+if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( idx >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed")}}
         var res = 0
         lock.withWriteLock {
             datafile.seek(idx * 4L + 4L)
@@ -73,9 +73,9 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual operator fun set(idx: Int, value: Int) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:75"/*SOURCE_FILE_END*/ }, { !closed })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:76"/*SOURCE_FILE_END*/ }, { idx >= 0 })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:77"/*SOURCE_FILE_END*/ }, { idx < _size })
+if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( idx >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed")}}
         lock.withWriteLock {
             datafile.seek(idx * 4L + 4L)
             datafile.writeInt(value)
@@ -83,7 +83,7 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual fun setSize(size: Int, clean: Boolean) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:85"/*SOURCE_FILE_END*/ }, { !closed })
+if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         if (size != _size) {
             if (clean) {
                 datafile.seek(_size * 4L + 4L)
@@ -98,7 +98,7 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual fun setSize(size: Int) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:100"/*SOURCE_FILE_END*/ }, { !closed })
+if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         if (size != _size) {
             datafile.seek(_size * 4L + 4L)
             for (i in _size until size) {
@@ -111,13 +111,13 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual fun close() {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:113"/*SOURCE_FILE_END*/ }, { !closed })
+if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         closed = true
         datafile.close()
     }
 
     public actual fun delete() {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:119"/*SOURCE_FILE_END*/ }, { !closed })
+if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         close()
         if (bufferManagerPage != null) {
             bufferManager?.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:122"/*SOURCE_FILE_END*/, bufferManagerPage!!)

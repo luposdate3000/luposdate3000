@@ -27,7 +27,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<DictionaryValueType>, compCount: Int, columns: Array<String>): RowIterator {
             println("RowIteratorMerge .. ${columns.toList()} .. ${a.columns.size}")
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:29"/*SOURCE_FILE_END*/ }, { columns.size == a.columns.size })
+if(SanityCheck.enabled){if(!( columns.size == a.columns.size )){throw Exception("SanityCheck failed")}}
             var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var done = false
@@ -170,7 +170,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                 }
                 j++
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:172"/*SOURCE_FILE_END*/ }, { resultList.size > 0 })
+if(SanityCheck.enabled){if(!( resultList.size > 0 )){throw Exception("SanityCheck failed")}}
             return resultList[resultList.size - 1]!!
         }
     }
@@ -188,9 +188,9 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:188"/*SOURCE_FILE_END*/ },
             {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:190"/*SOURCE_FILE_END*/ }, { a.columns.size == b.columns.size })
+if(SanityCheck.enabled){if(!( a.columns.size == b.columns.size )){throw Exception("SanityCheck failed")}}
                 for (i in a.columns.indices) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:192"/*SOURCE_FILE_END*/ }, { a.columns[i] == b.columns[i] })
+if(SanityCheck.enabled){if(!( a.columns[i] == b.columns[i] )){throw Exception("SanityCheck failed")}}
                 }
             }
         )

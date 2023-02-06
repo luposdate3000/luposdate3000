@@ -59,7 +59,7 @@ public object EvalModify {
                     for (columnIndex in variables.indices) {
                         val value = columns[columnIndex].next()
                         if (value == DictionaryValueHelper.nullValue) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalModify.kt:61"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
                             break@loop
                         }
                         row[columnIndex] = value

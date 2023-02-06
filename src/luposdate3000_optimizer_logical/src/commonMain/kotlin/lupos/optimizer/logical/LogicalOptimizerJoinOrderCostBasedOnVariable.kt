@@ -40,7 +40,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
     }
 
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderCostBasedOnVariable.kt:42"/*SOURCE_FILE_END*/ }, { allChilds.size > 2 })
+if(SanityCheck.enabled){if(!( allChilds.size > 2 )){throw Exception("SanityCheck failed")}}
         if (allChilds.size < 30) {
             val allVariables = mutableListOf<String>()
             val allVariablesCounters = mutableListOf<Int>()
@@ -75,7 +75,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
                 val variables = Array(allVariables.size) { 0 }
                 val tmp = allChilds[i].getProvidedVariableNames()
                 for (t in tmp) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderCostBasedOnVariable.kt:77"/*SOURCE_FILE_END*/ }, { allVariables.contains(t) })
+if(SanityCheck.enabled){if(!( allVariables.contains(t) )){throw Exception("SanityCheck failed")}}
                     for (j in allVariables.indices) {
                         if (allVariables[j] == t) {
                             variables[j]++

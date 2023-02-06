@@ -133,7 +133,7 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryValueHelperLong.kt:135"/*SOURCE_FILE_END*/ }, { value >= 0 })
+if(SanityCheck.enabled){if(!( value >= 0 )){throw Exception("SanityCheck failed")}}
         if (value > 0xFFFFFFFF) {
             if (value > 0xFFFFFFFFFFFF) {
                 if (value > 0xFFFFFFFFFFFFFF) {

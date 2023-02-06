@@ -34,7 +34,7 @@ public object EvalUnion {
             }
             return IteratorBundle(outMap)
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalUnion.kt:36"/*SOURCE_FILE_END*/ }, { childA.hasCountMode() && childB.hasCountMode() })
+if(SanityCheck.enabled){if(!( childA.hasCountMode() && childB.hasCountMode() )){throw Exception("SanityCheck failed")}}
             return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()

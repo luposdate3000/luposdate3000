@@ -122,7 +122,7 @@ public object ConverterPOPBaseToBinary {
                                                     flag++
                                                 }
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterPOPBaseToBinary.kt:124"/*SOURCE_FILE_END*/ }, { flag == 1 })
+if(SanityCheck.enabled){if(!( flag == 1 )){throw Exception("SanityCheck failed")}}
                                         }
                                         else -> {
 // crash, because it is already decided, that this must be replaced

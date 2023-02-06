@@ -124,11 +124,11 @@ public class ValueKeyStore public constructor(
             if (data == buffer) {
                 res = id
                 dataIsInserted = true
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:126"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
+if(SanityCheck.enabled){if(!( res != ID_NULL )){throw Exception("SanityCheck failed")}}
             } else if (data < buffer) {
                 res = value()
                 dataIsInserted = true
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:130"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
+if(SanityCheck.enabled){if(!( res != ID_NULL )){throw Exception("SanityCheck failed")}}
                 writer.write(res, data)
             }
             writer.write(id, buffer)
@@ -139,7 +139,7 @@ public class ValueKeyStore public constructor(
         }
         if (!dataIsInserted) {
             res = value()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:141"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
+if(SanityCheck.enabled){if(!( res != ID_NULL )){throw Exception("SanityCheck failed")}}
             writer.write(res, data)
         }
         reader.close()
@@ -191,7 +191,7 @@ public class ValueKeyStore public constructor(
                     localNextReader()
                 } else if (data < buffer) {
                     val res = onNotFound(data)
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:193"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
+if(SanityCheck.enabled){if(!( res != ID_NULL )){throw Exception("SanityCheck failed")}}
                     writer.write(res, data)
                     localNextData()
                 } else {
@@ -205,7 +205,7 @@ public class ValueKeyStore public constructor(
             }
             while (!dataIsInserted) {
                 val res = onNotFound(data)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:207"/*SOURCE_FILE_END*/ }, { res != ID_NULL })
+if(SanityCheck.enabled){if(!( res != ID_NULL )){throw Exception("SanityCheck failed")}}
                 writer.write(res, data)
                 localNextData()
             }
@@ -299,8 +299,8 @@ internal class ValueKeyStoreWriter {
     }
 
     internal fun write(childPageID: Int, id: Int, buffer: ByteArrayWrapper, onNextEntryPoint: () -> Unit) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:301"/*SOURCE_FILE_END*/ }, { offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:302"/*SOURCE_FILE_END*/ }, { id != ValueKeyStore.ID_NULL })
+if(SanityCheck.enabled){if(!( offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( id != ValueKeyStore.ID_NULL )){throw Exception("SanityCheck failed")}}
         counter++
         val common = ByteArrayWrapperExt.commonBytes(buffer, lastBuffer)
         ByteArrayWrapperExt.copyInto(buffer, lastBuffer, false)
@@ -368,13 +368,13 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
         return if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
             false
         } else {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:370"/*SOURCE_FILE_END*/ }, { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
+if(SanityCheck.enabled){if(!( BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF )){throw Exception("SanityCheck failed")}}
             BufferManagerPage.readInt4(page, offset) != ValueKeyStore.ID_NULL
         }
     }
 
     public fun next(): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:376"/*SOURCE_FILE_END*/ }, { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
+if(SanityCheck.enabled){if(!( BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF )){throw Exception("SanityCheck failed")}}
         val id = BufferManagerPage.readInt4(page, offset)
         val len = BufferManagerPage.readInt4(page, offset + 4)
         var bufferOffset = BufferManagerPage.readInt4(page, offset + 8)
@@ -391,10 +391,10 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
                 bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:390"/*SOURCE_FILE_END*/, pageid)
                 pageid = nextPageID
                 if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:393"/*SOURCE_FILE_END*/ }, { bufferOffset == len })
+if(SanityCheck.enabled){if(!( bufferOffset == len )){throw Exception("SanityCheck failed")}}
                 } else {
                     page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:395"/*SOURCE_FILE_END*/, pageid)
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:396"/*SOURCE_FILE_END*/ }, { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
+if(SanityCheck.enabled){if(!( BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF )){throw Exception("SanityCheck failed")}}
                     nextPageID = BufferManagerPage.readInt4(page, 4)
                     offset = 12
                 }
@@ -405,7 +405,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
 
     public fun close() {
         if (pageid != ValueKeyStore.PAGEID_NULL_PTR) {
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:407"/*SOURCE_FILE_END*/ }, { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
+if(SanityCheck.enabled){if(!( BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF )){throw Exception("SanityCheck failed")}}
             bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:408"/*SOURCE_FILE_END*/, pageid)
         }
     }
@@ -445,10 +445,10 @@ internal class ValueKeyStoreIteratorSearch {
                         bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:444"/*SOURCE_FILE_END*/, pageid)
                         pageid = nextPageID
                         if (pageid == ValueKeyStore.PAGEID_NULL_PTR) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:447"/*SOURCE_FILE_END*/ }, { bufferOffset == len })
+if(SanityCheck.enabled){if(!( bufferOffset == len )){throw Exception("SanityCheck failed")}}
                         } else {
                             page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:449"/*SOURCE_FILE_END*/, pageid)
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:450"/*SOURCE_FILE_END*/ }, { BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF })
+if(SanityCheck.enabled){if(!( BufferManagerPage.readInt4(page, 0) == ValueKeyStore.PAGE_TYPE_LEAF )){throw Exception("SanityCheck failed")}}
                             nextPageID = BufferManagerPage.readInt4(page, 4)
                             offset = 12
                         }

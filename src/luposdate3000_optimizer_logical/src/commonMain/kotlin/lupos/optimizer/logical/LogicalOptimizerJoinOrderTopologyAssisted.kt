@@ -146,7 +146,7 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
                 return res
             }
             else -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderTopologyAssisted.kt:148"/*SOURCE_FILE_END*/ }, { nodes.size == 1 })
+if(SanityCheck.enabled){if(!( nodes.size == 1 )){throw Exception("SanityCheck failed")}}
                 return nodes[0]
             }
         }

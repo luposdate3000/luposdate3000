@@ -80,11 +80,11 @@ internal class NodeLeafColumnIterator1(node: BufferManagerPageWrapper, nodeid: I
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator1.kt:81"/*SOURCE_FILE_END*/, nodeidTmp) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator1.kt:82"/*SOURCE_FILE_END*/ }, { node != it })
+if(SanityCheck.enabled){if(!( node != it )){throw Exception("SanityCheck failed")}}
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator1.kt:86"/*SOURCE_FILE_END*/ }, { remainingTmp > 0 })
+if(SanityCheck.enabled){if(!( remainingTmp > 0 )){throw Exception("SanityCheck failed")}}
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple010(nodeTmp, offsetTmp, 0) { v ->
                     valueTmp = v

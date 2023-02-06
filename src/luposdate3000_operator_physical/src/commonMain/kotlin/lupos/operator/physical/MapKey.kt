@@ -32,7 +32,7 @@ internal class MapKey(@JvmField val data: DictionaryValueTypeArray) {
 
     override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
     fun equalsFuzzy(other: Any?): Boolean {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/MapKey.kt:34"/*SOURCE_FILE_END*/ }, { other is MapKey })
+if(SanityCheck.enabled){if(!( other is MapKey )){throw Exception("SanityCheck failed")}}
         for (i in data.indices) {
             if (data[i] != DictionaryValueHelper.undefValue && (other as MapKey).data[i] != DictionaryValueHelper.undefValue && data[i] != other.data[i]) {
                 return false

@@ -36,7 +36,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                             break
                         }
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerColumnSortOrder.kt:38"/*SOURCE_FILE_END*/ }, { found })
+if(SanityCheck.enabled){if(!( found )){throw Exception("SanityCheck failed")}}
                 }
             }
         )
@@ -49,7 +49,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                 val tmp = node.getSortPriorities()
                 if (tmp.size > 1) {
                     node.selectSortPriority(tmp.first())
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerColumnSortOrder.kt:51"/*SOURCE_FILE_END*/ }, { node.getSortPriorities().size == 1 })
+if(SanityCheck.enabled){if(!( node.getSortPriorities().size == 1 )){throw Exception("SanityCheck failed")}}
                     onChange()
                 }
             } else {
@@ -64,7 +64,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
                         val tmp3 = node.getSortPriorities()
                         if (tmp3.size > 1) {
                             node.selectSortPriority(tmp3.first())
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerColumnSortOrder.kt:66"/*SOURCE_FILE_END*/ }, { node.getSortPriorities().size == 1 })
+if(SanityCheck.enabled){if(!( node.getSortPriorities().size == 1 )){throw Exception("SanityCheck failed")}}
                             onChange()
                         }
                     }

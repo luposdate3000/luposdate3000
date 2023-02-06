@@ -43,7 +43,7 @@ public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: 
             children[0] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), children[0])
             children[1] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), children[1])
             p = getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/multiinput/LOPUnion.kt:45"/*SOURCE_FILE_END*/ }, { provided.containsAll(p) })
+if(SanityCheck.enabled){if(!( provided.containsAll(p) )){throw Exception("SanityCheck failed")}}
         }
         try {
             for (v in p) {

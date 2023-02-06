@@ -33,7 +33,7 @@ internal object POPJoin {
         if (count <0 || count <countA || count <countB) {
             throw TooManyIntermediateResultsException()
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoin.kt:35"/*SOURCE_FILE_END*/ }, { count > 0 })
+if(SanityCheck.enabled){if(!( count > 0 )){throw Exception("SanityCheck failed")}}
         when {
             count == 1 -> {
                 for (columnIndex in outO0.indices) {
@@ -104,7 +104,7 @@ internal object POPJoin {
         if (count <0 || count <countA || count <countB) {
             throw TooManyIntermediateResultsException()
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoin.kt:106"/*SOURCE_FILE_END*/ }, { count > 0 })
+if(SanityCheck.enabled){if(!( count > 0 )){throw Exception("SanityCheck failed")}}
         when {
             count == 1 -> {
                 for (columnIndex in outO0.indices) {

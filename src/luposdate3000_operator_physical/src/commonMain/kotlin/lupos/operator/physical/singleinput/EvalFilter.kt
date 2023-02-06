@@ -66,7 +66,7 @@ public object EvalFilter {
                                     columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                     // point each iterator to the current value
                                     if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalFilter.kt:68"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
+if(SanityCheck.enabled){if(!( variableIndex2 == 0 )){throw Exception("SanityCheck failed")}}
                                         for (v in child.columns.values) {
                                             v.close()
                                         }
@@ -139,7 +139,7 @@ public object EvalFilter {
                                     for (v in child.columns.values) {
                                         v.close()
                                     }
-                                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalFilter.kt:141"/*SOURCE_FILE_END*/ }, { variableIndex2 == 0 })
+if(SanityCheck.enabled){if(!( variableIndex2 == 0 )){throw Exception("SanityCheck failed")}}
                                     for (variableIndex3 in 0 until variables.size) {
                                         ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                     }

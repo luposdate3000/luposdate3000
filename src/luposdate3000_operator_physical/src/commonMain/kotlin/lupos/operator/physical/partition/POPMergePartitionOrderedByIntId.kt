@@ -53,7 +53,7 @@ public class POPMergePartitionOrderedByIntId public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:55"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -110,9 +110,9 @@ public class POPMergePartitionOrderedByIntId public constructor(
             var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:112"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:113"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-            // the variable may be eliminated directly after using it in the join            SanityCheck.check({/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:114"/*SOURCE_FILE_END*/},{ variables.contains(partitionVariable) })
+if(SanityCheck.enabled){if(!( variables0.containsAll(variables) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( variables.containsAll(variables0) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exception("SanityCheck failed")}}
             var queue_size = query.getInstance().queue_size
             var elementsPerRing = queue_size * variables.size
             var buffersize = elementsPerRing * partitionCount2

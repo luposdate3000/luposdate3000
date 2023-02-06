@@ -69,7 +69,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManager
         if (!(timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs)) {
             TODO("timeoutInMs")
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:71"/*SOURCE_FILE_END*/ }, { remaining > 0 })
+if(SanityCheck.enabled){if(!( remaining > 0 )){throw Exception("SanityCheck failed")}}
         remaining--
         if (remaining == 0) {
             needsReset = true
@@ -79,7 +79,7 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManager
             nodeid = nextnodeid
             if (nodeid != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:80"/*SOURCE_FILE_END*/, nodeid) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:81"/*SOURCE_FILE_END*/ }, { node != it })
+if(SanityCheck.enabled){if(!( node != it )){throw Exception("SanityCheck failed")}}
                     node = it
                 }
                 remaining = NodeShared.getTripleCount(node)
@@ -88,6 +88,6 @@ internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManager
                 setDone()
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator.kt:90"/*SOURCE_FILE_END*/ }, { remaining > 0 || label == 0 })
+if(SanityCheck.enabled){if(!( remaining > 0 || label == 0 )){throw Exception("SanityCheck failed")}}
     }
 }

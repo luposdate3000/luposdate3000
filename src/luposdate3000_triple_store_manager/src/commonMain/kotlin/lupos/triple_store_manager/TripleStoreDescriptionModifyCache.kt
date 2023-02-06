@@ -141,9 +141,9 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
 
     override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:143"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(s) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:144"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(p) })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescriptionModifyCache.kt:145"/*SOURCE_FILE_END*/ }, { !query.getDictionary().isLocalValue(o) })
+if(SanityCheck.enabled){if(!( !query.getDictionary().isLocalValue(s) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( !query.getDictionary().isLocalValue(p) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( !query.getDictionary().isLocalValue(o) )){throw Exception("SanityCheck failed")}}
         var i = 0
         loop@ for (c in allConn) {
             i++

@@ -70,7 +70,7 @@ public class POPDistributedReceiveMulti public constructor(
     }
 
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPDistributedReceiveMulti.kt:72"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
     }
 
     override fun getPartitionCount(variable: String): Int = 1

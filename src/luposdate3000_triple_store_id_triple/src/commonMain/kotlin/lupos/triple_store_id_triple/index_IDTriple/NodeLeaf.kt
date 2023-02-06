@@ -86,7 +86,7 @@ internal object NodeLeaf {
 
     @Suppress("NOTHING_TO_INLINE")
     internal fun initializeWith(node: BufferManagerPageWrapper, iterator: TripleIterator) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:88"/*SOURCE_FILE_END*/ }, { iterator.hasNext() })
+if(SanityCheck.enabled){if(!( iterator.hasNext() )){throw Exception("SanityCheck failed")}}
         var writtenTriples: MutableList<DictionaryValueType>? = null
         SanityCheck(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:91"/*SOURCE_FILE_END*/ },
@@ -128,9 +128,9 @@ internal object NodeLeaf {
                         value1 = v1
                         value2 = v2
                     }
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:130"/*SOURCE_FILE_END*/ }, { value0 == writtenTriples!![i * 3] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:131"/*SOURCE_FILE_END*/ }, { value1 == writtenTriples!![i * 3 + 1] })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:132"/*SOURCE_FILE_END*/ }, { value2 == writtenTriples!![i * 3 + 2] })
+if(SanityCheck.enabled){if(!( value0 == writtenTriples!![i * 3] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( value1 == writtenTriples!![i * 3 + 1] )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( value2 == writtenTriples!![i * 3 + 2] )){throw Exception("SanityCheck failed")}}
                     remaining--
                     i++
                 }

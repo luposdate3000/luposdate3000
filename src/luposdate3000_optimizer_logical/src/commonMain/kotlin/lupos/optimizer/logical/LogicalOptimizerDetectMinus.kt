@@ -57,7 +57,7 @@ public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EO
                                 while (c.getChildren()[0] is LOPSubGroup || c.getChildren()[0] is LOPFilter) {
                                     c = c.getChildren()[0]
                                 }
-                                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerDetectMinus.kt:59"/*SOURCE_FILE_END*/ }, { c is LOPSubGroup || c is LOPFilter })
+if(SanityCheck.enabled){if(!( c is LOPSubGroup || c is LOPFilter )){throw Exception("SanityCheck failed")}}
                                 c.getChildren()[0] = LOPJoin(query, a.cloneOP(), c.getChildren()[0], false) // put a below all the filters - to prevent these filters from missing variables
                                 p.getChildren()[i] = LOPMinus(query, a, b, tmpFakeVariables) // put all the variables into the subtracting child too - to be able to process the filters
                             }

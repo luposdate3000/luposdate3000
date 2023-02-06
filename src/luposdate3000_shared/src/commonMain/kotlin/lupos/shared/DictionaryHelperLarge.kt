@@ -210,8 +210,8 @@ public object DictionaryHelperLarge {
                 if (shortEncoding) {
                     componentMilliseconds += (minutes * 1000L * 60L)
                     componentMilliseconds += (hours * 1000L * 60L * 60L)
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:212"/*SOURCE_FILE_END*/ }, { componentMilliseconds >= 0 })
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:213"/*SOURCE_FILE_END*/ }, { componentMilliseconds < (1L shl 27) })
+if(SanityCheck.enabled){if(!( componentMilliseconds >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( componentMilliseconds < (1L shl 27) )){throw Exception("SanityCheck failed")}}
                     if (day < 32 && month < 16) {
                         val componentDay = day.toLong() shl 27
                         SanityCheck.check(
@@ -219,13 +219,13 @@ public object DictionaryHelperLarge {
                             { componentDay >= (1L shl 27) },
                             { "${(1L shl 27).toString(16)} - ${componentDay.toString(16)} - ${(1L shl 32).toString(16)} ... $day ... $str" }
                         )
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:221"/*SOURCE_FILE_END*/ }, { componentDay < (1L shl 32) })
+if(SanityCheck.enabled){if(!( componentDay < (1L shl 32) )){throw Exception("SanityCheck failed")}}
                         val componentMonth = month.toLong() shl 32
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:223"/*SOURCE_FILE_END*/ }, { componentMonth >= (1L shl 32) })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:224"/*SOURCE_FILE_END*/ }, { componentMonth < (1L shl 36) })
+if(SanityCheck.enabled){if(!( componentMonth >= (1L shl 32) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( componentMonth < (1L shl 36) )){throw Exception("SanityCheck failed")}}
                         var componentYearSign = 1L shl 36
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:226"/*SOURCE_FILE_END*/ }, { componentYearSign >= (1L shl 36) })
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:227"/*SOURCE_FILE_END*/ }, { componentYearSign < (1L shl 37) })
+if(SanityCheck.enabled){if(!( componentYearSign >= (1L shl 36) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( componentYearSign < (1L shl 37) )){throw Exception("SanityCheck failed")}}
                         var componentYear = 0L
                         var si2 = 0
                         while (si2 < year.length) {
@@ -242,8 +242,8 @@ public object DictionaryHelperLarge {
                         }
                         if (componentYear < (1L shl 11)) {
                             componentYear = componentYear shl 37
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:244"/*SOURCE_FILE_END*/ }, { componentYear >= (1L shl 37) })
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:245"/*SOURCE_FILE_END*/ }, { componentYear < (1L shl 48) })
+if(SanityCheck.enabled){if(!( componentYear >= (1L shl 37) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( componentYear < (1L shl 48) )){throw Exception("SanityCheck failed")}}
                             val componentAll = componentMilliseconds or componentDay or componentMonth or componentYearSign or componentYear
                             ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 6, false)
                             DictionaryHelper.headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0x80)
@@ -316,7 +316,7 @@ public object DictionaryHelperLarge {
         off += l1
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
         off += l2
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:318"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
+if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){throw Exception("SanityCheck failed")}}
     }
 
     public fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
@@ -364,7 +364,7 @@ public object DictionaryHelperLarge {
             ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
             buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
             off += l2
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:366"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) })
+if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){throw Exception("SanityCheck failed")}}
             val year = DictionaryHelper.helper_intFromByteArray(buf1)
             val seconds = DictionaryHelper.helper_decimalFromByteArray(buf2)
             val secondsString2 = seconds.toStringExpanded().split(".")

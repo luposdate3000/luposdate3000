@@ -33,7 +33,7 @@ import kotlin.jvm.JvmField
 public class POPLimit public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val limit: Int, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPLimitID, "POPLimit", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     private val finishHandler = POPLimitHandler()
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/modifiers/POPLimit.kt:35"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == 1 )){throw Exception("SanityCheck failed")}}
         return 1
     }
 

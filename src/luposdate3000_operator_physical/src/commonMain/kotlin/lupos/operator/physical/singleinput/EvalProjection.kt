@@ -34,9 +34,9 @@ public object EvalProjection {
                 SanityCheck(
                     { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:34"/*SOURCE_FILE_END*/ },
                     {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:36"/*SOURCE_FILE_END*/ }, { variables2.isNotEmpty() })
+if(SanityCheck.enabled){if(!( variables2.isNotEmpty() )){throw Exception("SanityCheck failed")}}
                         for (variable in variables2) {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:38"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
+if(SanityCheck.enabled){if(!( child.columns[variable] != null )){throw Exception("SanityCheck failed")}}
                         }
                     }
                 )
@@ -53,7 +53,7 @@ public object EvalProjection {
             }
             else -> {
                 for (variable in variables) {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:55"/*SOURCE_FILE_END*/ }, { child.columns[variable] != null })
+if(SanityCheck.enabled){if(!( child.columns[variable] != null )){throw Exception("SanityCheck failed")}}
                     outMap[variable] = child.columns[variable]!!
                 }
                 return IteratorBundle(outMap)

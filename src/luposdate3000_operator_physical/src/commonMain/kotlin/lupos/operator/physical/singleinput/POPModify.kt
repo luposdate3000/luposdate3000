@@ -54,7 +54,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override fun getPartitionCount(variable: String): Int {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPModify.kt:56"/*SOURCE_FILE_END*/ }, { children[0].getPartitionCount(variable) == 1 })
+if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == 1 )){throw Exception("SanityCheck failed")}}
         return 1
     }
 

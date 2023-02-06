@@ -53,7 +53,7 @@ internal object BufferManagerPageDebug {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun copyFrom(data2: BufferManagerPageWrapperDebug, source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         val data = data2.data
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:55"/*SOURCE_FILE_END*/ }, { getPageID(data2) != -1 })
+if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
         SanityCheck.check(
             { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/BufferManagerPageDebug.kt:57"/*SOURCE_FILE_END*/ },
             { destinationOffset >= 0 }

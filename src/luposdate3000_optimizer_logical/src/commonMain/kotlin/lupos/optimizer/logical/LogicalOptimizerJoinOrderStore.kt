@@ -22,13 +22,13 @@ import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderStore {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderStore.kt:24"/*SOURCE_FILE_END*/ }, { allChilds.size > 2 })
+if(SanityCheck.enabled){if(!( allChilds.size > 2 )){throw Exception("SanityCheck failed")}}
         if (root.onlyExistenceRequired) {
             SanityCheck(
                 { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderStore.kt:27"/*SOURCE_FILE_END*/ },
                 {
                     for (c in allChilds) {
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderStore.kt:30"/*SOURCE_FILE_END*/ }, { c.getOnlyExistenceRequired() })
+if(SanityCheck.enabled){if(!( c.getOnlyExistenceRequired() )){throw Exception("SanityCheck failed")}}
                     }
                 }
             )

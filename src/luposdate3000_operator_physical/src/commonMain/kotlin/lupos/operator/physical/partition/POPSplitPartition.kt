@@ -53,7 +53,7 @@ public class POPSplitPartition public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:55"/*SOURCE_FILE_END*/ }, { projectedVariables.isNotEmpty() })
+if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -123,9 +123,9 @@ public class POPSplitPartition public constructor(
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:125"/*SOURCE_FILE_END*/ }, { variables0.containsAll(variables) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:126"/*SOURCE_FILE_END*/ }, { variables.containsAll(variables0) })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:127"/*SOURCE_FILE_END*/ }, { variables.contains(partitionVariable) })
+if(SanityCheck.enabled){if(!( variables0.containsAll(variables) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( variables.containsAll(variables0) )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exception("SanityCheck failed")}}
                 var queue_size = query.getInstance().queue_size
                 var elementsPerRing = queue_size * variables.size
                 var buffersize = elementsPerRing * partitionCount
@@ -160,7 +160,7 @@ public class POPSplitPartition public constructor(
                                 }
                             }
                         }
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:162"/*SOURCE_FILE_END*/ }, { hashVariableIndex != -1 })
+if(SanityCheck.enabled){if(!( hashVariableIndex != -1 )){throw Exception("SanityCheck failed")}}
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()

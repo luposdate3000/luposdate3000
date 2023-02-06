@@ -75,7 +75,7 @@ public object EvalGroupSorted {
                 for (element in valueColumns) {
                     element.close()
                 }
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:77"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
                 emptyResult = true
                 break
             }
@@ -156,7 +156,7 @@ public object EvalGroupSorted {
                                             for (element in valueColumns) {
                                                 element.close()
                                             }
-                                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalGroupSorted.kt:158"/*SOURCE_FILE_END*/ }, { columnIndex == 0 })
+if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
                                             for (columnIndex2 in keyColumnNames.indices) {
                                                 if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                     output[columnIndex2].queue.add(currentKey[columnIndex2])

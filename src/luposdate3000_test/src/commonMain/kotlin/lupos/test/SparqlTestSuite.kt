@@ -216,7 +216,7 @@ public open class SparqlTestSuite {
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result>") -> {
                     when {
                         second.startsWith("<") && second.endsWith(">") -> {
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:219"/*SOURCE_FILE_END*/ }, { resultFile == null })
+if(SanityCheck.enabled){if(!( resultFile == null )){throw Exception("SanityCheck failed")}}
                             resultFile = prefix + extractValueFromIriOrString2(second)
                         }
                         second.startsWith("_:") -> {
@@ -268,11 +268,11 @@ public open class SparqlTestSuite {
                             data.s(second).forEach { (first, second) ->
                                 when (first) {
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#data>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:271"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+if(SanityCheck.enabled){if(!( inputDataFile == null )){throw Exception("SanityCheck failed")}}
                                         inputDataFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#query>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:275"/*SOURCE_FILE_END*/ }, { queryFile == null })
+if(SanityCheck.enabled){if(!( queryFile == null )){throw Exception("SanityCheck failed")}}
                                         queryFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/ns/sparql-service-description#entailmentRegime>") -> {
@@ -307,11 +307,11 @@ public open class SparqlTestSuite {
                                         }
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#request>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:310"/*SOURCE_FILE_END*/ }, { queryFile == null })
+if(SanityCheck.enabled){if(!( queryFile == null )){throw Exception("SanityCheck failed")}}
                                         queryFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#data>") -> {
-                                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:314"/*SOURCE_FILE_END*/ }, { inputDataFile == null })
+if(SanityCheck.enabled){if(!( inputDataFile == null )){throw Exception("SanityCheck failed")}}
                                         inputDataFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#graphData>") -> {
@@ -343,7 +343,7 @@ public open class SparqlTestSuite {
                     }
                 }
                 ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:346"/*SOURCE_FILE_END*/ }, { testType == null })
+if(SanityCheck.enabled){if(!( testType == null )){throw Exception("SanityCheck failed")}}
                     testType = second
                     when (second) {
                         ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest>") -> {
@@ -378,7 +378,7 @@ public open class SparqlTestSuite {
                     features.add(second)
                 }
                 ("<http://www.w3.org/2000/01/rdf-schema#comment>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:381"/*SOURCE_FILE_END*/ }, { comment == null })
+if(SanityCheck.enabled){if(!( comment == null )){throw Exception("SanityCheck failed")}}
                     comment = extractValueFromIriOrString(second)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval>") -> {
@@ -394,7 +394,7 @@ public open class SparqlTestSuite {
                     println( "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second )
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description>") -> {
-                    SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:397"/*SOURCE_FILE_END*/ }, { description == null })
+if(SanityCheck.enabled){if(!( description == null )){throw Exception("SanityCheck failed")}}
                     description = extractValueFromIriOrString(second)
                 }
                 else -> {
@@ -613,7 +613,7 @@ public open class SparqlTestSuite {
             }
             SanityCheck.println{ "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:616"/*SOURCE_FILE_END*/ }, { lopNode2 == lopNode2.cloneOP() })
+if(SanityCheck.enabled){if(!( lopNode2 == lopNode2.cloneOP() )){throw Exception("SanityCheck failed")}}
             SanityCheck.suspended {
                 val x = lopNode2.toString()
                 SanityCheck.println{ x }
@@ -622,7 +622,7 @@ public open class SparqlTestSuite {
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
             SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:624"/*SOURCE_FILE_END*/ }, { popNode == popNode.cloneOP() }, { popNode.toString() + " - " + popNode.cloneOP().toString() })
-            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:625"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
+if(SanityCheck.enabled){if(!( popNode.toSparqlQuery() )){throw Exception("SanityCheck failed")}}
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println{ x }
@@ -649,9 +649,9 @@ public open class SparqlTestSuite {
                     LuposdateEndpoint.close(instance)
                     return false
                 } else {
-                    SanityCheck.println{ "OutputData Graph[${it["name"]}] Original" }
+if(SanityCheck.enabled){if(!(] Original" )){throw Exception("SanityCheck failed")}}
                     SanityCheck.println{ outputData }
-                    SanityCheck.println{ "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
+if(SanityCheck.enabled){if(!(] ... target,actual" )){throw Exception("SanityCheck failed")}}
                 }
                 verifiedOutput = true
             }

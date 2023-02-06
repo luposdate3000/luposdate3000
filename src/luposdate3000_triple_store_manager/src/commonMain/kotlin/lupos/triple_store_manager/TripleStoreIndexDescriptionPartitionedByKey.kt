@@ -84,18 +84,18 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         val hash: Int
         when (key_size) {
             1 -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:86"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
+if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 )){throw Exception("SanityCheck failed")}}
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]])
             }
             2 -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:90"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:91"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
+if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 )){throw Exception("SanityCheck failed")}}
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]])
             }
             3 -> {
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:95"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:96"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 })
-                SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:97"/*SOURCE_FILE_END*/ }, { triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 })
+if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 )){throw Exception("SanityCheck failed")}}
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]])
             }
             else -> throw UnreachableException()
@@ -167,8 +167,8 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
     override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(i)
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:169"/*SOURCE_FILE_END*/ }, { hostnames[i] == "" })
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:170"/*SOURCE_FILE_END*/ }, { keys[i] == "" })
+if(SanityCheck.enabled){if(!( hostnames[i] == "" )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!( keys[i] == "" )){throw Exception("SanityCheck failed")}}
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }
