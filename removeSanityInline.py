@@ -10,7 +10,7 @@ for filename in sys.argv[1:]:
    if "SanityCheck" in line and line.count("{")==line.count("}") and line.count("{") == 2:
     line=re.sub("/.SOURCE_FILE_START./.*/.SOURCE_FILE_END./","",line)
     row=re.split("[}{]",line)
-    rows.append("if(SanityCheck.enabled){if(!(",row[-2],")){throw Exception(\"SanityCheck failed\")}}")
+    rows.append("if(SanityCheck.enabled){if(!("+row[-2]+")){throw Exception(\"SanityCheck failed\")}}\n")
    else:
     rows.append(line)
  with open (filename,"w") as f:

@@ -183,7 +183,7 @@ public class TripleStoreManagerImpl public constructor(
 
     @Suppress("NOTHING_TO_INLINE")
     private fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:185"/*SOURCE_FILE_END*/ }, { localStores_[key] == null })
+if(SanityCheck.enabled){if(!( localStores_[key] == null )){throw Exception("SanityCheck failed")}}
         localStores_[key] = tripleStore
     }
 
@@ -196,7 +196,7 @@ public class TripleStoreManagerImpl public constructor(
 
     @Suppress("NOTHING_TO_INLINE")
     private fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:198"/*SOURCE_FILE_END*/ }, { metadata_[name] == null })
+if(SanityCheck.enabled){if(!( metadata_[name] == null )){throw Exception("SanityCheck failed")}}
         metadata_[name] = tripleStore
     }
 
