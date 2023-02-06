@@ -31,7 +31,7 @@ public class PartitionHelper() {
   if(SanityCheck.enabled)            {
                 for (k in keys) {
                     for (i in 0 until k.debugMarker.size) {
-                             if(SanityCheck.enabled){if(!(  k.debugMarker[i] == 3 )){throw Exception(\"SanityCheck failed\")}}
+                             if(SanityCheck.enabled){if(!(  k.debugMarker[i] == 3 )){throw Exception("SanityCheck failed")}}
                     }
                 }
             }

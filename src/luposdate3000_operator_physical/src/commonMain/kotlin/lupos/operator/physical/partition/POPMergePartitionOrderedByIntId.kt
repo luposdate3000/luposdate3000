@@ -239,8 +239,8 @@ if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exc
             val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
   if(SanityCheck.enabled)                {
                     for (x in sortColumns.indices) {
-                               if(SanityCheck.enabled){if(!(              sortColumns[x] >= 0    )){throw Exception(\"SanityCheck failed\")}}
-                               if(SanityCheck.enabled){if(!(              mySortPriority[x].sortType == ESortTypeExt.FAST    )){throw Exception(\"SanityCheck failed\")}}
+                               if(SanityCheck.enabled){if(!(              sortColumns[x] >= 0    )){throw Exception("SanityCheck failed")}}
+                               if(SanityCheck.enabled){if(!(              mySortPriority[x].sortType == ESortTypeExt.FAST    )){throw Exception("SanityCheck failed")}}
                     }
                 }
             

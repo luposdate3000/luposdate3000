@@ -149,20 +149,20 @@ public class DictionaryInMemory internal constructor(
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         lock.withReadLock {
-                  if(SanityCheck.enabled){if(!(  (value and DictionaryValueHelper.maskValue) >= 0  )){throw Exception(\"SanityCheck failed\")}}
-                  if(SanityCheck.enabled){if(!(  dataV2I.size > DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)  )){throw Exception(\"SanityCheck failed\")}}
-                  if(SanityCheck.enabled){if(!(  (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode  )){throw Exception(\"SanityCheck failed\")}}
+                  if(SanityCheck.enabled){if(!(  (value and DictionaryValueHelper.maskValue) >= 0  )){throw Exception("SanityCheck failed")}}
+                  if(SanityCheck.enabled){if(!(  dataV2I.size > DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)  )){throw Exception("SanityCheck failed")}}
+                  if(SanityCheck.enabled){if(!(  (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode  )){throw Exception("SanityCheck failed")}}
             val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
             ByteArrayWrapperExt.copyInto(buf, buffer, false)
-                  if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception(\"SanityCheck failed\")}}
+                  if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception("SanityCheck failed")}}
         }
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withWriteLock {
-                   if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception(\"SanityCheck failed\")}}
-                   if(SanityCheck.enabled){if(!(  DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE)  )){throw Exception(\"SanityCheck failed\")}}
+                   if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception("SanityCheck failed")}}
+                   if(SanityCheck.enabled){if(!(  DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE)  )){throw Exception("SanityCheck failed")}}
             var res = dataV2I[buffer]
             if (res == null) {
                 res = DictionaryValueHelper.fromInt(dataV2I.size)
@@ -187,12 +187,12 @@ public class DictionaryInMemory internal constructor(
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {
-                 if(SanityCheck.enabled){if(!( ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception(\"SanityCheck failed\")}}
+                 if(SanityCheck.enabled){if(!( ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception("SanityCheck failed")}}
             val type = DictionaryHelper.byteArrayToType(buffer)
-                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.BLANK_NODE  )){throw Exception(\"SanityCheck failed\")}}
-                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.BOOLEAN  )){throw Exception(\"SanityCheck failed\")}}
-                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.ERROR  )){throw Exception(\"SanityCheck failed\")}}
-                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.UNDEF  )){throw Exception(\"SanityCheck failed\")}}
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.BLANK_NODE  )){throw Exception("SanityCheck failed")}}
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.BOOLEAN  )){throw Exception("SanityCheck failed")}}
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.ERROR  )){throw Exception("SanityCheck failed")}}
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.UNDEF  )){throw Exception("SanityCheck failed")}}
             var res = dataV2I[buffer]
             if (res != null) {
                 if (isLocal) {

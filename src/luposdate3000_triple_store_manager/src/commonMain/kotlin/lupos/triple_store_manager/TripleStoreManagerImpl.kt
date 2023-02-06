@@ -202,7 +202,7 @@ if(SanityCheck.enabled){if(!( metadata_[name] == null )){throw Exception("Sanity
 
     @Suppress("NOTHING_TO_INLINE")
     private fun metadataRemove(name: LuposGraphName) {
-   if(SanityCheck.enabled){if(!(    metadata_[name] != null || name == DEFAULT_GRAPH_NAME  )){throw Exception(\"SanityCheck failed\")}}
+   if(SanityCheck.enabled){if(!(    metadata_[name] != null || name == DEFAULT_GRAPH_NAME  )){throw Exception("SanityCheck failed")}}
         metadata_.remove(name)
     }
 

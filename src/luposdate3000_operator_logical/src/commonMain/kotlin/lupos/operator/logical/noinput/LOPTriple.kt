@@ -120,7 +120,7 @@ if(SanityCheck.enabled){if(!( s != "_" )){throw Exception("SanityCheck failed")}
             if (!resString.contains("O")) {
                 resString += "O"
             }
- if(SanityCheck.enabled){if(!(  resString.length == 3 || (resString.length == 4 && resString.contains("_")) )){throw Exception(\"SanityCheck failed\")}}
+ if(SanityCheck.enabled){if(!(  resString.length == 3 || (resString.length == 4 && resString.contains("_")) )){throw Exception("SanityCheck failed")}}
             return EIndexPatternExt.names.indexOf(resString)
         }
     }

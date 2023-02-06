@@ -53,7 +53,7 @@ public object EvalDistributedReceiveMultiOrdered {
         for (kk in 0 until inputs.size) {
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
-                   if(SanityCheck.enabled){if(!(             cnt == variables.size   )){throw Exception(\"SanityCheck failed\")}}
+                   if(SanityCheck.enabled){if(!(             cnt == variables.size   )){throw Exception("SanityCheck failed")}}
             for (i in 0 until variables.size) {
                 val len = openInputs[kk]!!.readInt()
                 val buf = ByteArray(len)

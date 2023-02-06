@@ -75,7 +75,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     }
 
     override fun releasePage(call_location: String, pageid: Int) {
- if(SanityCheck.enabled){if(!(  allPagesRefcounters[pageid] > 0 )){throw Exception(\"SanityCheck failed\")}}
+ if(SanityCheck.enabled){if(!(  allPagesRefcounters[pageid] > 0 )){throw Exception("SanityCheck failed")}}
         allPagesRefcounters[pageid]--
     }
 

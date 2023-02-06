@@ -64,7 +64,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                             val c = sipbufValue[0]
                             //  val c = child0.next() // TODO reenable sip
   if(SanityCheck.enabled)                                {
-                                         if(SanityCheck.enabled){if(!(  c >= debugHead0 || c == DictionaryValueHelper.nullValue   )){throw Exception(\"SanityCheck failed\")}}
+                                         if(SanityCheck.enabled){if(!(  c >= debugHead0 || c == DictionaryValueHelper.nullValue   )){throw Exception("SanityCheck failed")}}
                                     debugHead0 = c
                                 }
                             
@@ -81,7 +81,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                             val c = sipbufValue[0]
 //                            val c = child1.next() // TODO reenable sip
   if(SanityCheck.enabled)                                {
-                                         if(SanityCheck.enabled){if(!(  c >= debugHead1 || c == DictionaryValueHelper.nullValue  )){throw Exception(\"SanityCheck failed\")}}
+                                         if(SanityCheck.enabled){if(!(  c >= debugHead1 || c == DictionaryValueHelper.nullValue  )){throw Exception("SanityCheck failed")}}
                                     debugHead1 = c
                                 }
                             
@@ -100,7 +100,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                         count0++
                         val d = child0.next()
   if(SanityCheck.enabled)                            {
-                                       if(SanityCheck.enabled){if(!(  d >= debugHead0 || d == DictionaryValueHelper.nullValue  )){throw Exception(\"SanityCheck failed\")}}
+                                       if(SanityCheck.enabled){if(!(  d >= debugHead0 || d == DictionaryValueHelper.nullValue  )){throw Exception("SanityCheck failed")}}
                                 debugHead0 = d
                             }
                         
@@ -116,7 +116,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                         count1++
                         val d = child1.next()
   if(SanityCheck.enabled)                            {
-                                            if(SanityCheck.enabled){if(!(  d >= debugHead1 || d == DictionaryValueHelper.nullValue  )){throw Exception(\"SanityCheck failed\")}}
+                                            if(SanityCheck.enabled){if(!(  d >= debugHead1 || d == DictionaryValueHelper.nullValue  )){throw Exception("SanityCheck failed")}}
                                 debugHead1 = d
                             }
                         

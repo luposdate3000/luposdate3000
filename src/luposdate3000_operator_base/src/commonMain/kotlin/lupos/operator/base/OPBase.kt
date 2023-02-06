@@ -285,7 +285,7 @@ if(SanityCheck.enabled){if(!( idx == data.size )){throw Exception("SanityCheck f
                 }
             }
         }
-    if(SanityCheck.enabled){if(!(       getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName })       )){throw Exception(\"SanityCheck failed\")}}
+    if(SanityCheck.enabled){if(!(       getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName })       )){throw Exception("SanityCheck failed")}}
         sortPriorities = tmp
     }
 

@@ -355,7 +355,7 @@ public class Application_Luposdate3000 public constructor(
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
-                 if(SanityCheck.enabled){if(!(  myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null )){throw Exception(\"SanityCheck failed\")}}
+                 if(SanityCheck.enabled){if(!(  myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null )){throw Exception("SanityCheck failed")}}
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
             true
         }

@@ -71,7 +71,7 @@ public class LogicalOptimizerJoinOrderML2(query: Query) : OptimizerBase(query, E
                 return res
             }
             else -> {
-                          if(SanityCheck.enabled){if(!( nodes.size == 1   )){throw Exception(\"SanityCheck failed\")}}
+                          if(SanityCheck.enabled){if(!( nodes.size == 1   )){throw Exception("SanityCheck failed")}}
                 return nodes[0]
             }
         }

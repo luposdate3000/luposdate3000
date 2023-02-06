@@ -117,7 +117,7 @@ if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[
                 counter++
             }
         }
-             if(SanityCheck.enabled){if(!(  counter == key_size || (counter == 0 && partition.data.size > 0)  )){throw Exception(\"SanityCheck failed\")}}
+             if(SanityCheck.enabled){if(!(  counter == key_size || (counter == 0 && partition.data.size > 0)  )){throw Exception("SanityCheck failed")}}
         val partitionToUse = if (counter == 0) {
             partition.data[fixedPartitionName]!!
         } else {

@@ -285,9 +285,9 @@ if(SanityCheck.enabled){if(!( instance.LUPOS_PROCESS_ID == 0 )){throw Exception(
                                 val newA = mapping[newOriginalA]
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
-                                     if(SanityCheck.enabled){if(!(   newA >= oldA )){throw Exception(\"SanityCheck failed\")}}
-                                     if(SanityCheck.enabled){if(!( newB >= oldB || newA > oldA )){throw Exception(\"SanityCheck failed\")}}
-                                     if(SanityCheck.enabled){if(!( newC > oldC || newA > oldA || newB > oldB )){throw Exception(\"SanityCheck failed\")}}
+                                     if(SanityCheck.enabled){if(!(   newA >= oldA )){throw Exception("SanityCheck failed")}}
+                                     if(SanityCheck.enabled){if(!( newB >= oldB || newA > oldA )){throw Exception("SanityCheck failed")}}
+                                     if(SanityCheck.enabled){if(!( newC > oldC || newA > oldA || newB > oldB )){throw Exception("SanityCheck failed")}}
                                 oldA = newA
                                 oldB = newB
                                 oldC = newC

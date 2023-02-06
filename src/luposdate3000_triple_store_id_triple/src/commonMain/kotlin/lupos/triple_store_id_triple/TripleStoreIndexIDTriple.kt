@@ -654,9 +654,9 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
                         val newB = data[i * 3 + order[1]]
                         val oldC = data[(i - 1) * 3 + order[2]]
                         val newC = data[i * 3 + order[2]]
-                             if(SanityCheck.enabled){if(!(       newA >= oldA       )){throw Exception(\"SanityCheck failed\")}}
-                             if(SanityCheck.enabled){if(!(       newB >= oldB || newA > oldA       )){throw Exception(\"SanityCheck failed\")}}
-                             if(SanityCheck.enabled){if(!(       newC > oldC || newA > oldA || newB > oldB       )){throw Exception(\"SanityCheck failed\")}}
+                             if(SanityCheck.enabled){if(!(       newA >= oldA       )){throw Exception("SanityCheck failed")}}
+                             if(SanityCheck.enabled){if(!(       newB >= oldB || newA > oldA       )){throw Exception("SanityCheck failed")}}
+                             if(SanityCheck.enabled){if(!(       newC > oldC || newA > oldA || newB > oldB       )){throw Exception("SanityCheck failed")}}
                     }
                 }
             insertAsBulkSorted(data, order, dataSize)

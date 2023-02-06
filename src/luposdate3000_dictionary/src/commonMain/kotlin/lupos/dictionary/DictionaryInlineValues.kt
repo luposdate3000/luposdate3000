@@ -29,7 +29,7 @@ public object DictionaryInlineValues {
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
   if(SanityCheck.enabled)            {
                 val value = DictionaryHelper.byteArrayToType(buffer)
-                     if(SanityCheck.enabled){if(!(  ETripleComponentTypeExt.BLANK_NODE != value  )){throw Exception(\"SanityCheck failed\")}}
+                     if(SanityCheck.enabled){if(!(  ETripleComponentTypeExt.BLANK_NODE != value  )){throw Exception("SanityCheck failed")}}
                 
             }
         

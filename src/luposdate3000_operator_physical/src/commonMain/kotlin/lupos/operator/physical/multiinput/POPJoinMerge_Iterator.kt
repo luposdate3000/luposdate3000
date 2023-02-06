@@ -191,8 +191,8 @@ if(SanityCheck.enabled){if(!( key0[localNextJ] != DictionaryValueHelper.nullValu
                                             key1[localNextJ] = columnsINJ1[localNextJ].next()
                                         }
                                     }
-                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.undefValue   )){throw Exception(\"SanityCheck failed\")}}
-                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.nullValue   )){throw Exception(\"SanityCheck failed\")}}
+                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.undefValue   )){throw Exception("SanityCheck failed")}}
+                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.nullValue   )){throw Exception("SanityCheck failed")}}
                                     localNextJ++
                                 }
                             }

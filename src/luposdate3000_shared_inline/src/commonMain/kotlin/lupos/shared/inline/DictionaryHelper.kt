@@ -209,7 +209,7 @@ if(SanityCheck.enabled){if(!( (type or flag) <= 0xff )){throw Exception("SanityC
             off += l1
             val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 28
             off += l2
-   if(SanityCheck.enabled){if(!(          off == ByteArrayWrapperExt.getSize(buffer)  )){throw Exception(\"SanityCheck failed\")}}
+   if(SanityCheck.enabled){if(!(          off == ByteArrayWrapperExt.getSize(buffer)  )){throw Exception("SanityCheck failed")}}
             val year = helper_intFromByteArray(buf1)
             return year
         }
@@ -404,7 +404,7 @@ if(SanityCheck.enabled){if(!( byteArrayToBoolean(buffer) == value )){throw Excep
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToBoolean(buffer: ByteArrayWrapper): Boolean {
         val flag = headerDecodeFlag(buffer)
-if(SanityCheck.enabled){if(!( flag == 0x0 || flag == 0x80  )){throw Exception(\"SanityCheck failed\")}}
+if(SanityCheck.enabled){if(!( flag == 0x0 || flag == 0x80  )){throw Exception("SanityCheck failed")}}
         return flag == 0x80
     }
 
@@ -514,8 +514,8 @@ if(SanityCheck.enabled){if(!( flag == 0x0 || flag == 0x80  )){throw Exception(\"
         ByteArrayWrapperExt.writeInt4(buffer, headerSize() + buf1.size + buf2.size, buf1.size)
         buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
-if(SanityCheck.enabled){if(!( content == byteArrayToLang_Content(buffer)  )){throw Exception(\"SanityCheck failed\")}}
-if(SanityCheck.enabled){if(!(  lang.lowercase() == byteArrayToLang_Lang(buffer)  )){throw Exception(\"SanityCheck failed\")}}
+if(SanityCheck.enabled){if(!( content == byteArrayToLang_Content(buffer)  )){throw Exception("SanityCheck failed")}}
+if(SanityCheck.enabled){if(!(  lang.lowercase() == byteArrayToLang_Lang(buffer)  )){throw Exception("SanityCheck failed")}}
     }
 
     @Suppress("NOTHING_TO_INLINE")
