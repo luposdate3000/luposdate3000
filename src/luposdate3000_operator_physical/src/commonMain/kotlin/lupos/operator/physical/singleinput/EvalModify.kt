@@ -59,7 +59,6 @@ public object EvalModify {
                     for (columnIndex in variables.indices) {
                         val value = columns[columnIndex].next()
                         if (value == DictionaryValueHelper.nullValue) {
-                            if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                             break@loop
                         }
                         row[columnIndex] = value

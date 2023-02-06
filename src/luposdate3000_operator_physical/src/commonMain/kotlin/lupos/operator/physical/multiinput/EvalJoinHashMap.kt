@@ -41,7 +41,6 @@ public object EvalJoinHashMap {
         val startTime = DateHelperRelative.markNow()
 // --- obtain child columns
         val columns = LOPJoin_Helper.getColumns(childA.columns.keys.toList(), childB.columns.keys.toList())
-        if (SanityCheck.enabled) { if (!(columns[0].size != 0)) { throw Exception("SanityCheck failed") } }
         val columnsINAO = mutableListOf<ColumnIterator>() // only in childA
         val columnsINBO = mutableListOf<ColumnIterator>() // only in childB
         val columnsINAJ = mutableListOf<ColumnIterator>() // join columnA
@@ -86,7 +85,6 @@ public object EvalJoinHashMap {
         var count: Int
         var countA: Int
         var countB: Int
-        if (SanityCheck.enabled) { if (!(columnsINAJ.size > 0)) { throw Exception("SanityCheck failed") } }
 // --- insert second child into hash table
         while (true) {
             count = if (currentKey != null) {
@@ -189,7 +187,6 @@ public object EvalJoinHashMap {
                                     for (columnIndex in 0 until columnsINAJ.size) {
                                         val value = columnsINAJ[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                                             nextKey = null
                                             break@loopA
                                         }
@@ -239,7 +236,6 @@ public object EvalJoinHashMap {
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         for (i in 0 until countA) {
                                             val tmp2 = columnsINAO[columnIndex].next()
-                                            if (SanityCheck.enabled) { if (!(tmp2 != DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
                                             dataOA[columnIndex].add(tmp2)
                                         }
                                     }

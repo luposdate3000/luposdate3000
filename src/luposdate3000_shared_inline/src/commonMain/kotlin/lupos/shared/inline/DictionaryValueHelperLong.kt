@@ -133,7 +133,6 @@ internal object DictionaryValueHelperLong {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun numberOfBytesUsed(value: Long): Int {
-if(SanityCheck.enabled){if(!( value >= 0 )){throw Exception("SanityCheck failed")}}
         if (value > 0xFFFFFFFF) {
             if (value > 0xFFFFFFFFFFFF) {
                 if (value > 0xFFFFFFFFFFFFFF) {

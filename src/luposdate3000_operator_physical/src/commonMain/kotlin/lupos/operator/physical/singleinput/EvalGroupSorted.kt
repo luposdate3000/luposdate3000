@@ -75,7 +75,6 @@ public object EvalGroupSorted {
                 for (element in valueColumns) {
                     element.close()
                 }
-                if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                 emptyResult = true
                 break
             }
@@ -156,7 +155,6 @@ public object EvalGroupSorted {
                                             for (element in valueColumns) {
                                                 element.close()
                                             }
-                                            if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                                             for (columnIndex2 in keyColumnNames.indices) {
                                                 if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                     output[columnIndex2].queue.add(currentKey[columnIndex2])

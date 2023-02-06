@@ -57,7 +57,6 @@ public object EvalBind {
                     boundIndex = variableIndex
                 }
             }
-            if (SanityCheck.enabled) { if (!(boundIndex != -1)) { throw Exception("SanityCheck failed") } }
             val columnsIn = Array(variablesLocal.size) { child.columns[variablesLocal[it]] }
             for (variableIndex in variablesLocal.indices) {
                 columnsLocal[variableIndex] = object : ColumnIteratorQueue() {
@@ -74,7 +73,6 @@ public object EvalBind {
                                     if (boundIndex != variableIndex2) {
                                         val value2 = columnsIn[variableIndex2]!!.next()
                                         if (value2 == DictionaryValueHelper.nullValue) {
-                                            if (SanityCheck.enabled) { if (!(variableIndex2 == 0 || (boundIndex == 0 && variableIndex2 == 1))) { throw Exception("SanityCheck failed") } }
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                             }
@@ -113,7 +111,6 @@ public object EvalBind {
             columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
         }
         expression = value.evaluateID(IteratorBundle(localMap))
-        if (SanityCheck.enabled) { if (!(variablesLocal.isNotEmpty())) { throw Exception("SanityCheck failed") } }
         return IteratorBundle(outMap)
     }
 }

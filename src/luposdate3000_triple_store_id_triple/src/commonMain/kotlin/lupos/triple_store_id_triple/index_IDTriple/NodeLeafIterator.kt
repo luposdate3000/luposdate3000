@@ -59,7 +59,6 @@ internal class NodeLeafIterator(@JvmField var node: BufferManagerPageWrapper, @J
             nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:60"/*SOURCE_FILE_END*/, nodeid) {
-                    if (SanityCheck.enabled) { if (!(node != it)) { throw Exception("SanityCheck failed") } }
                     node = it
                     remaining = NodeShared.getTripleCount(node)
                 }

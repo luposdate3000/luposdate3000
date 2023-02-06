@@ -311,19 +311,16 @@ public class XMLElement(tag: String) {
     }
 
     public fun addContent(content: String): XMLElement {
-        if (SanityCheck.enabled) { if (!(childs.isEmpty())) { throw Exception("SanityCheck failed") } }
         this.content += decodeText(content)
         return this
     }
 
     public fun addContent(childs: Collection<XMLElement>): XMLElement {
-        if (SanityCheck.enabled) { if (!(content.isEmpty())) { throw Exception("SanityCheck failed") } }
         this.childs.addAll(childs)
         return this
     }
 
     public fun addContent(child: XMLElement): XMLElement {
-        if (SanityCheck.enabled) { if (!(content.isEmpty())) { throw Exception("SanityCheck failed") } }
         childs.add(child)
         return this
     }

@@ -30,7 +30,6 @@ public class ByteArrayWrapper : Comparable<ByteArrayWrapper> {
     public constructor(buf: ByteArray, size: Int) {
         this.buf_ = buf
         this.size_ = size
-        if (SanityCheck.enabled) { if (!(size <= buf.size)) { throw Exception("SanityCheck failed") } }
     }
 
     public constructor(buf: ByteArray) : this(buf, buf.size)

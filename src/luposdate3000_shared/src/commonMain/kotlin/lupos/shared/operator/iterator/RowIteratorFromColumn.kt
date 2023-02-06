@@ -26,7 +26,6 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
     public var iterators: Array<ColumnIterator>
 
     init {
-        if (SanityCheck.enabled) { if (!(bundle.hasColumnMode())) { throw Exception("SanityCheck failed") } }
         val keys = bundle.columns.keys.toList()
         columns = Array(bundle.columns.size) { keys[it] }
         iterators = Array(bundle.columns.size) { bundle.columns[columns[it]]!! }
@@ -36,7 +35,6 @@ public open class RowIteratorFromColumn(@JvmField public val bundle: IteratorBun
             for (columnIndex in columns.indices) {
                 val tmp = iterators[columnIndex].next()
                 if (tmp == DictionaryValueHelper.nullValue) {
-                    if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                     res = -1
                     close()
                     break

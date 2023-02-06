@@ -35,18 +35,12 @@ internal object BufferManagerPageDebug {
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun copyInto(data2: BufferManagerPageWrapperDebug, destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( startIndex >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( endIndex <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         data.copyInto(destination, destinationOffset, startIndex, endIndex)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun copyFrom(data2: BufferManagerPageWrapperDebug, source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         val data = data2.data
-if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!(  destinationOffset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!(  destinationOffset + endIndex - startIndex <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         source.copyInto(data, destinationOffset, startIndex, endIndex)
     }
 
@@ -59,151 +53,102 @@ if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityC
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun setPageID(data2: BufferManagerPageWrapperDebug, value: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!(  value == -1 || getPageID(data2) == -1 )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt1(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeInt1(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt2(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1  )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0  )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES  )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeInt2(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt3(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 3 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeInt3(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeInt4(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeInt4(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeIntX(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int, count: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeIntX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeLongX(data2: BufferManagerPageWrapperDebug, offset: Int, value: Long, count: Int) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeLongX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeLong8(data2: BufferManagerPageWrapperDebug, offset: Int, value: Long) {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 8 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeLong8(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun writeChar(data2: BufferManagerPageWrapperDebug, offset: Int, value: Char) {
         val data = data2.data
-           if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         ByteArrayHelper.writeChar(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readLong8(data2: BufferManagerPageWrapperDebug, offset: Int): Long {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 8 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readLong8(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt4(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 4 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readInt4(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt3(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 3 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readInt3(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt2(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readInt2(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readInt1(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset < BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readInt1(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readIntX(data2: BufferManagerPageWrapperDebug, offset: Int, count: Int): Int {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readIntX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readLongX(data2: BufferManagerPageWrapperDebug, offset: Int, count: Int): Long {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + count <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readLongX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun readChar(data2: BufferManagerPageWrapperDebug, offset: Int): Char {
         val data = data2.data
-            if(SanityCheck.enabled){if(!( getPageID(data2) != -1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( offset + 2 <= BUFFER_MANAGER_PAGE_SIZE_IN_BYTES )){throw Exception("SanityCheck failed")}}
         return ByteArrayHelper.readChar(data, offset)
     }
 }

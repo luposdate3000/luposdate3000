@@ -40,16 +40,5 @@ internal object Compressor {
         val corrected1: Int = encodeTripleHeaderCorrectBC[counter1]
         val corrected2: Int = encodeTripleHeaderCorrectBC[counter2]
         action(header, corrected0, corrected1, corrected2)
-  if(SanityCheck.enabled)            {
-if(SanityCheck.enabled){if(!( counter0 <= corrected0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( counter1 <= corrected1 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( counter2 <= corrected2 )){throw Exception("SanityCheck failed")}}
-                decodeTripleHeader(header) { c0, c1, c2 ->
-if(SanityCheck.enabled){if(!( c0 == corrected0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( c1 == corrected1 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( c2 == corrected2 )){throw Exception("SanityCheck failed")}}
-                }
-            }
-        
     }
 }

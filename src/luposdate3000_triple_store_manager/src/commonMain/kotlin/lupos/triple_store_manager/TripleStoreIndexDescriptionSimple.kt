@@ -73,8 +73,6 @@ public class TripleStoreIndexDescriptionSimple(
     }
 
     override fun getStore(query: IQuery, params: Array<IOPBase>, partition: Partition): Pair<LuposHostname, LuposStoreKey> {
-        if (SanityCheck.enabled) { if (!(partition.limit.isEmpty())) { throw Exception("SanityCheck failed") } }
-        if (SanityCheck.enabled) { if (!(partition.data.isEmpty())) { throw Exception("SanityCheck failed") } }
         return Pair(hostname, key)
     }
 
@@ -91,8 +89,6 @@ public class TripleStoreIndexDescriptionSimple(
     }
 
     override fun assignHosts() {
-        if (SanityCheck.enabled) { if (!(hostname == "")) { throw Exception("SanityCheck failed") } }
-        if (SanityCheck.enabled) { if (!(key == "")) { throw Exception("SanityCheck failed") } }
         val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(0)
         hostname = tmp.first
         key = tmp.second

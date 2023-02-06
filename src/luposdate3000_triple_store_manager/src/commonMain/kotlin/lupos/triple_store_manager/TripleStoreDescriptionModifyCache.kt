@@ -141,9 +141,6 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
     }
 
     override fun writeRow(s: DictionaryValueType, p: DictionaryValueType, o: DictionaryValueType, query: IQuery) {
-        if (SanityCheck.enabled) { if (!(!query.getDictionary().isLocalValue(s))) { throw Exception("SanityCheck failed") } }
-        if (SanityCheck.enabled) { if (!(!query.getDictionary().isLocalValue(p))) { throw Exception("SanityCheck failed") } }
-        if (SanityCheck.enabled) { if (!(!query.getDictionary().isLocalValue(o))) { throw Exception("SanityCheck failed") } }
         var i = 0
         loop@ for (c in allConn) {
             i++

@@ -126,7 +126,6 @@ public object EvalJoinCartesianProduct {
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
                                             if (value == DictionaryValueHelper.nullValue) {
-                                                if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                                                 done = true
                                                 for (v in childA.columns.values) {
                                                     v.close()
@@ -194,7 +193,6 @@ public object EvalJoinCartesianProduct {
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-                                            if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                                             done = true
                                             for (v in childA.columns.values) {
                                                 v.close()

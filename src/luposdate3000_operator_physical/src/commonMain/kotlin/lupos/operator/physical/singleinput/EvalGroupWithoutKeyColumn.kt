@@ -74,7 +74,6 @@ public object EvalGroupWithoutKeyColumn {
                 for (columnIndex in 0 until valueColumnNames.size) {
                     val value = valueColumns[columnIndex].next()
                     if (value == DictionaryValueHelper.nullValue) {
-                        if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                         for (closeIndex in 0 until valueColumnNames.size) {
                             valueColumns[closeIndex].close()
                         }

@@ -44,21 +44,18 @@ public class MyInputStreamFromByteArray public constructor(@JvmField public val 
     }
 
     override fun readDictionaryValueType(): DictionaryValueType {
-        if (SanityCheck.enabled) { if (!(offset + DictionaryValueHelper.getSize() <= ByteArrayWrapperExt.getSize(data))) { throw Exception("SanityCheck failed") } }
         val res = DictionaryValueHelper.fromByteArray(data, offset)
         offset += DictionaryValueHelper.getSize()
         return res
     }
 
     override fun readLong(): Long {
-        if (SanityCheck.enabled) { if (!(offset + 8 <= ByteArrayWrapperExt.getSize(data))) { throw Exception("SanityCheck failed") } }
         val res = ByteArrayWrapperExt.readLong8(data, offset)
         offset += 8
         return res
     }
 
     override fun readInt(): Int {
-        if (SanityCheck.enabled) { if (!(offset + 4 <= ByteArrayWrapperExt.getSize(data))) { throw Exception("SanityCheck failed") } }
         val res = ByteArrayWrapperExt.readInt4(data, offset)
         offset += 4
         return res

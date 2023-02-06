@@ -148,15 +148,6 @@ internal object NodeShared {
         val b0 = l[0] xor d[0]
         val b1 = l[1] xor d[1]
         val b2 = l[2] xor d[2]
-if(SanityCheck.enabled){if(!( d[0] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( d[1] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( d[2] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( l[0] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( l[1] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( l[2] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( b0 >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( b1 >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( b2 >= 0 )){throw Exception("SanityCheck failed")}}
         var counter0 = DictionaryValueHelper.numberOfBytesUsed(b0)
         var counter1 = DictionaryValueHelper.numberOfBytesUsed(b1)
         var counter2 = DictionaryValueHelper.numberOfBytesUsed(b2)
@@ -173,38 +164,6 @@ if(SanityCheck.enabled){if(!( b2 >= 0 )){throw Exception("SanityCheck failed")}}
         localOff += counter1
         DictionaryValueHelper.toByteArrayX(node, localOff, b2, counter2)
         localOff += counter2
-  if(SanityCheck.enabled)            {
-                var size = readTriple000(node, offset)
-if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
-                size = readTriple100(node, offset, l[0]) { n0 ->
-if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
-                }
-if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
-                size = readTriple010(node, offset, l[1]) { n1 ->
-if(SanityCheck.enabled){if(!( n1 == d[1] )){throw Exception("SanityCheck failed")}}
-                }
-if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
-                size = readTriple001(node, offset, l[2]) { n2 ->
-if(SanityCheck.enabled){if(!( n2 == d[2] )){throw Exception("SanityCheck failed")}}
-                }
-if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
-                size = readTriple110(node, offset, l[0], l[1]) { n0, n1 ->
-if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( n1 == d[1] )){throw Exception("SanityCheck failed")}}
-                }
-if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
-                size = readTriple101(node, offset, l[0], l[2]) { n0, n2 ->
-if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( n2 == d[2] )){throw Exception("SanityCheck failed")}}
-                }
-if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
-                size = readTriple111(node, offset, l[0], l[1], l[2]) { n0, n1, n2 ->
-if(SanityCheck.enabled){if(!( n0 == d[0] )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( n1 == d[1] )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( n2 == d[2] )){throw Exception("SanityCheck failed")}}
-                }
-if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
-            }
         l[0] = d[0]
         l[1] = d[1]
         l[2] = d[2]

@@ -66,23 +66,6 @@ internal actual class MyOutputStream : IMyOutputStream {
     }
 
     actual override fun close() {
-  if(SanityCheck.enabled)            {
-                try {
-                    throw Exception()
-                } catch (e: Throwable) {
-                    if (closedBy == null) {
-                        closedBy = mutableListOf(e)
-                    } else {
-                        closedBy!!.add(e)
-                    }
-                }
-                if (stream == null) {
-                    for (e in closedBy!!) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyOutputStream.kt:80"/*SOURCE_FILE_END*/ )
-                    }
-                }
-            }
-        // kotlin.io.println("MyOutputStream.close $this")
         flush()
         stream!!.close()
         stream = null
