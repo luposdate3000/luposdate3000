@@ -38,74 +38,50 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
         when (node) {
             is POPMergePartitionCount -> {
                 if (node.partitionCount != 1) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:41"/*SOURCE_FILE_END*/ },
-                        { !currentPartitions.contains(node.partitionVariable) }
-                    )
+                         if(SanityCheck.enabled){if(!(      !currentPartitions.contains(node.partitionVariable)  )){throw Exception(\"SanityCheck failed\")}}
+                    
                     currentPartitions[node.partitionVariable] = node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPMergePartition -> {
                 if (node.partitionCount != 1) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:51"/*SOURCE_FILE_END*/ },
-                        { !currentPartitions.contains(node.partitionVariable) },
-                        { "$root" }
-                    )
+                         if(SanityCheck.enabled){if(!(    !currentPartitions.contains(node.partitionVariable)    )){throw Exception(\"SanityCheck failed\")}}
                     currentPartitions[node.partitionVariable!!] = node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPMergePartitionOrderedByIntId -> {
                 if (node.partitionCount2 != 1) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:62"/*SOURCE_FILE_END*/ },
-                        { !currentPartitions.contains(node.partitionVariable) }
-                    )
+                        if(SanityCheck.enabled){if(!(    !currentPartitions.contains(node.partitionVariable) )){throw Exception(\"SanityCheck failed\")}}
+                    
                     currentPartitions[node.partitionVariable] = node.partitionCount2
                 }
                 ids.add(node.partitionID)
             }
             is POPSplitPartitionFromStore -> {
                 if (node.partitionCount != 1) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:72"/*SOURCE_FILE_END*/ },
-                        { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { "${node.uuid} ${root.toXMLElement(false, PartitionHelper()).toPrettyString()}" }
-                    )
+                         if(SanityCheck.enabled){if(!(    currentPartitions[node.partitionVariable] == node.partitionCount )){throw Exception(\"SanityCheck failed\")}}
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPSplitPartitionFromStoreCount -> {
                 if (node.partitionCount != 1) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:83"/*SOURCE_FILE_END*/ },
-                        { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { root.toXMLElement(false, PartitionHelper()).toPrettyString() }
-                    )
+                         if(SanityCheck.enabled){if(!(  currentPartitions[node.partitionVariable] == node.partitionCount )){throw Exception(\"SanityCheck failed\")}}
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPSplitPartition -> {
                 if (node.partitionCount != 1) {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:94"/*SOURCE_FILE_END*/ },
-                        { currentPartitions[node.partitionVariable] == node.partitionCount },
-                        { "$root" }
-                    )
+                        if(SanityCheck.enabled){if(!(   currentPartitions[node.partitionVariable] == node.partitionCount )){throw Exception(\"SanityCheck failed\")}}
                     currentPartitions.remove(node.partitionVariable)
                 }
                 ids.add(node.partitionID)
             }
             is POPChangePartitionOrderedByIntId -> {
-                SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:104"/*SOURCE_FILE_END*/ },
-                    { currentPartitions[node.partitionVariable] == node.partitionCountTo },
-                    { "$root" }
-                )
+                      if(SanityCheck.enabled){if(!(    currentPartitions[node.partitionVariable] == node.partitionCountTo )){throw Exception(\"SanityCheck failed\")}}
                 currentPartitions[node.partitionVariable] = node.partitionCountFrom
                 ids.add(node.partitionIDFrom)
                 ids.add(node.partitionIDTo)
@@ -152,24 +128,22 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                         nextStep(tmp)
                     }
                 }
-                SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:155"/*SOURCE_FILE_END*/ },
-                    {
+  if(SanityCheck.enabled)                    {
                         val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
                         verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf(), tmp)
                         for ((k, v1) in allPartitionOperators) {
                             val v2 = query.partitionOperators[k]
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:161"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-a-> ${query.partitionOperators}\n$tmp" })
+  if(SanityCheck.enabled){if(!(    v1 == v2    )){throw Exception(\"SanityCheck failed\")}}
                         }
                         for ((k, v1) in query.partitionOperators) {
                             val v2 = allPartitionOperators[k]
-                            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerCompoundBase.kt:165"/*SOURCE_FILE_END*/ }, { v1 == v2 }, { "$allPartitionOperators  <-b-> ${query.partitionOperators}\n$tmp" })
+  if(SanityCheck.enabled){if(!(   v1 == v2  )){throw Exception(\"SanityCheck failed\")}}
                         }
                         if (query.filtersMovedUpFromOptionals) {
                             tmp.syntaxVerifyAllVariableExists(listOf(), false)
                         }
                     }
-                )
+                
             }
         }
         query.setRoot(tmp)

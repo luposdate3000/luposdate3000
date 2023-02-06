@@ -28,20 +28,13 @@ public class PartitionHelper() {
 
     public fun tearDown() {
         // println("PartitionHelper.tearDown")
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:31"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 for (k in keys) {
                     for (i in 0 until k.debugMarker.size) {
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:36"/*SOURCE_FILE_END*/ },
-                            { k.debugMarker[i] == 3 },
-                            { "${k.uuid}, $i ${k.debugMarker.toList()}" }
-                        )
+                             if(SanityCheck.enabled){if(!(  k.debugMarker[i] == 3 )){throw Exception(\"SanityCheck failed\")}}
                     }
                 }
             }
-        )
     }
 
     internal fun checkDebugMarker(uuid: Long, partitionid: Int, arr: IntArray, off: Int, isSender: Boolean) {
@@ -81,28 +74,24 @@ public class PartitionHelper() {
         val res = getKeysForInternal(uuid, partitionid, query, count)
         val myList = IntArray(filterIndicees.size) { res.keys[filterIndicees[it]] }
         // println("PartitionHelper $partitionid ${filterIndicees.map{it}} -> ${myList.toList()} $isSender $partition")
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:84"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 for (i in filterIndicees) {
                     checkDebugMarker(uuid, partitionid, res.debugMarker, i, isSender)
                 }
             }
-        )
+        
         return myList
     }
 
     public fun getKeysFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean): IntArray {
         val res = getKeysForInternal(uuid, partitionid, query, count)
         // println("PartitionHelper $partitionid ${List(res.keys.size){it}} -> ${res.keys.toList()} $isSender $partition")
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:98"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 for (i in 0 until count) {
                     checkDebugMarker(uuid, partitionid, res.debugMarker, i, isSender)
                 }
             }
-        )
+        
         return res.keys
     }
 
@@ -146,24 +135,20 @@ public class PartitionHelper() {
         if (p == null) {
             if (res.size == 1) {
                 // println("PartitionHelper $partitionid 0 -> ${res[0]} $isSender $partition")
-                SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:149"/*SOURCE_FILE_END*/ },
-                    {
+  if(SanityCheck.enabled)                    {
                         checkDebugMarker(uuid, partitionid, r.debugMarker, 0, isSender)
                     }
-                )
+                
                 return res[0]
             } else {
                 TODO("error here")
             }
         } else {
             // println("PartitionHelper $partitionid $p -> ${res[p]} $isSender $partition")
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/PartitionHelper.kt:161"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
                     checkDebugMarker(uuid, partitionid, r.debugMarker, p, isSender)
                 }
-            )
+            
             return res[p]
         }
     }

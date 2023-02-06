@@ -214,11 +214,7 @@ if(SanityCheck.enabled){if(!( componentMilliseconds >= 0 )){throw Exception("San
 if(SanityCheck.enabled){if(!( componentMilliseconds < (1L shl 27) )){throw Exception("SanityCheck failed")}}
                     if (day < 32 && month < 16) {
                         val componentDay = day.toLong() shl 27
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:217"/*SOURCE_FILE_END*/ },
-                            { componentDay >= (1L shl 27) },
-                            { "${(1L shl 27).toString(16)} - ${componentDay.toString(16)} - ${(1L shl 32).toString(16)} ... $day ... $str" }
-                        )
+if(SanityCheck.enabled){if(!( componentDay >= (1L shl 27) )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( componentDay < (1L shl 32) )){throw Exception("SanityCheck failed")}}
                         val componentMonth = month.toLong() shl 32
 if(SanityCheck.enabled){if(!( componentMonth >= (1L shl 32) )){throw Exception("SanityCheck failed")}}

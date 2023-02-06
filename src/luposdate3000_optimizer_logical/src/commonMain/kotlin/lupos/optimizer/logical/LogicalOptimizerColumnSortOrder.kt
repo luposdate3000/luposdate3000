@@ -25,9 +25,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         val res: IOPBase = node
         var hadChange = false
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerColumnSortOrder.kt:28"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 if (parent != null) {
                     var found = false
                     for (c in parent.getChildren()) {
@@ -39,7 +37,7 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
 if(SanityCheck.enabled){if(!( found )){throw Exception("SanityCheck failed")}}
                 }
             }
-        )
+        
         val done = node.initializeSortPriorities {
             hadChange = true
             onChange()

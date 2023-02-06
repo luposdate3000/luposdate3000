@@ -27,16 +27,12 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public object DictionaryInlineValues {
 
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:30"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 val value = DictionaryHelper.byteArrayToType(buffer)
-                SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInlineValues.kt:34"/*SOURCE_FILE_END*/ },
-                    { ETripleComponentTypeExt.BLANK_NODE != value }
-                )
+                     if(SanityCheck.enabled){if(!(  ETripleComponentTypeExt.BLANK_NODE != value  )){throw Exception(\"SanityCheck failed\")}}
+                
             }
-        )
+        
         val s = ByteArrayWrapperExt.getSize(buffer)
         if (s >= DictionaryValueHelper.getSize()) {
             return DictionaryValueHelper.nullValue

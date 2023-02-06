@@ -31,15 +31,13 @@ public object EvalProjection {
         when {
             variables.isEmpty() -> {
                 val variables2 = childVariables
-                SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/EvalProjection.kt:34"/*SOURCE_FILE_END*/ },
-                    {
+  if(SanityCheck.enabled)                    {
 if(SanityCheck.enabled){if(!( variables2.isNotEmpty() )){throw Exception("SanityCheck failed")}}
                         for (variable in variables2) {
 if(SanityCheck.enabled){if(!( child.columns[variable] != null )){throw Exception("SanityCheck failed")}}
                         }
                     }
-                )
+                
                 val column = child.columns[variables2[0]]!!
                 return object : IteratorBundle(0) {
                     override /*suspend*/ fun hasNext2(): Boolean {

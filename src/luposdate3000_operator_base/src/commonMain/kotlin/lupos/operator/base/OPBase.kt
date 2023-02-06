@@ -146,15 +146,13 @@ public abstract class OPBase public constructor(
                 histogramResult = calculateHistogram()
             }
         }
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:149"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 val v1 = getProvidedVariableNames()
                 val v2 = histogramResult!!.values.keys
 if(SanityCheck.enabled){if(!( v1.containsAll(v2) )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( v2.containsAll(v1) )){throw Exception("SanityCheck failed")}}
             }
-        )
+        
         return histogramResult!!
     }
 
@@ -168,15 +166,13 @@ if(SanityCheck.enabled){if(!( v2.containsAll(v1) )){throw Exception("SanityCheck
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
         val node = query.initialize(this, true, false)
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:171"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 val usesDictionary = node.usesDictionary()
                 if (!usesDictionary) {
                     query.setDictionary(DictionaryCacheLayer(query.getInstance(), DictionaryNotImplemented(query.getInstance()), true))
                 }
             }
-        )
+        
         return node.evaluate(Partition())
     }
 
@@ -289,7 +285,7 @@ if(SanityCheck.enabled){if(!( idx == data.size )){throw Exception("SanityCheck f
                 }
             }
         }
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:291"/*SOURCE_FILE_END*/ }, { getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }) }, { "$this" })
+    if(SanityCheck.enabled){if(!(       getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName })       )){throw Exception(\"SanityCheck failed\")}}
         sortPriorities = tmp
     }
 

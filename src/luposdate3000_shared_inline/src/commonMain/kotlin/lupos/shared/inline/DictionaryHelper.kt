@@ -138,7 +138,7 @@ internal object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun headerEncode(buffer: ByteArrayWrapper, type: ETripleComponentType, flag: Int) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:140"/*SOURCE_FILE_END*/ }, { (type and ETripleComponentTypeExt.values_mask) == type }, { "DictionaryHelper.headerEncode type is bad ${type.toString(16)} ... ${ETripleComponentTypeExt.values_mask.toString(16)} " })
+if(SanityCheck.enabled){if(!( (type and ETripleComponentTypeExt.values_mask) == type )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( (flag and ETripleComponentTypeExt.values_mask_inversed) == flag )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( (type or flag) <= 0xff )){throw Exception("SanityCheck failed")}}
         ByteArrayWrapperExt.writeInt1(buffer, 0, type or flag)
@@ -209,7 +209,7 @@ if(SanityCheck.enabled){if(!( (type or flag) <= 0xff )){throw Exception("SanityC
             off += l1
             val l2 = ByteArrayWrapperExt.getSize(buffer) - l1 - headerSize() - 28
             off += l2
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:211"/*SOURCE_FILE_END*/ }, { off == ByteArrayWrapperExt.getSize(buffer) }, { "$off vs ${ByteArrayWrapperExt.getSize(buffer)}" })
+   if(SanityCheck.enabled){if(!(          off == ByteArrayWrapperExt.getSize(buffer)  )){throw Exception(\"SanityCheck failed\")}}
             val year = helper_intFromByteArray(buf1)
             return year
         }
@@ -404,7 +404,7 @@ if(SanityCheck.enabled){if(!( byteArrayToBoolean(buffer) == value )){throw Excep
     @Suppress("NOTHING_TO_INLINE")
     internal inline fun byteArrayToBoolean(buffer: ByteArrayWrapper): Boolean {
         val flag = headerDecodeFlag(buffer)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:406"/*SOURCE_FILE_END*/ }, { flag == 0x0 || flag == 0x80 }, { "0x${flag.toString(16)}" })
+if(SanityCheck.enabled){if(!( flag == 0x0 || flag == 0x80  )){throw Exception(\"SanityCheck failed\")}}
         return flag == 0x80
     }
 
@@ -514,8 +514,8 @@ if(SanityCheck.enabled){if(!( byteArrayToBoolean(buffer) == value )){throw Excep
         ByteArrayWrapperExt.writeInt4(buffer, headerSize() + buf1.size + buf2.size, buf1.size)
         buf1.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize())
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), headerSize() + buf1.size)
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:516"/*SOURCE_FILE_END*/ }, { content == byteArrayToLang_Content(buffer) }, { "$content vs ${byteArrayToLang_Content(buffer)}" })
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/DictionaryHelper.kt:517"/*SOURCE_FILE_END*/ }, { lang.lowercase() == byteArrayToLang_Lang(buffer) }, { "${lang.lowercase()} vs ${byteArrayToLang_Lang(buffer)}" })
+if(SanityCheck.enabled){if(!( content == byteArrayToLang_Content(buffer)  )){throw Exception(\"SanityCheck failed\")}}
+if(SanityCheck.enabled){if(!(  lang.lowercase() == byteArrayToLang_Lang(buffer)  )){throw Exception(\"SanityCheck failed\")}}
     }
 
     @Suppress("NOTHING_TO_INLINE")

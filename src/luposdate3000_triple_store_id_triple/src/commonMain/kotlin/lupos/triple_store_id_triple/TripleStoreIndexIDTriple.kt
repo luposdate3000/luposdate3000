@@ -646,9 +646,7 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
 
     override fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean) {
         if (isSorted) {
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:649"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
                     for (i in 1 until dataSize / 3) {
                         val oldA = data[(i - 1) * 3 + order[0]]
                         val newA = data[i * 3 + order[0]]
@@ -656,24 +654,11 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
                         val newB = data[i * 3 + order[1]]
                         val oldC = data[(i - 1) * 3 + order[2]]
                         val newC = data[i * 3 + order[2]]
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:659"/*SOURCE_FILE_END*/ },
-                            { newA >= oldA },
-                            { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${order.map { it }}" }
-                        )
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:664"/*SOURCE_FILE_END*/ },
-                            { newB >= oldB || newA > oldA },
-                            { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${order.map { it }}" }
-                        )
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:669"/*SOURCE_FILE_END*/ },
-                            { newC > oldC || newA > oldA || newB > oldB },
-                            { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${order.map { it }}" }
-                        )
+                             if(SanityCheck.enabled){if(!(       newA >= oldA       )){throw Exception(\"SanityCheck failed\")}}
+                             if(SanityCheck.enabled){if(!(       newB >= oldB || newA > oldA       )){throw Exception(\"SanityCheck failed\")}}
+                             if(SanityCheck.enabled){if(!(       newC > oldC || newA > oldA || newB > oldB       )){throw Exception(\"SanityCheck failed\")}}
                     }
                 }
-            )
             insertAsBulkSorted(data, order, dataSize)
         } else {
             val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
@@ -694,9 +679,7 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
 
     private fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize > 0) {
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:697"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
                     if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
@@ -704,7 +687,7 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
 if(SanityCheck.enabled){if(!( order[i] == debugSortOrder[i] )){throw Exception("SanityCheck failed")}}
                     }
                 }
-            )
+            
 // debug-->>
             if (false) {
                 val myListOfBefore = mutableSetOf<List<Long>>()
@@ -779,9 +762,7 @@ TODO("row from before missing afterwards")
 
     private fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize > 0) {
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:782"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
                     if (debugSortOrder.isEmpty()) {
                         debugSortOrder = order
                     }
@@ -789,7 +770,7 @@ TODO("row from before missing afterwards")
 if(SanityCheck.enabled){if(!( order[i] == debugSortOrder[i] )){throw Exception("SanityCheck failed")}}
                     }
                 }
-            )
+            
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)

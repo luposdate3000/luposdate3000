@@ -40,9 +40,7 @@ internal object Compressor {
         val corrected1: Int = encodeTripleHeaderCorrectBC[counter1]
         val corrected2: Int = encodeTripleHeaderCorrectBC[counter2]
         action(header, corrected0, corrected1, corrected2)
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Compressor.kt:43"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
 if(SanityCheck.enabled){if(!( counter0 <= corrected0 )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( counter1 <= corrected1 )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( counter2 <= corrected2 )){throw Exception("SanityCheck failed")}}
@@ -52,6 +50,6 @@ if(SanityCheck.enabled){if(!( c1 == corrected1 )){throw Exception("SanityCheck f
 if(SanityCheck.enabled){if(!( c2 == corrected2 )){throw Exception("SanityCheck failed")}}
                 }
             }
-        )
+        
     }
 }

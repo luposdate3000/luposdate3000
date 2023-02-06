@@ -131,10 +131,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     }
                 }
                 is LOPGraphOperation -> {
-                    SanityCheck.check(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_physical/src/commonMain/kotlin/lupos/optimizer/physical/PhysicalOptimizerNaive.kt:134"/*SOURCE_FILE_END*/ },
-                        { parent is OPBaseCompound }
-                    )
+                           if(SanityCheck.enabled){if(!(        parent is OPBaseCompound    )){throw Exception(\"SanityCheck failed\")}}
                     val manager = query.getInstance().tripleStoreManager!!
                     fun createCopy(sourceName: String, targetName: String): POPBase {
                         try {

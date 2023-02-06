@@ -1000,11 +1000,7 @@ if(SanityCheck.enabled){if(!( node["projectedVariables"] != null )){throw Except
     /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap[node.tag]
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/XMLElementToOPBase.kt:1003"/*SOURCE_FILE_END*/ },
-            { theOperator != null },
-            { node.tag }
-        )
+             if(SanityCheck.enabled){if(!(  theOperator != null )){throw Exception("SanityCheck failed")}}
         val res = theOperator!!(query, node, mapping, operatorMap as Map<String, Any>)
         if (res !is AOPBase) {
             val tmp = node.attributes["selectedSort"]

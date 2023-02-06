@@ -53,11 +53,7 @@ public object EvalDistributedReceiveMultiOrdered {
         for (kk in 0 until inputs.size) {
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:56"/*SOURCE_FILE_END*/ },
-                { cnt == variables.size },
-                { "$cnt vs ${variables.size}" }
-            )
+                   if(SanityCheck.enabled){if(!(             cnt == variables.size   )){throw Exception(\"SanityCheck failed\")}}
             for (i in 0 until variables.size) {
                 val len = openInputs[kk]!!.readInt()
                 val buf = ByteArray(len)
@@ -117,9 +113,7 @@ if(SanityCheck.enabled){if(!( j >= 0 && j < variables.size )){throw Exception("S
                     for (i in 0 until variables.size) {
                         buffer[openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
                     }
-                    SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMultiOrdered.kt:120"/*SOURCE_FILE_END*/ },
-                        {
+  if(SanityCheck.enabled)                        {
                             if (buffer[off] != DictionaryValueHelper.nullValue) {
                                 for (idx in 0 until orderedBy.size) {
                                     val a = buffer[idx + min * variables.size]
@@ -137,7 +131,7 @@ if(SanityCheck.enabled){if(!( j >= 0 && j < variables.size )){throw Exception("S
                                 }
                             }
                         }
-                    )
+                    
                     if (buffer[off] == DictionaryValueHelper.nullValue) {
                         openInputs[min]!!.close()
                         openOutputs[min]?.close()

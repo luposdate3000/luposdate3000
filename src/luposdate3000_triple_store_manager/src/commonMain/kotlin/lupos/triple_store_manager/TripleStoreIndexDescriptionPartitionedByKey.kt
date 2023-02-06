@@ -117,11 +117,7 @@ if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[
                 counter++
             }
         }
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByKey.kt:120"/*SOURCE_FILE_END*/ },
-            { counter == key_size || (counter == 0 && partition.data.size > 0) },
-            { "$counter $key_size ${triple.map { it }} ${params.map { it }} ${partition.data}" }
-        )
+             if(SanityCheck.enabled){if(!(  counter == key_size || (counter == 0 && partition.data.size > 0)  )){throw Exception(\"SanityCheck failed\")}}
         val partitionToUse = if (counter == 0) {
             partition.data[fixedPartitionName]!!
         } else {

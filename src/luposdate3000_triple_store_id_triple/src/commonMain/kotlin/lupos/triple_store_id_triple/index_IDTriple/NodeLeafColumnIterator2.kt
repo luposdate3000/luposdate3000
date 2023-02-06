@@ -37,8 +37,6 @@ internal class NodeLeafColumnIterator2(node: BufferManagerPageWrapper, nodeid: I
     @JvmField
     var debugvalue2: DictionaryValueType = 0
 
-    @JvmField
-    var debugEnable = true
     override /*suspend*/ fun next(): DictionaryValueType {
         if (label == 3) {
             label = 1
@@ -48,51 +46,15 @@ internal class NodeLeafColumnIterator2(node: BufferManagerPageWrapper, nodeid: I
             if (needsReset) {
                 needsReset = false
                 value = 0
-                SanityCheck(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:51"/*SOURCE_FILE_END*/ },
-                    {
+  if(SanityCheck.enabled)                    {
                         debugvalue0 = 0
                         debugvalue1 = 0
                         debugvalue2 = 0
                     }
-                )
             }
             val len = NodeShared.readTriple001(node, offset, value) { v ->
                 value = v
             }
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:63"/*SOURCE_FILE_END*/ },
-                {
-                    if (debugEnable) {
-                        // otherwise add this code to SIP too .... this is intended to verify the graph comparison only anyway, because otherwise there is nearly never a triple pattern without constants
-                        val len1 = NodeShared.readTriple111(node, offset, debugvalue0, debugvalue1, debugvalue2) { v0, v1, v2 ->
-                            SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:69"/*SOURCE_FILE_END*/ },
-                                { debugvalue0 <= v0 }
-                            )
-                            SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:73"/*SOURCE_FILE_END*/ },
-                                { debugvalue1 <= v1 || debugvalue0 != v0 }
-                            )
-                            SanityCheck.check(
-                                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:77"/*SOURCE_FILE_END*/ },
-                                { debugvalue2 < v2 || debugvalue0 != v0 || debugvalue1 != v1 }
-                            )
-                            debugvalue0 = v0
-                            debugvalue1 = v1
-                            debugvalue2 = v2
-                        }
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:85"/*SOURCE_FILE_END*/ },
-                            { debugvalue2 == value }
-                        )
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator2.kt:89"/*SOURCE_FILE_END*/ },
-                            { len == len1 }
-                        )
-                    }
-                }
-            )
             offset += len
             updateRemaining()
             value
@@ -102,7 +64,6 @@ internal class NodeLeafColumnIterator2(node: BufferManagerPageWrapper, nodeid: I
     }
 
     override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
-        debugEnable = false
         if (label == 3) {
             label = 1
             __init()
@@ -193,7 +154,6 @@ if(SanityCheck.enabled){if(!( remainingTmp > 0 )){throw Exception("SanityCheck f
     }
 
     override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
-        debugEnable = false
         if (label == 3) {
             label = 1
             __init()

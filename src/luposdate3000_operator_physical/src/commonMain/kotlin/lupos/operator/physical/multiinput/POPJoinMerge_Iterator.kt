@@ -191,14 +191,8 @@ if(SanityCheck.enabled){if(!( key0[localNextJ] != DictionaryValueHelper.nullValu
                                             key1[localNextJ] = columnsINJ1[localNextJ].next()
                                         }
                                     }
-                                    SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:194"/*SOURCE_FILE_END*/ },
-                                        { key1[localNextJ] != DictionaryValueHelper.undefValue }
-                                    )
-                                    SanityCheck.check(
-                                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/POPJoinMerge_Iterator.kt:198"/*SOURCE_FILE_END*/ },
-                                        { key1[localNextJ] != DictionaryValueHelper.nullValue }
-                                    )
+                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.undefValue   )){throw Exception(\"SanityCheck failed\")}}
+                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.nullValue   )){throw Exception(\"SanityCheck failed\")}}
                                     localNextJ++
                                 }
                             }

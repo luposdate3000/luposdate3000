@@ -20,3 +20,24 @@ for filename in sys.argv[1:]:
  with open (filename,"w") as f:
   for row in rows:
    f.write(row)
+
+
+
+
+
+
+#      if(SanityCheck.enabled){if(!(                           )){throw Exception(\"SanityCheck failed\")}}
+
+
+
+
+#      if(SanityCheck.enabled){            }
+
+
+
+
+
+
+
+
+

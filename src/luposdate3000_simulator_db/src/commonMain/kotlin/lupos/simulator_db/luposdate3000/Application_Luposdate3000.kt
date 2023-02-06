@@ -355,10 +355,7 @@ public class Application_Luposdate3000 public constructor(
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:358"/*SOURCE_FILE_END*/ },
-                { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
-            )
+                 if(SanityCheck.enabled){if(!(  myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null )){throw Exception(\"SanityCheck failed\")}}
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
             true
         }

@@ -622,7 +622,7 @@ if(SanityCheck.enabled){if(!( lopNode2 == lopNode2.cloneOP() )){throw Exception(
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
 if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("SanityCheck failed")}}
-            SanityCheck({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:625"/*SOURCE_FILE_END*/ }, { popNode.toSparqlQuery() })
+  if(SanityCheck.enabled){ popNode.toSparqlQuery() }
             SanityCheck.suspended {
                 val x = popNode.toString()
                 SanityCheck.println{ x }

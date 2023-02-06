@@ -46,90 +46,57 @@ public class DictionaryCacheLayer(
     private val lock = MyReadWriteLock()
 
     override fun close() {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:49"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
+             if(SanityCheck.enabled){if(!(  isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}
         dictionary.close()
     }
 
     override fun createNewBNode(): DictionaryValueType {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:57"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
+              if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}
         return dictionary.createNewBNode()
     }
 
     override fun createNewBNode(s: String): DictionaryValueType {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:65"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
-        return dictionary.createNewBNode(s)
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}        
+return dictionary.createNewBNode(s)
     }
 
     override fun createNewUUID(): Int {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:73"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
-        return dictionary.createNewUUID()
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}        
+return dictionary.createNewUUID()
     }
 
     override fun delete() {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:81"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
-        dictionary.delete()
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}        
+dictionary.delete()
     }
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:89"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
-        dictionary.forEachValue(buffer, action)
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}        
+dictionary.forEachValue(buffer, action)
     }
 
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:97"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
-        return dictionary.importFromDictionaryFile(filename)
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}        
+return dictionary.importFromDictionaryFile(filename)
     }
 
     override fun isBnode(value: DictionaryValueType): Boolean {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:105"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
-        return dictionary.isBnode(value)
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}        
+return dictionary.isBnode(value)
     }
 
     override fun isInmemoryOnly(): Boolean {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:113"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
-        return dictionary.isInmemoryOnly()
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}        
+return dictionary.isInmemoryOnly()
     }
 
     override fun isLocalValue(value: DictionaryValueType): Boolean {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:121"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}
         return dictionary.isLocalValue(value)
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:129"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}
         return dictionary.valueToGlobal(value)
     }
 
@@ -142,10 +109,7 @@ public class DictionaryCacheLayer(
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:145"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {
@@ -205,10 +169,7 @@ public class DictionaryCacheLayer(
     }
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:208"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}
         when (value) {
             DictionaryValueHelper.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
             DictionaryValueHelper.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
@@ -230,10 +191,7 @@ public class DictionaryCacheLayer(
                             instance.nodeGlobalDictionary!!.getValue(buffer, value)
                         }
                     } else {
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:233"/*SOURCE_FILE_END*/ },
-                            { value >= 0 }
-                        )
+                             if(SanityCheck.enabled){if(!(  value >= 0 )){throw Exception(\"SanityCheck failed\")}}    
                         DictionaryHelper.bnodeToByteArray(buffer, value and DictionaryValueHelper.maskValue)
                     }
                 }
@@ -242,10 +200,7 @@ public class DictionaryCacheLayer(
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryCacheLayer.kt:245"/*SOURCE_FILE_END*/ },
-            { isLocal != (instance.nodeGlobalDictionary == this) }
-        )
+ if(SanityCheck.enabled){if(!(   isLocal != (instance.nodeGlobalDictionary == this)  )){throw Exception(\"SanityCheck failed\")}}
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {

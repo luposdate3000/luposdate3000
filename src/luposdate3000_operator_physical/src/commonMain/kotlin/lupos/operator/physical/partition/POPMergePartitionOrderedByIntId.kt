@@ -237,22 +237,13 @@ if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exc
                 }
             }
             val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:240"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
                     for (x in sortColumns.indices) {
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:244"/*SOURCE_FILE_END*/ },
-                            { sortColumns[x] >= 0 },
-                            { "${variables.map { it }} .. ${mySortPriority.map { it.variableName }}" }
-                        )
-                        SanityCheck.check(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartitionOrderedByIntId.kt:249"/*SOURCE_FILE_END*/ },
-                            { mySortPriority[x].sortType == ESortTypeExt.FAST }
-                        )
+                               if(SanityCheck.enabled){if(!(              sortColumns[x] >= 0    )){throw Exception(\"SanityCheck failed\")}}
+                               if(SanityCheck.enabled){if(!(              mySortPriority[x].sortType == ESortTypeExt.FAST    )){throw Exception(\"SanityCheck failed\")}}
                     }
                 }
-            )
+            
             val iterator = RowIterator()
             iterator.columns = variables.toTypedArray()
             iterator.buf = DictionaryValueTypeArray(variables.size)

@@ -70,11 +70,7 @@ public class QueryResultToEmptyStream : IResultFormat {
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
-                SanityCheck.check(
-                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_result_format/src/commonMain/kotlin/lupos/result_format/QueryResultToEmptyStream.kt:73"/*SOURCE_FILE_END*/ },
-                    { child.names.toSet().containsAll(columnNames) },
-                    { "$columnNames vs ${child.names}" }
-                )
+                       if(SanityCheck.enabled){if(!(          child.names.toSet().containsAll(columnNames)   )){throw Exception(\"SanityCheck failed\")}}
             } else {
                 columnNames = child.names.toList()
             }

@@ -202,7 +202,7 @@ if(SanityCheck.enabled){if(!( metadata_[name] == null )){throw Exception("Sanity
 
     @Suppress("NOTHING_TO_INLINE")
     private fun metadataRemove(name: LuposGraphName) {
-        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:204"/*SOURCE_FILE_END*/ }, { metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
+   if(SanityCheck.enabled){if(!(    metadata_[name] != null || name == DEFAULT_GRAPH_NAME  )){throw Exception(\"SanityCheck failed\")}}
         metadata_.remove(name)
     }
 

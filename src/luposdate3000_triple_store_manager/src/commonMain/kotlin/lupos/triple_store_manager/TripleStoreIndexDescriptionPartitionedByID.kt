@@ -88,34 +88,18 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         var data = -1
         var flag = false
         for (v in partition.data.values) {
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:91"/*SOURCE_FILE_END*/ },
-                { flag == false }
-            )
+                if(SanityCheck.enabled){if(!( flag == false )){throw Exception(\"SanityCheck failed\")}}
             data = v
             flag = true
         }
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:98"/*SOURCE_FILE_END*/ },
-            { flag == true },
-            { "${partition.data} ${partition.limit}" }
-        )
+            if(SanityCheck.enabled){if(!( flag == true )){throw Exception(\"SanityCheck failed\")}}
         return Pair(hostnames[data], keys[data])
     }
 
     init {
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:107"/*SOURCE_FILE_END*/ },
-            { partitionCount > 1 },
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:111"/*SOURCE_FILE_END*/ },
-            { partitionColumn >= 0 },
-        )
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreIndexDescriptionPartitionedByID.kt:115"/*SOURCE_FILE_END*/ },
-            { partitionColumn < 3 },
-        )
+if(SanityCheck.enabled){if(!(             partitionCount > 1 )){throw Exception(\"SanityCheck failed\")}}
+            if(SanityCheck.enabled){if(!( partitionColumn >= 0 )){throw Exception(\"SanityCheck failed\")}}
+            if(SanityCheck.enabled){if(!( partitionColumn < 3 )){throw Exception(\"SanityCheck failed\")}}
         idx_set = when (idx) {
             EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O -> intArrayOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O)
             EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P -> intArrayOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P)

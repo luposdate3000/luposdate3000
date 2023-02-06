@@ -97,24 +97,20 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     actual override fun flushPage(call_location: String, pageid: Int) {
 if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         lock.withWriteLock {
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:101"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
 if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
                     for (i in 0 until freeArrayLength) {
 if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
                     }
                 }
-            )
+            
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
 if(SanityCheck.enabled){if(!( openPagesRefcounters[openId] >= 1 )){throw Exception("SanityCheck failed")}}
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.write(BufferManagerPage.getBuf(openPages[openId]), 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                    SanityCheck(
-                        { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:116"/*SOURCE_FILE_END*/ },
-                        {
+  if(SanityCheck.enabled)                        {
                             val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                             datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                             datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
@@ -122,7 +118,7 @@ if(SanityCheck.enabled){if(!( openPagesRefcounters[openId] >= 1 )){throw Excepti
 if(SanityCheck.enabled){if(!( cmp[i] == BufferManagerPage.getBuf(openPages[openId])[i] )){throw Exception("SanityCheck failed")}}
                             }
                         }
-                    )
+                    
                 },
                 onNotFound = {
                     SanityCheck.checkUnreachable()
@@ -134,15 +130,13 @@ if(SanityCheck.enabled){if(!( cmp[i] == BufferManagerPage.getBuf(openPages[openI
     actual override fun releasePage(call_location: String, pageid: Int) {
 if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         lock.withWriteLock {
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:139"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
 if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
                     for (i in 0 until freeArrayLength) {
 if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
                     }
                 }
-            )
+            
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
@@ -150,9 +144,7 @@ if(SanityCheck.enabled){if(!( openPagesRefcounters[openId] >= 1 )){throw Excepti
                     if (openPagesRefcounters[openId] == 1) {
                         datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                         datafile.write(BufferManagerPage.getBuf(openPages[openId]), 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                        SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:155"/*SOURCE_FILE_END*/ },
-                            {
+  if(SanityCheck.enabled)                            {
                                 val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                                 datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                                 datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
@@ -160,8 +152,8 @@ if(SanityCheck.enabled){if(!( openPagesRefcounters[openId] >= 1 )){throw Excepti
 if(SanityCheck.enabled){if(!( cmp[i] == BufferManagerPage.getBuf(openPages[openId])[i] )){throw Exception("SanityCheck failed")}}
                                 }
                             }
-                        )
-                        SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:165"/*SOURCE_FILE_END*/ }, { BufferManagerPage.getPageID(openPages[openId]) == pageid }, { "${BufferManagerPage.getPageID(openPages[openId])} $pageid" })
+                        
+if(SanityCheck.enabled){if(!(  BufferManagerPage.getPageID(openPages[openId]) == pageid  )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( openPagesLastUseCounter >= 0 )){throw Exception("SanityCheck failed")}}
                         openPagesLastUseCounters[openId] = openPagesLastUseCounter++
                         if (openPagesLastUseCounter >= Int.MAX_VALUE - 10) {
@@ -181,16 +173,14 @@ if(SanityCheck.enabled){if(!( openPagesLastUseCounter >= 0 )){throw Exception("S
 if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         var openId2 = -1
         lock.withWriteLock {
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:187"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
 if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( pageid >= 0 )){throw Exception("SanityCheck failed")}}
                     for (i in 0 until freeArrayLength) {
 if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
                     }
                 }
-            )
+            
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
@@ -250,30 +240,26 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
                     datafilelength = minlen
                 }
             }
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:256"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
 if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
                     for (i in 0 until freeArrayLength) {
 if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
                     }
                 }
-            )
+            
         }
         return pageid
     }
 
     actual /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:272"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
 if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
                 for (i in 0 until freeArrayLength) {
 if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
                 }
             }
-        )
+        
         findOpenID(
             pageid = pageid,
             onFound = { openId ->
@@ -304,14 +290,12 @@ if(SanityCheck.enabled){if(!( BufferManagerPage.getPageID(openPages[openId]) == 
     actual override fun close() {
 if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         closed = true
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/BufferManager.kt:312"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 for (i in 0 until cacheSize) {
 if(SanityCheck.enabled){if(!( openPagesRefcounters[i] == 0 )){throw Exception("SanityCheck failed")}}
                 }
             }
-        )
+        
         datafile.close()
         freelistfile.close()
     }

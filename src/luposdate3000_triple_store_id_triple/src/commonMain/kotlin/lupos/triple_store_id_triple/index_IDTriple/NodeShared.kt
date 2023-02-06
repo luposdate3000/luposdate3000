@@ -173,9 +173,7 @@ if(SanityCheck.enabled){if(!( b2 >= 0 )){throw Exception("SanityCheck failed")}}
         localOff += counter1
         DictionaryValueHelper.toByteArrayX(node, localOff, b2, counter2)
         localOff += counter2
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeShared.kt:176"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 var size = readTriple000(node, offset)
 if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
                 size = readTriple100(node, offset, l[0]) { n0 ->
@@ -207,7 +205,6 @@ if(SanityCheck.enabled){if(!( n2 == d[2] )){throw Exception("SanityCheck failed"
                 }
 if(SanityCheck.enabled){if(!( size == localOff - offset )){throw Exception("SanityCheck failed")}}
             }
-        )
         l[0] = d[0]
         l[1] = d[1]
         l[2] = d[2]

@@ -24,9 +24,7 @@ import kotlin.jvm.JvmField
 public abstract class OptimizerBase public constructor(@JvmField public val query: Query, @JvmField public val optimizerID: EOptimizerID, @JvmField public val classname: String) {
     public abstract /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
     public /*suspend*/ fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/OptimizerBase.kt:27"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 if (parent != null) {
                     var found = false
                     for (c in parent.getChildren()) {
@@ -38,7 +36,7 @@ public abstract class OptimizerBase public constructor(@JvmField public val quer
 if(SanityCheck.enabled){if(!( found )){throw Exception("SanityCheck failed")}}
                 }
             }
-        )
+        
         for (i in node.getChildren().indices) {
             val tmp = optimizeInternal(node.getChildren()[i], node, onChange)
             node.updateChildren(i, tmp)

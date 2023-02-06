@@ -88,34 +88,27 @@ internal object NodeLeaf {
     internal fun initializeWith(node: BufferManagerPageWrapper, iterator: TripleIterator) {
 if(SanityCheck.enabled){if(!( iterator.hasNext() )){throw Exception("SanityCheck failed")}}
         var writtenTriples: MutableList<DictionaryValueType>? = null
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:91"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 writtenTriples = mutableListOf()
             }
-        )
         val tripleLast = DictionaryValueTypeArray(3)
         var offset = START_OFFSET
         val offsetEnd = BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - NodeShared.MAX_TRIPLE_SIZE
         var triples = 0
         while (iterator.hasNext() && offset <= offsetEnd) {
             val tripleCurrent = iterator.next()
-            SanityCheck(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:103"/*SOURCE_FILE_END*/ },
-                {
+  if(SanityCheck.enabled)                {
                     writtenTriples!!.add(tripleCurrent[0])
                     writtenTriples!!.add(tripleCurrent[1])
                     writtenTriples!!.add(tripleCurrent[2])
                 }
-            )
+            
             offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)
             triples++
         }
         NodeShared.setTripleCount(node, triples)
         NodeShared.setNextNode(node, NodeManager.nodeNullPointer)
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeaf.kt:116"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 var remaining = NodeShared.getTripleCount(node)
                 var offset2 = START_OFFSET
                 var i = 0
@@ -135,6 +128,6 @@ if(SanityCheck.enabled){if(!( value2 == writtenTriples!![i * 3 + 2] )){throw Exc
                     i++
                 }
             }
-        )
+        
     }
 }

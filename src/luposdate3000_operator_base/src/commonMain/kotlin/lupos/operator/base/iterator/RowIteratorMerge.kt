@@ -185,15 +185,13 @@ if(SanityCheck.enabled){if(!( resultList.size > 0 )){throw Exception("SanityChec
     public var bIdx: Int = -1
 
     init {
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/iterator/RowIteratorMerge.kt:188"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
 if(SanityCheck.enabled){if(!( a.columns.size == b.columns.size )){throw Exception("SanityCheck failed")}}
                 for (i in a.columns.indices) {
 if(SanityCheck.enabled){if(!( a.columns[i] == b.columns[i] )){throw Exception("SanityCheck failed")}}
                 }
             }
-        )
+        
         columns = a.columns
         close = {
             a.close()

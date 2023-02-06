@@ -58,7 +58,7 @@ public object EvalDistributedReceiveMulti {
             if (k == 0) {
                 buffer = DictionaryValueTypeArray(inputs.size * variables.size)
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedReceiveMulti.kt:60"/*SOURCE_FILE_END*/ }, { cnt == variables.size }, { "$cnt vs ${variables.size} ${variables.map { it }}" })
+if(SanityCheck.enabled){if(!( cnt == variables.size   )){throw Exception(\"SanityCheck failed\")}}
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()

@@ -278,30 +278,16 @@ if(SanityCheck.enabled){if(!( instance.LUPOS_PROCESS_ID == 0 )){throw Exception(
                     var oldOriginalC = 0
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
-                        SanityCheck(
-                            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:281"/*SOURCE_FILE_END*/ },
-                            {
+  if(SanityCheck.enabled)                            {
                                 val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
                                 val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
                                 val newOriginalC = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][2]])
                                 val newA = mapping[newOriginalA]
                                 val newB = mapping[newOriginalB]
                                 val newC = mapping[newOriginalC]
-                                SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:290"/*SOURCE_FILE_END*/ },
-                                    { newA >= oldA },
-                                    { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
-                                )
-                                SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:295"/*SOURCE_FILE_END*/ },
-                                    { newB >= oldB || newA > oldA },
-                                    { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
-                                )
-                                SanityCheck.check(
-                                    { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:300"/*SOURCE_FILE_END*/ },
-                                    { newC > oldC || newA > oldA || newB > oldB },
-                                    { "$oldA $oldB $oldC $newA $newB $newC .. ${newA >= oldA} ${newB >= oldB} ${newC > oldC} ${EIndexPatternHelper.tripleIndicees[sortedBy].map { it }} $oldOriginalA $oldOriginalB $oldOriginalC .. $newOriginalA $newOriginalB $newOriginalC ${EIndexPatternExt.names[sortedBy]} $orderName $fileName" }
-                                )
+                                     if(SanityCheck.enabled){if(!(   newA >= oldA )){throw Exception(\"SanityCheck failed\")}}
+                                     if(SanityCheck.enabled){if(!( newB >= oldB || newA > oldA )){throw Exception(\"SanityCheck failed\")}}
+                                     if(SanityCheck.enabled){if(!( newC > oldC || newA > oldA || newB > oldB )){throw Exception(\"SanityCheck failed\")}}
                                 oldA = newA
                                 oldB = newB
                                 oldC = newC
@@ -309,7 +295,6 @@ if(SanityCheck.enabled){if(!( instance.LUPOS_PROCESS_ID == 0 )){throw Exception(
                                 oldOriginalB = newOriginalB
                                 oldOriginalC = newOriginalC
                             }
-                        )
                         counter++
                         if (counter % 10000 == 0L) {
                             println("imported $counter triples for index $orderName")

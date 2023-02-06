@@ -272,15 +272,13 @@ if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exc
             }
         }
         val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
-        SanityCheck(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPChangePartitionOrderedByIntId.kt:275"/*SOURCE_FILE_END*/ },
-            {
+  if(SanityCheck.enabled)            {
                 for (x in sortColumns.indices) {
 if(SanityCheck.enabled){if(!( sortColumns[x] >= 0 )){throw Exception("SanityCheck failed")}}
 if(SanityCheck.enabled){if(!( mySortPriority[x].sortType == ESortTypeExt.FAST )){throw Exception("SanityCheck failed")}}
                 }
             }
-        )
+        
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)

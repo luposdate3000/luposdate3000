@@ -35,13 +35,7 @@ public object EvalTripleStoreIterator {
         children: Array<Pair<Boolean, Pair<DictionaryValueType, String>>>,
     ): IteratorBundle {
 // println("EvalTripleStoreIterator ${EIndexPatternExt.names[index]} host=${target.first} key=${target.second}")
-        SanityCheck.check(
-            { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/EvalTripleStoreIterator.kt:38"/*SOURCE_FILE_END*/ },
-            { target.first == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID] },
-            {
-                "should run on ${target.first} but accidently executes on ${query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID]}"
-            }
-        )
+              if(SanityCheck.enabled){if(!(  target.first == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID] )){throw Exception(\"SanityCheck failed\")}}
         val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
         val store = manager.localStoresGet()[target.second]!!
         val filter2 = mutableListOf<DictionaryValueType>()

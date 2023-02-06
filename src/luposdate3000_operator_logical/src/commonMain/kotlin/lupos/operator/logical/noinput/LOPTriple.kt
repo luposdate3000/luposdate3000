@@ -120,7 +120,7 @@ if(SanityCheck.enabled){if(!( s != "_" )){throw Exception("SanityCheck failed")}
             if (!resString.contains("O")) {
                 resString += "O"
             }
-            SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_logical/src/commonMain/kotlin/lupos/operator/logical/noinput/LOPTriple.kt:122"/*SOURCE_FILE_END*/ }, { resString.length == 3 || (resString.length == 4 && resString.contains("_")) }, { "$resString ${children.map { it.toSparql() }} $sortPriority" })
+ if(SanityCheck.enabled){if(!(  resString.length == 3 || (resString.length == 4 && resString.contains("_")) )){throw Exception(\"SanityCheck failed\")}}
             return EIndexPatternExt.names.indexOf(resString)
         }
     }

@@ -149,40 +149,20 @@ public class DictionaryInMemory internal constructor(
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         lock.withReadLock {
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:152"/*SOURCE_FILE_END*/ },
-                { (value and DictionaryValueHelper.maskValue) >= 0 },
-                { " $value >= 0" }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:157"/*SOURCE_FILE_END*/ },
-                { dataV2I.size > DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue) },
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:161"/*SOURCE_FILE_END*/ },
-                { (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode }
-            )
+                  if(SanityCheck.enabled){if(!(  (value and DictionaryValueHelper.maskValue) >= 0  )){throw Exception(\"SanityCheck failed\")}}
+                  if(SanityCheck.enabled){if(!(  dataV2I.size > DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)  )){throw Exception(\"SanityCheck failed\")}}
+                  if(SanityCheck.enabled){if(!(  (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode  )){throw Exception(\"SanityCheck failed\")}}
             val buf = dataI2V[DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue)]
             ByteArrayWrapperExt.copyInto(buf, buffer, false)
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:167"/*SOURCE_FILE_END*/ },
-                { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() },
-                { "$value" }
-            )
+                  if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception(\"SanityCheck failed\")}}
         }
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withWriteLock {
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:178"/*SOURCE_FILE_END*/ },
-                { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:182"/*SOURCE_FILE_END*/ },
-                { DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE) }
-            )
+                   if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception(\"SanityCheck failed\")}}
+                   if(SanityCheck.enabled){if(!(  DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE)  )){throw Exception(\"SanityCheck failed\")}}
             var res = dataV2I[buffer]
             if (res == null) {
                 res = DictionaryValueHelper.fromInt(dataV2I.size)
@@ -207,27 +187,12 @@ public class DictionaryInMemory internal constructor(
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:210"/*SOURCE_FILE_END*/ },
-                { ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() }
-            )
+                 if(SanityCheck.enabled){if(!( ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception(\"SanityCheck failed\")}}
             val type = DictionaryHelper.byteArrayToType(buffer)
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:215"/*SOURCE_FILE_END*/ },
-                { type != ETripleComponentTypeExt.BLANK_NODE }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:219"/*SOURCE_FILE_END*/ },
-                { type != ETripleComponentTypeExt.BOOLEAN }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:223"/*SOURCE_FILE_END*/ },
-                { type != ETripleComponentTypeExt.ERROR }
-            )
-            SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryInMemory.kt:227"/*SOURCE_FILE_END*/ },
-                { type != ETripleComponentTypeExt.UNDEF }
-            )
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.BLANK_NODE  )){throw Exception(\"SanityCheck failed\")}}
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.BOOLEAN  )){throw Exception(\"SanityCheck failed\")}}
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.ERROR  )){throw Exception(\"SanityCheck failed\")}}
+                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.UNDEF  )){throw Exception(\"SanityCheck failed\")}}
             var res = dataV2I[buffer]
             if (res != null) {
                 if (isLocal) {
