@@ -31,21 +31,21 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
 
     @Suppress("NOTHING_TO_INLINE")
     internal fun releaseNode(call_location: String, nodeid: Int) {
-        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:34"/*SOURCE_FILE_END*/, nodeid)
+        bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:33"/*SOURCE_FILE_END*/, nodeid)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     internal fun flushNode(call_location: String, nodeid: Int) {
-        bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:40"/*SOURCE_FILE_END*/, nodeid)
+        bufferManager.flushPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:38"/*SOURCE_FILE_END*/, nodeid)
     }
 
     internal fun getNodeLeaf(call_location: String, nodeid: Int,  actionLeaf: (BufferManagerPageWrapper) -> Unit) {
-        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:45"/*SOURCE_FILE_END*/, nodeid)
+        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:42"/*SOURCE_FILE_END*/, nodeid)
         actionLeaf(node)
     }
 
     internal fun getNodeAny(call_location: String, nodeid: Int,  actionLeaf: (BufferManagerPageWrapper) -> Unit,  actionInner: (BufferManagerPageWrapper) -> Unit) {
-        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:51"/*SOURCE_FILE_END*/, nodeid)
+        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:47"/*SOURCE_FILE_END*/, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -60,7 +60,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
     }
 
      internal fun getNodeAnySuspended(call_location: String, nodeid: Int,  actionLeaf:  (BufferManagerPageWrapper) -> Unit,  actionInner:  (BufferManagerPageWrapper) -> Unit) {
-        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:67"/*SOURCE_FILE_END*/, nodeid)
+        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:62"/*SOURCE_FILE_END*/, nodeid)
         when (NodeShared.getNodeType(node)) {
             nodeTypeInner -> {
                 actionInner(node)
@@ -75,8 +75,8 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
     }
 
     internal fun allocateNodeLeaf(call_location: String,  action:  (BufferManagerPageWrapper, Int) -> Unit) {
-        val nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:82"/*SOURCE_FILE_END*/)
-        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:83"/*SOURCE_FILE_END*/, nodeid)
+        val nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:77"/*SOURCE_FILE_END*/)
+        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:78"/*SOURCE_FILE_END*/, nodeid)
         NodeShared.setNodeType(node, nodeTypeLeaf)
         NodeShared.setNextNode(node, nodeNullPointer)
         NodeShared.setTripleCount(node, 0)
@@ -84,8 +84,8 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
     }
 
     internal fun allocateNodeInner(call_location: String,  action:  (BufferManagerPageWrapper, Int) -> Unit) {
-        val nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:92"/*SOURCE_FILE_END*/)
-        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:93"/*SOURCE_FILE_END*/, nodeid)
+        val nodeid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:86"/*SOURCE_FILE_END*/)
+        val node = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:87"/*SOURCE_FILE_END*/, nodeid)
         NodeShared.setNodeType(node, nodeTypeInner)
         NodeShared.setNextNode(node, nodeNullPointer)
         NodeShared.setTripleCount(node, 0)
@@ -94,20 +94,20 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
 
      @Suppress("NOTHING_TO_INLINE")
     internal fun freeNode(call_location: String, nodeid: Int) {
-        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:104"/*SOURCE_FILE_END*/, nodeid)
+        bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:96"/*SOURCE_FILE_END*/, nodeid)
     }
 
      @Suppress("NOTHING_TO_INLINE")
     internal    fun freeNodeAndAllRelated(call_location: String, nodeid: Int) {
-        releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:110"/*SOURCE_FILE_END*/, nodeid)
-        freeNodeAndAllRelatedInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:111"/*SOURCE_FILE_END*/, nodeid)
+        releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:101"/*SOURCE_FILE_END*/, nodeid)
+        freeNodeAndAllRelatedInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:102"/*SOURCE_FILE_END*/, nodeid)
     }
 
      private fun freeNodeAndAllRelatedInternal(call_location: String, nodeid: Int) {
         if (nodeid != nodeNullPointer) {
             var node: BufferManagerPageWrapper? = null
             getNodeAny(
-                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:119"/*SOURCE_FILE_END*/,
+                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:109"/*SOURCE_FILE_END*/,
                 nodeid,
                 {
                 },
@@ -117,24 +117,24 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
-                    freeNodeAndAllRelatedInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:129"/*SOURCE_FILE_END*/, it)
+                    freeNodeAndAllRelatedInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:119"/*SOURCE_FILE_END*/, it)
                 }
             }
-            freeNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:132"/*SOURCE_FILE_END*/, nodeid)
+            freeNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:122"/*SOURCE_FILE_END*/, nodeid)
         }
     }
 
      @Suppress("NOTHING_TO_INLINE")
     internal    fun freeAllInner(call_location: String, nodeid: Int) {
-        releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:139"/*SOURCE_FILE_END*/, nodeid)
-        freeAllInnerInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:140"/*SOURCE_FILE_END*/, nodeid)
+        releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:128"/*SOURCE_FILE_END*/, nodeid)
+        freeAllInnerInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:129"/*SOURCE_FILE_END*/, nodeid)
     }
 
      private fun freeAllInnerInternal(call_location: String, nodeid: Int) {
         if (nodeid != nodeNullPointer) {
             var node: BufferManagerPageWrapper? = null
             getNodeAny(
-                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:148"/*SOURCE_FILE_END*/,
+                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:136"/*SOURCE_FILE_END*/,
                 nodeid,
                 {
                 },
@@ -144,11 +144,11 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
-                    freeAllInnerInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:158"/*SOURCE_FILE_END*/, it)
+                    freeAllInnerInternal(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:146"/*SOURCE_FILE_END*/, it)
                 }
-                freeNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:160"/*SOURCE_FILE_END*/, nodeid)
+                freeNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:148"/*SOURCE_FILE_END*/, nodeid)
             } else {
-                releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:162"/*SOURCE_FILE_END*/, nodeid)
+                releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:150"/*SOURCE_FILE_END*/, nodeid)
             }
         }
     }
@@ -158,11 +158,11 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
         var pageid = nodeid
         while (pageid != nodeNullPointer) {
             val id = pageid
-            getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:173"/*SOURCE_FILE_END*/, pageid) { node ->
+            getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:160"/*SOURCE_FILE_END*/, pageid) { node ->
                 val tmp = NodeShared.getNextNode(node)
                 pageid = tmp
             }
-            freeNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:177"/*SOURCE_FILE_END*/, id)
+            freeNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeManager.kt:164"/*SOURCE_FILE_END*/, id)
         }
     }
 }

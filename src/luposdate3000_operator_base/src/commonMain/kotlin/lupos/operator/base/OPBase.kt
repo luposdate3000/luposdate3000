@@ -482,7 +482,7 @@ if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw E
                     val h = getHistogram()
                     res.addAttribute("histogram", "${h.count} - ${h.values}")
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:488"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:484"/*SOURCE_FILE_END*/)
                 }
             }
             if (!excludeChildren) {
@@ -493,8 +493,8 @@ if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw E
         } catch (e: Throwable) {
             if (!hadXMLWarning) {
                 hadXMLWarning = true
-                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:499"/*SOURCE_FILE_END*/)
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:500"/*SOURCE_FILE_END*/)
+                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:495"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:496"/*SOURCE_FILE_END*/)
             }
         }
         return res

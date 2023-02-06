@@ -411,7 +411,7 @@ if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){thro
                 }
             }
         } catch (e: Exception) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:417"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:413"/*SOURCE_FILE_END*/)
             DictionaryHelper.stringToByteArray(buffer, content)
         }
     }
@@ -447,7 +447,7 @@ if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){thro
                 DictionaryHelper.integerToByteArray(buffer, i)
                 return
             } catch (e: Exception) {
-                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:453"/*SOURCE_FILE_END*/ ) this is handled correctly
+                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:449"/*SOURCE_FILE_END*/ ) this is handled correctly
             }
         }
         if (!value.contains("e") && !value.contains("E")) {
@@ -456,7 +456,7 @@ if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){thro
                 DictionaryHelper.decimalToByteArray(buffer, d)
                 return
             } catch (e: Exception) {
-                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:462"/*SOURCE_FILE_END*/ ) this is handled correctly
+                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:458"/*SOURCE_FILE_END*/ ) this is handled correctly
             }
         }
         try {
@@ -464,7 +464,7 @@ if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){thro
             DictionaryHelper.doubleToByteArray(buffer, d)
             return
         } catch (e: Exception) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:470"/*SOURCE_FILE_END*/ ) this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:466"/*SOURCE_FILE_END*/ ) this is handled correctly
         }
         if (!value.endsWith("" + value[0])) {
             val typeIdx = value.lastIndexOf("" + value[0] + "^^<")

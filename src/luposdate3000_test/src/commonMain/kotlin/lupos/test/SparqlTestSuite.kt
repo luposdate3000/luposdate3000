@@ -519,10 +519,10 @@ if(SanityCheck.enabled){if(!( description == null )){throw Exception("SanityChec
                             JenaWrapper.loadFromFile("/src/luposdate3000/$inputDataFileName")
                         }
                     } catch (e: JenaBugException) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:522"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:521"/*SOURCE_FILE_END*/)
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:525"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:524"/*SOURCE_FILE_END*/)
                         ignoreJena = true
                     }
                 }
@@ -565,10 +565,10 @@ if(SanityCheck.enabled){if(!( description == null )){throw Exception("SanityChec
                             JenaWrapper.loadFromFile("/src/luposdate3000/" + it["filename"]!!, it["name"]!!)
                         }
                     } catch (e: JenaBugException) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:568"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:567"/*SOURCE_FILE_END*/)
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:571"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:570"/*SOURCE_FILE_END*/)
                         ignoreJena = true
                     }
                 }
@@ -676,10 +676,10 @@ if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("S
                             return false
                         }
                     } catch (e: JenaBugException) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:679"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:678"/*SOURCE_FILE_END*/)
                         ignoreJena = true
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:682"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:681"/*SOURCE_FILE_END*/)
                         ignoreJena = true
                     }
                 }
@@ -747,7 +747,7 @@ if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("S
                 return expectedResult
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:750"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:749"/*SOURCE_FILE_END*/)
             if (expectedResult) {
                 SanityCheck.println{ e }
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
@@ -759,7 +759,7 @@ if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("S
             LuposdateEndpoint.close(instance)
             return false
         } catch (e: Luposdate3000Exception) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:762"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:761"/*SOURCE_FILE_END*/)
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(${e.classname})")
@@ -770,15 +770,15 @@ if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("S
             LuposdateEndpoint.close(instance)
             return false
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:773"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:772"/*SOURCE_FILE_END*/)
             if (expectedResult) {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(Throwable)")
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:777"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:776"/*SOURCE_FILE_END*/)
             } else {
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Success(ExpectFalse,Throwable)")
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:781"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:780"/*SOURCE_FILE_END*/)
             }
             LuposdateEndpoint.close(instance)
             return false

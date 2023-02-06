@@ -105,7 +105,7 @@ public class LogicalOptimizerJoinOrderML(query: Query) : OptimizerBase(query, EO
                     }
                 }
             } catch (e: EmptyResultException) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:110"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_optimizer_logical/src/commonMain/kotlin/lupos/optimizer/logical/LogicalOptimizerJoinOrderML.kt:107"/*SOURCE_FILE_END*/)
                 res = POPNothing(query, originalProvided)
             }
         }

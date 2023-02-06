@@ -56,7 +56,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:60"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:58"/*SOURCE_FILE_END*/)
                     }
                     val columnMode = mutableListOf<String>()
                     for (k in child.columns.keys) {
@@ -100,7 +100,7 @@ if(SanityCheck.enabled){if(!( target.containsAll(rowMode) )){throw Exception("Sa
                         try {
                             child.columns
                         } catch (e: Throwable) {
-                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:106"/*SOURCE_FILE_END*/)
+                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:102"/*SOURCE_FILE_END*/)
                         }
                         val outMap = mutableMapOf<String, ColumnIterator>()
                         val columnMode = mutableListOf<String>()
