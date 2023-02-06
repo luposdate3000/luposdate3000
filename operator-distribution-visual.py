@@ -11,6 +11,7 @@ headlineHelper["operator-distribution-test-optimizer-topology-assisted"] = "dist
 headlineHelper["_by_id_S_all_collations"] = "partitioning"
 headlineHelper["campusSOSAInternalID"] = "data scale"
 headlineHelper["_distribution_centralized"] = "distribution location"
+headlineHelper["relocateOperatorsIfTooMuchDataIsSentEnabled"] = "dynamic operator relocation"
 header = {}
 for folder, subs, files in os.walk("simulator_output"):
     parts = folder.split("/")
@@ -48,6 +49,8 @@ headLine = []
 for k, v in header.items():
     headLine.append(k)
 
+
+hadHeader=False
 for folder, subs, files in os.walk("simulator_output"):
     parts = folder.split("/")
     if "measurement.csv" in files:
@@ -73,7 +76,10 @@ for folder, subs, files in os.walk("simulator_output"):
                       row2.append(y)
                      except:
                       row2.append(x)
-                    print(",".join([str(x) for x in row2]).
+                    flag= str(row2[0])!="phase" or ( not hadHeader)
+                    hadHeader=hadHeader or str(row2[0])=="phase"
+                    if flag:
+                     print(",".join([str(x) for x in row2]).
 replace(".0,",",").
 replace("campusSOSAInternalID20","100").
 replace("campusSOSAInternalID10","50").

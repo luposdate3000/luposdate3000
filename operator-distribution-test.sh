@@ -10,16 +10,18 @@ for optimizer in operator-distribution-test-optimizer-topology-assisted.json ope
 do
 for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json
 do
-#for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/*16DB.json
+##for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/*16DB.json
 for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/Random16DB.json
 do
 for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_*.json
 do
 for programDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/programDistribution/distributed*
 do
-for routing in src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_AllShortestPath.json src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json
+##for routing in src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_AllShortestPath.json src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_RPL_Fast.json
+for routing in src/luposdate3000_simulator_db/src/jvmMain/resources/routing/routing_AllShortestPath.json
 do
-for joindistributionlocation in src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution*
+##for joindistributionlocation in src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution*
+for joindistributionlocation in src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_distribution_routing.json
 do
 for relocateOperatorsIfTooMuchDataIsSent in src/luposdate3000_simulator_db/src/jvmMain/resources/relocateOperatorsIfTooMuchDataIsSent/*
 do
@@ -37,8 +39,9 @@ src/luposdate3000_simulator_db/src/jvmMain/resources/luposdate3000_local_executi
 $optimizer \
 $relocateOperatorsIfTooMuchDataIsSent \
 operator-distribution-test.json"
-echo "$c > logfile_$ctr.log 2> logfile_$ctr.err" >> $tasksfile
-$c > logfile_$ctr.log 2> logfile_$ctr.err
+#echo "timeout -s SIGKILL 300s $c > logfile_$ctr.log 2> logfile_$ctr.err" >> $tasksfile
+echo "timeout -s SIGKILL 300s $c > logfile_$ctr.log 2> logfile_$ctr.err"
+timeout -s SIGKILL 300s $c >> logfile_$ctr.log 2>> logfile_$ctr.err
 ctr=$((ctr+1))
 
 done
@@ -52,6 +55,6 @@ done
 
 #cat $tasksfile | sed "s/java -Xmx100g/java -Xmx10g/g" | shuf > ${tasksfile}.tmp
 #mv ${tasksfile}.tmp $tasksfile
-cat ${tasksfile} | parallel -j 20
+#cat ${tasksfile} | parallel -j 20
 #chmod +x $tasksfile
 #$tasksfile

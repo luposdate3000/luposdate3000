@@ -140,7 +140,7 @@ public class Application_Luposdate3000 public constructor(
         instance.queryDistributionMode = EQueryDistributionModeExt.names.indexOf(config.getOrDefault("queryDistributionMode", EQueryDistributionModeExt.names[Luposdate3000Config.queryDistributionMode]))
         instance.useDictionaryInlineEncoding = config.getOrDefault("useDictionaryInlineEncoding", Luposdate3000Config.useDictionaryInlineEncoding)
         instance.REPLACE_STORE_WITH_VALUES = config.getOrDefault("REPLACE_STORE_WITH_VALUES", Luposdate3000Config.REPLACE_STORE_WITH_VALUES)
-instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOperatorsIfTooMuchDataIsSent", Luposdate3000Config.relocateOperatorsIfTooMuchDataIsSent)
+        instance.relocateOperatorsIfTooMuchDataIsSent = config.getOrDefault("relocateOperatorsIfTooMuchDataIsSent", Luposdate3000Config.relocateOperatorsIfTooMuchDataIsSent)
         instance.queue_size = 2048
         instance.communicationHandler = CommunicationHandler_Luposdate3000(instance, parent)
         instance.maxThreads = ((2.0).pow(ceil(log2(instance.LUPOS_PROCESS_URLS_ALL.size.toDouble())))).toInt()
@@ -228,7 +228,7 @@ instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOpera
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
 
-//        println("queryString")
+//        println(queryString)
         //      println(queryString)
         //    println()
         val q = Query(instance)
@@ -250,11 +250,11 @@ instance.relocateOperatorsIfTooMuchDataIsSent=config.getOrDefault("relocateOpera
             try {
                 var hasSort = false
                 var limitOperators = mutableListOf<IPOPLimit>()
-val storeoptimizer=instance.optimizer
-instance.optimizer=EOptimizerExt.Default
-val q2 = Query(instance)
-val op2=LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, q2, queryString)
-instance.optimizer=storeoptimizer
+                val storeoptimizer = instance.optimizer
+                instance.optimizer = EOptimizerExt.Default
+                val q2 = Query(instance)
+                val op2 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, q2, queryString)
+                instance.optimizer = storeoptimizer
                 val localOP = (op2 as OPBase).toLocalOperatorGraph(Partition(), { limitOperators.add(it) }, { hasSort = true })
                 if (limitOperators.size > 0 && !hasSort && localOP != null) {
                     val iteratorBundle = localOP.evaluateRootBundle()
@@ -274,6 +274,7 @@ instance.optimizer=storeoptimizer
                                 receive(onFinish)
                             } else {
                                 router!!.send(ownAdress, Package_QueryResponse("success".encodeToByteArray(), pck.queryID))
+                                println("instance.tryLocalExecution ... ")
                             }
                         } else {
                             if (onFinish != null) {
@@ -284,11 +285,15 @@ instance.optimizer=storeoptimizer
                         }
                         return
                     }
+                } else {
+                   // println("can not use local execution due to limitOperators.size > 0 && !hasSort && localOP != null .... ${limitOperators.size} ${!hasSort} ${localOP != null} $op2")
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:289"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:292"/*SOURCE_FILE_END*/)
             }
+        } else {
+            //println("can not use local execution due to instance.tryLocalExecution")
         }
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
@@ -351,7 +356,7 @@ instance.optimizer=storeoptimizer
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
             SanityCheck.check(
-                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:353"/*SOURCE_FILE_END*/ },
+                { /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:358"/*SOURCE_FILE_END*/ },
                 { myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null }
             )
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
@@ -966,7 +971,7 @@ instance.optimizer=storeoptimizer
                                 queryCache.remove(w.queryID)
                             }
 // println()
-//                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
+                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
 //                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             if (w.dataID <0) {
                                 val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, true).first
@@ -1057,7 +1062,7 @@ instance.optimizer=storeoptimizer
                                             }
                                         }
                                         if (flag) {
-					// TODO("this could be redirected_redirected_redirected_redirected")
+                                            // TODO("this could be redirected_redirected_redirected_redirected")
                                             val compactedOperatorGraph = ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))
                                             for ((k, v) in usedInputs) {
                                                 router!!.send(target, Package_Luposdate3000_Abstract(w.queryID, "simulator-intermediate-result", mapOf("key" to "${k.second}", "query" to "${k.first}"), v as ByteArrayWrapper))
@@ -1086,7 +1091,7 @@ instance.optimizer=storeoptimizer
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1088"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1093"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1112,7 +1117,7 @@ instance.optimizer=storeoptimizer
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1114"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1119"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
