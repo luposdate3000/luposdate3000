@@ -65,7 +65,7 @@ public open class IteratorBundle {
         get() {
             return when (mode) {
                 IteratorBundleModeExt.COLUMN -> {
-if(SanityCheck.enabled){if(!( _columns!!.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(_columns!!.isNotEmpty())) { throw Exception("SanityCheck failed") } }
                     _columns!!
                 }
                 IteratorBundleModeExt.ROW -> {
@@ -86,7 +86,7 @@ if(SanityCheck.enabled){if(!( _columns!!.isNotEmpty() )){throw Exception("Sanity
                     _rows!!
                 }
                 IteratorBundleModeExt.COLUMN -> {
-if(SanityCheck.enabled){if(!( _columns!!.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(_columns!!.isNotEmpty())) { throw Exception("SanityCheck failed") } }
                     if (_rows == null) {
                         _rows = RowIteratorFromColumn(this)
                     }

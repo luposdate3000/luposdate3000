@@ -145,7 +145,7 @@ public class LogicalOptimizerJoinOrder(query: Query, internal val capture: Boole
                 return res
             }
             else -> {
-if(SanityCheck.enabled){if(!( nodes.size == 1 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(nodes.size == 1)) { throw Exception("SanityCheck failed") } }
                 return nodes[0]
             }
         }

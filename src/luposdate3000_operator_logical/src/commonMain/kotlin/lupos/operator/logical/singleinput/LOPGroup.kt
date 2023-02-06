@@ -68,7 +68,7 @@ public class LOPGroup public constructor(query: IQuery, @JvmField public var by:
                 this.bindings.add(Pair(b.name.name, b.children[1] as AOPBase))
                 b = b.children[0]
             } else {
-if(SanityCheck.enabled){if(!( b is OPEmptyRow )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(b is OPEmptyRow)) { throw Exception("SanityCheck failed") } }
                 break
             }
         }
@@ -78,7 +78,7 @@ if(SanityCheck.enabled){if(!( b is OPEmptyRow )){throw Exception("SanityCheck fa
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-if(SanityCheck.enabled){if(!( additionalProvided.isEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(additionalProvided.isEmpty())) { throw Exception("SanityCheck failed") } }
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {

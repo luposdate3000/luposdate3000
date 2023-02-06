@@ -54,7 +54,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     }
 
     override fun getPartitionCount(variable: String): Int {
-if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == 1 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(children[0].getPartitionCount(variable) == 1)) { throw Exception("SanityCheck failed") } }
         return 1
     }
 

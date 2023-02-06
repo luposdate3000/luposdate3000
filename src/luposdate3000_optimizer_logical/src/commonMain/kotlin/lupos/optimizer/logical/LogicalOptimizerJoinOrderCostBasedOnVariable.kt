@@ -40,7 +40,7 @@ public object LogicalOptimizerJoinOrderCostBasedOnVariable {
     }
 
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
-if(SanityCheck.enabled){if(!( allChilds.size > 2 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(allChilds.size > 2)) { throw Exception("SanityCheck failed") } }
         if (allChilds.size < 30) {
             val allVariables = mutableListOf<String>()
             val allVariablesCounters = mutableListOf<Int>()
@@ -75,7 +75,7 @@ if(SanityCheck.enabled){if(!( allChilds.size > 2 )){throw Exception("SanityCheck
                 val variables = Array(allVariables.size) { 0 }
                 val tmp = allChilds[i].getProvidedVariableNames()
                 for (t in tmp) {
-if(SanityCheck.enabled){if(!( allVariables.contains(t) )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(allVariables.contains(t))) { throw Exception("SanityCheck failed") } }
                     for (j in allVariables.indices) {
                         if (allVariables[j] == t) {
                             variables[j]++

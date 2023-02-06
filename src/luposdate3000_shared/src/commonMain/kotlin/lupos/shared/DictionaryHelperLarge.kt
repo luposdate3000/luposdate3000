@@ -210,18 +210,18 @@ public object DictionaryHelperLarge {
                 if (shortEncoding) {
                     componentMilliseconds += (minutes * 1000L * 60L)
                     componentMilliseconds += (hours * 1000L * 60L * 60L)
-if(SanityCheck.enabled){if(!( componentMilliseconds >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( componentMilliseconds < (1L shl 27) )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(componentMilliseconds >= 0)) { throw Exception("SanityCheck failed") } }
+                    if (SanityCheck.enabled) { if (!(componentMilliseconds < (1L shl 27))) { throw Exception("SanityCheck failed") } }
                     if (day < 32 && month < 16) {
                         val componentDay = day.toLong() shl 27
-if(SanityCheck.enabled){if(!( componentDay >= (1L shl 27) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( componentDay < (1L shl 32) )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(componentDay >= (1L shl 27))) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(componentDay < (1L shl 32))) { throw Exception("SanityCheck failed") } }
                         val componentMonth = month.toLong() shl 32
-if(SanityCheck.enabled){if(!( componentMonth >= (1L shl 32) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( componentMonth < (1L shl 36) )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(componentMonth >= (1L shl 32))) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(componentMonth < (1L shl 36))) { throw Exception("SanityCheck failed") } }
                         var componentYearSign = 1L shl 36
-if(SanityCheck.enabled){if(!( componentYearSign >= (1L shl 36) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( componentYearSign < (1L shl 37) )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(componentYearSign >= (1L shl 36))) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(componentYearSign < (1L shl 37))) { throw Exception("SanityCheck failed") } }
                         var componentYear = 0L
                         var si2 = 0
                         while (si2 < year.length) {
@@ -238,8 +238,8 @@ if(SanityCheck.enabled){if(!( componentYearSign < (1L shl 37) )){throw Exception
                         }
                         if (componentYear < (1L shl 11)) {
                             componentYear = componentYear shl 37
-if(SanityCheck.enabled){if(!( componentYear >= (1L shl 37) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( componentYear < (1L shl 48) )){throw Exception("SanityCheck failed")}}
+                            if (SanityCheck.enabled) { if (!(componentYear >= (1L shl 37))) { throw Exception("SanityCheck failed") } }
+                            if (SanityCheck.enabled) { if (!(componentYear < (1L shl 48))) { throw Exception("SanityCheck failed") } }
                             val componentAll = componentMilliseconds or componentDay or componentMonth or componentYearSign or componentYear
                             ByteArrayWrapperExt.setSize(buffer, DictionaryHelper.headerSize() + 6, false)
                             DictionaryHelper.headerEncode(buffer, ETripleComponentTypeExt.DATE_TIME, 0x80)
@@ -267,18 +267,18 @@ if(SanityCheck.enabled){if(!( componentYear < (1L shl 48) )){throw Exception("Sa
     }
 
     public fun dateTimeToByteArray(buffer: ByteArrayWrapper, year: BigInteger, month: Int, day: Int, hours: Int, minutes: Int, seconds: BigDecimal, timezoneHours: Int, timezoneMinutes: Int, hasTimeZone: Boolean) {
-if(SanityCheck.enabled){if(!( month >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( month <= 99 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( day >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( day <= 99 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( hours >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( hours <= 24 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( minutes >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( minutes <= 99 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneHours >= -24 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneHours <= 24 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneMinutes >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneMinutes <= 99 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(month >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(month <= 99)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(day >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(day <= 99)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(hours >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(hours <= 24)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(minutes >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(minutes <= 99)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(!hasTimeZone || timezoneHours >= -24)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(!hasTimeZone || timezoneHours <= 24)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(!hasTimeZone || timezoneMinutes >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(!hasTimeZone || timezoneMinutes <= 99)) { throw Exception("SanityCheck failed") } }
         val buf1 = DictionaryHelper.helper_intToByteArray(year)
         val buf2 = DictionaryHelper.helper_decimalToByteArray(seconds)
         val l1 = buf1.size
@@ -312,7 +312,7 @@ if(SanityCheck.enabled){if(!( !hasTimeZone || timezoneMinutes <= 99 )){throw Exc
         off += l1
         buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
         off += l2
-if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(off == ByteArrayWrapperExt.getSize(buffer))) { throw Exception("SanityCheck failed") } }
     }
 
     public fun byteArrayToDateTimeAsTyped_Content(buffer: ByteArrayWrapper): String {
@@ -360,7 +360,7 @@ if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){thro
             ByteArrayWrapperExt.getBuf(buffer).copyInto(buf2, 0, off, off + l2)
             buf2.copyInto(ByteArrayWrapperExt.getBuf(buffer), off)
             off += l2
-if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(off == ByteArrayWrapperExt.getSize(buffer))) { throw Exception("SanityCheck failed") } }
             val year = DictionaryHelper.helper_intFromByteArray(buf1)
             val seconds = DictionaryHelper.helper_decimalFromByteArray(buf2)
             val secondsString2 = seconds.toStringExpanded().split(".")
@@ -473,7 +473,7 @@ if(SanityCheck.enabled){if(!( off == ByteArrayWrapperExt.getSize(buffer) )){thro
                 typedToByteArray(buffer, DictionaryHelper.removeQuotesFromString(value.substring(0, typeIdx + 1)), value.substring(typeIdx + 4, value.length - 1))
                 return
             } else {
-if(SanityCheck.enabled){if(!( langIdx > 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(langIdx > 0)) { throw Exception("SanityCheck failed") } }
                 DictionaryHelper.langToByteArray(buffer, DictionaryHelper.removeQuotesFromString(value.substring(0, langIdx + 1)), value.substring(langIdx + 2, value.length))
                 return
             }

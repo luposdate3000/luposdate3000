@@ -34,7 +34,7 @@ public object EvalUnion {
             }
             return IteratorBundle(outMap)
         } else {
-if(SanityCheck.enabled){if(!( childA.hasCountMode() && childB.hasCountMode() )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(childA.hasCountMode() && childB.hasCountMode())) { throw Exception("SanityCheck failed") } }
             return object : IteratorBundle(0) {
                 override /*suspend*/ fun hasNext2(): Boolean {
                     return childA.hasNext2() || childB.hasNext2()

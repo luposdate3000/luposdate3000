@@ -63,8 +63,8 @@ public object EvalCounter {
                         }
                     }
 
-                    @Suppress("NOTHING_TO_INLINE")
-                    /*suspend*/ fun _close() {
+                    /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+                    fun _close() {
                         if (label != 0) {
                             label = 0
                             iterator.close()
@@ -99,8 +99,8 @@ public object EvalCounter {
                         }
                     }
 
-                    @Suppress("NOTHING_TO_INLINE")
-                    /*suspend*/ fun _close() {
+                    /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+                    fun _close() {
                         if (label != 0) {
                             label = 0
                             iterator.close()

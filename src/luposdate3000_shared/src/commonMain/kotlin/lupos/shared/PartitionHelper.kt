@@ -28,13 +28,13 @@ public class PartitionHelper() {
 
     public fun tearDown() {
         // println("PartitionHelper.tearDown")
-  if(SanityCheck.enabled)            {
-                for (k in keys) {
-                    for (i in 0 until k.debugMarker.size) {
-                             if(SanityCheck.enabled){if(!(  k.debugMarker[i] == 3 )){throw Exception("SanityCheck failed")}}
-                    }
+        if (SanityCheck.enabled) {
+            for (k in keys) {
+                for (i in 0 until k.debugMarker.size) {
+                    if (SanityCheck.enabled) { if (!(k.debugMarker[i] == 3)) { throw Exception("SanityCheck failed") } }
                 }
             }
+        }
     }
 
     internal fun checkDebugMarker(uuid: Long, partitionid: Int, arr: IntArray, off: Int, isSender: Boolean) {
@@ -74,24 +74,24 @@ public class PartitionHelper() {
         val res = getKeysForInternal(uuid, partitionid, query, count)
         val myList = IntArray(filterIndicees.size) { res.keys[filterIndicees[it]] }
         // println("PartitionHelper $partitionid ${filterIndicees.map{it}} -> ${myList.toList()} $isSender $partition")
-  if(SanityCheck.enabled)            {
-                for (i in filterIndicees) {
-                    checkDebugMarker(uuid, partitionid, res.debugMarker, i, isSender)
-                }
+        if (SanityCheck.enabled) {
+            for (i in filterIndicees) {
+                checkDebugMarker(uuid, partitionid, res.debugMarker, i, isSender)
             }
-        
+        }
+
         return myList
     }
 
     public fun getKeysFor(uuid: Long, partitionid: Int, query: IQuery, count: Int, isSender: Boolean): IntArray {
         val res = getKeysForInternal(uuid, partitionid, query, count)
         // println("PartitionHelper $partitionid ${List(res.keys.size){it}} -> ${res.keys.toList()} $isSender $partition")
-  if(SanityCheck.enabled)            {
-                for (i in 0 until count) {
-                    checkDebugMarker(uuid, partitionid, res.debugMarker, i, isSender)
-                }
+        if (SanityCheck.enabled) {
+            for (i in 0 until count) {
+                checkDebugMarker(uuid, partitionid, res.debugMarker, i, isSender)
             }
-        
+        }
+
         return res.keys
     }
 
@@ -135,20 +135,20 @@ public class PartitionHelper() {
         if (p == null) {
             if (res.size == 1) {
                 // println("PartitionHelper $partitionid 0 -> ${res[0]} $isSender $partition")
-  if(SanityCheck.enabled)                    {
-                        checkDebugMarker(uuid, partitionid, r.debugMarker, 0, isSender)
-                    }
-                
+                if (SanityCheck.enabled) {
+                    checkDebugMarker(uuid, partitionid, r.debugMarker, 0, isSender)
+                }
+
                 return res[0]
             } else {
                 TODO("error here")
             }
         } else {
             // println("PartitionHelper $partitionid $p -> ${res[p]} $isSender $partition")
-  if(SanityCheck.enabled)                {
-                    checkDebugMarker(uuid, partitionid, r.debugMarker, p, isSender)
-                }
-            
+            if (SanityCheck.enabled) {
+                checkDebugMarker(uuid, partitionid, r.debugMarker, p, isSender)
+            }
+
             return res[p]
         }
     }

@@ -286,14 +286,14 @@ public class Application_Luposdate3000 public constructor(
                         return
                     }
                 } else {
-                   // println("can not use local execution due to limitOperators.size > 0 && !hasSort && localOP != null .... ${limitOperators.size} ${!hasSort} ${localOP != null} $op2")
+                    // println("can not use local execution due to limitOperators.size > 0 && !hasSort && localOP != null .... ${limitOperators.size} ${!hasSort} ${localOP != null} $op2")
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:292"/*SOURCE_FILE_END*/)
             }
         } else {
-            //println("can not use local execution due to instance.tryLocalExecution")
+            // println("can not use local execution due to instance.tryLocalExecution")
         }
         q.setTransactionID(pck.queryID.toLong())
         q.initialize(op, false, true)
@@ -355,7 +355,7 @@ public class Application_Luposdate3000 public constructor(
             true
         }
         paths["simulator-intermediate-result"] = PathMappingHelper(false, mapOf()) { _, _, _ ->
-                 if(SanityCheck.enabled){if(!(  myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] == null)) { throw Exception("SanityCheck failed") } }
             myPendingWorkData[pck.params["query"]!!.toInt() to pck.params["key"]!!.toInt()] = pck.data
             true
         }

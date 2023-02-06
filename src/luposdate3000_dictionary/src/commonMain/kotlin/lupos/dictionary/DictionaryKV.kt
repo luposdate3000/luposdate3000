@@ -69,7 +69,7 @@ public class DictionaryKV internal constructor(
     internal var closed = false
     override fun close() {
         lock.withWriteLock {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
             closed = true
             kv.close()
             vk.close()
@@ -199,19 +199,18 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
         lock.withReadLock {
-                  if(SanityCheck.enabled){if(!(   (value and DictionaryValueHelper.maskValue) >= 0  )){throw Exception("SanityCheck failed")}}
-                    if(SanityCheck.enabled){if(!(  (value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode  )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!((value and DictionaryValueHelper.maskValue) >= 0)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!((value and DictionaryValueHelper.flagNoBNode) == DictionaryValueHelper.flagNoBNode)) { throw Exception("SanityCheck failed") } }
             kv.getValue(buffer, DictionaryValueHelper.toInt(value and DictionaryValueHelper.maskValue))
-                if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize()  )){throw Exception("SanityCheck failed")}}
-            
+            if (SanityCheck.enabled) { if (!(ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize())) { throw Exception("SanityCheck failed") } }
         }
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
         var res = 0
         lock.withWriteLock {
-                if(SanityCheck.enabled){if(!(  ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize() )){throw Exception("SanityCheck failed")}}
-                if(SanityCheck.enabled){if(!(  DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(ByteArrayWrapperExt.getSize(buffer) >= DictionaryHelper.headerSize())) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(DictionaryHelper.byteArrayToType(buffer) !in listOf(ETripleComponentTypeExt.BOOLEAN, ETripleComponentTypeExt.ERROR, ETripleComponentTypeExt.UNDEF, ETripleComponentTypeExt.BLANK_NODE))) { throw Exception("SanityCheck failed") } }
             res = vk.createValue(
                 buffer,
                 value = {
@@ -270,7 +269,7 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
                     ready
                 },
                 next = {
- if(SanityCheck.enabled){if(!(                           ready  )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(ready)) { throw Exception("SanityCheck failed") } }
                     ready = false
                     buffer
                 },
@@ -283,8 +282,8 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
                     mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
                 }
             )
-                 if(SanityCheck.enabled){if(!(  !ready  )){throw Exception("SanityCheck failed")}}
-            
+            if (SanityCheck.enabled) { if (!(!ready)) { throw Exception("SanityCheck failed") } }
+
             println("imported $lastid dictionaryItems")
         }
         return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
@@ -294,10 +293,10 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
         val type = DictionaryHelper.byteArrayToType(buffer)
         var r = DictionaryValueHelper.nullValue
         lock.withReadLock {
-                 if(SanityCheck.enabled){if(!(  type != ETripleComponentTypeExt.BLANK_NODE  )){throw Exception("SanityCheck failed")}}
-                 if(SanityCheck.enabled){if(!(  type != ETripleComponentTypeExt.BOOLEAN  )){throw Exception("SanityCheck failed")}}
-                 if(SanityCheck.enabled){if(!( type != ETripleComponentTypeExt.ERROR  )){throw Exception("SanityCheck failed")}}
-                 if(SanityCheck.enabled){if(!(  type != ETripleComponentTypeExt.UNDEF  )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(type != ETripleComponentTypeExt.BLANK_NODE)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(type != ETripleComponentTypeExt.BOOLEAN)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(type != ETripleComponentTypeExt.ERROR)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(type != ETripleComponentTypeExt.UNDEF)) { throw Exception("SanityCheck failed") } }
             val res = vk.hasValue(buffer)
             if (res != ValueKeyStore.ID_NULL) {
                 r = DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode

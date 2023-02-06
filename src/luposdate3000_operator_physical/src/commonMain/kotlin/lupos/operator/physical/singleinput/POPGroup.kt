@@ -59,7 +59,7 @@ public class POPGroup : POPBase {
     }
 
     override fun getPartitionCount(variable: String): Int {
-if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == 1 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(children[0].getPartitionCount(variable) == 1)) { throw Exception("SanityCheck failed") } }
         return 1
     }
 
@@ -125,7 +125,7 @@ if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == 1 )){th
 
     override fun syntaxVerifyAllVariableExists(additionalProvided: List<String>, autocorrect: Boolean) {
         children[0].syntaxVerifyAllVariableExists(additionalProvided, autocorrect)
-if(SanityCheck.enabled){if(!( additionalProvided.isEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(additionalProvided.isEmpty())) { throw Exception("SanityCheck failed") } }
         val localProvide = additionalProvided + children[0].getProvidedVariableNames()
         val localRequire = mutableListOf<String>()
         for (v in by) {

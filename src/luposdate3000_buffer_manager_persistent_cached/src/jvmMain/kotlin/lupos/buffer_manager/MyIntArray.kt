@@ -61,9 +61,9 @@ public actual class MyIntArray internal actual constructor(@JvmField internal va
     }
 
     public actual operator fun get(idx: Int): Int {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx < _size)) { throw Exception("SanityCheck failed") } }
         var res = 0
         lock.withWriteLock {
             datafile.seek(idx * 4L + 4L)
@@ -73,9 +73,9 @@ if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed
     }
 
     public actual operator fun set(idx: Int, value: Int) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx < _size)) { throw Exception("SanityCheck failed") } }
         lock.withWriteLock {
             datafile.seek(idx * 4L + 4L)
             datafile.writeInt(value)
@@ -83,7 +83,7 @@ if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed
     }
 
     public actual fun setSize(size: Int, clean: Boolean) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         if (size != _size) {
             if (clean) {
                 datafile.seek(_size * 4L + 4L)
@@ -98,7 +98,7 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
     }
 
     public actual fun setSize(size: Int) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         if (size != _size) {
             datafile.seek(_size * 4L + 4L)
             for (i in _size until size) {
@@ -111,13 +111,13 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
     }
 
     public actual fun close() {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         closed = true
         datafile.close()
     }
 
     public actual fun delete() {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         close()
         if (bufferManagerPage != null) {
             bufferManager?.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_persistent_cached/src/jvmMain/kotlin/lupos/buffer_manager/MyIntArray.kt:122"/*SOURCE_FILE_END*/, bufferManagerPage!!)

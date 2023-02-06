@@ -22,7 +22,6 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
 import lupos.shared.Partition
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.operator.IOPBase
@@ -32,7 +31,7 @@ public class POPUnion public constructor(query: IQuery, projectedVariables: List
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-        if(SanityCheck.enabled){if(!(  children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable)           )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable))) { throw Exception("SanityCheck failed") } }
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)

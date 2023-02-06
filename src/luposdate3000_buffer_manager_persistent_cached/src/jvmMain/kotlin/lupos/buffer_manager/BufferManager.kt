@@ -84,7 +84,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     internal var datafilelength: Long
 
     @Suppress("NOTHING_TO_INLINE")
-    private fun findOpenID(pageid: Int,  onFound: (Int) -> Unit,  onNotFound: () -> Unit) {
+    private fun findOpenID(pageid: Int, onFound: (Int) -> Unit, onNotFound: () -> Unit) {
         for (i in 0 until cacheSize) {
             if (openPagesMapping[i] == pageid) {
                 onFound(i)
@@ -95,30 +95,29 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     }
 
     actual override fun flushPage(call_location: String, pageid: Int) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         lock.withWriteLock {
-  if(SanityCheck.enabled)                {
-if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
-                    for (i in 0 until freeArrayLength) {
-if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                if (SanityCheck.enabled) { if (!(pageid < counter)) { throw Exception("SanityCheck failed") } }
+                for (i in 0 until freeArrayLength) {
+                    if (SanityCheck.enabled) { if (!(freeArray[i] != pageid)) { throw Exception("SanityCheck failed") } }
                 }
-            
+            }
+
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
-if(SanityCheck.enabled){if(!( openPagesRefcounters[openId] >= 1 )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(openPagesRefcounters[openId] >= 1)) { throw Exception("SanityCheck failed") } }
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.write(BufferManagerPage.getBuf(openPages[openId]), 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-  if(SanityCheck.enabled)                        {
-                            val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                            datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
-                            datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                            for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
-if(SanityCheck.enabled){if(!( cmp[i] == BufferManagerPage.getBuf(openPages[openId])[i] )){throw Exception("SanityCheck failed")}}
-                            }
+                    if (SanityCheck.enabled) {
+                        val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                        datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
+                        datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                        for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
+                            if (SanityCheck.enabled) { if (!(cmp[i] == BufferManagerPage.getBuf(openPages[openId])[i])) { throw Exception("SanityCheck failed") } }
                         }
-                    
+                    }
                 },
                 onNotFound = {
                     SanityCheck.checkUnreachable()
@@ -128,33 +127,33 @@ if(SanityCheck.enabled){if(!( cmp[i] == BufferManagerPage.getBuf(openPages[openI
     }
 
     actual override fun releasePage(call_location: String, pageid: Int) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         lock.withWriteLock {
-  if(SanityCheck.enabled)                {
-if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
-                    for (i in 0 until freeArrayLength) {
-if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                if (SanityCheck.enabled) { if (!(pageid < counter)) { throw Exception("SanityCheck failed") } }
+                for (i in 0 until freeArrayLength) {
+                    if (SanityCheck.enabled) { if (!(freeArray[i] != pageid)) { throw Exception("SanityCheck failed") } }
                 }
-            
+            }
+
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
-if(SanityCheck.enabled){if(!( openPagesRefcounters[openId] >= 1 )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(openPagesRefcounters[openId] >= 1)) { throw Exception("SanityCheck failed") } }
                     if (openPagesRefcounters[openId] == 1) {
                         datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                         datafile.write(BufferManagerPage.getBuf(openPages[openId]), 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-  if(SanityCheck.enabled)                            {
-                                val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                                datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
-                                datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
-                                for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
-if(SanityCheck.enabled){if(!( cmp[i] == BufferManagerPage.getBuf(openPages[openId])[i] )){throw Exception("SanityCheck failed")}}
-                                }
+                        if (SanityCheck.enabled) {
+                            val cmp = ByteArray(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                            datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
+                            datafile.readFully(cmp, 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
+                            for (i in 0 until BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES) {
+                                if (SanityCheck.enabled) { if (!(cmp[i] == BufferManagerPage.getBuf(openPages[openId])[i])) { throw Exception("SanityCheck failed") } }
                             }
-                        
-if(SanityCheck.enabled){if(!(  BufferManagerPage.getPageID(openPages[openId]) == pageid  )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( openPagesLastUseCounter >= 0 )){throw Exception("SanityCheck failed")}}
+                        }
+
+                        if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(openPages[openId]) == pageid)) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(openPagesLastUseCounter >= 0)) { throw Exception("SanityCheck failed") } }
                         openPagesLastUseCounters[openId] = openPagesLastUseCounter++
                         if (openPagesLastUseCounter >= Int.MAX_VALUE - 10) {
                             openPagesLastUseCounter = 0
@@ -170,17 +169,17 @@ if(SanityCheck.enabled){if(!( openPagesLastUseCounter >= 0 )){throw Exception("S
     }
 
     actual override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         var openId2 = -1
         lock.withWriteLock {
-  if(SanityCheck.enabled)                {
-if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( pageid >= 0 )){throw Exception("SanityCheck failed")}}
-                    for (i in 0 until freeArrayLength) {
-if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                if (SanityCheck.enabled) { if (!(pageid < counter)) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(pageid >= 0)) { throw Exception("SanityCheck failed") } }
+                for (i in 0 until freeArrayLength) {
+                    if (SanityCheck.enabled) { if (!(freeArray[i] != pageid)) { throw Exception("SanityCheck failed") } }
                 }
-            
+            }
+
             findOpenID(
                 pageid = pageid,
                 onFound = { openId ->
@@ -209,19 +208,19 @@ if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityC
                     datafile.seek(BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES.toLong() * pageid)
                     datafile.readFully(BufferManagerPage.getBuf(openPages[openId2]), 0, BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
                     openPagesMapping[openId2] = pageid
-if(SanityCheck.enabled){if(!( BufferManagerPage.getPageID(openPages[openId2]) == -1 )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(openPages[openId2]) == -1)) { throw Exception("SanityCheck failed") } }
                     BufferManagerPage.setPageID(openPages[openId2], pageid)
                 }
             )
             openPagesRefcounters[openId2]++
-if(SanityCheck.enabled){if(!( BufferManagerPage.getPageID(openPages[openId2]) == pageid )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(openPages[openId2]) == pageid)) { throw Exception("SanityCheck failed") } }
         }
-if(SanityCheck.enabled){if(!( openId2 != -1 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(openId2 != -1)) { throw Exception("SanityCheck failed") } }
         return openPages[openId2]
     }
 
     actual /*suspend*/ override fun allocPage(call_location: String): Int {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         var pageid: Int = -1
         lock.withWriteLock {
             if (freeArrayLength > 0) {
@@ -240,31 +239,30 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
                     datafilelength = minlen
                 }
             }
-  if(SanityCheck.enabled)                {
-if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
-                    for (i in 0 until freeArrayLength) {
-if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                if (SanityCheck.enabled) { if (!(pageid < counter)) { throw Exception("SanityCheck failed") } }
+                for (i in 0 until freeArrayLength) {
+                    if (SanityCheck.enabled) { if (!(freeArray[i] != pageid)) { throw Exception("SanityCheck failed") } }
                 }
-            
+            }
         }
         return pageid
     }
 
     actual /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
-  if(SanityCheck.enabled)            {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( pageid < counter )){throw Exception("SanityCheck failed")}}
-                for (i in 0 until freeArrayLength) {
-if(SanityCheck.enabled){if(!( freeArray[i] != pageid )){throw Exception("SanityCheck failed")}}
-                }
+        if (SanityCheck.enabled) {
+            if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(pageid < counter)) { throw Exception("SanityCheck failed") } }
+            for (i in 0 until freeArrayLength) {
+                if (SanityCheck.enabled) { if (!(freeArray[i] != pageid)) { throw Exception("SanityCheck failed") } }
             }
-        
+        }
+
         findOpenID(
             pageid = pageid,
             onFound = { openId ->
-if(SanityCheck.enabled){if(!( openPagesRefcounters[openId] == 1 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( BufferManagerPage.getPageID(openPages[openId]) == pageid )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(openPagesRefcounters[openId] == 1)) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(openPages[openId]) == pageid)) { throw Exception("SanityCheck failed") } }
                 BufferManagerPage.setPageID(openPages[openId], -1)
                 openPagesRefcounters[openId]--
                 openPagesMapping[openId] = -1
@@ -288,14 +286,14 @@ if(SanityCheck.enabled){if(!( BufferManagerPage.getPageID(openPages[openId]) == 
 
     @ProguardTestAnnotation
     actual override fun close() {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         closed = true
-  if(SanityCheck.enabled)            {
-                for (i in 0 until cacheSize) {
-if(SanityCheck.enabled){if(!( openPagesRefcounters[i] == 0 )){throw Exception("SanityCheck failed")}}
-                }
+        if (SanityCheck.enabled) {
+            for (i in 0 until cacheSize) {
+                if (SanityCheck.enabled) { if (!(openPagesRefcounters[i] == 0)) { throw Exception("SanityCheck failed") } }
             }
-        
+        }
+
         datafile.close()
         freelistfile.close()
     }

@@ -71,7 +71,7 @@ public object InputToIntermediate {
         return DictionaryValueHelper.NULL
     }
 
-    private fun mergesort2(n: Int,  copyBToA: (Int, Int) -> Unit,  copyAToB: (Int, Int) -> Unit,  cmpAtoA: (Int, Int) -> DictionaryValueType,  cmpBtoB: (Int, Int) -> DictionaryValueType, step: Int) {
+    private fun mergesort2(n: Int, copyBToA: (Int, Int) -> Unit, copyAToB: (Int, Int) -> Unit, cmpAtoA: (Int, Int) -> DictionaryValueType, cmpBtoB: (Int, Int) -> DictionaryValueType, step: Int) {
         var size = 1
         while (size < n) {
             var lstart = 0

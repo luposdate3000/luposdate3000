@@ -46,8 +46,8 @@ public object EvalFilter {
                     __close()
                 }
 
-                @Suppress("NOTHING_TO_INLINE")
-                /*suspend*/ fun __close() {
+                /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+                fun __close() {
                     if (label != 0) {
                         ColumnIteratorQueueExt._close(this)
                         for (v in child.columns.values) {
@@ -66,7 +66,7 @@ public object EvalFilter {
                                     columnsLocal[variableIndex2].tmp = columnsIn[variableIndex2]!!.next()
                                     // point each iterator to the current value
                                     if (columnsLocal[variableIndex2].tmp == DictionaryValueHelper.nullValue) {
-if(SanityCheck.enabled){if(!( variableIndex2 == 0 )){throw Exception("SanityCheck failed")}}
+                                        if (SanityCheck.enabled) { if (!(variableIndex2 == 0)) { throw Exception("SanityCheck failed") } }
                                         for (v in child.columns.values) {
                                             v.close()
                                         }
@@ -139,7 +139,7 @@ if(SanityCheck.enabled){if(!( variableIndex2 == 0 )){throw Exception("SanityChec
                                     for (v in child.columns.values) {
                                         v.close()
                                     }
-if(SanityCheck.enabled){if(!( variableIndex2 == 0 )){throw Exception("SanityCheck failed")}}
+                                    if (SanityCheck.enabled) { if (!(variableIndex2 == 0)) { throw Exception("SanityCheck failed") } }
                                     for (variableIndex3 in 0 until variables.size) {
                                         ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
                                     }

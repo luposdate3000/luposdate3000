@@ -74,7 +74,7 @@ public class LOPSort public constructor(query: IQuery, @JvmField public val asc:
     }
 
     override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(parent.getChildren()[parentIdx] == this)) { throw Exception("SanityCheck failed") } }
         if (this.by.name == name) {
             this.by = AOPVariable(query, name2)
         }

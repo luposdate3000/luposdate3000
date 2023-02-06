@@ -126,7 +126,7 @@ internal class POPJoinMerge_Iterator(
                 var skipO1 = 0
                 if (key0[0] != DictionaryValueHelper.nullValue && key1[0] != DictionaryValueHelper.nullValue) {
                     loop@ while (true) {
-if(SanityCheck.enabled){if(!( columnsINJ0.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(columnsINJ0.isNotEmpty())) { throw Exception("SanityCheck failed") } }
 // first join column
                         if (key0[0] != key1[0]) {
                             var skip0 = 0
@@ -143,7 +143,7 @@ if(SanityCheck.enabled){if(!( columnsINJ0.isNotEmpty() )){throw Exception("Sanit
                                     }
                                     skip0++
                                     skipO0++
-if(SanityCheck.enabled){if(!( key0[0] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                                    if (SanityCheck.enabled) { if (!(key0[0] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
                                     if (key0[0] == DictionaryValueHelper.nullValue) {
                                         __close()
                                         break@loop
@@ -159,7 +159,7 @@ if(SanityCheck.enabled){if(!( key0[0] != DictionaryValueHelper.undefValue )){thr
                                     }
                                     skip1++
                                     skipO1++
-if(SanityCheck.enabled){if(!( key1[0] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                                    if (SanityCheck.enabled) { if (!(key1[0] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
                                     if (key1[0] == DictionaryValueHelper.nullValue) {
                                         __close()
                                         break@loop
@@ -176,8 +176,8 @@ if(SanityCheck.enabled){if(!( key1[0] != DictionaryValueHelper.undefValue )){thr
                                             key0[localNextJ] = columnsINJ0[localNextJ].next()
                                         }
                                     }
-if(SanityCheck.enabled){if(!( key0[localNextJ] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( key0[localNextJ] != DictionaryValueHelper.nullValue )){throw Exception("SanityCheck failed")}}
+                                    if (SanityCheck.enabled) { if (!(key0[localNextJ] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
+                                    if (SanityCheck.enabled) { if (!(key0[localNextJ] != DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
                                     localNextJ++
                                 }
                             }
@@ -191,8 +191,8 @@ if(SanityCheck.enabled){if(!( key0[localNextJ] != DictionaryValueHelper.nullValu
                                             key1[localNextJ] = columnsINJ1[localNextJ].next()
                                         }
                                     }
-                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.undefValue   )){throw Exception("SanityCheck failed")}}
-                                        if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.nullValue   )){throw Exception("SanityCheck failed")}}
+                                    if (SanityCheck.enabled) { if (!(key1[localNextJ] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
+                                    if (SanityCheck.enabled) { if (!(key1[localNextJ] != DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
                                     localNextJ++
                                 }
                             }
@@ -205,9 +205,9 @@ if(SanityCheck.enabled){if(!( key0[localNextJ] != DictionaryValueHelper.nullValu
                                 localNextJ = 0
                                 while (localNextJ < columnsJSize) {
                                     key0[localNextJ] = columnsINJ0[localNextJ].next()
-if(SanityCheck.enabled){if(!( key0[localNextJ] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                                    if (SanityCheck.enabled) { if (!(key0[localNextJ] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
                                     if (key0[localNextJ] == DictionaryValueHelper.nullValue) {
-if(SanityCheck.enabled){if(!( localNextJ == 0 )){throw Exception("SanityCheck failed")}}
+                                        if (SanityCheck.enabled) { if (!(localNextJ == 0)) { throw Exception("SanityCheck failed") } }
                                         __close()
                                         break@loop
                                     }
@@ -219,9 +219,9 @@ if(SanityCheck.enabled){if(!( localNextJ == 0 )){throw Exception("SanityCheck fa
                                 localNextJ = 0
                                 while (localNextJ < columnsJSize) {
                                     key1[localNextJ] = columnsINJ1[localNextJ].next()
-if(SanityCheck.enabled){if(!( key1[localNextJ] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                                    if (SanityCheck.enabled) { if (!(key1[localNextJ] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
                                     if (key1[localNextJ] == DictionaryValueHelper.nullValue) {
-if(SanityCheck.enabled){if(!( localNextJ == 0 )){throw Exception("SanityCheck failed")}}
+                                        if (SanityCheck.enabled) { if (!(localNextJ == 0)) { throw Exception("SanityCheck failed") } }
                                         __close()
                                         break@loop
                                     }
@@ -272,7 +272,7 @@ if(SanityCheck.enabled){if(!( localNextJ == 0 )){throw Exception("SanityCheck fa
                             localNextI = 0
                             while (localNextI < columnsJSize) {
                                 key0[localNextI] = columnsINJ0[localNextI].next()
-if(SanityCheck.enabled){if(!( key0[localNextI] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                                if (SanityCheck.enabled) { if (!(key0[localNextI] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
                                 localNextI++
                             }
                             localNextI = 0
@@ -318,7 +318,7 @@ if(SanityCheck.enabled){if(!( key0[localNextI] != DictionaryValueHelper.undefVal
                             localNextI = 0
                             while (localNextI < columnsJSize) {
                                 key1[localNextI] = columnsINJ1[localNextI].next()
-if(SanityCheck.enabled){if(!( key1[localNextI] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                                if (SanityCheck.enabled) { if (!(key1[localNextI] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
                                 localNextI++
                             }
                             localNextI = 0

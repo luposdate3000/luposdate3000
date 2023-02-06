@@ -120,10 +120,10 @@ public class POPGraphOperation public constructor(
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalGraphOperation(silent, graph1type, graph1iri, graph2type, graph2iri, action, query)
     override fun usesDictionary(): Boolean {
         var res = super.usesDictionary()
-  if(SanityCheck.enabled)            {
-                res = true
-            }
-        
+        if (SanityCheck.enabled) {
+            res = true
+        }
+
         return res
     }
 

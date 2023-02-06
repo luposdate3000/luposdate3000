@@ -35,7 +35,7 @@ public object EvalTripleStoreIterator {
         children: Array<Pair<Boolean, Pair<DictionaryValueType, String>>>,
     ): IteratorBundle {
 // println("EvalTripleStoreIterator ${EIndexPatternExt.names[index]} host=${target.first} key=${target.second}")
-              if(SanityCheck.enabled){if(!(  target.first == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID] )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(target.first == query.getInstance().LUPOS_PROCESS_URLS_ALL[query.getInstance().LUPOS_PROCESS_ID])) { throw Exception("SanityCheck failed") } }
         val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
         val store = manager.localStoresGet()[target.second]!!
         val filter2 = mutableListOf<DictionaryValueType>()
@@ -44,7 +44,7 @@ public object EvalTripleStoreIterator {
             val i = EIndexPatternHelper.tripleIndicees[index][ii]
             val param = children[i]
             if (param.first) {
-if(SanityCheck.enabled){if(!( filter2.size == ii )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(filter2.size == ii)) { throw Exception("SanityCheck failed") } }
                 val v = param.second.first
                 if (query.getDictionary().isLocalValue(v)) {
                     filter2.add(DictionaryValueHelper.nullValue)

@@ -41,7 +41,7 @@ public abstract class ADictionary(
     internal val bnodeMapLocal = mutableMapOf<String, DictionaryValueType>()
 
     override fun createNewBNode(s: String): DictionaryValueType {
-if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
         var res = bnodeMapLocal[s]
         if (res != null) {
             return res
@@ -56,12 +56,12 @@ if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this)
     }
 
     override fun isLocalValue(value: DictionaryValueType): Boolean {
-if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
         return (value and DictionaryValueHelper.flagLocal) == DictionaryValueHelper.flagLocal
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
-if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
         val res: DictionaryValueType
         if ((value and DictionaryValueHelper.flagLocal) != DictionaryValueHelper.flagLocal) {
             res = value
@@ -105,7 +105,7 @@ if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this)
 
     @Suppress("NOTHING_TO_INLINE")
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-if(SanityCheck.enabled){if(!( isLocal != (instance.nodeGlobalDictionary == this) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
         var mymapping = DictionaryValueTypeArray(0)
         var lastid = DictionaryValueHelper.NULL
         val buffer = ByteArrayWrapper()

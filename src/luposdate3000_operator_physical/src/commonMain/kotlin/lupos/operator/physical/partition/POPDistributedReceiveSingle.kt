@@ -64,7 +64,7 @@ public class POPDistributedReceiveSingle public constructor(
     }
 
     init {
-if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }
     }
 
     override fun getPartitionCount(variable: String): Int = 1

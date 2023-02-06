@@ -68,7 +68,7 @@ public class LOPProjection public constructor(query: IQuery, @JvmField public va
     }
 
     override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(parent.getChildren()[parentIdx] == this)) { throw Exception("SanityCheck failed") } }
         for (i in 0 until this.variables.size) {
             if (this.variables[i].name == name) {
                 this.variables[i] = AOPVariable(query, name2)

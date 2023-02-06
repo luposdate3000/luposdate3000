@@ -62,8 +62,8 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     for (k in child.columns.keys) {
                         columnMode.add(k)
                     }
-if(SanityCheck.enabled){if(!( columnMode.containsAll(target) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( target.containsAll(columnMode) )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(columnMode.containsAll(target))) { throw Exception("SanityCheck failed") } }
+                    if (SanityCheck.enabled) { if (!(target.containsAll(columnMode))) { throw Exception("SanityCheck failed") } }
                     val outMap = mutableMapOf<String, ColumnIterator>()
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
@@ -88,8 +88,8 @@ if(SanityCheck.enabled){if(!( target.containsAll(columnMode) )){throw Exception(
                     return IteratorBundle(outMap)
                 } else if (child.hasRowMode()) {
                     val rowMode = child.rows.columns.toMutableList()
-if(SanityCheck.enabled){if(!( rowMode.containsAll(target) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( target.containsAll(rowMode) )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(rowMode.containsAll(target))) { throw Exception("SanityCheck failed") } }
+                    if (SanityCheck.enabled) { if (!(target.containsAll(rowMode))) { throw Exception("SanityCheck failed") } }
                 }
                 return child
             }
@@ -159,14 +159,14 @@ if(SanityCheck.enabled){if(!( target.containsAll(rowMode) )){throw Exception("Sa
                             }
                             outMap[k] = iterator
                         }
-if(SanityCheck.enabled){if(!( columnMode.containsAll(target) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( target.containsAll(columnMode) )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(columnMode.containsAll(target))) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(target.containsAll(columnMode))) { throw Exception("SanityCheck failed") } }
                         return IteratorBundle(outMap)
                     }
                     child.hasRowMode() -> {
                         val rowMode = child.rows.columns.toMutableList()
-if(SanityCheck.enabled){if(!( rowMode.containsAll(target) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( target.containsAll(rowMode) )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(rowMode.containsAll(target))) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(target.containsAll(rowMode))) { throw Exception("SanityCheck failed") } }
                         val iterator = RowIterator()
                         var counter = 0
                         iterator.columns = child.rows.columns

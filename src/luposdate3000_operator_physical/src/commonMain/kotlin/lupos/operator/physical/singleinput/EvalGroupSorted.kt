@@ -75,7 +75,7 @@ public object EvalGroupSorted {
                 for (element in valueColumns) {
                     element.close()
                 }
-if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                 emptyResult = true
                 break
             }
@@ -124,8 +124,8 @@ if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck f
                         __close()
                     }
 
-                    @Suppress("NOTHING_TO_INLINE")
-                    /*suspend*/ fun __close() {
+                    /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+                    fun __close() {
                         if (label != 0) {
                             ColumnIteratorQueueExt._close(this)
                             for (element in keyColumns) {
@@ -156,7 +156,7 @@ if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck f
                                             for (element in valueColumns) {
                                                 element.close()
                                             }
-if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
+                                            if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                                             for (columnIndex2 in keyColumnNames.indices) {
                                                 if (projectedVariables.contains(keyColumnNames[columnIndex2])) {
                                                     output[columnIndex2].queue.add(currentKey[columnIndex2])

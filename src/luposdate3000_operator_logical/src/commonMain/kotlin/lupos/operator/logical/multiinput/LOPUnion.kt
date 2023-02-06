@@ -43,7 +43,7 @@ public class LOPUnion public constructor(query: IQuery, first: IOPBase, second: 
             children[0] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), children[0])
             children[1] = LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), children[1])
             p = getProvidedVariableNames()
-if(SanityCheck.enabled){if(!( provided.containsAll(p) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(provided.containsAll(p))) { throw Exception("SanityCheck failed") } }
         }
         try {
             for (v in p) {

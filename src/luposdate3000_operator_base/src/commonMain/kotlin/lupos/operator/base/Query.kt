@@ -160,7 +160,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
         if (tmp == null) {
             partitionOperators[id] = mutableSetOf(uuid)
         } else {
-if(SanityCheck.enabled){if(!( !tmp.contains(uuid) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(!tmp.contains(uuid))) { throw Exception("SanityCheck failed") } }
             tmp.add(uuid)
         }
     }
@@ -168,7 +168,7 @@ if(SanityCheck.enabled){if(!( !tmp.contains(uuid) )){throw Exception("SanityChec
     public fun removePartitionOperator(uuid: Long, id: Int) {
         val tmp = partitionOperators[id]
         if (tmp != null) {
-if(SanityCheck.enabled){if(!( tmp.contains(uuid) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(tmp.contains(uuid))) { throw Exception("SanityCheck failed") } }
             tmp.remove(uuid)
             if (tmp.size == 0) {
                 partitionOperators.remove(id)

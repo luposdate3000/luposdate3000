@@ -58,7 +58,7 @@ public object EvalDistributedReceiveMulti {
             if (k == 0) {
                 buffer = DictionaryValueTypeArray(inputs.size * variables.size)
             }
-if(SanityCheck.enabled){if(!( cnt == variables.size   )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(cnt == variables.size)) { throw Exception("SanityCheck failed") } }
             val off = openConnections * variables.size
             for (i in 0 until variables.size) {
                 buffer[off + mapping[i]] = conn.readDictionaryValueType()

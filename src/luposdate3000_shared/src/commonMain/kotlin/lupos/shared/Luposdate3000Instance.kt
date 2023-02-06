@@ -131,6 +131,7 @@ public class Luposdate3000Instance {
 
     @JvmField
     public var timeout: Long = Luposdate3000Config.timeout
-@JvmField
-    public var relocateOperatorsIfTooMuchDataIsSent:Boolean=Luposdate3000Config.relocateOperatorsIfTooMuchDataIsSent
+
+    @JvmField
+    public var relocateOperatorsIfTooMuchDataIsSent: Boolean = Luposdate3000Config.relocateOperatorsIfTooMuchDataIsSent
 }

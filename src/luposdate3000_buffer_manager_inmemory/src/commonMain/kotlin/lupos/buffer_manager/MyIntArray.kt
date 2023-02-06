@@ -52,9 +52,9 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
     public fun getSize(): Int = _size
 
     public operator fun get(idx: Int): Int {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx < _size)) { throw Exception("SanityCheck failed") } }
         var res = 0
         lock.withReadLock {
             res = data[idx]
@@ -63,16 +63,16 @@ if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed
     }
 
     public operator fun set(idx: Int, value: Int) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( idx < _size )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(idx < _size)) { throw Exception("SanityCheck failed") } }
         lock.withWriteLock {
             data[idx] = value
         }
     }
 
     public fun setSize(size: Int, clean: Boolean) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         if (size != _size) {
             lock.withWriteLock {
                 if (data.size < size) {
@@ -98,7 +98,7 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
     }
 
     public fun setSize(size: Int) {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         if (size != _size) {
             lock.withWriteLock {
                 if (data.size < size) {
@@ -120,12 +120,12 @@ if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
     }
 
     public fun close() {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         closed = true
     }
 
     public fun delete() {
-if(SanityCheck.enabled){if(!( !closed )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(!closed)) { throw Exception("SanityCheck failed") } }
         close()
         if (bufferManagerPage != null) {
             bufferManager?.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_buffer_manager_inmemory/src/commonMain/kotlin/lupos/buffer_manager/MyIntArray.kt:130"/*SOURCE_FILE_END*/, bufferManagerPage!!)

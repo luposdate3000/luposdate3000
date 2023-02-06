@@ -74,7 +74,7 @@ public object EvalGroup {
                     for (element in valueColumns) {
                         element.close()
                     }
-if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                     break@loop
                 }
                 currentKey[columnIndex] = value

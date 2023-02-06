@@ -318,8 +318,8 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
 
     override fun getIterator(query: IQuery, filter: DictionaryValueTypeArray, projection: List<String>): IteratorBundle {
         var res: IteratorBundle
-if(SanityCheck.enabled){if(!( filter.size in 0..3 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( projection.size + filter.size == 3 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(filter.size in 0..3)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(projection.size + filter.size == 3)) { throw Exception("SanityCheck failed") } }
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
             if (s != "_") {
@@ -384,7 +384,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                     res = IteratorBundle(count)
                 }
             } else {
-if(SanityCheck.enabled){if(!( filter.isEmpty() )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(filter.isEmpty())) { throw Exception("SanityCheck failed") } }
                 if (projection[0] != "_") {
                     columns[projection[0]] = NodeInner.iterator(node, lock, 0, nodeManager, query.getInstance().timeout)
                     if (projection[1] != "_") {
@@ -411,7 +411,7 @@ if(SanityCheck.enabled){if(!( filter.isEmpty() )){throw Exception("SanityCheck f
         return res
     }
 
-    private  fun importHelper(a: Int, b: Int,  combinator: (TripleIterator, TripleIterator) -> TripleIterator): Int {
+    private fun importHelper(a: Int, b: Int, combinator: (TripleIterator, TripleIterator) -> TripleIterator): Int {
         var nodeA: BufferManagerPageWrapper? = null
         var nodeB: BufferManagerPageWrapper? = null
         nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:416"/*SOURCE_FILE_END*/, a) {
@@ -452,7 +452,7 @@ if(SanityCheck.enabled){if(!( filter.isEmpty() )){throw Exception("SanityCheck f
     }
 
     override fun flush() {
-if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0))) { throw Exception("SanityCheck failed") } }
         if (pendingImport.size > 0) {
             lock.writeLock()
             flushAssumeLocks()
@@ -469,7 +469,7 @@ if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0
     @Suppress("NOTHING_TO_INLINE")
     private fun flushContinueWithReadLock() {
         var hasLock = false
-if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0))) { throw Exception("SanityCheck failed") } }
         while (pendingImport.size > 0) {
             if (lock.tryWriteLock()) {
                 flushAssumeLocks()
@@ -500,14 +500,14 @@ if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0
             }
             j++
         }
-if(SanityCheck.enabled){if(!( l.size > 0 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(l.size > 0)) { throw Exception("SanityCheck failed") } }
         val res = l[l.size - 1]!!
         l.clear()
         return res
     }
 
     private fun flushAssumeLocks() {
-if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0))) { throw Exception("SanityCheck failed") } }
         if (pendingImport.size > 0) {
             // check again, that there is something to be done ... this may be changed, because there could be someone _else beforehand, holding exactly this lock ... .
             val insertID = collapseList(pendingImport)
@@ -531,9 +531,9 @@ if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0
                     node = it
                 }
             )
-if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( root_ == NodeManager.nodeNullPointer )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( firstLeaf_ == NodeManager.nodeNullPointer )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(rootNode == null)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(root_ == NodeManager.nodeNullPointer)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(firstLeaf_ == NodeManager.nodeNullPointer)) { throw Exception("SanityCheck failed") } }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -571,7 +571,7 @@ if(SanityCheck.enabled){if(!( firstLeaf_ == NodeManager.nodeNullPointer )){throw
                 }
                 NodeLeaf.initializeWith(node, iterator)
             }
-if(SanityCheck.enabled){if(!( currentLayer.size > 0 )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(currentLayer.size > 0)) { throw Exception("SanityCheck failed") } }
 // work around the  here, because the method would be too large
             while (currentLayer.size > 1) {
                 val tmp = mutableListOf<Int>()
@@ -607,7 +607,7 @@ if(SanityCheck.enabled){if(!( currentLayer.size > 0 )){throw Exception("SanityCh
             nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:606"/*SOURCE_FILE_END*/, nodeid)
             nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:607"/*SOURCE_FILE_END*/, nodeid)
             var rootNodeIsLeaf = false
-if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(rootNode == null)) { throw Exception("SanityCheck failed") } }
             val codeSection2 = {
                 nodeManager.getNodeAny(
                     /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:612"/*SOURCE_FILE_END*/,
@@ -634,7 +634,7 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
             codeSection2()
         } else {
 // this index is cleared completely
-if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(rootNode == null)) { throw Exception("SanityCheck failed") } }
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
             setFirstLeaf(NodeManager.nodeNullPointer)
@@ -646,19 +646,19 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
 
     override fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean) {
         if (isSorted) {
-  if(SanityCheck.enabled)                {
-                    for (i in 1 until dataSize / 3) {
-                        val oldA = data[(i - 1) * 3 + order[0]]
-                        val newA = data[i * 3 + order[0]]
-                        val oldB = data[(i - 1) * 3 + order[1]]
-                        val newB = data[i * 3 + order[1]]
-                        val oldC = data[(i - 1) * 3 + order[2]]
-                        val newC = data[i * 3 + order[2]]
-                             if(SanityCheck.enabled){if(!(       newA >= oldA       )){throw Exception("SanityCheck failed")}}
-                             if(SanityCheck.enabled){if(!(       newB >= oldB || newA > oldA       )){throw Exception("SanityCheck failed")}}
-                             if(SanityCheck.enabled){if(!(       newC > oldC || newA > oldA || newB > oldB       )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                for (i in 1 until dataSize / 3) {
+                    val oldA = data[(i - 1) * 3 + order[0]]
+                    val newA = data[i * 3 + order[0]]
+                    val oldB = data[(i - 1) * 3 + order[1]]
+                    val newB = data[i * 3 + order[1]]
+                    val oldC = data[(i - 1) * 3 + order[2]]
+                    val newC = data[i * 3 + order[2]]
+                    if (SanityCheck.enabled) { if (!(newA >= oldA)) { throw Exception("SanityCheck failed") } }
+                    if (SanityCheck.enabled) { if (!(newB >= oldB || newA > oldA)) { throw Exception("SanityCheck failed") } }
+                    if (SanityCheck.enabled) { if (!(newC > oldC || newA > oldA || newB > oldB)) { throw Exception("SanityCheck failed") } }
                 }
+            }
             insertAsBulkSorted(data, order, dataSize)
         } else {
             val d = arrayOf(data, DictionaryValueTypeArray(dataSize))
@@ -679,15 +679,15 @@ if(SanityCheck.enabled){if(!( rootNode == null )){throw Exception("SanityCheck f
 
     private fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize > 0) {
-  if(SanityCheck.enabled)                {
-                    if (debugSortOrder.isEmpty()) {
-                        debugSortOrder = order
-                    }
-                    for (i in 0 until 3) {
-if(SanityCheck.enabled){if(!( order[i] == debugSortOrder[i] )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                if (debugSortOrder.isEmpty()) {
+                    debugSortOrder = order
                 }
-            
+                for (i in 0 until 3) {
+                    if (SanityCheck.enabled) { if (!(order[i] == debugSortOrder[i])) { throw Exception("SanityCheck failed") } }
+                }
+            }
+
 // debug-->>
             if (false) {
                 val myListOfBefore = mutableSetOf<List<Long>>()
@@ -762,20 +762,20 @@ TODO("row from before missing afterwards")
 
     private fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
         if (dataSize > 0) {
-  if(SanityCheck.enabled)                {
-                    if (debugSortOrder.isEmpty()) {
-                        debugSortOrder = order
-                    }
-                    for (i in 0 until 3) {
-if(SanityCheck.enabled){if(!( order[i] == debugSortOrder[i] )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                if (debugSortOrder.isEmpty()) {
+                    debugSortOrder = order
                 }
-            
+                for (i in 0 until 3) {
+                    if (SanityCheck.enabled) { if (!(order[i] == debugSortOrder[i])) { throw Exception("SanityCheck failed") } }
+                }
+            }
+
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
                 pendingImport.add(firstLeaf_)
             }
-if(SanityCheck.enabled){if(!( pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(pendingRemove.size == 0 != (pendingRemove.size > 0 && pendingImport.size > 0))) { throw Exception("SanityCheck failed") } }
             if (pendingImport.size > 0) {
                 pendingRemove.add(importHelper(BulkImportIterator(data, dataSize, order)))
             }

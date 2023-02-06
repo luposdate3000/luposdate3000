@@ -146,7 +146,7 @@ public class LogicalOptimizerJoinOrderTopologyAssisted(query: Query) : Optimizer
                 return res
             }
             else -> {
-if(SanityCheck.enabled){if(!( nodes.size == 1 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(nodes.size == 1)) { throw Exception("SanityCheck failed") } }
                 return nodes[0]
             }
         }

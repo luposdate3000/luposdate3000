@@ -84,7 +84,7 @@ public object LuposdateEndpoint {
 
     @JsName("load_shacl_ontology")
     /*suspend*/ public fun loadShaclOntology(instance: Luposdate3000Instance, data: String): String {
-if(SanityCheck.enabled){if(!( instance.LUPOS_PROCESS_ID == 0 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(instance.LUPOS_PROCESS_ID == 0)) { throw Exception("SanityCheck failed") } }
         val dict = instance.nodeGlobalDictionary!!
         val cache2 = instance.nodeGlobalOntologyCache
         val cache = if (cache2 == null) {
@@ -278,23 +278,23 @@ if(SanityCheck.enabled){if(!( instance.LUPOS_PROCESS_ID == 0 )){throw Exception(
                     var oldOriginalC = 0
                     fileTriples.readAll {
                         cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
-  if(SanityCheck.enabled)                            {
-                                val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
-                                val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
-                                val newOriginalC = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][2]])
-                                val newA = mapping[newOriginalA]
-                                val newB = mapping[newOriginalB]
-                                val newC = mapping[newOriginalC]
-                                     if(SanityCheck.enabled){if(!(   newA >= oldA )){throw Exception("SanityCheck failed")}}
-                                     if(SanityCheck.enabled){if(!( newB >= oldB || newA > oldA )){throw Exception("SanityCheck failed")}}
-                                     if(SanityCheck.enabled){if(!( newC > oldC || newA > oldA || newB > oldB )){throw Exception("SanityCheck failed")}}
-                                oldA = newA
-                                oldB = newB
-                                oldC = newC
-                                oldOriginalA = newOriginalA
-                                oldOriginalB = newOriginalB
-                                oldOriginalC = newOriginalC
-                            }
+                        if (SanityCheck.enabled) {
+                            val newOriginalA = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][0]])
+                            val newOriginalB = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][1]])
+                            val newOriginalC = DictionaryValueHelper.toInt(it[EIndexPatternHelper.tripleIndicees[sortedBy][2]])
+                            val newA = mapping[newOriginalA]
+                            val newB = mapping[newOriginalB]
+                            val newC = mapping[newOriginalC]
+                            if (SanityCheck.enabled) { if (!(newA >= oldA)) { throw Exception("SanityCheck failed") } }
+                            if (SanityCheck.enabled) { if (!(newB >= oldB || newA > oldA)) { throw Exception("SanityCheck failed") } }
+                            if (SanityCheck.enabled) { if (!(newC > oldC || newA > oldA || newB > oldB)) { throw Exception("SanityCheck failed") } }
+                            oldA = newA
+                            oldB = newB
+                            oldC = newC
+                            oldOriginalA = newOriginalA
+                            oldOriginalB = newOriginalB
+                            oldOriginalC = newOriginalC
+                        }
                         counter++
                         if (counter % 10000 == 0L) {
                             println("imported $counter triples for index $orderName")

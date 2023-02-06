@@ -55,14 +55,14 @@ public class POPChangePartitionOrderedByIntId public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
         if (partitionIDFrom == idFrom) {
             partitionIDFrom = idTo
         } else {
-if(SanityCheck.enabled){if(!( partitionIDTo == idFrom )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(partitionIDTo == idFrom)) { throw Exception("SanityCheck failed") } }
             partitionIDTo = idTo
         }
     }
@@ -139,14 +139,14 @@ if(SanityCheck.enabled){if(!( partitionIDTo == idFrom )){throw Exception("Sanity
     }
 
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-if(SanityCheck.enabled){if(!( partitionCountTo < partitionCountFrom )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(partitionCountTo < partitionCountFrom)) { throw Exception("SanityCheck failed") } }
         val partitionCountSrc = partitionCountFrom / partitionCountTo
         var error: Throwable? = null
         val variables = getProvidedVariableNames()
         val variables0 = children[0].getProvidedVariableNames()
-if(SanityCheck.enabled){if(!( variables0.containsAll(variables) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( variables.containsAll(variables0) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(variables0.containsAll(variables))) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(variables.containsAll(variables0))) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(variables.contains(partitionVariable))) { throw Exception("SanityCheck failed") } }
         var queue_size = query.getInstance().queue_size
         var elementsPerRing = queue_size * variables.size
         var buffersize = elementsPerRing * partitionCountSrc
@@ -272,13 +272,13 @@ if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exc
             }
         }
         val sortColumns = IntArray(mySortPriority.size) { variables.indexOf(mySortPriority[it].variableName) }
-  if(SanityCheck.enabled)            {
-                for (x in sortColumns.indices) {
-if(SanityCheck.enabled){if(!( sortColumns[x] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( mySortPriority[x].sortType == ESortTypeExt.FAST )){throw Exception("SanityCheck failed")}}
-                }
+        if (SanityCheck.enabled) {
+            for (x in sortColumns.indices) {
+                if (SanityCheck.enabled) { if (!(sortColumns[x] >= 0)) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(mySortPriority[x].sortType == ESortTypeExt.FAST)) { throw Exception("SanityCheck failed") } }
             }
-        
+        }
+
         val iterator = RowIterator()
         iterator.columns = variables.toTypedArray()
         iterator.buf = DictionaryValueTypeArray(variables.size)

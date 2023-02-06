@@ -183,7 +183,7 @@ public class TripleStoreManagerImpl public constructor(
 
     @Suppress("NOTHING_TO_INLINE")
     private fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
-if(SanityCheck.enabled){if(!( localStores_[key] == null )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(localStores_[key] == null)) { throw Exception("SanityCheck failed") } }
         localStores_[key] = tripleStore
     }
 
@@ -196,13 +196,13 @@ if(SanityCheck.enabled){if(!( localStores_[key] == null )){throw Exception("Sani
 
     @Suppress("NOTHING_TO_INLINE")
     private fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
-if(SanityCheck.enabled){if(!( metadata_[name] == null )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(metadata_[name] == null)) { throw Exception("SanityCheck failed") } }
         metadata_[name] = tripleStore
     }
 
     @Suppress("NOTHING_TO_INLINE")
     private fun metadataRemove(name: LuposGraphName) {
-   if(SanityCheck.enabled){if(!(    metadata_[name] != null || name == DEFAULT_GRAPH_NAME  )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(metadata_[name] != null || name == DEFAULT_GRAPH_NAME)) { throw Exception("SanityCheck failed") } }
         metadata_.remove(name)
     }
 

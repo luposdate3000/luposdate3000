@@ -216,7 +216,7 @@ public open class SparqlTestSuite {
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#result>") -> {
                     when {
                         second.startsWith("<") && second.endsWith(">") -> {
-if(SanityCheck.enabled){if(!( resultFile == null )){throw Exception("SanityCheck failed")}}
+                            if (SanityCheck.enabled) { if (!(resultFile == null)) { throw Exception("SanityCheck failed") } }
                             resultFile = prefix + extractValueFromIriOrString2(second)
                         }
                         second.startsWith("_:") -> {
@@ -246,7 +246,7 @@ if(SanityCheck.enabled){if(!( resultFile == null )){throw Exception("SanityCheck
                                         outputDataGraph.add(graph)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#result>") -> {
-                                        println ( "unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + second )
+                                        println("unknown-manifest::http://www.w3.org/2009/sparql/tests/test-update#result : " + second)
                                     }
                                     else -> {
                                         TODO("SparqlTestSuite" + first + " # " + second)
@@ -268,18 +268,18 @@ if(SanityCheck.enabled){if(!( resultFile == null )){throw Exception("SanityCheck
                             data.s(second).forEach { (first, second) ->
                                 when (first) {
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#data>") -> {
-if(SanityCheck.enabled){if(!( inputDataFile == null )){throw Exception("SanityCheck failed")}}
+                                        if (SanityCheck.enabled) { if (!(inputDataFile == null)) { throw Exception("SanityCheck failed") } }
                                         inputDataFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#query>") -> {
-if(SanityCheck.enabled){if(!( queryFile == null )){throw Exception("SanityCheck failed")}}
+                                        if (SanityCheck.enabled) { if (!(queryFile == null)) { throw Exception("SanityCheck failed") } }
                                         queryFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/ns/sparql-service-description#entailmentRegime>") -> {
-                                        println( "unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + second )
+                                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#entailmentRegime " + second)
                                     }
                                     ("<http://www.w3.org/ns/sparql-service-description#EntailmentProfile>") -> {
-                                        println( "unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + second )
+                                        println("unknown-manifest::http://www.w3.org/ns/sparql-service-description#EntailmentProfile " + second)
                                     }
                                     ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#graphData>") -> {
                                         val graph = mutableMapOf<String, String>()
@@ -307,11 +307,11 @@ if(SanityCheck.enabled){if(!( queryFile == null )){throw Exception("SanityCheck 
                                         }
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#request>") -> {
-if(SanityCheck.enabled){if(!( queryFile == null )){throw Exception("SanityCheck failed")}}
+                                        if (SanityCheck.enabled) { if (!(queryFile == null)) { throw Exception("SanityCheck failed") } }
                                         queryFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#data>") -> {
-if(SanityCheck.enabled){if(!( inputDataFile == null )){throw Exception("SanityCheck failed")}}
+                                        if (SanityCheck.enabled) { if (!(inputDataFile == null)) { throw Exception("SanityCheck failed") } }
                                         inputDataFile = prefix + extractValueFromIriOrString2(second)
                                     }
                                     ("<http://www.w3.org/2009/sparql/tests/test-update#graphData>") -> {
@@ -343,7 +343,7 @@ if(SanityCheck.enabled){if(!( inputDataFile == null )){throw Exception("SanityCh
                     }
                 }
                 ("<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>") -> {
-if(SanityCheck.enabled){if(!( testType == null )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(testType == null)) { throw Exception("SanityCheck failed") } }
                     testType = second
                     when (second) {
                         ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#CSVResultFormatTest>") -> {
@@ -378,23 +378,23 @@ if(SanityCheck.enabled){if(!( testType == null )){throw Exception("SanityCheck f
                     features.add(second)
                 }
                 ("<http://www.w3.org/2000/01/rdf-schema#comment>") -> {
-if(SanityCheck.enabled){if(!( comment == null )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(comment == null)) { throw Exception("SanityCheck failed") } }
                     comment = extractValueFromIriOrString(second)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval>") -> {
-                    println( "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + second )
+                    println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approval " + second)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy>") -> {
-                    println( "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + second )
+                    println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#approvedBy " + second)
                 }
                 ("<http://www.w3.org/2000/01/rdf-schema#seeAlso>") -> {
-                    println( "unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + second )
+                    println("unknown-manifest::http://www.w3.org/2000/01/rdf-schema#seeAlso " + second)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm>") -> {
-                    println( "unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second )
+                    println("unknown-manifest::http://www.w3.org/2001/sw/DataAccess/tests/test-query#queryForm " + second)
                 }
                 ("<http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#description>") -> {
-if(SanityCheck.enabled){if(!( description == null )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(description == null)) { throw Exception("SanityCheck failed") } }
                     description = extractValueFromIriOrString(second)
                 }
                 else -> {
@@ -402,18 +402,18 @@ if(SanityCheck.enabled){if(!( description == null )){throw Exception("SanityChec
                 }
             }
         }
-        println( "testType : $testType" )
-        println( "names : $names" )
-        println( "comment : $comment" )
-        println( "description : $description" )
-        println( "features : $features" )
-        println( "inputDataGraph : $inputDataGraph" )
-        println( "outputDataGraph : $outputDataGraph" )
-        println( "expectedResult : $expectedResult" )
-        println( "queryFile : $queryFile" )
-        println( "inputDataFile : $inputDataFile" )
-        println( "resultFile : $resultFile" )
-        println( "services : $services" )
+        println("testType : $testType")
+        println("names : $names")
+        println("comment : $comment")
+        println("description : $description")
+        println("features : $features")
+        println("inputDataGraph : $inputDataGraph")
+        println("outputDataGraph : $outputDataGraph")
+        println("expectedResult : $expectedResult")
+        println("queryFile : $queryFile")
+        println("inputDataFile : $inputDataFile")
+        println("resultFile : $resultFile")
+        println("services : $services")
         if (queryFile == null) {
             return true
         }
@@ -593,43 +593,43 @@ if(SanityCheck.enabled){if(!( description == null )){throw Exception("SanityChec
             val query = Query(instance)
             query.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
             var res: Boolean
-            SanityCheck.println{ "----------String Query" }
+            SanityCheck.println { "----------String Query" }
             println(toParse)
-            SanityCheck.println{ "----------Abstract Syntax Tree" }
+            SanityCheck.println { "----------Abstract Syntax Tree" }
             val stream = MyStringStream(toParse)
             val parser: SparqlParser = SparqlParser(stream)
             parser.parserDefinedParse()
             val astNode = parser.getResult() as ASTSparqlDoc
             parser.close()
             stream.close()
-            SanityCheck.println{ astNode }
-            SanityCheck.println{ "----------Logical Operator Graph" }
+            SanityCheck.println { astNode }
+            SanityCheck.println { "----------Logical Operator Graph" }
             val visitor = OperatorGraphVisitor(query)
             val lopNode = visitor.visit(astNode)
-if(SanityCheck.enabled){if(!( lopNode == lopNode.cloneOP() )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(lopNode == lopNode.cloneOP())) { throw Exception("SanityCheck failed") } }
             SanityCheck.suspended {
                 val x = lopNode.toString()
-                SanityCheck.println{ x }
+                SanityCheck.println { x }
             }
-            SanityCheck.println{ "----------Logical Operator Graph optimized" }
+            SanityCheck.println { "----------Logical Operator Graph optimized" }
             val lopNode2 = LogicalOptimizer(query).optimizeCall(lopNode)
-if(SanityCheck.enabled){if(!( lopNode2 == lopNode2.cloneOP() )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(lopNode2 == lopNode2.cloneOP())) { throw Exception("SanityCheck failed") } }
             SanityCheck.suspended {
                 val x = lopNode2.toString()
-                SanityCheck.println{ x }
+                SanityCheck.println { x }
             }
-            SanityCheck.println{ "----------Physical Operator Graph" }
+            SanityCheck.println { "----------Physical Operator Graph" }
             val popOptimizer = PhysicalOptimizer(query)
             val popNode = popOptimizer.optimizeCall(lopNode2)
-if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("SanityCheck failed")}}
-  if(SanityCheck.enabled){ popNode.toSparqlQuery() }
+            if (SanityCheck.enabled) { if (!(popNode == popNode.cloneOP())) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { popNode.toSparqlQuery() }
             SanityCheck.suspended {
                 val x = popNode.toString()
-                SanityCheck.println{ x }
+                SanityCheck.println { x }
             }
             val xmlQueryResult: MemoryTable? = null
             if (outputDataGraph.isNotEmpty() || (resultData != null && resultDataFileName != null)) {
-                SanityCheck.println{ "----------Query Result" }
+                SanityCheck.println { "----------Query Result" }
                 instance.tripleStoreManager!!.commit(query)
                 query.commited = true
             }
@@ -649,17 +649,17 @@ if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("S
                     LuposdateEndpoint.close(instance)
                     return false
                 } else {
-                    SanityCheck.println{ "OutputData Graph[${it["name"]}] Original" }
-                    SanityCheck.println{ outputData }
-                    SanityCheck.println{ "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
+                    SanityCheck.println { "OutputData Graph[${it["name"]}] Original" }
+                    SanityCheck.println { outputData }
+                    SanityCheck.println { "----------Verify Output Data Graph[${it["name"]}] ... target,actual" }
                 }
                 verifiedOutput = true
             }
             if (resultData != null && resultDataFileName != null) {
-                SanityCheck.println{ "----------Target Result" }
+                SanityCheck.println { "----------Target Result" }
                 val xmlQueryTarget = MemoryTable.parseFromAny(resultData, resultDataFileName, query)!!
 
-                SanityCheck.println{ resultData }
+                SanityCheck.println { resultData }
                 if (!ignoreJena) {
                     try {
                         val jenaResult = JenaWrapper.execQuery(toParse)
@@ -690,10 +690,10 @@ if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("S
                     val query4 = Query(instance)
                     query4.setWorkingDirectory(queryFile.substring(0, queryFile.lastIndexOf("/")))
                     val popNodeRecovered = XMLElementToOPBase(query4, xmlPOP)
-                    SanityCheck.println{ xmlPOP.toPrettyString() }
+                    SanityCheck.println { xmlPOP.toPrettyString() }
                     SanityCheck.suspended {
                         val x = popNodeRecovered.toString()
-                        SanityCheck.println{ x }
+                        SanityCheck.println { x }
                     }
                     val xmlQueryResultRecovered = QueryResultToMemoryTable()(popNodeRecovered.evaluateRootBundle())
                     instance.tripleStoreManager!!.commit(query4)
@@ -749,7 +749,7 @@ if(SanityCheck.enabled){if(!( popNode == popNode.cloneOP() )){throw Exception("S
         } catch (e: Throwable) {
             e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuite.kt:749"/*SOURCE_FILE_END*/)
             if (expectedResult) {
-                SanityCheck.println{ e }
+                SanityCheck.println { e }
                 println("----------Time(${DateHelperRelative.elapsedSeconds(timer)})")
                 println("----------Failed(ParseError)")
             } else {

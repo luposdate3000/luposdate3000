@@ -99,7 +99,7 @@ public class KeyValueStore public constructor(
                 pageid = nextPage
             }
         }
-if(SanityCheck.enabled){if(!( pageid == lastPage )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(pageid == lastPage)) { throw Exception("SanityCheck failed") } }
         bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:102"/*SOURCE_FILE_END*/, lastPage)
         bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:103"/*SOURCE_FILE_END*/, lastPage)
         mappingID2Page.delete()
@@ -147,7 +147,7 @@ if(SanityCheck.enabled){if(!( pageid == lastPage )){throw Exception("SanityCheck
         bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:146"/*SOURCE_FILE_END*/, pid)
     }
 
-    private fun writeData(data: ByteArrayWrapper,  action: (page: Int, off: Int) -> Unit) {
+    private fun writeData(data: ByteArrayWrapper, action: (page: Int, off: Int) -> Unit) {
         if (lastPageOffset >= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8) {
             val pageid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:151"/*SOURCE_FILE_END*/)
             BufferManagerPage.writeInt4(lastPageBuf, 0, pageid)
@@ -207,8 +207,8 @@ if(SanityCheck.enabled){if(!( pageid == lastPage )){throw Exception("SanityCheck
     }
 
     public fun getValue(data: ByteArrayWrapper, value: Int) {
-if(SanityCheck.enabled){if(!( value < nextID )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( value >= 0 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(value < nextID)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(value >= 0)) { throw Exception("SanityCheck failed") } }
         readData(data, mappingID2Page[value], mappingID2Off[value])
     }
 }

@@ -66,7 +66,7 @@ public class POPModifyData public constructor(
             if (c.graphVar) {
                 TODO()
             }
-if(SanityCheck.enabled){if(!( !c.graphVar )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(!c.graphVar)) { throw Exception("SanityCheck failed") } }
             if (c.graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {
                 res += c.children[0].toSparql() + " " + c.children[1].toSparql() + " " + c.children[2].toSparql() + "."
             }

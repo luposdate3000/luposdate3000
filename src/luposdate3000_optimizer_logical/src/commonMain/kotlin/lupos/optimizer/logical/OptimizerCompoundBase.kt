@@ -24,7 +24,6 @@ import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
-import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 
@@ -38,50 +37,50 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
         when (node) {
             is POPMergePartitionCount -> {
                 if (node.partitionCount != 1) {
-                         if(SanityCheck.enabled){if(!(      !currentPartitions.contains(node.partitionVariable)  )){throw Exception("SanityCheck failed")}}
-                    
+                    if (SanityCheck.enabled) { if (!(!currentPartitions.contains(node.partitionVariable))) { throw Exception("SanityCheck failed") } }
+
                     currentPartitions[node.partitionVariable] = node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPMergePartition -> {
                 if (node.partitionCount != 1) {
-                         if(SanityCheck.enabled){if(!(    !currentPartitions.contains(node.partitionVariable)    )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(!currentPartitions.contains(node.partitionVariable))) { throw Exception("SanityCheck failed") } }
                     currentPartitions[node.partitionVariable!!] = node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPMergePartitionOrderedByIntId -> {
                 if (node.partitionCount2 != 1) {
-                        if(SanityCheck.enabled){if(!(    !currentPartitions.contains(node.partitionVariable) )){throw Exception("SanityCheck failed")}}
-                    
+                    if (SanityCheck.enabled) { if (!(!currentPartitions.contains(node.partitionVariable))) { throw Exception("SanityCheck failed") } }
+
                     currentPartitions[node.partitionVariable] = node.partitionCount2
                 }
                 ids.add(node.partitionID)
             }
             is POPSplitPartitionFromStore -> {
                 if (node.partitionCount != 1) {
-                         if(SanityCheck.enabled){if(!(    currentPartitions[node.partitionVariable] == node.partitionCount )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(currentPartitions[node.partitionVariable] == node.partitionCount)) { throw Exception("SanityCheck failed") } }
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPSplitPartitionFromStoreCount -> {
                 if (node.partitionCount != 1) {
-                         if(SanityCheck.enabled){if(!(  currentPartitions[node.partitionVariable] == node.partitionCount )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(currentPartitions[node.partitionVariable] == node.partitionCount)) { throw Exception("SanityCheck failed") } }
                     currentPartitions[node.partitionVariable] = -node.partitionCount
                 }
                 ids.add(node.partitionID)
             }
             is POPSplitPartition -> {
                 if (node.partitionCount != 1) {
-                        if(SanityCheck.enabled){if(!(   currentPartitions[node.partitionVariable] == node.partitionCount )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(currentPartitions[node.partitionVariable] == node.partitionCount)) { throw Exception("SanityCheck failed") } }
                     currentPartitions.remove(node.partitionVariable)
                 }
                 ids.add(node.partitionID)
             }
             is POPChangePartitionOrderedByIntId -> {
-                      if(SanityCheck.enabled){if(!(    currentPartitions[node.partitionVariable] == node.partitionCountTo )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(currentPartitions[node.partitionVariable] == node.partitionCountTo)) { throw Exception("SanityCheck failed") } }
                 currentPartitions[node.partitionVariable] = node.partitionCountFrom
                 ids.add(node.partitionIDFrom)
                 ids.add(node.partitionIDTo)
@@ -128,22 +127,21 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                         nextStep(tmp)
                     }
                 }
-  if(SanityCheck.enabled)                    {
-                        val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
-                        verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf(), tmp)
-                        for ((k, v1) in allPartitionOperators) {
-                            val v2 = query.partitionOperators[k]
-  if(SanityCheck.enabled){if(!(    v1 == v2    )){throw Exception("SanityCheck failed")}}
-                        }
-                        for ((k, v1) in query.partitionOperators) {
-                            val v2 = allPartitionOperators[k]
-  if(SanityCheck.enabled){if(!(   v1 == v2  )){throw Exception("SanityCheck failed")}}
-                        }
-                        if (query.filtersMovedUpFromOptionals) {
-                            tmp.syntaxVerifyAllVariableExists(listOf(), false)
-                        }
+                if (SanityCheck.enabled) {
+                    val allPartitionOperators = mutableMapOf<Int, MutableSet<Long>>()
+                    verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf(), tmp)
+                    for ((k, v1) in allPartitionOperators) {
+                        val v2 = query.partitionOperators[k]
+                        if (SanityCheck.enabled) { if (!(v1 == v2)) { throw Exception("SanityCheck failed") } }
                     }
-                
+                    for ((k, v1) in query.partitionOperators) {
+                        val v2 = allPartitionOperators[k]
+                        if (SanityCheck.enabled) { if (!(v1 == v2)) { throw Exception("SanityCheck failed") } }
+                    }
+                    if (query.filtersMovedUpFromOptionals) {
+                        tmp.syntaxVerifyAllVariableExists(listOf(), false)
+                    }
+                }
             }
         }
         query.setRoot(tmp)

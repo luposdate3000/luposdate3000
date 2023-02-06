@@ -157,7 +157,7 @@ public class TripleStoreDescription(
             val i = EIndexPatternHelper.tripleIndicees[idx][ii]
             val param = params[i]
             if (param is IAOPConstant) {
-if(SanityCheck.enabled){if(!( filter2.size == ii )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(filter2.size == ii)) { throw Exception("SanityCheck failed") } }
                 filter2.add(query.getDictionary().valueToGlobal(param.getValue()))
             } else if (param is IAOPVariable) {
                 if (param.getName() != "_") {

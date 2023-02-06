@@ -32,7 +32,7 @@ internal class MapKey(@JvmField val data: DictionaryValueTypeArray) {
 
     override fun equals(other: Any?) = other is MapKey && data.contentEquals(other.data)
     fun equalsFuzzy(other: Any?): Boolean {
-if(SanityCheck.enabled){if(!( other is MapKey )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(other is MapKey)) { throw Exception("SanityCheck failed") } }
         for (i in data.indices) {
             if (data[i] != DictionaryValueHelper.undefValue && (other as MapKey).data[i] != DictionaryValueHelper.undefValue && data[i] != other.data[i]) {
                 return false

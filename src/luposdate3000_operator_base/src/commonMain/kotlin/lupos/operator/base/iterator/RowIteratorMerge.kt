@@ -27,7 +27,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<DictionaryValueType>, compCount: Int, columns: Array<String>): RowIterator {
             println("RowIteratorMerge .. ${columns.toList()} .. ${a.columns.size}")
-if(SanityCheck.enabled){if(!( columns.size == a.columns.size )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(columns.size == a.columns.size)) { throw Exception("SanityCheck failed") } }
             var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var done = false
@@ -170,7 +170,7 @@ if(SanityCheck.enabled){if(!( columns.size == a.columns.size )){throw Exception(
                 }
                 j++
             }
-if(SanityCheck.enabled){if(!( resultList.size > 0 )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(resultList.size > 0)) { throw Exception("SanityCheck failed") } }
             return resultList[resultList.size - 1]!!
         }
     }
@@ -185,13 +185,13 @@ if(SanityCheck.enabled){if(!( resultList.size > 0 )){throw Exception("SanityChec
     public var bIdx: Int = -1
 
     init {
-  if(SanityCheck.enabled)            {
-if(SanityCheck.enabled){if(!( a.columns.size == b.columns.size )){throw Exception("SanityCheck failed")}}
-                for (i in a.columns.indices) {
-if(SanityCheck.enabled){if(!( a.columns[i] == b.columns[i] )){throw Exception("SanityCheck failed")}}
-                }
+        if (SanityCheck.enabled) {
+            if (SanityCheck.enabled) { if (!(a.columns.size == b.columns.size)) { throw Exception("SanityCheck failed") } }
+            for (i in a.columns.indices) {
+                if (SanityCheck.enabled) { if (!(a.columns[i] == b.columns[i])) { throw Exception("SanityCheck failed") } }
             }
-        
+        }
+
         columns = a.columns
         close = {
             a.close()
@@ -297,7 +297,7 @@ if(SanityCheck.enabled){if(!( a.columns[i] == b.columns[i] )){throw Exception("S
         }
     }
 
-    private fun compare( actionA: () -> Unit,  actionB: () -> Unit) {
+    private fun compare(actionA: () -> Unit, actionB: () -> Unit) {
         var i = 0
         while (i < compCount) {
             val cmp = comparator.compare(a.buf[aIdx + i], b.buf[bIdx + i])

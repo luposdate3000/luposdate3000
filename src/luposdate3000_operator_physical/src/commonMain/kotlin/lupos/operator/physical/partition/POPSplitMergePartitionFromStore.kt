@@ -43,7 +43,7 @@ public class POPSplitMergePartitionFromStore public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {

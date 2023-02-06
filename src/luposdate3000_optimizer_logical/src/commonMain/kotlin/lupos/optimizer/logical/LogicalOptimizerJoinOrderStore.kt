@@ -22,14 +22,14 @@ import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderStore {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase? {
-if(SanityCheck.enabled){if(!( allChilds.size > 2 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(allChilds.size > 2)) { throw Exception("SanityCheck failed") } }
         if (root.onlyExistenceRequired) {
-  if(SanityCheck.enabled)                {
-                    for (c in allChilds) {
-if(SanityCheck.enabled){if(!( c.getOnlyExistenceRequired() )){throw Exception("SanityCheck failed")}}
-                    }
+            if (SanityCheck.enabled) {
+                for (c in allChilds) {
+                    if (SanityCheck.enabled) { if (!(c.getOnlyExistenceRequired())) { throw Exception("SanityCheck failed") } }
                 }
-            
+            }
+
             val queue = mutableListOf<IOPBase>()
             queue.addAll(allChilds)
             var lastVariable = 0

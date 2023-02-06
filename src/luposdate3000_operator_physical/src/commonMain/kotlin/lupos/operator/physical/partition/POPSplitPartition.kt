@@ -53,7 +53,7 @@ public class POPSplitPartition public constructor(
     ESortPriorityExt.PREVENT_ANY
 ) {
     init {
-if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }
     }
 
     override fun changePartitionID(idFrom: Int, idTo: Int) {
@@ -123,9 +123,9 @@ if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception
                 iterators = Array(partitionCount) { IteratorBundle(0) }
                 val variables = getProvidedVariableNames()
                 val variables0 = children[0].getProvidedVariableNames()
-if(SanityCheck.enabled){if(!( variables0.containsAll(variables) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( variables.containsAll(variables0) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(variables0.containsAll(variables))) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(variables.containsAll(variables0))) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(variables.contains(partitionVariable))) { throw Exception("SanityCheck failed") } }
                 var queue_size = query.getInstance().queue_size
                 var elementsPerRing = queue_size * variables.size
                 var buffersize = elementsPerRing * partitionCount
@@ -160,7 +160,7 @@ if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exc
                                 }
                             }
                         }
-if(SanityCheck.enabled){if(!( hashVariableIndex != -1 )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(hashVariableIndex != -1)) { throw Exception("SanityCheck failed") } }
                         val cacheArr = IntArray(partitionCount) { it }
                         loop@ while (true) {
                             var tmp = child.next()

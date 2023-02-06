@@ -107,8 +107,8 @@ public object EvalJoinCartesianProduct {
                                 __close()
                             }
 
-                            @Suppress("NOTHING_TO_INLINE")
-                            /*suspend*/ fun __close() {
+                            /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+                            fun __close() {
                                 if (label != 0) {
                                     _close()
                                     for (v in childA.columns.values) {
@@ -126,7 +126,7 @@ public object EvalJoinCartesianProduct {
                                         for (columnIndex in 0 until columnsINAO.size) {
                                             val value = columnsINAO[columnIndex].next()
                                             if (value == DictionaryValueHelper.nullValue) {
-if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
+                                                if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                                                 done = true
                                                 for (v in childA.columns.values) {
                                                     v.close()
@@ -175,8 +175,8 @@ if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck f
                             __close()
                         }
 
-                        @Suppress("NOTHING_TO_INLINE")
-                        /*suspend*/ fun __close() {
+                        /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+                        fun __close() {
                             if (label != 0) {
                                 _close()
                                 for (v in childA.columns.values) {
@@ -194,7 +194,7 @@ if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck f
                                     for (columnIndex in 0 until columnsINAO.size) {
                                         val value = columnsINAO[columnIndex].next()
                                         if (value == DictionaryValueHelper.nullValue) {
-if(SanityCheck.enabled){if(!( columnIndex == 0 )){throw Exception("SanityCheck failed")}}
+                                            if (SanityCheck.enabled) { if (!(columnIndex == 0)) { throw Exception("SanityCheck failed") } }
                                             done = true
                                             for (v in childA.columns.values) {
                                                 v.close()

@@ -31,14 +31,13 @@ public class PhysicalOptimizerDebug(query: Query) : OptimizerBase(query, EOptimi
         if (!query.getInstance().inSimulator) {
             when (node) {
                 !is POPDebug -> {
-  if(SanityCheck.enabled)                        {
-                            // this code is intended to be debugging only - even if it changes the resulting operator-graph
-                            if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
-                                res = POPDebug(query, node.projectedVariables, node)
-                                onChange()
-                            }
+                    if (SanityCheck.enabled) {
+                        // this code is intended to be debugging only - even if it changes the resulting operator-graph
+                        if (node is POPBase && (parent == null || (parent !is POPDebug && parent !is OPBaseCompound))) {
+                            res = POPDebug(query, node.projectedVariables, node)
+                            onChange()
                         }
-                    
+                    }
                 }
             }
         }

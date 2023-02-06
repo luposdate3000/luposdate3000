@@ -63,11 +63,11 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                             child0.nextSIP(head1, sipbufValue, sipbufSkip)
                             val c = sipbufValue[0]
                             //  val c = child0.next() // TODO reenable sip
-  if(SanityCheck.enabled)                                {
-                                         if(SanityCheck.enabled){if(!(  c >= debugHead0 || c == DictionaryValueHelper.nullValue   )){throw Exception("SanityCheck failed")}}
-                                    debugHead0 = c
-                                }
-                            
+                            if (SanityCheck.enabled) {
+                                if (SanityCheck.enabled) { if (!(c >= debugHead0 || c == DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
+                                debugHead0 = c
+                            }
+
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -80,11 +80,11 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                             child1.nextSIP(head0, sipbufValue, sipbufSkip)
                             val c = sipbufValue[0]
 //                            val c = child1.next() // TODO reenable sip
-  if(SanityCheck.enabled)                                {
-                                         if(SanityCheck.enabled){if(!(  c >= debugHead1 || c == DictionaryValueHelper.nullValue  )){throw Exception("SanityCheck failed")}}
-                                    debugHead1 = c
-                                }
-                            
+                            if (SanityCheck.enabled) {
+                                if (SanityCheck.enabled) { if (!(c >= debugHead1 || c == DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
+                                debugHead1 = c
+                            }
+
                             if (c == DictionaryValueHelper.nullValue) {
                                 _close()
                                 return DictionaryValueHelper.nullValue
@@ -99,11 +99,11 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                     while (head0 == value) {
                         count0++
                         val d = child0.next()
-  if(SanityCheck.enabled)                            {
-                                       if(SanityCheck.enabled){if(!(  d >= debugHead0 || d == DictionaryValueHelper.nullValue  )){throw Exception("SanityCheck failed")}}
-                                debugHead0 = d
-                            }
-                        
+                        if (SanityCheck.enabled) {
+                            if (SanityCheck.enabled) { if (!(d >= debugHead0 || d == DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
+                            debugHead0 = d
+                        }
+
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break
@@ -115,11 +115,11 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
                     while (head1 == value) {
                         count1++
                         val d = child1.next()
-  if(SanityCheck.enabled)                            {
-                                            if(SanityCheck.enabled){if(!(  d >= debugHead1 || d == DictionaryValueHelper.nullValue  )){throw Exception("SanityCheck failed")}}
-                                debugHead1 = d
-                            }
-                        
+                        if (SanityCheck.enabled) {
+                            if (SanityCheck.enabled) { if (!(d >= debugHead1 || d == DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
+                            debugHead1 = d
+                        }
+
                         if (d == DictionaryValueHelper.nullValue) {
                             hadnull = true
                             break

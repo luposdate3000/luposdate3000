@@ -35,7 +35,7 @@ import kotlin.jvm.JvmField
 
 public class POPSort public constructor(query: IQuery, projectedVariables: List<String>, @JvmField public val sortBy: Array<AOPVariable>, @JvmField public val sortOrder: Boolean, child: IOPBase) : POPBase(query, projectedVariables, EOperatorIDExt.POPSortID, "POPSort", arrayOf(child), ESortPriorityExt.SORT) {
     override fun getPartitionCount(variable: String): Int {
-if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == 1 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(children[0].getPartitionCount(variable) == 1)) { throw Exception("SanityCheck failed") } }
         return 1
     }
 
@@ -45,7 +45,7 @@ if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == 1 )){th
     override fun toSparql(): String {
         val variables = Array(sortBy.size) { sortBy[it].name }
         val child = children[0]
-if(SanityCheck.enabled){if(!( child !is POPSort )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(child !is POPSort)) { throw Exception("SanityCheck failed") } }
         val sparql = child.toSparql()
         var res: String = if (sparql.startsWith("{SELECT ")) {
             sparql.substring(0, sparql.length - 1)

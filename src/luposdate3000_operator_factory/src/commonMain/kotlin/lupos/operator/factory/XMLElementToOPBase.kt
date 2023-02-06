@@ -160,7 +160,7 @@ public object XMLElementToOPBase {
 
     public fun createProjectedVariables(node: XMLElement): List<String> {
         val res = mutableListOf<String>()
-if(SanityCheck.enabled){if(!( node["projectedVariables"] != null )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(node["projectedVariables"] != null)) { throw Exception("SanityCheck failed") } }
         for (c in node["projectedVariables"]!!.childs) {
             res.add(c.attributes["name"]!!)
         }
@@ -1000,7 +1000,7 @@ if(SanityCheck.enabled){if(!( node["projectedVariables"] != null )){throw Except
     /*suspend*/ public operator fun invoke(query: Query, node: XMLElement, mapping: MutableMap<String, String> = mutableMapOf(), operatorMap: Map<String, Any> = this.operatorMap): IOPBase {
         val theMap = (operatorMap as Map<String, XMLElementToOPBaseMap>)
         val theOperator = theMap[node.tag]
-             if(SanityCheck.enabled){if(!(  theOperator != null )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(theOperator != null)) { throw Exception("SanityCheck failed") } }
         val res = theOperator!!(query, node, mapping, operatorMap as Map<String, Any>)
         if (res !is AOPBase) {
             val tmp = node.attributes["selectedSort"]

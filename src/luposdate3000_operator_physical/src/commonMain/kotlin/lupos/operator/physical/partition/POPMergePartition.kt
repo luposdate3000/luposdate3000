@@ -56,7 +56,7 @@ public class POPMergePartition public constructor(
     }
 
     init {
-if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }
     }
 
     override fun getPartitionCount(variable: String): Int {
@@ -111,9 +111,9 @@ if(SanityCheck.enabled){if(!( projectedVariables.isNotEmpty() )){throw Exception
             var error: Throwable? = null
             val variables = getProvidedVariableNames()
             val variables0 = children[0].getProvidedVariableNames()
-if(SanityCheck.enabled){if(!( variables0.containsAll(variables) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( variables.containsAll(variables0) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( variables.contains(partitionVariable) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(variables0.containsAll(variables))) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(variables.containsAll(variables0))) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(variables.contains(partitionVariable))) { throw Exception("SanityCheck failed") } }
             var queue_size = query.getInstance().queue_size
             var elementsPerRing = queue_size * variables.size
             var buffersize = elementsPerRing * partitionCount

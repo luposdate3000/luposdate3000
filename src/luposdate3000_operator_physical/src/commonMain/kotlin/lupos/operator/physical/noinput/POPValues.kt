@@ -162,7 +162,7 @@ public open class POPValues : POPBase {
                 data[variables[variableIndex]] = columns[variableIndex]
             }
             for (v in values.children) {
-if(SanityCheck.enabled){if(!( v is AOPValue )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(v is AOPValue)) { throw Exception("SanityCheck failed") } }
                 val it = v.getChildren().iterator()
                 for (variableIndex in 0 until variables.size) {
                     columns[variableIndex].add((it.next() as AOPConstant).value)

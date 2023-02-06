@@ -131,7 +131,7 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     }
                 }
                 is LOPGraphOperation -> {
-                           if(SanityCheck.enabled){if(!(        parent is OPBaseCompound    )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(parent is OPBaseCompound)) { throw Exception("SanityCheck failed") } }
                     val manager = query.getInstance().tripleStoreManager!!
                     fun createCopy(sourceName: String, targetName: String): POPBase {
                         try {

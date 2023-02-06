@@ -146,11 +146,11 @@ internal class NodeLeafColumnIteratorPrefix11(node: BufferManagerPageWrapper, no
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:147"/*SOURCE_FILE_END*/, nodeidTmp) {
-if(SanityCheck.enabled){if(!( node != it )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(node != it)) { throw Exception("SanityCheck failed") } }
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-if(SanityCheck.enabled){if(!( remainingTmp > 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(remainingTmp > 0)) { throw Exception("SanityCheck failed") } }
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple110(nodeTmp, offsetTmp, 0, 0) { v0, v1 ->
                     value0Tmp = v0
@@ -235,9 +235,9 @@ if(SanityCheck.enabled){if(!( remainingTmp > 0 )){throw Exception("SanityCheck f
             while (toSkip > remaining) {
                 toSkip -= remaining
                 val nodeidTmp = NodeShared.getNextNode(node)
-if(SanityCheck.enabled){if(!( nodeidTmp != NodeManager.nodeNullPointer )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(nodeidTmp != NodeManager.nodeNullPointer)) { throw Exception("SanityCheck failed") } }
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:238"/*SOURCE_FILE_END*/, nodeidTmp) {
-if(SanityCheck.enabled){if(!( node != it )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(node != it)) { throw Exception("SanityCheck failed") } }
                     node = it
                 }
                 nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:242"/*SOURCE_FILE_END*/, nodeid)
@@ -245,8 +245,8 @@ if(SanityCheck.enabled){if(!( node != it )){throw Exception("SanityCheck failed"
                 remaining = NodeShared.getTripleCount(node)
                 needsReset = true
                 offset = NodeLeaf.START_OFFSET
-if(SanityCheck.enabled){if(!( remaining > 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( label != 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(remaining > 0)) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(label != 0)) { throw Exception("SanityCheck failed") } }
             }
             if (needsReset) {
                 needsReset = false
@@ -254,8 +254,8 @@ if(SanityCheck.enabled){if(!( label != 0 )){throw Exception("SanityCheck failed"
                 value1 = 0
             }
             remaining -= toSkip
-if(SanityCheck.enabled){if(!( remaining >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( toSkip > 0 )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(remaining >= 0)) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(toSkip > 0)) { throw Exception("SanityCheck failed") } }
             while (toSkip > 0) {
                 offset += NodeShared.readTriple110(node, offset, value0, value1) { v0, v1 ->
                     value0 = v0
@@ -267,7 +267,7 @@ if(SanityCheck.enabled){if(!( toSkip > 0 )){throw Exception("SanityCheck failed"
                 val nodeidTmp = NodeShared.getNextNode(node)
                 if (nodeidTmp != NodeManager.nodeNullPointer) {
                     nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:268"/*SOURCE_FILE_END*/, nodeidTmp) {
-if(SanityCheck.enabled){if(!( node != it )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(node != it)) { throw Exception("SanityCheck failed") } }
                         node = it
                     }
                     nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIteratorPrefix11.kt:272"/*SOURCE_FILE_END*/, nodeid)

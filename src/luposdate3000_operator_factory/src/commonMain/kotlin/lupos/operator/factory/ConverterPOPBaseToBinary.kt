@@ -109,7 +109,7 @@ public object ConverterPOPBaseToBinary {
                                     val type2 = ByteArrayWrapperExt.readInt4(data, off2, { "operatorID" })
                                     when (type2) {
                                         EOperatorIDExt.POPDistributedSendSingleID -> {
-if(SanityCheck.enabled){if(!( ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1 )){throw Exception("SanityCheck failed")}}
+                                            if (SanityCheck.enabled) { if (!(ByteArrayWrapperExt.readInt4(data, off2 + 4, { "POPDistributedSendSingle.key" }) == key1)) { throw Exception("SanityCheck failed") } }
                                             ByteArrayWrapperExt.writeInt4(data, off2 + 4, key0, { "POPDistributedSendSingle.key" })
                                         }
                                         EOperatorIDExt.POPDistributedSendMultiID -> {
@@ -122,7 +122,7 @@ if(SanityCheck.enabled){if(!( ByteArrayWrapperExt.readInt4(data, off2 + 4, { "PO
                                                     flag++
                                                 }
                                             }
-if(SanityCheck.enabled){if(!( flag == 1 )){throw Exception("SanityCheck failed")}}
+                                            if (SanityCheck.enabled) { if (!(flag == 1)) { throw Exception("SanityCheck failed") } }
                                         }
                                         else -> {
 // crash, because it is already decided, that this must be replaced

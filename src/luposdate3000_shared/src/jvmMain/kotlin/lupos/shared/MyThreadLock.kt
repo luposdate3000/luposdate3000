@@ -47,7 +47,7 @@ public actual class MyThreadLock {
         return semaphore.tryAcquire()
     }
 
-    public actual fun <T> withLock( action: () -> T): T {
+    public actual fun <T> withLock(action: () -> T): T {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         lock()
         try {

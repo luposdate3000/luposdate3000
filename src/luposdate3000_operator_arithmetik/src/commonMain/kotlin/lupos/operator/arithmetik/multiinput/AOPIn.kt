@@ -31,7 +31,7 @@ public class AOPIn public constructor(query: IQuery, childA: IAOPBase, childB: I
     override fun equals(other: Any?): Boolean = other is AOPIn && children[0] == other.getChildren()[0] && children[1] == other.getChildren()[1]
     override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
         val childA = (children[0] as AOPBase).evaluate(row)
-if(SanityCheck.enabled){if(!( children[1] is AOPSet )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(children[1] is AOPSet)) { throw Exception("SanityCheck failed") } }
         val childsB = Array(children[1].getChildren().size) { (children[1].getChildren()[it] as AOPBase).evaluate(row) }
         val buffer = ByteArrayWrapper()
         return {

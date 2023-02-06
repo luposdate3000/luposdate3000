@@ -146,13 +146,13 @@ public abstract class OPBase public constructor(
                 histogramResult = calculateHistogram()
             }
         }
-  if(SanityCheck.enabled)            {
-                val v1 = getProvidedVariableNames()
-                val v2 = histogramResult!!.values.keys
-if(SanityCheck.enabled){if(!( v1.containsAll(v2) )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( v2.containsAll(v1) )){throw Exception("SanityCheck failed")}}
-            }
-        
+        if (SanityCheck.enabled) {
+            val v1 = getProvidedVariableNames()
+            val v2 = histogramResult!!.values.keys
+            if (SanityCheck.enabled) { if (!(v1.containsAll(v2))) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(v2.containsAll(v1))) { throw Exception("SanityCheck failed") } }
+        }
+
         return histogramResult!!
     }
 
@@ -166,13 +166,13 @@ if(SanityCheck.enabled){if(!( v2.containsAll(v1) )){throw Exception("SanityCheck
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
         val node = query.initialize(this, true, false)
-  if(SanityCheck.enabled)            {
-                val usesDictionary = node.usesDictionary()
-                if (!usesDictionary) {
-                    query.setDictionary(DictionaryCacheLayer(query.getInstance(), DictionaryNotImplemented(query.getInstance()), true))
-                }
+        if (SanityCheck.enabled) {
+            val usesDictionary = node.usesDictionary()
+            if (!usesDictionary) {
+                query.setDictionary(DictionaryCacheLayer(query.getInstance(), DictionaryNotImplemented(query.getInstance()), true))
             }
-        
+        }
+
         return node.evaluate(Partition())
     }
 
@@ -209,7 +209,7 @@ if(SanityCheck.enabled){if(!( v2.containsAll(v1) )){throw Exception("SanityCheck
                     if (idx == c.size) {
                         target.remove(c)
                     } else {
-if(SanityCheck.enabled){if(!( idx == data.size )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(idx == data.size)) { throw Exception("SanityCheck failed") } }
                         needToAdd = false
                     }
                     break@loop
@@ -285,7 +285,7 @@ if(SanityCheck.enabled){if(!( idx == data.size )){throw Exception("SanityCheck f
                 }
             }
         }
-    if(SanityCheck.enabled){if(!(       getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName })       )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(getProvidedVariableNames().containsAll(mySortPriority.map { it.variableName }))) { throw Exception("SanityCheck failed") } }
         sortPriorities = tmp
     }
 
@@ -328,7 +328,7 @@ if(SanityCheck.enabled){if(!( idx == data.size )){throw Exception("SanityCheck f
                         res.add(listOf(SortHelper(provided[2], ESortTypeExt.FAST), SortHelper(provided[1], ESortTypeExt.FAST), SortHelper(provided[0], ESortTypeExt.FAST)))
                     }
                     else -> {
-if(SanityCheck.enabled){if(!( provided.isEmpty() )){throw Exception("SanityCheck failed")}}
+                        if (SanityCheck.enabled) { if (!(provided.isEmpty())) { throw Exception("SanityCheck failed") } }
                     }
                 }
             }
@@ -401,7 +401,7 @@ if(SanityCheck.enabled){if(!( provided.isEmpty() )){throw Exception("SanityCheck
 
     public open fun childrenToVerifyCount(): Int = children.size
     override fun updateChildren(i: Int, child: IOPBase) {
-if(SanityCheck.enabled){if(!( i < children.size )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(i < children.size)) { throw Exception("SanityCheck failed") } }
         children[i] = child
     }
 
@@ -418,7 +418,7 @@ if(SanityCheck.enabled){if(!( i < children.size )){throw Exception("SanityCheck 
     }
 
     override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(parent.getChildren()[parentIdx] == this)) { throw Exception("SanityCheck failed") } }
         for (i in this.getChildren().indices) {
             this.getChildren()[i] = this.getChildren()[i].replaceVariableWithAnother(name, name2, this, i)
         }
@@ -545,7 +545,7 @@ if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw E
     }
 
     override fun setChild(child: IOPBase): IOPBase {
-if(SanityCheck.enabled){if(!( children.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(children.isNotEmpty())) { throw Exception("SanityCheck failed") } }
         this.getChildren()[0] = child
         return child
     }

@@ -21,5 +21,5 @@ public expect class MyThreadLock() {
     public fun lock()
     public fun unlock()
     public fun tryLock(): Boolean
-    public fun <T> withLock( action: () -> T): T
+    public fun <T> withLock(action: () -> T): T
 }

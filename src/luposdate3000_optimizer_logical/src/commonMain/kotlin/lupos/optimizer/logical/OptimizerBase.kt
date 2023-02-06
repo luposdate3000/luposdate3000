@@ -24,19 +24,19 @@ import kotlin.jvm.JvmField
 public abstract class OptimizerBase public constructor(@JvmField public val query: Query, @JvmField public val optimizerID: EOptimizerID, @JvmField public val classname: String) {
     public abstract /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase
     public /*suspend*/ fun optimizeInternal(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
-  if(SanityCheck.enabled)            {
-                if (parent != null) {
-                    var found = false
-                    for (c in parent.getChildren()) {
-                        if (c === node) {
-                            found = true
-                            break
-                        }
+        if (SanityCheck.enabled) {
+            if (parent != null) {
+                var found = false
+                for (c in parent.getChildren()) {
+                    if (c === node) {
+                        found = true
+                        break
                     }
-if(SanityCheck.enabled){if(!( found )){throw Exception("SanityCheck failed")}}
                 }
+                if (SanityCheck.enabled) { if (!(found)) { throw Exception("SanityCheck failed") } }
             }
-        
+        }
+
         for (i in node.getChildren().indices) {
             val tmp = optimizeInternal(node.getChildren()[i], node, onChange)
             node.updateChildren(i, tmp)

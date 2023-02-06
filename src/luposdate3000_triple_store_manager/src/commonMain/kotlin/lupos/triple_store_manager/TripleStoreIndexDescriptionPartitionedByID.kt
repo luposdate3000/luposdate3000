@@ -88,18 +88,18 @@ public class TripleStoreIndexDescriptionPartitionedByID(
         var data = -1
         var flag = false
         for (v in partition.data.values) {
-                if(SanityCheck.enabled){if(!( flag == false )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(flag == false)) { throw Exception("SanityCheck failed") } }
             data = v
             flag = true
         }
-            if(SanityCheck.enabled){if(!( flag == true )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(flag == true)) { throw Exception("SanityCheck failed") } }
         return Pair(hostnames[data], keys[data])
     }
 
     init {
-if(SanityCheck.enabled){if(!(             partitionCount > 1 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( partitionColumn >= 0 )){throw Exception("SanityCheck failed")}}
-            if(SanityCheck.enabled){if(!( partitionColumn < 3 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(partitionCount > 1)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(partitionColumn >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(partitionColumn < 3)) { throw Exception("SanityCheck failed") } }
         idx_set = when (idx) {
             EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O -> intArrayOf(EIndexPatternExt.SPO, EIndexPatternExt.S_PO, EIndexPatternExt.SP_O)
             EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P -> intArrayOf(EIndexPatternExt.SOP, EIndexPatternExt.S_OP, EIndexPatternExt.SO_P)
@@ -114,8 +114,8 @@ if(SanityCheck.enabled){if(!(             partitionCount > 1 )){throw Exception(
     override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(i)
-if(SanityCheck.enabled){if(!( hostnames[i] == "" )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( keys[i] == "" )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(hostnames[i] == "")) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(keys[i] == "")) { throw Exception("SanityCheck failed") } }
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }

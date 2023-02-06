@@ -150,7 +150,7 @@ public class POPTripleStoreIterator(
         } else {
             val count = tripleStoreIndexDescription.getPartitionCount(children)
             if (count > 1) {
-if(SanityCheck.enabled){if(!( (tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!((tripleStoreIndexDescription as TripleStoreIndexDescriptionPartitionedByID).partitionCount == count)) { throw Exception("SanityCheck failed") } }
                 for (i in 0 until 3) {
                     val c = children[i]
                     if (c is AOPVariable && c.name == variable) {

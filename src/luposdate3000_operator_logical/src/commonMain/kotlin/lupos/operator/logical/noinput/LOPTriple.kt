@@ -91,7 +91,7 @@ public class LOPTriple public constructor(
             }
             // than sort order
             for (s in sortPriority) {
-if(SanityCheck.enabled){if(!( s != "_" )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(s != "_")) { throw Exception("SanityCheck failed") } }
                 if (c0 is AOPVariable && c0.name == s) {
                     resString += "S"
                 } else if (c1 is AOPVariable && c1.name == s) {
@@ -120,7 +120,7 @@ if(SanityCheck.enabled){if(!( s != "_" )){throw Exception("SanityCheck failed")}
             if (!resString.contains("O")) {
                 resString += "O"
             }
- if(SanityCheck.enabled){if(!(  resString.length == 3 || (resString.length == 4 && resString.contains("_")) )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(resString.length == 3 || (resString.length == 4 && resString.contains("_")))) { throw Exception("SanityCheck failed") } }
             return EIndexPatternExt.names.indexOf(resString)
         }
     }
@@ -155,7 +155,7 @@ if(SanityCheck.enabled){if(!( s != "_" )){throw Exception("SanityCheck failed")}
         if (res.count == -1) {
             res.count = 0
         }
-if(SanityCheck.enabled){if(!( res.count != -1 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(res.count != -1)) { throw Exception("SanityCheck failed") } }
         return res
     }
 }

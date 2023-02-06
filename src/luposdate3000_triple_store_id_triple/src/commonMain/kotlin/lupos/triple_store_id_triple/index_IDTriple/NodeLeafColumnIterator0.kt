@@ -80,11 +80,11 @@ internal class NodeLeafColumnIterator0(node: BufferManagerPageWrapper, nodeid: I
             while (nodeidTmp != NodeManager.nodeNullPointer) {
                 var nodeTmp = node
                 nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafColumnIterator0.kt:81"/*SOURCE_FILE_END*/, nodeidTmp) {
-if(SanityCheck.enabled){if(!( node != it )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(node != it)) { throw Exception("SanityCheck failed") } }
                     nodeTmp = it
                 }
                 val remainingTmp = NodeShared.getTripleCount(nodeTmp)
-if(SanityCheck.enabled){if(!( remainingTmp > 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(remainingTmp > 0)) { throw Exception("SanityCheck failed") } }
                 var offsetTmp = NodeLeaf.START_OFFSET
                 offsetTmp += NodeShared.readTriple100(nodeTmp, offsetTmp, 0) { v ->
                     valueTmp = v

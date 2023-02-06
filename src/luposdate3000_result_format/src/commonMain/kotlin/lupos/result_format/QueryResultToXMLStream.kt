@@ -32,8 +32,9 @@ import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public class QueryResultToXMLStream : IResultFormat {
-    @Suppress("NOTHING_TO_INLINE")
-    private /*suspend*/ fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
+    /*suspend*/ @Suppress("NOTHING_TO_INLINE")
+    private
+    fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()
@@ -166,7 +167,7 @@ public class QueryResultToXMLStream : IResultFormat {
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
-  if(SanityCheck.enabled){if(!(   child.names.toSet().containsAll(columnNames)   )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(child.names.toSet().containsAll(columnNames))) { throw Exception("SanityCheck failed") } }
             } else {
                 columnNames = child.names.toList()
             }

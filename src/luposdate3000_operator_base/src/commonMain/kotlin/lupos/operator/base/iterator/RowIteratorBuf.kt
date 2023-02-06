@@ -31,9 +31,9 @@ public class RowIteratorBuf(buf: DictionaryValueTypeArray, columns: Array<String
         if (size == 0) {
             offset = -1
         }
-if(SanityCheck.enabled){if(!( size >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( size <= buf.size )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( (buf.size % columns.size) == 0 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(size >= 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(size <= buf.size)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!((buf.size % columns.size) == 0)) { throw Exception("SanityCheck failed") } }
         next = {
             val res = offset
             val tmp = offset + columns.size

@@ -122,7 +122,7 @@ public object ColumnIteratorMerge {
             }
             j++
         }
-if(SanityCheck.enabled){if(!( resultList.size > 0 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(resultList.size > 0)) { throw Exception("SanityCheck failed") } }
         return resultList[resultList.size - 1]!!
     }
 
@@ -224,7 +224,7 @@ if(SanityCheck.enabled){if(!( resultList.size > 0 )){throw Exception("SanityChec
             }
             j++
         }
-if(SanityCheck.enabled){if(!( resultList.size > 0 )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(resultList.size > 0)) { throw Exception("SanityCheck failed") } }
         return resultList[resultList.size - 1]!!
     }
 }

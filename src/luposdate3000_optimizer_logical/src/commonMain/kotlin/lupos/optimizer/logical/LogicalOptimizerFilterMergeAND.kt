@@ -38,8 +38,8 @@ public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query,
                     res = LOPFilter(query, AOPAnd(query, node.getChildren()[1] as AOPBase, child.getChildren()[1] as AOPBase), child.getChildren()[0])
                     onChange()
                 } else {
-if(SanityCheck.enabled){if(!( node.dontSplitFilter == 0 || child.dontSplitFilter == 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( node.dontSplitFilter == 1 || child.dontSplitFilter == 1 )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(node.dontSplitFilter == 0 || child.dontSplitFilter == 0)) { throw Exception("SanityCheck failed") } }
+                    if (SanityCheck.enabled) { if (!(node.dontSplitFilter == 1 || child.dontSplitFilter == 1)) { throw Exception("SanityCheck failed") } }
                     val a: AOPBase
                     val b: AOPBase
                     if (node.dontSplitFilter < child.dontSplitFilter) {
@@ -49,11 +49,11 @@ if(SanityCheck.enabled){if(!( node.dontSplitFilter == 1 || child.dontSplitFilter
                         a = child.getChildren()[1] as AOPBase
                         b = node.getChildren()[1] as AOPBase
                     }
-if(SanityCheck.enabled){if(!( b is AOPOr )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(b is AOPOr)) { throw Exception("SanityCheck failed") } }
                     val c = b.getChildren()[0] as AOPBase
-if(SanityCheck.enabled){if(!( c is AOPAnd )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(c is AOPAnd)) { throw Exception("SanityCheck failed") } }
                     val d = c.getChildren()[1] as AOPBase
-if(SanityCheck.enabled){if(!( d is AOPBuildInCallCOALESCE )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(d is AOPBuildInCallCOALESCE)) { throw Exception("SanityCheck failed") } }
                     if (a is AOPBuildInCallBOUND) {
                         // TODO check if that bound is one of the options for this optional block
                         res = LOPFilter(query, c, child.getChildren()[0])

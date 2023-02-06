@@ -26,7 +26,7 @@ import lupos.shared.operator.IOPBase
 
 public object LogicalOptimizerJoinOrderCostBasedOnHistogram {
     public /*suspend*/ operator fun invoke(allChilds: List<IOPBase>, root: LOPJoin): IOPBase {
-if(SanityCheck.enabled){if(!( allChilds.isNotEmpty() )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(allChilds.isNotEmpty())) { throw Exception("SanityCheck failed") } }
         val nodes = mutableListOf<IOPBase>()
         nodes.addAll(allChilds)
         loop2@ while (nodes.size > 1) {

@@ -43,7 +43,7 @@ public object QueryResultToXMLElement {
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
-if(SanityCheck.enabled){if(!( child.names.toSet().containsAll(columnNames) )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(child.names.toSet().containsAll(columnNames))) { throw Exception("SanityCheck failed") } }
             } else {
                 columnNames = child.names.toList()
             }
@@ -52,7 +52,7 @@ if(SanityCheck.enabled){if(!( child.names.toSet().containsAll(columnNames) )){th
                 query.getDictionary().getValue(buffer, child.columns["?boolean"]!!.next())
                 val value = DictionaryHelper.byteArrayToSparql(buffer)
                 val datatype = "http://www.w3.org/2001/XMLSchema#boolean"
-if(SanityCheck.enabled){if(!( value.endsWith("\"^^<$datatype>") )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(value.endsWith("\"^^<$datatype>"))) { throw Exception("SanityCheck failed") } }
                 nodeSparql.addContent(XMLElement("boolean").addContent(value.substring(1, value.length - ("\"^^<$datatype>").length)))
                 child.columns["?boolean"]!!.close()
             } else {
@@ -92,7 +92,7 @@ if(SanityCheck.enabled){if(!( value.endsWith("\"^^<$datatype>") )){throw Excepti
                                             nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("datatype", type))
                                         } else {
                                             val idx2 = value.lastIndexOf("\"@")
-if(SanityCheck.enabled){if(!( idx2 >= 0 )){throw Exception("SanityCheck failed")}}
+                                            if (SanityCheck.enabled) { if (!(idx2 >= 0)) { throw Exception("SanityCheck failed") } }
                                             val data = value.substring(1, idx2)
                                             val lang = value.substring(idx2 + 2, value.length)
                                             nodeBinding.addContent(XMLElement("literal").addContent(data).addAttribute("xml:lang", lang))

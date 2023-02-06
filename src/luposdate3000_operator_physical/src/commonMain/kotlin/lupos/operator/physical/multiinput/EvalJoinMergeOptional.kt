@@ -30,7 +30,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 public object EvalJoinMergeOptional {
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ internal fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
-if(SanityCheck.enabled){if(!( keyCopy[0] != DictionaryValueHelper.nullValue )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(keyCopy[0] != DictionaryValueHelper.nullValue)) { throw Exception("SanityCheck failed") } }
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
                 /* this is an optional element without a match */
@@ -49,7 +49,7 @@ if(SanityCheck.enabled){if(!( keyCopy[0] != DictionaryValueHelper.nullValue )){t
             }
             for (i in 0 until columnsINJ.size) {
                 key[i] = columnsINJ[i].next()
-if(SanityCheck.enabled){if(!( key[i] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(key[i] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
             }
             for (i in 0 until columnsINJ.size) {
                 if (key[i] != keyCopy[i]) {
@@ -73,9 +73,9 @@ if(SanityCheck.enabled){if(!( key[i] != DictionaryValueHelper.undefValue )){thro
                         }
                         for (j in 0 until columnsINJ[1].size) {
                             key[1][j] = columnsINJ[1][j].next()
-if(SanityCheck.enabled){if(!( key[1][j] != DictionaryValueHelper.undefValue )){throw Exception("SanityCheck failed")}}
+                            if (SanityCheck.enabled) { if (!(key[1][j] != DictionaryValueHelper.undefValue)) { throw Exception("SanityCheck failed") } }
                             if (key[1][j] == DictionaryValueHelper.nullValue) {
-if(SanityCheck.enabled){if(!( j == 0 )){throw Exception("SanityCheck failed")}}
+                                if (SanityCheck.enabled) { if (!(j == 0)) { throw Exception("SanityCheck failed") } }
                                 break@loop
                             }
                         }
@@ -124,8 +124,8 @@ if(SanityCheck.enabled){if(!( j == 0 )){throw Exception("SanityCheck failed")}}
             outIterators.add(Pair(name, 2))
             columnsINO[1].add(child[1].columns[name]!!)
         }
-if(SanityCheck.enabled){if(!( columnsINJ[0].size > 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( columnsINJ[0].size == columnsINJ[1].size )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(columnsINJ[0].size > 0)) { throw Exception("SanityCheck failed") } }
+        if (SanityCheck.enabled) { if (!(columnsINJ[0].size == columnsINJ[1].size)) { throw Exception("SanityCheck failed") } }
         val emptyColumnsWithJoin = outIterators.size == 0
         if (emptyColumnsWithJoin) {
             outIterators.add(Pair("", 3))

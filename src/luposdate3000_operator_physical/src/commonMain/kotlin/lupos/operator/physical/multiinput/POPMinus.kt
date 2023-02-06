@@ -31,7 +31,7 @@ public class POPMinus public constructor(query: IQuery, projectedVariables: List
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {
             if (children[1].getProvidedVariableNames().contains(variable)) {
-if(SanityCheck.enabled){if(!( children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable) )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(children[0].getPartitionCount(variable) == children[1].getPartitionCount(variable))) { throw Exception("SanityCheck failed") } }
                 children[0].getPartitionCount(variable)
             } else {
                 children[0].getPartitionCount(variable)

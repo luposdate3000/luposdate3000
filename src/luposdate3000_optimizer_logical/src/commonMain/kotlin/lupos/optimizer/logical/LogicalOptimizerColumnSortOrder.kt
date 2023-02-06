@@ -25,19 +25,19 @@ public class LogicalOptimizerColumnSortOrder(query: Query) : OptimizerBase(query
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         val res: IOPBase = node
         var hadChange = false
-  if(SanityCheck.enabled)            {
-                if (parent != null) {
-                    var found = false
-                    for (c in parent.getChildren()) {
-                        if (c === node) {
-                            found = true
-                            break
-                        }
+        if (SanityCheck.enabled) {
+            if (parent != null) {
+                var found = false
+                for (c in parent.getChildren()) {
+                    if (c === node) {
+                        found = true
+                        break
                     }
-if(SanityCheck.enabled){if(!( found )){throw Exception("SanityCheck failed")}}
                 }
+                if (SanityCheck.enabled) { if (!(found)) { throw Exception("SanityCheck failed") } }
             }
-        
+        }
+
         val done = node.initializeSortPriorities {
             hadChange = true
             onChange()
@@ -47,7 +47,7 @@ if(SanityCheck.enabled){if(!( found )){throw Exception("SanityCheck failed")}}
                 val tmp = node.getSortPriorities()
                 if (tmp.size > 1) {
                     node.selectSortPriority(tmp.first())
-if(SanityCheck.enabled){if(!( node.getSortPriorities().size == 1 )){throw Exception("SanityCheck failed")}}
+                    if (SanityCheck.enabled) { if (!(node.getSortPriorities().size == 1)) { throw Exception("SanityCheck failed") } }
                     onChange()
                 }
             } else {
@@ -62,7 +62,7 @@ if(SanityCheck.enabled){if(!( node.getSortPriorities().size == 1 )){throw Except
                         val tmp3 = node.getSortPriorities()
                         if (tmp3.size > 1) {
                             node.selectSortPriority(tmp3.first())
-if(SanityCheck.enabled){if(!( node.getSortPriorities().size == 1 )){throw Exception("SanityCheck failed")}}
+                            if (SanityCheck.enabled) { if (!(node.getSortPriorities().size == 1)) { throw Exception("SanityCheck failed") } }
                             onChange()
                         }
                     }

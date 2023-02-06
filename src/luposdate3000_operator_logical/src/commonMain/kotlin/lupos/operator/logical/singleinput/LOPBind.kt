@@ -59,7 +59,7 @@ public class LOPBind public constructor(query: IQuery, @JvmField public val name
     }
 
     override fun replaceVariableWithAnother(name: String, name2: String, parent: IOPBase, parentIdx: Int): IOPBase {
-if(SanityCheck.enabled){if(!( parent.getChildren()[parentIdx] == this )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(parent.getChildren()[parentIdx] == this)) { throw Exception("SanityCheck failed") } }
         if (this.name.name == name) {
             val exp = this.getChildren()[1]
             if (exp is AOPVariable) {

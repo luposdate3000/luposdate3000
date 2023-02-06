@@ -27,12 +27,11 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 public object DictionaryInlineValues {
 
     public fun getValueByContent(buffer: ByteArrayWrapper): DictionaryValueType {
-  if(SanityCheck.enabled)            {
-                val value = DictionaryHelper.byteArrayToType(buffer)
-                     if(SanityCheck.enabled){if(!(  ETripleComponentTypeExt.BLANK_NODE != value  )){throw Exception("SanityCheck failed")}}
-                
-            }
-        
+        if (SanityCheck.enabled) {
+            val value = DictionaryHelper.byteArrayToType(buffer)
+            if (SanityCheck.enabled) { if (!(ETripleComponentTypeExt.BLANK_NODE != value)) { throw Exception("SanityCheck failed") } }
+        }
+
         val s = ByteArrayWrapperExt.getSize(buffer)
         if (s >= DictionaryValueHelper.getSize()) {
             return DictionaryValueHelper.nullValue

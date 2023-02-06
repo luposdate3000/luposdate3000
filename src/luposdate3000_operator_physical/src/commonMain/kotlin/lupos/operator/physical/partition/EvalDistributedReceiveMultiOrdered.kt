@@ -53,14 +53,14 @@ public object EvalDistributedReceiveMultiOrdered {
         for (kk in 0 until inputs.size) {
             val off = kk * variables.size
             val cnt = openInputs[kk]!!.readInt()
-                   if(SanityCheck.enabled){if(!(             cnt == variables.size   )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(cnt == variables.size)) { throw Exception("SanityCheck failed") } }
             for (i in 0 until variables.size) {
                 val len = openInputs[kk]!!.readInt()
                 val buf = ByteArray(len)
                 openInputs[kk]!!.read(buf, len)
                 val name = buf.decodeToString()
                 val j = variables.indexOf(name)
-if(SanityCheck.enabled){if(!( j >= 0 && j < variables.size )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(j >= 0 && j < variables.size)) { throw Exception("SanityCheck failed") } }
                 openInputMappings[off + i] = off + j
             }
             for (i in 0 until variables.size) {
@@ -113,25 +113,25 @@ if(SanityCheck.enabled){if(!( j >= 0 && j < variables.size )){throw Exception("S
                     for (i in 0 until variables.size) {
                         buffer[openInputMappings[off + i]] = openInputs[min]!!.readDictionaryValueType()
                     }
-  if(SanityCheck.enabled)                        {
-                            if (buffer[off] != DictionaryValueHelper.nullValue) {
-                                for (idx in 0 until orderedBy.size) {
-                                    val a = buffer[idx + min * variables.size]
-                                    val b = debugbuffer[idx + min * variables.size]
-                                    if (a > b) {
-                                        break
-                                    } else {
-                                        if (a < b) {
-                                            TODO("not sorted input can not be fixed here $min")
-                                        }
+                    if (SanityCheck.enabled) {
+                        if (buffer[off] != DictionaryValueHelper.nullValue) {
+                            for (idx in 0 until orderedBy.size) {
+                                val a = buffer[idx + min * variables.size]
+                                val b = debugbuffer[idx + min * variables.size]
+                                if (a > b) {
+                                    break
+                                } else {
+                                    if (a < b) {
+                                        TODO("not sorted input can not be fixed here $min")
                                     }
                                 }
-                                for (i in 0 until variables.size) {
-                                    debugbuffer[off + i] = buffer[off + i]
-                                }
+                            }
+                            for (i in 0 until variables.size) {
+                                debugbuffer[off + i] = buffer[off + i]
                             }
                         }
-                    
+                    }
+
                     if (buffer[off] == DictionaryValueHelper.nullValue) {
                         openInputs[min]!!.close()
                         openOutputs[min]?.close()

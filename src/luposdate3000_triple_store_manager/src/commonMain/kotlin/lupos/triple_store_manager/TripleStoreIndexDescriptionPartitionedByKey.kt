@@ -84,18 +84,18 @@ public class TripleStoreIndexDescriptionPartitionedByKey(
         val hash: Int
         when (key_size) {
             1 -> {
-if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0)) { throw Exception("SanityCheck failed") } }
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]])
             }
             2 -> {
-if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0)) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0)) { throw Exception("SanityCheck failed") } }
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]])
             }
             3 -> {
-if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0 )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0 )){throw Exception("SanityCheck failed")}}
+                if (SanityCheck.enabled) { if (!(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] >= 0)) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] >= 0)) { throw Exception("SanityCheck failed") } }
+                if (SanityCheck.enabled) { if (!(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]] >= 0)) { throw Exception("SanityCheck failed") } }
                 hash = DictionaryValueHelper.toInt(triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][0]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][1]] + triple[EIndexPatternHelper.tripleIndicees[idx_set[0]][2]])
             }
             else -> throw UnreachableException()
@@ -117,7 +117,7 @@ if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[
                 counter++
             }
         }
-             if(SanityCheck.enabled){if(!(  counter == key_size || (counter == 0 && partition.data.size > 0)  )){throw Exception("SanityCheck failed")}}
+        if (SanityCheck.enabled) { if (!(counter == key_size || (counter == 0 && partition.data.size > 0))) { throw Exception("SanityCheck failed") } }
         val partitionToUse = if (counter == 0) {
             partition.data[fixedPartitionName]!!
         } else {
@@ -163,8 +163,8 @@ if(SanityCheck.enabled){if(!( triple[EIndexPatternHelper.tripleIndicees[idx_set[
     override fun assignHosts() {
         for (i in 0 until partitionCount) {
             val tmp = ((instance.tripleStoreManager!!) as TripleStoreManagerImpl).getNextHostAndKey(i)
-if(SanityCheck.enabled){if(!( hostnames[i] == "" )){throw Exception("SanityCheck failed")}}
-if(SanityCheck.enabled){if(!( keys[i] == "" )){throw Exception("SanityCheck failed")}}
+            if (SanityCheck.enabled) { if (!(hostnames[i] == "")) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(keys[i] == "")) { throw Exception("SanityCheck failed") } }
             hostnames[i] = tmp.first
             keys[i] = tmp.second
         }
