@@ -30,24 +30,24 @@ public actual class MyThreadLock {
     public val semaphore: Semaphore = Semaphore(1)
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getUUID(): Long = uuid
+    public actual fun getUUID(): Long = uuid
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun lock() {
+    public actual fun lock() {
         semaphore.acquire()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun unlock() {
+    public actual fun unlock() {
         semaphore.release()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun tryLock(): Boolean {
+    public actual fun tryLock(): Boolean {
         return semaphore.tryAcquire()
     }
 
-    public actual inline fun <T> withLock(crossinline action: () -> T): T {
+    public actual fun <T> withLock( action: () -> T): T {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         lock()
         try {

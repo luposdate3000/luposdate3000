@@ -17,9 +17,9 @@
 package lupos.shared
 
 public expect class MyThreadLock() {
-    public inline fun getUUID(): Long
-    public inline fun lock()
-    public inline fun unlock()
-    public inline fun tryLock(): Boolean
-    public inline fun <T> withLock(crossinline action: () -> T): T
+    public fun getUUID(): Long
+    public fun lock()
+    public fun unlock()
+    public fun tryLock(): Boolean
+    public fun <T> withLock( action: () -> T): T
 }

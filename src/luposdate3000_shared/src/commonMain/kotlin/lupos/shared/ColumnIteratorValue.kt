@@ -22,7 +22,7 @@ import kotlin.jvm.JvmField
 public class ColumnIteratorValue : ColumnIterator() {
     public companion object {
         @Suppress("NOTHING_TO_INLINE")
-        public inline operator fun invoke(value: DictionaryValueType): ColumnIteratorValue {
+        public operator fun invoke(value: DictionaryValueType): ColumnIteratorValue {
             val res = ColumnIteratorValue()
             res.value = value
             return res

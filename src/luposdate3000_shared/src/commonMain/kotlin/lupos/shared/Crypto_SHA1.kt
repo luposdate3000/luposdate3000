@@ -61,17 +61,17 @@ public class Crypto_SHA1 {
     private val h = IntArray(5)
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun arraycopy(src: ByteArray, srcPos: Int, dst: ByteArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
+    private fun arraycopy(src: ByteArray, srcPos: Int, dst: ByteArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
+    private fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
 
     init {
         arraycopy(H, 0, h, 0, 5)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun digestOut(out: ByteArray) {
+    private fun digestOut(out: ByteArray) {
         val tail = totalWritten % 64
         val padding = (if (64 - tail >= 9) 64 - tail else 128 - tail)
         val pad = ByteArray(padding.toInt()).apply { this[0] = 0x80.toByte() }
@@ -91,16 +91,16 @@ public class Crypto_SHA1 {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun Int.rotateLeft(bits: Int): Int = ((this shl bits) or (this ushr (32 - bits)))
+    private fun Int.rotateLeft(bits: Int): Int = ((this shl bits) or (this ushr (32 - bits)))
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun ByteArray.readU8(o: Int): Int = this[o].toInt() and 0xFF
+    private fun ByteArray.readU8(o: Int): Int = this[o].toInt() and 0xFF
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun ByteArray.readS32_be(o: Int): Int = (readU8(o + 3) shl 0) or (readU8(o + 2) shl 8) or (readU8(o + 1) shl 16) or (readU8(o + 0) shl 24)
+    private fun ByteArray.readS32_be(o: Int): Int = (readU8(o + 3) shl 0) or (readU8(o + 2) shl 8) or (readU8(o + 1) shl 16) or (readU8(o + 0) shl 24)
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun update(data: ByteArray, offset: Int, count: Int): Crypto_SHA1 {
+    private fun update(data: ByteArray, offset: Int, count: Int): Crypto_SHA1 {
         var curr = offset
         var left = count
         while (left > 0) {
@@ -120,7 +120,7 @@ public class Crypto_SHA1 {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun coreUpdate(chunk: ByteArray) {
+    private fun coreUpdate(chunk: ByteArray) {
         for (j in 0 until 16) w[j] = chunk.readS32_be(j * 4)
         for (j in 16 until 80) w[j] = (w[j - 3] xor w[j - 8] xor w[j - 14] xor w[j - 16]).rotateLeft(1)
 

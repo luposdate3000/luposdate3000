@@ -284,7 +284,7 @@ internal class ValueKeyStoreWriter {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun write(id: Int, buffer: ByteArrayWrapper) {
+    internal fun write(id: Int, buffer: ByteArrayWrapper) {
         write(ValueKeyStore.PAGEID_NULL_PTR, id, buffer)
     }
 
@@ -298,7 +298,7 @@ internal class ValueKeyStoreWriter {
         lastChildPageID = childPageID
     }
 
-    internal inline fun write(childPageID: Int, id: Int, buffer: ByteArrayWrapper, onNextEntryPoint: () -> Unit) {
+    internal fun write(childPageID: Int, id: Int, buffer: ByteArrayWrapper, onNextEntryPoint: () -> Unit) {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:301"/*SOURCE_FILE_END*/ }, { offset <= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - ValueKeyStore.RESERVED_SPACE })
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:302"/*SOURCE_FILE_END*/ }, { id != ValueKeyStore.ID_NULL })
         counter++
@@ -414,7 +414,7 @@ public class ValueKeyStoreIteratorLeaf internal constructor(@JvmField internal v
 internal class ValueKeyStoreIteratorSearch {
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: IBufferManager, buffer: ByteArrayWrapper): Int {
+    internal fun search(target: ByteArrayWrapper, startpageid: Int, bufferManager: IBufferManager, buffer: ByteArrayWrapper): Int {
         var pageid = startpageid
         while (true) {
             var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_vk/src/commonMain/kotlin/lupos/vk/ValueKeyStore.kt:419"/*SOURCE_FILE_END*/, pageid)

@@ -108,7 +108,7 @@ public object EvalJoinCartesianProduct {
                             }
 
                             @Suppress("NOTHING_TO_INLINE")
-                            /*suspend*/ inline fun __close() {
+                            /*suspend*/ fun __close() {
                                 if (label != 0) {
                                     _close()
                                     for (v in childA.columns.values) {
@@ -176,7 +176,7 @@ public object EvalJoinCartesianProduct {
                         }
 
                         @Suppress("NOTHING_TO_INLINE")
-                        /*suspend*/ inline fun __close() {
+                        /*suspend*/ fun __close() {
                             if (label != 0) {
                                 _close()
                                 for (v in childA.columns.values) {

@@ -138,7 +138,7 @@ internal fun generatePOPJoinMerge(
             }
             return tmp
         }
-        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private inline fun _hasNext2Close() {"""
+        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private fun _hasNext2Close() {"""
     )
     for (variablename in children0ProvidedVariable) {
         clazz.header.println("            columnsInJ0$variablename.close()")
@@ -216,7 +216,7 @@ internal fun generatePOPJoinMerge(
     clazz.iteratorClassVariables.add("var sipbufSkip = IntArray(1)")
     clazz.iteratorClassVariables.add("var sipbufValue=DictionaryValueTypeArray(1)")
 
-    clazz.iteratorBody.println("@Suppress(\"NOTHING_TO_INLINE\") /*suspend*/ private inline fun __close() {")
+    clazz.iteratorBody.println("@Suppress(\"NOTHING_TO_INLINE\") /*suspend*/ private fun __close() {")
 
     clazz.iteratorBody.println("if (label != 0) {")
     for (variable in variables0Only) {

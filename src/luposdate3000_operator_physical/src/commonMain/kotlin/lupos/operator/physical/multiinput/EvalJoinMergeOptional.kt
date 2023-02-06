@@ -29,7 +29,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalJoinMergeOptional {
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
+    /*suspend*/ internal fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/multiinput/EvalJoinMergeOptional.kt:32"/*SOURCE_FILE_END*/ }, { keyCopy[0] != DictionaryValueHelper.nullValue })
         for (i in 0 until columnsINJ.size) {
             if (key[i] != keyCopy[i]) {
@@ -61,7 +61,7 @@ public object EvalJoinMergeOptional {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun findNextKey(key: Array<DictionaryValueTypeArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+    /*suspend*/ internal fun findNextKey(key: Array<DictionaryValueTypeArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
         if (key[0][0] != DictionaryValueHelper.nullValue && key[1][0] != DictionaryValueHelper.nullValue) {
             loop@ while (true) {
                 for (i in 0 until columnsINJ[0].size) {

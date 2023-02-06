@@ -175,7 +175,7 @@ internal class POPJoinMergeSingleColumn_Iterator(@JvmField internal val query: I
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal inline fun _close() {
+    /*suspend*/ internal fun _close() {
         if (label != 0) {
             label = 0
             child0.close()

@@ -39,7 +39,7 @@ internal var data2: IntArray = IntArray(0)
 @JvmField
 internal val stack = IntArray(128)
 
-private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> Int, crossinline cmpBtoB: (Int, Int) -> Int, step: Int) {
+private fun mergesort2(n: Int,  copyBToA: (Int, Int) -> Unit,  copyAToB: (Int, Int) -> Unit,  cmpAtoA: (Int, Int) -> Int,  cmpBtoB: (Int, Int) -> Int, step: Int) {
     var size = 1
     while (size < n) {
         var lstart = 0
@@ -126,7 +126,7 @@ private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
     }
 }
 
-private inline fun mergesort1(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline copyAToA: (Int, Int) -> Unit, crossinline cmpBtoA: (Int, Int) -> Int) {
+private fun mergesort1(n: Int,  copyBToA: (Int, Int) -> Unit,  copyAToB: (Int, Int) -> Unit,  copyAToA: (Int, Int) -> Unit,  cmpBtoA: (Int, Int) -> Int) {
     var s = 1
     while (s < n) {
         var m = n - 1 - s
@@ -156,7 +156,7 @@ private inline fun mergesort1(n: Int, crossinline copyBToA: (Int, Int) -> Unit, 
     }
 }
 
-private inline fun quicksort(l: Int, r: Int, crossinline cmp: (Int, Int) -> Int, crossinline swap: (Int, Int) -> Unit, step: Int, stack: IntArray) {
+private fun quicksort(l: Int, r: Int,  cmp: (Int, Int) -> Int,  swap: (Int, Int) -> Unit, step: Int, stack: IntArray) {
     var stackSize = 0
     stack[stackSize++] = l
     stack[stackSize++] = r

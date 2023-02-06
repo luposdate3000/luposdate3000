@@ -35,7 +35,7 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 public class QueryResultToTurtleStream : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
+    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
         val variablesIndices = intArrayOf(variables.indexOf("s"), variables.indexOf("p"), variables.indexOf("o"))
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
@@ -114,7 +114,7 @@ public class QueryResultToTurtleStream : IResultFormat {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun invokeInternal(rootNode: IteratorBundleRoot, output: IMyOutputStream, timeoutInMs: Long) {
+    internal fun invokeInternal(rootNode: IteratorBundleRoot, output: IMyOutputStream, timeoutInMs: Long) {
         val query = rootNode.query
         val flag = query.getDictionaryUrl() == null && query.getDictionary() !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
         val key = "${query.getTransactionID()}"

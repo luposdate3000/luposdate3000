@@ -116,7 +116,7 @@ public class KeyValueStore public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun readData(data: ByteArrayWrapper, page: Int, off: Int) {
+    private fun readData(data: ByteArrayWrapper, page: Int, off: Int) {
         var p = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:119"/*SOURCE_FILE_END*/, page)
         var pid = page
         val l = BufferManagerPage.readInt4(p, off)
@@ -147,7 +147,7 @@ public class KeyValueStore public constructor(
         bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:146"/*SOURCE_FILE_END*/, pid)
     }
 
-    private inline fun writeData(data: ByteArrayWrapper, crossinline action: (page: Int, off: Int) -> Unit) {
+    private fun writeData(data: ByteArrayWrapper,  action: (page: Int, off: Int) -> Unit) {
         if (lastPageOffset >= BufferManagerPage.BUFFER_MANAGER_PAGE_SIZE_IN_BYTES - 8) {
             val pageid = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_kv/src/commonMain/kotlin/lupos/kv/KeyValueStore.kt:151"/*SOURCE_FILE_END*/)
             BufferManagerPage.writeInt4(lastPageBuf, 0, pageid)

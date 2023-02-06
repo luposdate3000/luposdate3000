@@ -32,7 +32,7 @@ public abstract class ColumnIteratorChildIterator(public val query: IQuery) : Co
     public var label: Int = 1
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun addChildColumnIteratorValue(value: DictionaryValueType) {
+    public fun addChildColumnIteratorValue(value: DictionaryValueType) {
         val res = ColumnIteratorValue()
         res.value = value
         res.done = false
@@ -40,7 +40,7 @@ public abstract class ColumnIteratorChildIterator(public val query: IQuery) : Co
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun addChild(child: ColumnIterator) {
+    public fun addChild(child: ColumnIterator) {
         if (queueRead == queueWrite) {
             queueRead = 0
             queueWrite = 0
@@ -60,19 +60,19 @@ public abstract class ColumnIteratorChildIterator(public val query: IQuery) : Co
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun closeOnNoMoreElements() {
+    public fun closeOnNoMoreElements() {
         if (label != 0) {
             label = 2
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun releaseValue(obj: ColumnIterator) {
+    public fun releaseValue(obj: ColumnIterator) {
         obj.close()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ public inline fun _close() {
+    /*suspend*/ public fun _close() {
         if (label != 0) {
             label = 0
             for (i in queueRead until queueWrite) {

@@ -20,20 +20,20 @@ public actual class MyThreadLock {
 
     @JvmField
     internal val uuid = UUID_Counter.getNextUUID()
-    public actual inline fun getUUID(): Long = uuid
-    public actual inline fun lock() {
+    public actual fun getUUID(): Long = uuid
+    public actual fun lock() {
         TODO()
     }
 
-    public actual inline fun unlock() {
+    public actual fun unlock() {
         TODO()
     }
 
-    public actual inline fun tryLock(): Boolean {
+    public actual fun tryLock(): Boolean {
         TODO()
     }
 
-    public actual inline fun <T> withLock(crossinline action: () -> T): T {
+    public actual fun <T> withLock( action: () -> T): T {
         lock()
         try {
             return action()

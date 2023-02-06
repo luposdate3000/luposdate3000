@@ -35,7 +35,7 @@ internal class POPJoinMerge_Bundle(@JvmField val columnsINJ0: List<ColumnIterato
     var localHasnext2closeI = 0
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun _hasNext2Close() {
+    /*suspend*/ private fun _hasNext2Close() {
         localHasnext2closeI = 0
         while (localHasnext2closeI < columnsINJ0.size) {
             columnsINJ0[localHasnext2closeI].close()

@@ -229,7 +229,7 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
         public val parseFromAnyRegistered: MutableMap<String, MemoryTableParser> = mutableMapOf()
 
         @Suppress("NOTHING_TO_INLINE")
-        internal inline fun merge(a: MemoryTable, b: MemoryTable): MemoryTable {
+        internal fun merge(a: MemoryTable, b: MemoryTable): MemoryTable {
             if (a.columns.size != b.columns.size) {
                 throw IncompatibleInputException()
             }

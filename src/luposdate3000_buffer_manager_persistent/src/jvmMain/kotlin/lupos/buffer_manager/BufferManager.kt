@@ -75,7 +75,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     internal var datafilelength: Long
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun findOpenID(pageid: Int, crossinline onFound: (Int) -> Unit, crossinline onNotFound: () -> Unit) {
+    private fun findOpenID(pageid: Int,  onFound: (Int) -> Unit,  onNotFound: () -> Unit) {
         for (i in 0 until cacheSize) {
             if (openPagesMapping[i] == pageid) {
                 onFound(i)

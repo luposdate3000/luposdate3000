@@ -72,7 +72,7 @@ internal class POPJoinMerge_Iterator(
     internal var sipbufValue = DictionaryValueTypeArray(1)
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun __close() {
+    /*suspend*/ private fun __close() {
         if (label != 0) {
             localCloseI = 0
             while (localCloseI < columnsO0Size) {

@@ -30,7 +30,7 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, timeoutInMs: Long) {
+    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val buffer = ByteArrayWrapper()
         val startTime = DateHelperRelative.markNow()
@@ -64,7 +64,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun invokeInternal(rootNode: IteratorBundleRoot, timeoutInMs: Long) {
+    internal fun invokeInternal(rootNode: IteratorBundleRoot, timeoutInMs: Long) {
         val query = rootNode.query
         val flag = query.getDictionaryUrl() == null && query.getDictionary() !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
         val key = "${query.getTransactionID()}"

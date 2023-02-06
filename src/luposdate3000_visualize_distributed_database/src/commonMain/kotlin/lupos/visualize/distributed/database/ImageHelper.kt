@@ -122,18 +122,18 @@ public class ImageHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun getLength(p: Pair<Double, Double>): Double {
+    private fun getLength(p: Pair<Double, Double>): Double {
         return sqrt(p.first * p.first + p.second * p.second)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun setLength(p: Pair<Double, Double>, l: Double): Pair<Double, Double> {
+    private fun setLength(p: Pair<Double, Double>, l: Double): Pair<Double, Double> {
         val f = l / getLength(p)
         return (p.first * f) to (p.second * f)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun getDirection(p1: Pair<Double, Double>, p2: Pair<Double, Double>): Pair<Double, Double> {
+    private fun getDirection(p1: Pair<Double, Double>, p2: Pair<Double, Double>): Pair<Double, Double> {
         return (p2.first - p1.first) to (p2.second - p1.second)
     }
 
@@ -142,7 +142,7 @@ public class ImageHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun shortenPath(p: Pair<Double, Double>, a: Pair<Double, Double>, b: Pair<Double, Double>, dir: Pair<Double, Double>, len: Double): Pair<Double, Double> {
+    private fun shortenPath(p: Pair<Double, Double>, a: Pair<Double, Double>, b: Pair<Double, Double>, dir: Pair<Double, Double>, len: Double): Pair<Double, Double> {
         val mov = rotate90Degree(setLength(dir, len))
         val p1 = p.first + mov.first to p.second + mov.second
         val p2 = p.first - mov.first to p.second - mov.second

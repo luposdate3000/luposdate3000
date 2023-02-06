@@ -61,7 +61,7 @@ public object InputToIntermediate {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun cmp(a: DictionaryValueTypeArray, b: DictionaryValueTypeArray, order: IntArray): DictionaryValueType {
+    private fun cmp(a: DictionaryValueTypeArray, b: DictionaryValueTypeArray, order: IntArray): DictionaryValueType {
         for (i in 0 until 3) {
             var res = a[order[i]] - b[order[i]]
             if (res != DictionaryValueHelper.NULL) {
@@ -71,7 +71,7 @@ public object InputToIntermediate {
         return DictionaryValueHelper.NULL
     }
 
-    private inline fun mergesort2(n: Int, crossinline copyBToA: (Int, Int) -> Unit, crossinline copyAToB: (Int, Int) -> Unit, crossinline cmpAtoA: (Int, Int) -> DictionaryValueType, crossinline cmpBtoB: (Int, Int) -> DictionaryValueType, step: Int) {
+    private fun mergesort2(n: Int,  copyBToA: (Int, Int) -> Unit,  copyAToB: (Int, Int) -> Unit,  cmpAtoA: (Int, Int) -> DictionaryValueType,  cmpBtoB: (Int, Int) -> DictionaryValueType, step: Int) {
         var size = 1
         while (size < n) {
             var lstart = 0

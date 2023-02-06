@@ -153,7 +153,7 @@ public object EvalJoinHashMap {
                 }
 
                 @Suppress("NOTHING_TO_INLINE")
-                /*suspend*/ inline fun __close() {
+                /*suspend*/ fun __close() {
                     if (label != 0) {
                         _close()
                         for (iterator2 in outIteratorsAllocated) {

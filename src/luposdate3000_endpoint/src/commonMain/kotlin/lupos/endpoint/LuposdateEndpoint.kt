@@ -472,7 +472,7 @@ public object LuposdateEndpoint {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
+    /*suspend*/ private fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
         try {
             val bundle = if (asRoot) {
                 node.evaluateRootBundle()
@@ -492,7 +492,7 @@ public object LuposdateEndpoint {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun evaluateIteratorBundleToResultInternal(instance: Luposdate3000Instance, node: IteratorBundleRoot, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
+    /*suspend*/ private fun evaluateIteratorBundleToResultInternal(instance: Luposdate3000Instance, node: IteratorBundleRoot, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long): Any {
         val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[evaluator]]
         if (evaluatorInstance == null) {
             TODO(EQueryResultToStreamExt.names[evaluator])

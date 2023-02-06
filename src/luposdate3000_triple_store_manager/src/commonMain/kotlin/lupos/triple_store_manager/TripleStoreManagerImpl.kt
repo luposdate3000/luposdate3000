@@ -79,15 +79,15 @@ public class TripleStoreManagerImpl public constructor(
     internal val keysOnHostname_: Array<MutableSet<LuposStoreKey>>
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun localStoresGet(): MutableMap<LuposStoreKey, TripleStoreIndex> {
+    internal fun localStoresGet(): MutableMap<LuposStoreKey, TripleStoreIndex> {
         return localStores_
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun metadataGet() = metadata_
+    internal fun metadataGet() = metadata_
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun toByteArray(): ByteArray {
+    private fun toByteArray(): ByteArray {
         var size = 8
         for (k in localStores_.keys) {
             val buf = k.encodeToByteArray()
@@ -136,7 +136,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun initFromByteArray(buffer: ByteArray) {
+    private fun initFromByteArray(buffer: ByteArray) {
         var off = 0
         val l1 = ByteArrayHelper.readInt4(buffer, off)
         off += 4
@@ -177,31 +177,31 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun keysOnHostnameAdd(hostidx: Int, key: LuposStoreKey) {
+    private fun keysOnHostnameAdd(hostidx: Int, key: LuposStoreKey) {
         keysOnHostname_[hostidx].add(key)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
+    private fun localStoresAdd(key: LuposStoreKey, tripleStore: TripleStoreIndex) {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:185"/*SOURCE_FILE_END*/ }, { localStores_[key] == null })
         localStores_[key] = tripleStore
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun localStoresRemove(key: LuposStoreKey) {
+    private fun localStoresRemove(key: LuposStoreKey) {
         val tripleStore = localStores_[key]!!
         tripleStore.delete()
         localStores_.remove(key)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
+    private fun metadataAdd(name: LuposGraphName, tripleStore: TripleStoreDescription) {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:198"/*SOURCE_FILE_END*/ }, { metadata_[name] == null })
         metadata_[name] = tripleStore
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun metadataRemove(name: LuposGraphName) {
+    private fun metadataRemove(name: LuposGraphName) {
         SanityCheck.check({ /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:204"/*SOURCE_FILE_END*/ }, { metadata_[name] != null || name == DEFAULT_GRAPH_NAME }, { "$name :: ${metadata_.keys}" })
         metadata_.remove(name)
     }
@@ -231,7 +231,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun initFromPageID() {
+    private fun initFromPageID() {
         var pageid = rootPageID
         var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:235"/*SOURCE_FILE_END*/, pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -255,7 +255,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun deleteAllPagesExceptRootID() {
+    private fun deleteAllPagesExceptRootID() {
         var pageid = rootPageID
         var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:259"/*SOURCE_FILE_END*/, pageid)
         var nextid = BufferManagerPage.readInt4(page, 0)
@@ -275,7 +275,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun writeToPageID() {
+    private fun writeToPageID() {
         val buffer = toByteArray()
         var pageid = rootPageID
         var page = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreManagerImpl.kt:280"/*SOURCE_FILE_END*/, pageid)
@@ -470,7 +470,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getNextHostAndKey(indexKey: Int): Pair<LuposHostname, LuposStoreKey> {
+    internal fun getNextHostAndKey(indexKey: Int): Pair<LuposHostname, LuposStoreKey> {
         var hostidx = 0
         for (i in 1 until instance.LUPOS_PROCESS_URLS_STORE.size) {
             if (keysOnHostname_[i].size < keysOnHostname_[hostidx].size) {
@@ -543,7 +543,7 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun createGraphShared(graph: TripleStoreDescription) {
+    private fun createGraphShared(graph: TripleStoreDescription) {
         for (index in graph.indices) {
             for ((first, second) in index.getAllLocations()) {
                 if (first == localhost) {

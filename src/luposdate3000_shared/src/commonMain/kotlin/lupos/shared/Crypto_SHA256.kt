@@ -80,17 +80,17 @@ public class Crypto_SHA256 {
     private var totalWritten = 0L
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun arraycopy(src: ByteArray, srcPos: Int, dst: ByteArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
+    private fun arraycopy(src: ByteArray, srcPos: Int, dst: ByteArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
+    private fun arraycopy(src: IntArray, srcPos: Int, dst: IntArray, dstPos: Int, count: Int) = src.copyInto(dst, dstPos, srcPos, srcPos + count)
 
     init {
         arraycopy(H, 0, h, 0, 8)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun digestOut(out: ByteArray) {
+    private fun digestOut(out: ByteArray) {
         val pad = corePadding(totalWritten)
         var padPos = 0
         while (padPos < pad.size) {
@@ -106,17 +106,17 @@ public class Crypto_SHA256 {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun Int.rotateRight(amount: Int): Int = (this ushr amount) or (this shl (32 - amount))
+    private fun Int.rotateRight(amount: Int): Int = (this ushr amount) or (this shl (32 - amount))
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun ByteArray.readU8(o: Int): Int = this[o].toInt() and 0xFF
+    private fun ByteArray.readU8(o: Int): Int = this[o].toInt() and 0xFF
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun ByteArray.readS32_be(o: Int): Int =
+    private fun ByteArray.readS32_be(o: Int): Int =
         (readU8(o + 3) shl 0) or (readU8(o + 2) shl 8) or (readU8(o + 1) shl 16) or (readU8(o + 0) shl 24)
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun update(data: ByteArray, offset: Int, count: Int): Crypto_SHA256 {
+    private fun update(data: ByteArray, offset: Int, count: Int): Crypto_SHA256 {
         var curr = offset
         var left = count
         while (left > 0) {
@@ -136,7 +136,7 @@ public class Crypto_SHA256 {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun reset(): Crypto_SHA256 {
+    private fun reset(): Crypto_SHA256 {
         arraycopy(H, 0, h, 0, 8)
         writtenInChunk = 0
         totalWritten = 0L
@@ -144,7 +144,7 @@ public class Crypto_SHA256 {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun corePadding(totalWritten: Long): ByteArray {
+    private fun corePadding(totalWritten: Long): ByteArray {
         val tail = totalWritten % 64
         val padding = (if (64 - tail >= 9) 64 - tail else 128 - tail)
         val pad = ByteArray(padding.toInt()).apply { this[0] = 0x80.toByte() }
@@ -154,7 +154,7 @@ public class Crypto_SHA256 {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun coreUpdate(chunk: ByteArray) {
+    private fun coreUpdate(chunk: ByteArray) {
         arraycopy(h, 0, r, 0, 8)
 
         for (j in 0 until 16) w[j] = chunk.readS32_be(j * 4)
@@ -184,7 +184,7 @@ public class Crypto_SHA256 {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    private inline fun coreDigest(out: ByteArray) {
+    private fun coreDigest(out: ByteArray) {
         for (n in out.indices) out[n] = (h[n / 4] ushr (24 - 8 * (n % 4))).toByte()
     }
 }

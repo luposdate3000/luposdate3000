@@ -34,7 +34,7 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 public class QueryResultToMemoryTable : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable, timeoutInMs: Long) {
+    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val startTime = DateHelperRelative.markNow()
         loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs) {
@@ -67,7 +67,7 @@ public class QueryResultToMemoryTable : IResultFormat {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun invokeInternal(rootNode: IteratorBundleRoot, timeoutInMs: Long): List<MemoryTable> {
+    internal fun invokeInternal(rootNode: IteratorBundleRoot, timeoutInMs: Long): List<MemoryTable> {
         val query = rootNode.query
         val flag = query.getDictionaryUrl() == null && query.getDictionary() !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
         val key = "${query.getTransactionID()}"

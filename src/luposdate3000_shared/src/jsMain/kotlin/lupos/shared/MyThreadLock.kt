@@ -21,12 +21,12 @@ public actual class MyThreadLock {
     public val uuid: Long = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getUUID(): Long = uuid
+    public actual fun getUUID(): Long = uuid
 
     public var locked: Boolean = false
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun lock() {
+    public actual fun lock() {
         if (locked) {
             throw Exception("deadlock")
         }
@@ -34,7 +34,7 @@ public actual class MyThreadLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun unlock() {
+    public actual fun unlock() {
         if (!locked) {
             throw Exception("unlock without previous lock")
         }
@@ -42,7 +42,7 @@ public actual class MyThreadLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun tryLock(): Boolean {
+    public actual fun tryLock(): Boolean {
         if (locked) {
             throw Exception("deadlock")
         }
@@ -50,7 +50,7 @@ public actual class MyThreadLock {
         return true
     }
 
-    public actual inline fun <T> withLock(crossinline action: () -> T): T {
+    public actual fun <T> withLock( action: () -> T): T {
         lock()
         try {
             return action()

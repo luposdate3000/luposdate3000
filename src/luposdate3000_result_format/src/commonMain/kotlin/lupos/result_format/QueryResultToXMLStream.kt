@@ -33,7 +33,7 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 
 public class QueryResultToXMLStream : IResultFormat {
     @Suppress("NOTHING_TO_INLINE")
-    private /*suspend*/ inline fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
+    private /*suspend*/ fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()
@@ -152,7 +152,7 @@ public class QueryResultToXMLStream : IResultFormat {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun invokeInternal(rootNode: IteratorBundleRoot, output: IMyOutputStream, timeoutInMs: Long) {
+    internal fun invokeInternal(rootNode: IteratorBundleRoot, output: IMyOutputStream, timeoutInMs: Long) {
         val query = rootNode.query
         val dict = query.getDictionary()
         val flag = query.getDictionaryUrl() == null && dict !is DictionaryNotImplemented && query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process
