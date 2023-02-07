@@ -968,7 +968,7 @@ public class Application_Luposdate3000 public constructor(
                                 queryCache.remove(w.queryID)
                             }
 // println()
-                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
+//                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
 //                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
                             if (w.dataID <0) {
                                 val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, true).first

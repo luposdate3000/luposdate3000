@@ -95,8 +95,12 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
 // println("PhysicalOptimizerPartitionAssingPartitionsToRemaining b ${res.getUUID()} <- $new_countMax")
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
+if(node.projectedVariables.contains(partitionVariableMax)){
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                                 res.setMySortPriority(node.mySortPriority, node.projectedVariables)
+}else{
+res = POPMergePartition(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
+}
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, res)
                                 res.setMySortPriority(node.mySortPriority, node.projectedVariables)
@@ -117,8 +121,12 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
 // println("PhysicalOptimizerPartitionAssingPartitionsToRemaining c ${res.getUUID()} <- $count")
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
+if(node.projectedVariables.contains(variable)){
                                 res = POPMergePartitionOrderedByIntId(query, node.projectedVariables, variable, count, partitionID, res)
                                 res.setMySortPriority(node.mySortPriority, node.projectedVariables)
+}else{
+res = POPMergePartition(query, node.projectedVariables, variable, count, partitionID, res)
+}
                             } else {
                                 res = POPMergePartitionCount(query, node.projectedVariables, variable, count, partitionID, res)
                                 res.setMySortPriority(node.mySortPriority, node.projectedVariables)

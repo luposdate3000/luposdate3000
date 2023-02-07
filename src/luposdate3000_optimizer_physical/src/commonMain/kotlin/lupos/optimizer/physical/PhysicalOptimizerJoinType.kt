@@ -57,7 +57,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
         }
     }
 
-    private fun embedWithinPartitionContext(joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean, sortPriority: MutableList<SortHelper>): IOPBase {
+    private fun embedWithinPartitionContext(projectedVariables:List<String>,joinColumns: MutableList<String>, childA: IOPBase, childB: IOPBase, create: (IOPBase, IOPBase) -> IOPBase, keepOrder: Boolean, sortPriority: MutableList<SortHelper>): IOPBase {
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
             var a = childA
             var b = childB
@@ -82,7 +82,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                 }
             } else {
                 for (s in joinColumns) {
-                    if (keepOrder) {
+                    if (keepOrder && projectedVariables.contains(s)&&c.getProvidedVariableNames().contains(s)) {
                         c = POPMergePartitionOrderedByIntId(query, c.getProvidedVariableNames(), s, query.getInstance().initialThreads, newID[i], c)
                         c.setMySortPriority(sortPriority, c.getProvidedVariableNames())
                         query.addPartitionOperator(c.uuid, newID[i])
@@ -112,9 +112,9 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                 if (node.getMySortPriority().size >= columns[0].size) {
                     if (projectedVariables.size == 1 && childA.getProvidedVariableNames().size == 1 && childB.getProvidedVariableNames().size == 1 && childA.getProvidedVariableNames()[0] == projectedVariables[0] && childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
                         res = if (node.optional) {
-                            embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
+                            embedWithinPartitionContext(projectedVariables,columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
                         } else {
-                            embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMergeSingleColumn(query, projectedVariables, a, b, false) }, true, node.getMySortPriority())
+                            embedWithinPartitionContext(projectedVariables,columns[0], childA, childB, { a, b -> POPJoinMergeSingleColumn(query, projectedVariables, a, b, false) }, true, node.getMySortPriority())
                         }
                     } else {
                         var flag = true
@@ -143,15 +143,15 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                         if (flag) {
                             res = if (childA.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
                                 if (node.optional) {
-                                    embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
+                                    embedWithinPartitionContext(projectedVariables,columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
                                 } else {
-                                    embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false, joinVariableOrder.toList()) }, true, node.getMySortPriority())
+                                    embedWithinPartitionContext(projectedVariables,columns[0], childA, childB, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false, joinVariableOrder.toList()) }, true, node.getMySortPriority())
                                 }
                             } else {
                                 if (node.optional) {
-                                    embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
+                                    embedWithinPartitionContext(projectedVariables,columns[0], childA, childB, { a, b -> POPJoinMergeOptional(query, projectedVariables, a, b, true) }, true, node.getMySortPriority())
                                 } else {
-                                    embedWithinPartitionContext(columns[0], childB, childA, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false, joinVariableOrder.toList()) }, true, node.getMySortPriority())
+                                    embedWithinPartitionContext(projectedVariables,columns[0], childB, childA, { a, b -> POPJoinMerge(query, projectedVariables, a, b, false, joinVariableOrder.toList()) }, true, node.getMySortPriority())
                                 }
                             }
                         }
@@ -160,11 +160,11 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                 if (res is LOPJoin) {
                     val keepOrder = node.getMySortPriority().size != 0
                     res = if (node.optional) {
-                        embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, true) }, keepOrder, node.getMySortPriority())
+                        embedWithinPartitionContext(projectedVariables,columns[0], childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, true) }, keepOrder, node.getMySortPriority())
                     } else if ((childB is POPTripleStoreIterator || childB is LOPTriple) && childB.getProvidedVariableNames().containsAll(node.getMySortPriority().map { it.variableName })) {
-                        embedWithinPartitionContext(columns[0], childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder, node.getMySortPriority())
+                        embedWithinPartitionContext(projectedVariables,columns[0], childB, childA, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder, node.getMySortPriority())
                     } else {
-                        embedWithinPartitionContext(columns[0], childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder, node.getMySortPriority())
+                        embedWithinPartitionContext(projectedVariables,columns[0], childA, childB, { a, b -> POPJoinHashMap(query, projectedVariables, a, b, false) }, keepOrder, node.getMySortPriority())
                     }
                 }
             }
