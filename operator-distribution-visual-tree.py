@@ -5,7 +5,7 @@ minPercentageDifference=0.05
 cmPerRing = 0.5
 spacePerRing = 0.05
 posincrement=-0.5
-headersToRank=['data scale','additionalHops','partitioning','distribution algorithm']
+headersToRank=['data scale','additionalHops','partitioning','distribution algorithm','dynamic operator relocation']
 legend=[set() for i in range(len(headersToRank))]
 legendGroup=[None for i in range(len(headersToRank))]
 
@@ -223,6 +223,9 @@ for l in legend:
    txt=txt.replace("distributed","no")
    txt=txt.replace("assisted","yes")
    txt=txt.replace("default","no")
+   txt=txt.replace("_by_id_S","id")
+   txt=txt.replace("relocateOperatorsIfTooMuchDataIsSentDisabled","no")
+   txt=txt.replace("relocateOperatorsIfTooMuchDataIsSentEnabled","yes")
    print("\\draw["+",".join(v)+"] (0,"+str(pos)+") rectangle (2,"+str(pos+posincrement)+") node[pos=.5] {"+txt+"};")
    pos=pos+posincrement
 for l in legendGroup:

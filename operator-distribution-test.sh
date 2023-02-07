@@ -6,16 +6,19 @@ cmd=$(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Co
 
 truncate -s0 $tasksfile
 ctr=0
-for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json operator-distribution-test-optimizer-topology-only.json
+#for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json operator-distribution-test-optimizer-topology-only.json
+for optimizer in operator-distribution-test-optimizer-topology-assisted.json operator-distribution-test-optimizer-default.json
 do
-for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json
+for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json
+#for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID20.json
 #for sosa in src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID.json src/luposdate3000_simulator_db/src/jvmMain/resources/ontology/campusSOSAInternalID10.json
 do
 ##for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/*16DB.json
 for topology in src/luposdate3000_simulator_db/src/jvmMain/resources/topology/Random16DB.json
 do
 ##for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_*.json
-for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S.json
+#for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_key.json src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S.json
+for dataDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/dataDistribution/luposdate3000_by_id_S.json
 do
 for programDistribution in src/luposdate3000_simulator_db/src/jvmMain/resources/programDistribution/distributed*
 do
@@ -54,8 +57,8 @@ done
 done
 done
 
-cat $tasksfile | sed "s/java -Xmx100g/java -Xmx10g/g" > ${tasksfile}.tmp
+cat $tasksfile | sed "s/java -Xmx100g/java -Xmx100g/g" > ${tasksfile}.tmp
 mv ${tasksfile}.tmp $tasksfile
-cat ${tasksfile} | /usr/bin/parallel -j 10
+cat ${tasksfile} | /usr/bin/parallel -j 1
 #chmod +x $tasksfile
 #$tasksfile
