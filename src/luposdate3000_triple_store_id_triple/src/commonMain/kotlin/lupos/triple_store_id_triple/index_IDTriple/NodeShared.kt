@@ -21,7 +21,6 @@ import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.SanityCheck
 import lupos.shared.inline.Compressor
 
 internal object NodeShared {
@@ -67,7 +66,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal fun readTriple111(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType,  action: (d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
+    internal fun readTriple111(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType, action: (d0: DictionaryValueType, d1: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -82,7 +81,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal fun readTriple010(node: BufferManagerPageWrapper, offset: Int, d1: DictionaryValueType,  action: (d1: DictionaryValueType) -> Unit): Int {
+    internal fun readTriple010(node: BufferManagerPageWrapper, offset: Int, d1: DictionaryValueType, action: (d1: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -94,7 +93,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal fun readTriple001(node: BufferManagerPageWrapper, offset: Int, d2: DictionaryValueType,  action: (d2: DictionaryValueType) -> Unit): Int {
+    internal fun readTriple001(node: BufferManagerPageWrapper, offset: Int, d2: DictionaryValueType, action: (d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -106,7 +105,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal fun readTriple100(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType,  action: (d0: DictionaryValueType) -> Unit): Int {
+    internal fun readTriple100(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, action: (d0: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -117,7 +116,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal fun readTriple110(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType,  action: (d0: DictionaryValueType, d1: DictionaryValueType) -> Unit): Int {
+    internal fun readTriple110(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d1: DictionaryValueType, action: (d0: DictionaryValueType, d1: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->
@@ -130,7 +129,7 @@ internal object NodeShared {
         return localOff - offset
     }
 
-    internal fun readTriple101(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d2: DictionaryValueType,  action: (d0: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
+    internal fun readTriple101(node: BufferManagerPageWrapper, offset: Int, d0: DictionaryValueType, d2: DictionaryValueType, action: (d0: DictionaryValueType, d2: DictionaryValueType) -> Unit): Int {
         val header = BufferManagerPage.readInt1(node, offset)
         var localOff = offset + 1
         Compressor.decodeTripleHeader(header) { counter0, counter1, counter2 ->

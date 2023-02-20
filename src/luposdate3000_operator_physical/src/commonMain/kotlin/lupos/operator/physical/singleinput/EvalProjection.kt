@@ -17,7 +17,6 @@
 package lupos.operator.physical.singleinput
 
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 

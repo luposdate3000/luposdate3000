@@ -19,7 +19,6 @@ package lupos.operator.physical.singleinput
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue

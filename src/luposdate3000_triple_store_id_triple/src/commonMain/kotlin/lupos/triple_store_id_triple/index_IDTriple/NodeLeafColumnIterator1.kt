@@ -21,7 +21,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.MyReadWriteLock
-import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
 internal class NodeLeafColumnIterator1(node: BufferManagerPageWrapper, nodeid: Int, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager, timeout) {

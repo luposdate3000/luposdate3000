@@ -17,7 +17,6 @@
 package lupos.shared.operator.iterator
 
 import lupos.shared.DictionaryValueHelper
-import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
 public open class IteratorBundle {

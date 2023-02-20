@@ -21,7 +21,6 @@ import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
 import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorQueueExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorQueue

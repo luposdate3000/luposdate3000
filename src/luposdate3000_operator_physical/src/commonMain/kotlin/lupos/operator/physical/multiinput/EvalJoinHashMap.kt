@@ -24,7 +24,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
-import lupos.shared.SanityCheck
 import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle

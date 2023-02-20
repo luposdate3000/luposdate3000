@@ -16,7 +16,6 @@
  */
 package lupos.shared.dynamicArray
 
-import lupos.shared.SanityCheck
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 

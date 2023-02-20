@@ -19,7 +19,6 @@ package lupos.triple_store_id_triple.index_IDTriple
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 
 internal class NodeLeafIterator(@JvmField var node: BufferManagerPageWrapper, @JvmField var nodeid: Int, @JvmField internal val nodeManager: NodeManager) : TripleIterator() {

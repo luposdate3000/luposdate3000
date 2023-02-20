@@ -17,7 +17,6 @@
 package lupos.operator.physical.multiinput
 
 import lupos.operator.base.iterator.ColumnIteratorMultiIterator
-import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 

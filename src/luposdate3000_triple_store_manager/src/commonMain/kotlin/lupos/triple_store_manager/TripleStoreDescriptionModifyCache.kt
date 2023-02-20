@@ -28,7 +28,6 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.IQuery
 import lupos.shared.ITripleStoreDescriptionModifyCache
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 

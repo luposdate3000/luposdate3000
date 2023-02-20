@@ -19,7 +19,6 @@ package lupos.triple_store_id_triple.index_IDTriple
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DateHelperRelative
 import lupos.shared.MyReadWriteLock
-import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 

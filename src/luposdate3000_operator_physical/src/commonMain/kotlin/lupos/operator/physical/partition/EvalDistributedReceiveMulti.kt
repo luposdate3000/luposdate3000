@@ -20,7 +20,6 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.RowIterator
 

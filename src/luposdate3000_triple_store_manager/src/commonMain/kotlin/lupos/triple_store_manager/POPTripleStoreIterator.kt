@@ -29,7 +29,6 @@ import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
-import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle

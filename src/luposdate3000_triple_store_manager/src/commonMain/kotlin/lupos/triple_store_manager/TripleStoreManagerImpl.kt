@@ -38,7 +38,6 @@ import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.NoValidIndexFoundException
-import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreIndex
 import lupos.shared.TripleStoreManager
 import lupos.shared.UnknownTripleStoreTypeException

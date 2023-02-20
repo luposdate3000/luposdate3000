@@ -24,7 +24,6 @@ import lupos.shared.EIndexPatternHelper
 import lupos.shared.IQuery
 import lupos.shared.LuposHostname
 import lupos.shared.LuposStoreKey
-import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalTripleStoreIterator {
