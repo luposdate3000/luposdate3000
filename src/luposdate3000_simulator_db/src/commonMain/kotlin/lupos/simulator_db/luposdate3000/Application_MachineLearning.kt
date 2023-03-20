@@ -68,7 +68,7 @@ public class Application_MachineLearning(
             queryIndex++
         }
         if (queryIndex <queries.size) {
-            val p = Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray(), mapOf("machineLearningOptimizerOrder" to joinOrder, "machineLearningOptimizerTripleCount" to tripleCount))
+            val p = Package_Query(receiver, File(queries[queryIndex]).readAsString().encodeToByteArray(), attributes=mapOf("machineLearningOptimizerOrder" to joinOrder, "machineLearningOptimizerTripleCount" to tripleCount))
             awaitingQueries.add(p.queryID)
             parent.send(receiver, p)
             parent.flush()

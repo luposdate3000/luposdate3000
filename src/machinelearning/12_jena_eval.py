@@ -33,12 +33,12 @@ def getOrAddDB(database, value):
 
 
 learnOnMin = 0
-learnOnMax = 300
-dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+learnOnMax = 3
+dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "jena")
 
-myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s and dataset_id=%s and mq.rng >= 0.7 AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s and mq.dataset_id = %s)",
+myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s and dataset_id=%s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s and mq.dataset_id = %s)",
              (learnOnMin, learnOnMax, datasetID, datasetID,optimizerID, datasetID))
 rows = cursor.fetchall()
 training_data = []

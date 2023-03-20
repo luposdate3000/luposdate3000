@@ -34,6 +34,7 @@ export ratio=0.7
 export limit_triples=$tripleCount
 export model_file="$dataDirectory/trained_${min_triples}_${max_triples}_${iterations}_${ratio}_${limit_triples}_.model"
 export timeout=10
+export scenario="$(pwd)/_tmpscenario.json"
 
 mkdir -p $dataDirectory
 mkdir -p $queriesDirectory
@@ -59,6 +60,8 @@ In fast-mode only the count is returned, which is a huge speed improvement, if y
 ```bash
 ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
 ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
+cat ${queriesDirectory}/queries |sort|uniq > x
+mv x ${queriesDirectory}/queries
 ```
 
 # 7. Import everything into the benchmark-database
@@ -67,13 +70,30 @@ In fast-mode only the count is returned, which is a huge speed improvement, if y
 ./src/machinelearning/07_importQueries.py $queriesDirectory
 ```
 
-# 11. Start the machine learning itself
+# 11a. Start the machine learning itself - using intermediate results for comparison
 
 ```bash
 ./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml_Python_Interface \
  --runArgument_Luposdate3000_Launch_Benchmark_Ml_Python_Interface:minimumTime=$timeout \
  --runArgument_Luposdate3000_Launch_Benchmark_Ml_Python_Interface:datasourceFiles=${tripleFile} &
 ./11_joinopti_agent_train.py $min_triples $max_triples $iterations $ratio ${tripleFile} $model_file $limit_triples
+```
+
+# 11b. Start the machine learning itself - using network traffic for comparison
+
+```bash
+/src/simora/createParkingScenario.main.kts \
+ --topology=RANDOM \
+ --programDistribution=DISTRIBUTED_WITH_QUERY_HOPS \
+ --dataDistribution=ID_S \
+ --queryDistribution=ROUTING \
+ --multicast=SIMPLE \
+ --routing=RPL_FAST \
+ --size=16 \
+ --data=${tripleFile} \
+ --defaultQueries=false \
+ > ${scenario}
+$(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Config | grep ^exec | sed "s/exec :: //g")  "JavaBridge" ${scenario}
 ```
 
 # 12. Evaluate the model

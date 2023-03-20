@@ -29,7 +29,7 @@ def getOrAddDB(database, value):
 
 learnOnMin = 0
 learnOnMax = 300
-dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 
 cursor3.execute("SELECT mq.name, mq.id,bv.join_id,mj.name FROM mapping_query mq, benchmark_values bv, mapping_join mj WHERE mq.id=bv.query_id and bv.value =999999999 and mj.id=bv.join_id and bv.dataset_id=%s and mq.dataset_id=%s", (datasetID, datasetID))

@@ -35,7 +35,7 @@ def getOrAddDB(database, value):
 
 learnOnMin = 0
 learnOnMax = 300
-dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "graphdb")
 

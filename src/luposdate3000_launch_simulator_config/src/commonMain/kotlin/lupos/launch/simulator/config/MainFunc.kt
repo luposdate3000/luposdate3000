@@ -17,8 +17,8 @@
 package lupos.launch.simulator.config
 
 import lupos.shared.Parallel
-import simora.Evaluation
+import simora.mainfunc
 
 internal fun mainFunc(fileNames: List<String>): Unit = Parallel.runBlocking {
-    Evaluation().evalConfigFileMerge(fileNames)
+    mainfunc(fileNames)
 }

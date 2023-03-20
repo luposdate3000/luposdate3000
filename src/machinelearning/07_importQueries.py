@@ -35,7 +35,7 @@ def nameToIdInDBDict(value):
     return row[0]
 
 
-dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 
 
