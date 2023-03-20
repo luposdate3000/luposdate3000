@@ -24,6 +24,7 @@ pip install stable-baselines3[extra] sb3-contrib py4j mysql-connector-python
 # 4. define some constants
 ```bash
 export dataDirectory="$(pwd)/_tmpdata/"
+export queriesDirectory="$(pwd)/_tmpqueries/"
 export tripleFile="${dataDirectory}/complete.n3"
 export tripleCount=3
 export min_triples=$tripleCount
@@ -46,7 +47,7 @@ Or at their homepage [home page of sp2b](http://dbis.informatik.uni-freiburg.de/
 Or use any locally available file e.g.
 
 ```bash
-cp /mnt/luposdate-testdata/sp2b/1024/complete.n3 $tripleFile
+cp /mnt/luposdate-testdata/sp2b/131072/complete.n3 $tripleFile
 ```
 
 # 6. Generate SPARQL-queries - new algorithm
