@@ -35,7 +35,7 @@ internal object NodeInner {
         while (!done) {
             var nextnodeid = nodeid
             nodeManager.getNodeAny(
-                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:38"/*SOURCE_FILE_END*/,
+                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:37"/*SOURCE_FILE_END*/,
                 nodeid,
                 {
                     NodeLeaf.getFirstTriple(it, b)
@@ -46,7 +46,7 @@ internal object NodeInner {
                     nextnodeid = getFirstChild(node)
                 }
             )
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:49"/*SOURCE_FILE_END*/, nodeid)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:48"/*SOURCE_FILE_END*/, nodeid)
             nodeid = nextnodeid
         }
     }
@@ -79,7 +79,7 @@ internal object NodeInner {
         while (true) {
             val nodeid = getFirstChild(node)
             nodeManager.getNodeAny(
-                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:82"/*SOURCE_FILE_END*/,
+                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:81"/*SOURCE_FILE_END*/,
                 nodeid,
                 {
                     iterator = NodeLeaf.iterator(it, nodeid, nodeManager)
@@ -89,7 +89,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:92"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:91"/*SOURCE_FILE_END*/, nodeid)
             } else {
                 break
             }
@@ -104,7 +104,7 @@ internal object NodeInner {
         while (true) {
             val nodeid = getFirstChild(node)
             nodeManager.getNodeAnySuspended(
-                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:107"/*SOURCE_FILE_END*/,
+                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:106"/*SOURCE_FILE_END*/,
                 nodeid,
                 {
                     iterator = NodeLeaf.iterator(it, nodeid, lock, component, nodeManager, timeout)
@@ -114,7 +114,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:117"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:116"/*SOURCE_FILE_END*/, nodeid)
             } else {
                 break
             }
@@ -175,7 +175,7 @@ internal object NodeInner {
                 { it ->
                     nodeid = it
                     nodeManager.getNodeAnySuspended(
-                        /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:178"/*SOURCE_FILE_END*/,
+                        /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:177"/*SOURCE_FILE_END*/,
                         it,
                         { node ->
                             iterator = NodeLeaf.iterator3(node, it, prefix, lock, nodeManager, timeout)
@@ -187,7 +187,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:190"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:189"/*SOURCE_FILE_END*/, nodeid)
             } else {
                 break
             }
@@ -209,7 +209,7 @@ internal object NodeInner {
                 { it ->
                     nodeid = it
                     nodeManager.getNodeAnySuspended(
-                        /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:212"/*SOURCE_FILE_END*/,
+                        /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:211"/*SOURCE_FILE_END*/,
                         it,
                         { node ->
                             iterator = NodeLeaf.iterator2(node, it, prefix, lock, nodeManager, timeout)
@@ -221,7 +221,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:224"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:223"/*SOURCE_FILE_END*/, nodeid)
             } else {
                 break
             }
@@ -243,7 +243,7 @@ internal object NodeInner {
                 { it ->
                     nodeid = it
                     nodeManager.getNodeAnySuspended(
-                        /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:246"/*SOURCE_FILE_END*/,
+                        /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:245"/*SOURCE_FILE_END*/,
                         it,
                         { node ->
                             iterator = NodeLeaf.iterator1(node, it, prefix, lock, component, nodeManager, timeout)
@@ -255,7 +255,7 @@ internal object NodeInner {
                 }
             )
             if (iterator == null) {
-                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:258"/*SOURCE_FILE_END*/, nodeid)
+                nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:257"/*SOURCE_FILE_END*/, nodeid)
             } else {
                 break
             }
@@ -277,7 +277,7 @@ internal object NodeInner {
         while (childs.size > 0 && offset < offsetEnd) {
             current = childs.removeAt(0)
             nodeManager.getNodeAny(
-                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:280"/*SOURCE_FILE_END*/,
+                /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:279"/*SOURCE_FILE_END*/,
                 current,
                 {
                     NodeLeaf.getFirstTriple(it, tripleCurrent)
@@ -286,7 +286,7 @@ internal object NodeInner {
                     getFirstTriple(it, tripleCurrent, nodeManager)
                 }
             )
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:289"/*SOURCE_FILE_END*/, current)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:288"/*SOURCE_FILE_END*/, current)
             offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)
             offset += writeChildPointer(node, offset, current)
             triples++
