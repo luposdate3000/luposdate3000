@@ -9,7 +9,7 @@
             "mergeLocalOperatorgraphs": true,
             "predefinedPartitionScheme": "PartitionByKeyAllCollations",
             "queryDistributionMode": "Routing",
-            "relocateOperatorsIfTooMuchDataIsSent": false,
+            "relocateOperatorsIfTooMuchDataIsSent": true,
             "useDictionaryInlineEncoding": true,
         },
         "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSampleSOSAInternalID": {},

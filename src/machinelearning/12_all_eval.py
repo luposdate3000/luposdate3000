@@ -41,6 +41,28 @@ def getOrders(triples):
     return result
 
 
+def hasCartesianProduct(query, order):
+    print("hasCartesianProduct", query, order)
+    buckets = []
+    for q in query:
+        buckets.append(set(q))
+    print("buckets", buckets)
+    for i in range(int(len(order) / 2)):
+        a = int(i * 2)
+        b = int(a + 1)
+        aa = order[a]
+        bb = order[b]
+        if aa < 0:
+            aa = len(query) - 1 - aa
+        if bb < 0:
+            bb = len(query) - 1 - bb
+        nn = set(list(buckets[aa]) + list(buckets[bb]))
+        if len(nn) == len(buckets[aa]) + len(buckets[bb]):
+            return True
+        buckets.append(nn)
+    return False
+
+
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
 
@@ -102,16 +124,19 @@ for learnOnMax in range(300):
         querySparql += "}"
         print(query)
         for order in getOrders(len(query)):
-            print(query)
-            print(order)
-            if not hasCartesianProduct(query, order):
                 joinOrderString = ",".join([str(x) for x in order])
                 joinOrderID = getOrAddDB("mapping_join", joinOrderString)
                 myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
                 row = cursor.fetchone()
                 if row == None:
                     print("calling lupos", querySparql, joinOrderString, flush=True)
-                    value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+                    try:
+                     if hasCartesianProduct(query, order):
+                      value=-3
+                     else:
+                      value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+                    except:
+                     value=-2
                     print("response from lupos", flush=True)
                     myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
                     db.commit()
