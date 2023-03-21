@@ -54,7 +54,7 @@ random.shuffle(training_data)
 if len(training_data) == 0:
     exit(0)
 if not luposdate.setGreedy():
- exit(1)
+    exit(1)
 queries = []
 for queryrow in training_data:
     query = queryrow[0]
@@ -82,7 +82,7 @@ while time.time() - start < 1:
         ctr += 1
 endtime = time.time() - start
 while endtime < targetseconds:
-    factor = max(math.ceil(max( oldfactor*targetseconds*1.2 / (time.time() - start), 1)), oldfactor + 1)
+    factor = max(math.ceil(max(oldfactor * targetseconds * 1.2 / (time.time() - start), 1)), oldfactor + 1)
     #print("factor", factor, targetseconds / (time.time() - start), max(targetseconds / (time.time() - start), 1),endtime)
     queries2 = []
     for i in range(0, factor):
@@ -95,5 +95,5 @@ while endtime < targetseconds:
         ctr += 1
     endtime = time.time() - start
     oldfactor = factor
-    print("totaltime",oldfactor,endtime,ctr)
+    print("totaltime", oldfactor, endtime, ctr)
 print("time per triple join order in seconds/jointree,", learnOnMin, ",", endtime / ctr, flush=True)

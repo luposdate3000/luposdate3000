@@ -103,23 +103,24 @@ class DatabaseEnv(gym.Env):
     def get_step_counter(self):
         return self.step_counter
 
-    sqlbench={}
-    sqlbenchctr=0
+    sqlbench = {}
+    sqlbenchctr = 0
+
     def myCurserExec(self, sql, data):
         #       print("myCurserExec",sql,data)
         starttime = time.perf_counter()
         res = self.cursor.execute(sql, data)
-        duration=time.perf_counter()-starttime
-        time2=self.sqlbench.setdefault(sql,(0,0.0))
-        self.sqlbench[sql]=(time2[0]+1,time2[1]+duration)
-        self.sqlbenchctr=self.sqlbenchctr+1
-        if self.sqlbenchctr>=20:
-         self.sqlbenchctr=0
-         ll=[]
-         for k,v in self.sqlbench.items():
-          ll.append([v[0],v[1],k])
-         for l in sorted(ll):
-          print(l)
+        duration = time.perf_counter() - starttime
+        time2 = self.sqlbench.setdefault(sql, (0, 0.0))
+        self.sqlbench[sql] = (time2[0] + 1, time2[1] + duration)
+        self.sqlbenchctr = self.sqlbenchctr + 1
+        if self.sqlbenchctr >= 20:
+            self.sqlbenchctr = 0
+            ll = []
+            for k, v in self.sqlbench.items():
+                ll.append([v[0], v[1], k])
+            for l in sorted(ll):
+                print(l)
         return res
 
     def performAction(self, left, right):
@@ -172,17 +173,17 @@ class DatabaseEnv(gym.Env):
         if done:
             joinOrder = self.joinOrderSort(self.join_order)
             joinOrderString = ",".join([str(x) for x in joinOrder])
-                #print(joinOrder,"-->>",joinOrderString)
+            #print(joinOrder,"-->>",joinOrderString)
             l = joinOrderString.strip()
             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
             row = self.cursor.fetchone()
             if row == None:
-                    self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s, %s)", (l, self.querySize))
-                    self.db.commit()
-                    self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
-                    row = self.cursor.fetchone()
+                self.myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s, %s)", (l, self.querySize))
+                self.db.commit()
+                self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
+                row = self.cursor.fetchone()
             if row == None:
-                    exit(1)
+                exit(1)
             self.joinOrderID = row[0]
             if self.calculate_real_value:
                 self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))

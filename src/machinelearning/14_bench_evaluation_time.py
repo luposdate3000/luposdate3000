@@ -29,7 +29,6 @@ except:
     sys.exit()
 
 
-
 def mask_fn(env: gym.Env) -> np.ndarray:
     return env.valid_action_mask()
 
@@ -118,23 +117,24 @@ class DatabaseEnv(gym.Env):
     def get_step_counter(self):
         return self.step_counter
 
-    sqlbench={}
-    sqlbenchctr=0
+    sqlbench = {}
+    sqlbenchctr = 0
+
     def myCurserExec(self, sql, data):
         #       print("myCurserExec",sql,data)
         starttime = time.perf_counter()
         res = self.cursor.execute(sql, data)
-        duration=time.perf_counter()-starttime
-        time2=self.sqlbench.setdefault(sql,(0,0.0))
-        self.sqlbench[sql]=(time2[0]+1,time2[1]+duration)
-        self.sqlbenchctr=self.sqlbenchctr+1
-        if self.sqlbenchctr>=20:
-         self.sqlbenchctr=0
-         ll=[]
-         for k,v in self.sqlbench.items():
-          ll.append([v[0],v[1],k])
-         for l in sorted(ll):
-          print(l)
+        duration = time.perf_counter() - starttime
+        time2 = self.sqlbench.setdefault(sql, (0, 0.0))
+        self.sqlbench[sql] = (time2[0] + 1, time2[1] + duration)
+        self.sqlbenchctr = self.sqlbenchctr + 1
+        if self.sqlbenchctr >= 20:
+            self.sqlbenchctr = 0
+            ll = []
+            for k, v in self.sqlbench.items():
+                ll.append([v[0], v[1], k])
+            for l in sorted(ll):
+                print(l)
         return res
 
     def performAction(self, left, right):
@@ -183,9 +183,9 @@ class DatabaseEnv(gym.Env):
                 return self.observation_matrix, self.reward_invalid_action, False, {}
         done = len(self.join_order) == (self.querySize - 1) * 2
         if done:
-#            joinOrder = self.joinOrderSort(self.join_order)
-#            joinOrderString = ",".join([str(x) for x in joinOrder])
-#            l = joinOrderString.strip() ## the output
+            #            joinOrder = self.joinOrderSort(self.join_order)
+            #            joinOrderString = ",".join([str(x) for x in joinOrder])
+            #            l = joinOrderString.strip() ## the output
             reward = 1  # never used during evaluation
         else:
             reward = 0
@@ -200,6 +200,8 @@ class DatabaseEnv(gym.Env):
         else:
             self.had_loop = True
             self.query_counter = 0
+
+
 #            random.shuffle(self.training_data)
         self.query = self.training_data[self.query_counter][0]
         self.querySize = len(self.query)
@@ -266,7 +268,7 @@ class DatabaseEnv(gym.Env):
     def entryEval(self, model):
         self.optimizerID = self.getOrAddDB("mapping_optimizer", os.path.basename(self.optimizerName))
         while self.has_more_evaluation():
-            print("evaluating", self.query_counter, "/", len(self.training_data),"in",str(time.time() - start), "seconds", flush=True)
+            print("evaluating", self.query_counter, "/", len(self.training_data), "in", str(time.time() - start), "seconds", flush=True)
             done = False
             failed = False
             obs = self.reset()
@@ -277,7 +279,7 @@ class DatabaseEnv(gym.Env):
                 if reward < 0:
                     done = True
                     failed = True
-        print("time per triple join order in seconds/jointree,",learnOnMin,",",(time.time() - start)/len(self.training_data), flush=True)
+        print("time per triple join order in seconds/jointree,", learnOnMin, ",", (time.time() - start) / len(self.training_data), flush=True)
 
     def getCurrentActionSpace(self):
         result = []
@@ -310,8 +312,6 @@ class DatabaseEnv(gym.Env):
         #print("valid_action_mask",str(self.step_counter),res)
         return res
 
-
-
 mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, -ratio, model_file)
 env = ActionMasker(env, mask_fn)
@@ -319,6 +319,3 @@ model = MaskablePPO.load(model_file)
 #model = MaskablePPO.load(model_file,device="cpu")
 start = time.time()
 env.entryEval(model)
-
-
-

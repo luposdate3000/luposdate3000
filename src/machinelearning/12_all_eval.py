@@ -14,29 +14,32 @@ cursor = db.cursor()
 gateway = JavaGateway()
 luposdate = gateway.entry_point
 
-def getOrdersInternal(inputs,results,result):
- print("getOrdersInternal",inputs,result)
- if len(inputs)<=1:
-  results.append(result)
- for i in range(len(inputs)-1):
-  for j in range(i+1,len(inputs)):
-   if result is None:
-    res=[]
-   else:
-    res=[x for x in result]
-   res.append(inputs[i])
-   res.append(inputs[j])
-   in2=[x for x in inputs]
-   in2.append(int(-len(res)/2))
-   del in2[j]
-   del in2[i]
-   getOrdersInternal(in2,results,res)
+
+def getOrdersInternal(inputs, results, result):
+    print("getOrdersInternal", inputs, result)
+    if len(inputs) <= 1:
+        results.append(result)
+    for i in range(len(inputs) - 1):
+        for j in range(i + 1, len(inputs)):
+            if result is None:
+                res = []
+            else:
+                res = [x for x in result]
+            res.append(inputs[i])
+            res.append(inputs[j])
+            in2 = [x for x in inputs]
+            in2.append(int(-len(res) / 2))
+            del in2[j]
+            del in2[i]
+            getOrdersInternal(in2, results, res)
+
 
 def getOrders(triples):
- result=[]
- inputs=list(range(0,triples))
- getOrdersInternal(inputs,result,None)
- return result
+    result = []
+    inputs = list(range(0, triples))
+    getOrdersInternal(inputs, result, None)
+    return result
+
 
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
@@ -57,60 +60,62 @@ def getOrAddDB(database, value):
 
 
 learnOnMin = 0
-for learnOnMax in range (300):
- dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
- datasetID = getOrAddDB("mapping_dataset", dataset)
- optimizerID = getOrAddDB("mapping_optimizer", "all")
+for learnOnMax in range(300):
+    dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
+    datasetID = getOrAddDB("mapping_dataset", dataset)
+    optimizerID = getOrAddDB("mapping_optimizer", "all")
 
- myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.dataset_id = %s",
-             (learnOnMin, learnOnMax, datasetID))
- rows = cursor.fetchall()
- training_data = []
- for row in rows:
-    xx = []
-    tmp = []
-    for x in [int(x) for x in row[0].split(",")]:
-        tmp.append(x)
-        if len(tmp) == 3:
-            xx.append(tmp)
-            tmp = []
-    training_data.append([xx, row[1]])
- print("found", len(training_data), "queries")
- random.shuffle(training_data)
- ctr = 0
- for queryrow in training_data:
-    print("query", ctr, "/", len(training_data), flush=True)
-    query = queryrow[0]
-    queryID = queryrow[1]
-    querySparql = "SELECT (count(*) as ?x) WHERE {"
-    linesIn = []
-    for xs in query:
-        line = ""
-        for x in xs:
-            if x < 0:
-                querySparql += " ?v" + str(-x) + " "
-                line += " ?v" + str(-x) + " "
-            else:
-                myCurserExec("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
-                rowx = cursor.fetchone()
-                querySparql += " " + rowx[0] + " "
-                line += " " + rowx[0] + " "
-        querySparql += "."
-        linesIn.append(re.sub('\s+', ' ', (line + " . ").strip()))
-    querySparql += "}"
-    print(query)
-    for order in getOrders(len(query)):
-     joinOrderString=",".join([str(x) for x in order])
-     joinOrderID = getOrAddDB("mapping_join", joinOrderString)
-     myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
-     row = cursor.fetchone()
-     if row == None:
-        print("calling lupos",querySparql, joinOrderString, flush=True)
-        value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-        print("response from lupos", flush=True)
-        myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
-        db.commit()
-     myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
-     myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
-     db.commit()
-    ctr += 1
+    myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.dataset_id = %s", (learnOnMin, learnOnMax, datasetID))
+    rows = cursor.fetchall()
+    training_data = []
+    for row in rows:
+        xx = []
+        tmp = []
+        for x in [int(x) for x in row[0].split(",")]:
+            tmp.append(x)
+            if len(tmp) == 3:
+                xx.append(tmp)
+                tmp = []
+        training_data.append([xx, row[1]])
+    print("found", len(training_data), "queries")
+    random.shuffle(training_data)
+    ctr = 0
+    for queryrow in training_data:
+        print("query", ctr, "/", len(training_data), flush=True)
+        query = queryrow[0]
+        queryID = queryrow[1]
+        querySparql = "SELECT (count(*) as ?x) WHERE {"
+        linesIn = []
+        for xs in query:
+            line = ""
+            for x in xs:
+                if x < 0:
+                    querySparql += " ?v" + str(-x) + " "
+                    line += " ?v" + str(-x) + " "
+                else:
+                    myCurserExec("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
+                    rowx = cursor.fetchone()
+                    querySparql += " " + rowx[0] + " "
+                    line += " " + rowx[0] + " "
+            querySparql += "."
+            linesIn.append(re.sub('\s+', ' ', (line + " . ").strip()))
+        querySparql += "}"
+        print(query)
+        for order in getOrders(len(query)):
+            print(query)
+            print(order)
+            if not hasCartesianProduct(query, order):
+                joinOrderString = ",".join([str(x) for x in order])
+                joinOrderID = getOrAddDB("mapping_join", joinOrderString)
+                myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
+                row = cursor.fetchone()
+                if row == None:
+                    print("calling lupos", querySparql, joinOrderString, flush=True)
+                    value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+                    print("response from lupos", flush=True)
+                    myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
+                    db.commit()
+                myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))
+                myCurserExec("INSERT IGNORE INTO optimizer_choice (dataset_id, query_id, optimizer_id, join_id) VALUES (%s, %s, %s, %s)", (datasetID, queryID, optimizerID, joinOrderID))
+                db.commit()
+        ctr += 1

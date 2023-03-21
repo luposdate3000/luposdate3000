@@ -82,7 +82,7 @@ for queryrow in training_data:
     resultstringorg = re.sub(
         '\s+', ' ',
         result.decode('utf-8').replace("rdf:type", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#type>").replace("rdfs:seeAlso", "<http://www.w3.org/2000/01/rdf-schema#seeAlso>").replace("rdfs:subClassOf", "<http://www.w3.org/2000/01/rdf-schema#subClassOf>").replace(
-            "owl:sameAs", "<http://www.w3.org/2002/07/owl#sameAs>").replace("rdf:value", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>").replace("rdfs:label","<http://www.w3.org/2000/01/rdf-schema#label>"))
+            "owl:sameAs", "<http://www.w3.org/2002/07/owl#sameAs>").replace("rdf:value", "<http://www.w3.org/1999/02/22-rdf-syntax-ns#value>").replace("rdfs:label", "<http://www.w3.org/2000/01/rdf-schema#label>"))
     resultstring = resultstringorg.split("\\n")
     linesOut = []
     for x in resultstring:

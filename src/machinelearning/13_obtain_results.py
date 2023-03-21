@@ -41,6 +41,7 @@ sqlquery = """SELECT score FROM cache where optimizer_id=%s order by score"""
 db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
 
+
 def getOrAddDB(database, value):
     l = value.strip()
     cursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
@@ -53,6 +54,7 @@ def getOrAddDB(database, value):
     if row == None:
         exit(1)
     return row[0]
+
 
 dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
@@ -72,8 +74,8 @@ for triplePattern in triplePatterns:
     cursor.execute(cachequery, (triplePattern, datasetID))
     for optimizer in optimizers:
         name = optimizer[0]
-        if name.endswith(".model2") or name.endswith(".model3") or name=="luposdate3000_dynamic_programming": # ignore alternative models
-         continue
+        if name.endswith(".model2") or name.endswith(".model3") or name == "luposdate3000_dynamic_programming":  # ignore alternative models
+            continue
         datapoints = []
         last = None
         idx = 0
@@ -100,17 +102,17 @@ for triplePattern in triplePatterns:
             if name.startswith("model_"):
                 tmp = name[:-len(".model")].split("_")
                 if name.endswith(".model2") or name.endswith(".model3"):
-                 tmp = name[:-len(".modelx")].split("_")
+                    tmp = name[:-len(".modelx")].split("_")
                 training_steps = tmp[-1]
                 trained_on = tmp[1:-3]
                 if trained_on[0] == trained_on[1]:
                     trained_on = [trained_on[0]]
-                    a=trained_on
+                    a = trained_on
                     trained_on = "b" + "_".join([x.rjust(2, '0') for x in trained_on])
                     if name.endswith(".model2"):
-                     trained_on="d" + "_".join([x.rjust(2, '0') for x in trained_on])+",2"
+                        trained_on = "d" + "_".join([x.rjust(2, '0') for x in trained_on]) + ",2"
                     if name.endswith(".model3"):
-                     trained_on="e" + "_".join([x.rjust(2, '0') for x in trained_on])+",3"
+                        trained_on = "e" + "_".join([x.rjust(2, '0') for x in trained_on]) + ",3"
                 else:
                     trained_on = "c" + "_".join([x.rjust(2, '0') for x in trained_on])
                 print("key", triplePattern, training_steps, trained_on, total_score)
@@ -121,12 +123,9 @@ for triplePattern in triplePatterns:
                 print("key", triplePattern, name, total_score)
                 deterministicMap.setdefault(name, {})[triplePattern] = total_score
 
-for k,v in scoreMap2.items():
- for i in range(3,21):
-  v.setdefault(i, {})
-
-
-
+for k, v in scoreMap2.items():
+    for i in range(3, 21):
+        v.setdefault(i, {})
 
 for trainingsteps, mmap in scoreMap2.items():
     rows = []

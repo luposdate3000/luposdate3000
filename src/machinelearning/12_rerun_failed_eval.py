@@ -47,44 +47,46 @@ for row in rows:
 print("found", len(training_data3), "queries")
 random.shuffle(training_data3)
 
-def processData(training_data):
- ctr = 0
- db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
- cursor = db.cursor()
- gateway = JavaGateway()
- luposdate = gateway.entry_point
- for queryrow in training_data:
-    print("query", ctr, "/", len(training_data), flush=True)
-    query = queryrow[0]
-    queryID = queryrow[1]
-    joinOrderID = queryrow[2]
-    joinOrderString = queryrow[3]
-    querySparql = "SELECT (count(*) as ?x) WHERE {"
-    for xs in query:
-        for x in xs:
-            if x < 0:
-                querySparql += " ?v" + str(-x) + " "
-            else:
-                cursor.execute("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
-                rowx = cursor.fetchone()
-                querySparql += " " + rowx[0] + " "
-        querySparql += "."
-    querySparql += "}"
 
-    print("calling lupos", flush=True)
-    value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
-    print("response from lupos was ", value, flush=True)
-    cursor.execute("UPDATE benchmark_values set value=%s where dataset_id=%s and query_id=%s and join_id=%s", (value, datasetID, queryID, joinOrderID))
-    db.commit()
-    ctr += 1
+def processData(training_data):
+    ctr = 0
+    db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
+    cursor = db.cursor()
+    gateway = JavaGateway()
+    luposdate = gateway.entry_point
+    for queryrow in training_data:
+        print("query", ctr, "/", len(training_data), flush=True)
+        query = queryrow[0]
+        queryID = queryrow[1]
+        joinOrderID = queryrow[2]
+        joinOrderString = queryrow[3]
+        querySparql = "SELECT (count(*) as ?x) WHERE {"
+        for xs in query:
+            for x in xs:
+                if x < 0:
+                    querySparql += " ?v" + str(-x) + " "
+                else:
+                    cursor.execute("SELECT name FROM mapping_dictionary WHERE id = %s", (x, ))
+                    rowx = cursor.fetchone()
+                    querySparql += " " + rowx[0] + " "
+            querySparql += "."
+        querySparql += "}"
+
+        print("calling lupos", flush=True)
+        value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
+        print("response from lupos was ", value, flush=True)
+        cursor.execute("UPDATE benchmark_values set value=%s where dataset_id=%s and query_id=%s and join_id=%s", (value, datasetID, queryID, joinOrderID))
+        db.commit()
+        ctr += 1
 
 
 def chunker_list(seq, size):
     return [seq[i::size] for i in range(size)]
 
-threadsToUse=cpu_count()
+
+threadsToUse = cpu_count()
 pool = Pool(threadsToUse)
-tasks=chunker_list(training_data3,threadsToUse)
+tasks = chunker_list(training_data3, threadsToUse)
 pool.map(processData, tasks)
 
 #processData(training_data3)

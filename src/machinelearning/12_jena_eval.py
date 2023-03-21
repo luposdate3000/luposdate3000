@@ -39,7 +39,7 @@ datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "jena")
 
 myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s and dataset_id=%s AND NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s and mq.dataset_id = %s)",
-             (learnOnMin, learnOnMax, datasetID, datasetID,optimizerID, datasetID))
+             (learnOnMin, learnOnMax, datasetID, datasetID, optimizerID, datasetID))
 rows = cursor.fetchall()
 training_data = []
 for row in rows:
@@ -103,7 +103,7 @@ for queryrow in training_data:
         print("calling lupos", flush=True)
         value = luposdate.getIntermediateResultsFor(querySparql, joinOrderString)
         print("response from lupos", flush=True)
-#        value=999999999
+        #        value=999999999
         myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (datasetID, queryID, joinOrderID, value))
         db.commit()
     myCurserExec("DELETE FROM optimizer_choice WHERE dataset_id = %s AND query_id = %s AND optimizer_id = %s", (datasetID, queryID, optimizerID))

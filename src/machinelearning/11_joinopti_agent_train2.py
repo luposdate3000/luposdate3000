@@ -32,8 +32,6 @@ mydb = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks
 # Custom actor (pi) and value function (vf) networks
 policy_kwargs = dict(net_arch=[dict(pi=[128, 128], vf=[128, 128])])
 
-
-
 env = DatabaseEnv(max_triples, dataset, mydb, learnOnMin, learnOnMax, ratio)
 env = ActionMasker(env, mask_fn)
 fileprefix = "model_" + str(learnOnMin) + "_" + str(learnOnMax) + "_" + str(max_triples) + "_" + str(ratio) + "_"
@@ -47,7 +45,7 @@ for file in os.listdir(model_folder):
                 training_steps = x
 
 if training_steps == 0:
-    model = MaskablePPO("MlpPolicy", env, verbose=2, device="auto",policy_kwargs=policy_kwargs)
+    model = MaskablePPO("MlpPolicy", env, verbose=2, device="auto", policy_kwargs=policy_kwargs)
 else:
     print("loading", model_folder + "/" + fileprefix + str(training_steps) + ".model", flush=True)
     model = MaskablePPO.load(model_folder + "/" + fileprefix + str(training_steps) + ".model", env)
