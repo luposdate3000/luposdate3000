@@ -1,0 +1,154 @@
+{
+    "applications": {
+        "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+            "REPLACE_STORE_WITH_VALUES": false,
+            "SharedMemoryDictionaryCheat": true,
+            "databaseQuery": true,
+            "databaseStore": true,
+            "enabled": false,
+            "mergeLocalOperatorgraphs": true,
+            "predefinedPartitionScheme": "PartitionByID_S_AllCollations",
+            "queryDistributionMode": "Routing",
+            "useDictionaryInlineEncoding": true,
+        },
+        "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSampleSOSAInternalID": {},
+    },
+    "deterministic": true,
+    "deviceType": {
+        "Central Tower": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
+                },
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
+                    "enabled": true,
+                    "fileName": "/src/luposdate3000/src/machinelearning/_tmpdata//complete.n3",
+                    "sendStartClockInSec": 10,
+                },
+                "simora.applications.scenario.parking.ApplicationFactory_QuerySender": [
+                    {
+                        "label": "S1",
+                        "query": "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
+                    },
+                ],
+            },
+            "performance": 100.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Database Device": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": true,
+                    "enabled": true,
+                },
+            },
+            "performance": 30.0,
+            "supportedLinkTypes": [
+                "WPAN",
+                "WLAN",
+            ],
+        },
+        "Mesh Hop": {
+            "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
+                    "databaseQuery": true,
+                    "databaseStore": false,
+                    "enabled": true,
+                },
+            },
+            "performance": 20.0,
+            "supportedLinkTypes": [
+                "WLAN",
+            ],
+        },
+        "Sensor Device": {
+            "applications": {
+                "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
+                    "maxSamples": 5,
+                    "rateInSec": 60,
+                    "sendStartClockInSec": 15,
+                },
+            },
+            "performance": 1.0,
+            "supportedLinkTypes": [
+                "WPAN",
+            ],
+        },
+    },
+    "fixedDevice": {
+        "Fog": {
+            "applications": {},
+            "deviceType": "Central Tower",
+            "latitude": 53.83759450606049,
+            "longitude": 10.702377248379614,
+            "patterns": [
+                {
+                    "count": 10,
+                    "deviceType": "Sensor Device",
+                    "mode": "count",
+                    "provideCounterAs": "spotInArea",
+                    "radius": 50,
+                    "type": "random_fill",
+                },
+                {
+                    "count": 32,
+                    "deviceType": "Mesh Hop",
+                    "mode": "count",
+                    "radius": 328.63353450309967,
+                    "type": "random_fill",
+                },
+                {
+                    "count": 15,
+                    "deviceType": "Database Device",
+                    "mode": "count",
+                    "patterns": [
+                        {
+                            "count": 10,
+                            "deviceType": "Sensor Device",
+                            "mode": "count",
+                            "provideCounterAs": "spotInArea",
+                            "radius": 50,
+                            "type": "random_fill",
+                        },
+                    ],
+                    "provideCounterAs": "area",
+                    "radius": 328.63353450309967,
+                    "type": "random_fill",
+                },
+            ],
+        },
+    },
+    "linkType": {
+        "WLAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 150,
+        },
+        "WPAN": {
+            "dataRateInKbps": 25000,
+            "rangeInMeters": 60,
+        },
+    },
+    "logging": {
+        "lupos.visualize.distributed.database.VisualisationNetwork": {
+            "enabled": false,
+        },
+        "simora.LoggerMeasure": {
+            "enabled": true,
+        },
+        "simora.LoggerStdout": {
+            "enabled": false,
+        },
+    },
+    "rootRouter": "Fog",
+    "routing": {
+        "compatibilityMode": false,
+        "multicast": "Simple",
+        "protocol": "RPL_Fast",
+    },
+}

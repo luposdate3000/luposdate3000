@@ -48,7 +48,7 @@ Or at their homepage [home page of sp2b](http://dbis.informatik.uni-freiburg.de/
 Or use any locally available file e.g.
 
 ```bash
-cp /mnt/luposdate-testdata/sp2b/131072/complete.n3 $tripleFile
+cp /mnt/luposdate-testdata/sp2b/8192/complete.n3 $tripleFile
 ```
 
 # 6. Generate SPARQL-queries - new algorithm
@@ -59,15 +59,13 @@ In fast-mode only the count is returned, which is a huge speed improvement, if y
 
 ```bash
 ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
+for tripleCount in $(seq 3 7)
+do
 ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
 cat ${queriesDirectory}/queries |sort|uniq > x
 mv x ${queriesDirectory}/queries
-```
-
-# 7. Import everything into the benchmark-database
-
-```bash
 ./src/machinelearning/07_importQueries.py $queriesDirectory
+done
 ```
 
 # 11a. Start the machine learning itself - using intermediate results for comparison

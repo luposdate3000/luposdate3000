@@ -1,0 +1,10 @@
+#!/bin/bash
+./12_rdf3x_eval.py
+./12_graphdb_eval.py
+./12_jena_eval.py
+#./12_joinopti_agent_eval.py
+#./12_lupos_eval_dp_c.py
+#./12_lupos_eval_dp_nc.py
+#./12_lupos_eval_g.py
+#./12_measure_the_timings.py
+#./12_rerun_failed_eval.py
