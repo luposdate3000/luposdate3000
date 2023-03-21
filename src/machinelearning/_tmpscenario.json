@@ -10,6 +10,7 @@
             "predefinedPartitionScheme": "PartitionByID_S_AllCollations",
             "queryDistributionMode": "Routing",
             "useDictionaryInlineEncoding": true,
+            "relocateOperatorsIfTooMuchDataIsSent": false,
         },
         "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSampleSOSAInternalID": {},
     },

@@ -36,6 +36,7 @@ def getOrders(triples):
  result=[]
  inputs=list(range(0,triples))
  getOrdersInternal(inputs,result,None)
+ return result
 
 def myCurserExec(sql, data):
     return cursor.execute(sql, data)
@@ -56,16 +57,16 @@ def getOrAddDB(database, value):
 
 
 learnOnMin = 0
-learnOnMax = 300
-dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
-datasetID = getOrAddDB("mapping_dataset", dataset)
-optimizerID = getOrAddDB("mapping_optimizer", "all")
+for learnOnMax in range (300):
+ dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
+ datasetID = getOrAddDB("mapping_dataset", dataset)
+ optimizerID = getOrAddDB("mapping_optimizer", "all")
 
-myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.dataset_id = %s and NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)",
-             (learnOnMin, learnOnMax, datasetID, datasetID, optimizerID))
-rows = cursor.fetchall()
-training_data = []
-for row in rows:
+ myCurserExec("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.dataset_id = %s",
+             (learnOnMin, learnOnMax, datasetID))
+ rows = cursor.fetchall()
+ training_data = []
+ for row in rows:
     xx = []
     tmp = []
     for x in [int(x) for x in row[0].split(",")]:
@@ -74,10 +75,10 @@ for row in rows:
             xx.append(tmp)
             tmp = []
     training_data.append([xx, row[1]])
-print("found", len(training_data), "queries")
-random.shuffle(training_data)
-ctr = 0
-for queryrow in training_data:
+ print("found", len(training_data), "queries")
+ random.shuffle(training_data)
+ ctr = 0
+ for queryrow in training_data:
     print("query", ctr, "/", len(training_data), flush=True)
     query = queryrow[0]
     queryID = queryrow[1]
@@ -99,7 +100,7 @@ for queryrow in training_data:
     querySparql += "}"
     print(query)
     for order in getOrders(len(query)):
-     joinOrderString=",".join(order)
+     joinOrderString=",".join([str(x) for x in order])
      joinOrderID = getOrAddDB("mapping_join", joinOrderString)
      myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
      row = cursor.fetchone()
