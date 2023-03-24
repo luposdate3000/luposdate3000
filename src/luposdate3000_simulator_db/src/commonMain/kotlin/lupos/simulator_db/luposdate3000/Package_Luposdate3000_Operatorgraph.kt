@@ -22,6 +22,7 @@ import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import simora.applications.scenario.parking.IPackage_Database
+import lupos.result_format.EQueryResultToStream
 
 public class Package_Luposdate3000_Operatorgraph(
     public val queryID: Int,
@@ -32,6 +33,7 @@ public class Package_Luposdate3000_Operatorgraph(
     public val verifyAction: () -> Unit,
     public val query: IQuery, // this is an required fake, because the intermediate valued definetly need to share a dictionary, which requires streaming, which the simulator does not support
     public val lastRootOperator: Int,
+public val evaluatorToUse:EQueryResultToStream,
 ) : IPackage_Database {
     private val hops = mutableListOf<Int>()
     override fun addHop(address: Int) { hops.add(address) }

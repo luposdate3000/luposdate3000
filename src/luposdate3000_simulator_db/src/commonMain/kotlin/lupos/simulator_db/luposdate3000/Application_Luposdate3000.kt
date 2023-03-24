@@ -227,6 +227,12 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
+val selectAllQuery=queryString=="SELECT ?s ?p ?o WHERE { ?s ?p ?o. }"
+val evaluatorToUse=if(selectAllQuery){
+EQueryResultToStreamExt.TURTLE_STREAM
+}else{
+EQueryResultToStreamExt.DEFAULT_STREAM
+}
 println("queryString: "+queryString)
 //        println(queryString)
         //      println(queryString)
@@ -266,7 +272,7 @@ q.machineLearningOptimizerOrder2 = order
                 if (limitOperators.size > 0 && !hasSort && localOP != null) {
                     val iteratorBundle = localOP.evaluateRootBundle()
                     val buf = MyPrintWriter(true)
-                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                    val evaluatorInstance =ResultFormatManager[EQueryResultToStreamExt.names[evaluatorToUse]]!!
                     evaluatorInstance(iteratorBundle, buf)
                     if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
                         if (expectedResult != null) {
@@ -297,7 +303,7 @@ q.machineLearningOptimizerOrder2 = order
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:299"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:305"/*SOURCE_FILE_END*/)
             }
         } else {
             // println("can not use local execution due to instance.tryLocalExecution")
@@ -344,7 +350,7 @@ q.machineLearningOptimizerOrder2 = order
                 }
             }
         }
-        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, destinations, onFinish, expectedResult, verifyAction, q, handler.lastRootOperator))
+        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, destinations, onFinish, expectedResult, verifyAction, q, handler.lastRootOperator,evaluatorToUse))
     }
 
     private fun receive(pck: Package_Luposdate3000_Abstract) {
@@ -742,6 +748,7 @@ q.machineLearningOptimizerOrder2 = order
                     pck.verifyAction,
                     pck.query,
                     pck.lastRootOperator,
+pck.evaluatorToUse,
                 )
                 myPendingWork.add(w)
             }
@@ -758,6 +765,7 @@ q.machineLearningOptimizerOrder2 = order
                     pck.verifyAction,
                     pck.query,
                     pck.lastRootOperator,
+pck.evaluatorToUse,
                 )
                 router!!.send(targetHost, pck2)
             }
@@ -1028,7 +1036,7 @@ q.machineLearningOptimizerOrder2 = order
                                         }
                                     }
 
-                                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[EQueryResultToStreamExt.DEFAULT_STREAM]]!!
+                                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[w.evaluatorToUse]]!!
                                     evaluatorInstance(iteratorBundle, buf)
 
                                     if (w.dataID == w.lastRootOperator) {
@@ -1071,7 +1079,7 @@ q.machineLearningOptimizerOrder2 = order
                                             for ((k, v) in usedInputs) {
                                                 router!!.send(target, Package_Luposdate3000_Abstract(w.queryID, "simulator-intermediate-result", mapOf("key" to "${k.second}", "query" to "${k.first}"), v as ByteArrayWrapper))
                                             }
-                                            router!!.send(target, Package_Luposdate3000_Operatorgraph(w.queryID, compactedOperatorGraph, w.destinations.toMutableMap(), w.onFinish, w.expectedResult, w.verifyAction, w.query, w.lastRootOperator))
+                                            router!!.send(target, Package_Luposdate3000_Operatorgraph(w.queryID, compactedOperatorGraph, w.destinations.toMutableMap(), w.onFinish, w.expectedResult, w.verifyAction, w.query, w.lastRootOperator,w.evaluatorToUse))
                                             hadSentOperatorsOrData = true
                                             println()
                                             println()
@@ -1095,7 +1103,7 @@ q.machineLearningOptimizerOrder2 = order
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1097"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1105"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1121,7 +1129,7 @@ q.machineLearningOptimizerOrder2 = order
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1123"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1131"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
