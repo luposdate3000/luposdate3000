@@ -8,11 +8,11 @@
             "enabled": false,
             "mergeLocalOperatorgraphs": true,
             "predefinedPartitionScheme": "PartitionByKeyAllCollations",
+            "predefinedPartitionScheme_backup": "PartitionByID_S_AllCollations",
             "queryDistributionMode": "Routing",
             "relocateOperatorsIfTooMuchDataIsSent": true,
             "useDictionaryInlineEncoding": true,
         },
-        "simora.applications.scenario.parking.ApplicationFactory_ReceiveParkingSampleSOSAInternalID": {},
     },
     "deterministic": true,
     "deviceType": {
@@ -23,15 +23,10 @@
                     "databaseStore": true,
                     "enabled": true,
                 },
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
-                    "enabled": true,
-                    "fileName": "/src/luposdate3000/src/machinelearning/_tmpdata//complete.n3",
-                    "sendStartClockInSec": 10,
-                },
                 "simora.applications.scenario.parking.ApplicationFactory_QuerySender": [
                     {
                         "label": "S1",
-                        "query": "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
+                        "query": "SELECT ?s ?p ?o { VALUES (?s ?p ?o) { (UNDEF UNDEF UNDEF) } }",
                     },
                 ],
             },
@@ -68,19 +63,6 @@
                 "WLAN",
             ],
         },
-        "Sensor Device": {
-            "applications": {
-                "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
-                    "maxSamples": 5,
-                    "rateInSec": 60,
-                    "sendStartClockInSec": 15,
-                },
-            },
-            "performance": 1.0,
-            "supportedLinkTypes": [
-                "WPAN",
-            ],
-        },
     },
     "fixedDevice": {
         "Fog": {
@@ -89,14 +71,6 @@
             "latitude": 53.83759450606049,
             "longitude": 10.702377248379614,
             "patterns": [
-                {
-                    "count": 10,
-                    "deviceType": "Sensor Device",
-                    "mode": "count",
-                    "provideCounterAs": "spotInArea",
-                    "radius": 50,
-                    "type": "random_fill",
-                },
                 {
                     "count": 32,
                     "deviceType": "Mesh Hop",
@@ -108,16 +82,6 @@
                     "count": 15,
                     "deviceType": "Database Device",
                     "mode": "count",
-                    "patterns": [
-                        {
-                            "count": 10,
-                            "deviceType": "Sensor Device",
-                            "mode": "count",
-                            "provideCounterAs": "spotInArea",
-                            "radius": 50,
-                            "type": "random_fill",
-                        },
-                    ],
                     "provideCounterAs": "area",
                     "radius": 328.63353450309967,
                     "type": "random_fill",

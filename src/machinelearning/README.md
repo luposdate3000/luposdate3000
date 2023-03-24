@@ -59,12 +59,17 @@ In fast-mode only the count is returned, which is a huge speed improvement, if y
 
 ```bash
 ./src/machinelearning/06_Turtle2NTriple.main.kts ${tripleFile} | LC_ALL=C sort > ${tripleFile}.nt
-for tripleCount in $(seq 3 7)
+for tripleCount in $(seq 3 20)
 do
+echo a $tripleCount $tripleCount
 ./src/machinelearning/06_structureAnalyzer.main.kts ${tripleFile}.nt $tripleCount $queriesDirectory fast
+echo b $(pwd)/x
 cat ${queriesDirectory}/queries |sort|uniq > x
+echo c
 mv x ${queriesDirectory}/queries
+echo d
 ./src/machinelearning/07_importQueries.py $queriesDirectory
+echo e
 done
 ```
 
@@ -124,4 +129,14 @@ cat ${tripleFile}.bench.csv | ./src/machinelearning/vv_verify_uniform_input_data
 cat ${tripleFile}.bench.csv | ./src/machinelearning/vv_verify_uniform_input_data.main.kts networkTrafficFor 15 abs > networkTraffic_abs.csv
 cat ${tripleFile}.bench.csv | ./src/machinelearning/vv_verify_uniform_input_data.main.kts networkTrafficFor 15 rel > networkTraffic_rel.csv
 ./src/machinelearning/vv_visualize.gnuplot
+```
+
+# sql commands to get some overview about data
+```bash
+select query_id,min(value),max(value),(min(value)/max(value)) as factor,count(value) from benchmark_values where value>0 group by query_id order by factor;
+
+
+create table tmp as select query_id,min(value),max(value),(min(value)/max(value)) as factor,count(value) from benchmark_values where value>0 group by query_id order by factor;
+select factor, count(*) from tmp group by factor;
+
 ```
