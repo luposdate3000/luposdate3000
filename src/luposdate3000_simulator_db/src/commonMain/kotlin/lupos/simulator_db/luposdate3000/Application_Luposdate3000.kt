@@ -287,7 +287,7 @@ public class Application_Luposdate3000 public constructor(
                                 receive(onFinish)
                             } else {
                                 router!!.send(ownAdress, Package_QueryResponse("success".encodeToByteArray(), pck.queryID))
-                                println("instance.tryLocalExecution ... ")
+                               // println("instance.tryLocalExecution ... ")
                             }
                         } else {
                             if (onFinish != null) {
@@ -1081,13 +1081,13 @@ public class Application_Luposdate3000 public constructor(
                                             }
                                             router!!.send(target, Package_Luposdate3000_Operatorgraph(w.queryID, compactedOperatorGraph, w.destinations.toMutableMap(), w.onFinish, w.expectedResult, w.verifyAction, w.query, w.lastRootOperator, w.evaluatorToUse))
                                             hadSentOperatorsOrData = true
-                                            println()
-                                            println()
-                                            println("all input sizes : $inputSizes ($inputBytes) -> output $outputSizes ($outputBytes)")
-                                            println("my address: $ownAdress -> targets: ${packagesToSent.map{it.target}}")
-                                            println("forwarded everything to another node")
-                                            println()
-                                            println()
+                                        //    println()
+                                        //    println()
+                                        //    println("all input sizes : $inputSizes ($inputBytes) -> output $outputSizes ($outputBytes)")
+                                        //    println("my address: $ownAdress -> targets: ${packagesToSent.map{it.target}}")
+                                        //    println("forwarded everything to another node")
+                                        //    println()
+                                        //    println()
                                         }
                                     }
                                 }
