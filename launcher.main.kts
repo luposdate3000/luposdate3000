@@ -612,7 +612,7 @@ val defaultParams = mutableListOf(
     ),
 ParamClass(
         "--useKtLint",
-"false",
+"true",
        listOf("true","false"), false,
     ),
 ParamClass(

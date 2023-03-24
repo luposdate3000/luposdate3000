@@ -16,10 +16,10 @@
  */
 package lupos.simulator_db.luposdate3000
 
+import lupos.result_format.EQueryResultToStream
 import lupos.shared.IQuery
 import lupos.shared.MemoryTable
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.result_format.EQueryResultToStream
 import simora.applications.scenario.parking.IPackage_Database
 
 public class PendingWork(
@@ -34,7 +34,7 @@ public class PendingWork(
     public val verifyAction: () -> Unit,
     public val query: IQuery,
     public val lastRootOperator: Int,
-public val evaluatorToUse:EQueryResultToStream,  
+    public val evaluatorToUse: EQueryResultToStream,
 ) {
     internal companion object {
         public var pendingWorkCounter: Int = 0

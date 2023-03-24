@@ -227,23 +227,23 @@ public class Application_Luposdate3000 public constructor(
 
     private fun receive(pck: Package_Query, onFinish: IPackage_DatabaseTesting?, expectedResult: MemoryTable?, verifyAction: () -> Unit, enforcedIndex: ITripleStoreIndexDescription?) {
         val queryString = pck.query.decodeToString()
-val selectAllQuery=queryString=="SELECT ?s ?p ?o WHERE { ?s ?p ?o. }"
-val evaluatorToUse=if(selectAllQuery){
-EQueryResultToStreamExt.TURTLE_STREAM
-}else{
-EQueryResultToStreamExt.DEFAULT_STREAM
-}
-println("queryString: "+queryString)
+        val selectAllQuery = queryString == "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }"
+        val evaluatorToUse = if (selectAllQuery) {
+            EQueryResultToStreamExt.TURTLE_STREAM
+        } else {
+            EQueryResultToStreamExt.DEFAULT_STREAM
+        }
+        println("queryString: " + queryString)
 //        println(queryString)
         //      println(queryString)
         //    println()
         val q = Query(instance)
-if(pck.order!=null){
-val order=pck.order!!.decodeToString().split(",").map { it.toInt() }
-q.optimizer = EOptimizerExt.MachineLearningLarge
-q.machineLearningOptimizerOrder2 = order
+        if (pck.order != null) {
+            val order = pck.order!!.decodeToString().split(",").map { it.toInt() }
+            q.optimizer = EOptimizerExt.MachineLearningLarge
+            q.machineLearningOptimizerOrder2 = order
             q.machineLearningCounter = 0
-}
+        }
 
         val machineLearningOptimizerOrder = pck.attributes["machineLearningOptimizerOrder"]
         if (machineLearningOptimizerOrder != null) {
@@ -272,7 +272,7 @@ q.machineLearningOptimizerOrder2 = order
                 if (limitOperators.size > 0 && !hasSort && localOP != null) {
                     val iteratorBundle = localOP.evaluateRootBundle()
                     val buf = MyPrintWriter(true)
-                    val evaluatorInstance =ResultFormatManager[EQueryResultToStreamExt.names[evaluatorToUse]]!!
+                    val evaluatorInstance = ResultFormatManager[EQueryResultToStreamExt.names[evaluatorToUse]]!!
                     evaluatorInstance(iteratorBundle, buf)
                     if (limitOperators.fold(true) { s, t -> s && t.limitFullfilled() }) {
                         if (expectedResult != null) {
@@ -350,7 +350,7 @@ q.machineLearningOptimizerOrder2 = order
                 }
             }
         }
-        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, destinations, onFinish, expectedResult, verifyAction, q, handler.lastRootOperator,evaluatorToUse))
+        receive(Package_Luposdate3000_Operatorgraph(pck.queryID, data, destinations, onFinish, expectedResult, verifyAction, q, handler.lastRootOperator, evaluatorToUse))
     }
 
     private fun receive(pck: Package_Luposdate3000_Abstract) {
@@ -748,7 +748,7 @@ q.machineLearningOptimizerOrder2 = order
                     pck.verifyAction,
                     pck.query,
                     pck.lastRootOperator,
-pck.evaluatorToUse,
+                    pck.evaluatorToUse,
                 )
                 myPendingWork.add(w)
             }
@@ -765,7 +765,7 @@ pck.evaluatorToUse,
                     pck.verifyAction,
                     pck.query,
                     pck.lastRootOperator,
-pck.evaluatorToUse,
+                    pck.evaluatorToUse,
                 )
                 router!!.send(targetHost, pck2)
             }
@@ -1079,7 +1079,7 @@ pck.evaluatorToUse,
                                             for ((k, v) in usedInputs) {
                                                 router!!.send(target, Package_Luposdate3000_Abstract(w.queryID, "simulator-intermediate-result", mapOf("key" to "${k.second}", "query" to "${k.first}"), v as ByteArrayWrapper))
                                             }
-                                            router!!.send(target, Package_Luposdate3000_Operatorgraph(w.queryID, compactedOperatorGraph, w.destinations.toMutableMap(), w.onFinish, w.expectedResult, w.verifyAction, w.query, w.lastRootOperator,w.evaluatorToUse))
+                                            router!!.send(target, Package_Luposdate3000_Operatorgraph(w.queryID, compactedOperatorGraph, w.destinations.toMutableMap(), w.onFinish, w.expectedResult, w.verifyAction, w.query, w.lastRootOperator, w.evaluatorToUse))
                                             hadSentOperatorsOrData = true
                                             println()
                                             println()
