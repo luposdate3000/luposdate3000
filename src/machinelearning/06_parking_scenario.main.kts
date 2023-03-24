@@ -612,6 +612,7 @@ val queries=listOf(
 
 for ((name,q) in queries){
 val res=MyJoin()
+knownJoins3.add(res)
 println()
 println(name)
 println()
@@ -625,6 +626,14 @@ val x=l.split(" ") .filter { x -> x.length > 0 }.map{it2->
 var it=it2
 if(it.startsWith("sosa:")){
 it=it.replace("sosa:","<http://www.w3.org/ns/sosa/")+">"
+}else if (it.startsWith("parking:")){
+it=it.replace("parking:","<https://github.com/luposdate3000/parking#")+">"
+}else if (it.startsWith("geo:")){
+it=it.replace("geo:","<http://www.w3.org/2003/01/geo/wgs84_pos#")+">"
+}else if (it.startsWith("ssn:")){
+it=it.replace("ssn:","<http://www.w3.org/ns/ssn/")+">"
+//}else if (it.startsWith("")){
+//it=it.replace(":","")+">"
 }
 if((":" in it) and (it[0]!='<')){
 println("'$it' is wrong")
@@ -633,7 +642,7 @@ System.exit(1)
 it
 }
 
-println(x)
+//println(x)
 res.patterns.add(Triple(x[0] , x[1] , x[2]))
 }
 active=active or ("WHERE {" in l)
