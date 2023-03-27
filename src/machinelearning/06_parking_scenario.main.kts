@@ -2,10 +2,10 @@
 @file:Import("06_Turtle.kt")
 
 import parser.Parser
-import kotlin.math.log
-import kotlin.math.floor
-import kotlin.random.Random
 import kotlin.math.exp
+import kotlin.math.floor
+import kotlin.math.log
+import kotlin.random.Random
 
 // configuration -->>
 val limitQueries = 5000
@@ -218,7 +218,6 @@ class MyType(count: Int) {
     }
 }
 
-
 fun getClazz(s: String) = knownClassesMap3[s]?.let { knownClassesIDMap3[it] }
 fun getClazz(id: Int) = knownClassesIDMap3[id]
 fun getAllClazzes() = knownClassesIDMap3.filterIndexed { index, it -> it.id == index }
@@ -311,13 +310,11 @@ parser!!.consumeTriple = { s, p, o ->
     }
 }
 
-
 parser!!.parserDefinedParse()
-parser!!.close();
+parser!!.close()
 parser = null
 consumeClass()
 checkAllPossibleReferences()
-
 
 val validIDs = knownClassesIDMap3.map { it.id }.toSet().toList()
 for (i in 0 until validIDs.size) {
@@ -325,8 +322,7 @@ for (i in 0 until validIDs.size) {
     clazz.deduplicateProperties()
 }
 
-
-//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  69612
+// grep targetClass yago1.shacl -A1 | grep property | wc -l .....  69612
 
 var changed = true
 loop@ while (changed) {
@@ -383,15 +379,14 @@ loop@ while (changed) {
     }
 }
 
-//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  9006
-
+// grep targetClass yago1.shacl -A1 | grep property | wc -l .....  9006
 
 println()
 for (clazz in getAllClazzes()) {
 
     println("[]")
     for (kk in clazz.key) {
-        println("    <http://www.w3.org/ns/shacl#targetClass> ${kk} ;")
+        println("    <http://www.w3.org/ns/shacl#targetClass> $kk ;")
     }
     for (v in clazz.variables.values) {
         println("    <http://www.w3.org/ns/shacl#property> [")
@@ -441,7 +436,7 @@ class MyJoin {
         return "?v${variableClasses.size - 1}"
     }
 
-    fun variableFor(i: Int): String = "?v${i}"
+    fun variableFor(i: Int): String = "?v$i"
     fun extractVariableID(s: String): Int {
         return if (s.startsWith("?v")) {
             s.drop(2).toInt()
@@ -450,7 +445,6 @@ class MyJoin {
         }
     }
 }
-
 
 fun addToDictionary(s: String, variableMap: MutableList<String>): Int {
     if (!s.startsWith("?")) {
@@ -466,7 +460,6 @@ fun addToDictionary(s: String, variableMap: MutableList<String>): Int {
     }
 }
 
-
 fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
     var j = 0
     var i = 0
@@ -475,7 +468,7 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
         j++
         i++
     }
-    if ( output.size == 1) {
+    if (output.size == 1) {
         return
     }
     var W = exp(log(Random.nextDouble(), kotlin.math.E) / output.size)
@@ -483,7 +476,7 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
         i = i + floor(log(Random.nextDouble(), kotlin.math.E) / log(1 - W, kotlin.math.E)).toInt() + 1
         j++
         if (i < output.size * 100) {
-            break//my shortcut to prevent extreme calculations for nearly no change
+            break // my shortcut to prevent extreme calculations for nearly no change
         }
         while (j < i && input.hasNext()) {
             input.next()
@@ -499,11 +492,11 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
 fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String?, depth: Int): Sequence<MyJoin> = sequence {
     var flag = lastPredicate == null
     val predicatesList = clazz.variables.keys.toMutableList()
-for (pp in jj.patterns){
-if(pp.first==subjectName){
-predicatesList.remove(pp.second)
-}
-}
+    for (pp in jj.patterns) {
+        if (pp.first == subjectName) {
+            predicatesList.remove(pp.second)
+        }
+    }
     val predicates: Array<String> = predicatesList.toTypedArray()
     predicates.shuffle()
     for (predicate in predicates) {
@@ -577,7 +570,6 @@ fun joinSequenceIteratorRecurse(j: MyJoin, depth: Int): Sequence<MyJoin> = seque
     }
 }
 
-
 fun joinSequenceIterator() = sequence {
     val allClass = getAllClazzes().toList().toTypedArray()
     allClass.shuffle()
@@ -593,65 +585,63 @@ var idx = 0
 val luposdate3000_query_params = StringBuilder()
 val knownJoins3 = mutableListOf<MyJoin>()
 
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
-val queries=listOf(
-//"Q1" to "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
-"Q2" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT DISTINCT ?area WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area ?area .\n}",
-"Q3" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(DISTINCT ?spotInArea) as ?count) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 9 .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n}",
-"Q4" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(?Observation) as ?count) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 6 .\n ?ParkingSlotLocation parking:spotInArea 1 .\n ?Observation a sosa:Observation .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n}",
-"Q5" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (MAX(?resultTime) AS ?latestDate) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 7 .\n ?ParkingSlotLocation parking:spotInArea 1 .\n ?Observation a sosa:Observation .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?resultTime .\n}",
-//"Q6" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?spotInArea ?isOccupied ?lastObservedAt WHERE {\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n {\n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE {\n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area 9 .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
-//"Q7" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?area ?spotInArea ?isOccupied ?lastObservedAt WHERE {\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n { \n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE { \n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area ?area .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n    FILTER (?area IN (9, 8, 2))\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
-//"Q8" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(?ParkingSlotLocation) AS ?count ) WHERE {\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult \"false\"^^xsd:boolean .\n {\n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE {\n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area 9 .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
-"Q9" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n}",
-"Q10" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation .\n ?Observation2 sosa:hasSimpleResult ?isOccupied .\n ?Observation2 sosa:madeBySensor ?Sensor .\n ?Observation2 sosa:observedProperty ?ParkingSlotLocation .\n ?Observation2 sosa:phenomenonTime ?sampleTime .\n ?Observation2 sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation2 .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n}",
-"Q11" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?Observation a sosa:Observation .\n ?Observation sosa:hasFeatureOfInterest parking:AvailableParkingSpaces .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Observation sosa:usedProcedure parking:SensorOnEachSlot .\n ?Observation ssn:wasOriginatedBy parking:CarMovement .\n ?Sensor sosa:madeObservation ?Observation  .\n parking:AvailableParkingSpaces ssn:hasProperty ?ParkingSlotLocation .\n parking:CarMovement ssn:isProxyFor ?ParkingSlotLocation .\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?ParkingSlotLocation ssn:isPropertyOf parking:AvailableParkingSpaces .\n ?Sensor a sosa:Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n ?Sensor ssn:detects parking:CarMovement .\n ?Sensor ssn:implements parking:SensorOnEachSlot .\n}",
+val queries = listOf(
+// "Q1" to "SELECT ?s ?p ?o WHERE { ?s ?p ?o. }",
+    "Q2" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT DISTINCT ?area WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area ?area .\n}",
+    "Q3" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(DISTINCT ?spotInArea) as ?count) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 9 .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n}",
+    "Q4" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(?Observation) as ?count) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 6 .\n ?ParkingSlotLocation parking:spotInArea 1 .\n ?Observation a sosa:Observation .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n}",
+    "Q5" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (MAX(?resultTime) AS ?latestDate) WHERE {\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area 7 .\n ?ParkingSlotLocation parking:spotInArea 1 .\n ?Observation a sosa:Observation .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?resultTime .\n}",
+// "Q6" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?spotInArea ?isOccupied ?lastObservedAt WHERE {\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n {\n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE {\n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area 9 .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
+// "Q7" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?area ?spotInArea ?isOccupied ?lastObservedAt WHERE {\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n { \n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE { \n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area ?area .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n    FILTER (?area IN (9, 8, 2))\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
+// "Q8" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT (COUNT(?ParkingSlotLocation) AS ?count ) WHERE {\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:resultTime ?lastObservedAt .\n ?Observation sosa:hasSimpleResult \"false\"^^xsd:boolean .\n {\n  SELECT(MAX(?resultTime) AS ?lastObservedAt) ?ParkingSlotLocation WHERE {\n    ?ParkingSlotLocation a sosa:ObservableProperty .\n    ?ParkingSlotLocation parking:area 9 .\n    ?Observation a sosa:Observation .\n    ?Observation sosa:observedProperty ?ParkingSlotLocation .\n    ?Observation sosa:resultTime ?resultTime .\n  }\n  GROUP BY ?ParkingSlotLocation\n }\n}",
+    "Q9" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n}",
+    "Q10" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation .\n ?Observation2 sosa:hasSimpleResult ?isOccupied .\n ?Observation2 sosa:madeBySensor ?Sensor .\n ?Observation2 sosa:observedProperty ?ParkingSlotLocation .\n ?Observation2 sosa:phenomenonTime ?sampleTime .\n ?Observation2 sosa:resultTime ?sampleTime2 .\n ?Sensor sosa:madeObservation ?Observation2 .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n}",
+    "Q11" to "PREFIX geo: <http://www.w3.org/2003/01/geo/wgs84_pos#>\nPREFIX parking: <https://github.com/luposdate3000/parking#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nPREFIX ssn: <http://www.w3.org/ns/ssn/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT * WHERE {\n ?Observation a sosa:Observation .\n ?Observation sosa:hasFeatureOfInterest parking:AvailableParkingSpaces .\n ?Observation sosa:hasSimpleResult ?isOccupied .\n ?Observation sosa:madeBySensor ?Sensor .\n ?Observation sosa:observedProperty ?ParkingSlotLocation .\n ?Observation sosa:phenomenonTime ?sampleTime .\n ?Observation sosa:resultTime ?sampleTime2 .\n ?Observation sosa:usedProcedure parking:SensorOnEachSlot .\n ?Observation ssn:wasOriginatedBy parking:CarMovement .\n ?Sensor sosa:madeObservation ?Observation  .\n parking:AvailableParkingSpaces ssn:hasProperty ?ParkingSlotLocation .\n parking:CarMovement ssn:isProxyFor ?ParkingSlotLocation .\n ?ParkingSlotLocation a sosa:ObservableProperty .\n ?ParkingSlotLocation parking:area ?area .\n ?ParkingSlotLocation parking:spotInArea ?spotInArea .\n ?ParkingSlotLocation sosa:isObservedBy ?Sensor .\n ?ParkingSlotLocation ssn:isPropertyOf parking:AvailableParkingSpaces .\n ?Sensor a sosa:Sensor .\n ?Sensor parking:sensorID ?sensorID .\n ?Sensor sosa:observes ?ParkingSlotLocation .\n ?Sensor ssn:detects parking:CarMovement .\n ?Sensor ssn:implements parking:SensorOnEachSlot .\n}",
 )
 
-for ((name,q) in queries){
-val res=MyJoin()
-knownJoins3.add(res)
-println()
-println(name)
-println()
-val lines=q.split("\n")
-var active=false
-for (l in lines){
-active=active and ( "}" !in l)
-if(active){
-println(l)
-val x=l.split(" ") .filter { x -> x.length > 0 }.map{it2->
-var it=it2
-if(it.startsWith("sosa:")){
-it=it.replace("sosa:","<http://www.w3.org/ns/sosa/")+">"
-}else if (it.startsWith("parking:")){
-it=it.replace("parking:","<https://github.com/luposdate3000/parking#")+">"
-}else if (it.startsWith("geo:")){
-it=it.replace("geo:","<http://www.w3.org/2003/01/geo/wgs84_pos#")+">"
-}else if (it.startsWith("ssn:")){
-it=it.replace("ssn:","<http://www.w3.org/ns/ssn/")+">"
-//}else if (it.startsWith("")){
-//it=it.replace(":","")+">"
-}
-if((":" in it) and (it[0]!='<')){
-println("'$it' is wrong")
-System.exit(1)
-}
-it
-}
+for ((name, q) in queries) {
+    val res = MyJoin()
+    knownJoins3.add(res)
+    println()
+    println(name)
+    println()
+    val lines = q.split("\n")
+    var active = false
+    for (l in lines) {
+        active = active and ("}" !in l)
+        if (active) {
+            println(l)
+            val x = l.split(" ").filter { x -> x.length > 0 }.map { it2 ->
+                var it = it2
+                if (it.startsWith("sosa:")) {
+                    it = it.replace("sosa:", "<http://www.w3.org/ns/sosa/") + ">"
+                } else if (it.startsWith("parking:")) {
+                    it = it.replace("parking:", "<https://github.com/luposdate3000/parking#") + ">"
+                } else if (it.startsWith("geo:")) {
+                    it = it.replace("geo:", "<http://www.w3.org/2003/01/geo/wgs84_pos#") + ">"
+                } else if (it.startsWith("ssn:")) {
+                    it = it.replace("ssn:", "<http://www.w3.org/ns/ssn/") + ">"
+// }else if (it.startsWith("")){
+// it=it.replace(":","")+">"
+                }
+                if ((":" in it) and (it[0] != '<')) {
+                    println("'$it' is wrong")
+                    System.exit(1)
+                }
+                it
+            }
 
-//println(x)
-res.patterns.add(Triple(x[0] , x[1] , x[2]))
+// println(x)
+            res.patterns.add(Triple(x[0], x[1], x[2]))
+        }
+        active = active or ("WHERE {" in l)
+    }
 }
-active=active or ("WHERE {" in l)
-}
-}
-//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+// xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
 val knownJoins = knownJoins3.toTypedArray()
-
 
 java.io.File(folder, "queries").printWriter().use { out ->
     for (query in knownJoins) {

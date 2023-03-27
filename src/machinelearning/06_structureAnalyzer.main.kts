@@ -2,10 +2,10 @@
 @file:Import("06_Turtle.kt")
 
 import parser.Parser
-import kotlin.math.log
-import kotlin.math.floor
-import kotlin.random.Random
 import kotlin.math.exp
+import kotlin.math.floor
+import kotlin.math.log
+import kotlin.random.Random
 
 // configuration -->>
 val limitQueries = 5000
@@ -218,7 +218,6 @@ class MyType(count: Int) {
     }
 }
 
-
 fun getClazz(s: String) = knownClassesMap3[s]?.let { knownClassesIDMap3[it] }
 fun getClazz(id: Int) = knownClassesIDMap3[id]
 fun getAllClazzes() = knownClassesIDMap3.filterIndexed { index, it -> it.id == index }
@@ -311,13 +310,11 @@ parser!!.consumeTriple = { s, p, o ->
     }
 }
 
-
 parser!!.parserDefinedParse()
-parser!!.close();
+parser!!.close()
 parser = null
 consumeClass()
 checkAllPossibleReferences()
-
 
 val validIDs = knownClassesIDMap3.map { it.id }.toSet().toList()
 for (i in 0 until validIDs.size) {
@@ -325,8 +322,7 @@ for (i in 0 until validIDs.size) {
     clazz.deduplicateProperties()
 }
 
-
-//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  69612
+// grep targetClass yago1.shacl -A1 | grep property | wc -l .....  69612
 
 var changed = true
 loop@ while (changed) {
@@ -383,15 +379,14 @@ loop@ while (changed) {
     }
 }
 
-//grep targetClass yago1.shacl -A1 | grep property | wc -l .....  9006
-
+// grep targetClass yago1.shacl -A1 | grep property | wc -l .....  9006
 
 println()
 for (clazz in getAllClazzes()) {
 
     println("[]")
     for (kk in clazz.key) {
-        println("    <http://www.w3.org/ns/shacl#targetClass> ${kk} ;")
+        println("    <http://www.w3.org/ns/shacl#targetClass> $kk ;")
     }
     for (v in clazz.variables.values) {
         println("    <http://www.w3.org/ns/shacl#property> [")
@@ -441,7 +436,7 @@ class MyJoin {
         return "?v${variableClasses.size - 1}"
     }
 
-    fun variableFor(i: Int): String = "?v${i}"
+    fun variableFor(i: Int): String = "?v$i"
     fun extractVariableID(s: String): Int {
         return if (s.startsWith("?v")) {
             s.drop(2).toInt()
@@ -450,7 +445,6 @@ class MyJoin {
         }
     }
 }
-
 
 fun addToDictionary(s: String, variableMap: MutableList<String>): Int {
     if (!s.startsWith("?")) {
@@ -466,7 +460,6 @@ fun addToDictionary(s: String, variableMap: MutableList<String>): Int {
     }
 }
 
-
 fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
     var j = 0
     var i = 0
@@ -475,7 +468,7 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
         j++
         i++
     }
-    if ( output.size == 1) {
+    if (output.size == 1) {
         return
     }
     var W = exp(log(Random.nextDouble(), kotlin.math.E) / output.size)
@@ -483,7 +476,7 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
         i = i + floor(log(Random.nextDouble(), kotlin.math.E) / log(1 - W, kotlin.math.E)).toInt() + 1
         j++
         if (i < output.size * 100) {
-            break//my shortcut to prevent extreme calculations for nearly no change
+            break // my shortcut to prevent extreme calculations for nearly no change
         }
         while (j < i && input.hasNext()) {
             input.next()
@@ -499,11 +492,11 @@ fun <K> ReservoirSample(input: Iterator<K>, output: Array<K>) {
 fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: String?, depth: Int): Sequence<MyJoin> = sequence {
     var flag = lastPredicate == null
     val predicatesList = clazz.variables.keys.toMutableList()
-for (pp in jj.patterns){
-if(pp.first==subjectName){
-predicatesList.remove(pp.second)
-}
-}
+    for (pp in jj.patterns) {
+        if (pp.first == subjectName) {
+            predicatesList.remove(pp.second)
+        }
+    }
     val predicates: Array<String> = predicatesList.toTypedArray()
     predicates.shuffle()
     for (predicate in predicates) {
@@ -577,7 +570,6 @@ fun joinSequenceIteratorRecurse(j: MyJoin, depth: Int): Sequence<MyJoin> = seque
     }
 }
 
-
 fun joinSequenceIterator() = sequence {
     val allClass = getAllClazzes().toList().toTypedArray()
     allClass.shuffle()
@@ -600,28 +592,37 @@ for (i in 0 until subsetCount) {
 }
 val knownJoins = knownJoins3.toTypedArray()
 
-
-java.io.File(folder, "queries").printWriter().use { out ->
-    for (query in knownJoins) {
-        if (query.patterns.size != numberOfJoinPatterns) {
-            continue
+java.io.File(folder, "queries2").printWriter().use { out2 ->
+    java.io.File(folder, "queries").printWriter().use { out ->
+        for (query in knownJoins) {
+            if (query.patterns.size != numberOfJoinPatterns) {
+                continue
+            }
+            var q = StringBuilder()
+            var q2 = StringBuilder()
+            val variableMap = mutableListOf<String>()
+            val uniqueSubjects = mutableSetOf<String>()
+            for (p in query.patterns) {
+                uniqueSubjects.add(p.first)
+                q.append(addToDictionary(p.first, variableMap))
+                q.append(",")
+                q.append(addToDictionary(p.second, variableMap))
+                q.append(",")
+                q.append(addToDictionary(p.third, variableMap))
+                q.append(",")
+                q2.append(p.first)
+                q2.append(",")
+                q2.append(p.second)
+                q2.append(",")
+                q2.append(p.third)
+                q2.append(",")
+            }
+            println("uniqueSubjects " + uniqueSubjects.size)
+            out.println(q.toString().dropLast(1))
+            out2.println(q2.toString().dropLast(1))
         }
-        var q = StringBuilder()
-        val variableMap = mutableListOf<String>()
-val uniqueSubjects=mutableSetOf<String>()
-        for (p in query.patterns) {
-uniqueSubjects.add(p.first)
-            q.append(addToDictionary(p.first, variableMap))
-            q.append(",")
-            q.append(addToDictionary(p.second, variableMap))
-            q.append(",")
-            q.append(addToDictionary(p.third, variableMap))
-            q.append(",")
-        }
-println("uniqueSubjects "+uniqueSubjects.size)
-        out.println(q.toString().dropLast(1))
-    }
-    idx++
+        idx++
+    } 
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
     for (i in 1 until dictionary.size) {

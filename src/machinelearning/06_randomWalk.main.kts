@@ -5,13 +5,12 @@ import parser.Parser
 import kotlin.random.Random
 
 val queryCount = 500
-val tripleCounts=listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
+val tripleCounts = listOf(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20)
 
 val dictionarySet = mutableSetOf<String>("<http://www.w3.org/1999/02/22-rdf-syntax-ns#_")
 val data = mutableMapOf<Int, MutableMap<Int, MutableSet<Int>>>()
 
 val resultDictionary = mutableListOf<String>()
-
 
 var parser: Parser? = Parser(java.io.File(args[0]).inputStream())
 val outputfolderName = args[1]
@@ -32,7 +31,7 @@ parser!!.consumeTriple = { s, p, _ ->
 }
 println("loaded data step 1")
 parser!!.parserDefinedParse()
-parser!!.close();
+parser!!.close()
 triple = 0L
 begin = System.nanoTime()
 val dictionary = dictionarySet.toTypedArray()
@@ -49,7 +48,7 @@ parser!!.consumeTriple = { s, p, o ->
     }
 }
 parser!!.parserDefinedParse()
-parser!!.close();
+parser!!.close()
 parser = null
 
 println("loaded data step 2")
@@ -102,7 +101,7 @@ fun getRandomQuery(possibleStartPoints: MutableSet<Int>, numberOfJoinPatterns: I
         while (!possibleStartPoints.contains(firstSubject)) {
             firstSubject = Random.nextInt(0, dictionary.size)
         }
-        val solution = mutableMapOf<Int, Int>()//variableId->dictionaryID
+        val solution = mutableMapOf<Int, Int>() // variableId->dictionaryID
         solution[variableCtr--] = firstSubject
         while (query.size < numberOfJoinPatterns) {
             var possibleChoices = mutableSetOf<Pair<Int, Int>>()
@@ -182,10 +181,6 @@ fun getRandomQuery(possibleStartPoints: MutableSet<Int>, numberOfJoinPatterns: I
     }
     return res.joinToString()
 }
-
-
-
-
 
 java.io.File(outputfolder, "queries").printWriter().use { out ->
     for (numberOfJoinPatterns in tripleCounts) {
