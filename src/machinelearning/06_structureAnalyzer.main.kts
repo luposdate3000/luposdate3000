@@ -12,6 +12,7 @@ val limitQueries = 5000
 val subsetCount = limitQueries
 // configuration <<--
 
+var wildcardsForBagMembers = false
 var ttypeBnode = 1
 var ttypeIri = 2
 var ttypeLiteral = 4
@@ -509,17 +510,33 @@ fun addToJoin(jj: MyJoin, subjectName: String, clazz: MyClass, lastPredicate: St
                     yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
                 }
                 "<http://www.w3.org/1999/02/22-rdf-syntax-ns#_1>" -> {
-                    if (objects.referencedSubjectClasses.size == 0) {
-                        val j = jj.myClone()
-                        j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(-1)))
-                        yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
-                    } else {
-                        val objClazzs = objects.referencedSubjectClasses.toList().toTypedArray()
-                        objClazzs.shuffle()
-                        for (objClazz in objClazzs) {
+                    if (wildcardsForBagMembers) {
+                        if (objects.referencedSubjectClasses.size == 0) {
                             val j = jj.myClone()
-                            j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(objClazz)))
+                            j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(-1)))
                             yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
+                        } else {
+                            val objClazzs = objects.referencedSubjectClasses.toList().toTypedArray()
+                            objClazzs.shuffle()
+                            for (objClazz in objClazzs) {
+                                val j = jj.myClone()
+                                j.patterns.add(Triple(subjectName, j.nextVariableName(-1), j.nextVariableName(objClazz)))
+                                yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
+                            }
+                        }
+                    } else {
+                        if (objects.referencedSubjectClasses.size == 0) {
+                            val j = jj.myClone()
+                            j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(-1)))
+                            yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
+                        } else {
+                            val objClazzs = objects.referencedSubjectClasses.toList().toTypedArray()
+                            objClazzs.shuffle()
+                            for (objClazz in objClazzs) {
+                                val j = jj.myClone()
+                                j.patterns.add(Triple(subjectName, predicate, j.nextVariableName(objClazz)))
+                                yieldAll(joinSequenceIteratorRecurse(j, depth + 1))
+                            }
                         }
                     }
                 }
@@ -622,10 +639,13 @@ java.io.File(folder, "queries2").printWriter().use { out2 ->
             out2.println(q2.toString().dropLast(1))
         }
         idx++
-    } 
+    }
 }
 java.io.File(outputfolder, "dictionary").printWriter().use { out ->
     for (i in 1 until dictionary.size) {
         out.println("$i ${dictionary[i]}")
     }
+}
+for (clazz in getAllClazzes()) {
+    println("clazz (" + clazz.key + ") ::" + clazz.variables.keys)
 }

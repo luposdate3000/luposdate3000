@@ -133,7 +133,7 @@ public class Application_Luposdate3000 public constructor(
         instance.LUPOS_PROCESS_ID = instance.LUPOS_PROCESS_URLS_ALL.indexOf(ownAdress.toString())
         instance.LUPOS_HOME = absolutePathToDataDirectory
         instance.LUPOS_PARTITION_MODE = EPartitionModeExt.names.indexOf(config.getOrDefault("LUPOS_PARTITION_MODE", EPartitionModeExt.names[EPartitionModeExt.Process]))
-        instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.KV
+        instance.LUPOS_DICTIONARY_MODE = EDictionaryTypeExt.InMemory
         instance.LUPOS_BUFFER_SIZE = 8192
         instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.names.indexOf(config.getOrDefault("predefinedPartitionScheme", EPredefinedPartitionSchemesExt.names[Luposdate3000Config.predefinedPartitionScheme]))
         instance.mergeLocalOperatorgraphs = config.getOrDefault("mergeLocalOperatorgraphs", Luposdate3000Config.mergeLocalOperatorgraphs)

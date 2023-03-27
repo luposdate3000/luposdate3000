@@ -19,15 +19,15 @@
     "deviceType": {
         "Central Tower": {
             "applications": {
+                "lupos.simulator_db.luposdate3000.ApplicationFactory_DataImport": {
+                    "enabled": true,
+                    "fileName": "/src/luposdate3000/src/machinelearning/_tmpdata//complete.n3",
+                    "sendStartClockInSec": 10,
+                },
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000": {
                     "databaseQuery": true,
                     "databaseStore": true,
                     "enabled": true,
-                },
-                "lupos.simulator_db.luposdate3000.ApplicationFactory_OntologySender": {
-                    "enabled": true,
-                    "fileName": "/src/luposdate3000/src/machinelearning/_tmpdata//complete.n3",
-                    "sendStartClockInSec": 10,
                 },
                 "simora.applications.scenario.parking.ApplicationFactory_QuerySender": [
                     {
@@ -70,7 +70,7 @@
             ],
         },
         "Sensor Device": {
-            "applications": {
+            "applicationsbackup": {
                 "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
                     "maxSamples": 5,
                     "rateInSec": 60,
