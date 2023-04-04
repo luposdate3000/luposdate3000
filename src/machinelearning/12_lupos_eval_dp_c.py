@@ -4,6 +4,7 @@ import random
 import os
 import sys
 import gym
+from joinOrderUnifyer import myConverterStrToStr
 import time
 import mysql.connector
 from py4j.java_gateway import JavaGateway
@@ -29,7 +30,7 @@ def getOrAddDB(db, cursor, database, value):
 
 
 learnOnMin = 0
-learnOnMax = 18
+learnOnMax = 5
 dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB(db3, cursor3, "mapping_dataset", dataset)
 optimizerID = getOrAddDB(db3, cursor3, "mapping_optimizer", "luposdate3000_dynamic_programming")
@@ -77,6 +78,7 @@ def processData(training_data):
             querySparql += "."
         querySparql += "}"
         joinOrderString = luposdate.getJoinOrderFor(querySparql)
+        joinOrderString=myConverterStrToStr(joinOrderString)
         joinOrderID = getOrAddDB(db, cursor, "mapping_join", joinOrderString)
 
         cursor.execute("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))

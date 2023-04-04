@@ -4,6 +4,7 @@ import sys
 import gym
 import time
 import mysql.connector
+from joinOrderUnifyer import myConverterStrToStr
 from database_env import DatabaseEnv
 from database_env import mask_fn
 from sb3_contrib import MaskablePPO

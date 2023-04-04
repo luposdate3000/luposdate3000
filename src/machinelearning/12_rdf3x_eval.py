@@ -3,6 +3,7 @@ import random
 import re
 import os
 import sys
+from joinOrderUnifyer import myConverterStrToStr
 import gym
 import time
 import mysql.connector
@@ -34,7 +35,7 @@ def getOrAddDB(database, value):
 
 
 learnOnMin = 0
-learnOnMax = 300
+learnOnMax = 5
 dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "rdf3x")
@@ -173,7 +174,7 @@ for queryrow in training_data:
 
         mytraverse(stack)
         joinOrderString = ",".join([str(x) for x in result])
-
+        joinOrderString=myConverterStrToStr(joinOrderString)
         joinOrderID = getOrAddDB("mapping_join", joinOrderString)
 
         myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))

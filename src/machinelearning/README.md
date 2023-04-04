@@ -80,7 +80,6 @@ done
 ./launcher.main.kts --run --mainClass=Launch_Benchmark_Ml_Python_Interface \
  --runArgument_Luposdate3000_Launch_Benchmark_Ml_Python_Interface:minimumTime=$timeout \
  --runArgument_Luposdate3000_Launch_Benchmark_Ml_Python_Interface:datasourceFiles=${tripleFile} &
-./11_joinopti_agent_train.py $min_triples $max_triples $iterations $ratio ${tripleFile} $model_file $limit_triples
 ```
 
 # 11b. Start the machine learning itself - using network traffic for comparison
@@ -98,15 +97,21 @@ done
  --defaultQueries=false \
  > ${scenario}
 $(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Config | grep ^exec | sed "s/exec :: //g")  "JavaBridge" ${scenario}
+
 ```
 
-# 12. Evaluate the model
+# 12. Train the model
+```bash
+./11_joinopti_agent_train.py $min_triples $max_triples $iterations $ratio ${tripleFile} $model_file $limit_triples
+```
+
+# 13. Evaluate the model
 
 ```bash
 ./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test${ratio}_$((10-ratio))" "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).$trainingSteps.ppo_model"
 ```
 
-# 13. Print results
+# 14. Print results
 
 ```bash
 ./src/machinelearning/13_evaluation_script.py "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).$trainingSteps.ppo_model.evaluation"

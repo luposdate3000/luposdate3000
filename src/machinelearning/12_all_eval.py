@@ -8,7 +8,7 @@ import time
 import mysql.connector
 from py4j.java_gateway import JavaGateway
 from subprocess import Popen, PIPE
-
+from joinOrderUnifyer import myConverterStrToStr
 db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
 gateway = JavaGateway()
@@ -68,6 +68,7 @@ def myCurserExec(sql, data):
 
 
 def getOrAddDB(database, value):
+    print(database,value)
     l = value.strip()
     myCurserExec("SELECT id FROM " + database + " WHERE name=%s", (l, ))
     row = cursor.fetchone()
@@ -75,6 +76,18 @@ def getOrAddDB(database, value):
         myCurserExec("INSERT IGNORE INTO " + database + " (name) VALUES(%s)", (l, ))
         db.commit()
         myCurserExec("SELECT id FROM " + database + " WHERE name=%s", (l, ))
+        row = cursor.fetchone()
+    if row == None:
+        exit(1)
+    return row[0]
+def getOrAddDBJoinMapping( value,triplepatterns):
+    l = value.strip()
+    myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, triplepatterns,))
+    row = cursor.fetchone()
+    if row == None:
+        myCurserExec("INSERT IGNORE INTO mapping_join (name,triplecount) VALUES(%s,%s)", (l, triplepatterns))
+        db.commit()
+        myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, triplepatterns))
         row = cursor.fetchone()
     if row == None:
         exit(1)
@@ -124,8 +137,8 @@ for learnOnMax in range(300):
         querySparql += "}"
         print(query)
         for order in getOrders(len(query)):
-                joinOrderString = ",".join([str(x) for x in order])
-                joinOrderID = getOrAddDB("mapping_join", joinOrderString)
+                joinOrderString = myConverterStrToStr(",".join([str(x) for x in order]))
+                joinOrderID = getOrAddDBJoinMapping(joinOrderString,len(query))
                 myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))
                 row = cursor.fetchone()
                 if row == None:

@@ -8,6 +8,7 @@ import time
 import mysql.connector
 from py4j.java_gateway import JavaGateway
 from subprocess import Popen, PIPE
+from joinOrderUnifyer import myConverterStrToStr
 
 db = mysql.connector.connect(host="localhost", user="machinelearningbenchmarks", password="machinelearningbenchmarks", database="machinelearningbenchmarks")
 cursor = db.cursor()
@@ -34,7 +35,7 @@ def getOrAddDB(database, value):
 
 
 learnOnMin = 0
-learnOnMax = 300
+learnOnMax = 5
 dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 optimizerID = getOrAddDB("mapping_optimizer", "graphdb")
@@ -103,6 +104,7 @@ for queryrow in training_data:
 #    print(joinOrderString)
 #    print(linesIdx)
 #    print(joinOrderString)
+    joinOrderString=myConverterStrToStr(joinOrderString)
     joinOrderID = getOrAddDB("mapping_join", joinOrderString)
 
     myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (datasetID, queryID, joinOrderID))

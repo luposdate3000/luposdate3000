@@ -23,7 +23,7 @@ def myConverterSortTree(tree):
    return [r,l],r1
  else:
   return tree,tree
-def myConverterTreeToArray(tree,arr=[]):
+def myConverterTreeToArray(tree,arr):
  if type(tree[0]) is list:
   arr=myConverterTreeToArray(tree[0],arr)
   l=int(-len(arr)/2)
@@ -47,9 +47,5 @@ def myConverterStrToStr(str1):
  arr=myConverterStrToArray(str1)
  tree=myConverterArrayToTree(arr)
  tree2,_=myConverterSortTree(tree)
- arr2=myConverterTreeToArray(tree2)
+ arr2=myConverterTreeToArray(tree2,[])
  return myConverterArrToStr(arr2)
-
-
-print("4, 5, 3, -1, 2, -2, 0, -3, 1, -4")
-print(myConverterStrToStr("4, 5, 3, -1, 2, -2, 0, -3, 1, -4"))

@@ -1,13 +1,14 @@
 import time
 import random
 import os
+from joinOrderUnifyer import myConverterStrToStr
 import gym
 import numpy as np
 from gym import spaces
 from py4j.java_gateway import JavaGateway
 
 start = time.time()
-
+assumeNotExecutedQueriesToFail=True
 
 def mask_fn(env: gym.Env) -> np.ndarray:
     return env.valid_action_mask()
@@ -24,6 +25,7 @@ class DatabaseEnv(gym.Env):
 
     def __init__(self, tripleCountMax, dataset, db, learnOnMin, learnOnMax, ratio, optimizerName=None):
         super(DatabaseEnv, self).__init__()
+        self.rewardLogFile=open("rewardlog_"+str(learnOnMin)+"_"+str(learnOnMax)+".csv","a")
         self.calculate_real_value = True
         self.optimizerName = optimizerName
         self.tripleCountMax = tripleCountMax
@@ -175,6 +177,7 @@ class DatabaseEnv(gym.Env):
             joinOrderString = ",".join([str(x) for x in joinOrder])
             #print(joinOrder,"-->>",joinOrderString)
             l = joinOrderString.strip()
+            l=myConverterStrToStr(l)
             self.myCurserExec("SELECT id FROM mapping_join WHERE name=%s and triplecount=%s", (l, self.querySize))
             row = self.cursor.fetchone()
             if row == None:
@@ -207,7 +210,7 @@ class DatabaseEnv(gym.Env):
                     self.myCurserExec("SELECT value FROM benchmark_values WHERE dataset_id = %s AND query_id = %s AND join_id = %s", (self.datasetID, self.queryID, self.joinOrderID))
                     row = self.cursor.fetchone()
                 time_choosen = row[0]
-                self.myCurserExec("SELECT MIN(value), MAX(value) FROM benchmark_values WHERE dataset_id = %s AND query_id = %s", (self.datasetID, self.queryID))
+                self.myCurserExec("SELECT MIN(value), MAX(value) FROM benchmark_values WHERE dataset_id = %s AND query_id = %s and value>=0", (self.datasetID, self.queryID))
                 row = self.cursor.fetchone()
                 time_min = row[0]
                 time_max = row[1]
@@ -215,7 +218,7 @@ class DatabaseEnv(gym.Env):
                     reward = 0
                 elif time_min == time_choosen:
                     reward = self.reward_max
-                elif time_choosen is None:
+                elif (time_choosen is None) or (time_choosen<0):
                     reward = self.reward_invalid_action
                 else:
                     reward = min(self.reward_max, -np.log((time_choosen - time_min) / (time_max - time_min)))
@@ -223,6 +226,8 @@ class DatabaseEnv(gym.Env):
                 self.myCurserExec("INSERT IGNORE INTO benchmark_values (dataset_id, query_id, join_id, value) VALUES (%s, %s, %s, %s)", (self.datasetID, self.queryID, self.joinOrderID, 999999999))
                 self.db.commit()
                 reward = 1  # never used during evaluation
+            self.rewardLogFile.write(str(reward)+"\n")
+            self.rewardLogFile.flush()
         else:
             reward = 0
         #print("step",str(self.step_counter),self.observation_matrix, reward, done)
@@ -337,7 +342,6 @@ class DatabaseEnv(gym.Env):
                 for j in range(i + 1, self.querySize):
                     if self.observation_matrix[i][j][0] != 0 and self.observation_matrix[j][i][0] != 0:
                         result.append((i, j))
-        #print("getCurrentActionSpace",str(self.step_counter),self.observation_matrix,result)
         return result
 
     def valid_action_mask(self):
@@ -345,5 +349,9 @@ class DatabaseEnv(gym.Env):
         res = [0] * len(self.action_list)
         for a in valid:
             res[self.leftRightToIndex(a[0], a[1])] = 1
-        #print("valid_action_mask",str(self.step_counter),res)
+#        print("DEBUG --------- ")
+#        print("self.query",self.query)
+#        print("valid",valid)
+#        print("res",res)
+#        exit(-1)
         return res
