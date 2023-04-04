@@ -52,11 +52,12 @@ def getOrAddDB(database, value):
         cursor.execute("SELECT id FROM " + database + " WHERE name=%s", (l, ))
         row = cursor.fetchone()
     if row == None:
+        print("no result ?!?",database,value)
         exit(1)
     return row[0]
 
 
-dataset = "/mnt/luposdate-testdata/wordnet/wordnet.nt"
+dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 
 cursor.execute("select distinct triplepatterns from mapping_query")
@@ -74,8 +75,8 @@ for triplePattern in triplePatterns:
     cursor.execute(cachequery, (triplePattern, datasetID))
     for optimizer in optimizers:
         name = optimizer[0]
-        if name.endswith(".model2") or name.endswith(".model3") or name == "luposdate3000_dynamic_programming":  # ignore alternative models
-            continue
+#        if name.endswith(".model2") or name.endswith(".model3") or name == "luposdate3000_dynamic_programming":  # ignore alternative models
+#            continue
         datapoints = []
         last = None
         idx = 0

@@ -102,13 +102,14 @@ $(./launcher.main.kts --dryMode=Enable --run --mainClass=Launch_Simulator_Config
 
 # 12. Train the model
 ```bash
-./11_joinopti_agent_train.py $min_triples $max_triples $iterations $ratio ${tripleFile} $model_file $limit_triples
+./11_joinopti_agent_train.py $min_triples $max_triples $limit_triples $ratio ${tripleFile} $dataDirectory/model/
+./11_joinopti_agent_train.py 3 3 20 0.7 /src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt /src/luposdate3000/src/machinelearning/_tmpdata/model/
 ```
 
 # 13. Evaluate the model
 
 ```bash
-./src/machinelearning/11_joinopti_agent.py opti "${trainingDirectory}/train.me.test${ratio}_$((10-ratio))" "${trainingDirectory}/train.me.train${ratio}_$((10-ratio)).$trainingSteps.ppo_model"
+./12_joinopti_agent_eval.py 3 3 20 0.7 /src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt /src/luposdate3000/src/machinelearning/_tmpdata/model/modelXXXXXXX
 ```
 
 # 14. Print results
