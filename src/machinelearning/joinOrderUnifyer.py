@@ -1,11 +1,8 @@
 #!/usr/bin/env -S python3 -OO -u
 
-
-
-
-def str2array(str):
+def myConverterStrToArray(str):
  return [int (x) for x in str.split(",")]
-def array2tree(arr):
+def myConverterArrayToTree(arr):
  joins=[]
  for i in range(int(len(arr)/2)):
   a=arr[i*2]
@@ -16,22 +13,43 @@ def array2tree(arr):
    b=joins[-b-1]
   joins.append([a,b])
  return joins[-1]
-def sortTree(tree):
+def myConverterSortTree(tree):
  if type(tree) is list:
-  l,l1=sortTree(tree[0])
-  r,r1=sortTree(tree[1])
+  l,l1=myConverterSortTree(tree[0])
+  r,r1=myConverterSortTree(tree[1])
   if l1<r1:
    return [l,r],l1
   else:
    return [r,l],r1
  else:
   return tree,tree
+def myConverterTreeToArray(tree,arr=[]):
+ if type(tree[0]) is list:
+  arr=myConverterTreeToArray(tree[0],arr)
+  l=int(-len(arr)/2)
+ else:
+  l=tree[0]
+ if type(tree[1]) is list:
+  arr=myConverterTreeToArray(tree[1],arr)
+  r=int(-len(arr)/2)
+ else:
+  r=tree[1]
+ if l<r:
+  arr.append(l)
+  arr.append(r)
+ else:
+  arr.append(r)
+  arr.append(l)
+ return arr
+def myConverterArrToStr(arr):
+ return ",".join([str(x) for x in arr])
+def myConverterStrToStr(str1):
+ arr=myConverterStrToArray(str1)
+ tree=myConverterArrayToTree(arr)
+ tree2,_=myConverterSortTree(tree)
+ arr2=myConverterTreeToArray(tree2)
+ return myConverterArrToStr(arr2)
 
-str="4, 5, 3, -1, 2, -2, 0, -3, 1, -4"
-print("str",str)
-arr=str2array(str)
-print("arr",arr)
-tree=array2tree(arr)
-print("tree",tree)
-tree2,_=sortTree(tree)
-print("tree2",tree2)
+
+print("4, 5, 3, -1, 2, -2, 0, -3, 1, -4")
+print(myConverterStrToStr("4, 5, 3, -1, 2, -2, 0, -3, 1, -4"))
