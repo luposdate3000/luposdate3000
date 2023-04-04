@@ -69,6 +69,7 @@ echo c
 mv x ${queriesDirectory}/queries
 echo d
 ./src/machinelearning/07_importQueries.py $queriesDirectory
+cp -r $queriesDirectory $queriesDirectory$tripleCount
 echo e
 done
 ```

@@ -20,7 +20,7 @@
         "Central Tower": {
             "applications": {
                 "lupos.simulator_db.luposdate3000.ApplicationFactory_DataImport": {
-                    "enabled": true,
+                    "enabled": false,
                     "fileName": "/src/luposdate3000/src/machinelearning/_tmpdata//complete.n3",
                     "sendStartClockInSec": 10,
                 },
@@ -70,7 +70,7 @@
             ],
         },
         "Sensor Device": {
-            "applicationsbackup": {
+            "applications": {
                 "simora.applications.scenario.parking.ApplicationFactory_ParkingSensor": {
                     "maxSamples": 5,
                     "rateInSec": 60,
