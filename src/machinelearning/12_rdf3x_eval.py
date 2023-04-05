@@ -91,6 +91,8 @@ for queryrow in training_data:
     result = subprocess.run(['/mnt2/rdf3x/bin/rdf3xquery', '/mnt2/rdf3x/bin/mydatabase', 'query_rdf3x.rq'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     resulterrunicode = result.stderr.decode('utf-8')
     resultunicode = result.stdout.decode('utf-8')
+    print(resulterrunicode)
+    print(resultunicode)
     if not ("static analysis determined that the query result will be empty" in resulterrunicode):
         resultstring = resultunicode.splitlines()
         stack = [[]]

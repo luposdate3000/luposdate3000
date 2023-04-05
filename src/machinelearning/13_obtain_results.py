@@ -16,7 +16,7 @@ score_cap = 2  # score_mode=0
 score_fraction = 0.8  # score_mode=1
 
 cachequeryclean = "DROP TABLE if exists cache"
-cachequery = """CREATE TABLE cache SELECT (if(bv.value is null,minmax.mymax,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id from
+cachequery = """CREATE TABLE cache SELECT (if(bv.value is null or bv.value<0,minmax.mymax*2,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id from
  (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values group by query_id) as minmax,
  mapping_join mj,
  optimizer_choice oc,
@@ -60,17 +60,18 @@ def getOrAddDB(database, value):
 dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB("mapping_dataset", dataset)
 
-cursor.execute("select distinct triplepatterns from mapping_query")
+cursor.execute("select distinct mq.triplepatterns from mapping_query mq, benchmark_values bv where bv.query_id=mq.id")
 rows = cursor.fetchall()
 triplePatterns = [x[0] for x in rows]
-cursor.execute("select name,id from mapping_optimizer")
+cursor.execute("select name,id from mapping_optimizer where name != \"all\"")
 optimizers = cursor.fetchall()
 scoreMap = {}
 scoreMap2 = {}
 trainedOnMap = []
 deterministicMap = {}
 
-for triplePattern in triplePatterns:
+#for triplePattern in triplePatterns:
+for triplePattern in [3]:
     cursor.execute(cachequeryclean)
     cursor.execute(cachequery, (triplePattern, datasetID))
     for optimizer in optimizers:
@@ -148,7 +149,13 @@ for trainingsteps, mmap in scoreMap2.items():
             except:
                 None
         rows.append(row)
-        print("row", row)
+        rr=[]
+        for r in row:
+         try:
+          rr.append(format(float(r),".2f"))
+         except:
+          rr.append(r)
+        print("row", rr)
     header2 = []
     for h in header:
         if h == "luposdate3000_dynamic_programming_no_cluster":
@@ -234,7 +241,13 @@ for evaluatedOn, tmp1 in scoreMap.items():
             except:
                 None
         rows.append(row)
-        print("row", row)
+        rr=[]
+        for r in row:
+         try:
+          rr.append(format(float(r),".2f"))
+         except:
+          rr.append(r)
+        print("row", rr)
     header2 = []
     for h in header:
         if h == "luposdate3000_dynamic_programming_no_cluster":
