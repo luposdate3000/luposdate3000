@@ -12,12 +12,13 @@ from stable_baselines3 import PPO
 gnuplot_use_tikz = False
 
 score_mode = 0
-score_cap = 2  # score_mode=0
+score_cap = 2  # score_mode=0 -> for intermediate results
+score_cap = 1.01  # score_mode=0 -> for network traffic
 score_fraction = 0.8  # score_mode=1
 
 cachequeryclean = "DROP TABLE if exists cache"
-cachequery = """CREATE TABLE cache SELECT (if(bv.value is null or bv.value<0,minmax.mymax*2,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id from
- (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values group by query_id) as minmax,
+cachequery = """CREATE TABLE cache SELECT (if(bv.value is null or bv.value<0,minmax.mymax*2,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id,oc.query_id as query_id from
+ (select min(value) as mymin , max(value) as mymax,query_id from benchmark_values where value>0 group by query_id) as minmax,
  mapping_join mj,
  optimizer_choice oc,
  benchmark_values bv,
@@ -63,6 +64,7 @@ datasetID = getOrAddDB("mapping_dataset", dataset)
 cursor.execute("select distinct mq.triplepatterns from mapping_query mq, benchmark_values bv where bv.query_id=mq.id")
 rows = cursor.fetchall()
 triplePatterns = [x[0] for x in rows]
+#triplePatterns=[5]
 cursor.execute("select name,id from mapping_optimizer where name != \"all\"")
 optimizers = cursor.fetchall()
 scoreMap = {}
@@ -70,8 +72,7 @@ scoreMap2 = {}
 trainedOnMap = []
 deterministicMap = {}
 
-#for triplePattern in triplePatterns:
-for triplePattern in [3]:
+for triplePattern in triplePatterns:
     cursor.execute(cachequeryclean)
     cursor.execute(cachequery, (triplePattern, datasetID))
     for optimizer in optimizers:
@@ -126,7 +127,7 @@ for triplePattern in [3]:
                 deterministicMap.setdefault(name, {})[triplePattern] = total_score
 
 for k, v in scoreMap2.items():
-    for i in range(3, 21):
+    for i in range(min(triplePatterns), max(triplePatterns)):
         v.setdefault(i, {})
 
 for trainingsteps, mmap in scoreMap2.items():
