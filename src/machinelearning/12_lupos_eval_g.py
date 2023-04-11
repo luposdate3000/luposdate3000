@@ -30,7 +30,7 @@ def getOrAddDB(db, cursor, database, value):
 
 
 learnOnMin = 0
-learnOnMax = 5
+learnOnMax = 6
 dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB(db3, cursor3, "mapping_dataset", dataset)
 optimizerID = getOrAddDB(db3, cursor3, "mapping_optimizer", "luposdate3000")
