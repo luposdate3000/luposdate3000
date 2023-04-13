@@ -11,10 +11,16 @@ from stable_baselines3 import PPO
 
 gnuplot_use_tikz = False
 
-score_mode = 0
+score_mode = 2
+#
+#score_mode = 0: x% of queries are better than specified in 'score_cap'
+#score_mode = 1: the 'score_fraction' best queries achieves a result of at least x
+#score_mode = 2: x% of queries are better than an automatically derived score cap, which matches the score_fraction% best queries
+
 score_cap = 2  # score_mode=0 -> for intermediate results
 score_cap = 1.01  # score_mode=0 -> for network traffic
 score_fraction = 0.8  # score_mode=1
+
 
 cachequeryclean = "DROP TABLE if exists cache"
 cachequery = """CREATE TABLE cache SELECT (if(bv.value is null or bv.value<0,minmax.mymax*2,bv.value)/minmax.mymin) as score, oc.optimizer_id as optimizer_id,oc.query_id as query_id from
@@ -64,7 +70,7 @@ datasetID = getOrAddDB("mapping_dataset", dataset)
 cursor.execute("select distinct mq.triplepatterns from mapping_query mq, benchmark_values bv where bv.query_id=mq.id")
 rows = cursor.fetchall()
 triplePatterns = [x[0] for x in rows]
-#triplePatterns=[5]
+triplePatterns=[3,4,5,6]
 cursor.execute("select name,id from mapping_optimizer where name != \"all\"")
 optimizers = cursor.fetchall()
 scoreMap = {}
@@ -75,6 +81,14 @@ deterministicMap = {}
 for triplePattern in triplePatterns:
     cursor.execute(cachequeryclean)
     cursor.execute(cachequery, (triplePattern, datasetID))
+    db.commit()
+    if score_mode==2:
+     cursor.execute("SELECT COUNT(*) FROM cache")
+     c= cursor.fetchone()[0];
+     print("SELECT score FROM cache ORDER BY score LIMIT %s, 1",(int(float(c)*float(score_fraction)),))
+     cursor.execute("SELECT score FROM cache ORDER BY score LIMIT %s, 1",(int(float(c)*float(score_fraction)),))
+     score_cap=cursor.fetchone()[0];
+     print("score_cap",score_cap,"for triplePattern",triplePattern)
     for optimizer in optimizers:
         name = optimizer[0]
 #        if name.endswith(".model2") or name.endswith(".model3") or name == "luposdate3000_dynamic_programming":  # ignore alternative models
@@ -88,7 +102,7 @@ for triplePattern in triplePatterns:
         total_score = 0
         for row in rows:
             score = float(row[0])
-            if score_mode == 0:
+            if score_mode == 0 or score_mode==2:
                 if score < score_cap:
                     total_score = idx / len(rows)
             elif score_mode == 1:
