@@ -20,9 +20,9 @@ cat /var/lib/mysql-files/ranking_on_3.csv | grep model_._6 >> ranking_on_6.csv
 
 
 
-cat ranking_on_3.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - > ranking_on_3_t.csv
-cat ranking_on_4.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - > ranking_on_4_t.csv
-cat ranking_on_5.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - > ranking_on_5_t.csv
-cat ranking_on_6.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - > ranking_on_6_t.csv
+cat ranking_on_3.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - | sed "s/intermediate on/I on/g" | sed "s/traffic on/T on/g"  | sed "s/traffic,/T,/g" | sed "s/intermediate,/I,/g" > ranking_on_3_t.csv
+cat ranking_on_4.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - | sed "s/intermediate on/I on/g" | sed "s/traffic on/T on/g"  | sed "s/traffic,/T,/g" | sed "s/intermediate,/I,/g" > ranking_on_4_t.csv
+cat ranking_on_5.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - | sed "s/intermediate on/I on/g" | sed "s/traffic on/T on/g"  | sed "s/traffic,/T,/g" | sed "s/intermediate,/I,/g" > ranking_on_5_t.csv
+cat ranking_on_6.csv | sed "s/\"model/model/g"|sed "s/model\"/model/g" | sort -r | sed "s/_20_0.7_1048576.model//g" | sed "s/_/-/g" | sed "s/model-/model trained on /g" |csvtool transpose - | sed "s/intermediate on/I on/g" | sed "s/traffic on/T on/g"  | sed "s/traffic,/T,/g" | sed "s/intermediate,/I,/g" > ranking_on_6_t.csv
 
 for f in *plot; do ./$f ; done

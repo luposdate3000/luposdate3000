@@ -1,10 +1,24 @@
 #!/usr/bin/env gnuplot
-set term svg size 800,600 enhanced
+set term tikz size 13cm,5cm
 set datafile separator ','
-set output 'ranking_on_6_t.svg'
+set output 'ranking_on_6_t.tex'
 
 set style data histogram
 set style fill solid border
 
 set style histogram clustered
-plot for [COL=2:8] 'ranking_on_6_t.csv' using COL:xticlabels(1) title columnheader
+
+#plot for [COL=2:8] 'ranking_on_6_t.csv' using COL:xticlabels(1) title columnheader
+set rmargin 35
+set key at screen 1, graph 1 reverse
+
+set logscale y
+
+set ytics nomirror
+set y2tics nomirror
+set yrange [1:] 
+set y2range [1:] 
+
+plot for [COL=2:8] 'ranking_on_6_t.csv' every 2:1:0 using COL:xticlabels(1) axes x1y1 title columnheader lc (COL-1), \
+     newhistogram, \
+     for [COL=2:8] 'ranking_on_6_t.csv' every 2:1:2 using COL:xticlabels(1) axes x1y2 notitle lc (COL-1)
