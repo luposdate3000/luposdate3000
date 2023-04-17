@@ -67,8 +67,8 @@ CREATE TABLE IF NOT EXISTS benchmark_values (
     join_id int NOT NULL,
     value bigint,
     PRIMARY KEY (dataset_id,query_id,join_id),
-    CONSTRAINT dataset_id_const FOREIGN KEY (dataset_id) REFERENCES mapping_dataset (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT query_id_const FOREIGN KEY (query_id) REFERENCES mapping_query (id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT dataset_id_const1 FOREIGN KEY (dataset_id) REFERENCES mapping_dataset (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT query_id_const1 FOREIGN KEY (query_id) REFERENCES mapping_query (id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 CREATE TABLE IF NOT EXISTS optimizer_choice (
     dataset_id int NOT NULL,
@@ -76,9 +76,9 @@ CREATE TABLE IF NOT EXISTS optimizer_choice (
     optimizer_id int NOT NULL,
     join_id int,
     PRIMARY KEY (dataset_id,query_id,optimizer_id),
-    CONSTRAINT dataset_id_const2 FOREIGN KEY (dataset_id) REFERENCES mapping_dataset (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT query_id_const2 FOREIGN KEY (query_id) REFERENCES mapping_query (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT optimizer_id_const2 FOREIGN KEY (optimizer_id) REFERENCES mapping_optimizer (id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT dataset_id_const21 FOREIGN KEY (dataset_id) REFERENCES mapping_dataset (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT query_id_const21 FOREIGN KEY (query_id) REFERENCES mapping_query (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT optimizer_id_const21 FOREIGN KEY (optimizer_id) REFERENCES mapping_optimizer (id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 alter table optimizer_choice add foreign key (dataset_id,query_id,join_id) references benchmark_values (dataset_id,query_id,join_id);
 INSERT INTO mapping_dataset (name) VALUES ("/mnt/luposdate-testdata/sp2b/1024/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16384/complete.n3"), ("/mnt/luposdate-testdata/sp2b/131072/complete.n3"), ("/mnt/luposdate-testdata/sp2b/1048576/complete.n3"), ("/mnt/luposdate-testdata/sp2b/16777216/complete.n3");

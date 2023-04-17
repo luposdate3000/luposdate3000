@@ -8,7 +8,7 @@ for x in 3_3 4_4 5_5 3_4 3_5 4_5 3_6 4_6 5_6 6_6
 do
 arr=(${x//_/ })
 ii=$(printf "%04d" $i)
-echo "./11_joinopti_agent_train.py ${arr[0]} ${arr[1]} 20 0.7 /src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt /src/luposdate3000/src/machinelearning/ _tmpdata/model/" > tasks/$ii.sh
+echo "./11_joinopti_agent_train.py ${arr[0]} ${arr[1]} 20 0.7 /src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt /src/luposdate3000/src/machinelearning/_tmpdata/model/" > tasks/$ii.sh
 echo "retVal=\$?" >> tasks/$ii.sh
 echo "if [ \$retVal -eq 0 ]; then" >> tasks/$ii.sh
 echo "truncate -s0 tasks/$ii.sh" >> tasks/$ii.sh
@@ -28,5 +28,5 @@ chmod +x tasks/$ii.sh
 i=$((i+1))
 done
 done
-find tasks/ -type f | sort | xargs -P 7 -n 1 bash -c
+find tasks/ -type f | sort | xargs -P 2 -n 1 bash -c
 wait

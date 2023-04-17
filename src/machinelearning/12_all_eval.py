@@ -95,7 +95,7 @@ def getOrAddDBJoinMapping( value,triplepatterns):
 
 
 learnOnMin = 0
-for learnOnMax in range(300):
+for learnOnMax in range(7):
     dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
     datasetID = getOrAddDB("mapping_dataset", dataset)
     optimizerID = getOrAddDB("mapping_optimizer", "all")
