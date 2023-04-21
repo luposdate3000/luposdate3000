@@ -16,9 +16,9 @@ set logscale y
 
 set ytics nomirror
 set y2tics nomirror
-set yrange [1:]
-set y2range [1:]
+set yrange [0.1:]
+set y2range [0.99:]
 
-plot for [COL=2:8] 'ranking_on_3_t.csv' every 2:1:0 using COL:xticlabels(1) axes x1y1 title columnheader lc (COL-1), \
+plot for [COL=2:11] 'ranking_on_3_t.csv' every 2:1:0 using COL:xticlabels(1) axes x1y1 title columnheader lc (COL-1), \
      newhistogram, \
-     for [COL=2:8] 'ranking_on_3_t.csv' every 2:1:2 using COL:xticlabels(1) axes x1y2 notitle lc (COL-1)
+     for [COL=2:11] 'ranking_on_3_t.csv' every 2:1:2 using COL:xticlabels(1) axes x1y2 notitle lc (COL-1)

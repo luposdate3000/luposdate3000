@@ -35,8 +35,8 @@ dataset = "/src/luposdate3000/src/machinelearning/_tmpdata/complete.n3.nt"
 datasetID = getOrAddDB(db3, cursor3, "mapping_dataset", dataset)
 optimizerID = getOrAddDB(db3, cursor3, "mapping_optimizer", "luposdate3000_dynamic_programming")
 
-cursor3.execute("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND mq.dataset_id = %s and NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND oc.dataset_id = %s AND oc.optimizer_id = %s)",
-                (learnOnMin, learnOnMax, datasetID, datasetID, optimizerID))
+cursor3.execute("SELECT mq.name, mq.id FROM mapping_query mq WHERE mq.triplepatterns >= %s AND mq.triplepatterns <= %s AND  NOT EXISTS(SELECT 1 FROM optimizer_choice oc WHERE oc.query_id=mq.id AND  oc.optimizer_id = %s)",
+                (learnOnMin, learnOnMax,  optimizerID))
 rows = cursor3.fetchall()
 training_data3 = []
 for row in rows:

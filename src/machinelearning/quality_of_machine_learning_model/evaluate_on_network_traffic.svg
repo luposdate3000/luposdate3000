@@ -1,0 +1,1136 @@
+<?xml version="1.0" encoding="utf-8"  standalone="no"?>
+<svg 
+ width="1600" height="800"
+ viewBox="0 0 1600 800"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+>
+
+<title>Gnuplot</title>
+<desc>Produced by GNUPLOT 5.4 patchlevel 6 </desc>
+
+<g id="gnuplot_canvas">
+
+<rect x="0" y="0" width="1600" height="800" fill="none"/>
+<defs>
+
+	<circle id='gpDot' r='0.5' stroke-width='0.5' stroke='currentColor'/>
+	<path id='gpPt0' stroke-width='0.222' stroke='currentColor' d='M-1,0 h2 M0,-1 v2'/>
+	<path id='gpPt1' stroke-width='0.222' stroke='currentColor' d='M-1,-1 L1,1 M1,-1 L-1,1'/>
+	<path id='gpPt2' stroke-width='0.222' stroke='currentColor' d='M-1,0 L1,0 M0,-1 L0,1 M-1,-1 L1,1 M-1,1 L1,-1'/>
+	<rect id='gpPt3' stroke-width='0.222' stroke='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<rect id='gpPt4' stroke-width='0.222' stroke='currentColor' fill='currentColor' x='-1' y='-1' width='2' height='2'/>
+	<circle id='gpPt5' stroke-width='0.222' stroke='currentColor' cx='0' cy='0' r='1'/>
+	<use xlink:href='#gpPt5' id='gpPt6' fill='currentColor' stroke='none'/>
+	<path id='gpPt7' stroke-width='0.222' stroke='currentColor' d='M0,-1.33 L-1.33,0.67 L1.33,0.67 z'/>
+	<use xlink:href='#gpPt7' id='gpPt8' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt7' id='gpPt9' stroke='currentColor' transform='rotate(180)'/>
+	<use xlink:href='#gpPt9' id='gpPt10' fill='currentColor' stroke='none'/>
+	<use xlink:href='#gpPt3' id='gpPt11' stroke='currentColor' transform='rotate(45)'/>
+	<use xlink:href='#gpPt11' id='gpPt12' fill='currentColor' stroke='none'/>
+	<path id='gpPt13' stroke-width='0.222' stroke='currentColor' d='M0,1.330 L1.265,0.411 L0.782,-1.067 L-0.782,-1.076 L-1.265,0.411 z'/>
+	<use xlink:href='#gpPt13' id='gpPt14' fill='currentColor' stroke='none'/>
+	<filter id='textbox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
+	  <feFlood flood-color='white' flood-opacity='1' result='bgnd'/>
+	  <feComposite in='SourceGraphic' in2='bgnd' operator='atop'/>
+	</filter>
+	<filter id='greybox' filterUnits='objectBoundingBox' x='0' y='0' height='1' width='1'>
+	  <feFlood flood-color='lightgrey' flood-opacity='1' result='grey'/>
+	  <feComposite in='SourceGraphic' in2='grey' operator='atop'/>
+	</filter>
+</defs>
+<g fill="none" color="white" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,714.27 L71.92,714.27 M1306.34,714.27 L1297.34,714.27  '/>	<g transform="translate(54.53,718.17)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,614.80 L71.92,614.80 M1306.34,614.80 L1297.34,614.80  '/>	<g transform="translate(54.53,618.70)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1.02</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,515.34 L71.92,515.34 M1306.34,515.34 L1297.34,515.34  '/>	<g transform="translate(54.53,519.24)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1.04</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,415.87 L71.92,415.87 M1306.34,415.87 L1297.34,415.87  '/>	<g transform="translate(54.53,419.77)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1.06</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,316.41 L71.92,316.41 M1306.34,316.41 L1297.34,316.41  '/>	<g transform="translate(54.53,320.31)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1.08</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,216.94 L71.92,216.94 M1306.34,216.94 L1297.34,216.94  '/>	<g transform="translate(54.53,220.84)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1.1</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,117.48 L71.92,117.48 M1306.34,117.48 L1297.34,117.48  '/>	<g transform="translate(54.53,121.38)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1.12</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,18.01 L71.92,18.01 M1306.34,18.01 L1297.34,18.01  '/>	<g transform="translate(54.53,21.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" > 1.14</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M145.81,764.00 L145.81,755.00 M145.81,18.01 L145.81,27.01  '/>	<g transform="translate(145.81,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on T</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M228.71,764.00 L228.71,755.00 M228.71,18.01 L228.71,27.01  '/>	<g transform="translate(228.71,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on I</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M394.50,764.00 L394.50,755.00 M394.50,18.01 L394.50,27.01  '/>	<g transform="translate(394.50,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on T</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M477.39,764.00 L477.39,755.00 M477.39,18.01 L477.39,27.01  '/>	<g transform="translate(477.39,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on I</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M643.18,764.00 L643.18,755.00 M643.18,18.01 L643.18,27.01  '/>	<g transform="translate(643.18,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on T</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M726.08,764.00 L726.08,755.00 M726.08,18.01 L726.08,27.01  '/>	<g transform="translate(726.08,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on I</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M891.87,764.00 L891.87,755.00 M891.87,18.01 L891.87,27.01  '/>	<g transform="translate(891.87,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on T</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M974.76,764.00 L974.76,755.00 M974.76,18.01 L974.76,27.01  '/>	<g transform="translate(974.76,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >T on I</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M1140.55,764.00 L1140.55,755.00 M1140.55,18.01 L1140.55,27.01  '/>	<g transform="translate(1140.55,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >0</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M1223.45,764.00 L1223.45,755.00 M1223.45,18.01 L1223.45,27.01  '/>	<g transform="translate(1223.45,785.90)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >0</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,18.01 L62.92,764.00 L1306.34,764.00 L1306.34,18.01 L62.92,18.01 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	<g id="gnuplot_plot_1"  fill="none"><title>gnuplot_plot_1</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat1' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(148,0,211)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat1)' points = '111.28,764.00 118.19,764.00 118.19,546.32 111.28,546.32 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M111.28,764.00 L111.28,546.33 L118.18,546.33 L118.18,764.00 L111.28,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat1)' points = '194.17,764.00 201.09,764.00 201.09,546.32 194.17,546.32 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M194.17,764.00 L194.17,546.33 L201.08,546.33 L201.08,764.00 L194.17,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_2"  fill="none"><title>gnuplot_plot_2</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat2' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,158,115)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '118.18,764.00 125.10,764.00 125.10,628.59 118.18,628.59 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M118.18,764.00 L118.18,628.60 L125.09,628.60 L125.09,764.00 L118.18,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat2)' points = '201.08,764.00 208.00,764.00 208.00,628.59 201.08,628.59 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M201.08,764.00 L201.08,628.60 L207.99,628.60 L207.99,764.00 L201.08,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_3"  fill="none"><title>gnuplot_plot_3</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat3' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(86,180,233)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat3)' points = '125.09,764.00 132.01,764.00 132.01,666.02 125.09,666.02 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M125.09,764.00 L125.09,666.03 L132.00,666.03 L132.00,764.00 L125.09,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat3)' points = '207.99,764.00 214.90,764.00 214.90,666.02 207.99,666.02 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M207.99,764.00 L207.99,666.03 L214.89,666.03 L214.89,764.00 L207.99,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_4"  fill="none"><title>gnuplot_plot_4</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat4' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(230,159,0)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '132.00,764.00 138.92,764.00 138.92,714.26 132.00,714.26 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M132.00,764.00 L132.00,714.27 L138.91,714.27 L138.91,764.00 L132.00,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat4)' points = '214.89,764.00 221.81,764.00 221.81,714.26 214.89,714.26 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M214.89,764.00 L214.89,714.27 L221.80,714.27 L221.80,764.00 L214.89,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_5"  fill="none"><title>gnuplot_plot_5</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat5' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(240,228,66)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat5)' points = '138.91,764.00 145.82,764.00 145.82,714.26 138.91,714.26 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M138.91,764.00 L138.91,714.27 L145.81,714.27 L145.81,764.00 L138.91,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat5)' points = '221.80,764.00 228.72,764.00 228.72,714.26 221.80,714.26 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M221.80,764.00 L221.80,714.27 L228.71,714.27 L228.71,764.00 L221.80,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_6"  fill="none"><title>gnuplot_plot_6</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat6' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,114,178)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat6)' points = '145.81,764.00 152.73,764.00 152.73,714.26 145.81,714.26 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M145.81,764.00 L145.81,714.27 L152.72,714.27 L152.72,764.00 L145.81,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat6)' points = '228.71,764.00 235.63,764.00 235.63,714.26 228.71,714.26 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M228.71,764.00 L228.71,714.27 L235.62,714.27 L235.62,764.00 L228.71,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_7"  fill="none"><title>gnuplot_plot_7</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat7' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(148,0,211)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat7)' points = '152.72,764.00 159.64,764.00 159.64,714.26 152.72,714.26 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M152.72,764.00 L152.72,714.27 L159.63,714.27 L159.63,764.00 L152.72,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat7)' points = '235.62,764.00 242.54,764.00 242.54,666.58 235.62,666.58 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M235.62,764.00 L235.62,666.59 L242.53,666.59 L242.53,764.00 L235.62,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_8"  fill="none"><title>gnuplot_plot_8</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat8' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat8)' points = '159.63,764.00 166.55,764.00 166.55,704.56 159.63,704.56 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M159.63,764.00 L159.63,704.57 L166.54,704.57 L166.54,764.00 L159.63,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat8)' points = '242.53,764.00 249.44,764.00 249.44,679.91 242.53,679.91 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M242.53,764.00 L242.53,679.92 L249.43,679.92 L249.43,764.00 L242.53,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_9"  fill="none"><title>gnuplot_plot_9</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat9' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat9)' points = '166.54,764.00 173.46,764.00 173.46,714.26 166.54,714.26 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M166.54,764.00 L166.54,714.27 L173.45,714.27 L173.45,764.00 L166.54,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat9)' points = '249.43,764.00 256.35,764.00 256.35,657.69 249.43,657.69 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M249.43,764.00 L249.43,657.70 L256.34,657.70 L256.34,764.00 L249.43,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_10"  fill="none"><title>gnuplot_plot_10</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat10' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(230,159,0)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat10)' points = '173.45,764.00 180.36,764.00 180.36,714.26 173.45,714.26 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M173.45,764.00 L173.45,714.27 L180.35,714.27 L180.35,764.00 L173.45,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat10)' points = '256.34,764.00 263.26,764.00 263.26,704.56 256.34,704.56 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M256.34,764.00 L256.34,704.57 L263.25,704.57 L263.25,764.00 L256.34,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_11"  fill="none"><title>gnuplot_plot_11</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat11' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(148,0,211)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat11)' points = '358.97,764.00 364.90,764.00 364.90,127.93 358.97,127.93 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M358.97,764.00 L358.97,127.94 L364.89,127.94 L364.89,764.00 L358.97,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat11)' points = '441.87,764.00 447.80,764.00 447.80,127.93 441.87,127.93 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M441.87,764.00 L441.87,127.94 L447.79,127.94 L447.79,764.00 L441.87,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_12"  fill="none"><title>gnuplot_plot_12</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat12' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,158,115)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat12)' points = '364.89,764.00 370.82,764.00 370.82,182.43 364.89,182.43 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M364.89,764.00 L364.89,182.44 L370.81,182.44 L370.81,764.00 L364.89,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat12)' points = '447.79,764.00 453.72,764.00 453.72,182.43 447.79,182.43 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M447.79,764.00 L447.79,182.44 L453.71,182.44 L453.71,764.00 L447.79,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_13"  fill="none"><title>gnuplot_plot_13</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat13' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(86,180,233)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat13)' points = '370.81,764.00 376.75,764.00 376.75,232.52 370.81,232.52 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M370.81,764.00 L370.81,232.53 L376.74,232.53 L376.74,764.00 L370.81,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat13)' points = '453.71,764.00 459.64,764.00 459.64,232.52 453.71,232.52 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M453.71,764.00 L453.71,232.53 L459.63,232.53 L459.63,764.00 L453.71,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_14"  fill="none"><title>gnuplot_plot_14</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat14' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(230,159,0)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat14)' points = '376.74,764.00 382.67,764.00 382.67,244.13 376.74,244.13 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M376.74,764.00 L376.74,244.14 L382.66,244.14 L382.66,764.00 L376.74,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat14)' points = '459.63,764.00 465.56,764.00 465.56,244.13 459.63,244.13 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M459.63,764.00 L459.63,244.14 L465.55,244.14 L465.55,764.00 L459.63,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_15"  fill="none"><title>gnuplot_plot_15</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat15' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(240,228,66)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat15)' points = '382.66,764.00 388.59,764.00 388.59,232.52 382.66,232.52 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M382.66,764.00 L382.66,232.53 L388.58,232.53 L388.58,764.00 L382.66,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat15)' points = '465.55,764.00 471.48,764.00 471.48,232.52 465.55,232.52 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M465.55,764.00 L465.55,232.53 L471.47,232.53 L471.47,764.00 L465.55,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_16"  fill="none"><title>gnuplot_plot_16</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat16' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,114,178)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat16)' points = '388.58,764.00 394.51,764.00 394.51,232.52 388.58,232.52 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M388.58,764.00 L388.58,232.53 L394.50,232.53 L394.50,764.00 L388.58,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat16)' points = '471.47,764.00 477.40,764.00 477.40,232.52 471.47,232.52 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M471.47,764.00 L471.47,232.53 L477.39,232.53 L477.39,764.00 L471.47,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_17"  fill="none"><title>gnuplot_plot_17</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat17' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat17)' points = '394.50,764.00 400.43,764.00 400.43,704.56 394.50,704.56 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M394.50,764.00 L394.50,704.57 L400.42,704.57 L400.42,764.00 L394.50,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat17)' points = '477.39,764.00 483.32,764.00 483.32,679.91 477.39,679.91 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M477.39,764.00 L477.39,679.92 L483.31,679.92 L483.31,764.00 L477.39,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_18"  fill="none"><title>gnuplot_plot_18</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat18' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat18)' points = '400.42,764.00 406.35,764.00 406.35,714.26 400.42,714.26 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M400.42,764.00 L400.42,714.27 L406.34,714.27 L406.34,764.00 L400.42,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat18)' points = '483.31,764.00 489.25,764.00 489.25,657.69 483.31,657.69 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M483.31,764.00 L483.31,657.70 L489.24,657.70 L489.24,764.00 L483.31,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_19"  fill="none"><title>gnuplot_plot_19</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat19' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(230,159,0)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat19)' points = '406.34,764.00 412.27,764.00 412.27,714.26 406.34,714.26 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M406.34,764.00 L406.34,714.27 L412.26,714.27 L412.26,764.00 L406.34,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat19)' points = '489.24,764.00 495.17,764.00 495.17,704.56 489.24,704.56 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M489.24,764.00 L489.24,704.57 L495.16,704.57 L495.16,764.00 L489.24,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_20"  fill="none"><title>gnuplot_plot_20</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat20' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(148,0,211)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat20)' points = '412.26,764.00 418.19,764.00 418.19,693.28 412.26,693.28 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M412.26,764.00 L412.26,693.29 L418.18,693.29 L418.18,764.00 L412.26,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat20)' points = '495.16,764.00 501.09,764.00 501.09,672.82 495.16,672.82 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M495.16,764.00 L495.16,672.83 L501.08,672.83 L501.08,764.00 L495.16,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_21"  fill="none"><title>gnuplot_plot_21</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat21' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat21)' points = '418.18,764.00 424.11,764.00 424.11,714.26 418.18,714.26 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M418.18,764.00 L418.18,714.27 L424.10,714.27 L424.10,764.00 L418.18,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat21)' points = '501.08,764.00 507.01,764.00 507.01,694.86 501.08,694.86 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M501.08,764.00 L501.08,694.87 L507.00,694.87 L507.00,764.00 L501.08,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_22"  fill="none"><title>gnuplot_plot_22</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat22' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat22)' points = '424.10,764.00 430.03,764.00 430.03,685.97 424.10,685.97 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M424.10,764.00 L424.10,685.98 L430.02,685.98 L430.02,764.00 L424.10,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat22)' points = '507.00,764.00 512.93,764.00 512.93,694.86 507.00,694.86 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M507.00,764.00 L507.00,694.87 L512.92,694.87 L512.92,764.00 L507.00,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_23"  fill="none"><title>gnuplot_plot_23</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat23' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(148,0,211)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat23)' points = '607.66,764.00 613.59,764.00 613.59,420.14 607.66,420.14 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M607.66,764.00 L607.66,420.15 L613.58,420.15 L613.58,764.00 L607.66,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat23)' points = '690.55,764.00 696.48,764.00 696.48,420.14 690.55,420.14 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M690.55,764.00 L690.55,420.15 L696.47,420.15 L696.47,764.00 L690.55,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_24"  fill="none"><title>gnuplot_plot_24</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat24' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,158,115)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat24)' points = '613.58,764.00 619.51,764.00 619.51,517.00 613.58,517.00 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M613.58,764.00 L613.58,517.01 L619.50,517.01 L619.50,764.00 L613.58,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat24)' points = '696.47,764.00 702.40,764.00 702.40,517.00 696.47,517.00 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M696.47,764.00 L696.47,517.01 L702.39,517.01 L702.39,764.00 L696.47,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_25"  fill="none"><title>gnuplot_plot_25</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat25' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(86,180,233)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat25)' points = '619.50,764.00 625.43,764.00 625.43,593.28 619.50,593.28 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M619.50,764.00 L619.50,593.29 L625.42,593.29 L625.42,764.00 L619.50,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat25)' points = '702.39,764.00 708.32,764.00 708.32,593.28 702.39,593.28 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M702.39,764.00 L702.39,593.29 L708.31,593.29 L708.31,764.00 L702.39,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_26"  fill="none"><title>gnuplot_plot_26</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat26' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(230,159,0)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat26)' points = '625.42,764.00 631.35,764.00 631.35,604.93 625.42,604.93 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M625.42,764.00 L625.42,604.94 L631.34,604.94 L631.34,764.00 L625.42,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat26)' points = '708.31,764.00 714.25,764.00 714.25,604.93 708.31,604.93 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M708.31,764.00 L708.31,604.94 L714.24,604.94 L714.24,764.00 L708.31,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_27"  fill="none"><title>gnuplot_plot_27</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat27' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(240,228,66)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat27)' points = '631.34,764.00 637.27,764.00 637.27,78.43 631.34,78.43 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M631.34,764.00 L631.34,78.44 L637.26,78.44 L637.26,764.00 L631.34,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat27)' points = '714.24,764.00 720.17,764.00 720.17,78.43 714.24,78.43 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M714.24,764.00 L714.24,78.44 L720.16,78.44 L720.16,764.00 L714.24,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_28"  fill="none"><title>gnuplot_plot_28</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat28' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,114,178)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat28)' points = '637.26,764.00 643.19,764.00 643.19,604.93 637.26,604.93 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M637.26,764.00 L637.26,604.94 L643.18,604.94 L643.18,764.00 L637.26,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat28)' points = '720.16,764.00 726.09,764.00 726.09,604.93 720.16,604.93 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M720.16,764.00 L720.16,604.94 L726.08,604.94 L726.08,764.00 L720.16,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_29"  fill="none"><title>gnuplot_plot_29</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat29' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat29)' points = '643.18,764.00 649.11,764.00 649.11,714.26 643.18,714.26 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M643.18,764.00 L643.18,714.27 L649.10,714.27 L649.10,764.00 L643.18,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat29)' points = '726.08,764.00 732.01,764.00 732.01,657.69 726.08,657.69 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M726.08,764.00 L726.08,657.70 L732.00,657.70 L732.00,764.00 L726.08,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_30"  fill="none"><title>gnuplot_plot_30</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat30' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(230,159,0)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat30)' points = '649.10,764.00 655.03,764.00 655.03,714.26 649.10,714.26 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M649.10,764.00 L649.10,714.27 L655.02,714.27 L655.02,764.00 L649.10,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat30)' points = '732.00,764.00 737.93,764.00 737.93,704.56 732.00,704.56 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M732.00,764.00 L732.00,704.57 L737.92,704.57 L737.92,764.00 L732.00,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_31"  fill="none"><title>gnuplot_plot_31</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat31' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat31)' points = '655.02,764.00 660.96,764.00 660.96,714.26 655.02,714.26 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M655.02,764.00 L655.02,714.27 L660.95,714.27 L660.95,764.00 L655.02,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat31)' points = '737.92,764.00 743.85,764.00 743.85,694.86 737.92,694.86 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M737.92,764.00 L737.92,694.87 L743.84,694.87 L743.84,764.00 L737.92,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_32"  fill="none"><title>gnuplot_plot_32</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat32' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat32)' points = '660.95,764.00 666.88,764.00 666.88,685.97 660.95,685.97 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M660.95,764.00 L660.95,685.98 L666.87,685.98 L666.87,764.00 L660.95,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat32)' points = '743.84,764.00 749.77,764.00 749.77,694.86 743.84,694.86 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M743.84,764.00 L743.84,694.87 L749.76,694.87 L749.76,764.00 L743.84,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_33"  fill="none"><title>gnuplot_plot_33</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat33' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(148,0,211)' d='M0,0 L8,8 M0,8 L8,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat33)' points = '666.87,764.00 672.80,764.00 672.80,714.26 666.87,714.26 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M666.87,764.00 L666.87,714.27 L672.79,714.27 L672.79,764.00 L666.87,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat33)' points = '749.76,764.00 755.69,764.00 755.69,546.32 749.76,546.32 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M749.76,764.00 L749.76,546.33 L755.68,546.33 L755.68,764.00 L749.76,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_34"  fill="none"><title>gnuplot_plot_34</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat34' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M0,0 L8,8 M0,8 L8,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat34)' points = '672.79,764.00 678.72,764.00 678.72,714.26 672.79,714.26 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M672.79,764.00 L672.79,714.27 L678.71,714.27 L678.71,764.00 L672.79,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat34)' points = '755.68,764.00 761.61,764.00 761.61,663.97 755.68,663.97 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M755.68,764.00 L755.68,663.98 L761.60,663.98 L761.60,764.00 L755.68,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_35"  fill="none"><title>gnuplot_plot_35</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat35' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(148,0,211)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat35)' points = '857.33,764.00 864.25,764.00 864.25,371.84 857.33,371.84 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M857.33,764.00 L857.33,371.85 L864.24,371.85 L864.24,764.00 L857.33,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat35)' points = '940.22,764.00 947.14,764.00 947.14,371.84 940.22,371.84 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M940.22,764.00 L940.22,371.85 L947.13,371.85 L947.13,764.00 L940.22,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_36"  fill="none"><title>gnuplot_plot_36</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat36' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,158,115)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat36)' points = '864.24,764.00 871.15,764.00 871.15,462.81 864.24,462.81 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M864.24,764.00 L864.24,462.82 L871.14,462.82 L871.14,764.00 L864.24,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat36)' points = '947.13,764.00 954.05,764.00 954.05,462.81 947.13,462.81 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M947.13,764.00 L947.13,462.82 L954.04,462.82 L954.04,764.00 L947.13,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_37"  fill="none"><title>gnuplot_plot_37</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat37' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(86,180,233)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat37)' points = '871.14,764.00 878.06,764.00 878.06,505.24 871.14,505.24 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M871.14,764.00 L871.14,505.25 L878.05,505.25 L878.05,764.00 L871.14,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat37)' points = '954.04,764.00 960.96,764.00 960.96,505.24 954.04,505.24 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M954.04,764.00 L954.04,505.25 L960.95,505.25 L960.95,764.00 L954.04,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_38"  fill="none"><title>gnuplot_plot_38</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat38' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(230,159,0)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat38)' points = '878.05,764.00 884.97,764.00 884.97,604.78 878.05,604.78 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M878.05,764.00 L878.05,604.79 L884.96,604.79 L884.96,764.00 L878.05,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat38)' points = '960.95,764.00 967.86,764.00 967.86,604.78 960.95,604.78 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M960.95,764.00 L960.95,604.79 L967.85,604.79 L967.85,764.00 L960.95,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_39"  fill="none"><title>gnuplot_plot_39</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat39' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(240,228,66)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat39)' points = '884.96,764.00 891.88,764.00 891.88,164.04 884.96,164.04 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M884.96,764.00 L884.96,164.05 L891.87,164.05 L891.87,764.00 L884.96,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat39)' points = '967.85,764.00 974.77,764.00 974.77,164.04 967.85,164.04 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M967.85,764.00 L967.85,164.05 L974.76,164.05 L974.76,764.00 L967.85,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_40"  fill="none"><title>gnuplot_plot_40</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat40' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,114,178)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat40)' points = '891.87,764.00 898.78,764.00 898.78,440.39 891.87,440.39 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M891.87,764.00 L891.87,440.40 L898.77,440.40 L898.77,764.00 L891.87,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat40)' points = '974.76,764.00 981.68,764.00 981.68,440.39 974.76,440.39 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M974.76,764.00 L974.76,440.40 L981.67,440.40 L981.67,764.00 L974.76,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_41"  fill="none"><title>gnuplot_plot_41</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat41' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(230,159,0)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat41)' points = '898.77,764.00 905.69,764.00 905.69,714.26 898.77,714.26 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M898.77,764.00 L898.77,714.27 L905.68,714.27 L905.68,764.00 L898.77,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat41)' points = '981.67,764.00 988.59,764.00 988.59,704.56 981.67,704.56 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M981.67,764.00 L981.67,704.57 L988.58,704.57 L988.58,764.00 L981.67,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_42"  fill="none"><title>gnuplot_plot_42</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat42' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat42)' points = '905.68,764.00 912.60,764.00 912.60,685.97 905.68,685.97 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M905.68,764.00 L905.68,685.98 L912.59,685.98 L912.59,764.00 L905.68,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat42)' points = '988.58,764.00 995.50,764.00 995.50,694.86 988.58,694.86 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M988.58,764.00 L988.58,694.87 L995.49,694.87 L995.49,764.00 L988.58,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_43"  fill="none"><title>gnuplot_plot_43</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat43' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M0,0 L8,8 M0,8 L8,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat43)' points = '912.59,764.00 919.51,764.00 919.51,714.26 912.59,714.26 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M912.59,764.00 L912.59,714.27 L919.50,714.27 L919.50,764.00 L912.59,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat43)' points = '995.49,764.00 1002.40,764.00 1002.40,663.97 995.49,663.97 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M995.49,764.00 L995.49,663.98 L1002.39,663.98 L1002.39,764.00 L995.49,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_44"  fill="none"><title>gnuplot_plot_44</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat44' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(229,30,16)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat44)' points = '919.50,764.00 926.42,764.00 926.42,714.26 919.50,714.26 '/>
+	</g>
+	<path stroke='rgb(229,  30,  16)'  d='M919.50,764.00 L919.50,714.27 L926.41,714.27 L926.41,764.00 L919.50,764.00 Z  '/>	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat44)' points = '1002.39,764.00 1009.31,764.00 1009.31,650.07 1002.39,650.07 '/>
+	</g>
+	<path stroke='rgb(229,  30,  16)'  d='M1002.39,764.00 L1002.39,650.08 L1009.30,650.08 L1009.30,764.00 L1002.39,764.00 Z  '/></g>
+	</g>
+	<g id="gnuplot_plot_45" ><title>graphdb</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,39.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >graphdb</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat45' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(148,0,211)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat45)' points = '1247.00,40.51 1289.56,40.51 1289.56,31.51 1247.00,31.51 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M1247.00,40.51 L1289.56,40.51 L1289.56,31.51 L1247.00,31.51 L1247.00,40.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_46" ><title>jena</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,57.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >jena</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat46' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,158,115)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat46)' points = '1247.00,58.51 1289.56,58.51 1289.56,49.51 1247.00,49.51 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M1247.00,58.51 L1289.56,58.51 L1289.56,49.51 L1247.00,49.51 L1247.00,58.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_47" ><title>rdf3x</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,75.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >rdf3x</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat47' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(86,180,233)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat47)' points = '1247.00,76.51 1289.56,76.51 1289.56,67.51 1247.00,67.51 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M1247.00,76.51 L1289.56,76.51 L1289.56,67.51 L1247.00,67.51 L1247.00,76.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_48" ><title>luposdate3000 dp nc</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,93.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >luposdate3000 dp nc</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat48' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(230,159,0)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat48)' points = '1247.00,94.51 1289.56,94.51 1289.56,85.51 1247.00,85.51 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M1247.00,94.51 L1289.56,94.51 L1289.56,85.51 L1247.00,85.51 L1247.00,94.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_49" ><title>luposdate3000 dp</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,111.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >luposdate3000 dp</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat49' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(240,228,66)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat49)' points = '1247.00,112.51 1289.56,112.51 1289.56,103.51 1247.00,103.51 '/>
+	</g>
+	<path stroke='rgb(240, 228,  66)'  d='M1247.00,112.51 L1289.56,112.51 L1289.56,103.51 L1247.00,103.51 L1247.00,112.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_50" ><title>luposdate3000 greedy</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,129.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >luposdate3000 greedy</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat50' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(0,114,178)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat50)' points = '1247.00,130.51 1289.56,130.51 1289.56,121.51 1247.00,121.51 '/>
+	</g>
+	<path stroke='rgb(  0, 114, 178)'  d='M1247.00,130.51 L1289.56,130.51 L1289.56,121.51 L1247.00,121.51 L1247.00,130.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_51" ><title>model trained on 3-3</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,147.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 3-3</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat51' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(148,0,211)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat51)' points = '1247.00,148.51 1289.56,148.51 1289.56,139.51 1247.00,139.51 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M1247.00,148.51 L1289.56,148.51 L1289.56,139.51 L1247.00,139.51 L1247.00,148.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_52" ><title>model trained on 3-4</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,165.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 3-4</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat52' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat52)' points = '1247.00,166.51 1289.56,166.51 1289.56,157.51 1247.00,157.51 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M1247.00,166.51 L1289.56,166.51 L1289.56,157.51 L1247.00,157.51 L1247.00,166.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_53" ><title>model trained on 3-5</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,183.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 3-5</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat53' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat53)' points = '1247.00,184.51 1289.56,184.51 1289.56,175.51 1247.00,175.51 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M1247.00,184.51 L1289.56,184.51 L1289.56,175.51 L1247.00,175.51 L1247.00,184.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_54" ><title>model trained on 3-6</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,201.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 3-6</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat54' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(230,159,0)' d='M-4,0 L8,12 M0,-4 L12,8'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat54)' points = '1247.00,202.51 1289.56,202.51 1289.56,193.51 1247.00,193.51 '/>
+	</g>
+	<path stroke='rgb(230, 159,   0)'  d='M1247.00,202.51 L1289.56,202.51 L1289.56,193.51 L1247.00,193.51 L1247.00,202.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_55" ><title>model trained on 4-4</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,219.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 4-4</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat55' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(148,0,211)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat55)' points = '1247.00,220.51 1289.56,220.51 1289.56,211.51 1247.00,211.51 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M1247.00,220.51 L1289.56,220.51 L1289.56,211.51 L1247.00,211.51 L1247.00,220.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_56" ><title>model trained on 4-5</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,237.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 4-5</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat56' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat56)' points = '1247.00,238.51 1289.56,238.51 1289.56,229.51 1247.00,229.51 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M1247.00,238.51 L1289.56,238.51 L1289.56,229.51 L1247.00,229.51 L1247.00,238.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_57" ><title>model trained on 4-6</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,255.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 4-6</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat57' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(86,180,233)' d='M-4,8 L8,-4 M0,12 L12,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat57)' points = '1247.00,256.51 1289.56,256.51 1289.56,247.51 1247.00,247.51 '/>
+	</g>
+	<path stroke='rgb( 86, 180, 233)'  d='M1247.00,256.51 L1289.56,256.51 L1289.56,247.51 L1247.00,247.51 L1247.00,256.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_58" ><title>model trained on 5-5</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,273.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 5-5</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat58' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(148,0,211)' d='M0,0 L8,8 M0,8 L8,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat58)' points = '1247.00,274.51 1289.56,274.51 1289.56,265.51 1247.00,265.51 '/>
+	</g>
+	<path stroke='rgb(148,   0, 211)'  d='M1247.00,274.51 L1289.56,274.51 L1289.56,265.51 L1247.00,265.51 L1247.00,274.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_59" ><title>model trained on 5-6</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,291.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 5-6</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat59' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='fill:none; stroke:rgb(0,158,115)' d='M0,0 L8,8 M0,8 L8,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat59)' points = '1247.00,292.51 1289.56,292.51 1289.56,283.51 1247.00,283.51 '/>
+	</g>
+	<path stroke='rgb(  0, 158, 115)'  d='M1247.00,292.51 L1289.56,292.51 L1289.56,283.51 L1247.00,283.51 L1247.00,292.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+	<g id="gnuplot_plot_60" ><title>model trained on 6-6</title>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(1238.61,309.91)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="end">
+		<text><tspan font-family="Arial" >model trained on 6-6</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<defs>
+		<pattern id='gpPat60' patternUnits='userSpaceOnUse' x='0' y='0' width='8' height='8'>
+			<path style='stroke:none; fill:rgb(229,30,16)' d='M0,0 L0,8 L8,8 L8,0 L0,0'/>
+		</pattern>
+	</defs>
+	<g stroke='none' shape-rendering='crispEdges'>
+		<polygon  fill = 'url(#gpPat60)' points = '1247.00,310.51 1289.56,310.51 1289.56,301.51 1247.00,301.51 '/>
+	</g>
+	<path stroke='rgb(229,  30,  16)'  d='M1247.00,310.51 L1289.56,310.51 L1289.56,301.51 L1247.00,301.51 L1247.00,310.51 Z  '/></g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+	</g>
+<g fill="none" color="white" stroke="rgb(229,  30,  16)" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="2.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="black" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<path stroke='black'  d='M62.92,18.01 L62.92,764.00 L1306.34,764.00 L1306.34,18.01 L62.92,18.01 Z  '/>	<g transform="translate(933.31,795.80)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >evaluated on 6</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(684.63,795.80)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >evaluated on 5</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(435.95,795.80)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >evaluated on 4</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+	<g transform="translate(187.26,795.80)" stroke="none" fill="black" font-family="Arial" font-size="12.00"  text-anchor="middle">
+		<text><tspan font-family="Arial" >evaluated on 3</tspan></text>
+	</g>
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+<g fill="none" color="black" stroke="currentColor" stroke-width="1.00" stroke-linecap="butt" stroke-linejoin="miter">
+</g>
+</g>
+</svg>
+
