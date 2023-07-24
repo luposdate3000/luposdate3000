@@ -20,7 +20,7 @@ import lupos.dictionary.DictionaryFactory
 import lupos.shared.EOptimizer
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyLock
+import lupos.shared.MyThreadLock
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dictionary.EDictionaryTypeExt
@@ -94,7 +94,7 @@ public class Query public constructor(@JvmField public var dictionary: IDictiona
     internal val partitions = mutableMapOf<Long, PartitionHelper2>()
 
     @JvmField
-    internal val partitionsLock = MyLock()
+    internal val partitionsLock = MyThreadLock()
 
     @JvmField
     public val partitionOperators: MutableMap<Int, MutableSet<Long>> = mutableMapOf()

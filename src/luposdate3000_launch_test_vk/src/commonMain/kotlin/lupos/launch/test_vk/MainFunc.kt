@@ -21,7 +21,7 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.AflCore
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.vk.ValueKeyStore
@@ -32,7 +32,7 @@ internal const val verbose = false
 internal const val maxSize = 16384
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(arg: String): Unit = ParallelThread.runBlocking {
     AflCore("vk.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 

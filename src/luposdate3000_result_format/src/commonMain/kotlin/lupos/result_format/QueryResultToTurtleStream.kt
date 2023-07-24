@@ -21,7 +21,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.MyLock
+import lupos.shared.MyThreadLock
 import lupos.shared.SanityCheck
 import lupos.shared.UnableToOutputResultException
 import lupos.shared.dictionary.DictionaryNotImplemented
@@ -35,7 +35,7 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 public class QueryResultToTurtleStream : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
+    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyThreadLock?, output: IMyOutputStream, timeoutInMs: Long) {
         val variablesIndices = intArrayOf(variables.indexOf("s"), variables.indexOf("p"), variables.indexOf("o"))
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)

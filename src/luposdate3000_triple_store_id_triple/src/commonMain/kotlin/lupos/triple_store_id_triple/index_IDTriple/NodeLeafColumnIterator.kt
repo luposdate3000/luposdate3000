@@ -18,11 +18,11 @@ package lupos.triple_store_id_triple.index_IDTriple
 
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DateHelperRelative
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.operator.iterator.ColumnIterator
 import kotlin.jvm.JvmField
 
-internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManagerPageWrapper, @JvmField var nodeid: Int, @JvmField val lock: MyReadWriteLock, @JvmField val nodeManager: NodeManager, val timeoutInMs: Long) : ColumnIterator() {
+internal abstract class NodeLeafColumnIterator(@JvmField var node: BufferManagerPageWrapper, @JvmField var nodeid: Int, @JvmField val lock: MyThreadReadWriteLock, @JvmField val nodeManager: NodeManager, val timeoutInMs: Long) : ColumnIterator() {
     val startTime = DateHelperRelative.markNow()
 
     @JvmField

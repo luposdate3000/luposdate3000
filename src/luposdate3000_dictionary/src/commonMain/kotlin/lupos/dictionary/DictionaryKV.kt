@@ -25,7 +25,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
@@ -45,7 +45,7 @@ public class DictionaryKV internal constructor(
     unusedVar: Int,
 ) : ADictionary(instance, false) {
     @JvmField
-    internal val lock = MyReadWriteLock()
+    internal val lock = MyThreadReadWriteLock()
 
     @JvmField
     internal val kv: KeyValueStore

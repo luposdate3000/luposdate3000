@@ -25,8 +25,8 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.Parallel
-import lupos.shared.ParallelCondition
+import lupos.shared.inline.ParallelThread
+import lupos.shared.inline.ParallelThreadCondition
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -138,11 +138,11 @@ public class POPSplitPartition public constructor(
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
                 val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
-                val ringbufferReaderContinuation = Array(partitionCount) { Parallel.createCondition() }
-                val ringbufferWriterContinuation: ParallelCondition = Parallel.createCondition()
+                val ringbufferReaderContinuation = Array(partitionCount) { ParallelThread.createCondition() }
+                val ringbufferWriterContinuation: ParallelThreadCondition = ParallelThread.createCondition()
                 val readerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
                 var writerFinished = 0
-                val job = Parallel.launch {
+                val job = ParallelThread.launch {
                     var child2: RowIterator? = null
                     try {
                         val child = children[0].evaluate(childPartition).rows

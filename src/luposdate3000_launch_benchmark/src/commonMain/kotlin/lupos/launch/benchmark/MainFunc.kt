@@ -19,7 +19,7 @@ package lupos.launch.benchmark
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.shared.DateHelperRelative
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 
@@ -28,9 +28,9 @@ internal enum class OptimizerMode {
 }
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String, numberOfTriples: String, optimizerMode: String): Unit = ParallelThread.runBlocking {
     val instance = LuposdateEndpoint.initialize()
-    Parallel.launch {
+    ParallelThread.launch {
         HttpEndpointLauncher.start(instance)
     }
     val queryFiles2 = queryFiles.split(";")

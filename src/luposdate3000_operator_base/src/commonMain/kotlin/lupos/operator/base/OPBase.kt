@@ -24,7 +24,7 @@ import lupos.shared.ESortPriority
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -432,7 +432,7 @@ public abstract class OPBase public constructor(
         return this
     }
 
-    override fun toString(): String = Parallel.runBlocking { toXMLElement(false, PartitionHelper()).toPrettyString() }
+    override fun toString(): String = ParallelThread.runBlocking { toXMLElement(false, PartitionHelper()).toPrettyString() }
     override fun getRequiredVariableNamesRecoursive(): List<String> {
         val res = getRequiredVariableNames().toMutableList()
         for (c in children) {

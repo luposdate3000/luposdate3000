@@ -19,9 +19,9 @@ package lupos.launch.import_benchmark
 import lupos.endpoint.LuposdateEndpoint
 import lupos.parser.InputToIntermediate
 import lupos.shared.DateHelperRelative
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 
-internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(inputFileName: String): Unit = ParallelThread.runBlocking {
     val timer = DateHelperRelative.markNow()
     val instance = LuposdateEndpoint.initialize()
     var counter = 0

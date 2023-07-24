@@ -18,14 +18,14 @@ package lupos.launch.display_bibtex
 import lupos.endpoint.LuposdateEndpoint
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.InvalidInputException
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.Partition
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.myPrintStackTrace
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(inputFileName: String): Unit = ParallelThread.runBlocking {
     var errors = mutableListOf<String>()
     val instance = LuposdateEndpoint.initialize()
     LuposdateEndpoint.importTripleFile(instance, inputFileName)

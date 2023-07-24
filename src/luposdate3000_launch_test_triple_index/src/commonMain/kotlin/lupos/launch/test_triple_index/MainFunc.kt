@@ -24,7 +24,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.TripleStoreIndex
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
@@ -40,7 +40,7 @@ internal var duplicates = 0L
 internal var totalinserts = 0L
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(arg: String): Unit = ParallelThread.runBlocking {
     AflCore("triple_index.${BufferManagerExt.isInMemoryOnly}", 10000.0, ::executeTest)(arg)
 }
 

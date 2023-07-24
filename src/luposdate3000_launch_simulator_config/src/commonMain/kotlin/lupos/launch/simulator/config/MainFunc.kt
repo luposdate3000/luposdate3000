@@ -16,9 +16,9 @@
  */
 package lupos.launch.simulator.config
 
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import simora.mainfunc
 
-internal fun mainFunc(fileNames: List<String>): Unit = Parallel.runBlocking {
+internal fun mainFunc(fileNames: List<String>): Unit = ParallelThread.runBlocking {
     mainfunc(fileNames)
 }

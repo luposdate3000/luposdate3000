@@ -17,7 +17,7 @@
 package lupos.operator.base.iterator
 
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.operator.iterator.RowIterator
 import kotlin.jvm.JvmField
 
@@ -63,7 +63,7 @@ public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmFiel
             }
         }
         buf = DictionaryValueTypeArray(mapping.size)
-        Parallel.runBlocking {
+        ParallelThread.runBlocking {
             bIdx = b.next()
             if (bIdx < 0) {
                 flag = 1

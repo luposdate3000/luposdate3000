@@ -17,9 +17,9 @@
 package lupos.launch.code_gen_example_kapt
 
 import lupos.endpoint.LuposdateEndpoint
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 
-internal fun mainFunc(): Unit = Parallel.runBlocking {
+internal fun mainFunc(): Unit = ParallelThread.runBlocking {
     /*//var flag = false
        mainFunc()
        val example = ExampleAnnotation()

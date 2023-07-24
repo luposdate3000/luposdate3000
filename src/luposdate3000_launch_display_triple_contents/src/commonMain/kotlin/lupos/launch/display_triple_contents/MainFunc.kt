@@ -16,11 +16,11 @@
  */
 package lupos.launch.display_triple_contents
 
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.inline.fileformat.TriplesIntermediateReader
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(inputFileName: String, indexPattern: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(inputFileName: String, indexPattern: String): Unit = ParallelThread.runBlocking {
     when (indexPattern) {
         "SPO" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[0]} ${row[1]} ${row[2]}") }
         "SOP" -> TriplesIntermediateReader(inputFileName).readAll { row -> println("${row[0]} ${row[2]} ${row[1]}") }

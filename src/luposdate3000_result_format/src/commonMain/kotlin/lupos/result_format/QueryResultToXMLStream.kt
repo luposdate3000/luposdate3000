@@ -21,7 +21,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
-import lupos.shared.MyLock
+import lupos.shared.MyThreadLock
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.IDictionary
@@ -34,7 +34,7 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 public class QueryResultToXMLStream : IResultFormat {
     /*suspend*/ @Suppress("NOTHING_TO_INLINE")
     private
-    fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: IMyOutputStream, timeoutInMs: Long) {
+    fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyThreadLock?, output: IMyOutputStream, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val resultWriter = MyPrintWriter(true)
         val buffer = ByteArrayWrapper()

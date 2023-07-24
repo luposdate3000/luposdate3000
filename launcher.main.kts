@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-/*
+/*  
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -40,7 +40,6 @@ import launcher.InlineMode
 import launcher.IntellijMode
 import launcher.ParamClassMode
 import launcher.ReleaseMode
-import launcher.SuspendMode
 import launcher.TargetMode2
 import launcher.createBuildFileForModule
 import launcher.fixPathNames 
@@ -135,7 +134,6 @@ fun getAllModuleConfigurations(): List<CreateModuleArgs> {
     val localArgs = CreateModuleArgs()
         .ssetDictionaryValueMode(EDictionaryValueMode.valueOf(LauncherConfig.getConfigValue("--dictionaryValueMode")))
         .ssetReleaseMode(ReleaseMode.valueOf(LauncherConfig.getConfigValue("--releaseMode")))
-        .ssetSuspendMode(SuspendMode.valueOf(LauncherConfig.getConfigValue("--suspendMode")))
         .ssetInlineMode(InlineMode.valueOf(LauncherConfig.getConfigValue("--inlineMode")))
         .ssetIntellijMode(IntellijMode.valueOf(LauncherConfig.getConfigValue("--intellijMode", "Disable")))
         .ssetTarget(TargetMode2.valueOf(LauncherConfig.getConfigValue("--target")))
@@ -604,11 +602,6 @@ val defaultParams = mutableListOf(
         "--releaseMode",
         ReleaseMode.Disable.toString(),
         ReleaseMode.values().map { it -> it.toString() }, false,
-    ),
-    ParamClass(
-        "--suspendMode",
-        SuspendMode.Disable.toString(),
-        SuspendMode.values().map { it -> it.toString() }, false,
     ),
 ParamClass(
         "--useKtLint",

@@ -16,8 +16,8 @@
  */
 package lupos.operator.base
 
-import lupos.shared.MyLock
-import lupos.shared.ParallelJob
+import lupos.shared.MyThreadLock
+import lupos.shared.ParallelThreadJob
 import lupos.shared.Partition
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField
@@ -27,8 +27,8 @@ public class PartitionHelper2 public constructor() {
     public var iterators: MutableMap<Partition, Array<IteratorBundle>>? = null
 
     @JvmField
-    public var jobs: MutableMap<Partition, ParallelJob>? = null
+    public var jobs: MutableMap<Partition, ParallelThreadJob>? = null
 
     @JvmField
-    public val lock: MyLock = MyLock()
+    public val lock: MyThreadLock = MyThreadLock()
 }

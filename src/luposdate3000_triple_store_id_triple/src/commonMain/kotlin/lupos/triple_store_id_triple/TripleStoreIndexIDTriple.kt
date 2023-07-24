@@ -25,8 +25,8 @@ import lupos.shared.ETripleIndexTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
-import lupos.shared.Parallel
+import lupos.shared.inline.MyThreadReadWriteLock
+import lupos.shared.inline.ParallelThread
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreBulkImportExt
 import lupos.shared.TripleStoreIndex
@@ -80,7 +80,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     internal var pendingRemove: MutableList<Int?> = mutableListOf()
 
     @JvmField
-    internal var lock = MyReadWriteLock()
+    internal var lock = MyThreadReadWriteLock()
 
     @JvmField
     internal var cachedHistograms1Size: Int = 0
@@ -473,7 +473,7 @@ println("getIterator $uuid $projection ${filter.toList()} -> $row")
                 break
             } else {
                 SanityCheck.suspended {
-                    Parallel.delay(100)
+                    ParallelThread.delay(100)
                 }
             }
         }

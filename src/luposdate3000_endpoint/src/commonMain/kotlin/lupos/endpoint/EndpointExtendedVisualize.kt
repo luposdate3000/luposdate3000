@@ -26,12 +26,13 @@ import lupos.parser.sparql.ASTSparqlDoc
 import lupos.parser.sparql.SparqlParser
 import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
+import kotlin.js.JsExport
 import lupos.shared.OPVisualGraph
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.MyStringStream
 import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
-
+@JsExport
 public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) : IVisualisation {
     private var resultLog: Array<OPVisualGraph>
     private var resultPhys: Array<OPVisualGraph>

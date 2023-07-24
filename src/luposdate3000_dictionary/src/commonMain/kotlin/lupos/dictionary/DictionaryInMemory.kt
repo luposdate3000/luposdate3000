@@ -20,7 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -50,7 +50,7 @@ public class DictionaryInMemory internal constructor(
     }
 
     @JvmField
-    internal val lock = MyReadWriteLock()
+    internal val lock = MyThreadReadWriteLock()
 
     @JvmField
     internal val uuid = UUID_Counter.getNextUUID()

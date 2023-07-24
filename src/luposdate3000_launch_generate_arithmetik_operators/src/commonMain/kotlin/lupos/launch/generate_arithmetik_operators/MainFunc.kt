@@ -18,11 +18,11 @@ package lupos.launch.generate_arithmetik_operators
 
 import lupos.code_generator_shared.MyOperator
 import lupos.code_generator_shared.OperatorBuilder
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.inline.File
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(): Unit = Parallel.runBlocking {
+internal fun mainFunc(): Unit = ParallelThread.runBlocking {
     val operators = mutableListOf<MyOperator>()
 
     OperatorBuilder.build(operators)

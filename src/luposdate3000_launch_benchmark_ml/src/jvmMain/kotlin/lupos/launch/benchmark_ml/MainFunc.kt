@@ -50,7 +50,7 @@ private suspend fun <A, B> Array<A>.pmap(f: suspend (A) -> B): List<B> = corouti
 internal fun mainFunc(datasourceFiles: String, queryFiles: String, minimumTime: String) {
     val tripleCount = Platform.getEnv("tripleCount", "4")!!.toInt()
     val instance = LuposdateEndpoint.initialize()
-//    Parallel.launch {
+//    ParallelThread.launch {
 //        HttpEndpointLauncher.start(instance)
 //    }
     var noTimeMeasurement = minimumTime.toDouble() <= 0

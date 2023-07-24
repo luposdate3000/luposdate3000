@@ -18,7 +18,7 @@ package lupos.launch.test_sorting
 
 import lupos.shared.AflCore
 import lupos.shared.DateHelperRelative
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import kotlin.jvm.JvmField
 import kotlin.math.abs
 import kotlin.math.log2
@@ -26,7 +26,7 @@ import kotlin.math.max
 import kotlin.math.min
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(arg: String): Unit = ParallelThread.runBlocking {
     AflCore("sorting", 10000000.0, ::executeTest)(arg)
 }
 

@@ -19,7 +19,7 @@ package lupos.buffer_manager
 import lupos.ProguardTestAnnotation
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import kotlin.jvm.JvmField
 import kotlin.math.max
@@ -42,7 +42,7 @@ public class MyIntArray internal constructor(@JvmField internal val filename: St
     internal var closed = false
 
     @JvmField
-    internal val lock = MyReadWriteLock()
+    internal val lock = MyThreadReadWriteLock()
 
     @JvmField
     internal var data = IntArray(0)

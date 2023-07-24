@@ -18,9 +18,9 @@ package lupos.launch.import
 
 import lupos.endpoint.LuposdateEndpoint
 import lupos.parser.InputToIntermediate
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 
-internal fun mainFunc(inputFileName: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(inputFileName: String): Unit = ParallelThread.runBlocking {
     val instance = LuposdateEndpoint.initialize()
     InputToIntermediate.process(inputFileName, instance)
 }

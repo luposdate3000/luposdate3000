@@ -23,8 +23,8 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.Parallel
-import lupos.shared.ParallelCondition
+import lupos.shared.inline.ParallelThread
+import lupos.shared.inline.ParallelThreadCondition
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -125,12 +125,12 @@ public class POPMergePartition public constructor(
             val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
             val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
-            val ringbufferWriterContinuation = Array(partitionCount) { Parallel.createCondition() }
-            val ringbufferReaderContinuation: ParallelCondition = Parallel.createCondition()
+            val ringbufferWriterContinuation = Array(partitionCount) { ParallelThread.createCondition() }
+            val ringbufferReaderContinuation: ParallelThreadCondition = ParallelThread.createCondition()
             val writerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until partitionCount) {
-                Parallel.launch {
+                ParallelThread.launch {
                     var resultrowDebug = 0
                     try {
                         val childEval2: IteratorBundle?

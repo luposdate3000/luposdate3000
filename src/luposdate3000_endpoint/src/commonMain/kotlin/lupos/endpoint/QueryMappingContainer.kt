@@ -20,7 +20,7 @@ import lupos.operator.base.Query
 import lupos.operator.physical.POPBase
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.MyLock
+import lupos.shared.MyThreadLock
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import kotlin.jvm.JvmField
 
@@ -45,5 +45,5 @@ internal class QueryMappingContainer(
     internal var instance: POPBase? = null
 
     @JvmField
-    internal val instanceLock = MyLock()
+    internal val instanceLock = MyThreadLock()
 }

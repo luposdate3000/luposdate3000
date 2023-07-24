@@ -46,7 +46,7 @@ public class AflCore(@JvmField internal val testname: String, @JvmField internal
             val timer = DateHelperRelative.markNow()
             val random = MyRandom(seed)
             fun getMaxLen(): Int = min(((tests + 2).toDouble().pow(1.0 / 2.0) * maxlen_multiplicator).toInt(), data.size)
-            Parallel.launch {
+            ParallelThread.launch {
                 var lastTests = 0
                 while (true) {
                     val mytests = tests
@@ -55,7 +55,7 @@ public class AflCore(@JvmField internal val testname: String, @JvmField internal
                         val time = DateHelperRelative.elapsedSeconds(timer)
                         println("tests $mytests, errors $errors testsPerSecond ${tests / time} maxlen ${getMaxLen()}")
                     }
-                    Parallel.delay(1000)
+                    ParallelThread.delay(1000)
                 }
             }
             while (true) {

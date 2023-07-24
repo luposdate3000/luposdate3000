@@ -22,7 +22,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EPartitionModeExt
 import lupos.shared.IMyOutputStream
 import lupos.shared.MemoryTable
-import lupos.shared.MyLock
+import lupos.shared.MyThreadLock
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryNotImplemented
 import lupos.shared.dictionary.IDictionary
@@ -34,7 +34,7 @@ import lupos.shared.operator.iterator.IteratorBundleRoot
 public class QueryResultToMemoryTable : IResultFormat {
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyLock?, output: MemoryTable, timeoutInMs: Long) {
+    /*suspend*/ private fun writeAllRows(variables: Array<String>, columns: Array<ColumnIterator>, dictionary: IDictionary, lock: MyThreadLock?, output: MemoryTable, timeoutInMs: Long) {
         val rowBuf = DictionaryValueTypeArray(variables.size)
         val startTime = DateHelperRelative.markNow()
         loop@ while (timeoutInMs <= 0 || DateHelperRelative.elapsedMilliSeconds(startTime) < timeoutInMs) {

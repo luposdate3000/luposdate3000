@@ -19,11 +19,11 @@ package lupos.launch.test_buffermanager
 import lupos.buffer_manager.BufferManager
 import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.AflCore
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.test_buffermanager.executeBufferManagerTest
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(arg: String): Unit = ParallelThread.runBlocking {
     AflCore("buffermanager.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 

@@ -20,7 +20,7 @@ import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.operator.iterator.ColumnIterator
 
@@ -42,7 +42,7 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal fun iterator(node: BufferManagerPageWrapper, nodeid: Int, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator(node: BufferManagerPageWrapper, nodeid: Int, lock: MyThreadReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return when (component) {
             0 -> {
                 NodeLeafColumnIterator0(node, nodeid, lock, nodeManager, timeout)
@@ -60,17 +60,17 @@ internal object NodeLeaf {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal fun iterator3(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator3(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyThreadReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return NodeLeafColumnIteratorPrefix3(node, nodeid, prefix, lock, nodeManager, timeout)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal fun iterator2(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator2(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyThreadReadWriteLock, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return NodeLeafColumnIteratorPrefix22(node, nodeid, prefix, lock, nodeManager, timeout)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    /*suspend*/ internal fun iterator1(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
+    /*suspend*/ internal fun iterator1(node: BufferManagerPageWrapper, nodeid: Int, prefix: DictionaryValueTypeArray, lock: MyThreadReadWriteLock, component: Int, nodeManager: NodeManager, timeout: Long): ColumnIterator {
         return when (component) {
             1 -> {
                 NodeLeafColumnIteratorPrefix11(node, nodeid, prefix, lock, nodeManager, timeout)

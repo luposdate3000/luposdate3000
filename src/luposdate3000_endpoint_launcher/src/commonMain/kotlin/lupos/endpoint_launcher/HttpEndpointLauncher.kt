@@ -23,7 +23,7 @@ import lupos.network.wrapper.ServerSocket
 import lupos.shared.EnpointRecievedInvalidPath
 import lupos.shared.IMyOutputStream
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.myPrintStackTrace
 import lupos.shared.network.ASocket
 import lupos.shared.network.InetSocketAddress
@@ -71,7 +71,7 @@ public object HttpEndpointLauncher {
                         instance.nodeGlobalDictionary = RemoteDictionaryClient(conn.first, conn.second, instance, false)
                         done = true
                     } catch (e: Throwable) {
-                        Parallel.delay(1000)
+                        ParallelThread.delay(1000)
                     }
                 }
             }
@@ -80,10 +80,10 @@ public object HttpEndpointLauncher {
                 var connection: ASocket? = null
                 connection = server.accept()
                 connection!!
-                Parallel.launch {
+                ParallelThread.launch {
                     try {
                         var closeSockets: Boolean = true
-                        Parallel.runBlocking {
+                        ParallelThread.runBlocking {
                             val connectionInMy = connection.getInputStream()
                             val connectionOutMy = connection.getOutputStream()
                             try {

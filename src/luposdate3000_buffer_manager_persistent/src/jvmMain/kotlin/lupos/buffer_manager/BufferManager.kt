@@ -21,7 +21,7 @@ import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.NoMorePagesException
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
@@ -45,7 +45,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
     internal val cacheSize: Int = 100
 
     @JvmField
-    internal val lock = MyReadWriteLock()
+    internal val lock = MyThreadReadWriteLock()
 
     @JvmField
     internal var openPages = Array(cacheSize) { BufferManagerPage.create() }

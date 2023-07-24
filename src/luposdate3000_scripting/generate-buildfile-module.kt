@@ -103,7 +103,6 @@ class CreateModuleArgs() {
     var platform: String = "linuxX64"
     var dictionaryValueMode: EDictionaryValueMode = EDictionaryValueMode.Int
     var releaseMode: ReleaseMode = ReleaseMode.Disable
-    var suspendMode: SuspendMode = SuspendMode.Disable
     var inlineMode: InlineMode = InlineMode.Disable
     var intellijMode: IntellijMode = IntellijMode.Disable
     var target: TargetMode2 = TargetMode2.JVM
@@ -151,7 +150,6 @@ class CreateModuleArgs() {
         res.modulePrefix = modulePrefix
         res.platform = platform
         res.releaseMode = releaseMode
-        res.suspendMode = suspendMode
         res.inlineMode = inlineMode
         res.intellijMode = intellijMode
         res.target = target
@@ -285,12 +283,6 @@ class CreateModuleArgs() {
         return res
     }
 
-    fun ssetSuspendMode(suspendMode: SuspendMode): CreateModuleArgs {
-        val res = clone()
-        res.suspendMode = suspendMode
-        return res
-    }
-
     fun ssetInlineMode(inlineMode: InlineMode): CreateModuleArgs {
         val res = clone()
         res.inlineMode = inlineMode
@@ -337,7 +329,6 @@ class CreateModuleArgs() {
 
 public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
     val useKover = moduleArgs.useKover
-    var dummy = 0
     val buildLibrary = moduleArgs.modulePrefix != "Luposdate3000_Main"
     moduleArgs.disableJSNode = true // tests and therefore the code wont work there due to Int64Array
     val enableJVM = targetModeCompatible(moduleArgs.target, TargetMode2.JVM) && !moduleArgs.disableJVM
@@ -362,11 +353,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         val sharedInlineReferences = mutableSetOf<String>()
         var appendix = ""
-        if (moduleArgs.suspendMode == SuspendMode.Enable) {
-            appendix += "_Coroutines"
-        } else {
-            appendix += "_Threads"
-        }
         if (moduleArgs.inlineMode == InlineMode.Enable) {
             appendix += "_Inline"
         } else {
@@ -522,7 +508,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     out.println("    }")
                 }
                 if (enableJS) {
-                    out.println("    js {")
+                    out.println("    js(IR) {")
                     out.println("        moduleName = \"${moduleArgs.modulePrefix}\"")
                     if (!moduleArgs.disableJSBrowser) {
                         out.println("        browser {")
@@ -531,11 +517,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                         out.println("                    freeCompilerArgs += \"-opt-in=kotlin.RequiresOptIn\"")
                         out.println("                    freeCompilerArgs += \"-Xnew-inference\"")
                         out.println("                }")
-                        out.println("            }")
-                        out.println("            dceTask {")
-                        out.println("                keep(\"Luposdate3000_Endpoint.lupos.endpoint.LuposdateEndpoint\")")
-                        out.println("                keep(\"Luposdate3000_Endpoint.lupos.endpoint.EndpointExtendedVisualize\")")
-                        //                  out.println("                dceOptions.devMode = true")//this disables dce - which than breaks spa-client
                         out.println("            }")
                         out.println("            testTask {")
                         out.println("                useKarma {")
@@ -856,18 +837,16 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
         val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
-        dummy += when (moduleArgs.dictionaryValueMode) {
+        when (moduleArgs.dictionaryValueMode) {
             EDictionaryValueMode.Int -> {
                 typeAliasAll["DictionaryValueHelper"] = Pair("DictionaryValueHelper", "lupos.shared.inline.DictionaryValueHelperInt")
                 typeAliasAll["DictionaryValueType"] = Pair("DictionaryValueType", "Int")
                 typeAliasAll["DictionaryValueTypeArray"] = Pair("DictionaryValueTypeArray", "IntArray")
-                0
             }
             EDictionaryValueMode.Long -> {
                 typeAliasAll["DictionaryValueHelper"] = Pair("DictionaryValueHelper", "lupos.shared.inline.DictionaryValueHelperLong")
                 typeAliasAll["DictionaryValueType"] = Pair("DictionaryValueType", "Long")
                 typeAliasAll["DictionaryValueTypeArray"] = Pair("DictionaryValueTypeArray", "LongArray")
-                0
             }
         }
 
@@ -879,21 +858,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             typeAliasAll["SanityCheck"] = Pair("SanityCheck", "lupos.shared.inline.SanityCheckOn")
             typeAliasAll["BufferManagerPageWrapper"] = Pair("BufferManagerPageWrapper", "lupos.shared.BufferManagerPageWrapperDebug")
             typeAliasAll["BufferManagerPage"] = Pair("BufferManagerPage", "lupos.shared.inline.BufferManagerPageDebug")
-        }
-        if (moduleArgs.suspendMode == SuspendMode.Enable) {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared.inline.ParallelCoroutine")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.shared.inline.ParallelCoroutineJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.shared.inline.ParallelCoroutineCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.shared.inline.ParallelCoroutineQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.shared.inline.MyCoroutineLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.shared.inline.MyCoroutineReadWriteLock")
-        } else {
-            typeAliasAll["Parallel"] = Pair("Parallel", "lupos.shared.inline.ParallelThread")
-            typeAliasAll["ParallelJob"] = Pair("ParallelJob", "lupos.shared.ParallelThreadJob")
-            typeAliasAll["ParallelCondition"] = Pair("ParallelCondition", "lupos.shared.inline.ParallelThreadCondition")
-            typeAliasAll["ParallelQueue"] = Pair("ParallelQueue<T>", "lupos.shared.inline.ParallelThreadQueue<T>")
-            typeAliasAll["MyLock"] = Pair("MyLock", "lupos.shared.MyThreadLock")
-            typeAliasAll["MyReadWriteLock"] = Pair("MyReadWriteLock", "lupos.shared.inline.MyThreadReadWriteLock")
         }
 // selectively copy classes which are inlined from the inline internal module ->
         val classNamesRegex = Regex("\\s*([a-zA-Z0-9_]*)")
@@ -1019,7 +983,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
     } catch (e: Throwable) {
-        println("$dummy")
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
     }
 }

@@ -22,7 +22,7 @@ import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -107,7 +107,7 @@ public class POPMergePartitionCount public constructor(
             val writerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
             var readerFinished = 0
             for (p in 0 until partitionCount) {
-                Parallel.launch {
+                ParallelThread.launch {
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
                     loop@ while (readerFinished == 0) {
                         val tmp = child.hasNext2()
@@ -140,7 +140,7 @@ public class POPMergePartitionCount public constructor(
                             // done
                             break@loop
                         }
-                        Parallel.delay(1)
+                        ParallelThread.delay(1)
                     }
                     return res
                 }

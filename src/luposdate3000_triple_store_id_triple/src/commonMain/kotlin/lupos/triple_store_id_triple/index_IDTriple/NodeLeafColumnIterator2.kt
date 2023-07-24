@@ -20,10 +20,10 @@ import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import kotlin.jvm.JvmField
 
-internal class NodeLeafColumnIterator2(node: BufferManagerPageWrapper, nodeid: Int, lock: MyReadWriteLock, nodeManager: NodeManager, timeout: Long) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager, timeout) {
+internal class NodeLeafColumnIterator2(node: BufferManagerPageWrapper, nodeid: Int, lock: MyThreadReadWriteLock, nodeManager: NodeManager, timeout: Long) : NodeLeafColumnIterator(node, nodeid, lock, nodeManager, timeout) {
     @JvmField
     var value: DictionaryValueType = 0
 

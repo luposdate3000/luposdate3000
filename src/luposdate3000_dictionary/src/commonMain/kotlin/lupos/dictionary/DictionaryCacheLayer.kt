@@ -21,7 +21,7 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException
 import lupos.shared.dictionary.IDictionary
@@ -43,7 +43,7 @@ public class DictionaryCacheLayer(
 
     private val cache = DictionaryCache(instance)
 
-    private val lock = MyReadWriteLock()
+    private val lock = MyThreadReadWriteLock()
 
     override fun close() {
         if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }

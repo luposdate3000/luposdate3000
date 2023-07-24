@@ -24,7 +24,7 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
@@ -158,11 +158,11 @@ public object InputToIntermediate {
         }
     }
 
-    public fun process(inputFileName: String, fileType: String, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
+    public fun process(inputFileName: String, fileType: String, instance: Luposdate3000Instance): Unit = ParallelThread.runBlocking {
         process(inputFileName, fileType, false, instance)
     }
 
-    public fun process(inputFileName: String, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
+    public fun process(inputFileName: String, instance: Luposdate3000Instance): Unit = ParallelThread.runBlocking {
         val idx = inputFileName.lastIndexOf(".")
         val fileType = if (idx < 0) {
             ""
@@ -173,7 +173,7 @@ public object InputToIntermediate {
     }
 
     @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-    private fun process(inputFileName: String, fileType: String, backupmode: Boolean, instance: Luposdate3000Instance): Unit = Parallel.runBlocking {
+    private fun process(inputFileName: String, fileType: String, backupmode: Boolean, instance: Luposdate3000Instance): Unit = ParallelThread.runBlocking {
         val row = DictionaryValueTypeArray(3)
         var shouldReturn = false
         var strictMode = false

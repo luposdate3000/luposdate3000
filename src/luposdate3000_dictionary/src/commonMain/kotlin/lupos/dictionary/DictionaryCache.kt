@@ -20,7 +20,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.MyReadWriteLock
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionaryCache
 import lupos.shared.dynamicArray.ByteArrayWrapper
@@ -31,7 +31,7 @@ public class DictionaryCache : IDictionaryCache {
     private var offset = 0
     private var valueIds: DictionaryValueTypeArray
     private var valueContent: Array<ByteArrayWrapper>
-    private val lock = MyReadWriteLock()
+    private val lock = MyThreadReadWriteLock()
 
     public constructor(instance: Luposdate3000Instance) : this(instance.dictionaryCacheCapacity)
     public constructor(capacity: Int) {

@@ -18,11 +18,11 @@ package lupos.launch.test_dictionary_encoding
 
 import lupos.buffer_manager.BufferManagerExt
 import lupos.shared.AflCore
-import lupos.shared.Parallel
+import lupos.shared.inline.ParallelThread
 import lupos.test_dictionary_encoding.executeDictionaryEncodingTest
 
 @OptIn(ExperimentalStdlibApi::class, kotlin.time.ExperimentalTime::class)
-internal fun mainFunc(arg: String): Unit = Parallel.runBlocking {
+internal fun mainFunc(arg: String): Unit = ParallelThread.runBlocking {
     AflCore("dictionary_encoding.${BufferManagerExt.isInMemoryOnly}", 1.0, ::executeTest)(arg)
 }
 
