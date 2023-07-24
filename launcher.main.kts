@@ -1245,26 +1245,6 @@ fun onSetupSPAClient() {
             out.println(c)
         }
     }
-/*
-    val bin_gulp = fixPathNames("./node_modules/.bin/gulp")
-    println("bin_gulp :" + bin_gulp)
-    val commands = mutableListOf<List<String>>()
-    commands.add(listOf(bin_gulp))
-    for (cmd in commands) {
-        println("cmd :: $cmd")
-        val p = myProcessBuilder(cmd)
-            .redirectOutput(Redirect.INHERIT)
-            .redirectError(Redirect.INHERIT)
-            .directory(dir)
-        val env = p.environment()
-        env["DISABLE_NOTIFIER"] = "true"
-        val p2 = p.start()
-        p2.waitFor()
-        if (p2.exitValue() != 0) {
-            throw Exception("exit-code:: " + p2.exitValue())
-        }
-    }
-*/
 }
 
 fun commandToString(pbin: ProcessBuilder): String {

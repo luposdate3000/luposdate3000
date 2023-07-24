@@ -84,8 +84,8 @@ gulp.task('concatJS', function() {
                 "app/scripts/codemirror-modes/N3/N3.js",
                 "app/scripts/algos/visualization.js", // used by sonification
                 //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-js-legacy.js",
+"app/scripts/algos/luposdate3000/kotlin-kotlin-stdlib-js-ir.js",
+"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-js-ir.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
@@ -108,16 +108,18 @@ gulp.task('concatJS', function() {
 "app/scripts/algos/luposdate3000/Luposdate3000_Operator_Factory.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
                 //LUPOSDATE3000 GENERATED CODE END
+                "app/scripts/main.js",
+                "app/scripts/loading.js",
             ]),
-            gulp.src([
-                "app/scripts/main.coffee",
-                "app/scripts/loading.coffee",
-            ])
-            .pipe(coffee({
-                bare: true
-            })).on('error', function(err) {
-                console.log(err)
-            })
+//            gulp.src([
+//                "app/scripts/main.coffee",
+//                "app/scripts/loading.coffee",
+//            ])
+//            .pipe(coffee({
+//                bare: true
+//            })).on('error', function(err) {
+//                console.log(err)
+//            })
         )
         .pipe(sourcemaps.init({
             loadMaps: true,
@@ -153,8 +155,8 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/visualisationUtil/octaveMapping.js",
             "bower_components/spectrum/spectrum.js",
             //LUPOSDATE3000 GENERATED CODE START
-"app/scripts/algos/luposdate3000/kotlin.js",
-"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-js-legacy.js",
+"app/scripts/algos/luposdate3000/kotlin-kotlin-stdlib-js-ir.js",
+"app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-js-ir.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Shared_JS.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Shared.js",
 "app/scripts/algos/luposdate3000/Luposdate3000_Parser.js",
