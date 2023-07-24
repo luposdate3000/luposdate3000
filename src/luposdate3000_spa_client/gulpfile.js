@@ -49,7 +49,6 @@ gulp.task('concatJS', function() {
                 //the order of files doe NOT matter here
                 // dependencies of dependencies ...
                 "bower_components/modernizr/modernizr.js", // dependency of "foundation.js"
-                "bower_components/underscore/underscore.js", // dependency of "backbone.js"
                 //
                 "bower_components/fastclick/lib/fastclick.js", // optimization for touchscreen devices
                 "bower_components/randomcolor/randomColor.js", // syntax highlighing in result
@@ -131,7 +130,6 @@ gulp.task('concatJS', function() {
             "bower_components/jquery/dist/jquery.js",
             "bower_components/fastclick/lib/fastclick.js",
             "bower_components/foundation/js/foundation.js",
-            "bower_components/underscore/underscore.js",
             "bower_components/codemirror/lib/codemirror.js",
             "bower_components/codemirror/addon/edit/matchbrackets.js",
             "bower_components/codemirror/addon/edit/closebrackets.js",
