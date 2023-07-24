@@ -272,7 +272,7 @@ App.loadluposdate3000 = function(data, url, withGraph) {
 };
 
 App.checkErrorString = function(data, target) {
-    if (data.indexOf("HTTP/1.1 500 Internal Server Error") !==-1) {
+    if ((typeof data === 'string') && (data.indexOf("HTTP/1.1 500 Internal Server Error") !==-1)) {
         App.logError(data, target);
         return false;
     } else {
@@ -386,13 +386,17 @@ App.bindEvents = function() {
                         let tmp = eev.getOptimizedStepsLogical();
                         for (k = 0; k < tmp.length; k++) {
                             v = tmp[k];
+                          if (typeof v === 'string') {
                             tmp[k] = JSON.parse(v.toJson());
+                          }
                         }
                         App.logGraph = tmp;
                         tmp = eev.getOptimizedStepsPhysical();
                         for (k = 0; k < tmp.length; k++) {
                             v = tmp[k];
+                          if (typeof v === 'string') {
                             tmp[k] = JSON.parse(v.toJson());
+                          }
                         }
                         App.physGraph = tmp;
                         //Result from the query
