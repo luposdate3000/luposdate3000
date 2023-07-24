@@ -26,7 +26,7 @@ import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 import lupos.shared.InvalidInputException
-internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
+public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     private val writeOrder: EIndexPattern
     private val i0: Int
     private val i1: Int
@@ -45,7 +45,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readAll(crossinline action: (DictionaryValueTypeArray) -> Unit) {
+    public inline fun readAll(crossinline action: (DictionaryValueTypeArray) -> Unit) {
         var tmp = next()
         while (tmp != null) {
             action(tmp)
@@ -54,16 +54,16 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
     }
 
     @JvmField
-    internal val buf: ByteArray = ByteArray(24)
+    public val buf: ByteArray = ByteArray(24)
 
     @JvmField
     val bufWrapper = ByteArrayWrapper(buf, 24)
 
     @JvmField
-    internal val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)
+    public val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun next(): DictionaryValueTypeArray? {
+    public inline fun next(): DictionaryValueTypeArray? {
         val header = streamIn!!.readByte()
         if (header == 0.toByte()) {
             close()
@@ -86,7 +86,7 @@ internal class TriplesIntermediateReader(filename: String) : TriplesIntermediate
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun close() {
+    public inline fun close() {
         streamIn?.close()
         streamIn = null
     }

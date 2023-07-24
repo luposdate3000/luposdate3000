@@ -19,19 +19,19 @@ package lupos.shared.inline
 import lupos.shared.UUID_Counter
 import kotlin.jvm.JvmField
 
-internal actual class MyThreadReadWriteLock {
+public actual class MyThreadReadWriteLock {
 
     @JvmField
-    internal val uuid = UUID_Counter.getNextUUID()
+    public val uuid = UUID_Counter.getNextUUID()
 
-    internal actual inline fun getUUID() = uuid
-    internal actual inline fun downgradeToReadLock() = TODO("MyThreadReadWriteLock")
-    internal actual inline fun readLock() = TODO("MyThreadReadWriteLock")
-    internal actual inline fun readUnlock() = TODO("MyThreadReadWriteLock")
-    internal actual inline fun writeLock() = TODO("MyThreadReadWriteLock")
-    internal actual inline fun tryWriteLock(): Boolean = TODO("MyThreadReadWriteLock")
-    internal actual inline fun writeUnlock() = TODO("MyThreadReadWriteLock")
-    internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
+    public actual inline fun getUUID() = uuid
+    public actual inline fun downgradeToReadLock() = TODO("MyThreadReadWriteLock")
+    public actual inline fun readLock() = TODO("MyThreadReadWriteLock")
+    public actual inline fun readUnlock() = TODO("MyThreadReadWriteLock")
+    public actual inline fun writeLock() = TODO("MyThreadReadWriteLock")
+    public actual inline fun tryWriteLock(): Boolean = TODO("MyThreadReadWriteLock")
+    public actual inline fun writeUnlock() = TODO("MyThreadReadWriteLock")
+    public actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         readLock()
         try {
             return action()
@@ -40,7 +40,7 @@ internal actual class MyThreadReadWriteLock {
         }
     }
 
-    internal actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
+    public actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
         writeLock()
         try {
             return action()

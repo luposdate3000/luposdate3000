@@ -19,25 +19,25 @@ package lupos.shared.inline
 import java.util.Calendar
 import kotlin.jvm.JvmField
 
-internal actual class DateHelper actual constructor() {
+public actual class DateHelper actual constructor() {
     @JvmField
-    internal val time = Calendar.getInstance()
+    public val time = Calendar.getInstance()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun year(): Int = time.get(Calendar.YEAR)
+    public actual inline fun year(): Int = time.get(Calendar.YEAR)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun month(): Int = time.get(Calendar.MONTH)
+    public actual inline fun month(): Int = time.get(Calendar.MONTH)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun day(): Int = time.get(Calendar.DAY_OF_MONTH)
+    public actual inline fun day(): Int = time.get(Calendar.DAY_OF_MONTH)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun hours(): Int = time.get(Calendar.HOUR)
+    public actual inline fun hours(): Int = time.get(Calendar.HOUR)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun minutes(): Int = time.get(Calendar.MINUTE)
+    public actual inline fun minutes(): Int = time.get(Calendar.MINUTE)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun seconds(): Int = time.get(Calendar.SECOND)
+    public actual inline fun seconds(): Int = time.get(Calendar.SECOND)
 }

@@ -16,11 +16,11 @@
  */
 package lupos.shared.inline
 
-internal expect class DateHelper() {
-    internal inline fun year(): Int
-    internal inline fun month(): Int
-    internal inline fun day(): Int
-    internal inline fun hours(): Int
-    internal inline fun minutes(): Int
-    internal inline fun seconds(): Int
+public expect class DateHelper() {
+    public inline fun year(): Int
+    public inline fun month(): Int
+    public inline fun day(): Int
+    public inline fun hours(): Int
+    public inline fun minutes(): Int
+    public inline fun seconds(): Int
 }

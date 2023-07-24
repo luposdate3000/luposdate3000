@@ -19,18 +19,18 @@ package lupos.shared.inline
 import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 
-internal actual class MyThreadReadWriteLock {
-    internal val uuid = UUID_Counter.getNextUUID()
+public actual class MyThreadReadWriteLock {
+    public val uuid = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getUUID() = uuid
+    public actual inline fun getUUID() = uuid
 
-    internal var lockedRead = 0
+    public var lockedRead = 0
 
-    internal var lockedWrite = false
+    public var lockedWrite = false
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun downgradeToReadLock() {
+    public actual inline fun downgradeToReadLock() {
   if(SanityCheck.enabled)            {
                 if (!lockedWrite) {
                     throw Exception("something went wrong 1")
@@ -42,7 +42,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readLock() {
+    public actual inline fun readLock() {
   if(SanityCheck.enabled)            {
                 if (lockedWrite) {
                     throw Exception("something went wrong 2")
@@ -53,7 +53,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readUnlock() {
+    public actual inline fun readUnlock() {
   if(SanityCheck.enabled)            {
                 if (lockedRead <= 0) {
                     throw Exception("something went wrong 3")
@@ -64,7 +64,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun writeLock() {
+    public actual inline fun writeLock() {
   if(SanityCheck.enabled)            {
                 if (lockedRead > 0 || lockedWrite) {
                     throw Exception("something went wrong 4 $lockedRead $lockedWrite")
@@ -75,7 +75,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun tryWriteLock(): Boolean {
+    public actual inline fun tryWriteLock(): Boolean {
   if(SanityCheck.enabled)            {
                 if (lockedRead > 0 || lockedWrite) {
                     throw Exception("something went wrong 5 $lockedRead $lockedWrite")
@@ -87,7 +87,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun writeUnlock() {
+    public actual inline fun writeUnlock() {
   if(SanityCheck.enabled)            {
                 if (!lockedWrite) {
                     throw Exception("something went wrong 6")
@@ -97,7 +97,7 @@ internal actual class MyThreadReadWriteLock {
         
     }
 
-    internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
+    public actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         readLock()
         try {
             return action()
@@ -106,7 +106,7 @@ internal actual class MyThreadReadWriteLock {
         }
     }
 
-    internal actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
+    public actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
         writeLock()
         try {
             return action()

@@ -24,7 +24,7 @@ import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.jvm.JvmField
 
-internal actual open class MyPrintWriter : IMyOutputStream {
+public actual open class MyPrintWriter : IMyOutputStream {
     @JvmField
     val buffer = StringWriter()
 

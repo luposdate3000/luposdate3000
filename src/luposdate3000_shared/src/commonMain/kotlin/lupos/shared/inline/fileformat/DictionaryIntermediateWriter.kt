@@ -22,26 +22,26 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateRow
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
-internal class DictionaryIntermediateWriter : DictionaryIntermediate {
-    internal constructor(filename: String) : super(filename) {
+public class DictionaryIntermediateWriter : DictionaryIntermediate {
+    public constructor(filename: String) : super(filename) {
         streamOut = getFile().openOutputStream(false)
         streamOut!!.writeInt(DictionaryIntermediate.version)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
+    public inline fun writeAssumeOrdered(row: DictionaryIntermediateRow) {
         writeAssumeOrdered(row.id, row.data)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeAssumeOrdered(id: DictionaryValueType, data: ByteArrayWrapper) {
+    public inline fun writeAssumeOrdered(id: DictionaryValueType, data: ByteArrayWrapper) {
         streamOut!!.writeDictionaryValueType(id)
         streamOut!!.writeInt(ByteArrayWrapperExt.getSize(data))
         streamOut!!.write(ByteArrayWrapperExt.getBuf(data), ByteArrayWrapperExt.getSize(data))
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun write(dict: MutableMap<ByteArrayWrapper, DictionaryValueType>) {
+    public inline fun write(dict: MutableMap<ByteArrayWrapper, DictionaryValueType>) {
         val rows = dict.toList().map {
             DictionaryIntermediateRow(it.second, it.first)
         }.sorted()
@@ -53,7 +53,7 @@ internal class DictionaryIntermediateWriter : DictionaryIntermediate {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun close() {
+    public inline fun close() {
         if (streamOut != null) {
             if (DictionaryValueHelper.getSize() == 8) {
                 streamOut!!.writeLong(-1)

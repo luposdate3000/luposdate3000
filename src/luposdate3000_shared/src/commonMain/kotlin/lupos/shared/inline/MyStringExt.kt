@@ -17,9 +17,9 @@
 package lupos.shared.inline
 import lupos.shared.InvalidInputException
 
-internal object MyStringExt {
+public object MyStringExt {
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun replaceEscapes(s: String, strictMode: Boolean): String {
+    public inline fun replaceEscapes(s: String, strictMode: Boolean): String {
         val res = StringBuilder()
         var i = 0
         while (i < s.length) {

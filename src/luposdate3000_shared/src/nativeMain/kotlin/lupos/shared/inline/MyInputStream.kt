@@ -19,7 +19,7 @@ import lupos.shared.myPrintStackTrace
 
 import lupos.shared.IMyInputStream
 
-internal actual class MyInputStream : IMyInputStream {
+public actual class MyInputStream : IMyInputStream {
     actual override fun readByte(): Byte = TODO("MyInputStream")
     actual override fun readInt(): Int = TODO("MyInputStream")
     actual override fun read(buf: ByteArray, off: Int, len: Int): Int = TODO("MyInputStream")

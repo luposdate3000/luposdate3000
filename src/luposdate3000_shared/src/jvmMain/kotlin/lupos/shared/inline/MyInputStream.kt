@@ -26,16 +26,16 @@ import java.io.InputStream
 import kotlin.jvm.JvmField
 import lupos.shared.EOFException
 
-internal actual class MyInputStream(@JvmField internal val stream: InputStream) : IMyInputStream {
+public actual class MyInputStream(@JvmField public val stream: InputStream) : IMyInputStream {
 
     @JvmField
-    internal val buf8: ByteArray = ByteArray(8)
+    public val buf8: ByteArray = ByteArray(8)
 
     @JvmField
     val buf8Wrapper = ByteArrayWrapper(buf8, 8)
 
     @JvmField
-    internal val uuid = UUID_Counter.getNextUUID()
+    public val uuid = UUID_Counter.getNextUUID()
 
     init {
     }
@@ -105,7 +105,7 @@ throw EOFException()
     }
 
     @JvmField
-    internal var buffer = ByteArray(1)
+    public var buffer = ByteArray(1)
     actual override fun readLine(): String? {
 // TODO this may break on utf-8 if '\r' or '\0' is part of another char
         var len = 0

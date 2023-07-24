@@ -27,31 +27,31 @@ import lupos.shared.inline.File
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class TriplesIntermediateWriter : TriplesIntermediate {
+public class TriplesIntermediateWriter : TriplesIntermediate {
     private val i0: Int
     private val i1: Int
     private val i2: Int
 
     @JvmField
-    internal var count = 0L
+    public var count = 0L
 
     @JvmField
-    internal var last0: DictionaryValueType = 0
+    public var last0: DictionaryValueType = 0
 
     @JvmField
-    internal var last1: DictionaryValueType = 0
+    public var last1: DictionaryValueType = 0
 
     @JvmField
-    internal var last2: DictionaryValueType = 0
+    public var last2: DictionaryValueType = 0
 
     @JvmField
-    internal val buf: ByteArray = ByteArray(25)
+    public val buf: ByteArray = ByteArray(25)
 
     @JvmField
     val bufWrapper = ByteArrayWrapper(buf, 24)
     private val writeOrder: EIndexPattern
 
-    internal constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
+    public constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
         this.writeOrder = writeOrder
         streamOut = File("$filename$filenameEnding").openOutputStream(false)
         streamOut!!.writeInt(TriplesIntermediate.version)
@@ -62,10 +62,10 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getCount(): Long = count
+    public inline fun getCount(): Long = count
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun write(row: DictionaryValueTypeArray) {
+    public inline fun write(row: DictionaryValueTypeArray) {
         val b0 = last0 xor row[i0]
         val b1 = last1 xor row[i1]
         val b2 = last2 xor row[i2]
@@ -96,7 +96,7 @@ internal class TriplesIntermediateWriter : TriplesIntermediate {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun close() {
+    public inline fun close() {
         buf[0] = 0
         streamOut?.write(buf, 1)
         streamOut?.close()

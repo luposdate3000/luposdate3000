@@ -21,14 +21,14 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.js.JSInputStream
 
-internal actual class MyInputStream : IMyInputStream {
+public actual class MyInputStream : IMyInputStream {
     val tmp: JSInputStream
 
-    internal constructor(filename: String) {
+    public constructor(filename: String) {
         tmp = JSInputStream(filename)
     }
 
-    internal constructor(fd: Int) {
+    public constructor(fd: Int) {
         tmp = JSInputStream(fd)
     }
 

@@ -19,7 +19,7 @@ package lupos.shared.inline
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 
-internal expect class MyInputStream : IMyInputStream {
+public expect class MyInputStream : IMyInputStream {
     override fun readInt(): Int
     override fun readDictionaryValueType(): DictionaryValueType
     override fun readLong(): Long

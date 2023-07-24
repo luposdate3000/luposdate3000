@@ -23,33 +23,33 @@ import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-internal object SanityCheckOn {
+public object SanityCheckOn {
     public val enabled = true
-    internal const val SANITYCHECK_PRINTING = false
-    internal const val SANITYCHECK_PRINTING_NODEMANAGER = false
-    internal const val SANITYCHECK_PRINTING_BUFFERMANAGER = false
-    internal inline fun println_buffermanager(crossinline s: () -> Any?) {
+    public const val SANITYCHECK_PRINTING = false
+    public const val SANITYCHECK_PRINTING_NODEMANAGER = false
+    public const val SANITYCHECK_PRINTING_BUFFERMANAGER = false
+    public inline fun println_buffermanager(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
         if (SANITYCHECK_PRINTING_BUFFERMANAGER) {
             println(s())
         }
     }
 
-    internal inline fun println_nodemanager(crossinline s: () -> Any?) {
+    public inline fun println_nodemanager(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
         if (SANITYCHECK_PRINTING_NODEMANAGER) {
             println(s())
         }
     }
 
-    internal inline fun println(crossinline s: () -> Any?) {
+    public inline fun println(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
         if (SANITYCHECK_PRINTING) {
             println(s())
         }
     }
 
-    internal inline operator fun invoke(crossinline filename: () -> String, crossinline action: () -> Unit) {
+    public inline operator fun invoke(crossinline filename: () -> String, crossinline action: () -> Unit) {
         try {
             action()
         } catch (e: Throwable) {
@@ -62,7 +62,7 @@ internal object SanityCheckOn {
         }
     }
 
-    /*suspend*/ internal inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
+    /*suspend*/ public inline fun suspended(crossinline action: /*suspend*/ () -> Unit) {
         contract { callsInPlace(action, AT_MOST_ONCE) }
         try {
             action()
@@ -76,12 +76,12 @@ internal object SanityCheckOn {
         }
     }
 
-    internal inline fun <T> helper(crossinline action: () -> T): T? {
+    public inline fun <T> helper(crossinline action: () -> T): T? {
         contract { callsInPlace(action, AT_MOST_ONCE) }
         return action()
     }
 
-    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean, crossinline msg: () -> String) {
+    public inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean, crossinline msg: () -> String) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
@@ -97,7 +97,7 @@ internal object SanityCheckOn {
         }
     }
 
-    internal inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean) {
+    public inline fun check(crossinline filename: () -> String, crossinline value: () -> Boolean) {
         contract { callsInPlace(value, AT_MOST_ONCE) }
         try {
             if (!value()) {
@@ -114,5 +114,5 @@ internal object SanityCheckOn {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun checkUnreachable(): Nothing = throw UnreachableException()
+    public inline fun checkUnreachable(): Nothing = throw UnreachableException()
 }

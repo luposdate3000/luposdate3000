@@ -18,8 +18,8 @@ package lupos.shared.inline
 
 import lupos.shared.js.ExternalModule_fs
 
-internal actual object FileExt {
-    internal actual inline fun createTempDirectory(): String {
+public actual object FileExt {
+    public actual inline fun createTempDirectory(): String {
         return ExternalModule_fs.createTempDirectory()
     }
 }

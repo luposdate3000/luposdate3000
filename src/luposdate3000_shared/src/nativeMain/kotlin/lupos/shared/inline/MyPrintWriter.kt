@@ -18,7 +18,7 @@ package lupos.shared.inline
 
 import lupos.shared.IMyOutputStream
 
-internal actual class MyPrintWriter : IMyOutputStream {
+public actual class MyPrintWriter : IMyOutputStream {
     actual constructor(hasBuffer: Boolean)
 
     actual override fun write(buf: ByteArray, len: Int): Unit = TODO("MyPrintWriter")

@@ -22,29 +22,29 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
-internal abstract class DictionaryIntermediate(@JvmField internal val filename: String) {
+public abstract class DictionaryIntermediate(@JvmField public val filename: String) {
     @JvmField
-    internal var streamOut: IMyOutputStream? = null
+    public var streamOut: IMyOutputStream? = null
 
     @JvmField
-    internal var streamIn: IMyInputStream? = null
+    public var streamIn: IMyInputStream? = null
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getFile(): File {
+    public inline fun getFile(): File {
         return getFile(filename)
     }
 
-    internal companion object {
-        internal val version: Int = 2
-        internal const val filenameEnding = ".dictionary"
+    public companion object {
+        public val version: Int = 2
+        public const val filenameEnding = ".dictionary"
 
         @Suppress("NOTHING_TO_INLINE")
-        internal inline fun getFile(filename: String): File {
+        public inline fun getFile(filename: String): File {
             return File("$filename$filenameEnding")
         }
 
         @Suppress("NOTHING_TO_INLINE")
-        internal inline fun fileExists(filename: String): Boolean {
+        public inline fun fileExists(filename: String): Boolean {
             val f = File("$filename$filenameEnding")
             var res = f.exists()
             if (res) {
@@ -59,7 +59,7 @@ internal abstract class DictionaryIntermediate(@JvmField internal val filename: 
         }
 
         @Suppress("NOTHING_TO_INLINE")
-        internal inline fun delete(filename: String) {
+        public inline fun delete(filename: String) {
             DictionaryIntermediateReader(filename).getFile().deleteRecursively()
         }
     }

@@ -21,16 +21,16 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.MyPrintWriterMode
 import lupos.shared.MyPrintWriterModeExt
 
-internal actual open class MyPrintWriter : IMyOutputStream {
-    internal val buffer = StringBuilder()
+public actual open class MyPrintWriter : IMyOutputStream {
+    public val buffer = StringBuilder()
 
-    internal val bufferMode: MyPrintWriterMode
+    public val bufferMode: MyPrintWriterMode
 
-    internal val fileName: String
+    public val fileName: String
 
-    internal var file: Int
+    public var file: Int
 
-    internal var filePos: Int = 0
+    public var filePos: Int = 0
 
     actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {

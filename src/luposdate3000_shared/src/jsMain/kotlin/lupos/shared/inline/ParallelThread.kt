@@ -18,24 +18,24 @@ package lupos.shared.inline
 
 import lupos.shared.ParallelThreadJob
 
-internal actual object ParallelThread {
-    internal actual inline fun <T> runBlocking(crossinline action: () -> T): T {
+public actual object ParallelThread {
+    public actual inline fun <T> runBlocking(crossinline action: () -> T): T {
         return action()
     }
 
-    internal actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = TODO("ParallelThread")
+    public actual inline fun launch(crossinline action: () -> Unit): ParallelThreadJob = TODO("ParallelThread")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun delay(milliseconds: Long) {
+    public actual inline fun delay(milliseconds: Long) {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun createCondition(): ParallelThreadCondition {
+    public actual inline fun createCondition(): ParallelThreadCondition {
         return ParallelThreadCondition()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T> {
+    public actual inline fun <T> createQueue(terminationValue: T): ParallelThreadQueue<T> {
         return ParallelThreadQueue<T>(terminationValue)
     }
 }

@@ -22,7 +22,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateRow
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.InvalidInputException
-internal class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
+public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
         streamIn = getFile().openInputStream()
         val version = streamIn!!.readInt()
@@ -32,19 +32,19 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
+    public inline fun readAll(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
         while (hasNext()) {
             next(buffer, action)
         }
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun hasNext(): Boolean {
+    public inline fun hasNext(): Boolean {
         return streamIn != null
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
+    public inline fun next(buffer: ByteArrayWrapper, crossinline action: (id: DictionaryValueType) -> Unit) {
         val id = streamIn!!.readDictionaryValueType()
         if (id < 0) {
             close()
@@ -57,7 +57,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun next(buffer: ByteArrayWrapper): DictionaryIntermediateRow? {
+    public inline fun next(buffer: ByteArrayWrapper): DictionaryIntermediateRow? {
         var res: DictionaryIntermediateRow? = null
         next(buffer) { id ->
             res = DictionaryIntermediateRow(id, buffer)
@@ -66,7 +66,7 @@ internal class DictionaryIntermediateReader(filename: String) : DictionaryInterm
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun close() {
+    public inline fun close() {
         streamIn?.close()
         streamIn = null
     }

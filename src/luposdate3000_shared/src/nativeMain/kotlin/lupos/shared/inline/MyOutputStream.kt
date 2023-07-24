@@ -18,8 +18,8 @@ package lupos.shared.inline
 
 import lupos.shared.IMyOutputStream
 
-internal actual class MyOutputStream : IMyOutputStream {
-    internal actual constructor() {}
+public actual class MyOutputStream : IMyOutputStream {
+    public actual constructor() {}
 
     actual override fun writeInt(value: Int): Unit = TODO("MyOutputStream")
     actual override fun close(): Unit = TODO("MyOutputStream")

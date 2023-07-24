@@ -16,8 +16,8 @@
  */
 package lupos.shared.inline
 
-internal expect class ParallelThreadQueue<T>(terminationValue: T) {
-    internal inline fun send(value: T)
-    internal inline fun close()
-    internal inline fun receive(): T
+public expect class ParallelThreadQueue<T>(terminationValue: T) {
+    public inline fun send(value: T)
+    public inline fun close()
+    public inline fun receive(): T
 }

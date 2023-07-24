@@ -25,114 +25,114 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal object DictionaryValueHelperInt {
+public object DictionaryValueHelperInt {
     @JvmField
-    internal val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
-
-    @JvmField
-    internal val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
+    public val booleanTrueValue: Int = (0x00000000) /*lowest 5 values*/ /*required to be 0 for_ truth table loopups*/
 
     @JvmField
-    internal val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
+    public val booleanFalseValue: Int = (0x00000001) /*lowest 5 values*/ /*required to be 1 for_ truth table loopups*/
 
     @JvmField
-    internal val undefValue: Int = (0x00000003) /*lowest 5 values*/
+    public val errorValue: Int = (0x00000002) /*lowest 5 values*/ /*required to be 2 for_ truth table loopups*/
 
     @JvmField
-    internal val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
+    public val undefValue: Int = (0x00000003) /*lowest 5 values*/
 
     @JvmField
-    internal val flagLocal: Int = 0x40000000.toInt()
+    public val nullValue: Int = (0x00000004) /*lowest 5 values*/ /*symbol for no more results, previously 'null'*/
 
     @JvmField
-    internal val flagNoBNode: Int = 0x20000000.toInt()
+    public val flagLocal: Int = 0x40000000.toInt()
 
     @JvmField
-    internal val flagInlineValue1: Int = 0x04000000.toInt()
+    public val flagNoBNode: Int = 0x20000000.toInt()
 
     @JvmField
-    internal val flagInlineValue2: Int = 0x08000000.toInt()
+    public val flagInlineValue1: Int = 0x04000000.toInt()
 
     @JvmField
-    internal val flagInlineValue3: Int = 0x0c000000.toInt()
+    public val flagInlineValue2: Int = 0x08000000.toInt()
 
     @JvmField
-    internal val flagInlineValue4: Int = 0x10000000.toInt()
+    public val flagInlineValue3: Int = 0x0c000000.toInt()
 
     @JvmField
-    internal val flagInlineValue5: Int = 0x14000000.toInt()
+    public val flagInlineValue4: Int = 0x10000000.toInt()
 
     @JvmField
-    internal val flagInlineValue6: Int = 0x18000000.toInt()
+    public val flagInlineValue5: Int = 0x14000000.toInt()
 
     @JvmField
-    internal val flagInlineValue7: Int = 0x1c000000.toInt()
+    public val flagInlineValue6: Int = 0x18000000.toInt()
 
     @JvmField
-    internal val flagInlineValue: Int = 0x1c000000.toInt()
+    public val flagInlineValue7: Int = 0x1c000000.toInt()
 
     @JvmField
-    internal val maskValue: Int = 0x03FFFFFF.toInt()
+    public val flagInlineValue: Int = 0x1c000000.toInt()
 
     @JvmField
-    internal val NULL: Int = 0
+    public val maskValue: Int = 0x03FFFFFF.toInt()
 
     @JvmField
-    internal val FIRST_BNODE: Int = 5
+    public val NULL: Int = 0
+
+    @JvmField
+    public val FIRST_BNODE: Int = 5
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArrayOf() = intArrayOf()
+    public inline fun DictionaryValueTypeArrayOf() = intArrayOf()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArrayOf(a: Int) = intArrayOf(a)
+    public inline fun DictionaryValueTypeArrayOf(a: Int) = intArrayOf(a)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArrayOf(a: Int, b: Int) = intArrayOf(a, b)
+    public inline fun DictionaryValueTypeArrayOf(a: Int, b: Int) = intArrayOf(a, b)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun DictionaryValueTypeArrayOf(a: Int, b: Int, c: Int) = intArrayOf(a, b, c)
+    public inline fun DictionaryValueTypeArrayOf(a: Int, b: Int, c: Int) = intArrayOf(a, b, c)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Int) = BufferManagerPage.writeInt4(buffer, off, value)
+    public inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Int) = BufferManagerPage.writeInt4(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int, crossinline comment: () -> String = { "TODO" }) = ByteArrayWrapperExt.writeIntX(buffer, off, value, count, comment)
+    public inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int, crossinline comment: () -> String = { "TODO" }) = ByteArrayWrapperExt.writeIntX(buffer, off, value, count, comment)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Int, count: Int) = BufferManagerPage.writeIntX(buffer, off, value, count)
+    public inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Int, count: Int) = BufferManagerPage.writeIntX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int, crossinline comment: () -> String = { "TODO" }) = ByteArrayWrapperExt.writeInt4(buffer, off, value, comment)
+    public inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int, crossinline comment: () -> String = { "TODO" }) = ByteArrayWrapperExt.writeInt4(buffer, off, value, comment)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Int = BufferManagerPage.readInt4(buffer, off)
+    public inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Int = BufferManagerPage.readInt4(buffer, off)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArrayX(buffer: BufferManagerPageWrapper, off: Int, bytes: Int): Int = BufferManagerPage.readIntX(buffer, off, bytes)
+    public inline fun fromByteArrayX(buffer: BufferManagerPageWrapper, off: Int, bytes: Int): Int = BufferManagerPage.readIntX(buffer, off, bytes)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int, crossinline comment: () -> String = { "TODO" }): Int = ByteArrayWrapperExt.readInt4(buffer, off, comment)
+    public inline fun fromByteArray(buffer: ByteArrayWrapper, off: Int, crossinline comment: () -> String = { "TODO" }): Int = ByteArrayWrapperExt.readInt4(buffer, off, comment)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int, crossinline comment: () -> String = { "TODO" }): Int = ByteArrayWrapperExt.readIntX(buffer, off, bytes, comment)
+    public inline fun fromByteArrayX(buffer: ByteArrayWrapper, off: Int, bytes: Int, crossinline comment: () -> String = { "TODO" }): Int = ByteArrayWrapperExt.readIntX(buffer, off, bytes, comment)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getSize(): Int = 4
+    public inline fun getSize(): Int = 4
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun toInt(value: Int): Int = value // adapter for places, where always Int are used
+    public inline fun toInt(value: Int): Int = value // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
+    public inline fun fromInt(value: Int): Int = value // adapter for places, where always Int are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromByte(value: Byte): Int = value.toInt() and 0xFF // adapter for places, where always Byte are used
+    public inline fun fromByte(value: Byte): Int = value.toInt() and 0xFF // adapter for places, where always Byte are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always String are used
+    public inline fun fromString(value: String): Int = value.toInt() // adapter for places, where always String are used
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun numberOfBytesUsed(value: Int): Int {
+    public inline fun numberOfBytesUsed(value: Int): Int {
         if (value > 0xFFFF) {
             if (value > 0xFFFFFF) {
                 return 4
@@ -153,8 +153,8 @@ internal object DictionaryValueHelperInt {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun sendToStream(stream: IMyOutputStream, value: Int) = stream.writeInt(value)
+    public inline fun sendToStream(stream: IMyOutputStream, value: Int) = stream.writeInt(value)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readFromStream(stream: IMyInputStream) = stream.readInt()
+    public inline fun readFromStream(stream: IMyInputStream) = stream.readInt()
 }

@@ -19,20 +19,20 @@ package lupos.shared.inline
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 
-internal expect class File(filename: String) {
-    internal inline fun getAbsolutePath(): String
-    internal inline fun exists(): Boolean
-    internal inline fun mkdirs(): Boolean
-    internal inline fun deleteRecursively(): Boolean
-    internal inline fun length(): Long
-    internal inline fun readAsString(): String
-    internal inline fun readAsCharIterator(): CharIterator
-    internal inline fun openInputStream(): IMyInputStream
-    internal inline fun openOutputStream(append: Boolean): IMyOutputStream
-    internal inline fun walk(crossinline action: (String) -> Unit)
-    internal inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit)
-    internal inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit)
-    internal inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit)
-    internal inline fun forEachLine(crossinline action: (String) -> Unit)
+public expect class File(filename: String) {
+    public inline fun getAbsolutePath(): String
+    public inline fun exists(): Boolean
+    public inline fun mkdirs(): Boolean
+    public inline fun deleteRecursively(): Boolean
+    public inline fun length(): Long
+    public inline fun readAsString(): String
+    public inline fun readAsCharIterator(): CharIterator
+    public inline fun openInputStream(): IMyInputStream
+    public inline fun openOutputStream(append: Boolean): IMyOutputStream
+    public inline fun walk(crossinline action: (String) -> Unit)
+    public inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit)
+    public inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit)
+    public inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit)
+    public inline fun forEachLine(crossinline action: (String) -> Unit)
     override fun equals(other: Any?): Boolean
 }

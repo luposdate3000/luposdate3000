@@ -26,41 +26,41 @@ import java.nio.file.Files
 import java.nio.file.Paths
 import kotlin.jvm.JvmField
 
-internal actual class File {
+public actual class File {
     @JvmField
-    internal val filename: String
+    public val filename: String
 
     actual constructor(filename: String) {
         this.filename = filename.replace("\\", "/").replace("/./", "/").replace("//", "/")
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getAbsolutePath() = java.io.File(filename).absolutePath.toString()
+    public actual inline fun getAbsolutePath() = java.io.File(filename).absolutePath.toString()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun exists() = java.io.File(filename).exists()
+    public actual inline fun exists() = java.io.File(filename).exists()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun mkdirs() = java.io.File(filename).mkdirs()
+    public actual inline fun mkdirs() = java.io.File(filename).mkdirs()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
+    public actual inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun length() = java.io.File(filename).length()
+    public actual inline fun length() = java.io.File(filename).length()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readAsString() = java.io.File(filename).readText()
+    public actual inline fun readAsString() = java.io.File(filename).readText()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
+    public actual inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openInputStream(): IMyInputStream = MyInputStream(BufferedInputStream(FileInputStream(java.io.File(filename))))
+    public actual inline fun openInputStream(): IMyInputStream = MyInputStream(BufferedInputStream(FileInputStream(java.io.File(filename))))
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream = MyOutputStream(BufferedOutputStream(FileOutputStream(filename, append)))
-    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit) {
+    public actual inline fun openOutputStream(append: Boolean): IMyOutputStream = MyOutputStream(BufferedOutputStream(FileOutputStream(filename, append)))
+    public actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit) {
         java.nio.file.Files.walk(java.nio.file.Paths.get(filename), maxdepth).forEach {
             val tmp = it.toString()
             if (tmp.length > filename.length) {
@@ -69,13 +69,13 @@ internal actual class File {
         }
     }
 
-    internal actual inline fun walk(crossinline action: (String) -> Unit) {
+    public actual inline fun walk(crossinline action: (String) -> Unit) {
         Files.walk(Paths.get(filename)).forEach { it ->
             action(it.toString())
         }
     }
 
-    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
+    public actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
         val printer = MyOutputStream(BufferedOutputStream(FileOutputStream(java.io.File(filename))))
         try {
             action(printer)
@@ -84,7 +84,7 @@ internal actual class File {
         }
     }
 
-    internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
+    public actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
         val printer = MyInputStream(BufferedInputStream(FileInputStream(java.io.File(filename))))
         try {
             action(printer)
@@ -93,7 +93,7 @@ internal actual class File {
         }
     }
 
-    internal actual inline fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {
+    public actual inline fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {
         action(it)
     }
 

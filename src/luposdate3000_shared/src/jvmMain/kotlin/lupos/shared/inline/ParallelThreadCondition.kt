@@ -20,11 +20,11 @@ import lupos.shared.myPrintStackTrace
 import kotlin.jvm.JvmField
 
 @Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
-internal actual class ParallelThreadCondition {
+public actual class ParallelThreadCondition {
 
     @JvmField
     var wasSignalled = false
-    internal actual inline fun waitCondition(crossinline condition: () -> Boolean) {
+    public actual inline fun waitCondition(crossinline condition: () -> Boolean) {
         synchronized(this) {
             if (!wasSignalled && condition()) {
                 try {
@@ -38,7 +38,7 @@ e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_s
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun signal() {
+    public actual inline fun signal() {
         synchronized(this) {
             wasSignalled = true
             (this as Object).notify()

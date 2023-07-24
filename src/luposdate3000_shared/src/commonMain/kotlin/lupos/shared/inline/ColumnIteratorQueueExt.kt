@@ -20,16 +20,16 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.operator.iterator.ColumnIteratorQueue
 
-internal object ColumnIteratorQueueExt {
+public object ColumnIteratorQueueExt {
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun _close(it: ColumnIteratorQueue) {
+    public inline fun _close(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 0
             it.queue.clear()
         }
     }
 
-    /*suspend*/ internal inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
+    /*suspend*/ public inline fun nextHelper(it: ColumnIteratorQueue, crossinline onEmptyQueue: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
         when (it.label) {
             1 -> {
                 return if (it.queue.size == 0) {
@@ -59,7 +59,7 @@ internal object ColumnIteratorQueueExt {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
+    public inline fun closeOnEmptyQueue(it: ColumnIteratorQueue) {
         if (it.label != 0) {
             it.label = 2
         }

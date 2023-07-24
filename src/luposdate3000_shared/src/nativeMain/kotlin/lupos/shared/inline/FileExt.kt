@@ -16,4 +16,4 @@
  */
 package lupos.shared.inline
 
-internal actual object FileExt
+public actual object FileExt

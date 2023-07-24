@@ -16,6 +16,6 @@
  */
 package lupos.shared.inline
 
-internal expect object FileExt {
-    internal inline fun createTempDirectory(): String
+public expect object FileExt {
+    public inline fun createTempDirectory(): String
 }

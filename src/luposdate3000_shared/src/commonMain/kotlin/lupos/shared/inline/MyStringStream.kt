@@ -24,7 +24,7 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
-internal class MyStringStream(str: String) : IMyInputStream {
+public class MyStringStream(str: String) : IMyInputStream {
 
     @JvmField
     val buf8 = ByteArray(8)

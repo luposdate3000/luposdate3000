@@ -16,13 +16,13 @@
  */
 package lupos.shared.inline
 
-internal actual class DateHelper {
+public actual class DateHelper {
     actual constructor() {}
 
-    internal actual inline fun year(): Int = TODO("DateHelper")
-    internal actual inline fun month(): Int = TODO("DateHelper")
-    internal actual inline fun day(): Int = TODO("DateHelper")
-    internal actual inline fun hours(): Int = TODO("DateHelper")
-    internal actual inline fun minutes(): Int = TODO("DateHelper")
-    internal actual inline fun seconds(): Int = TODO("DateHelper")
+    public actual inline fun year(): Int = TODO("DateHelper")
+    public actual inline fun month(): Int = TODO("DateHelper")
+    public actual inline fun day(): Int = TODO("DateHelper")
+    public actual inline fun hours(): Int = TODO("DateHelper")
+    public actual inline fun minutes(): Int = TODO("DateHelper")
+    public actual inline fun seconds(): Int = TODO("DateHelper")
 }

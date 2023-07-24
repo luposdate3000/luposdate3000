@@ -19,135 +19,135 @@ package lupos.shared.inline
 import lupos.shared.BufferManagerPageWrapperDebug
 import lupos.shared.SanityCheck
 
-internal object BufferManagerPageDebug {
-    internal const val BUFFER_MANAGER_PAGE_SIZE_IN_BYTES: Int = 8192
+public object BufferManagerPageDebug {
+    public const val BUFFER_MANAGER_PAGE_SIZE_IN_BYTES: Int = 8192
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getBuf(buf: BufferManagerPageWrapperDebug): ByteArray = buf.data
+    public inline fun getBuf(buf: BufferManagerPageWrapperDebug): ByteArray = buf.data
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun create(): BufferManagerPageWrapperDebug {
+    public inline fun create(): BufferManagerPageWrapperDebug {
         val data = BufferManagerPageWrapperDebug(ByteArray(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 4))
         setPageID(data, -1)
         return data
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun copyInto(data2: BufferManagerPageWrapperDebug, destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+    public inline fun copyInto(data2: BufferManagerPageWrapperDebug, destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         val data = data2.data
         data.copyInto(destination, destinationOffset, startIndex, endIndex)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun copyFrom(data2: BufferManagerPageWrapperDebug, source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+    public inline fun copyFrom(data2: BufferManagerPageWrapperDebug, source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         val data = data2.data
         source.copyInto(data, destinationOffset, startIndex, endIndex)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getPageID(data2: BufferManagerPageWrapperDebug): Int {
+    public inline fun getPageID(data2: BufferManagerPageWrapperDebug): Int {
         val data = data2.data
         return ByteArrayHelper.readInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setPageID(data2: BufferManagerPageWrapperDebug, value: Int) {
+    public inline fun setPageID(data2: BufferManagerPageWrapperDebug, value: Int) {
         val data = data2.data
         ByteArrayHelper.writeInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt1(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
+    public inline fun writeInt1(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
         ByteArrayHelper.writeInt1(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt2(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
+    public inline fun writeInt2(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
         ByteArrayHelper.writeInt2(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt3(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
+    public inline fun writeInt3(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
         ByteArrayHelper.writeInt3(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt4(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
+    public inline fun writeInt4(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int) {
         val data = data2.data
         ByteArrayHelper.writeInt4(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeIntX(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int, count: Int) {
+    public inline fun writeIntX(data2: BufferManagerPageWrapperDebug, offset: Int, value: Int, count: Int) {
         val data = data2.data
         ByteArrayHelper.writeIntX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeLongX(data2: BufferManagerPageWrapperDebug, offset: Int, value: Long, count: Int) {
+    public inline fun writeLongX(data2: BufferManagerPageWrapperDebug, offset: Int, value: Long, count: Int) {
         val data = data2.data
         ByteArrayHelper.writeLongX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeLong8(data2: BufferManagerPageWrapperDebug, offset: Int, value: Long) {
+    public inline fun writeLong8(data2: BufferManagerPageWrapperDebug, offset: Int, value: Long) {
         val data = data2.data
         ByteArrayHelper.writeLong8(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeChar(data2: BufferManagerPageWrapperDebug, offset: Int, value: Char) {
+    public inline fun writeChar(data2: BufferManagerPageWrapperDebug, offset: Int, value: Char) {
         val data = data2.data
         ByteArrayHelper.writeChar(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readLong8(data2: BufferManagerPageWrapperDebug, offset: Int): Long {
+    public inline fun readLong8(data2: BufferManagerPageWrapperDebug, offset: Int): Long {
         val data = data2.data
         return ByteArrayHelper.readLong8(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt4(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
+    public inline fun readInt4(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
         return ByteArrayHelper.readInt4(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt3(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
+    public inline fun readInt3(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
         return ByteArrayHelper.readInt3(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt2(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
+    public inline fun readInt2(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
         return ByteArrayHelper.readInt2(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt1(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
+    public inline fun readInt1(data2: BufferManagerPageWrapperDebug, offset: Int): Int {
         val data = data2.data
         return ByteArrayHelper.readInt1(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readIntX(data2: BufferManagerPageWrapperDebug, offset: Int, count: Int): Int {
+    public inline fun readIntX(data2: BufferManagerPageWrapperDebug, offset: Int, count: Int): Int {
         val data = data2.data
         return ByteArrayHelper.readIntX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readLongX(data2: BufferManagerPageWrapperDebug, offset: Int, count: Int): Long {
+    public inline fun readLongX(data2: BufferManagerPageWrapperDebug, offset: Int, count: Int): Long {
         val data = data2.data
         return ByteArrayHelper.readLongX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readChar(data2: BufferManagerPageWrapperDebug, offset: Int): Char {
+    public inline fun readChar(data2: BufferManagerPageWrapperDebug, offset: Int): Char {
         val data = data2.data
         return ByteArrayHelper.readChar(data, offset)
     }

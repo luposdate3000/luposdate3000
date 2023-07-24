@@ -23,22 +23,22 @@ import kotlin.contracts.contract
 import kotlin.jvm.JvmField
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
-internal actual class MyThreadReadWriteLock {
-    internal companion object {
+public actual class MyThreadReadWriteLock {
+    public companion object {
         var isEnabled = true
     }
 
     @JvmField
-    internal val uuid = UUID_Counter.getNextUUID()
+    public val uuid = UUID_Counter.getNextUUID()
 
     @JvmField
-    internal val lock = ReentrantReadWriteLock()
+    public val lock = ReentrantReadWriteLock()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getUUID() = uuid
+    public actual inline fun getUUID() = uuid
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun downgradeToReadLock() {
+    public actual inline fun downgradeToReadLock() {
         if (isEnabled) {
             try {
                 lock.readLock().lock()
@@ -54,7 +54,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readLock() {
+    public actual inline fun readLock() {
         if (isEnabled) {
             try {
                 lock.readLock().lock()
@@ -69,7 +69,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readUnlock() {
+    public actual inline fun readUnlock() {
         if (isEnabled) {
             try {
                 lock.readLock().unlock()
@@ -84,7 +84,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun writeLock() {
+    public actual inline fun writeLock() {
         if (isEnabled) {
             try {
                 lock.writeLock().lock()
@@ -99,7 +99,7 @@ internal actual class MyThreadReadWriteLock {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun tryWriteLock(): Boolean {
+    public actual inline fun tryWriteLock(): Boolean {
         if (isEnabled) {
             try {
                 return lock.writeLock().tryLock()
@@ -115,7 +115,7 @@ return true
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun writeUnlock() {
+    public actual inline fun writeUnlock() {
         if (isEnabled) {
             try {
                 lock.writeLock().unlock()
@@ -129,7 +129,7 @@ return true
         }
     }
 
-    internal actual inline fun <T> withReadLock(crossinline action: () -> T): T {
+    public actual inline fun <T> withReadLock(crossinline action: () -> T): T {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         readLock()
         try {
@@ -139,7 +139,7 @@ return true
         }
     }
 
-    internal actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
+    public actual inline fun <T> withWriteLock(crossinline action: () -> T): T {
         contract { callsInPlace(action, EXACTLY_ONCE) }
         writeLock()
         try {

@@ -16,7 +16,7 @@
  */
 package lupos.shared.inline
 
-internal expect class ParallelThreadCondition {
-    internal inline fun waitCondition(crossinline condition: () -> Boolean)
-    internal inline fun signal()
+public expect class ParallelThreadCondition {
+    public inline fun waitCondition(crossinline condition: () -> Boolean)
+    public inline fun signal()
 }

@@ -16,7 +16,7 @@
  */
 package lupos.shared.inline
 
-internal actual class ParallelThreadQueue<T> {
+public actual class ParallelThreadQueue<T> {
     var queue = mutableListOf<T>()
     var terminalValue: T
 
@@ -25,17 +25,17 @@ internal actual class ParallelThreadQueue<T> {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun send(value: T) {
+    public actual inline fun send(value: T) {
         queue.add(value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun close() {
+    public actual inline fun close() {
         queue.clear()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun receive(): T {
+    public actual inline fun receive(): T {
         if (queue.size > 0) {
             return queue.removeAt(0)
         }

@@ -16,13 +16,13 @@
  */
 package lupos.shared.inline
 
-internal actual class ParallelThreadQueue<T> {
+public actual class ParallelThreadQueue<T> {
     actual constructor(terminationValue: T) {
     }
 
-    internal actual inline fun send(value: T) = TODO("ParallelThreadQueue")
+    public actual inline fun send(value: T) = TODO("ParallelThreadQueue")
 
-    internal actual inline fun close() = TODO("ParallelThreadQueue")
+    public actual inline fun close() = TODO("ParallelThreadQueue")
 
-    internal actual inline fun receive(): T = TODO("ParallelThreadQueue")
+    public actual inline fun receive(): T = TODO("ParallelThreadQueue")
 }

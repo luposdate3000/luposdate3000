@@ -18,16 +18,16 @@ package lupos.shared.inline
 
 import lupos.shared.EOperatingSystem
 
-internal expect object Platform {
-    internal inline fun setShutdownHock(crossinline action: () -> Unit)
-    internal inline fun getEnv(key: String, default: String? = null): String?
-    internal inline fun getHostName(): String
-    internal inline fun getUserHome(): String
-    internal inline fun getPathSeparator(): String
-    internal inline fun findNamedFileInDirectory(dir: String, name: String): List<String>
-    internal inline fun getOperatingSystem(): EOperatingSystem
-    internal inline fun getNullFileName(): String
-    internal inline fun getGradleCache(): String
-    internal inline fun getMavenCache(): String
-    internal inline fun getAvailableRam(): Int
+public expect object Platform {
+    public inline fun setShutdownHock(crossinline action: () -> Unit)
+    public inline fun getEnv(key: String, default: String? = null): String?
+    public inline fun getHostName(): String
+    public inline fun getUserHome(): String
+    public inline fun getPathSeparator(): String
+    public inline fun findNamedFileInDirectory(dir: String, name: String): List<String>
+    public inline fun getOperatingSystem(): EOperatingSystem
+    public inline fun getNullFileName(): String
+    public inline fun getGradleCache(): String
+    public inline fun getMavenCache(): String
+    public inline fun getAvailableRam(): Int
 }

@@ -21,7 +21,7 @@ import lupos.shared.ColumnIteratorChildIterator
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IQuery
-internal object ColumnIteratorChildIteratorExt {
+public object ColumnIteratorChildIteratorExt {
     /*suspend*/ public inline fun nextHelper(query:IQuery,iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
 if(query.shouldAbortNow()){
 onClose()

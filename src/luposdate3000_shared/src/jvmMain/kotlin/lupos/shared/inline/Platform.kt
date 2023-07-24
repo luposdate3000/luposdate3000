@@ -22,35 +22,35 @@ import java.io.File
 import java.io.InputStreamReader
 import kotlin.jvm.JvmField
 
-internal actual object Platform {
+public actual object Platform {
     @JvmField
-    internal val userHome: String = System.getProperty("user.home")
+    public val userHome: String = System.getProperty("user.home")
 
     @JvmField
-    internal val operatingSystem = if (System.getProperty("os.name").contains("Win")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
+    public val operatingSystem = if (System.getProperty("os.name").contains("Win")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
 
     @JvmField
-    internal val pathSepatator = if (operatingSystem == EOperatingSystemExt.Windows) "\\\\" else "/"
+    public val pathSepatator = if (operatingSystem == EOperatingSystemExt.Windows) "\\\\" else "/"
 
     @JvmField
-    internal val nullFileName = if (operatingSystem == EOperatingSystemExt.Windows) "NUL" else "/dev/null"
+    public val nullFileName = if (operatingSystem == EOperatingSystemExt.Windows) "NUL" else "/dev/null"
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getHostName(): String {
+    public actual inline fun getHostName(): String {
         return BufferedReader(InputStreamReader(Runtime.getRuntime().exec("hostname").getInputStream())).readLine()
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getOperatingSystem() = operatingSystem
+    public actual inline fun getOperatingSystem() = operatingSystem
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getUserHome() = userHome
+    public actual inline fun getUserHome() = userHome
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getPathSeparator() = pathSepatator
+    public actual inline fun getPathSeparator() = pathSepatator
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> {
+    public actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> {
         val res = mutableListOf<String>()
         for (f in File(dir).walk()) {
             if (f.isFile) {
@@ -63,30 +63,30 @@ internal actual object Platform {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getNullFileName(): String = nullFileName
+    public actual inline fun getNullFileName(): String = nullFileName
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getEnv(key: String, default: String?): String? {
+    public actual inline fun getEnv(key: String, default: String?): String? {
         return System.getenv(key) ?: default
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getGradleCache(): String {
+    public actual inline fun getGradleCache(): String {
         return getEnv("LUPOS_GRADLE_CACHE", "${getUserHome()}${getPathSeparator()}.gradle${getPathSeparator()}caches${getPathSeparator()}")!!
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getMavenCache(): String {
+    public actual inline fun getMavenCache(): String {
         return getEnv("LUPOS_MAVEN_CACHE", "${getUserHome()}${getPathSeparator()}.m2${getPathSeparator()}repository${getPathSeparator()}")!!
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getAvailableRam(): Int {
+    public actual inline fun getAvailableRam(): Int {
         return getEnv("LUPOS_RAM", "4")!!.toInt()
     }
 
     @JvmField
-    internal var shutdownhock: () -> Unit = {}
+    public var shutdownhock: () -> Unit = {}
 
     init {
         Runtime.getRuntime().addShutdownHook(object : Thread() {
@@ -96,7 +96,7 @@ internal actual object Platform {
         })
     }
 
-    internal actual inline fun setShutdownHock(crossinline action: () -> Unit) {
+    public actual inline fun setShutdownHock(crossinline action: () -> Unit) {
         shutdownhock = {
             action()
         }

@@ -22,30 +22,30 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import lupos.shared.js.ExternalModule_fs
 
-internal actual class File {
-    internal val filename: String
+public actual class File {
+    public val filename: String
 
     actual constructor(filename: String) {
         this.filename = filename
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getAbsolutePath(): String = TODO("File.getAbsolutePath")
+    public actual inline fun getAbsolutePath(): String = TODO("File.getAbsolutePath")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun exists(): Boolean = ExternalModule_fs.exists(filename)
+    public actual inline fun exists(): Boolean = ExternalModule_fs.exists(filename)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun mkdirs(): Boolean = ExternalModule_fs.mkdirs(filename)
+    public actual inline fun mkdirs(): Boolean = ExternalModule_fs.mkdirs(filename)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun deleteRecursively(): Boolean = ExternalModule_fs.deleteRecursively(filename)
+    public actual inline fun deleteRecursively(): Boolean = ExternalModule_fs.deleteRecursively(filename)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun length(): Long = ExternalModule_fs.length(filename)
+    public actual inline fun length(): Long = ExternalModule_fs.length(filename)
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readAsString(): String {
+    public actual inline fun readAsString(): String {
         var res = StringBuilder()
         forEachLine { it ->
             res.appendLine(it)
@@ -54,16 +54,16 @@ internal actual class File {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun readAsCharIterator(): CharIterator = TODO("File.readAsCharIterator")
+    public actual inline fun readAsCharIterator(): CharIterator = TODO("File.readAsCharIterator")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openInputStream(): IMyInputStream {
+    public actual inline fun openInputStream(): IMyInputStream {
         return MyInputStream(filename)
     }
 
-    internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = TODO("File.walk")
-    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = TODO("File.walk")
-    internal actual inline fun forEachLine(crossinline action: (String) -> Unit) {
+    public actual inline fun walk(crossinline action: (String) -> Unit): Unit = TODO("File.walk")
+    public actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = TODO("File.walk")
+    public actual inline fun forEachLine(crossinline action: (String) -> Unit) {
         val stream = MyInputStream(filename)
         val buffer = ByteArray(8192)
         var pos = 0
@@ -88,7 +88,7 @@ internal actual class File {
         stream.close()
     }
 
-    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
+    public actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit) {
         val stream = openOutputStream(false)
         try {
             action(stream)
@@ -97,7 +97,7 @@ internal actual class File {
         }
     }
 
-    internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
+    public actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit) {
         val stream = MyInputStream(filename)
         action(stream)
         stream.close()
@@ -106,7 +106,7 @@ internal actual class File {
     actual override fun equals(other: Any?): Boolean = TODO("File.equals")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream {
+    public actual inline fun openOutputStream(append: Boolean): IMyOutputStream {
         return object : IMyOutputStream {
             val tmp = ExternalModule_fs.openOutputStream(filename, append)
             override fun writeInt(value: Int): Unit = tmp.writeInt(value)

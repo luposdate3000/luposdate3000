@@ -22,19 +22,19 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 
-internal abstract class TriplesIntermediate(@JvmField internal val filename: String) {
+public abstract class TriplesIntermediate(@JvmField public val filename: String) {
     @JvmField
-    internal var streamOut: IMyOutputStream? = null
+    public var streamOut: IMyOutputStream? = null
 
     @JvmField
-    internal var streamIn: IMyInputStream? = null
+    public var streamIn: IMyInputStream? = null
 
-    internal companion object {
-        internal const val version: Int = 2
-        internal const val filenameEnding = ".triples"
+    public companion object {
+        public const val version: Int = 2
+        public const val filenameEnding = ".triples"
 
         @Suppress("NOTHING_TO_INLINE")
-        internal inline fun delete(filename: String) {
+        public inline fun delete(filename: String) {
             File("$filename$filenameEnding").deleteRecursively()
         }
     }

@@ -19,8 +19,8 @@ package lupos.shared.inline
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 
-internal expect class MyOutputStream : IMyOutputStream {
-    internal constructor()
+public expect class MyOutputStream : IMyOutputStream {
+    public constructor()
 
     override fun writeDictionaryValueType(value: DictionaryValueType)
     override fun writeInt(value: Int)

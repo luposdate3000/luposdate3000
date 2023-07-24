@@ -20,30 +20,30 @@ import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
 import kotlin.jvm.JvmField
 
-internal actual class File {
+public actual class File {
     @JvmField
-    internal val filename: String
+    public val filename: String
 
     actual constructor(filename: String) {
         this.filename = filename
     }
 
-    internal actual inline fun getAbsolutePath() = TODO("File")
-    internal actual inline fun exists(): Boolean = TODO("File")
-    internal actual inline fun mkdirs(): Boolean = TODO("File")
-    internal actual inline fun deleteRecursively(): Boolean = TODO("File")
-    internal actual inline fun length(): Long = TODO("File")
-    internal actual inline fun readAsString(): String = TODO("File")
-    internal actual inline fun readAsCharIterator(): CharIterator = TODO("File")
-    internal actual inline fun openInputStream(): IMyInputStream = TODO("File")
-    internal actual inline fun walk(crossinline action: (String) -> Unit): Unit = TODO("File")
-    internal actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = TODO("File")
-    internal actual inline fun withOutputStream(crossinline action: (MyPrintWriter) -> Unit): Unit = TODO("File")
-    internal /*suspend*/ actual inline fun withOutputStream(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = TODO("File")
-    internal actual inline fun forEachLine(crossinline action: (String) -> Unit): Unit = TODO("File")
-    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = TODO("File")
-    internal actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = TODO("File")
-    internal actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit): Unit = TODO("File")
+    public actual inline fun getAbsolutePath() = TODO("File")
+    public actual inline fun exists(): Boolean = TODO("File")
+    public actual inline fun mkdirs(): Boolean = TODO("File")
+    public actual inline fun deleteRecursively(): Boolean = TODO("File")
+    public actual inline fun length(): Long = TODO("File")
+    public actual inline fun readAsString(): String = TODO("File")
+    public actual inline fun readAsCharIterator(): CharIterator = TODO("File")
+    public actual inline fun openInputStream(): IMyInputStream = TODO("File")
+    public actual inline fun walk(crossinline action: (String) -> Unit): Unit = TODO("File")
+    public actual inline fun walk(maxdepth: Int, crossinline action: (String) -> Unit): Unit = TODO("File")
+    public actual inline fun withOutputStream(crossinline action: (MyPrintWriter) -> Unit): Unit = TODO("File")
+    public /*suspend*/ actual inline fun withOutputStream(crossinline action: /*suspend*/ (MyPrintWriter) -> Unit): Unit = TODO("File")
+    public actual inline fun forEachLine(crossinline action: (String) -> Unit): Unit = TODO("File")
+    public actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = TODO("File")
+    public actual inline fun withOutputStream(crossinline action: (IMyOutputStream) -> Unit): Unit = TODO("File")
+    public actual inline fun withInputStream(crossinline action: (IMyInputStream) -> Unit): Unit = TODO("File")
     actual override fun equals(other: Any?): Boolean = TODO("File")
-    internal actual inline fun openOutputStream(append: Boolean): IMyOutputStream = TODO("File")
+    public actual inline fun openOutputStream(append: Boolean): IMyOutputStream = TODO("File")
 }

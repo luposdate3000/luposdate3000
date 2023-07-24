@@ -16,26 +16,26 @@
  */
 package lupos.shared.inline
 
-internal actual class DateHelper {
+public actual class DateHelper {
     actual constructor() {}
 
-    internal val time = js("new Date()")
+    public val time = js("new Date()")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun year(): Int = time.getFullYear()
+    public actual inline fun year(): Int = time.getFullYear()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun month(): Int = time.getMonth()
+    public actual inline fun month(): Int = time.getMonth()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun day(): Int = time.getDay()
+    public actual inline fun day(): Int = time.getDay()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun hours(): Int = time.getHours()
+    public actual inline fun hours(): Int = time.getHours()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun minutes(): Int = time.getMinutes()
+    public actual inline fun minutes(): Int = time.getMinutes()
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun seconds(): Int = time.getSeconds()
+    public actual inline fun seconds(): Int = time.getSeconds()
 }

@@ -23,7 +23,7 @@ import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
 import lupos.shared.EOFException
 
-internal class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {
+public class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {
     override fun readDictionaryValueType(): DictionaryValueType {
         if (remainingBytes >= DictionaryValueHelper.getSize()) {
             remainingBytes -= DictionaryValueHelper.getSize()

@@ -18,116 +18,116 @@ package lupos.shared.inline
 
 import lupos.shared.BufferManagerPageWrapperRelease
 
-internal object BufferManagerPageRelease {
-    internal const val BUFFER_MANAGER_PAGE_SIZE_IN_BYTES: Int = 8192
+public object BufferManagerPageRelease {
+    public const val BUFFER_MANAGER_PAGE_SIZE_IN_BYTES: Int = 8192
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getBuf(buf: BufferManagerPageWrapperRelease): ByteArray = buf
+    public inline fun getBuf(buf: BufferManagerPageWrapperRelease): ByteArray = buf
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun create(): BufferManagerPageWrapperRelease {
+    public inline fun create(): BufferManagerPageWrapperRelease {
         val data = BufferManagerPageWrapperRelease(BUFFER_MANAGER_PAGE_SIZE_IN_BYTES + 4)
         setPageID(data, -1)
         return data
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun copyInto(data: BufferManagerPageWrapperRelease, destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+    public inline fun copyInto(data: BufferManagerPageWrapperRelease, destination: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         data.copyInto(destination, destinationOffset, startIndex, endIndex)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun copyFrom(data: BufferManagerPageWrapperRelease, source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
+    public inline fun copyFrom(data: BufferManagerPageWrapperRelease, source: ByteArray, destinationOffset: Int, startIndex: Int, endIndex: Int) {
         source.copyInto(data, destinationOffset, startIndex, endIndex)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun getPageID(data: BufferManagerPageWrapperRelease): Int {
+    public inline fun getPageID(data: BufferManagerPageWrapperRelease): Int {
         return ByteArrayHelper.readInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun setPageID(data: BufferManagerPageWrapperRelease, value: Int) {
+    public inline fun setPageID(data: BufferManagerPageWrapperRelease, value: Int) {
         ByteArrayHelper.writeInt4(data, BUFFER_MANAGER_PAGE_SIZE_IN_BYTES, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt1(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
+    public inline fun writeInt1(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
         ByteArrayHelper.writeInt1(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt2(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
+    public inline fun writeInt2(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
         ByteArrayHelper.writeInt2(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt3(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
+    public inline fun writeInt3(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
         ByteArrayHelper.writeInt3(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeInt4(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
+    public inline fun writeInt4(data: BufferManagerPageWrapperRelease, offset: Int, value: Int) {
         ByteArrayHelper.writeInt4(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeIntX(data: BufferManagerPageWrapperRelease, offset: Int, value: Int, count: Int) {
+    public inline fun writeIntX(data: BufferManagerPageWrapperRelease, offset: Int, value: Int, count: Int) {
         ByteArrayHelper.writeIntX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeLongX(data: BufferManagerPageWrapperRelease, offset: Int, value: Long, count: Int) {
+    public inline fun writeLongX(data: BufferManagerPageWrapperRelease, offset: Int, value: Long, count: Int) {
         ByteArrayHelper.writeLongX(data, offset, value, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeLong8(data: BufferManagerPageWrapperRelease, offset: Int, value: Long) {
+    public inline fun writeLong8(data: BufferManagerPageWrapperRelease, offset: Int, value: Long) {
         ByteArrayHelper.writeLong8(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun writeChar(data: BufferManagerPageWrapperRelease, offset: Int, value: Char) {
+    public inline fun writeChar(data: BufferManagerPageWrapperRelease, offset: Int, value: Char) {
         ByteArrayHelper.writeChar(data, offset, value)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readLong8(data: BufferManagerPageWrapperRelease, offset: Int): Long {
+    public inline fun readLong8(data: BufferManagerPageWrapperRelease, offset: Int): Long {
         return ByteArrayHelper.readLong8(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt4(data: BufferManagerPageWrapperRelease, offset: Int): Int {
+    public inline fun readInt4(data: BufferManagerPageWrapperRelease, offset: Int): Int {
         return ByteArrayHelper.readInt4(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt3(data: BufferManagerPageWrapperRelease, offset: Int): Int {
+    public inline fun readInt3(data: BufferManagerPageWrapperRelease, offset: Int): Int {
         return ByteArrayHelper.readInt3(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt2(data: BufferManagerPageWrapperRelease, offset: Int): Int {
+    public inline fun readInt2(data: BufferManagerPageWrapperRelease, offset: Int): Int {
         return ByteArrayHelper.readInt2(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readInt1(data: BufferManagerPageWrapperRelease, offset: Int): Int {
+    public inline fun readInt1(data: BufferManagerPageWrapperRelease, offset: Int): Int {
         return ByteArrayHelper.readInt1(data, offset)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readIntX(data: BufferManagerPageWrapperRelease, offset: Int, count: Int): Int {
+    public inline fun readIntX(data: BufferManagerPageWrapperRelease, offset: Int, count: Int): Int {
         return ByteArrayHelper.readIntX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readLongX(data: BufferManagerPageWrapperRelease, offset: Int, count: Int): Long {
+    public inline fun readLongX(data: BufferManagerPageWrapperRelease, offset: Int, count: Int): Long {
         return ByteArrayHelper.readLongX(data, offset, count)
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun readChar(data: BufferManagerPageWrapperRelease, offset: Int): Char {
+    public inline fun readChar(data: BufferManagerPageWrapperRelease, offset: Int): Char {
         return ByteArrayHelper.readChar(data, offset)
     }
 }

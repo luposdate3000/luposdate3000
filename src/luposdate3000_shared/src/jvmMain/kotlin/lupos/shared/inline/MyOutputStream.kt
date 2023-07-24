@@ -24,23 +24,23 @@ import lupos.shared.SanityCheck
 import java.io.OutputStream
 import kotlin.jvm.JvmField
 
-internal actual class MyOutputStream : IMyOutputStream {
+public actual class MyOutputStream : IMyOutputStream {
     @JvmField
     val buffer: ByteArray
     var bufferPos = 0
 
     @JvmField
-    internal var stream: OutputStream?
+    public var stream: OutputStream?
 
     private var closedBy: MutableList<Throwable>? = null
 
-    internal constructor(it: OutputStream) {
+    public constructor(it: OutputStream) {
         // kotlin.io.println("MyOutputStream.constructor $this")
         stream = it
         buffer = ByteArray(8192)
     }
 
-    internal actual constructor() {
+    public actual constructor() {
         stream = null
         buffer = ByteArray(8192)
     }
@@ -86,7 +86,7 @@ internal actual class MyOutputStream : IMyOutputStream {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun _write(buf: ByteArray, off: Int, len: Int) {
+    public inline fun _write(buf: ByteArray, off: Int, len: Int) {
         // kotlin.io.println("MyOutputStream._write $this")
         if (bufferPos + len > buffer.size) {
             localFlush()
@@ -108,7 +108,7 @@ internal actual class MyOutputStream : IMyOutputStream {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal inline fun _print(x: String) {
+    public inline fun _print(x: String) {
         val buf = x.encodeToByteArray()
         _write(buf, 0, buf.size)
     }

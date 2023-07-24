@@ -19,7 +19,7 @@ package lupos.shared.inline
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 
-internal expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyOutputStream {
+public expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyOutputStream {
     fun clearBuffer()
     override fun toString(): String
     override fun println(x: String)

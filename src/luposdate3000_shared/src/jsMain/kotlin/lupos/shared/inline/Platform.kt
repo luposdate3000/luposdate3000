@@ -18,47 +18,47 @@ package lupos.shared.inline
 
 import lupos.shared.EOperatingSystemExt
 
-internal actual object Platform {
+public actual object Platform {
     val operatingSystem = EOperatingSystemExt.JS
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getHostName(): String = TODO("Platform")
+    public actual inline fun getHostName(): String = TODO("Platform")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getOperatingSystem() = operatingSystem
+    public actual inline fun getOperatingSystem() = operatingSystem
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getUserHome(): String = TODO("Platform")
+    public actual inline fun getUserHome(): String = TODO("Platform")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getPathSeparator(): String = TODO("Platform")
+    public actual inline fun getPathSeparator(): String = TODO("Platform")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> = TODO("Platform")
+    public actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> = TODO("Platform")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getNullFileName(): String = TODO("Platform")
+    public actual inline fun getNullFileName(): String = TODO("Platform")
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getEnv(key: String, default: String?): String? {
+    public actual inline fun getEnv(key: String, default: String?): String? {
         return default
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getGradleCache(): String {
+    public actual inline fun getGradleCache(): String {
         return getEnv("LUPOS_GRADLE_CACHE", "${getUserHome()}${getPathSeparator()}.gradle${getPathSeparator()}caches${getPathSeparator()}")!!
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getMavenCache(): String {
+    public actual inline fun getMavenCache(): String {
         return getEnv("LUPOS_MAVEN_CACHE", "${getUserHome()}${getPathSeparator()}.m2${getPathSeparator()}repository${getPathSeparator()}")!!
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    internal actual inline fun getAvailableRam(): Int {
+    public actual inline fun getAvailableRam(): Int {
         return getEnv("LUPOS_RAM", "4")!!.toInt()
     }
 
-    internal actual inline fun setShutdownHock(crossinline action: () -> Unit) {
+    public actual inline fun setShutdownHock(crossinline action: () -> Unit) {
     }
 }
