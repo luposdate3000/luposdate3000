@@ -8,8 +8,9 @@
  * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 // Attach App as global variable for debugging
-this.App =
-    {isMergeView: false};
+this.App = {
+    isMergeView: false
+};
 
 App.init = function() {
     initLuposdate3000();
@@ -42,7 +43,8 @@ App.init = function() {
 
     // Load xml converter
     App.x2js = new X2JS({
-        attributeArray: '_attributes'});
+        attributeArray: '_attributes'
+    });
 
     // Load configuration
     App.URIQuery = URI(document.location.href).query(true);
@@ -53,7 +55,7 @@ App.init = function() {
             App.config = dataConf;
             if (App.URIQuery.config) {
                 $.getJSON(App.URIQuery.config).done(function(addData) {
-//merge the default config with the provided url-config
+                    //merge the default config with the provided url-config
                     App.config = $.extend(data, addData, {});
                     App.play();
                 });
@@ -81,7 +83,7 @@ App.play = function() {
 };
 
 App.loadEditors = function() {
-// Initialize editors
+    // Initialize editors
     App.cm = {};
 
     App.cm['sparql'] = CodeMirror.fromTextArea(document.getElementById('codemirror'), {
@@ -89,8 +91,7 @@ App.loadEditors = function() {
         lineNumbers: true,
         matchBrackets: true,
         autoCloseBrackets: true
-    }
-    );
+    });
 
     App.loadQuery('sparql', 0);
 
@@ -99,8 +100,7 @@ App.loadEditors = function() {
         mode: 'n3',
         matchBrackets: true,
         autoCloseBrackets: true
-    }
-    );
+    });
 
     App.loadQuery('rdf', 0);
 
@@ -109,8 +109,7 @@ App.loadEditors = function() {
         mode: 'rif',
         matchBrackets: true,
         autoCloseBrackets: true
-    }
-    );
+    });
 
     App.loadQuery('rif', 0);
 };
@@ -127,9 +126,9 @@ App.loadQuery = function(lang, index) {
     });
 };
 
-App.getGraphData = function(data, urlPrefix, method, target){
+App.getGraphData = function(data, urlPrefix, method, target) {
 
-// AST Request
+    // AST Request
     const request = {
         query: data.query,
         evaluator: App.selectedEvaluatorName
@@ -154,7 +153,7 @@ App.getGraphData = function(data, urlPrefix, method, target){
         method,
         data: JSON.stringify(data),
         success(data) {
-            if (App.checkErrorString(data)) {  
+            if (App.checkErrorString(data)) {
                 createOPGraph(data, target);
             }
         },
@@ -176,78 +175,79 @@ App.loadluposdate3000 = function(data, url, withGraph) {
             method: "POST",
             data: queryData,
             success(sessionID) {
-              if (App.checkErrorString(sessionID, 'sparql')) {
-                const sessionData =
-                    {sessionID};
-                $.ajax({
-                    url: url + 'sparql/getLogicalVisual',
-                    method: "POST",
-                    data: sessionData,
-                    success(logSteps) {
-                     if (App.checkErrorString(logSteps, 'sparql')) {  
-                        App.logGraph = JSON.parse(logSteps);
-                        $.ajax({
-                            url: url + 'sparql/getPhysicalVisual',
-                            method: "POST",
-                            data: sessionData,
-                            success(phySteps) {
-                              if (App.checkErrorString(phySteps, 'sparql')) {  
-                                App.physGraph = JSON.parse(phySteps);
+                if (App.checkErrorString(sessionID, 'sparql')) {
+                    const sessionData = {
+                        sessionID
+                    };
+                    $.ajax({
+                        url: url + 'sparql/getLogicalVisual',
+                        method: "POST",
+                        data: sessionData,
+                        success(logSteps) {
+                            if (App.checkErrorString(logSteps, 'sparql')) {
+                                App.logGraph = JSON.parse(logSteps);
                                 $.ajax({
-                                    url: url + 'sparql/getVisualisationData',
+                                    url: url + 'sparql/getPhysicalVisual',
                                     method: "POST",
                                     data: sessionData,
-                                    success(visData) {
-                                      if (App.checkErrorString(visData, 'sparql')) {  
-                                        App.globalAnimationList = JSON.parse(visData);
-                                        $.ajax({
-                                            url: url + 'sparql/getResult',
-                                            method: "POST",
-                                            data: sessionData,
-                                            success(resultData) {
-                                              if (App.checkErrorString(resultData, 'sparql')) {  
-                                                App.result = resultData;
-                                                $.ajax({
-                                                    url: url + 'sparql/closeSession',
-                                                    method: "POST",
-                                                    data: sessionData,
-                                                    success(closeResponse) {
-                                                      if (App.checkErrorString(closeResponse, 'sparql')) {
-                                                        formatResultData();
-                                                        App.additionalHiddenTabs = ["graph", "op-graph"];
-                                                        App.initConfigComponentsHideTabs();
+                                    success(phySteps) {
+                                        if (App.checkErrorString(phySteps, 'sparql')) {
+                                            App.physGraph = JSON.parse(phySteps);
+                                            $.ajax({
+                                                url: url + 'sparql/getVisualisationData',
+                                                method: "POST",
+                                                data: sessionData,
+                                                success(visData) {
+                                                    if (App.checkErrorString(visData, 'sparql')) {
+                                                        App.globalAnimationList = JSON.parse(visData);
+                                                        $.ajax({
+                                                            url: url + 'sparql/getResult',
+                                                            method: "POST",
+                                                            data: sessionData,
+                                                            success(resultData) {
+                                                                if (App.checkErrorString(resultData, 'sparql')) {
+                                                                    App.result = resultData;
+                                                                    $.ajax({
+                                                                        url: url + 'sparql/closeSession',
+                                                                        method: "POST",
+                                                                        data: sessionData,
+                                                                        success(closeResponse) {
+                                                                            if (App.checkErrorString(closeResponse, 'sparql')) {
+                                                                                formatResultData();
+                                                                                App.additionalHiddenTabs = ["graph", "op-graph"];
+                                                                                App.initConfigComponentsHideTabs();
+                                                                            }
+                                                                        },
+                                                                        error(xhr, status, error) {
+                                                                            App.logError(xhr.responseText);
+                                                                        }
+                                                                    });
+                                                                }
+                                                            },
+                                                            error(xhr, status, error) {
+                                                                App.logError(xhr.responseText);
+                                                            }
+                                                        });
                                                     }
-                                                  },
-                                                    error(xhr, status, error) {
-                                                        App.logError(xhr.responseText);
-                                                    }
-                                                });
-                                            }
-                                          },
-                                            error(xhr, status, error) {
-                                                App.logError(xhr.responseText);
-                                            }
-                                        });
-                                    }
-                                  },
+                                                },
+                                                error(xhr, status, error) {
+                                                    App.logError(xhr.responseText);
+                                                }
+                                            });
+                                        }
+                                    },
                                     error(xhr, status, error) {
                                         App.logError(xhr.responseText);
                                     }
                                 });
                             }
-                          },
-                            error(xhr, status, error) {
-                                App.logError(xhr.responseText);
-                            }
-                        });
-                    }
-                 },
-                    error(xhr, status, error) {
-                        App.logError(xhr.responseText);
-                    }
-                });
-            }
-          },
+                        },
+                        error(xhr, status, error) {
+                            App.logError(xhr.responseText);
+                        }
+                    });
+                }
+            },
             error(xhr, status, error) {
                 App.logError(xhr.responseText);
             }
@@ -258,12 +258,12 @@ App.loadluposdate3000 = function(data, url, withGraph) {
             method: "POST",
             data: queryData,
             success(xml) {
-              if (App.checkErrorString(xml, 'sparql')) {
-                App.processResults(xml, "sparql");
-                App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
-                App.initConfigComponentsHideTabs();
-            }
-          },
+                if (App.checkErrorString(xml, 'sparql')) {
+                    App.processResults(xml, "sparql");
+                    App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
+                    App.initConfigComponentsHideTabs();
+                }
+            },
             error(xhr, status, error) {
                 App.logError(xhr.responseText);
             }
@@ -272,14 +272,14 @@ App.loadluposdate3000 = function(data, url, withGraph) {
 };
 
 App.checkErrorString = function(data, target) {
-    if ((typeof data === 'string') && (data.indexOf("HTTP/1.1 500 Internal Server Error") !==-1)) {
+    if ((typeof data === 'string') && (data.indexOf("HTTP/1.1 500 Internal Server Error") !== -1)) {
         App.logError(data, target);
         return false;
     } else {
         return true;
     }
 };
-        
+
 App.bindEvents = function() {
     $('#sonificationsettings').click(function() {
         $('#sonificationsettings-menu').show();
@@ -334,7 +334,7 @@ App.bindEvents = function() {
 
     // Send query to endpoint
     $('.query .evaluate').click(function() {
-// Copy changes to textarea
+        // Copy changes to textarea
         let key, locator, method, withGraph;
         for (key in App.cm) {
             App.cm[key].save();
@@ -347,8 +347,9 @@ App.bindEvents = function() {
             withGraph = App.config.evalGraphRif;
         }
         const endpoint = App.config.endpoints[App.config.selectedEndpoint];
-        let data =
-            {query: App.cm[target].getValue()};
+        let data = {
+            query: App.cm[target].getValue()
+        };
         if (App.config.sendRDF) {
             data['rdf'] = App.cm['rdf'].getValue();
         } else {
@@ -363,85 +364,83 @@ App.bindEvents = function() {
             locator = endpoint.without;
         }
         const url = endpoint.url + locator;
-            if (endpoint.name === "Browser Luposdate3000") {
-                let e;
-                if (App.config.sendRDF) {
-                    try {
-                        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
-                        App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
-                        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
-                    } catch (error) {
-                        e = error;
-                        App.logError(e, 'rdf');
-                    }
+        if (endpoint.name === "Browser Luposdate3000") {
+            if (App.config.sendRDF) {
+                try {
+                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
+                    App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
+                    console.log(data)
+                    luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
+                } catch (error) {
+                    App.logError(error, 'rdf');
                 }
-                //Receive optimized steps for logical and physical operator graph
-                if (withGraph) {
-                    try {
-                        let k, v;
-                        const eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance);
-                        let tmp = eev.getOptimizedStepsLogical();
-                        for (k = 0; k < tmp.length; k++) {
-                            v = tmp[k];
-                          if (typeof v === 'string') {
+            }
+            //Receive optimized steps for logical and physical operator graph
+            if (withGraph) {
+                try {
+                    let k, v;
+                    const eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance);
+                    let tmp = eev.getOptimizedStepsLogical();
+                    for (k = 0; k < tmp.length; k++) {
+                        v = tmp[k];
+                        if (typeof v === 'string') {
                             tmp[k] = JSON.parse(v.toJson());
-                          }
                         }
-                        App.logGraph = tmp;
-                        tmp = eev.getOptimizedStepsPhysical();
-                        for (k = 0; k < tmp.length; k++) {
-                            v = tmp[k];
-                          if (typeof v === 'string') {
+                    }
+                    App.logGraph = tmp;
+                    tmp = eev.getOptimizedStepsPhysical();
+                    for (k = 0; k < tmp.length; k++) {
+                        v = tmp[k];
+                        if (typeof v === 'string') {
                             tmp[k] = JSON.parse(v.toJson());
-                          }
                         }
-                        App.physGraph = tmp;
-                        //Result from the query
-                        App.result = eev.getResult();
-                        tmp = eev.getDataSteps();
-                        for (k = 0; k < tmp.length; k++) {
-                            v = tmp[k];
-                            tmp[k] = JSON.parse(v);
-                        }
-                        App.globalAnimationList = tmp;
-                        formatResultData();
-                        App.additionalHiddenTabs = ["graph", "op-graph"];
-                        App.initConfigComponentsHideTabs();
-                    } catch (error1) {
-                        e = error1;
-                        App.logError(e, target);
                     }
-                } else {
-                    try {
-                        const res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query);
-                        App.processResults(res, "sparql");
-                        App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
-                        App.initConfigComponentsHideTabs();
-                    } catch (error2) {
-                        e = error2;
-                        App.logError(e, target);
+                    App.physGraph = tmp;
+                    //Result from the query
+                    App.result = eev.getResult();
+                    tmp = eev.getDataSteps();
+                    for (k = 0; k < tmp.length; k++) {
+                        v = tmp[k];
+                        tmp[k] = JSON.parse(v);
                     }
+                    App.globalAnimationList = tmp;
+                    formatResultData();
+                    App.additionalHiddenTabs = ["graph", "op-graph"];
+                    App.initConfigComponentsHideTabs();
+                } catch (error1) {
+                    App.logError(error1, target);
                 }
-            } else if (endpoint.name === "localhost Luposdate3000"){
-                if (App.config.sendRDF) {
-                    const rdfData =
-                        {data: data.rdf};
-                    $.ajax({
-                        url: url + 'import/turtledata',
-                        method: "POST",
-                        data: rdfData,
-                        success(loadResponse) {
-                            if (App.checkErrorString(loadResponse, 'rdf')) {
-                                App.loadluposdate3000(data, url, withGraph);
-                            }
-                        },
-                        error(xhr, status, error) {
-                            App.logError(xhr.responseText, 'rdf');
+            } else {
+                try {
+                    const res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query);
+                    App.processResults(res, "sparql");
+                    App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
+                    App.initConfigComponentsHideTabs();
+                } catch (error2) {
+                    App.logError(error2, target);
+                }
+            }
+        } else if (endpoint.name === "localhost Luposdate3000") {
+            if (App.config.sendRDF) {
+                const rdfData = {
+                    data: data.rdf
+                };
+                $.ajax({
+                    url: url + 'import/turtledata',
+                    method: "POST",
+                    data: rdfData,
+                    success(loadResponse) {
+                        if (App.checkErrorString(loadResponse, 'rdf')) {
+                            App.loadluposdate3000(data, url, withGraph);
                         }
-                    });
-                } else {
-                    App.loadluposdate3000(data, url, withGraph);
-                }
+                    },
+                    error(xhr, status, error) {
+                        App.logError(xhr.responseText, 'rdf');
+                    }
+                });
+            } else {
+                App.loadluposdate3000(data, url, withGraph);
+            }
         } else {
             if (endpoint.nonstandard) {
                 data['formats'] = ['xml', 'plain'];
@@ -451,7 +450,7 @@ App.bindEvents = function() {
                 }
                 const inference = $('input[name="rule"]:checked').val();
                 data['inference'] = inference;
-                if(inference === 'RIF') {
+                if (inference === 'RIF') {
                     data['rif'] = $('#codemirror_rif').val();
                 }
                 data['evaluator'] = App.selectedEvaluatorName;
@@ -496,7 +495,8 @@ App.bindEvents = function() {
                         App.initConfigComponentsHideTabs();
                     } else {
                         App.additionalHiddenTabs = ["luposdate3000-graph", "luposdate3000-sonification", "graph",
-                            "op-graph"];
+                            "op-graph"
+                        ];
                         App.initConfigComponentsHideTabs();
                     }
                 },
@@ -547,7 +547,11 @@ App.bindEvents = function() {
 
 App.insertQueryPicker = () => (() => {
     const result = [];
-    for (var lang in {'sparql': 'sparql', 'rdf': 'rdf', 'rif': 'rif'}) {
+    for (var lang in {
+            'sparql': 'sparql',
+            'rdf': 'rdf',
+            'rif': 'rif'
+        }) {
         var localhtml = "";
         for (var option of Array.from(App.config['defaultData'][lang])) {
             localhtml += "<option value=";
@@ -568,7 +572,7 @@ App.preprocessResults = function(data, namespaces, colors) {
     let xml = data;
 
     if (App.config.endpoints[App.config.selectedEndpoint].nonstandard) {
-// Process specific response types for nonstandard
+        // Process specific response types for nonstandard
         if ('triples' in data) {
             resultSets.push(App.processTriples(data.triples, namespaces, colors));
         }
@@ -576,25 +580,23 @@ App.preprocessResults = function(data, namespaces, colors) {
             resultSets.push(App.processPredicates(data.predicates, namespaces, colors));
         }
         if ('XML' in data) {
-// Sometimes the server will return an empty string
+            // Sometimes the server will return an empty string
             if (data.XML[0] === '') {
                 resultSets.push(App.emptyResultSet());
             } else {
                 try {
                     xml = $.parseXML(data.XML[0]);
                 } catch (error1) {
-                    error = error1;
-                    console.log(error);
+                    console.log(error1);
                 }
             }
         }
-// In nonstandard we get XML as string
+        // In nonstandard we get XML as string
     } else {
         try {
             xml = $.parseXML(data);
         } catch (error2) {
-            error = error2;
-            console.log(error);
+            console.log(error2);
         }
     }
 
@@ -609,8 +611,8 @@ App.preprocessResults = function(data, namespaces, colors) {
 
 App.processResults = function(data, lang) {
 
-// Find and save defined prefixes
-// Generate random colors while we're at it
+    // Find and save defined prefixes
+    // Generate random colors while we're at it
     let value;
     const namespaces = {};
     const colors = {};
@@ -631,7 +633,9 @@ App.processResults = function(data, lang) {
     }
     for (var key in namespaces) {
         value = namespaces[key];
-        colors[key] = randomColor({luminosity: 'dark'});
+        colors[key] = randomColor({
+            luminosity: 'dark'
+        });
     }
     // Actually use them in the result
     // Check validity, preprocess if necessary
@@ -780,7 +784,9 @@ App.processSparql = function(doc, namespaces, colors) {
             i++;
         }
         if (!doc.sparql.results.hasOwnProperty("result")) {
-            doc.sparql.results={result:[]};
+            doc.sparql.results = {
+                result: []
+            };
         }
         if (!$.isArray(doc.sparql.results.result)) {
             doc.sparql.results.result = [doc.sparql.results.result];
@@ -790,11 +796,13 @@ App.processSparql = function(doc, namespaces, colors) {
             var presult = [];
             if ($.isArray(result.binding)) {
                 bindings = result.binding;
-            } else { bindings = [result.binding]; }
+            } else {
+                bindings = [result.binding];
+            }
             var varbinding = [];
             for (var bind of Array.from(bindings)) {
                 var value = '';
-                if(bind != null) {
+                if (bind != null) {
                     if ('uri' in bind) {
                         value = App.replacePrefixes(bind.uri, namespaces, colors);
                     } else if ('literal' in bind) {
@@ -815,7 +823,9 @@ App.processSparql = function(doc, namespaces, colors) {
                 var index = varorder[varname];
                 if (varbinding[varname]) {
                     presult[index] = varbinding[varname];
-                } else { presult[index] = ''; }
+                } else {
+                    presult[index] = '';
+                }
             }
             resultSet.results.push(presult);
         }
@@ -914,12 +924,12 @@ App.parseRDFPrefixes = function(data) {
     const prefixes = {};
     // first detect base
     let reg = /@prefix\s+:\s*<([^>]+)>\s*\./g;
-    while(m = reg.exec(data)) {
+    while (m = reg.exec(data)) {
         prefixes[''] = m[1];
     }
     // now detect prefixes
     reg = /@prefix\s+([A-z0-9-]+):\s*<([^>]+)>\s*\./g;
-    while(m = reg.exec(data)) {
+    while (m = reg.exec(data)) {
         prefixes[m[1]] = m[2];
     }
     return prefixes;
@@ -930,12 +940,12 @@ App.parseSPARQLPrefixes = function(data) {
     const prefixes = {};
     // first detect base
     let reg = /base\s+<([^>]+)>/ig;
-    while(m = reg.exec(data)) {
+    while (m = reg.exec(data)) {
         prefixes[''] = m[1];
     }
     // now detect prefixes
     reg = /prefix\s+([A-z0-9-]+)\s*:\s*<([^>]+)>/ig;
-    while(m = reg.exec(data)) {
+    while (m = reg.exec(data)) {
         prefixes[m[1]] = m[2];
     }
     return prefixes;
@@ -946,21 +956,28 @@ App.parseRIFPrefixes = function(data) {
     const prefixes = {};
     // first detect base
     let reg = /base\(\s*<([^>]+)>\s*\)/ig;
-    while(m = reg.exec(data)) {
+    while (m = reg.exec(data)) {
         prefixes[''] = m[1];
     }
     // now detect prefixes
     reg = /prefix\(([^\s]+)\s+<([^>]+)>\s*\)/ig;
-    while(m = reg.exec(data)) {
+    while (m = reg.exec(data)) {
         prefixes[m[1]] = m[2];
     }
     return prefixes;
 };
 
 App.logError = function(msg, editor, line) {
+    console.log(msg,editor,line)
     if (editor && line) {
         line--;
-        App.cm[editor].setSelection({line, ch: 0}, {line, ch: 80});
+        App.cm[editor].setSelection({
+            line,
+            ch: 0
+        }, {
+            line,
+            ch: 80
+        });
         $(`.${editor}-tab a`).click();
     }
     let localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre style='white-space: pre-wrap;'>";
@@ -974,7 +991,9 @@ App.logError = function(msg, editor, line) {
 
 App.baseName = function(str) {
     let base = new String(str).substring(str.lastIndexOf('/') + 1);
-    if (base.lastIndexOf('.') !== -1) { base = base.substring(0, base.lastIndexOf('.')); }
+    if (base.lastIndexOf('.') !== -1) {
+        base = base.substring(0, base.lastIndexOf('.'));
+    }
     return base;
 };
 
@@ -1022,7 +1041,7 @@ App.initConfigComponentsEvaluatorSelector = function() {
             endpoint = App.config.endpoints[App.config.selectedEndpoint];
             endpoint.selectedEvaluator = $(this).val();
             App.selectedEvaluatorName = endpoint.evaluators[endpoint.selectedEvaluator];
-            if((App.selectedEvaluatorName === "Jena") || (App.selectedEvaluatorName === "Sesame")) {
+            if ((App.selectedEvaluatorName === "Jena") || (App.selectedEvaluatorName === "Sesame")) {
                 App.config.evalGraphSparql = false;
                 App.config.evalGraphRif = false;
                 App.updateConfigComponentsEvalGraph();
@@ -1054,7 +1073,7 @@ App.initConfigComponentsHideTabs = function() {
     for (tab of Array.from(App.additionalHiddenTabs)) {
         tabsToHide.push(tab);
     }
-    if((App.selectedEvaluatorName === "Jena") || (App.selectedEvaluatorName === "Sesame") || (App.selectedEvaluatorName.indexOf("Luposdate3000")!==-1)) {
+    if ((App.selectedEvaluatorName === "Jena") || (App.selectedEvaluatorName === "Sesame") || (App.selectedEvaluatorName.indexOf("Luposdate3000") !== -1)) {
         tabsToHide.push("rif");
     }
     const allTabs = [];
@@ -1170,38 +1189,38 @@ App.initConfigComponentsInference = function() {
 };
 App.initConfigComponentsHideInference = function() {
     let radio, s;
-    const allRadio=["rdfs", "owl", "rif", "without"];
+    const allRadio = ["rdfs", "owl", "rif", "without"];
     for (radio of Array.from(allRadio)) {
         s = '#rule_' + radio;
         $(s).show();
         $(s + '_label').show();
-    }    
-    if (App.selectedEvaluatorName.indexOf("Luposdate3000")!==-1) {
-            const result = [];
-            for (radio of Array.from(allRadio)) {
+    }
+    if (App.selectedEvaluatorName.indexOf("Luposdate3000") !== -1) {
+        const result = [];
+        for (radio of Array.from(allRadio)) {
+            s = '#rule_' + radio;
+            $(s).hide();
+            result.push($(s + '_label').hide());
+        }
+        return result;
+    } else if (App.config.hide.inference) {
+        const result1 = [];
+        for (radio of Array.from(allRadio)) {
+            var actual = App.config['queryParameters']['inference'];
+            if ((actual.toLowerCase() !== radio) && !((actual === "OWL2RL") && (radio === "owl"))) {
                 s = '#rule_' + radio;
                 $(s).hide();
-                result.push($(s + '_label').hide());
+                result1.push($(s + '_label').hide());
+            } else {
+                result1.push(undefined);
             }
-            return result;
-    } else if (App.config.hide.inference) {
-            const result1 = [];
-            for (radio of Array.from(allRadio)) {
-                var actual = App.config['queryParameters']['inference'];
-                if ((actual.toLowerCase() !== radio) && !((actual === "OWL2RL") && (radio === "owl"))) {
-                    s = '#rule_' + radio;
-                    $(s).hide();
-                    result1.push($(s + '_label').hide());
-                } else {
-                    result1.push(undefined);
-                }
-            }
-            return result1;
+        }
+        return result1;
     }
 };
-    
+
 App.initConfigComponents = function() {
-    $('.my-tabs .my-tab-links a').click(function(e){
+    $('.my-tabs .my-tab-links a').click(function(e) {
         const currentAttrValue = $(this).attr('href');
         $('.my-tabs ' + currentAttrValue).show().siblings().hide();
         $(this).parent('li').addClass('active').siblings().removeClass('active');
@@ -1225,7 +1244,9 @@ $(document).ready(() => App.init());
 
 let textFile = null;
 var makeTextFile = function(text) {
-    const data = new Blob([text], {type: 'text/plain'});
+    const data = new Blob([text], {
+        type: 'text/plain'
+    });
     // If we are replacing a previously generated file we need to
     // manually revoke the object URL to avoid memory leaks.
     if (textFile !== null) {
