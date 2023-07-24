@@ -363,15 +363,12 @@ App.bindEvents = function() {
             locator = endpoint.without;
         }
         const url = endpoint.url + locator;
-        if ((endpoint.name === "Browser Luposdate3000") || (endpoint.name === "localhost Luposdate3000")) {
-            if (App.config.sendRDF) {
-                luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
-                App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
-            }
             if (endpoint.name === "Browser Luposdate3000") {
                 let e;
                 if (App.config.sendRDF) {
                     try {
+                        luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
+                        App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
                         luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
                     } catch (error) {
                         e = error;
@@ -425,7 +422,7 @@ App.bindEvents = function() {
                         App.logError(e, target);
                     }
                 }
-            } else {
+            } else if (endpoint.name === "localhost Luposdate3000"){
                 if (App.config.sendRDF) {
                     const rdfData =
                         {data: data.rdf};
@@ -445,7 +442,6 @@ App.bindEvents = function() {
                 } else {
                     App.loadluposdate3000(data, url, withGraph);
                 }
-            }
         } else {
             if (endpoint.nonstandard) {
                 data['formats'] = ['xml', 'plain'];
