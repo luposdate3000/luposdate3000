@@ -47,18 +47,18 @@ App.init = function() {
     // Load configuration
     App.URIQuery = URI(document.location.href).query(true);
 
-    return $.getJSON('config/operators.json').done(function(dataOp) {
+    $.getJSON('config/operators.json').done(function(dataOp) {
         App.operators = dataOp;
-        return $.getJSON('config/config.json').done(function(dataConf) {
+        $.getJSON('config/config.json').done(function(dataConf) {
             App.config = dataConf;
             if (App.URIQuery.config) {
-                return $.getJSON(App.URIQuery.config).done(function(addData) {
+                $.getJSON(App.URIQuery.config).done(function(addData) {
 //merge the default config with the provided url-config
                     App.config = $.extend(data, addData, {});
-                    return App.play();
+                    App.play();
                 });
             } else {
-                return App.play();
+                App.play();
             }
         });
     });
@@ -73,10 +73,10 @@ App.play = function() {
     App.initConfigComponents();
     App.insertQueryPicker();
     initVisualization();
-    return pleaseWait.finish(false, function() {
+    pleaseWait.finish(false, function() {
         App.cm['sparql'].refresh();
         App.cm['rif'].refresh();
-        return App.cm['rdf'].refresh();
+        App.cm['rdf'].refresh();
     });
 };
 
@@ -112,18 +112,18 @@ App.loadEditors = function() {
     }
     );
 
-    return App.loadQuery('rif', 0);
+    App.loadQuery('rif', 0);
 };
 
 App.loadQuery = function(lang, index) {
     const $statusElement = $(`.load-query-status[data-lang=${lang}]`);
     $statusElement.show().html('<i class="fa fa-spinner"></i>');
-    return $.ajax({
+    $.ajax({
         url: App.config.defaultData[lang][index],
         dataType: 'text'
     }).done(function(data) {
         $statusElement.html('<i class="fa fa-check-circle"></i>').fadeOut(500);
-        return App.cm[lang].getDoc().setValue(data);
+        App.cm[lang].getDoc().setValue(data);
     });
 };
 
@@ -140,26 +140,26 @@ App.getGraphData = function(data, urlPrefix, method, target){
         data: JSON.stringify(request),
         success(data) {
             if (App.checkErrorString(data)) {
-                return createGraph(data, target);
+                createGraph(data, target);
             }
         },
         error(xhr, status, error) {
-            return App.logError(xhr.responseText);
+            App.logError(xhr.responseText);
         }
     });
 
     // Operator-Graph Request
-    return $.ajax({
+    $.ajax({
         url: urlPrefix + "/graphs",
         method,
         data: JSON.stringify(data),
         success(data) {
             if (App.checkErrorString(data)) {  
-                return createOPGraph(data, target);
+                createOPGraph(data, target);
             }
         },
         error(xhr, status, error) {
-            return App.logError(xhr.responseText);
+            App.logError(xhr.responseText);
         }
     });
 };
@@ -171,7 +171,7 @@ App.loadluposdate3000 = function(data, url, withGraph) {
         evaluator: "XML_STREAM"
     };
     if (withGraph) {
-        return $.ajax({
+        $.ajax({
             url: url + 'sparql/startSession',
             method: "POST",
             data: queryData,
@@ -179,35 +179,35 @@ App.loadluposdate3000 = function(data, url, withGraph) {
               if (App.checkErrorString(sessionID, 'sparql')) {
                 const sessionData =
                     {sessionID};
-                return $.ajax({
+                $.ajax({
                     url: url + 'sparql/getLogicalVisual',
                     method: "POST",
                     data: sessionData,
                     success(logSteps) {
                      if (App.checkErrorString(logSteps, 'sparql')) {  
                         App.logGraph = JSON.parse(logSteps);
-                        return $.ajax({
+                        $.ajax({
                             url: url + 'sparql/getPhysicalVisual',
                             method: "POST",
                             data: sessionData,
                             success(phySteps) {
                               if (App.checkErrorString(phySteps, 'sparql')) {  
                                 App.physGraph = JSON.parse(phySteps);
-                                return $.ajax({
+                                $.ajax({
                                     url: url + 'sparql/getVisualisationData',
                                     method: "POST",
                                     data: sessionData,
                                     success(visData) {
                                       if (App.checkErrorString(visData, 'sparql')) {  
                                         App.globalAnimationList = JSON.parse(visData);
-                                        return $.ajax({
+                                        $.ajax({
                                             url: url + 'sparql/getResult',
                                             method: "POST",
                                             data: sessionData,
                                             success(resultData) {
                                               if (App.checkErrorString(resultData, 'sparql')) {  
                                                 App.result = resultData;
-                                                return $.ajax({
+                                                $.ajax({
                                                     url: url + 'sparql/closeSession',
                                                     method: "POST",
                                                     data: sessionData,
@@ -215,45 +215,45 @@ App.loadluposdate3000 = function(data, url, withGraph) {
                                                       if (App.checkErrorString(closeResponse, 'sparql')) {
                                                         formatResultData();
                                                         App.additionalHiddenTabs = ["graph", "op-graph"];
-                                                        return App.initConfigComponentsHideTabs();
+                                                        App.initConfigComponentsHideTabs();
                                                     }
                                                   },
                                                     error(xhr, status, error) {
-                                                        return App.logError(xhr.responseText);
+                                                        App.logError(xhr.responseText);
                                                     }
                                                 });
                                             }
                                           },
                                             error(xhr, status, error) {
-                                                return App.logError(xhr.responseText);
+                                                App.logError(xhr.responseText);
                                             }
                                         });
                                     }
                                   },
                                     error(xhr, status, error) {
-                                        return App.logError(xhr.responseText);
+                                        App.logError(xhr.responseText);
                                     }
                                 });
                             }
                           },
                             error(xhr, status, error) {
-                                return App.logError(xhr.responseText);
+                                App.logError(xhr.responseText);
                             }
                         });
                     }
                  },
                     error(xhr, status, error) {
-                        return App.logError(xhr.responseText);
+                        App.logError(xhr.responseText);
                     }
                 });
             }
           },
             error(xhr, status, error) {
-                return App.logError(xhr.responseText);
+                App.logError(xhr.responseText);
             }
         });
     } else {
-        return $.ajax({
+        $.ajax({
             url: url + 'sparql/query',
             method: "POST",
             data: queryData,
@@ -261,11 +261,11 @@ App.loadluposdate3000 = function(data, url, withGraph) {
               if (App.checkErrorString(xml, 'sparql')) {
                 App.processResults(xml, "sparql");
                 App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
-                return App.initConfigComponentsHideTabs();
+                App.initConfigComponentsHideTabs();
             }
           },
             error(xhr, status, error) {
-                return App.logError(xhr.responseText);
+                App.logError(xhr.responseText);
             }
         });
     }
@@ -284,13 +284,13 @@ App.bindEvents = function() {
     $('#sonificationsettings').click(function() {
         $('#sonificationsettings-menu').show();
         $('#graphsettings-ast').hide();
-        return $('#graphsettings-operator').hide();
+        $('#graphsettings-operator').hide();
     });
 
     $('#graphsettings').click(function() {
         $('#sonificationsettings-menu').hide();
         $('#graphsettings-ast').show();
-        return $('#graphsettings-operator').show();
+        $('#graphsettings-operator').show();
     });
 
 
@@ -306,7 +306,7 @@ App.bindEvents = function() {
             const graphValue = graphSelect.val(value);
             graphSelect.trigger('change');
             if (value === 0) {
-                return $(this).addClass('disabled');
+                $(this).addClass('disabled');
             }
         }
     });
@@ -326,7 +326,7 @@ App.bindEvents = function() {
             const graphValue = graphSelect.val(value);
             graphSelect.trigger('change');
             if (value === max) {
-                return $(this).addClass('disabled');
+                $(this).addClass('disabled');
             }
         }
     });
@@ -409,41 +409,41 @@ App.bindEvents = function() {
                         App.globalAnimationList = tmp;
                         formatResultData();
                         App.additionalHiddenTabs = ["graph", "op-graph"];
-                        return App.initConfigComponentsHideTabs();
+                        App.initConfigComponentsHideTabs();
                     } catch (error1) {
                         e = error1;
-                        return App.logError(e, target);
+                        App.logError(e, target);
                     }
                 } else {
                     try {
                         const res = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(App.luposdate3000Instance, data.query);
                         App.processResults(res, "sparql");
                         App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
-                        return App.initConfigComponentsHideTabs();
+                        App.initConfigComponentsHideTabs();
                     } catch (error2) {
                         e = error2;
-                        return App.logError(e, target);
+                        App.logError(e, target);
                     }
                 }
             } else {
                 if (App.config.sendRDF) {
                     const rdfData =
                         {data: data.rdf};
-                    return $.ajax({
+                    $.ajax({
                         url: url + 'import/turtledata',
                         method: "POST",
                         data: rdfData,
                         success(loadResponse) {
                             if (App.checkErrorString(loadResponse, 'rdf')) {
-                                return App.loadluposdate3000(data, url, withGraph);
+                                App.loadluposdate3000(data, url, withGraph);
                             }
                         },
                         error(xhr, status, error) {
-                            return App.logError(xhr.responseText, 'rdf');
+                            App.logError(xhr.responseText, 'rdf');
                         }
                     });
                 } else {
-                    return App.loadluposdate3000(data, url, withGraph);
+                    App.loadluposdate3000(data, url, withGraph);
                 }
             }
         } else {
@@ -489,7 +489,7 @@ App.bindEvents = function() {
             localhtml += "</div>";
             $('#result-tab').html(localhtml);
 
-            return $.ajax({
+            $.ajax({
                 url,
                 method,
                 data,
@@ -497,15 +497,15 @@ App.bindEvents = function() {
                     App.processResults(data, target);
                     if (withGraph) {
                         App.additionalHiddenTabs = ["luposdate3000-graph", "luposdate3000-sonification"];
-                        return App.initConfigComponentsHideTabs();
+                        App.initConfigComponentsHideTabs();
                     } else {
                         App.additionalHiddenTabs = ["luposdate3000-graph", "luposdate3000-sonification", "graph",
                             "op-graph"];
-                        return App.initConfigComponentsHideTabs();
+                        App.initConfigComponentsHideTabs();
                     }
                 },
                 error(xhr, status, error) {
-                    return App.logError(xhr.responseText);
+                    App.logError(xhr.responseText);
                 }
             });
         }
@@ -517,7 +517,7 @@ App.bindEvents = function() {
             callback(tab) {
                 const content = $(tab.children('a').attr('href'));
                 if (content.find('.CodeMirror').length) {
-                    return content.find('.CodeMirror')[0].CodeMirror.refresh();
+                    content.find('.CodeMirror')[0].CodeMirror.refresh();
                 }
             }
         }
@@ -526,17 +526,11 @@ App.bindEvents = function() {
     $('.query-select').change(function() {
         const lang = $(this).data('lang');
         const index = $(this).find('option:selected').index();
-        return App.loadQuery(lang, index);
-    });
-
-    // Toggle fullscreen and other view options
-    $('.fullscreen-toggle').click(function() {
-        $('.main-section').toggleClass('full');
-        return $(this).toggleClass('active');
+        App.loadQuery(lang, index);
     });
 
     // Merge/split tabs
-    return $('.right-side-toggle').click(function() {
+    $('.right-side-toggle').click(function() {
         if (App.isMergeView) {
             $(".my-tab-rightside").detach().appendTo('.my-tab-content-rightside');
             $(".my-tab-links-rightside").detach().appendTo('.my-tab-links-content-rightside');
@@ -550,7 +544,7 @@ App.bindEvents = function() {
         }
         $(this).toggleClass('active');
         App.isMergeView = !App.isMergeView;
-        return App.initConfigComponentsHideTabs();
+        App.initConfigComponentsHideTabs();
     });
 };
 
@@ -745,22 +739,22 @@ App.processResults = function(data, lang) {
             localhtml += resultTab;
             localhtml += "</body>";
             localhtml += "</html>";
-            return $("#downloadHTMLResult").attr('href', makeTextFile(localhtml));
+            $("#downloadHTMLResult").attr('href', makeTextFile(localhtml));
         }
     } else {
         if ('queryError' in data) {
-            return App.logError('Sparql: ' + data.queryError.errorMessage, lang, data.queryError.line);
+            App.logError('Sparql: ' + data.queryError.errorMessage, lang, data.queryError.line);
         } else if ('rdfError' in data) {
-            return App.logError('RDF: ' + data.rdfError.errorMessage, 'rdf', data.rdfError.line);
+            App.logError('RDF: ' + data.rdfError.errorMessage, 'rdf', data.rdfError.line);
         } else if ('rifError' in data) {
-            return App.logError('RIF: ' + data.rifError.errorMessage, 'rif', data.rifError.line);
+            App.logError('RIF: ' + data.rifError.errorMessage, 'rif', data.rifError.line);
         } else if ('error' in data) {
-            return App.logError(data.error);
+            App.logError(data.error);
         } else {
             if (App.config.endpoints[App.config.selectedEndpoint].nonstandard) {
-                return App.logError('Endpoint answer was not valid.');
+                App.logError('Endpoint answer was not valid.');
             } else {
-                return App.logError(data);
+                App.logError(data);
             }
         }
     }
@@ -887,17 +881,17 @@ App.processLiteral = function(para, namespaces, colors, result) {
     para.value = _.escape(para.value);
     if (para.datatype) {
         const prefixeddatatype = App.replacePrefixes(para.datatype, namespaces, colors);
-        return result.push(`\"${para.value}\"^^${prefixeddatatype}`);
+        result.push(`\"${para.value}\"^^${prefixeddatatype}`);
     } else if (para.type && (para.type === 'uri')) {
-        return result.push(App.replacePrefixes(para.value, namespaces, colors));
+        result.push(App.replacePrefixes(para.value, namespaces, colors));
     } else if (para.type && (para.type === 'bnode')) {
-        return result.push(`_:${para.value}`);
+        result.push(`_:${para.value}`);
     } else {
         let r = `\"${para.value}\"`;
         if (para['xml:lang']) {
             r = r + '@' + para['xml:lang'];
         }
-        return result.push(r);
+        result.push(r);
     }
 };
 
@@ -911,7 +905,7 @@ App.replacePrefixes = function(str, namespaces, colors) {
             localhtml += "'>";
             localhtml += _.escape(key);
             localhtml += ":</span>";
-            return str.replace(prefix, localhtml);
+            str.replace(prefix, localhtml);
         }
     }
 
@@ -978,7 +972,7 @@ App.logError = function(msg, editor, line) {
     localhtml += "</pre>";
     $('#result-tab').html(localhtml);
     App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
-    return App.initConfigComponentsHideTabs();
+    App.initConfigComponentsHideTabs();
 };
 
 
@@ -1006,11 +1000,11 @@ App.initConfigComponentsEndpointSelector = function() {
             App.config.selectedEndpoint = $(this).val();
             App.initConfigComponentsEvaluatorSelector();
             App.additionalHiddenTabs = App.rightTabs;
-            return App.initConfigComponentsHideTabs();
+            App.initConfigComponentsHideTabs();
         });
     }
     $('#endpoint_selector').val(App.config.selectedEndpoint);
-    return $('#endpoint_selector').change();
+    $('#endpoint_selector').change();
 };
 
 App.initConfigComponentsEvaluatorSelector = function() {
@@ -1041,18 +1035,18 @@ App.initConfigComponentsEvaluatorSelector = function() {
             App.initConfigComponentsHideWithGraph();
             App.additionalHiddenTabs = App.rightTabs;
             App.initConfigComponentsHideTabs();
-            return App.initConfigComponentsHideInference();
+            App.initConfigComponentsHideInference();
         });
     }
     $('#evaluator_selector').val(endpoint.selectedEvaluator);
-    return $('#evaluator_selector').change();
+    $('#evaluator_selector').change();
 };
 
 App.initConfigComponentsHideWithGraph = function() {
     if (App.config.hide.withGraph || (App.selectedEvaluatorName === "Jena") || (App.selectedEvaluatorName === "Sesame")) {
-        return $('.label-with-graph').hide();
+        $('.label-with-graph').hide();
     } else {
-        return $('.label-with-graph').show();
+        $('.label-with-graph').show();
     }
 };
 App.initConfigComponentsHideTabs = function() {
@@ -1147,20 +1141,20 @@ App.initConfigComponentsHideTabs = function() {
         $('#graphsettings').show();
     }
     if (Array.from(tabsToHide).includes("luposdate3000-sonification")) {
-        return $("#sonificationsettings").hide();
+        $("#sonificationsettings").hide();
     } else {
-        return $("#sonificationsettings").show();
+        $("#sonificationsettings").show();
     }
 };
 
 App.updateConfigComponentsEvalGraph = function() {
     $("#eval-graph-sparql").prop('checked', App.config.evalGraphSparql);
-    return $("#eval-graph-rif").prop('checked', App.config.evalGraphRif);
+    $("#eval-graph-rif").prop('checked', App.config.evalGraphRif);
 };
 App.initConfigComponentsEvalGraph = function() {
     $("#eval-graph-sparql").change(() => App.config.evalGraphSparql = $("#eval-graph-sparql").is(':checked'));
     $("#eval-graph-rif").change(() => App.config.evalGraphRif = $("#eval-graph-rif").is(':checked'));
-    return App.updateConfigComponentsEvalGraph();
+    App.updateConfigComponentsEvalGraph();
 };
 App.initConfigComponentsSendRdf = function() {
     $('#send_rdf').change(() => App.config.sendRDF = $('#send_rdf').is(':checked'));
@@ -1168,7 +1162,7 @@ App.initConfigComponentsSendRdf = function() {
         $('#send_rdf').click();
     }
     if (App.config.hide.sendRDF) {
-        return $('#send_rdf').hide();
+        $('#send_rdf').hide();
     }
 };
 App.initConfigComponentsInference = function() {
@@ -1176,7 +1170,7 @@ App.initConfigComponentsInference = function() {
     let selector = "[value=";
     selector += App.config.queryParameters.inference;
     selector += "]";
-    return $(selector).click();
+    $(selector).click();
 };
 App.initConfigComponentsHideInference = function() {
     let radio, s;
@@ -1187,7 +1181,6 @@ App.initConfigComponentsHideInference = function() {
         $(s + '_label').show();
     }    
     if (App.selectedEvaluatorName.indexOf("Luposdate3000")!==-1) {
-        return (() => {
             const result = [];
             for (radio of Array.from(allRadio)) {
                 s = '#rule_' + radio;
@@ -1195,9 +1188,7 @@ App.initConfigComponentsHideInference = function() {
                 result.push($(s + '_label').hide());
             }
             return result;
-        })();
     } else if (App.config.hide.inference) {
-        return (() => {
             const result1 = [];
             for (radio of Array.from(allRadio)) {
                 var actual = App.config['queryParameters']['inference'];
@@ -1210,7 +1201,6 @@ App.initConfigComponentsHideInference = function() {
                 }
             }
             return result1;
-        })();
     }
 };
     
@@ -1219,7 +1209,7 @@ App.initConfigComponents = function() {
         const currentAttrValue = $(this).attr('href');
         $('.my-tabs ' + currentAttrValue).show().siblings().hide();
         $(this).parent('li').addClass('active').siblings().removeClass('active');
-        return e.preventDefault();
+        e.preventDefault();
     });
 
     App.initConfigComponentsEndpointSelector();
@@ -1230,8 +1220,7 @@ App.initConfigComponents = function() {
     App.initConfigComponentsSendRdf();
     App.initConfigComponentsInference();
     App.initConfigComponentsHideInference();
-    return Array.from(App.config.readOnlyTabs).map((tab) =>
-        App.cm[tab].setOption("readOnly", true));
+    Array.from(App.config.readOnlyTabs).map((tab) => App.cm[tab].setOption("readOnly", true));
 };
 
 const delay = (ms, func) => setTimeout(func, ms);

@@ -5,9 +5,13 @@ wget https://nodejs.org/dist/v16.5.0/node-v16.5.0-linux-x64.tar.xz
 tar -xf node-v16.5.0-linux-x64.tar.xz
 )
 PATH=/root/.gradle/native-binaries/node/node-v16.5.0-linux-x64/bin/:$PATH
+
 git clone --depth=1 https://github.com/nbrosowsky/tonejs-instruments.git
+
 /root/.gradle/native-binaries/node/node-v16.5.0-linux-x64/bin/npm install --scripts-prepend-node-path
+
 ./node_modules/.bin/bower install --allow-root
+
 mkdir -p app/scripts/algos/luposdate3000/
 cp -r /src/luposdate3000/src/luposdate3000_endpoint/build/compileSync/js/main/productionExecutable/kotlin/* app/scripts/algos/luposdate3000/
 
