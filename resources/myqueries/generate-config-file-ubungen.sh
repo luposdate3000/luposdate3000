@@ -120,3 +120,7 @@ ttl="ubungen_d5.n3"
 sparql="ubungen_q22.rq"
 srx=""
 echo $(wc -l $ttl | sed "s/ .*//g"),$sparql,$ttl,$srx >> config.csv2
+
+
+cat config.csv2 | sort -n | uniq > config.csv
+rm config.csv2
