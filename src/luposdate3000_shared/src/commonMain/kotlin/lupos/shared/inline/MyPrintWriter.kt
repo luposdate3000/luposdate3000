@@ -20,15 +20,15 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
 
 public expect class MyPrintWriter(hasBuffer: Boolean = true) : IMyOutputStream {
-    fun clearBuffer()
+    public fun clearBuffer()
     override fun toString(): String
     override fun println(x: String)
     override fun print(x: String)
-    fun println(x: Boolean)
+    public fun println(x: Boolean)
     override fun print(x: Boolean)
-    fun println(x: Int)
+    public fun println(x: Int)
     override fun print(x: Int)
-    fun println(x: Double)
+    public fun println(x: Double)
     override fun print(x: Double)
     override fun println()
     override fun close()

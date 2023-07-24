@@ -28,12 +28,12 @@ import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
 
 public class TriplesIntermediateWriter : TriplesIntermediate {
-    private val i0: Int
-    private val i1: Int
-    private val i2: Int
+    public val i0: Int
+    public val i1: Int
+    public val i2: Int
 
     @JvmField
-    public var count = 0L
+    public var count :Long= 0L
 
     @JvmField
     public var last0: DictionaryValueType = 0
@@ -48,8 +48,8 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     public val buf: ByteArray = ByteArray(25)
 
     @JvmField
-    val bufWrapper = ByteArrayWrapper(buf, 24)
-    private val writeOrder: EIndexPattern
+public    val bufWrapper :ByteArrayWrapper= ByteArrayWrapper(buf, 24)
+    public val writeOrder: EIndexPattern
 
     public constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {
         this.writeOrder = writeOrder

@@ -21,8 +21,8 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.MyPrintWriterMode
 import lupos.shared.MyPrintWriterModeExt
 
-public actual open class MyPrintWriter : IMyOutputStream {
-    public val buffer = StringBuilder()
+ public actual open class MyPrintWriter : IMyOutputStream {
+    public val buffer :StringBuilder= StringBuilder()
 
     public val bufferMode: MyPrintWriterMode
 
@@ -32,7 +32,7 @@ public actual open class MyPrintWriter : IMyOutputStream {
 
     public var filePos: Int = 0
 
-    actual constructor(hasBuffer: Boolean) {
+    public actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterModeExt.BUFFER
         } else {
@@ -42,7 +42,7 @@ public actual open class MyPrintWriter : IMyOutputStream {
         file = -1
     }
 
-    actual fun clearBuffer() {
+    public actual fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.clear()
         } else {
@@ -50,7 +50,7 @@ public actual open class MyPrintWriter : IMyOutputStream {
         }
     }
 
-    actual override fun toString(): String {
+    public actual override fun toString(): String {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             return buffer.toString()
         } else {
@@ -58,65 +58,65 @@ public actual open class MyPrintWriter : IMyOutputStream {
         }
     }
 
-    actual override fun println(x: String) {
+    public actual override fun println(x: String) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
 
-    actual override fun print(x: String) {
+    public actual override fun print(x: String) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
 
-    actual fun println(x: Boolean) {
+    public actual fun println(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
 
-    actual override fun print(x: Boolean) {
+    public actual override fun print(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
 
-    actual fun println(x: Int) {
+    public actual fun println(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
 
-    actual override fun print(x: Int) {
+    public actual override fun print(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
 
-    actual fun println(x: Double) {
+    public actual fun println(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine(x)
         }
     }
 
-    actual override fun print(x: Double) {
+    public actual override fun print(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.append(x)
         }
     }
 
-    actual override fun println() {
+    public actual override fun println() {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             buffer.appendLine()
         }
     }
 
-    actual override fun write(buf: ByteArray, len: Int): Unit = TODO("MyPrintWriter")
-    actual override fun write(buf: ByteArray): Unit = TODO("MyPrintWriter")
-    actual override fun writeInt(value: Int): Unit = TODO("MyPrintWriter")
-    actual override fun writeLong(value: Long): Unit = TODO("MyPrintWriter")
-    actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = TODO("MyPrintWriter")
-    actual override fun close(): Unit = TODO("MyPrintWriter")
-    actual override fun flush(): Unit = TODO("MyPrintWriter")
+    public actual override fun write(buf: ByteArray, len: Int): Unit = TODO("MyPrintWriter")
+    public actual override fun write(buf: ByteArray): Unit = TODO("MyPrintWriter")
+    public actual override fun writeInt(value: Int): Unit = TODO("MyPrintWriter")
+    public actual override fun writeLong(value: Long): Unit = TODO("MyPrintWriter")
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = TODO("MyPrintWriter")
+    public actual override fun close(): Unit = TODO("MyPrintWriter")
+    public actual override fun flush(): Unit = TODO("MyPrintWriter")
 }

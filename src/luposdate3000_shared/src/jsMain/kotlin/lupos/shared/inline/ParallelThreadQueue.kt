@@ -17,10 +17,10 @@
 package lupos.shared.inline
 
 public actual class ParallelThreadQueue<T> {
-    var queue = mutableListOf<T>()
-    var terminalValue: T
+public    var queue :MutableList<T> = mutableListOf<T>()
+  public  var terminalValue: T
 
-    actual constructor(terminationValue: T) {
+public    actual constructor(terminationValue: T) {
         terminalValue = terminationValue
     }
 

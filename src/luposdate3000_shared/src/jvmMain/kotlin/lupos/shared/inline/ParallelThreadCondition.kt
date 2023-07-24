@@ -23,14 +23,14 @@ import kotlin.jvm.JvmField
 public actual class ParallelThreadCondition {
 
     @JvmField
-    var wasSignalled = false
+public    var wasSignalled :Boolean= false
     public actual inline fun waitCondition(crossinline condition: () -> Boolean) {
         synchronized(this) {
             if (!wasSignalled && condition()) {
                 try {
                     (this as Object).wait()
                 } catch (e: Exception) {
-e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/ParallelThreadCondition.kt:32"/*SOURCE_FILE_END*/ )
+e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/jvmMain/kotlin/lupos/shared/inline/ParallelThreadCondition.kt:32"/*SOURCE_FILE_END*/ )
                 }
             }
             wasSignalled = false

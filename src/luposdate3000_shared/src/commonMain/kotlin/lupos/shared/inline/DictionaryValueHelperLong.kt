@@ -81,28 +81,28 @@ public object DictionaryValueHelperLong {
     public val FIRST_BNODE: Long = 5L
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf() = longArrayOf()
+    public inline fun DictionaryValueTypeArrayOf() :LongArray=longArrayOf()
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf(a: Long) = longArrayOf(a)
+    public inline fun DictionaryValueTypeArrayOf(a: Long) :LongArray=longArrayOf(a)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf(a: Long, b: Long) = longArrayOf(a, b)
+    public inline fun DictionaryValueTypeArrayOf(a: Long, b: Long) :LongArray=longArrayOf(a, b)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf(a: Long, b: Long, c: Long) = longArrayOf(a, b, c)
+    public inline fun DictionaryValueTypeArrayOf(a: Long, b: Long, c: Long) :LongArray=longArrayOf(a, b, c)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Long) = BufferManagerPage.writeLong8(buffer, off, value)
+    public inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Long) :Unit= BufferManagerPage.writeLong8(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long, crossinline comment: () -> String = { "TODO" }) = ByteArrayWrapperExt.writeLong8(buffer, off, value, comment)
+    public inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Long, crossinline comment: () -> String = { "TODO" }) :Unit= ByteArrayWrapperExt.writeLong8(buffer, off, value, comment)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Long, count: Int, crossinline comment: () -> String = { "TODO" }) = ByteArrayWrapperExt.writeLongX(buffer, off, value, count, comment)
+    public inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Long, count: Int, crossinline comment: () -> String = { "TODO" }) :Unit= ByteArrayWrapperExt.writeLongX(buffer, off, value, count, comment)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Long, count: Int) = BufferManagerPage.writeLongX(buffer, off, value, count)
+    public inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Long, count: Int) :Unit= BufferManagerPage.writeLongX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Long = BufferManagerPage.readLong8(buffer, off)
@@ -169,8 +169,8 @@ public object DictionaryValueHelperLong {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun sendToStream(stream: IMyOutputStream, value: Long) = stream.writeLong(value)
+    public inline fun sendToStream(stream: IMyOutputStream, value: Long) :Unit= stream.writeLong(value)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun readFromStream(stream: IMyInputStream) = stream.readLong()
+    public inline fun readFromStream(stream: IMyInputStream) :Long= stream.readLong()
 }

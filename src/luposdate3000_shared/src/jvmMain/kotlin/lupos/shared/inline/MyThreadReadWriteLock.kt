@@ -25,17 +25,17 @@ import kotlin.jvm.JvmField
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public actual class MyThreadReadWriteLock {
     public companion object {
-        var isEnabled = true
+public        var isEnabled :Boolean= true
     }
 
     @JvmField
-    public val uuid = UUID_Counter.getNextUUID()
+    public val uuid :Long= UUID_Counter.getNextUUID()
 
     @JvmField
-    public val lock = ReentrantReadWriteLock()
+    public val lock :ReentrantReadWriteLock= ReentrantReadWriteLock()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getUUID() = uuid
+    public actual inline fun getUUID() :Long= uuid
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun downgradeToReadLock() {

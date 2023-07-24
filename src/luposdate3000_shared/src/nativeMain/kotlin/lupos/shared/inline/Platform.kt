@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.EOperatingSystem
 import kotlinx.cinterop.toKString
 import lupos.shared.EOperatingSystemExt
 import platform.posix.getenv

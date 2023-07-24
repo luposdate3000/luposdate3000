@@ -933,12 +933,8 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         File(configFile).printWriter().use { out ->
             out.println("package lupos.shared")
             for (v in typeAliasAll.values) {
- if (v.second.contains("inline")){
-                out.println("internal typealias ${v.first} = ${v.second}")
-}else{
 if (moduleArgs.moduleName=="Luposdate3000_Shared"){
                 out.println("public typealias ${v.first} = ${v.second}")
-}
 }
             }
             for (f in listOf("${moduleArgs.moduleFolder}/configOptions", "src/luposdate3000_shared_inline/configOptions")) {

@@ -21,7 +21,7 @@ import kotlin.jvm.JvmField
 
 public actual class ParallelThreadQueue<T> actual constructor(@JvmField public val terminationValue: T) {
     @JvmField
-    val queue = ArrayBlockingQueue<T>(4096)
+public     val queue :ArrayBlockingQueue<T> = ArrayBlockingQueue<T>(4096)
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun send(value: T) {

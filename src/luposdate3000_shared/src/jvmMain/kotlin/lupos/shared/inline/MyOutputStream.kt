@@ -26,13 +26,13 @@ import kotlin.jvm.JvmField
 
 public actual class MyOutputStream : IMyOutputStream {
     @JvmField
-    val buffer: ByteArray
-    var bufferPos = 0
+public    val buffer: ByteArray
+public    var bufferPos :Int= 0
 
     @JvmField
     public var stream: OutputStream?
 
-    private var closedBy: MutableList<Throwable>? = null
+    public var closedBy: MutableList<Throwable>? = null
 
     public constructor(it: OutputStream) {
         // kotlin.io.println("MyOutputStream.constructor $this")
@@ -71,7 +71,7 @@ public actual class MyOutputStream : IMyOutputStream {
         stream = null
     }
 
-    private fun localFlush() {
+    public fun localFlush() {
         // kotlin.io.println("MyOutputStream.localFlush $this $bufferPos")
         if (bufferPos > 0) {
             stream!!.write(buffer, 0, bufferPos)
@@ -113,10 +113,10 @@ public actual class MyOutputStream : IMyOutputStream {
         _write(buf, 0, buf.size)
     }
 
-    actual override fun println(x: String) = _print("$x\n")
-    actual override fun print(x: String) = _print(x)
-    actual override fun print(x: Boolean) = _print("$x")
-    actual override fun print(x: Int) = _print("$x")
-    actual override fun print(x: Double) = _print("$x")
-    actual override fun println() = _print("\n")
+    public actual override fun println(x: String) :Unit= _print("$x\n")
+    public actual override fun print(x: String) :Unit= _print(x)
+    public actual override fun print(x: Boolean) :Unit= _print("$x")
+    public actual override fun print(x: Int) :Unit= _print("$x")
+    public actual override fun print(x: Double) :Unit= _print("$x")
+    public actual override fun println() :Unit= _print("\n")
 }

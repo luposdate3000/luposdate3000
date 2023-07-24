@@ -23,7 +23,7 @@ import lupos.shared.IMyInputStream
 import kotlin.jvm.JvmField
 import lupos.shared.EOFException
 
-public class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @JvmField var remainingBytes: Int) : IMyInputStream {
+public class MyInputStreamFixedLength(@JvmField public val stream: IMyInputStream, @JvmField public var remainingBytes: Int) : IMyInputStream {
     override fun readDictionaryValueType(): DictionaryValueType {
         if (remainingBytes >= DictionaryValueHelper.getSize()) {
             remainingBytes -= DictionaryValueHelper.getSize()
@@ -103,7 +103,7 @@ public class MyInputStreamFixedLength(@JvmField val stream: IMyInputStream, @Jvm
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:105"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:105"/*SOURCE_FILE_END*/ )
             if (buf.size == 0) {
                 return null
             }

@@ -30,27 +30,27 @@ public actual class File {
     @JvmField
     public val filename: String
 
-    actual constructor(filename: String) {
+public     actual constructor(filename: String) {
         this.filename = filename.replace("\\", "/").replace("/./", "/").replace("//", "/")
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getAbsolutePath() = java.io.File(filename).absolutePath.toString()
+    public actual inline fun getAbsolutePath() :String= java.io.File(filename).absolutePath.toString()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun exists() = java.io.File(filename).exists()
+    public actual inline fun exists() :Boolean= java.io.File(filename).exists()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun mkdirs() = java.io.File(filename).mkdirs()
+    public actual inline fun mkdirs() :Boolean= java.io.File(filename).mkdirs()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun deleteRecursively() = java.io.File(filename).deleteRecursively()
+    public actual inline fun deleteRecursively() :Boolean= java.io.File(filename).deleteRecursively()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun length() = java.io.File(filename).length()
+    public actual inline fun length() :Long= java.io.File(filename).length()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun readAsString() = java.io.File(filename).readText()
+    public actual inline fun readAsString() :String= java.io.File(filename).readText()
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun readAsCharIterator(): CharIterator = MyCharIterator(this)
@@ -93,7 +93,7 @@ public actual class File {
         }
     }
 
-    public actual inline fun forEachLine(crossinline action: (String) -> Unit) = java.io.File(filename).forEachLine {
+    public actual inline fun forEachLine(crossinline action: (String) -> Unit) :Unit= java.io.File(filename).forEachLine {
         action(it)
     }
 

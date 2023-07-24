@@ -20,14 +20,14 @@ import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 
 public actual class MyThreadReadWriteLock {
-    public val uuid = UUID_Counter.getNextUUID()
+    public val uuid :Long= UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getUUID() = uuid
+    public actual inline fun getUUID():Long = uuid
 
-    public var lockedRead = 0
+    public var lockedRead :Int= 0
 
-    public var lockedWrite = false
+    public var lockedWrite :Boolean= false
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun downgradeToReadLock() {

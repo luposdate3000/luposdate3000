@@ -20,8 +20,8 @@ import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.ByteArrayHelper
 
 public object ByteArrayWrapperExt {
-    private const val debugByteArrayWrapperContents = false
-    private const val debugByteArrayWrapperContentsVerbose = false && debugByteArrayWrapperContents
+    public const val debugByteArrayWrapperContents :Boolean= false
+    public const val debugByteArrayWrapperContentsVerbose :Boolean= false && debugByteArrayWrapperContents
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun getSize(data: ByteArrayWrapper): Int {

@@ -27,10 +27,10 @@ import lupos.shared.inline.File
 import kotlin.jvm.JvmField
 import lupos.shared.InvalidInputException
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
-    private val writeOrder: EIndexPattern
-    private val i0: Int
-    private val i1: Int
-    private val i2: Int
+    public val writeOrder: EIndexPattern
+    public val i0: Int
+    public val i1: Int
+    public val i2: Int
 
     init {
         streamIn = File("$filename$filenameEnding").openInputStream()
@@ -57,7 +57,7 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
     public val buf: ByteArray = ByteArray(24)
 
     @JvmField
-    val bufWrapper = ByteArrayWrapper(buf, 24)
+public     val bufWrapper :ByteArrayWrapper= ByteArrayWrapper(buf, 24)
 
     @JvmField
     public val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)

@@ -36,7 +36,7 @@ public abstract class DictionaryIntermediate(@JvmField public val filename: Stri
 
     public companion object {
         public val version: Int = 2
-        public const val filenameEnding = ".dictionary"
+        public const val filenameEnding :String= ".dictionary"
 
         @Suppress("NOTHING_TO_INLINE")
         public inline fun getFile(filename: String): File {

@@ -22,7 +22,7 @@ import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public object SanityCheckOff {
-    public val enabled = false
+    public val enabled :Boolean= false
     public inline fun println_buffermanager(@Suppress("UNUSED_PARAMETER") crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
     }

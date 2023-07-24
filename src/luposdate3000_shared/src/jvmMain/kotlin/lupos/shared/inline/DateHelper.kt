@@ -21,7 +21,7 @@ import kotlin.jvm.JvmField
 
 public actual class DateHelper actual constructor() {
     @JvmField
-    public val time = Calendar.getInstance()
+    public val time :Calendar= Calendar.getInstance()
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun year(): Int = time.get(Calendar.YEAR)

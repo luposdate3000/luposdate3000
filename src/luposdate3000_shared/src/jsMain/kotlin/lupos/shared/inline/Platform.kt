@@ -15,17 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.EOperatingSystem
 import lupos.shared.EOperatingSystemExt
 
 public actual object Platform {
-    val operatingSystem = EOperatingSystemExt.JS
+public     val operatingSystem :EOperatingSystem= EOperatingSystemExt.JS
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun getHostName(): String = TODO("Platform")
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getOperatingSystem() = operatingSystem
+    public actual inline fun getOperatingSystem() :EOperatingSystem= operatingSystem
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun getUserHome(): String = TODO("Platform")

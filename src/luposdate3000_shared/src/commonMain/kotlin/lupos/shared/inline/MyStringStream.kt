@@ -27,16 +27,16 @@ import kotlin.jvm.JvmField
 public class MyStringStream(str: String) : IMyInputStream {
 
     @JvmField
-    val buf8 = ByteArray(8)
+public    val buf8 :ByteArray= ByteArray(8)
 
     @JvmField
-    val buf8Wrapper = ByteArrayWrapper(buf8, 8)
+public    val buf8Wrapper :ByteArrayWrapper= ByteArrayWrapper(buf8, 8)
 
     @JvmField
-    public val data = str.encodeToByteArray()
+    public val data :ByteArray= str.encodeToByteArray()
 
     @JvmField
-    public var pos = 0
+    public var pos :Int= 0
     override fun close() {
     }
 
@@ -108,7 +108,7 @@ public class MyStringStream(str: String) : IMyInputStream {
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/MyStringStream.kt:110"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyStringStream.kt:110"/*SOURCE_FILE_END*/ )
             if (buf.size == 0) {
                 return null
             }

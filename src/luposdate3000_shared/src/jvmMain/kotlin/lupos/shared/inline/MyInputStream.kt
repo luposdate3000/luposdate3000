@@ -32,10 +32,10 @@ public actual class MyInputStream(@JvmField public val stream: InputStream) : IM
     public val buf8: ByteArray = ByteArray(8)
 
     @JvmField
-    val buf8Wrapper = ByteArrayWrapper(buf8, 8)
+public    val buf8Wrapper :ByteArrayWrapper= ByteArrayWrapper(buf8, 8)
 
     @JvmField
-    public val uuid = UUID_Counter.getNextUUID()
+    public val uuid:Long = UUID_Counter.getNextUUID()
 
     init {
     }
@@ -105,7 +105,7 @@ throw EOFException()
     }
 
     @JvmField
-    public var buffer = ByteArray(1)
+    public var buffer :ByteArray= ByteArray(1)
     actual override fun readLine(): String? {
 // TODO this may break on utf-8 if '\r' or '\0' is part of another char
         var len = 0
@@ -131,7 +131,7 @@ throw EOFException()
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/MyInputStream.kt:133"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/jvmMain/kotlin/lupos/shared/inline/MyInputStream.kt:133"/*SOURCE_FILE_END*/ )
             if (len == 0) {
                 return null
             }
