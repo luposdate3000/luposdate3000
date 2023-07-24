@@ -349,8 +349,19 @@
             try {
               eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance);
               tmp = eev.getOptimizedStepsLogical();
+              for (k = i = 0, len = tmp.length; i < len; k = ++i) {
+                v = tmp[k];
+                tmp[k] = JSON.parse(v.toJson());
+              }
+
               App.logGraph = tmp;
+
               tmp = eev.getOptimizedStepsPhysical();
+
+              for (k = j = 0, len1 = tmp.length; j < len1; k = ++j) {
+                v = tmp[k];
+                tmp[k] = JSON.parse(v.toJson());
+              }
               App.physGraph = tmp;
               App.result = eev.getResult();
               tmp = eev.getDataSteps();
