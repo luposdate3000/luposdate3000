@@ -270,7 +270,6 @@ function melodySetup() {
                 html += '<input type=radio id=pachebel name=melody value=pachebel> Pachebel Canon<br>';
 
                 $('#melodySettings').html(html);
-                console.log("setup melody '" + string + "'")
                 $('#' + App.config.sonification.Melody.value).prop('checked', true);
                 $('input[type=radio][name=melody]').change(function(v) {
                     App.config.sonification.Melody.value = v.target.id

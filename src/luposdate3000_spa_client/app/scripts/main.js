@@ -11,6 +11,12 @@ this.App = {
     isMergeView: false
 };
 
+function myEscape(x){
+x=""+x
+x = x.replace("<","&lt;")
+x = x.replace(">","&gt;")
+return x
+}
 App.init = function() {
     initLuposdate3000();
     App.samples = {};
@@ -366,7 +372,6 @@ App.bindEvents = function() {
                 try {
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.close();
                     App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
-                    console.log(data)
                     luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.import_turtle_string(App.luposdate3000Instance, data.rdf);
                 } catch (error) {
                     App.logError(error, 'rdf');
@@ -377,29 +382,24 @@ App.bindEvents = function() {
                 try {
                     let k, v;
                     const eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance);
-console.log("executed Query")
                     let tmp = eev.getOptimizedStepsLogical();
                     for (k = 0; k < tmp.length; k++) {
                             tmp[k] = JSON.parse(tmp[k].toJson());
                     }
                     App.logGraph = tmp;
-console.log("assigned App.logGraph")
                     tmp = eev.getOptimizedStepsPhysical();
                     for (k = 0; k < tmp.length; k++) {
                             tmp[k] = JSON.parse(tmp[k].toJson());
                     }
                     App.physGraph = tmp;
-console.log("assigned App.physGraph")
                     //Result from the query
                     App.result = eev.getResult();
-console.log("assigned App.result")
                     tmp = eev.getDataSteps();
                     for (k = 0; k < tmp.length; k++) {
                         v = tmp[k];
                         tmp[k] = JSON.parse(v);
                     }
                     App.globalAnimationList = tmp;
-console.log("assigned App.globalAnimationList")
                     formatResultData();
                     App.additionalHiddenTabs = ["graph", "op-graph"];
                     App.initConfigComponentsHideTabs();
@@ -540,7 +540,6 @@ console.log("assigned App.globalAnimationList")
     });
 };
 
-
 App.insertQueryPicker = () => (() => {
     const result = [];
     for (var lang in {
@@ -551,7 +550,7 @@ App.insertQueryPicker = () => (() => {
         var localhtml = "";
         for (var option of Array.from(App.config['defaultData'][lang])) {
             localhtml += "<option value=";
-            localhtml += _.escape(option);
+            localhtml += myEscape(option);
             localhtml += ">";
             localhtml += App.baseName(option);
             localhtml += "</option>";
@@ -561,49 +560,6 @@ App.insertQueryPicker = () => (() => {
     return result;
 })();
 
-App.preprocessResults = function(data, namespaces, colors) {
-    let error;
-    const resultSets = [];
-
-    let xml = data;
-
-    if (App.config.endpoints[App.config.selectedEndpoint].nonstandard) {
-        // Process specific response types for nonstandard
-        if ('triples' in data) {
-            resultSets.push(App.processTriples(data.triples, namespaces, colors));
-        }
-        if ('predicates' in data) {
-            resultSets.push(App.processPredicates(data.predicates, namespaces, colors));
-        }
-        if ('XML' in data) {
-            // Sometimes the server will return an empty string
-            if (data.XML[0] === '') {
-                resultSets.push(App.emptyResultSet());
-            } else {
-                try {
-                    xml = $.parseXML(data.XML[0]);
-                } catch (error1) {
-                    console.log(error1);
-                }
-            }
-        }
-        // In nonstandard we get XML as string
-    } else {
-        try {
-            xml = $.parseXML(data);
-        } catch (error2) {
-            console.log(error2);
-        }
-    }
-
-
-    if ($.isXMLDoc(xml)) {
-        const sparql = App.x2js.xml2json(xml);
-        resultSets.push(App.processSparql(sparql, namespaces, colors));
-    }
-
-    return resultSets;
-};
 
 App.processResults = function(data, lang) {
 
@@ -635,7 +591,43 @@ App.processResults = function(data, lang) {
     }
     // Actually use them in the result
     // Check validity, preprocess if necessary
-    const resultSets = App.preprocessResults(data, namespaces, colors);
+    let error;
+    const resultSets = [];
+
+    let xml = data;
+    if (App.config.endpoints[App.config.selectedEndpoint].nonstandard) {
+        // Process specific response types for nonstandard
+        if ('triples' in data) {
+            resultSets.push(App.processTriples(data.triples, namespaces, colors));
+        }
+        if ('predicates' in data) {
+            resultSets.push(App.processPredicates(data.predicates, namespaces, colors));
+        }
+        if ('XML' in data) {
+            // Sometimes the server will return an empty string
+            if (data.XML[0] === '') {
+                resultSets.push(App.emptyResultSet());
+            } else {
+                try {
+                    xml = $.parseXML(data.XML[0]);
+                } catch (error1) {
+                    console.log(error1);
+                }
+            }
+        }
+    } else {
+        try {
+            xml = $.parseXML(data);
+        } catch (error2) {
+            console.log(error2);
+        }
+    }
+
+    if ($.isXMLDoc(xml)) {
+        const sparql = App.x2js.xml2json(xml);
+        resultSets.push(App.processSparql(sparql, namespaces, colors));
+    }
+
 
     if (resultSets.length) {
         let resultTab = "<div class='result-tab-content'>";
@@ -649,10 +641,10 @@ App.processResults = function(data, lang) {
                 resultTab += "        <td class='sparql-prefix' style='color: ";
                 resultTab += colors[value];
                 resultTab += "'>";
-                resultTab += _.escape(prefix);
+                resultTab += myEscape(prefix);
                 resultTab += "</td>";
                 resultTab += "        <td>";
-                resultTab += _.escape(value);
+                resultTab += myEscape(value);
                 resultTab += "</td>";
                 resultTab += "    </tr>";
             }
@@ -662,9 +654,9 @@ App.processResults = function(data, lang) {
         for (let resultSetIndex = 0; resultSetIndex < resultSets.length; resultSetIndex++) {
             var resultSet = resultSets[resultSetIndex];
             resultTab += "<h4>";
-            resultTab += _.escape(resultSet.name);
+            resultTab += myEscape(resultSet.name);
             resultTab += " (";
-            resultTab += _.escape(resultSet.results.length);
+            resultTab += myEscape(resultSet.results.length);
             resultTab += ")</h4>";
             if (resultSet.results.length > 0) {
                 resultTab += "<table class='results'>";
@@ -674,7 +666,7 @@ App.processResults = function(data, lang) {
                     var variable = resultSet.head[variableIndex];
                     resultTab += "            <th>";
                     resultTab += "                ";
-                    resultTab += _.escape(variable);
+                    resultTab += myEscape(variable);
                     resultTab += "            </th>";
                 }
                 resultTab += "        </tr>";
@@ -802,7 +794,7 @@ App.processSparql = function(doc, namespaces, colors) {
                     if ('uri' in bind) {
                         value = App.replacePrefixes(bind.uri, namespaces, colors);
                     } else if ('literal' in bind) {
-                        value = "\"" + _.escape(bind.literal) + "\"";
+                        value = "\"" + bind.literal + "\"";
                         if (bind.literal._attributes && 'datatype' in bind.literal._attributes) {
                             value += "^^" + App.replacePrefixes(bind.literal._attributes.datatype, namespaces, colors);
                         }
@@ -880,7 +872,7 @@ App.processPredicates = function(preds, namespaces, colors) {
 };
 
 App.processLiteral = function(para, namespaces, colors, result) {
-    para.value = _.escape(para.value);
+    para.value = para.value;
     if (para.datatype) {
         const prefixeddatatype = App.replacePrefixes(para.datatype, namespaces, colors);
         result.push(`\"${para.value}\"^^${prefixeddatatype}`);
@@ -898,21 +890,24 @@ App.processLiteral = function(para, namespaces, colors, result) {
 };
 
 App.replacePrefixes = function(str, namespaces, colors) {
-    str = _.escape(str);
+    str = myEscape(str);
+oldstr=str
     for (var key in namespaces) {
         var prefix = namespaces[key];
         if (str.indexOf(prefix) !== -1) {
             var localhtml = "<span class='sparql-prefix' style='color: ";
             localhtml += colors[key];
             localhtml += "'>";
-            localhtml += _.escape(key);
+            localhtml += myEscape(key);
             localhtml += ":</span>";
-            str.replace(prefix, localhtml);
+  str=          str.replace(prefix, localhtml);
         }
     }
-
-    const base = App.baseName(str);
-    return "&lt;" + str.replace(base, `<em>${base}</em>`) + "&gt;";
+if (oldstr!=str){
+    return  str ;
+}else{
+    return "&lt;" + str + "&gt;";
+}
 };
 
 App.parseRDFPrefixes = function(data) {
@@ -977,7 +972,7 @@ App.logError = function(msg, editor, line) {
         $(`.${editor}-tab a`).click();
     }
     let localhtml = "<h4><i class='fa fa-exclamation-triangle'></i> Error</h4><p>The Server responded with:</p><pre style='white-space: pre-wrap;'>";
-    localhtml += _.escape(msg);
+    localhtml += myEscape(msg);
     localhtml += "</pre>";
     $('#result-tab').html(localhtml);
     App.additionalHiddenTabs = ["graph", "op-graph", "luposdate3000-graph", "luposdate3000-sonification"];
@@ -1000,7 +995,7 @@ App.initConfigComponentsEndpointSelector = function() {
         localhtml += "<option value='";
         localhtml += i;
         localhtml += "'>";
-        localhtml += _.escape(endpoint.name);
+        localhtml += myEscape(endpoint.name);
         localhtml += "</option>";
         i++;
     }
@@ -1026,7 +1021,7 @@ App.initConfigComponentsEvaluatorSelector = function() {
         localhtml += "<option value='";
         localhtml += i;
         localhtml += "'>";
-        localhtml += _.escape(evaluator);
+        localhtml += myEscape(evaluator);
         localhtml += "</option>";
         i++;
     }
