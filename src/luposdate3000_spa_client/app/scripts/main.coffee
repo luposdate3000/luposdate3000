@@ -207,7 +207,7 @@ App.loadluposdate3000 = (data, url, withGraph) ->
                 App.logError xhr.responseText
 
 App.checkErrorString = (data, target) ->
-    if data.indexOf("HTTP/1.1 500 Internal Server Error") !=-1
+    if typeof data is 'string' && data.indexOf("HTTP/1.1 500 Internal Server Error") !=-1
         App.logError data, target
         return false
     else
@@ -299,11 +299,17 @@ App.bindEvents = ->
                         eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance)
                         tmp = eev.getOptimizedStepsLogical();
                         for v,k in tmp
+                          if typeof v is 'string'
                             tmp[k] = JSON.parse(v.toJson())
+                          else
+                             tmp[k] = v
                         App.logGraph = tmp
                         tmp = eev.getOptimizedStepsPhysical();
                         for v,k in tmp
+                          if typeof v is 'string'
                             tmp[k] = JSON.parse(v.toJson())
+                          else
+                             tmp[k] = v
                         App.physGraph = tmp
                         #Result from the query
                         App.result = eev.getResult();
