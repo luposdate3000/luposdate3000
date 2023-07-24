@@ -86,6 +86,7 @@ function calcDifferentDataVariables() { //called by formatResultData
 
 
 function formatResultData() { //called after query execution  - called by main.coffee
+console.log("formatResultData")
     if (network != null) {
         network.destroy();
         network = null
@@ -102,6 +103,8 @@ function formatResultData() { //called after query execution  - called by main.c
             text: c
         }));
     }
+
+console.log("formatResultData -> trigger change")
     //Change the step select box to the last (final optimized) step
     $("#luposdate3000_graph-select").val(App.physGraph.length);
     $("#luposdate3000_graph-select").trigger('change');
@@ -110,7 +113,9 @@ function formatResultData() { //called after query execution  - called by main.c
 
     //Load final optimized step of the physical operator graph by default
     replacePrefix();
+console.log("formatResultData -> loadData A")
     loadData(App.physGraph[App.physGraph.length - 1], true);
+console.log("formatResultData -> loadData B")
     loadData(App.physGraph[App.physGraph.length - 1], false);
     //draw the network
 

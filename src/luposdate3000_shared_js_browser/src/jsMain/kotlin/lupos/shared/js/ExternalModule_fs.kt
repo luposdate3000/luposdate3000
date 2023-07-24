@@ -189,26 +189,28 @@ public class JSInputStream {
     }
 
     public fun read(buf: ByteArray, off: Int, len: Int): Int {
-        var l = len + off
-        if (len + off > buffer.size) {
-            l = buffer.size
+var ll=len
+if (ll>buf.size-off){
+ll=buf.size-off
+}
+        var end = ll + pos
+        if (end > buffer.size) {
+            end = buffer.size
         }
-        if (l > off) {
-            buffer.copyInto(buf, 0, off, l)
+val res=end-pos
+        if (end >= pos) {
+            buffer.copyInto(buf, off, pos, end)
         }
-        return l - off
+        pos=end
+        return res
     }
 
     public fun read(buf: ByteArray, len: Int): Int {
-        val l = read(buf, pos, len)
-        pos += l
-        return l
+        return read(buf, 0, len)
     }
 
     public fun read(buf: ByteArray): Int {
-        val l = read(buf, pos, buf.size)
-        pos += l
-        return l
+        return read(buf, 0, buf.size)
     }
 
     public fun close() {

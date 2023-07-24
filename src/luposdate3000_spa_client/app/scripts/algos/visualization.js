@@ -128,12 +128,15 @@ $("a[href=#luposdate3000-graph-tab]").click(function() {
 //Check when the Graph Step Selector is changed if its at the minimum or maximum
 //and is disabling/enabling the up/down Buttons accordingly
 $("#luposdate3000_graph-select").change(function() {
+console.log("#luposdate3000_graph-select -> onChange")
     var value = $(this).val();
     var index = parseInt($('input[type=radio][name=L3Graph]:checked').val(), 10);
     if (index == 0) {
+console.log("#luposdate3000_graph-select -> loadData A")
         loadData(App.logGraph[value - 1], false);
         var max = App.logGraph.length;
     } else if (index == 1) {
+console.log("#luposdate3000_graph-select -> loadData B",App.physGraph[value - 1],App.physGraph,value - 1)
         loadData(App.physGraph[value - 1], false);
         var max = App.physGraph.length;
     }
@@ -722,6 +725,7 @@ function deleteDebugOperator() { //only called by loadData
 
 //Loads the Nodes and Edges from the data provided
 function loadData(dataParameter, flag) {
+console.log("loadData called",dataParameter)
     dataNodes = dataParameter.nodes;
     dataEdges = dataParameter.edges;
     //remove the POPRico operator

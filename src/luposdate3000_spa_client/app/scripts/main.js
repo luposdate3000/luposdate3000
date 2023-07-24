@@ -380,30 +380,29 @@ App.bindEvents = function() {
                 try {
                     let k, v;
                     const eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance);
+console.log("executed Query")
                     let tmp = eev.getOptimizedStepsLogical();
                     for (k = 0; k < tmp.length; k++) {
-                        v = tmp[k];
-                        if (typeof v === 'string') {
-                            tmp[k] = JSON.parse(v.toJson());
-                        }
+                            tmp[k] = JSON.parse(tmp[k].toJson());
                     }
                     App.logGraph = tmp;
+console.log("assigned App.logGraph")
                     tmp = eev.getOptimizedStepsPhysical();
                     for (k = 0; k < tmp.length; k++) {
-                        v = tmp[k];
-                        if (typeof v === 'string') {
-                            tmp[k] = JSON.parse(v.toJson());
-                        }
+                            tmp[k] = JSON.parse(tmp[k].toJson());
                     }
                     App.physGraph = tmp;
+console.log("assigned App.physGraph")
                     //Result from the query
                     App.result = eev.getResult();
+console.log("assigned App.result")
                     tmp = eev.getDataSteps();
                     for (k = 0; k < tmp.length; k++) {
                         v = tmp[k];
                         tmp[k] = JSON.parse(v);
                     }
                     App.globalAnimationList = tmp;
+console.log("assigned App.globalAnimationList")
                     formatResultData();
                     App.additionalHiddenTabs = ["graph", "op-graph"];
                     App.initConfigComponentsHideTabs();

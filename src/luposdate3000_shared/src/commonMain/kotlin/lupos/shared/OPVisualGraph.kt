@@ -15,10 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared
-
+import kotlin.js.JsName
+import kotlin.js.JsExport
 public class OPVisualGraph {
     public val edges: MutableList<OPVisualEdge> = mutableListOf()
     public val nodes: MutableList<OPVisualNode> = mutableListOf()
     public var maxID: Int = 0
+@JsName("toJson")
     public fun toJson(): String = "{\"edges\":[${edges.map { it.toJson() }.joinToString()}],\"nodes\":[${nodes.map { it.toJson() }.joinToString()}]}"
 }
