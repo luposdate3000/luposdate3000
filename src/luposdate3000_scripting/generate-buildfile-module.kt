@@ -836,7 +836,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
             }
         }
         val typeAliasAll = mutableMapOf<String, Pair<String, String>>()
-        val typeAliasUsed = mutableMapOf<String, Pair<String, String>>()
         when (moduleArgs.dictionaryValueMode) {
             EDictionaryValueMode.Int -> {
                 typeAliasAll["DictionaryValueHelper"] = Pair("DictionaryValueHelper", "lupos.shared.inline.DictionaryValueHelperInt")
@@ -902,7 +901,6 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                     }
                 }
             }
-            typeAliasUsed.putAll(typeAliasAll)
             if (moduleArgs.intellijMode == IntellijMode.Enable) {
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/commonMain"), ("$shared_inline_base_folder/src/commonMain"), replacementsDefault, sharedInlineReferences)
@@ -928,15 +926,20 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
         }
         var configFile: String
         configFile = "$shared_config_base_folder/src/commonMain/kotlin/lupos/shared/Config-${moduleArgs.moduleName}.kt"
-        println(typeAliasUsed.keys)
         println()
         // selectively copy classes which are inlined from the inline internal module <-
         val remainingArgs = mutableMapOf<String, String>()
         remainingArgs.putAll(moduleArgs.args)
         File(configFile).printWriter().use { out ->
             out.println("package lupos.shared")
-            for (v in typeAliasUsed.values) {
+            for (v in typeAliasAll.values) {
+ if (v.second.contains("inline")){
                 out.println("internal typealias ${v.first} = ${v.second}")
+}else{
+if (moduleArgs.moduleName=="Luposdate3000_Shared"){
+                out.println("public typealias ${v.first} = ${v.second}")
+}
+}
             }
             for (f in listOf("${moduleArgs.moduleFolder}/configOptions", "src/luposdate3000_shared_inline/configOptions")) {
                 if (File(f).exists()) {
