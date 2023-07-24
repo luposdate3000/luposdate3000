@@ -1,5 +1,4 @@
-import org.gradle.api.tasks.testing.logging.TestExceptionFormat
-import org.gradle.api.tasks.testing.logging.TestLogEvent
+
 buildscript {
     repositories {
         mavenLocal()
@@ -59,7 +58,7 @@ kotlin {
     js(IR) {
         moduleName = "Luposdate3000_Endpoint"
         browser {
-            compilations.forEach{
+            compilations.forEach {
                 it.kotlinOptions {
                     freeCompilerArgs += "-opt-in=kotlin.RequiresOptIn"
                     freeCompilerArgs += "-Xnew-inference"
@@ -96,8 +95,22 @@ kotlin {
         }
         val jsMain by getting {
             dependencies {
-implementation(npm("tone", "^14.7.77"))
-implementation(npm("nexusui", "^2.1.6"))
+                implementation(npm("tone", "^14.7.77"))
+                implementation(npm("nexusui", "^2.1.6"))
+                implementation(npm("jquery", "~2.1.1"))
+                implementation(npm("please-wait", "~0.0.2"))
+                implementation(npm("randomcolor", "~0.2.0"))
+                implementation(npm("uri.js", "~1.14.2"))
+                implementation(npm("spectrum", "~1.8.1"))
+                implementation(npm("modernizr", "~2.8.3"))
+                implementation(npm("fastclick", "~1.0.6"))
+                implementation(npm("underscore", "~1.13.1"))
+                implementation(npm("backbone", "~1.1.2"))
+                implementation(npm("codemirror", "~4.10.0"))
+                implementation(npm("font-source-sans-pro", "~0.1.0"))
+                implementation(npm("foundation", "~5.5"))
+                implementation(npm("x2js", "hauptbenutzer/x2js#master"))
+
                 implementation(project(":src:luposdate3000_shared_js_browser"))
             }
         }
