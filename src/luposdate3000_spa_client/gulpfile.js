@@ -29,7 +29,6 @@ gulp.task('concatCSS', function() {
             "bower_components/foundation/css/foundation.css",
             "bower_components/codemirror/lib/codemirror.css",
             "bower_components/font-source-sans-pro/source-sans-pro.css",
-            "bower_components/please-wait/build/please-wait.css",
             "bower_components/codemirror/addon/fold/foldgutter.css",
             "bower_components/spectrum/spectrum.css",
             "app/styles/main.css",
@@ -62,11 +61,13 @@ gulp.task('concatJS', function() {
                 "bower_components/codemirror/addon/edit/matchbrackets.js", // highlighting of brackets in sparql
                 "bower_components/codemirror/addon/edit/closebrackets.js", // automatically add a closing bracket if you type an opening bracket
                 "bower_components/x2js/xml2json.min.js",
-                "bower_components/please-wait/build/please-wait.js", // load screen
                 "node_modules/tone/build/Tone.js", // used by sonification - sound library
                 "tonejs-instruments/Tonejs-Instruments.js", // used by sonification - instrument-sound files lib
-                "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification
                 "node_modules/nexusui/dist/NexusUI.js", // used by sonification - config-sliders and checkboxes
+                "bower_components/spectrum/spectrum.js", // used by sonification
+
+
+                "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/visualizationUtil.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/pitchMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/spatializationMapping.js", // used by sonification
@@ -77,7 +78,7 @@ gulp.task('concatJS', function() {
                 "app/scripts/algos/visualisationUtil/chordMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/octaveMapping.js", // used by sonification
                 "app/scripts/algos/visualisationUtil/globalMapping.js", // used by sonification
-                "bower_components/spectrum/spectrum.js", // used by sonification
+
                 "app/scripts/algos/createGraph.js",
                 "app/scripts/algos/createOPGraph.js",
                 "app/scripts/codemirror-modes/rif/rif.js",
@@ -109,7 +110,6 @@ gulp.task('concatJS', function() {
 "app/scripts/algos/luposdate3000/Luposdate3000_Endpoint.js",
                 //LUPOSDATE3000 GENERATED CODE END
                 "app/scripts/main.js",
-                "app/scripts/loading.js",
             ]),
 //            gulp.src([
 //                "app/scripts/main.coffee",
@@ -139,7 +139,6 @@ gulp.task('concatJS', function() {
             "bower_components/randomcolor/randomColor.js",
             "bower_components/uri.js/src/URI.js",
             "bower_components/codemirror/mode/sparql/sparql.js",
-            "bower_components/please-wait/build/please-wait.js",
             "node_modules/tone/build/Tone.js",
             "tonejs-instruments/Tonejs-Instruments.js",
             "app/scripts/algos/visualisationUtil/vis-network.min.js",
@@ -184,7 +183,6 @@ gulp.task('concatJS', function() {
             "app/scripts/codemirror-modes/rif/rif.js",
             "app/scripts/codemirror-modes/N3/N3.js",
             "app/scripts/algos/visualization.js",
-            "app/scripts/loading.js",
             "app/scripts/main.js",
         ], {
             base: './'

@@ -5,7 +5,6 @@
  * DS205: Consider reworking code to avoid use of IIFEs
  * DS207: Consider shorter variations of null checks
  * DS208: Avoid top-level this
- * Full docs: https://github.com/decaffeinate/decaffeinate/blob/main/docs/suggestions.md
  */
 // Attach App as global variable for debugging
 this.App = {
@@ -75,11 +74,9 @@ App.play = function() {
     App.initConfigComponents();
     App.insertQueryPicker();
     initVisualization();
-    pleaseWait.finish(false, function() {
         App.cm['sparql'].refresh();
         App.cm['rif'].refresh();
         App.cm['rdf'].refresh();
-    });
 };
 
 App.loadEditors = function() {
@@ -1239,7 +1236,6 @@ App.initConfigComponents = function() {
 
 const delay = (ms, func) => setTimeout(func, ms);
 
-$(document).ready(() => App.init());
 
 let textFile = null;
 var makeTextFile = function(text) {
@@ -1254,3 +1250,4 @@ var makeTextFile = function(text) {
     textFile = window.URL.createObjectURL(data);
     return textFile;
 };
+$(document).ready(() => App.init());
