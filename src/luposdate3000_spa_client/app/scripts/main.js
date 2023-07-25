@@ -702,8 +702,6 @@ App.processResults = function(data, lang) {
             localhtml += "    <meta name='viewport' content='width=device-width, initial-scale=1'>";
             localhtml += "    <link rel='stylesheet' href='https://www.ifis.uni-luebeck.de/~groppe/luposdate-js-client/styles/vendor.css'>";
             localhtml += "    <!-- TODO: Keep fonts in this repo? -->";
-            localhtml += "    <link href='//fonts.googleapis.com/css?family=Source+Code+Pro:400,700' rel='stylesheet' type='text/css'>";
-            localhtml += "    <link href='//fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>";
             localhtml += "    <link href='//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css' rel='stylesheet'>";
             localhtml += "    <link rel='stylesheet' href='https://www.ifis.uni-luebeck.de/~groppe/luposdate-js-client/styles/main.css'>";
             localhtml += "    <meta class='foundation-data-attribute-namespace'>";

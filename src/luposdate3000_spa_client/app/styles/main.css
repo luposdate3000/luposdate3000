@@ -118,7 +118,6 @@ body.pg-loaded>.inner {
 }
 
 .CodeMirror {
-    font-family: 'Source Code Pro', monospace;
 }
 
 .sparql-prefix {
@@ -127,7 +126,6 @@ body.pg-loaded>.inner {
 
 .results em {
     font-style: normal;
-    font-family: 'Source Sans Pro', sans-serif;
     color: #222;
 }
 
@@ -152,7 +150,7 @@ circle {
 
 text {
     fill: #000;
-    font: 12px sans-serif;
+    font: 12px;
     /*pointer-events: none;*/
 }
 
@@ -173,7 +171,7 @@ rect {
 }
 
 .node text {
-    font: 10px sans-serif;
+    font: 10px;
 }
 
 .link {
@@ -200,7 +198,7 @@ rect {
 }
 
 .node text {
-    font: 12px sans-serif;
+    font: 12px;
 }
 
 .link {
@@ -210,7 +208,6 @@ rect {
 }
 
 body {
-    font-family: 'Source Sans Pro';
 }
 
 .rowSettings {
@@ -531,7 +528,6 @@ div.read-only {
     margin-right: 0%;
     width: 3%;
     display: block;
-    font-family: 'Source Sans Pro', sans-serif;
     list-style-position: outside;
     list-style-type: none;
     padding: 0.875rem 0;
@@ -584,7 +580,6 @@ div.read-only {
 
 .side-nav-graph li.active>a:first-child:not(.button) {
     color: #1cc7ff;
-    font-family: 'Source Sans Pro', sans-serif;
     font-weight: normal;
 }
 
@@ -689,7 +684,6 @@ div.read-only {
 .my-tab-links li.active a,
 .my-tab-links li.active a:hover {
     cursor: pointer;
-    font-family: "Source Sans Pro", sans-serif;
     background-color: #FFFFFF;
     box-shadow: inset #008CBA 0 3px 0 0;
     color: #4c4c4c;

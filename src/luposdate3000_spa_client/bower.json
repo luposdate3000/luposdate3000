@@ -6,7 +6,6 @@
         "modernizr": "~2.8.3",
         "fastclick": "~1.0.6",
         "codemirror": "~4.10.0",
-        "font-source-sans-pro": "~0.1.0",
         "foundation": "~5.5",
         "jquery": "~2.1.1",
         "randomcolor": "~0.2.0",

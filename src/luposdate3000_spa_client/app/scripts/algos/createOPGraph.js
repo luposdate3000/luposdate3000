@@ -116,9 +116,6 @@ function getOPOptions(target) {
             }
         },
         nodes: {
-            font: {
-                face: "'Source Sans Pro', sans-serif"
-            },
             borderWidth: 10
         },
         layout: {

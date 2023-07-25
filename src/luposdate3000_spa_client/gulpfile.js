@@ -3,10 +3,8 @@
 const gulp = require('gulp'); //base module
 const concat = require('gulp-concat'); //concat multiple files into one
 const clean = require('gulp-clean'); //the clean target
-const coffee = require('gulp-coffee'); //for coffe script
 const sourcemaps = require('gulp-sourcemaps'); //adding the modified sourcemaps to the concatenated files
 const merge = require('merge-stream'); //merging multiple inputstreams into one
-const debug = require('gulp-debug');
 const order = require("gulp-order"); //sorting the files, such that the initialisation ordering is ok
 const hjson = require("gulp-hjson"); //json files which can include comments
 const svgSprite = require("gulp-svg-sprite") //merging images into one
@@ -28,7 +26,6 @@ gulp.task('concatCSS', function() {
     return gulp.src([
             "bower_components/foundation/css/foundation.css",
             "bower_components/codemirror/lib/codemirror.css",
-            "bower_components/font-source-sans-pro/source-sans-pro.css",
             "bower_components/codemirror/addon/fold/foldgutter.css",
             "bower_components/spectrum/spectrum.css",
             "app/styles/main.css",
@@ -110,15 +107,6 @@ gulp.task('concatJS', function() {
                 //LUPOSDATE3000 GENERATED CODE END
                 "app/scripts/main.js",
             ]),
-//            gulp.src([
-//                "app/scripts/main.coffee",
-//                "app/scripts/loading.coffee",
-//            ])
-//            .pipe(coffee({
-//                bare: true
-//            })).on('error', function(err) {
-//                console.log(err)
-//            })
         )
         .pipe(sourcemaps.init({
             loadMaps: true,
@@ -318,25 +306,6 @@ gulp.task('images', function() {
         .pipe(gulp.dest('dist/images'));
 });
 
-gulp.task('fonts', function() {
-    return merge(
-        gulp.src([
-            "bower_components/font-source-sans-pro/OTF/SourceSansPro-BoldIt.otf",
-            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Bold.otf",
-            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Regular.otf",
-            "bower_components/font-source-sans-pro/OTF/SourceSansPro-Semibold.otf",
-        ])
-        .pipe(gulp.dest('dist/styles/OTF')),
-        gulp.src([
-            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-BoldIt.otf.woff",
-            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Bold.otf.woff",
-            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Regular.otf.woff",
-            "bower_components/font-source-sans-pro/WOFF/OTF/SourceSansPro-Semibold.otf.woff",
-        ])
-        .pipe(gulp.dest('dist/styles/WOFF/OTF'))
-    );
-});
-
 gulp.task('clean', function() {
     return gulp.src([
         "dist"
@@ -347,7 +316,7 @@ gulp.task('clean', function() {
 });
 
 
-gulp.task('build', gulp.series('html', 'images', 'resources', 'fonts', 'instruments', function(done) {
+gulp.task('build', gulp.series('html', 'images', 'resources', 'instruments', function(done) {
     console.log('build done');
     done();
 }));
