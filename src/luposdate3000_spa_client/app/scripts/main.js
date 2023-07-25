@@ -9,9 +9,12 @@
 // Attach App as global variable for debugging
 
 
-//require('nexusui/dist/NexusUI.js')  // used by sonification - config-sliders and checkboxes
-//require('tone/build/Tone.js') // used by sonification - sound library
+//require('nexusui/dist/NexusUI.js')  // sliders and checkboxes
+//require('tone/build/Tone.js') // sound library
+//require('spectrum-colorpicker2/dist/spectrum.js') // colorpicker
+//require('x2js/x2js.js') // xml to js converter
 //require('./algos/luposdate3000/Luposdate3000_Endpoint.js')
+//require('randomcolor');
 
 this.App = {
     isMergeView: false

@@ -47,15 +47,14 @@ gulp.task('concatJS', function() {
                 // dependencies of dependencies ...
                 "bower_components/modernizr/modernizr.js", // dependency of "foundation.js"
                 //
-                "bower_components/fastclick/lib/fastclick.js", // optimization for touchscreen devices
-                "bower_components/randomcolor/randomColor.js", // syntax highlighing in result
+"node_modules/randomcolor/randomColor.js",// syntax highlighing in result
                 "bower_components/codemirror/mode/sparql/sparql.js", // syntax highlighting in sparql + rdf
                 "bower_components/jquery/dist/jquery.js", // accessing buttons
                 "bower_components/foundation/js/foundation.js",
                 "bower_components/codemirror/lib/codemirror.js", //sparql + rdf editor
                 "bower_components/codemirror/addon/edit/matchbrackets.js", // highlighting of brackets in sparql
                 "bower_components/codemirror/addon/edit/closebrackets.js", // automatically add a closing bracket if you type an opening bracket
-"node_modules/x2js/x2js.js",
+                "node_modules/x2js/x2js.js",
                 "node_modules/tone/build/Tone.js", // used by sonification - sound library
                 "tonejs-instruments/Tonejs-Instruments.js", // used by sonification - instrument-sound files lib
                 "node_modules/nexusui/dist/NexusUI.js", // used by sonification - config-sliders and checkboxes
@@ -115,13 +114,12 @@ gulp.task('concatJS', function() {
             //the order of files IS important here
             "bower_components/modernizr/modernizr.js",
             "bower_components/jquery/dist/jquery.js",
-            "bower_components/fastclick/lib/fastclick.js",
             "bower_components/foundation/js/foundation.js",
             "bower_components/codemirror/lib/codemirror.js",
             "bower_components/codemirror/addon/edit/matchbrackets.js",
             "bower_components/codemirror/addon/edit/closebrackets.js",
 "node_modules/x2js/x2js.js",
-            "bower_components/randomcolor/randomColor.js",
+"node_modules/randomcolor/randomColor.js",
             "bower_components/codemirror/mode/sparql/sparql.js",
             "node_modules/tone/build/Tone.js",
             "tonejs-instruments/Tonejs-Instruments.js",
