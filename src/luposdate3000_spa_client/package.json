@@ -20,8 +20,8 @@
     "tone": "^14.7.77",
     "webpack": "^5.88.2",
     "webpack-cli": "^5.1.4",
-"spectrum-colorpicker2":"2.0.10"
-
+"spectrum-colorpicker2":"2.0.10",
+"x2js":"3.4.4"
   },
   "engines": {
     "node": "v20.1.0"

@@ -53,9 +53,7 @@ App.init = function() {
     spatializationSetup();
 
     // Load xml converter
-    App.x2js = new X2JS({
-        attributeArray: '_attributes'
-    });
+    App.x2js = new X2JS();
 
     // Load configuration
     uriQuery=(new URLSearchParams(window.location.search)).get("config")
@@ -629,7 +627,7 @@ App.processResults = function(data, lang) {
     }
 
     if ($.isXMLDoc(xml)) {
-        const sparql = App.x2js.xml2json(xml);
+        const sparql = App.x2js.dom2js(xml);
         resultSets.push(App.processSparql(sparql, namespaces, colors));
     }
 
@@ -770,8 +768,8 @@ App.processSparql = function(doc, namespaces, colors) {
         let i = 0;
         const varorder = [];
         for (var variable of Array.from(doc.sparql.head.variable)) {
-            resultSet.head.push(variable._attributes.name);
-            varorder[variable._attributes.name] = i;
+            resultSet.head.push(variable._name);
+            varorder[variable._name] = i;
             i++;
         }
         if (!doc.sparql.results.hasOwnProperty("result")) {
@@ -797,17 +795,21 @@ App.processSparql = function(doc, namespaces, colors) {
                     if ('uri' in bind) {
                         value = App.replacePrefixes(bind.uri, namespaces, colors);
                     } else if ('literal' in bind) {
+if (typeof bind.literal === 'string'){
                         value = "\"" + bind.literal + "\"";
-                        if (bind.literal._attributes && 'datatype' in bind.literal._attributes) {
-                            value += "^^" + App.replacePrefixes(bind.literal._attributes.datatype, namespaces, colors);
+}else{
+                        value = "\"" + bind.literal.__text + "\"";
+                        if ("_datatype" in bind.literal){
+                            value += "^^" + App.replacePrefixes(bind.literal._datatype, namespaces, colors);
                         }
-                        if (bind.literal._attributes && 'xml:lang' in bind.literal._attributes) {
-                            value += "@" + bind.literal._attributes['xml:lang'];
+                        if ("_xml:lang" in bind.literal){
+                            value += "@" + bind.literal['_xml:lang'];
                         }
+}
                     } else if ('bnode' in bind) {
                         value = "_:" + bind.bnode;
                     }
-                    varbinding[bind._attributes.name] = value;
+                    varbinding[bind._name] = value;
                 }
             }
             for (var varname in varorder) {
