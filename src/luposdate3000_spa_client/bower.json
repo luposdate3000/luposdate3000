@@ -5,13 +5,10 @@
         "spectrum": "~1.8.1",
         "modernizr": "~2.8.3",
         "fastclick": "~1.0.6",
-        "underscore": "~1.13.1",
-        "backbone": "~1.1.2",
         "codemirror": "~4.10.0",
         "font-source-sans-pro": "~0.1.0",
         "foundation": "~5.5",
         "jquery": "~2.1.1",
-        "please-wait": "~0.0.2",
         "randomcolor": "~0.2.0",
         "uri.js": "~1.14.2",
         "x2js": "hauptbenutzer/x2js#master"

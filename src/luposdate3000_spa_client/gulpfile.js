@@ -63,7 +63,7 @@ gulp.task('concatJS', function() {
                 "node_modules/tone/build/Tone.js", // used by sonification - sound library
                 "tonejs-instruments/Tonejs-Instruments.js", // used by sonification - instrument-sound files lib
                 "node_modules/nexusui/dist/NexusUI.js", // used by sonification - config-sliders and checkboxes
-                "bower_components/spectrum/spectrum.js", // used by sonification
+                "bower_components/spectrum/spectrum.js", // colorpicker
 
 
                 "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification

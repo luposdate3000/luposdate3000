@@ -5,7 +5,6 @@
         "bower": "^1.8.12",
         "gulp": "^4.0.2",
         "gulp-clean": "^0.3.1",
-        "gulp-coffee": "^2.2.0",
         "gulp-concat": "^2.6.1",
         "gulp-debug": "^4.0.0",
         "gulp-hjson": "^1.5.0",
@@ -14,8 +13,7 @@
         "gulp-svg-sprite": "^1.0.11",
         "merge-stream": "^2.0.0",
         "nexusui": "^2.1.6",
-        "tone": "^14.7.77",
-        "vis-network": "^9.0.4"
+        "tone": "^14.7.77"
     },
     "engines": {
         "node": "^12.21.0"
