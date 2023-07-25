@@ -9,22 +9,44 @@
 // Attach App as global variable for debugging
 
 
-//require('nexusui/dist/NexusUI.js')  // sliders and checkboxes
-//require('tone/build/Tone.js') // sound library
-//require('spectrum-colorpicker2/dist/spectrum.js') // colorpicker
-//require('x2js/x2js.js') // xml to js converter
-//require('./algos/luposdate3000/Luposdate3000_Endpoint.js')
-//require('randomcolor');
+require('../node_modules/jquery/dist/jquery.js');
+require('../node_modules/nexusui/dist/NexusUI.js');
+require('../node_modules/tone/build/Tone.js');
+require('../node_modules/spectrum-colorpicker2/dist/spectrum.js');
+require('../node_modules/x2js/x2js.js');
+require('../node_modules/randomcolor/randomColor.js');
+require('../node_modules/path/path.js');
+require('../node_modules/foundation/js/foundation/foundation.js');
+require('../bower_components/codemirror/lib/codemirror.js');
+require('./scripts/codemirror-modes/N3/N3.js');
+require('./scripts/codemirror-modes/rif/rif.js');
+
+
+require('./scripts/algos/visualisationUtil/spatializationMapping.js');
+require('./scripts/algos/visualisationUtil/visualizationUtil.js');
+require('./scripts/algos/visualisationUtil/loudnessMapping.js');
+require('./scripts/algos/visualisationUtil/pitchMapping.js');
+require('./scripts/algos/visualisationUtil/vis-network.min.js');
+require('./scripts/algos/visualisationUtil/chordMapping.js');
+require('./scripts/algos/visualisationUtil/durationMapping.js');
+require('./scripts/algos/visualisationUtil/octaveMapping.js');
+require('./scripts/algos/visualisationUtil/instrumentMapping.js');
+require('./scripts/algos/visualisationUtil/melodyMapping.js');
+require('./scripts/algos/visualisationUtil/globalMapping.js');
+require('./scripts/algos/createGraph.js');
+require('./scripts/algos/visualization.js');
+require('./scripts/algos/createOPGraph.js');
+require('./scripts/algos/luposdate3000/Luposdate3000_Endpoint.js');
 
 this.App = {
     isMergeView: false
 };
 
-function myEscape(x){
-x=""+x
-x = x.replace("<","&lt;")
-x = x.replace(">","&gt;")
-return x
+function myEscape(x) {
+    x = "" + x
+    x = x.replace("<", "&lt;")
+    x = x.replace(">", "&gt;")
+    return x
 }
 App.init = function() {
     initLuposdate3000();
@@ -59,7 +81,7 @@ App.init = function() {
     App.x2js = new X2JS();
 
     // Load configuration
-    uriQuery=(new URLSearchParams(window.location.search)).get("config")
+    uriQuery = (new URLSearchParams(window.location.search)).get("config")
     $.getJSON('config/operators.json').done(function(dataOp) {
         App.operators = dataOp;
         $.getJSON('config/config.json').done(function(dataConf) {
@@ -86,9 +108,9 @@ App.play = function() {
     App.initConfigComponents();
     App.insertQueryPicker();
     initVisualization();
-        App.cm['sparql'].refresh();
-        App.cm['rif'].refresh();
-        App.cm['rdf'].refresh();
+    App.cm['sparql'].refresh();
+    App.cm['rif'].refresh();
+    App.cm['rdf'].refresh();
 };
 
 App.loadEditors = function() {
@@ -390,12 +412,12 @@ App.bindEvents = function() {
                     const eev = new luposdate3000_endpoint.lupos.endpoint.EndpointExtendedVisualize(data.query, App.luposdate3000Instance);
                     let tmp = eev.getOptimizedStepsLogical();
                     for (k = 0; k < tmp.length; k++) {
-                            tmp[k] = JSON.parse(tmp[k].toJson());
+                        tmp[k] = JSON.parse(tmp[k].toJson());
                     }
                     App.logGraph = tmp;
                     tmp = eev.getOptimizedStepsPhysical();
                     for (k = 0; k < tmp.length; k++) {
-                            tmp[k] = JSON.parse(tmp[k].toJson());
+                        tmp[k] = JSON.parse(tmp[k].toJson());
                     }
                     App.physGraph = tmp;
                     //Result from the query
@@ -798,17 +820,17 @@ App.processSparql = function(doc, namespaces, colors) {
                     if ('uri' in bind) {
                         value = App.replacePrefixes(bind.uri, namespaces, colors);
                     } else if ('literal' in bind) {
-if (typeof bind.literal === 'string'){
-                        value = "\"" + bind.literal + "\"";
-}else{
-                        value = "\"" + bind.literal.__text + "\"";
-                        if ("_datatype" in bind.literal){
-                            value += "^^" + App.replacePrefixes(bind.literal._datatype, namespaces, colors);
+                        if (typeof bind.literal === 'string') {
+                            value = "\"" + bind.literal + "\"";
+                        } else {
+                            value = "\"" + bind.literal.__text + "\"";
+                            if ("_datatype" in bind.literal) {
+                                value += "^^" + App.replacePrefixes(bind.literal._datatype, namespaces, colors);
+                            }
+                            if ("_xml:lang" in bind.literal) {
+                                value += "@" + bind.literal['_xml:lang'];
+                            }
                         }
-                        if ("_xml:lang" in bind.literal){
-                            value += "@" + bind.literal['_xml:lang'];
-                        }
-}
                     } else if ('bnode' in bind) {
                         value = "_:" + bind.bnode;
                     }
@@ -899,7 +921,7 @@ App.processLiteral = function(para, namespaces, colors, result) {
 
 App.replacePrefixes = function(str, namespaces, colors) {
     str = myEscape(str);
-oldstr=str
+    oldstr = str
     for (var key in namespaces) {
         var prefix = namespaces[key];
         if (str.indexOf(prefix) !== -1) {
@@ -908,14 +930,14 @@ oldstr=str
             localhtml += "'>";
             localhtml += myEscape(key);
             localhtml += ":</span>";
-  str=          str.replace(prefix, localhtml);
+            str = str.replace(prefix, localhtml);
         }
     }
-if (oldstr!=str){
-    return  str ;
-}else{
-    return "&lt;" + str + "&gt;";
-}
+    if (oldstr != str) {
+        return str;
+    } else {
+        return "&lt;" + str + "&gt;";
+    }
 };
 
 App.parseRDFPrefixes = function(data) {
@@ -967,7 +989,7 @@ App.parseRIFPrefixes = function(data) {
 };
 
 App.logError = function(msg, editor, line) {
-    console.log(msg,editor,line)
+    console.log(msg, editor, line)
     if (editor && line) {
         line--;
         App.cm[editor].setSelection({

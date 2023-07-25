@@ -2,9 +2,8 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const isProduction = process.env.NODE_ENV == 'production';
-
 
 const stylesHandler = 'style-loader';
 
@@ -12,6 +11,7 @@ const stylesHandler = 'style-loader';
 
 const config = {
     entry: './app/scripts/main.js',
+target: "web",
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
@@ -19,20 +19,39 @@ const config = {
         new HtmlWebpackPlugin({
             template: 'app/index.html',
         }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: 'app/resources',
+                    to: 'resources'
+                },
+                {
+                    from: 'app/config',
+                    to: 'config'
+                },
+                {
+                    from: 'tonejs-instruments/samples',
+                    to: 'resources/samples'
+                }
+            ]
+        }),
     ],
     module: {
-        rules: [
-            {
-                test: /\.css$/i,
-                use: [stylesHandler,'css-loader'],
+        rules: [{
+                test: /\.html$/i,
+                loader: "html-loader",
             },
             {
-                test: /\.(eot|svg|ttf|woff|woff2|png|jpg|gif)$/i,
-                type: 'asset',
+                test: /\.s?[ac]ss$/i,
+                use: [
+                    // Creates `style` nodes from JS strings
+                    "style-loader",
+                    // Translates CSS into CommonJS
+                    "css-loader",
+                    // Compiles Sass to CSS
+                    "sass-loader",
+                ],
             },
-
-            // Add your rules for custom modules here
-            // Learn more about loaders from https://webpack.js.org/loaders/
         ],
     },
 };

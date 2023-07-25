@@ -7,9 +7,11 @@
     <title>Luposdate Web Client</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <link rel="stylesheet" href="styles/vendor.css" />
-
+<link rel="stylesheet" href="../bower_components/foundation/css/foundation.css" />
+<link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css" />
+<link rel="stylesheet" href="../bower_components/codemirror/addon/fold/foldgutter.css" />
+<link rel="stylesheet" href="../node_modules/spectrum-colorpicker2/dist/spectrum.css" />
+    <link rel="stylesheet" href="styles/main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
 
 </head>
@@ -72,10 +74,10 @@
                             </li>
                             <li><a class="right-side-toggle" href="#">
                                     <svg>
-                                        <use xlink:href="images/sprites/svgs.svg#screen-both" />
+                                        <use xlink:href="images/screen-both.svg" />
                                     </svg>
                                     <svg class="query">
-                                        <use xlink:href="images/sprites/svgs.svg#screen-query" />
+                                        <use xlink:href="images/screen-query.svg" />
                                     </svg>
                                 </a>
                             </li>
@@ -359,7 +361,39 @@
     <script>
         Int64Array = BigInt64Array
     </script>
-    <script src="scripts/vendor.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/nexusui/dist/NexusUI.js"></script>
+    <script src="../node_modules/tone/build/Tone.js"></script>
+    <script src="../node_modules/spectrum-colorpicker2/dist/spectrum.js"></script>
+    <script src="../node_modules/x2js/x2js.js"></script>
+    <script src="../node_modules/randomcolor/randomColor.js"></script>
+    <script src="../node_modules/path/path.js"></script>
+    <script src="../node_modules/foundation/js/foundation/foundation.js"></script>
+    <script src="../bower_components/codemirror/lib/codemirror.js"></script>
+<script src="./scripts/codemirror-modes/N3/N3.js"></script>
+<script src="./scripts/codemirror-modes/rif/rif.js"></script>
+
+
+<script src="./scripts/algos/visualisationUtil/spatializationMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/visualizationUtil.js"></script>
+<script src="./scripts/algos/visualisationUtil/loudnessMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/pitchMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/vis-network.min.js"></script>
+<script src="./scripts/algos/visualisationUtil/chordMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/durationMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/octaveMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/instrumentMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/melodyMapping.js"></script>
+<script src="./scripts/algos/visualisationUtil/globalMapping.js"></script>
+<script src="./scripts/algos/createGraph.js"></script>
+<script src="./scripts/algos/visualization.js"></script>
+<script src="./scripts/algos/createOPGraph.js"></script>
+<script src="./scripts/algos/luposdate3000/Luposdate3000_Endpoint.js"></script>
+
+
+    <script src="scripts/main.js"></script>
 </body>
+
+
 
 </html>

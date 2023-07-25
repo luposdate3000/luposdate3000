@@ -31,7 +31,7 @@
 
 (function(mod) {
     if (typeof exports == "object" && typeof module == "object") // CommonJS
-        mod(require("../../lib/codemirror"));
+        mod(require("../../../../bower_components/codemirror/lib/codemirror.js"));
     else if (typeof define == "function" && define.amd) // AMD
         define(["../../../bower_components/codemirror/lib/codemirror"], mod);
     else // Plain browser env
