@@ -58,14 +58,13 @@ App.init = function() {
     });
 
     // Load configuration
-    App.URIQuery = URI(document.location.href).query(true);
-
+    uriQuery=(new URLSearchParams(window.location.search)).get("config")
     $.getJSON('config/operators.json').done(function(dataOp) {
         App.operators = dataOp;
         $.getJSON('config/config.json').done(function(dataConf) {
             App.config = dataConf;
-            if (App.URIQuery.config) {
-                $.getJSON(App.URIQuery.config).done(function(addData) {
+            if (uriQuery) {
+                $.getJSON(uriQuery).done(function(addData) {
                     //merge the default config with the provided url-config
                     App.config = $.extend(data, addData, {});
                     App.play();

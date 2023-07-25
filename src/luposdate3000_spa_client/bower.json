@@ -2,14 +2,12 @@
     "name": "ld-spa",
     "private": true,
     "dependencies": {
-        "spectrum": "~1.8.1",
         "modernizr": "~2.8.3",
         "fastclick": "~1.0.6",
         "codemirror": "~4.10.0",
         "foundation": "~5.5",
         "jquery": "~2.1.1",
         "randomcolor": "~0.2.0",
-        "uri.js": "~1.14.2",      
         "x2js": "hauptbenutzer/x2js#master"
     },
     "devDependencies": {}

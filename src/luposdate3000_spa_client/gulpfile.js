@@ -27,7 +27,7 @@ gulp.task('concatCSS', function() {
             "bower_components/foundation/css/foundation.css",
             "bower_components/codemirror/lib/codemirror.css",
             "bower_components/codemirror/addon/fold/foldgutter.css",
-            "bower_components/spectrum/spectrum.css",
+            "node_modules/spectrum-colorpicker2/dist/spectrum.css",
             "app/styles/main.css",
         ])
         .pipe(sourcemaps.init({
@@ -50,7 +50,6 @@ gulp.task('concatJS', function() {
                 "bower_components/fastclick/lib/fastclick.js", // optimization for touchscreen devices
                 "bower_components/randomcolor/randomColor.js", // syntax highlighing in result
                 "bower_components/codemirror/mode/sparql/sparql.js", // syntax highlighting in sparql + rdf
-                "bower_components/uri.js/src/URI.js", // for executing the queries
                 "bower_components/jquery/dist/jquery.js", // accessing buttons
                 "bower_components/foundation/js/foundation.js",
                 "bower_components/codemirror/lib/codemirror.js", //sparql + rdf editor
@@ -60,7 +59,7 @@ gulp.task('concatJS', function() {
                 "node_modules/tone/build/Tone.js", // used by sonification - sound library
                 "tonejs-instruments/Tonejs-Instruments.js", // used by sonification - instrument-sound files lib
                 "node_modules/nexusui/dist/NexusUI.js", // used by sonification - config-sliders and checkboxes
-                "bower_components/spectrum/spectrum.js", // colorpicker
+                "node_modules/spectrum-colorpicker2/dist/spectrum.js", // colorpicker
 
 
                 "app/scripts/algos/visualisationUtil/vis-network.min.js", // used by sonification
@@ -123,7 +122,6 @@ gulp.task('concatJS', function() {
             "bower_components/codemirror/addon/edit/closebrackets.js",
             "bower_components/x2js/xml2json.min.js",
             "bower_components/randomcolor/randomColor.js",
-            "bower_components/uri.js/src/URI.js",
             "bower_components/codemirror/mode/sparql/sparql.js",
             "node_modules/tone/build/Tone.js",
             "tonejs-instruments/Tonejs-Instruments.js",
@@ -138,7 +136,7 @@ gulp.task('concatJS', function() {
             "app/scripts/algos/visualisationUtil/durationMapping.js",
             "app/scripts/algos/visualisationUtil/chordMapping.js",
             "app/scripts/algos/visualisationUtil/octaveMapping.js",
-            "bower_components/spectrum/spectrum.js",
+            "node_modules/spectrum-colorpicker2/dist/spectrum.js",
             //LUPOSDATE3000 GENERATED CODE START
 "app/scripts/algos/luposdate3000/kotlin-kotlin-stdlib-js-ir.js",
 "app/scripts/algos/luposdate3000/KotlinBigInteger-bignum-js-ir.js",
