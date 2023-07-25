@@ -6,7 +6,7 @@ var chordDataIndex;
 var chordDataVariable = [];
 var arpeggio = [];
 
-function chordSetup() {
+export function chordSetup() {
     App.mappingFunctions.Chord = function(string) {
         audioDimensionSetup(string, "Chord")
     }

@@ -1,47 +1,37 @@
-/*
- * decaffeinate suggestions:
- * DS101: Remove unnecessary use of Array.from
- * DS102: Remove unnecessary code created because of implicit returns
- * DS205: Consider reworking code to avoid use of IIFEs
- * DS207: Consider shorter variations of null checks
- * DS208: Avoid top-level this
- */
-// Attach App as global variable for debugging
-
-
-require('../node_modules/jquery/dist/jquery.js');
-require('../node_modules/nexusui/dist/NexusUI.js');
-require('../node_modules/tone/build/Tone.js');
-require('../node_modules/spectrum-colorpicker2/dist/spectrum.js');
-require('../node_modules/x2js/x2js.js');
-require('../node_modules/randomcolor/randomColor.js');
-require('../node_modules/path/path.js');
-require('../node_modules/foundation/js/foundation/foundation.js');
-require('../bower_components/codemirror/lib/codemirror.js');
-require('./scripts/codemirror-modes/N3/N3.js');
-require('./scripts/codemirror-modes/rif/rif.js');
-
-
-require('./scripts/algos/visualisationUtil/spatializationMapping.js');
-require('./scripts/algos/visualisationUtil/visualizationUtil.js');
-require('./scripts/algos/visualisationUtil/loudnessMapping.js');
-require('./scripts/algos/visualisationUtil/pitchMapping.js');
-require('./scripts/algos/visualisationUtil/vis-network.min.js');
-require('./scripts/algos/visualisationUtil/chordMapping.js');
-require('./scripts/algos/visualisationUtil/durationMapping.js');
-require('./scripts/algos/visualisationUtil/octaveMapping.js');
-require('./scripts/algos/visualisationUtil/instrumentMapping.js');
-require('./scripts/algos/visualisationUtil/melodyMapping.js');
-require('./scripts/algos/visualisationUtil/globalMapping.js');
-require('./scripts/algos/createGraph.js');
-require('./scripts/algos/visualization.js');
-require('./scripts/algos/createOPGraph.js');
-require('./scripts/algos/luposdate3000/Luposdate3000_Endpoint.js');
-
-this.App = {
+var App = {
     isMergeView: false
 };
-
+window.App=App
+require('../styles/main.scss')
+var $ =require('jquery');
+var jQuery=$
+window.jQuery = $;
+window.$ = $;
+require('spectrum-colorpicker2');
+var Tone=require('tone');
+var Nexus=require('nexusui');
+var X2JS=require('x2js');
+require('randomcolor');
+var vis=require('./algos/visualisationUtil/vis-network.min.js');
+require('foundation-sites');
+var CodeMirror=require('codemirror');
+require('./codemirror-modes/N3/N3.js');
+require('./codemirror-modes/rif/rif.js');
+require('./algos/visualisationUtil/visualizationUtil.js');
+import { spatializationSetup} from './algos/visualisationUtil/spatializationMapping.js';
+import {loudnessSetup} from './algos/visualisationUtil/loudnessMapping.js';
+import {pitchSetup} from './algos/visualisationUtil/pitchMapping.js';
+import {chordSetup} from './algos/visualisationUtil/chordMapping.js';
+import {durationSetup} from './algos/visualisationUtil/durationMapping.js';
+import {octaveSetup} from './algos/visualisationUtil/octaveMapping.js';
+import {instrumentSetup} from './algos/visualisationUtil/instrumentMapping.js';
+import {melodySetup} from './algos/visualisationUtil/melodyMapping.js';
+require('./algos/visualisationUtil/globalMapping.js');
+require('./algos/createGraph.js');
+import { initVisualization } from './algos/visualization.js';
+require('./algos/createOPGraph.js');
+var Luposdate3000_Endpoint=require('./algos/luposdate3000/Luposdate3000_Endpoint.js');
+var luposdate3000_endpoint
 function myEscape(x) {
     x = "" + x
     x = x.replace("<", "&lt;")
@@ -49,7 +39,9 @@ function myEscape(x) {
     return x
 }
 App.init = function() {
-    initLuposdate3000();
+    if (typeof luposdate3000_endpoint === "undefined") {
+        luposdate3000_endpoint = Luposdate3000_Endpoint
+    }
     App.samples = {};
     App.globalAnimationList = [];
     App.luposdate3000Instance = luposdate3000_endpoint.lupos.endpoint.LuposdateEndpoint.initialize();
@@ -81,7 +73,7 @@ App.init = function() {
     App.x2js = new X2JS();
 
     // Load configuration
-    uriQuery = (new URLSearchParams(window.location.search)).get("config")
+    var uriQuery = (new URLSearchParams(window.location.search)).get("config")
     $.getJSON('config/operators.json').done(function(dataOp) {
         App.operators = dataOp;
         $.getJSON('config/config.json').done(function(dataConf) {
@@ -532,7 +524,7 @@ App.bindEvents = function() {
     });
 
     // Reload editor when changing tabs
-    $(document).foundation({
+    $(document).foundation(/*{
         tab: {
             callback(tab) {
                 const content = $(tab.children('a').attr('href'));
@@ -541,7 +533,7 @@ App.bindEvents = function() {
                 }
             }
         }
-    });
+    }*/);
 
     $('.query-select').change(function() {
         const lang = $(this).data('lang');
@@ -1104,9 +1096,9 @@ App.initConfigComponentsHideTabs = function() {
         selector1 = "#";
         selector1 += tab;
         selector1 += "-tab";
-        selector2 = "a[href=#";
+        selector2 = "#";
         selector2 += tab;
-        selector2 += "-tab]";
+        selector2 += "-tab-ref";
         if (Array.from(tabsToHide).includes(tab)) {
             $(selector1).hide();
             $(selector1).removeClass("active");
@@ -1126,9 +1118,9 @@ App.initConfigComponentsHideTabs = function() {
         }
     }
     if (leftAvailableTab !== "") {
-        selector = "a[href=#";
+        selector = "#";
         selector += leftAvailableTab;
-        selector += "-tab]";
+        selector += "-tab-ref";
         $(selector).click();
     }
     // tabs on the right
@@ -1137,9 +1129,9 @@ App.initConfigComponentsHideTabs = function() {
         selector1 = "#";
         selector1 += tab;
         selector1 += "-tab";
-        selector2 = "a[href=#";
+        selector2 = "#";
         selector2 += tab;
-        selector2 += "-tab]";
+        selector2 += "-tab-ref";
         if (Array.from(tabsToHide).includes(tab)) {
             $(selector1).hide();
             $(selector1).removeClass("active");
@@ -1159,9 +1151,9 @@ App.initConfigComponentsHideTabs = function() {
         }
     }
     if (rightAvailableTab !== "") {
-        selector = "a[href=#";
+        selector = "#";
         selector += rightAvailableTab;
-        selector += "-tab]";
+        selector += "-tab-ref";
         $(selector).click();
     }
     if (Array.from(tabsToHide).includes("rif")) {

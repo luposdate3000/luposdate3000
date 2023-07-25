@@ -5,7 +5,7 @@ var loudnessOperatorVariable = [];
 var loudnessDataVariable = [];
 var loudnessDataIndex;
 
-function loudnessSetup() {
+export function loudnessSetup() {
     App.mappingFunctions.Loudness = function(string) {
         audioDimensionSetup(string, "Loudness")
     }

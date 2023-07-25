@@ -5,7 +5,7 @@ var durationOperatorVariable = [];
 var durationDataIndex;
 var durationDataVariable = [];
 
-function durationSetup() {
+export function durationSetup() {
     App.mappingFunctions.Duration = function(string) {
         audioDimensionSetup(string, "Duration")
     }

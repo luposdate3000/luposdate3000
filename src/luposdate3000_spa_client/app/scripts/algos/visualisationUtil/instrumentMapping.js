@@ -5,7 +5,7 @@ var instrumentOperatorVariable = [];
 var instrumentDataIndex;
 var instrumentDataVariable = [];
 
-function instrumentSetup() {
+export function instrumentSetup() {
     App.mappingFunctions.Instrument = function(string) {
         audioDimensionSetup(string, "Instrument")
     }

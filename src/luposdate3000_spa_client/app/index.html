@@ -7,12 +7,6 @@
     <title>Luposdate Web Client</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="../bower_components/foundation/css/foundation.css" />
-<link rel="stylesheet" href="../bower_components/codemirror/lib/codemirror.css" />
-<link rel="stylesheet" href="../bower_components/codemirror/addon/fold/foldgutter.css" />
-<link rel="stylesheet" href="../node_modules/spectrum-colorpicker2/dist/spectrum.css" />
-    <link rel="stylesheet" href="styles/main.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css">
 
 </head>
 
@@ -119,9 +113,9 @@
                                 <div>
                                     <div id="query" class="medium-6 columns my-tabs">
                                         <ul class="my-tab-links my-tab-links-content-leftside" data-tab>
-                                            <li class="active"><a href="#sparql-tab">SPARQL-Query</a></li>
-                                            <li><a href="#rdf-tab">RDF</a> <input type="checkbox" id="send_rdf"></li>
-                                            <li><a href="#rif-tab">RIF</a></li>
+                                            <li class="active"><a href="#sparql-tab" id="sparql-tab-ref">SPARQL-Query</a></li>
+                                            <li><a href="#rdf-tab" id="rdf-tab-ref">RDF</a> <input type="checkbox" id="send_rdf"></li>
+                                            <li><a href="#rif-tab" id="rif-tab-ref">RIF</a></li>
                                         </ul>
                                         <div class="my-tab-content my-tab-content-leftside">
                                             <div class="my-tab active" id="sparql-tab">
@@ -179,11 +173,11 @@
                                     </div>
                                     <div id="result" class="medium-6 columns my-tabs">
                                         <ul class="my-tab-links my-tab-links-content-rightside" data-tab>
-                                            <li class="my-tab-links-rightside active"><a href="#result-tab">Result</a></li>
-                                            <li class="my-tab-links-rightside"><a href="#graph-tab">Abstract Syntax Tree</a></li>
-                                            <li class="my-tab-links-rightside"><a href="#op-graph-tab">Operator Graph</a></li>
-                                            <li class="my-tab-links-rightside"><a href="#luposdate3000-graph-tab">Optimization Steps</a></li>
-                                            <li class="my-tab-links-rightside"><a href="#luposdate3000-sonification-tab">Sonification Graph</a></li>
+                                            <li class="my-tab-links-rightside active"><a href="#result-tab" id="result-tab-ref">Result</a></li>
+                                            <li class="my-tab-links-rightside"><a href="#graph-tab" id="graph-tab-ref">Abstract Syntax Tree</a></li>
+                                            <li class="my-tab-links-rightside"><a href="#op-graph-tab" id="op-graph-tab-ref">Operator Graph</a></li>
+                                            <li class="my-tab-links-rightside"><a href="#luposdate3000-graph-tab" id="luposdate3000-graph-tab-ref">Optimization Steps</a></li>
+                                            <li class="my-tab-links-rightside"><a href="#luposdate3000-sonification-tab" id="luposdate3000-sonification-tab-ref">Sonification Graph</a></li>
                                         </ul>
                                         <div class="my-tab-content my-tab-content-rightside">
                                             <div class="my-tab my-tab-rightside active" id="result-tab"></div>
@@ -361,37 +355,7 @@
     <script>
         Int64Array = BigInt64Array
     </script>
-    <script src="../node_modules/jquery/dist/jquery.js"></script>
-    <script src="../node_modules/nexusui/dist/NexusUI.js"></script>
-    <script src="../node_modules/tone/build/Tone.js"></script>
-    <script src="../node_modules/spectrum-colorpicker2/dist/spectrum.js"></script>
-    <script src="../node_modules/x2js/x2js.js"></script>
-    <script src="../node_modules/randomcolor/randomColor.js"></script>
-    <script src="../node_modules/path/path.js"></script>
-    <script src="../node_modules/foundation/js/foundation/foundation.js"></script>
-    <script src="../bower_components/codemirror/lib/codemirror.js"></script>
-<script src="./scripts/codemirror-modes/N3/N3.js"></script>
-<script src="./scripts/codemirror-modes/rif/rif.js"></script>
 
-
-<script src="./scripts/algos/visualisationUtil/spatializationMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/visualizationUtil.js"></script>
-<script src="./scripts/algos/visualisationUtil/loudnessMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/pitchMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/vis-network.min.js"></script>
-<script src="./scripts/algos/visualisationUtil/chordMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/durationMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/octaveMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/instrumentMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/melodyMapping.js"></script>
-<script src="./scripts/algos/visualisationUtil/globalMapping.js"></script>
-<script src="./scripts/algos/createGraph.js"></script>
-<script src="./scripts/algos/visualization.js"></script>
-<script src="./scripts/algos/createOPGraph.js"></script>
-<script src="./scripts/algos/luposdate3000/Luposdate3000_Endpoint.js"></script>
-
-
-    <script src="scripts/main.js"></script>
 </body>
 
 

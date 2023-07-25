@@ -1,7 +1,9 @@
 /*
     Created by Rico Klinckenberg
  */
-
+var $ =require('jquery');
+var Tone=require('tone');
+var Nexus=require('nexusui');
 // Set of global variables needed for the visualization and sonification
 var sessionId;
 // Variables for the vis network
@@ -23,12 +25,6 @@ var selectAudio = {}
 var usedInstruments = [];
 const panner = new Tone.Panner(0).toDestination();
 var hoverNodeId;
-
-function initLuposdate3000() { //first time initialization - called by main.coffee, before anything else is loaded
-    if (typeof luposdate3000_endpoint === "undefined") {
-        luposdate3000_endpoint = Luposdate3000_Endpoint
-    }
-}
 
 function setAnimationFlags(stopF, pauseF) {
     stopFlag = stopF
@@ -61,7 +57,7 @@ function setAnimationFlags(stopF, pauseF) {
     }
 }
 
-function initVisualization() { //first time initialization - called by main.coffee, after configuration is loaded
+export function initVisualization() { //first time initialization - called by main.coffee, after configuration is loaded
     var slider = new Nexus.Slider('#sonification-animation-speed', {
         'size': [130, 30],
         'mode': 'absolute', // 'relative' or 'absolute'
@@ -113,7 +109,7 @@ function selectMapping() { //applies the current settings to the settings-menu-i
         selectAudio[i].value = App.config.sonification[i].mode
     }
 }
-$("a[href=#luposdate3000-graph-tab]").click(function() {
+$("#luposdate3000-graph-tab-ref").click(function() {
     if (App.config.evalGraphSparql) {
         sleep(50).then(() => {
             network.redraw();
@@ -175,7 +171,7 @@ $('input[type=radio][name=L3Graph]').change(function() {
 });
 
 
-$("a[href=#luposdate3000-sonification-tab]").click(function() {
+$("#luposdate3000-sonification-tab-ref").click(function() {
     sleep(50).then(() => {
         loadData(App.physGraph[App.physGraph.length - 1], true);
     })

@@ -10,7 +10,7 @@ const stylesHandler = 'style-loader';
 
 
 const config = {
-    entry: './app/scripts/main.js',
+    entry: ['./app/scripts/main.js'],
 target: "web",
     output: {
         path: path.resolve(__dirname, 'dist'),
@@ -40,7 +40,18 @@ target: "web",
         rules: [{
                 test: /\.html$/i,
                 loader: "html-loader",
-            },
+            },{
+      test: /\.(?:js|mjs|cjs)$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        options: {
+          presets: [
+            ['@babel/preset-env', { targets: "defaults" }]
+          ]
+        }
+      }
+    },
             {
                 test: /\.s?[ac]ss$/i,
                 use: [

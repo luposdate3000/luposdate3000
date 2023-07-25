@@ -231,7 +231,7 @@ function getMelody(string, id, label, index) {
 
 }
 
-function melodySetup() {
+export function melodySetup() {
     App.mappingFunctions.Melody = function(string) {
         switch (string) {
             case "No":

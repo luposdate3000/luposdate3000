@@ -5,7 +5,7 @@ var spatOperatorVariable = [];
 var spatDataVariable = [];
 var spatDataIndex;
 
-function spatializationSetup() {
+export function spatializationSetup() {
     App.mappingFunctions.Spatialization = function(string) {
         audioDimensionSetup(string, "Spatialization")
     }

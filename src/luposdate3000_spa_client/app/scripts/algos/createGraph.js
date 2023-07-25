@@ -1,7 +1,7 @@
 /**
  * Created by Hannes on 02.02.2016.
  */
-
+var vis=require('./visualisationUtil/vis-network.min.js');
 var options = {};
 var nodes = [];
 var edges = [];
@@ -27,7 +27,7 @@ var graphSettings = {
 };
 
 
-$("a[href=#graph-tab]").click(function() {
+$("#graph-tab-ref").click(function() {
     fitNetworkAST();
 });
 

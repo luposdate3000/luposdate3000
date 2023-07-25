@@ -5,7 +5,7 @@ var pitchOperatorVariable = [];
 var pitchDataVariable = [];
 var pitchSimple;
 
-function pitchSetup() {
+export function pitchSetup() {
     App.mappingFunctions.Pitch = function(string) {
         audioDimensionSetup(string, "Pitch")
     }
