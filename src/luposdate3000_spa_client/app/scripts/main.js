@@ -7,6 +7,12 @@
  * DS208: Avoid top-level this
  */
 // Attach App as global variable for debugging
+
+
+//require('nexusui/dist/NexusUI.js')  // used by sonification - config-sliders and checkboxes
+//require('tone/build/Tone.js') // used by sonification - sound library
+//require('./algos/luposdate3000/Luposdate3000_Endpoint.js')
+
 this.App = {
     isMergeView: false
 };
