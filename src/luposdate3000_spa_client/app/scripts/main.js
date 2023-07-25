@@ -1,3 +1,22 @@
+/*
+ * decaffeinate suggestions:
+ * DS101: Remove unnecessary use of Array.from
+ * DS102: Remove unnecessary code created because of implicit returns
+ * DS205: Consider reworking code to avoid use of IIFEs
+ * DS207: Consider shorter variations of null checks
+ * DS208: Avoid top-level this
+ */
+// Attach App as global variable for debugging
+this.App = {
+    isMergeView: false
+};
+
+function myEscape(x){
+x=""+x
+x = x.replace("<","&lt;")
+x = x.replace(">","&gt;")
+return x
+}
 App.init = function() {
     initLuposdate3000();
     App.samples = {};

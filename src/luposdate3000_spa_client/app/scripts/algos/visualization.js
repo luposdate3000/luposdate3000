@@ -25,12 +25,6 @@ const panner = new Tone.Panner(0).toDestination();
 var hoverNodeId;
 
 
-function initLuposdate3000() { //first time initialization - called by main.coffee, before anything else is loaded
-    if (typeof luposdate3000_endpoint === "undefined") {
-        luposdate3000_endpoint = Luposdate3000_Endpoint
-    }
-}
-
 function setAnimationFlags(stopF, pauseF) {
     stopFlag = stopF
     pauseFlag = pauseF
