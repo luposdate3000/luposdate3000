@@ -187,7 +187,43 @@ jquery("#evaluate").click(
             result.html = resultXMLToHTML(result.xml, namespaces)
             jquery("#result").empty();
             const target = document.getElementById('result');
+            target.appendChild(createDownloadResultButtons(result))
             target.appendChild(result.html);
         });
     }
 );
+
+function createDownloadResultButtons(result) {
+    const div = document.createElement('div');
+    const b1 = document.createElement('button');
+    b1.classList.add("btn")
+    b1.classList.add("btn-primary")
+    b1.type = "button"
+    b1.textContent = "Download HTML"
+    b1.onclick=function() {
+const html=document.createElement('html');
+const head=document.createElement('head');
+const body=document.createElement('body');
+html.appendChild(head)
+const link=document.createElement('link');
+link.rel="stylesheet"
+link.href=window.location.href+"/html_result_style.css"
+head.appendChild(link)
+html.appendChild(body)
+body.appendChild(result.html)
+        download(html.outerHTML, "text/html", "result.html")
+    };
+    div.appendChild(b1);
+    return div
+}
+
+function download(content, mimeType, filename) {
+    const a = document.createElement('a')
+    const blob = new Blob([content], {
+        type: mimeType
+    })
+    const url = URL.createObjectURL(blob)
+    a.setAttribute('href', url)
+    a.setAttribute('download', filename)
+    a.click()
+}
