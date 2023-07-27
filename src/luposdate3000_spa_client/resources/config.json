@@ -1,19 +1,18 @@
 {
     "endpoints": [
-        "Browser Luposdate3000","Luposdate"
+        "Browser Luposdate3000", "Luposdate"
     ],
     "useRDF": true,
-"tutorials":[{
-"label":"cloud-and-web-technologies",
-"data":"resources/cloud-and-web-technologies/tutorial.json"
-},
-{
-"label":"sw-sparql1.0",
-"data":"resources/sw-sparql1.0/tutorial.json"
-}
-,{
-"label":"sw-sparql1.1",
-"data":"resources/sw-sparql1.1/tutorial.json"
-}
-]
+    "lectures": [{
+            "label": "cloud-and-web-technologies",
+            "data": "resources/cloud-and-web-technologies/tasks.json"
+        },
+        {
+            "label": "sw-sparql1.0",
+            "data": "resources/sw-sparql1.0/tasks.json"
+        }, {
+            "label": "sw-sparql1.1",
+            "data": "resources/sw-sparql1.1/tasks.json"
+        }
+    ]
 }
