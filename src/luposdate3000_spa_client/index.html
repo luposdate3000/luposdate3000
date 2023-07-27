@@ -8,6 +8,32 @@
     <title>Webpack App</title>
     <script>
         Int64Array = BigInt64Array
+function doubleToByteArray(number,i) {
+  var buffer = new ArrayBuffer(8);
+  var intView = new Int32Array(buffer);
+  var floatView = new Float64Array(buffer);
+  floatView[0] = number;
+  var res= [
+    (intView[0] >> 24) & 0xFF,
+    (intView[0] >> 16) & 0xFF,
+    (intView[0] >> 8) & 0xFF,
+    (intView[0] >> 0) & 0xFF,
+    (intView[1] >> 24) & 0xFF,
+    (intView[1] >> 16) & 0xFF,
+    (intView[1] >> 8) & 0xFF,
+    (intView[1] >> 0) & 0xFF
+  ];
+return res[i]
+}
+
+function byteArrayToDouble(arr) {
+  var buffer = new ArrayBuffer(8);
+  var intView = new Int32Array(buffer);
+  var floatView = new Float64Array(buffer);
+  intView[0] = (arr[0] << 24) + (arr[1] << 16) + (arr[2] << 8) + (arr[3])
+  intView[1] = (arr[4] << 24) + (arr[5] << 16) + (arr[6] << 8) + (arr[7])
+  return floatView[0]
+}
     </script>
 </head>
 

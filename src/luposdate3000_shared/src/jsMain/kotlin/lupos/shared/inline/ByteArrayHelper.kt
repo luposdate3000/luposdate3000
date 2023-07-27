@@ -15,35 +15,31 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
 public external class ArrayBuffer(size: Int)
-public external class Int64Array(buffer: ArrayBuffer) {
+public external class Int64Array(buffer: ArrayBuffer,byteOffset: Int = definedExternally, length: Int = definedExternally) {
     public operator fun get(i: Int): Long
     public operator fun set(i: Int, v: Long)
 }
 
-public external class Float64Array(buffer: ArrayBuffer) {
+public external class Float64Array(buffer: ArrayBuffer,byteOffset: Int = definedExternally, length: Int = definedExternally) {
     public operator fun get(i: Int): Double
     public operator fun set(i: Int, v: Double)
 }
+public external fun doubleToByteArray(v:Double,idx:Int):Byte
+public external fun byteArrayToDouble(v:ByteArray):Double
 
 public actual object ByteArrayHelper {
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun readDouble8(data: ByteArray, offset: Int): Double {
-        var buffer = ArrayBuffer(8)
-        var intView = Int64Array(buffer)
-        var floatView = Float64Array(buffer)
-        intView[0] = readLong8(data, offset)
-        return floatView[0]
+        val l=byteArrayOf(data[offset],data[offset+1],data[offset+2],data[offset+3],data[offset+4],data[offset+5],data[offset+6],data[offset+7])
+        return byteArrayToDouble(l)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun writeDouble8(data: ByteArray, offset: Int, value: Double) {
-        var buffer = ArrayBuffer(8)
-        var intView = Int64Array(buffer)
-        var floatView = Float64Array(buffer)
-        floatView[0] = value
-        writeLong8(data, offset, intView[0])
+        for (i in 0 until 8){
+            data[offset+i] = doubleToByteArray(value, i)
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
