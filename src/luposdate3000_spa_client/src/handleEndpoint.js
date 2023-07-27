@@ -193,27 +193,36 @@ jquery("#evaluate").click(
     }
 );
 
-function createDownloadResultButtons(result) {
-    const div = document.createElement('div');
+function createDownloadResultButtonsH(target, name, func) {
     const b1 = document.createElement('button');
     b1.classList.add("btn")
     b1.classList.add("btn-primary")
     b1.type = "button"
-    b1.textContent = "Download HTML"
-    b1.onclick = function() {
-        const html = document.createElement('html');
-        const head = document.createElement('head');
-        const body = document.createElement('body');
-        html.appendChild(head)
-        const link = document.createElement('link');
-        link.rel = "stylesheet"
-        link.href = window.location.href + "/html_result_style.css"
-        head.appendChild(link)
-        html.appendChild(body)
-        body.appendChild(result.html)
-        download(html.outerHTML, "text/html", "result.html")
-    };
-    div.appendChild(b1);
+    b1.textContent = name
+    b1.onclick = func
+    target.appendChild(b1);
+}
+
+function createDownloadResultButtons(result) {
+    const div = document.createElement('div');
+    createDownloadResultButtonsH(div, "Download HTML",
+        function() {
+            const html = document.createElement('html');
+            const head = document.createElement('head');
+            const body = document.createElement('body');
+            html.appendChild(head)
+            const link = document.createElement('link');
+            link.rel = "stylesheet"
+            link.href = window.location.href + "/html_result_style.css"
+            head.appendChild(link)
+            html.appendChild(body)
+            body.appendChild(result.html)
+            download(html.outerHTML, "text/html", "result.html")
+        });
+    createDownloadResultButtonsH(div, "Download XML",
+        function() {
+            download(result.xml, "application/sparql‑results+xml", "result.xml")
+        });
     return div
 }
 
