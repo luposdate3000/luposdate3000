@@ -169,9 +169,7 @@ function resultXMLToHTML(data, namespaces) {
     h4.appendChild(document.createTextNode("Results(" + tblb.getElementsByTagName("tr").length + ")"));
     div.appendChild(h4);
     div.appendChild(tbl);
-    jquery("#result").empty();
-    const target = document.getElementById('result');
-    target.appendChild(div);
+    return div
 }
 jquery("#evaluate").click(
     function() {
@@ -187,19 +185,9 @@ jquery("#evaluate").click(
         jquery.extend(namespaces, extractSPARQLPrefixes(sparql))
         endpoint.evaluate(endpoint, sparql, rdf, getUseRDF(), function(result) {
             result.html = resultXMLToHTML(result.xml, namespaces)
+            jquery("#result").empty();
+            const target = document.getElementById('result');
+            target.appendChild(result.html);
         });
     }
 );
-
-
-/*
-
-<http://dbpedia.org/resource/Johann_Friedrich_Overbeck>
-  ns0:birthPlace <http://dbpedia.org/resource/Lübeck> ;
-  ns0:birthPlace "abc"^^<http://dbpedia.org/resource/Lübeck> ;
-  ns0:birthPlace "def"@en;
-  ns0:birthPlace "def";
-  ns0:birthPlace _:de;
-  ns1:birthPlace 1 .
-
-*/
