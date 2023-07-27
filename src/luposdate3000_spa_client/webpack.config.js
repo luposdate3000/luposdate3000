@@ -2,67 +2,82 @@
 
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const isProduction = process.env.NODE_ENV == 'production';
-
-const stylesHandler = 'style-loader';
-
-
+const miniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const config = {
-    entry: ['./app/scripts/main.js'],
-target: "web",
+    entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
     },
+    devServer: {
+        static: path.resolve(__dirname, 'dist'),
+        open: true,
+        host: '0.0.0.0',
+    },
     plugins: [
+        new miniCssExtractPlugin(),
         new HtmlWebpackPlugin({
-            template: 'app/index.html',
+            template: 'index.html',
         }),
         new CopyWebpackPlugin({
-            patterns: [
-                {
-                    from: 'app/resources',
-                    to: 'resources'
-                },
-                {
-                    from: 'app/config',
-                    to: 'config'
-                },
-                {
-                    from: 'tonejs-instruments/samples',
-                    to: 'resources/samples'
-                }
-            ]
+            patterns: [{
+                from: "resources",
+                to: "resources"
+            }, ],
         }),
     ],
     module: {
         rules: [{
+                mimetype: 'image/svg+xml',
+                scheme: 'data',
+                type: 'asset/resource',
+                generator: {
+                    filename: 'icons/[hash].svg'
+                }
+            },
+            {
                 test: /\.html$/i,
                 loader: "html-loader",
-            },{
-      test: /\.(?:js|mjs|cjs)$/,
-      exclude: /node_modules/,
-      use: {
-        loader: 'babel-loader',
-        options: {
-          presets: [
-            ['@babel/preset-env', { targets: "defaults" }]
-          ]
-        }
-      }
-    },
-            {
-                test: /\.s?[ac]ss$/i,
-                use: [
-                    // Creates `style` nodes from JS strings
-                    "style-loader",
-                    // Translates CSS into CommonJS
-                    "css-loader",
-                    // Compiles Sass to CSS
-                    "sass-loader",
-                ],
+            }, {
+                test: /\.(?:js|mjs|cjs)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            ['@babel/preset-env', {
+                                targets: "defaults"
+                            }]
+                        ]
+                    }
+                }
             },
+            {
+                test: /\.(scss)$/,
+                use: [{
+                        loader: miniCssExtractPlugin.loader
+                    },
+                    {
+                        loader: 'css-loader'
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            postcssOptions: {
+                                plugins: () => [
+                                    require('autoprefixer')
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        loader: 'sass-loader'
+                    }
+                ]
+            }
         ],
     },
 };
@@ -70,6 +85,10 @@ target: "web",
 module.exports = () => {
     if (isProduction) {
         config.mode = 'production';
+
+
+        config.plugins.push(new WorkboxWebpackPlugin.GenerateSW());
+
     } else {
         config.mode = 'development';
     }

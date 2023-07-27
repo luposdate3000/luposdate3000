@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<?xml version="1.0"?><html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="shortcut icon" href="favicon.png" type="image/png">
+    <meta charset="utf-8">
+    <title>Webpack App</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg luposColor">
+        <ul class="navbar-nav me-auto luposColor">
+            <li class="nav-item luposColor">
+                <img src="logo.svg" style="height:2em">
+            </li>
+            <li class="nav-item luposColor">
+                <div class="navbar-brand luposColor">Luposdate Web Client</div>
+            </li>
+        </ul>
+        <ul class="navbar-nav ms-auto luposColor">
+            <li class="nav-item luposColor">
+                <a class="nav-link luposColor" href="https://github.com/luposdate3000/luposdate3000">GitHub</a>
+            </li>
+            <li class="nav-item luposColor">
+                <a class="nav-link luposColor" href="https://www.ifis.uni-luebeck.de/index.php?id=impressum">Imprint</a>
+            </li>
+            <li class="nav-item luposColor">
+                <a class="nav-link luposColor" href="https://www.ifis.uni-luebeck.de/index.php?id=datenschutz">Privacy Policy</a>
+            </li>
+        </ul>
+    </nav>
+    <div>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#config" type="button" role="tab" aria-controls="config" aria-selected="false">Config</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#sparql" type="button" role="tab" aria-controls="sparql" aria-selected="true">SPARQL</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#rdf" type="button" role="tab" aria-controls="rdf" aria-selected="false">RDF</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#result" type="button" role="tab" aria-controls="result" aria-selected="false">Result</button>
+            </li>
+        </ul>
+        <div class="tab-content ">
+            <div class=" tab-pane fade" id="config" role="tabpanel" aria-labelledby="config-tab">
+                <div class="input-group mb-3">
+                    <div class="input-group-text">
+                        <input type="checkbox" aria-label="Checkbox for following text input" id="useRDF" aria-describedby="labelUseRDF">
+                    </div>
+                    <span class="input-group-text form-control" id="labelUseRDF">use RDF</span>
+                </div>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="labelEndpoint">Endpoint</span>
+                    <select class="form-control form-select" aria-label="Endpoint" aria-describedby="labelEndpoint" id="endpoint"></select>
+                </div>
+            </div>
+            <div class=" tab-pane fade show active" id="sparql" role="tabpanel" aria-labelledby="sparql-tab">
+                <form>
+                    <button type="button" class="btn btn-primary" id="evaluate">Evaluate</button>
+                    <div id="sparqlEditorTarget"></div>
+                    <textarea id="sparqlEditorSource" name="sparqlEditorSource"></textarea>
+                </form>
+            </div>
+            <div class=" tab-pane fade" id="rdf" role="tabpanel" aria-labelledby="rdf-tab">
+                <form>
+                    <div id="rdfEditorTarget"></div>
+                    <textarea id="rdfEditorSource" name="rdfEditorSource"></textarea>
+                </form>
+            </div>
+            <div class=" tab-pane fade" id="result" role="tabpanel" aria-labelledby="result-tab">...result</div>
+        </div>
+    </div>
+</body>
+
+</html>
