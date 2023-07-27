@@ -18,10 +18,10 @@ import {
 
 const availableEndpoints = [
     initLuposdate3000Browser({
-        name: "Browser Luposdate3000"
+        name: "Luposdate3000 Browser"
     }),
     initLuposdate({
-        name: "Luposdate",
+        name: "Luposdate IFIS",
         url: "https://www.ifis.uni-luebeck.de/sparql-endpoint/nonstandard/sparql"
     })
 ];
