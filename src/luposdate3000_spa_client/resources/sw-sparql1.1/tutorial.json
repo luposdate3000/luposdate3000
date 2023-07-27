@@ -1,0 +1,31 @@
+[{
+    "label": "Task 1",
+    "empty": "resources/sw-sparql1.1/ubungen_q03.sparql",
+    "target": "resources/sw-sparql1.1/ubungen_t17.sparql",
+    "rdf": "resources/sw-sparql1.1/ubungen_d5.n3"
+}, {
+    "label": "Task 2",
+    "empty": "resources/sw-sparql1.1/ubungen_q03.sparql",
+    "target": "resources/sw-sparql1.1/ubungen_t18.sparql",
+    "rdf": "resources/sw-sparql1.1/ubungen_d5.n3"
+}, {
+    "label": "Task 3",
+    "empty": "resources/sw-sparql1.1/ubungen_q03.sparql",
+    "target": "resources/sw-sparql1.1/ubungen_t19.sparql",
+    "rdf": "resources/sw-sparql1.1/ubungen_d5.n3"
+}, {
+    "label": "Task 4",
+    "empty": "resources/sw-sparql1.1/ubungen_q03.sparql",
+    "target": "resources/sw-sparql1.1/ubungen_t20.sparql",
+    "rdf": "resources/sw-sparql1.1/ubungen_d5.n3"
+}, {
+    "label": "Task 5",
+    "empty": "resources/sw-sparql1.1/ubungen_q03.sparql",
+    "target": "resources/sw-sparql1.1/ubungen_t21.sparql",
+    "rdf": "resources/sw-sparql1.1/ubungen_d5.n3"
+}, {
+    "label": "Task 6",
+    "empty": "resources/sw-sparql1.1/ubungen_q03.sparql",
+    "target": "resources/sw-sparql1.1/ubungen_t22.sparql",
+    "rdf": "resources/sw-sparql1.1/ubungen_d5.n3"
+}]

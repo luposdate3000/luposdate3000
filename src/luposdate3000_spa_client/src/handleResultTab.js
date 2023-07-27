@@ -155,5 +155,5 @@ export function updateResultTab(result) {
     const target = document.getElementById('result');
     target.appendChild(createDownloadResultButtons(result))
     target.appendChild(result.html);
-document.querySelector("#result-tab-nav-item").style.display="list-item"
+    document.querySelector("#result-tab-nav-item").style.display = "list-item"
 }

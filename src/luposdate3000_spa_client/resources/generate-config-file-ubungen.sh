@@ -15,9 +15,23 @@ dataOut=$6
 mkdir $moduleName
 cp $queryTarget $moduleName
 cp $dataIn $moduleName
+cat <<EOF >> "tutorials.json"
+{
+"label":"${moduleName}",
+"data":"resources/${moduleName}/tutorial.json"
+}
+EOF
 cat <<EOF | js-beautify > "${moduleName}/data${queryNumber}.json"
 {
     "sparql": "resources/$moduleName/$queryTarget",
+    "rdf": "resources/$moduleName/$dataIn"
+}
+EOF
+cat <<EOF | js-beautify >> "${moduleName}/tutorial.json"
+{
+    "label":"Task ${queryNumber}",
+    "empty": "resources/$moduleName/$queryIn",
+    "target": "resources/$moduleName/$queryTarget",
     "rdf": "resources/$moduleName/$dataIn"
 }
 EOF

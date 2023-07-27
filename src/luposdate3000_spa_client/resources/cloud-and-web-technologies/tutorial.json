@@ -1,0 +1,31 @@
+[{
+    "label": "Task 1",
+    "empty": "resources/cloud-and-web-technologies/ubungen_q01.sparql",
+    "target": "resources/cloud-and-web-technologies/ubungen_t01.sparql",
+    "rdf": "resources/cloud-and-web-technologies/ubungen_d1.n3"
+}, {
+    "label": "Task 2",
+    "empty": "resources/cloud-and-web-technologies/ubungen_q01.sparql",
+    "target": "resources/cloud-and-web-technologies/ubungen_t02.sparql",
+    "rdf": "resources/cloud-and-web-technologies/ubungen_d1.n3"
+}, {
+    "label": "Task 3",
+    "empty": "resources/cloud-and-web-technologies/ubungen_q01.sparql",
+    "target": "resources/cloud-and-web-technologies/ubungen_t03.sparql",
+    "rdf": "resources/cloud-and-web-technologies/ubungen_d1.n3"
+}, {
+    "label": "Task 4",
+    "empty": "resources/cloud-and-web-technologies/ubungen_q01.sparql",
+    "target": "resources/cloud-and-web-technologies/ubungen_t04.sparql",
+    "rdf": "resources/cloud-and-web-technologies/ubungen_d1.n3"
+}, {
+    "label": "Task 5",
+    "empty": "resources/cloud-and-web-technologies/ubungen_q01.sparql",
+    "target": "resources/cloud-and-web-technologies/ubungen_t05.sparql",
+    "rdf": "resources/cloud-and-web-technologies/ubungen_d2.n3"
+}, {
+    "label": "Task 6",
+    "empty": "resources/cloud-and-web-technologies/ubungen_q01.sparql",
+    "target": "resources/cloud-and-web-technologies/ubungen_t06.sparql",
+    "rdf": "resources/cloud-and-web-technologies/ubungen_d3.n3"
+}]
