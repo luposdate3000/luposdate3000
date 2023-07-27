@@ -26,7 +26,10 @@ const config = {
             patterns: [{
                 from: "resources",
                 to: "resources"
-            }, {from:"src/html_result_style.css",to:"html_result_style.css"}],
+            }, {
+                from: "src/html_result_style.css",
+                to: "html_result_style.css"
+            }],
         }),
     ],
     module: {

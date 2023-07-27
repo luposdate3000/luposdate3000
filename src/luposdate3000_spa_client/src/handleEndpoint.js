@@ -200,17 +200,17 @@ function createDownloadResultButtons(result) {
     b1.classList.add("btn-primary")
     b1.type = "button"
     b1.textContent = "Download HTML"
-    b1.onclick=function() {
-const html=document.createElement('html');
-const head=document.createElement('head');
-const body=document.createElement('body');
-html.appendChild(head)
-const link=document.createElement('link');
-link.rel="stylesheet"
-link.href=window.location.href+"/html_result_style.css"
-head.appendChild(link)
-html.appendChild(body)
-body.appendChild(result.html)
+    b1.onclick = function() {
+        const html = document.createElement('html');
+        const head = document.createElement('head');
+        const body = document.createElement('body');
+        html.appendChild(head)
+        const link = document.createElement('link');
+        link.rel = "stylesheet"
+        link.href = window.location.href + "/html_result_style.css"
+        head.appendChild(link)
+        html.appendChild(body)
+        body.appendChild(result.html)
         download(html.outerHTML, "text/html", "result.html")
     };
     div.appendChild(b1);
