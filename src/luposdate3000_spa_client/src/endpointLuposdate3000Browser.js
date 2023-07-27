@@ -1,4 +1,5 @@
-const luposdate3000 = require("../../luposdate3000_endpoint/build/distributions/luposdate3000_endpoint.js")
+//const luposdate3000 = require("../../luposdate3000_endpoint/build/distributions/luposdate3000_endpoint.js")
+const luposdate3000 = require("../../luposdate3000_endpoint/build/developmentExecutable/luposdate3000_endpoint.js")
 
 function evaluate(env, sparql, rdf, useRDF, callback) {
     if (useRDF) {
@@ -7,7 +8,7 @@ function evaluate(env, sparql, rdf, useRDF, callback) {
         luposdate3000.lupos.endpoint.LuposdateEndpoint.import_turtle_string(env.instance, rdf);
     }
     callback({
-        xml: luposdate3000.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(env.instance, sparql);
+        xml: luposdate3000.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(env.instance, sparql)
     });
 }
 export function init(env) {
