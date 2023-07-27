@@ -6,11 +6,12 @@ function evaluate(env, sparql, rdf, useRDF, callback) {
         env.instance = luposdate3000.lupos.endpoint.LuposdateEndpoint.initialize()
         luposdate3000.lupos.endpoint.LuposdateEndpoint.import_turtle_string(env.instance, rdf);
     }
-    var response = luposdate3000.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(env.instance, sparql);
-    console.log(response)
+    callback({
+        xml: luposdate3000.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(env.instance, sparql);
+    });
 }
-export function init(data) {
-    data.evaluate = evaluate;
-    data.instance = luposdate3000.lupos.endpoint.LuposdateEndpoint.initialize()
-    return data
+export function init(env) {
+    env.evaluate = evaluate;
+    env.instance = luposdate3000.lupos.endpoint.LuposdateEndpoint.initialize()
+    return env
 }

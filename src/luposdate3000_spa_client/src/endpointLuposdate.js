@@ -31,7 +31,7 @@ function evaluate(env, sparql, rdf, useRDF, callback) {
         }
     });
 }
-export function init(data) {
-    data.evaluate = evaluate;
-    return data
+export function init(env) {
+    env.evaluate = evaluate;
+    return env
 }

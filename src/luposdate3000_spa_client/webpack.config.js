@@ -31,6 +31,12 @@ const config = {
     ],
     module: {
         rules: [{
+                test: /\.js$/,
+                use: [
+                    'source-map-loader'
+                ],
+                enforce: 'pre'
+            }, {
                 mimetype: 'image/svg+xml',
                 scheme: 'data',
                 type: 'asset/resource',
