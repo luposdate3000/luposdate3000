@@ -1,1 +1,54 @@
-{"error":"Expected a ',' or '}' at 12 [character 13 line 1]"}
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="p"/>
+  <variable name="s"/>
+  <variable name="o"/>
+ </head>
+ <results>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/ontology/motto</uri>
+    </binding>
+    <binding name="s">
+     <uri>http://dbpedia.org/resource/University_of_L%C3%BCbeck</uri>
+    </binding>
+    <binding name="o">
+     <literal>Im Focus das Leben (German)</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/mottoeng</uri>
+    </binding>
+    <binding name="s">
+     <uri>http://dbpedia.org/resource/University_of_L%C3%BCbeck</uri>
+    </binding>
+    <binding name="o">
+     <literal xml:lang="en">Focus on Life</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/motto</uri>
+    </binding>
+    <binding name="s">
+     <uri>http://dbpedia.org/resource/University_of_L%C3%BCbeck</uri>
+    </binding>
+    <binding name="o">
+     <literal xml:lang="en">Im Focus das Leben</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/ontology/motto</uri>
+    </binding>
+    <binding name="s">
+     <uri>http://dbpedia.org/resource/University_of_L%C3%BCbeck</uri>
+    </binding>
+    <binding name="o">
+     <literal>Focus on Life</literal>
+    </binding>
+   </result>
+ </results>
+</sparql>
