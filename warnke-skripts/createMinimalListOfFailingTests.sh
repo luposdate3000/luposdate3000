@@ -15,34 +15,36 @@ do
 i=$((i+1))
 
 #blacklisting some random tests -->>
-cat resources/tests/all \
- | grep -w -v -F -f resources/tests/timeout \
- | grep -w -v -F -f resources/tests/passed \
- | grep -w -v -F -f resources/tests/failed  \
- > tmp/blacklist1
-truncate -s0 resources/tests/blacklist
-grep -w -v -F -f tmp/blacklist1 resources/tests/all > resources/tests/blacklist
-grep -v " - in simulator - " tmp/blacklist1 > tmp/blacklist2
-if [[ $(wc -l < tmp/blacklist2) -ge 500 ]]
-then
- grep " - in simulator - " tmp/blacklist1 >> resources/tests/blacklist
- mv tmp/blacklist2 tmp/blacklist1
-fi
-grep -v " - Thread - " tmp/blacklist1 > tmp/blacklist2
-if [[ $(wc -l < tmp/blacklist2) -ge 500 ]]
-then
- grep " - Thread - " tmp/blacklist1 >> resources/tests/blacklist
- mv tmp/blacklist2 tmp/blacklist1
-fi
-cat tmp/blacklist1 \
- | shuf \
- | head -n -5000  >> resources/tests/blacklist
+#cat resources/tests/all \
+# | grep -w -v -F -f resources/tests/timeout \
+# | grep -w -v -F -f resources/tests/passed \
+# | grep -w -v -F -f resources/tests/failed  \
+# > tmp/blacklist1
+#truncate -s0 resources/tests/blacklist
+#grep -w -v -F -f tmp/blacklist1 resources/tests/all > resources/tests/blacklist
+#grep -v " - in simulator - " tmp/blacklist1 > tmp/blacklist2
+#if [[ $(wc -l < tmp/blacklist2) -ge 500 ]]
+#then
+# grep " - in simulator - " tmp/blacklist1 >> resources/tests/blacklist
+# mv tmp/blacklist2 tmp/blacklist1
+#fi
+#grep -v " - Thread - " tmp/blacklist1 > tmp/blacklist2
+#if [[ $(wc -l < tmp/blacklist2) -ge 500 ]]
+#then
+# grep " - Thread - " tmp/blacklist1 >> resources/tests/blacklist
+# mv tmp/blacklist2 tmp/blacklist1
+#fi
+#cat tmp/blacklist1 \
+# | shuf \
+# | head -n -5000  >> resources/tests/blacklist
 
 #blacklisting some random tests <<--
 
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
-timeout 600s ./gradlew --offline build > x
+echo "starting build"
+/usr/bin/timeout 60s ./warnke-skripts/createMinimalListOfFailingTestsHelper.sh
+echo "finished build"
 cp x backupX$i
 pkill java -9
 sleep 5
