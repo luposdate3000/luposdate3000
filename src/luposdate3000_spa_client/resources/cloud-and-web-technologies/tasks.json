@@ -1,5 +1,5 @@
 {
-    "tasks:" = [{
+    "tasks": [{
         "label": "Task 1",
         "empty": "resources/cloud-and-web-technologies/ubungen_q01.sparql",
         "target": "resources/cloud-and-web-technologies/ubungen_t01.sparql",

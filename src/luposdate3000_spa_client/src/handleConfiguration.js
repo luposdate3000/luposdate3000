@@ -21,7 +21,7 @@ export function getUseRDF() {
 }
 
 function loadSparql(url) {
-    if (url !== null) {
+    if ((url !== undefined) && (url !== null)) {
         jquery.get(url, function(data) {
             setSparql(data);
         });
@@ -29,7 +29,7 @@ function loadSparql(url) {
 }
 
 function loadRDF(url) {
-    if (url !== null) {
+    if ((url !== undefined) && (url !== null)) {
         jquery.get(url, function(data) {
             setRDF(data);
         });
@@ -37,7 +37,7 @@ function loadRDF(url) {
 }
 
 function loadData(url) {
-    if (url === null) {
+    if ((url === undefined) || (url === null)) {
         url = "resources/cloud-and-web-technologies/data1.json";
     }
     jquery.getJSON(url, function(data) {
@@ -47,7 +47,7 @@ function loadData(url) {
 }
 
 function loadConfig(url) {
-    if (url === null) {
+    if ((url === undefined) || (url === null)) {
         url = "resources/config.json";
     }
     jquery.getJSON(url, function(data) {
@@ -60,7 +60,7 @@ function loadConfig(url) {
 function enableExampleLectures(data) {
     const lectures = jquery("#exampleLecture")
     lectures.empty();
-    if (data !== null) {
+    if ((data !== undefined) && (data !== null)) {
         for (const lecture of data) {
             knownLectures[lecture.label] = lecture
             lectures.append(jquery("<option></option>").attr("value", lecture.label).text(lecture.label));
@@ -75,8 +75,9 @@ loadConfig(urlParams.get('config'));
 function enableExampleLecture(data) {
     const tasks = jquery("#exampleTask")
     tasks.empty();
-    if (data !== null) {
-        if (data.tasks !== null) {
+    if ((data !== undefined) && (data !== null)) {
+        console.log(data)
+        if ((data.tasks !== undefined) && (data.tasks !== null)) {
             knownTasks = {}
             for (const task of data.tasks) {
                 knownTasks[task.label + " - Empty"] = {
@@ -95,17 +96,21 @@ function enableExampleLecture(data) {
 }
 jquery("#exampleLecture").on("change", function() {
     const lecture = knownLectures[jquery("#exampleLecture").val()]
-    if (lecture.data === null) {
+    console.log("exampleLecture onChange", lecture, jquery("#exampleLecture").val())
+    if ((lecture.data === undefined) || (lecture.data === null)) {
+        console.log("downloading", lecture.url)
         jquery.getJSON(lecture.url, function(data) {
+            console.log("downloaded", data)
             lecture.data = data
             enableExampleLecture(lecture.data)
         });
     } else {
+        console.log("use existing", lecture)
         enableExampleLecture(lecture.data)
     }
 });
 jquery("#exampleLoad").on("click", function() {
-    const data = knownLectures[jquery("#exampleTask").val()]
+    const data = knownTasks[jquery("#exampleTask").val()]
     loadSparql(data.sparql);
     loadRDF(data.rdf);
 });
