@@ -14,6 +14,7 @@ dataOut=$6
 
 mkdir $moduleName
 cp $queryTarget $moduleName
+cp $queryIn $moduleName
 cp $dataIn $moduleName
 cat <<EOF >> "tutorials.json"
 {
