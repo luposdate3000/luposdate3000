@@ -1,5 +1,6 @@
-#!/bin/bash
 
+#!/bin/bash
+mkdir resources/tests
 sed "s/minifyMode: Boolean = .*/minifyMode: Boolean = true/g" -i ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTest.kt
 
 
@@ -43,7 +44,7 @@ i=$((i+1))
 ./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
 ./launcher.main.kts --setup
 echo "starting build"
-/usr/bin/timeout 60s ./warnke-skripts/createMinimalListOfFailingTestsHelper.sh
+/usr/bin/timeout 60s ./gradlew build --offline > x
 echo "finished build"
 cp x backupX$i
 pkill java -9
@@ -100,3 +101,22 @@ grep -w -v -F -f resources/tests/timeout resources/tests/passed > tmp/x
 mv tmp/x resources/tests/passed
 
 done
+
+
+
+
+
+
+
+
+
+mkdir resources/tests
+sed "s/minifyMode: Boolean = .*/minifyMode: Boolean = true/g" -i ./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTest.kt
+./launcher.main.kts --setup
+./gradlew --offline assemble
+./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
+grep -v resourcesmyqueriesubungen resources/tests/all > resources/tests/blacklist
+./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi
+./gradlew build --offline > x
+
+
