@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="person"/>
+ </head>
+ <results>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Justus_M%C3%BChlenpfordt</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Willy_Brandt</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/August_N%C3%B6lck</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Gustav_Radbruch</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Knut_H%C3%B6hne</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Christian_Ahrendt</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Rudolf_Brehmer</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Haim_Cohn</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Christian_Heinrich_Nebbien</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Ernest_Krause</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Hans-Joachim_Jabs</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/J%C3%BCrgen_Wattenberg</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Joseph_Carlebach</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Friedrich_Wilhelm_Gustav_Bruhn</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Turiya_Hanover</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Arnold_Brecht</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Godfrey_Kneller</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/G%C3%BCnther_L%C3%BCders</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/J%C3%B6rg_Ziercke</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Bertrand_Freiesleben</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Georg_Curtius</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Ernst_Curtius</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Hermann_von_Fehling</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Gustav_Falke</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/James_Behrens</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/August_Hermann_Francke</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Thea_Rosenquist</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Johann_Lorenz_von_Mosheim</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Sandra_V%C3%B6lker</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Franz_Tunder</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Holger_Willmer</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Hans_Heidtmann</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Hanns_Maa%C3%9Fen</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Heinrich_Mann</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Michael_Ristow</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Walter_Bestmann</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Paul_Both</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Bastian_Sick</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Gotthardt_Kuehl</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Wilhelm_Mohnke</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Helmuth_Brinkmann</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="person">
+     <uri>http://dbpedia.org/resource/Gerhard_Boldt</uri>
+    </binding>
+   </result>
+ </results>
+</sparql>
