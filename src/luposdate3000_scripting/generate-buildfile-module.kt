@@ -424,6 +424,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    }")
                 out.println("}")
                 val allDep = mutableSetOf<String>()
+commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
                 allDep.addAll(commonDependencies)
                 allDep.addAll(jsDependencies)
                 allDep.addAll(jvmDependencies)

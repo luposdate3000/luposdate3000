@@ -29,7 +29,7 @@ public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : Sparq
         private val fastMode = false
         private val withSimulator = true
         private val onlyFirstTest = false // to reduce the number of tests, which are failing and can not be abortet by timeout
-        public val minifyMode: Boolean = false
+        public val minifyMode: Boolean = true
         private val fileModeMany = false // very bad for the compiler if there are many test cases because it definetly spams source-code files
         internal val verifyOrderOfColumns = false // show be dependent on the query, if it has a fixed select order or not
     }

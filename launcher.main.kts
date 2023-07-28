@@ -1,5 +1,5 @@
 #!/usr/bin/env kotlin
-/*    
+/*       
  * This file is part of the Luposdate3000 distribution (https://github.com/luposdate3000/luposdate3000).
  * Copyright (c) 2020-2021, Institute of Information Systems (Benjamin Warnke and contributors of LUPOSDATE3000), University of Luebeck
  *
@@ -18,8 +18,8 @@
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/Exceptions.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystem.kt")
 @file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/EOperatingSystemExt.kt")
-@file:Import("src/luposdate3000_shared_inline/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
-@file:Import("src/luposdate3000_shared_inline/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/Platform.kt")
+@file:Import("src/luposdate3000_shared/src/jvmMain/kotlin/lupos/shared/inline/Platform.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-inline.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-suspend.kt")
 @file:Import("src/luposdate3000_scripting/generate-buildfile-module.kt")
