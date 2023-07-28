@@ -1,1 +1,65 @@
-{"error":"Expected a ',' or '}' at 12 [character 13 line 1]"}
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="p"/>
+  <variable name="o"/>
+ </head>
+ <results>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/northeast</uri>
+    </binding>
+    <binding name="o">
+     <literal xml:lang="en">Baltic Sea</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/east</uri>
+    </binding>
+    <binding name="o">
+     <uri>http://dbpedia.org/resource/Rostock</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/east</uri>
+    </binding>
+    <binding name="o">
+     <uri>http://dbpedia.org/resource/Wismar</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/southeast</uri>
+    </binding>
+    <binding name="o">
+     <uri>http://dbpedia.org/resource/Schwerin</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/southwest</uri>
+    </binding>
+    <binding name="o">
+     <uri>http://dbpedia.org/resource/Hamburg</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/northwest</uri>
+    </binding>
+    <binding name="o">
+     <uri>http://dbpedia.org/resource/Neum%C3%BCnster</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="p">
+     <uri>http://dbpedia.org/property/northwest</uri>
+    </binding>
+    <binding name="o">
+     <uri>http://dbpedia.org/resource/Kiel</uri>
+    </binding>
+   </result>
+ </results>
+</sparql>

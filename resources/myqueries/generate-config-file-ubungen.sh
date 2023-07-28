@@ -13,15 +13,15 @@ dataIn=$4
 queryTarget=$5
 dataOut=$6
 
-echo '{"query":"' > x
+echo '{"query":' > x
 cat $queryTarget |jq -Rsa . >> x
-echo '","rdf":"' >> x
+echo ',"rdf":' >> x
 cat $dataIn |jq -Rsa . >> x
-echo '","formats":["xml","plain"],"inference":"NONE","inferenceGeneration":"GENERATEDOPT","evaluator":"MemoryIndex"}' >> x
+echo ',"formats":["xml","plain"],"inference":"NONE","inferenceGeneration":"GENERATEDOPT","evaluator":"MemoryIndex"}' >> x
 curl 'https://www.ifis.uni-luebeck.de/sparql-endpoint/nonstandard/sparql' \
 -X 'POST' \
 -d @x \
-> $dataOut
+| jq -rc '.XML[0]' > $dataOut
 echo $(wc -l $dataIn | sed "s/ .*//g"),$queryTarget,$dataIn,$dataOut >> config.csv2
 }
 
