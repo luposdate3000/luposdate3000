@@ -16,7 +16,7 @@ mkdir $moduleName
 cp $queryTarget $moduleName
 cp $queryIn $moduleName
 cp $dataIn $moduleName
-cat <<EOF >> "tutorials.json"
+cat <<EOF >> "tutorials.unused..json"
 {
 "label":"${moduleName}",
 "data":"resources/${moduleName}/tutorial.json"
@@ -28,7 +28,7 @@ cat <<EOF | js-beautify > "${moduleName}/data${queryNumber}.json"
     "rdf": "resources/$moduleName/$dataIn"
 }
 EOF
-cat <<EOF | js-beautify >> "${moduleName}/tutorial.json"
+cat <<EOF | js-beautify >> "${moduleName}/tutorial.unused.json"
 {
     "label":"Task ${queryNumber}",
     "empty": "resources/$moduleName/$queryIn",
@@ -36,7 +36,7 @@ cat <<EOF | js-beautify >> "${moduleName}/tutorial.json"
     "rdf": "resources/$moduleName/$dataIn"
 }
 EOF
-cat <<EOF | js-beautify > "${moduleName}/config.json"
+cat <<EOF | js-beautify > "${moduleName}/config.unused.json"
 {
     "endpoints": [{
         "name": "Browser Luposdate3000",

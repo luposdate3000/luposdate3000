@@ -68,15 +68,10 @@ function enableExampleLectures(data) {
     }
 }
 
-const urlParams = new URLSearchParams(window.location.search);
-loadData(urlParams.get('data'));
-loadConfig(urlParams.get('config'));
-
 function enableExampleLecture(data) {
     const tasks = jquery("#exampleTask")
     tasks.empty();
     if ((data !== undefined) && (data !== null)) {
-        console.log(data)
         if ((data.tasks !== undefined) && (data.tasks !== null)) {
             knownTasks = {}
             for (const task of data.tasks) {
@@ -96,16 +91,12 @@ function enableExampleLecture(data) {
 }
 jquery("#exampleLecture").on("change", function() {
     const lecture = knownLectures[jquery("#exampleLecture").val()]
-    console.log("exampleLecture onChange", lecture, jquery("#exampleLecture").val())
     if ((lecture.data === undefined) || (lecture.data === null)) {
-        console.log("downloading", lecture.url)
         jquery.getJSON(lecture.url, function(data) {
-            console.log("downloaded", data)
             lecture.data = data
             enableExampleLecture(lecture.data)
         });
     } else {
-        console.log("use existing", lecture)
         enableExampleLecture(lecture.data)
     }
 });
@@ -114,3 +105,8 @@ jquery("#exampleLoad").on("click", function() {
     loadSparql(data.sparql);
     loadRDF(data.rdf);
 });
+
+const urlParams = new URLSearchParams(window.location.search);
+loadData(urlParams.get('data'));
+loadConfig(urlParams.get('config'));
+
