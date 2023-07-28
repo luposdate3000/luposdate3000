@@ -1,12 +1,9 @@
-PREFIX dbpprop:	<http://dbpedia.org/property/>
-PREFIX dbpedia:	<http://dbpedia.org/resource/>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX bench:   <http://localhost/vocabulary/bench/>
+PREFIX swrc: <http://swrc.ontoware.org/ontology#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
 
-SELECT * 
+SELECT * # maybe needs to be modified...
 WHERE {
- ?person dbpprop:placeOfBirth dbpedia:L%C3%BCbeck .
- OPTIONAL {
-   ?person2 dbpprop:placeOfDeath dbpedia:L%C3%BCbeck. 
-   FILTER(?person = ?person2)
- }
- FILTER(!bound(?person2))
+ # please complete!
 }

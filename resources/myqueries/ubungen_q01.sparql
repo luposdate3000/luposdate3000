@@ -3,5 +3,6 @@ PREFIX dbpedia:	<http://dbpedia.org/resource/>
 
 SELECT * 
 WHERE {
- ?person dbpprop:placeOfBirth dbpedia:L%C3%BCbeck .
+ # Modify your query here...
+
 }
