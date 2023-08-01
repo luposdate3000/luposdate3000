@@ -6,59 +6,96 @@ import {
 } from "vis-network/peer";
 import "vis-network/styles/vis-network.css";
 const jquery = require("jquery")
+import {
+    getColorByType
+} from "./handleConfiguration.js"
+
 
 var resultCache = []
 export function updateResultGraphTab(result) {
     document.querySelector("#result-graph-tab-nav-item").style.display = "list-item"
     resultCache = result.optimization_steps
-    showGraph(resultCache[0])
+console.log("a")
+    for (const r of resultCache) {
+        for (const n of r.nodes) {
+            n.color = getColorByType(n.label.split(' ')[0])
+        }
+    }
+console.log("b")
+    jquery("#result-graph-view-input").val("0")
+console.log("c")
+    setTimeout(function() {
+console.log("d")
+        showGraph(resultCache[0])
+    }, 100);
+console.log("e")
 }
+var network = null;
 
 function showGraph(g) {
     console.log(g)
-    const nodes = new DataSet(g.nodes)
-    const edges = new DataSet(g.edges)
-    const container = document.getElementById("result-graph-view");
-    const data = {
-        nodes: nodes,
-        edges: edges
-    };
-    const options = {
-        physics: {
-            enabled: false,
-            hierarchicalRepulsion: {
-                centralGravity: 0.0,
-                springLength: 100,
-                springConstant: 0.01,
-                nodeDistance: 200,
-                damping: 0.09
-            }
-        },
+    if (network != null) {
+        network.destroy();
+    }
+    network = new Network(document.getElementById("result-graph-view"), {
+        nodes: new DataSet(g.nodes),
+        edges: new DataSet(g.edges)
+    }, {
+        autoResize: false,
         nodes: {
-            borderWidth: 1
+            physics: false,
+            shape: "box",
+            font: {
+                size: 14,
+                color: "#000000",
+                face: "Ubuntu",
+            },
+            borderWidth: 1,
+            color: {
+                background: "#E1E1E1",
+                border: "#000000",
+                hover: {
+                    background: "#C5C5C5",
+                    border: "#000000",
+                },
+                highlight: {
+                    background: "#C5C5C5",
+                    border: "#000000",
+                },
+
+            },
+
+        },
+        edges: {
+            smooth: false
+        },
+        physics: {
+            enabled: true,
+            hierarchicalRepulsion: {
+                nodeDistance: 200,
+                avoidOverlap: 1
+            },
         },
         layout: {
+            improvedLayout: true,
             hierarchical: {
                 levelSeparation: 100,
-                nodeSpacing: 400,
-                treeSpacing: 500,
-                direction: "UD",
-                blockShifting: true,
-                edgeMinimization: true,
-                sortMethod: "directed"
+                nodeSpacing: 300,
+                treeSpacing: 200,
             }
+        },
+        interaction: {
+            hover: true
         }
-
-    };
-    const network = new Network(container, data, options);
+    });
+    setTimeout(function() {
+        network.fit();
+    }, 100)
 }
 
 jquery("#result-graph-view-input").on("change", function() {
     const v = parseInt(jquery("#result-graph-view-input").val());
-    console.log("onchange", v);
-    if (v) {
-        if (v >= 0 && v < resultCache.size) {
-            showGraph(resultCache[v])
-        }
+    if (v >= 0 && v < resultCache.length - 1) {
+        showGraph(resultCache[v])
     }
 });

@@ -1,3 +1,5 @@
+import {download} from "./util.js"
+const randomColor = require('randomcolor');
 const jquery = require("jquery")
 import {
     setSparql,
@@ -8,7 +10,18 @@ import {
 } from "./handleEndpoint.js"
 var knownLectures = {}
 var knownTasks = {}
-
+var config = {}
+export function getColorByType(t) {
+    if ((config.colors === undefined) || (config.colors === null)) {
+        config.colors = {}
+    }
+    if (!(t in config.colors)) {
+        config.colors[t] = randomColor({
+            luminosity: 'dark'
+        });
+    }
+    return config.colors[t]
+}
 export function setUseRDF(data) {
     if (data) {
         jquery("#useRDF").prop("checked", true);
@@ -62,6 +75,7 @@ function loadConfig(url) {
         url = "resources/config.json";
     }
     jquery.getJSON(url, function(data) {
+        config = data
         setUseRDF(data.useRDF)
         setWithGraph(data.withGraph)
         enableEndpoints(data.endpoints)
@@ -116,6 +130,11 @@ jquery("#exampleLoad").on("click", function() {
     const data = knownTasks[jquery("#exampleTask").val()]
     loadSparql(data.sparql);
     loadRDF(data.rdf);
+});
+jquery("#save-btn").on("click", function() {
+    config.useRDF = getUseRDF()
+    config.withGraph = getWithGraph()
+download(JSON.stringify(config),"application/json","config.json")
 });
 
 const urlParams = new URLSearchParams(window.location.search);

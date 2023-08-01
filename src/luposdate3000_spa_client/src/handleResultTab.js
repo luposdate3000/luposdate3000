@@ -1,6 +1,6 @@
 const jquery = require("jquery")
 const randomColor = require('randomcolor');
-
+import {download} from "./util.js"
 function resultXMLToHTMLUri(uri, namespaces, colors, target) {
     for (var k in namespaces) {
         const v = namespaces[k];
@@ -139,16 +139,6 @@ function createDownloadResultButtons(result) {
     return div
 }
 
-function download(content, mimeType, filename) {
-    const a = document.createElement('a')
-    const blob = new Blob([content], {
-        type: mimeType
-    })
-    const url = URL.createObjectURL(blob)
-    a.setAttribute('href', url)
-    a.setAttribute('download', filename)
-    a.click()
-}
 export function updateResultTab(result) {
     result.html = resultXMLToHTML(result.xml, result.namespaces)
     jquery("#result").empty();
