@@ -13,27 +13,25 @@ import {
 
 var resultCache = []
 export function updateResultGraphTab(result) {
+if("optimization_steps" in result){
     document.querySelector("#result-graph-tab-nav-item").style.display = "list-item"
     resultCache = result.optimization_steps
-console.log("a")
     for (const r of resultCache) {
         for (const n of r.nodes) {
             n.color = getColorByType(n.label.split(' ')[0])
         }
     }
-console.log("b")
     jquery("#result-graph-view-input").val("0")
-console.log("c")
     setTimeout(function() {
-console.log("d")
         showGraph(resultCache[0])
     }, 100);
-console.log("e")
+}else{
+document.querySelector("#result-graph-tab-nav-item").style.display = "none"
+}
 }
 var network = null;
 
 function showGraph(g) {
-    console.log(g)
     if (network != null) {
         network.destroy();
     }
@@ -98,4 +96,7 @@ jquery("#result-graph-view-input").on("change", function() {
     if (v >= 0 && v < resultCache.length - 1) {
         showGraph(resultCache[v])
     }
+});
+jquery("#result-graph-tab-trigger").on("click", function() {
+network.fit()
 });
