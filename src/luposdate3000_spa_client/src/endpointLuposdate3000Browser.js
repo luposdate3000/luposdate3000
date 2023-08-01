@@ -2,7 +2,7 @@
 const luposdate3000 = require("../../luposdate3000_endpoint/build/developmentExecutable/luposdate3000_endpoint.js")
 
 function evaluate(env, sparql, rdf, useRDF, withGraph, callback) {
-console.log("evaluate .. ",useRDF,withGraph)
+    console.log("evaluate .. ", useRDF, withGraph)
     if (useRDF) {
         luposdate3000.lupos.endpoint.LuposdateEndpoint.close()
         env.instance = luposdate3000.lupos.endpoint.LuposdateEndpoint.initialize()
@@ -13,7 +13,7 @@ console.log("evaluate .. ",useRDF,withGraph)
             optimization_steps: [],
             animation: []
         }
-        const eev = luposdate3000.lupos.endpoint.EndpointExtendedVisualize(sparql, env.instance)
+        const eev = new luposdate3000.lupos.endpoint.EndpointExtendedVisualize(sparql, env.instance);
         for (const e of eev.getOptimizedStepsLogical()) {
             res.optimization_steps.push(JSON.parse(e.toJson()));
         }

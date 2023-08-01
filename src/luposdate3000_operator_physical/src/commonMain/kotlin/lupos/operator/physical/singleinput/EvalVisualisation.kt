@@ -17,7 +17,6 @@
 package lupos.operator.physical.singleinput
 
 import lupos.shared.IQuery
-import lupos.shared.IVisualisation
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.IteratorBundle
@@ -26,7 +25,7 @@ import lupos.shared.operator.iterator.RowIterator
 public object EvalVisualisation {
     public operator fun invoke(
         child: IteratorBundle,
-        visualTest: IVisualisation?,
+        visualTest: MutableList<String>?,
         query: IQuery,
         childUUID: Long,
         parentUUID: Long,
@@ -51,7 +50,7 @@ public object EvalVisualisation {
                     outputString += parentUUID.toString() + ","
                     outputString += "\"$string\","
                     outputString += iterator.buf[res + j].toString() + "]"
-                    visualTest!!.sendData(outputString)
+                    visualTest!!.add(outputString)
                 }
             }
             res

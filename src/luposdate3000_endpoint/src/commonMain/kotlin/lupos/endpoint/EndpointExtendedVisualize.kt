@@ -24,7 +24,6 @@ import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.optimizer.physical.PhysicalOptimizerVisualisation
 import lupos.parser.sparql.ASTSparqlDoc
 import lupos.parser.sparql.SparqlParser
-import lupos.shared.IVisualisation
 import lupos.shared.Luposdate3000Instance
 import kotlin.js.JsExport
 import lupos.shared.OPVisualGraph
@@ -33,13 +32,13 @@ import lupos.shared.inline.MyStringStream
 import lupos.shared.operator.IOPBase
 import kotlin.js.JsName
 @JsExport
-public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) : IVisualisation {
+public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance)  {
     private var resultLog: Array<OPVisualGraph>
     private var resultPhys: Array<OPVisualGraph>
     private var result: String
     private var animationData: MutableList<String> = mutableListOf()
 
-    init {
+   init {
         val q: Query = Query(instance)
         val stream = MyStringStream(input)
         val parser: SparqlParser = SparqlParser(stream)
@@ -74,11 +73,11 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
     }
 
     private fun recursive(node: IOPBase) {
+        if (node is POPVisualisation) {
+            node.visualTest = animationData
+        }
         for (i in node.getChildren()) {
             recursive(i)
-        }
-        if (node is POPVisualisation) {
-            node.visualTest = this
         }
     }
 
@@ -100,9 +99,5 @@ public class EndpointExtendedVisualize(input: String, internal val instance: Lup
     @JsName("getResult")
     public fun getResult(): String {
         return result
-    }
-
-    override fun sendData(string: String) {
-        animationData.add(string)
     }
 }
