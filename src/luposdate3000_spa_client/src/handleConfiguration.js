@@ -28,7 +28,7 @@ export function setWithGraph(data) {
     }
 }
 export function getWithGraph() {
-    return jquery("#WithGraph").prop("checked");
+    return jquery("#withGraph").prop("checked");
 }
 
 function loadSparql(url) {
@@ -121,4 +121,3 @@ jquery("#exampleLoad").on("click", function() {
 const urlParams = new URLSearchParams(window.location.search);
 loadData(urlParams.get('data'));
 loadConfig(urlParams.get('config'));
-

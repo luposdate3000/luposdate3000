@@ -1,6 +1,6 @@
 const jquery = require("jquery")
 
-function evaluate(env, sparql, rdf, useRDF,withGraph, callback) {
+function evaluate(env, sparql, rdf, useRDF, withGraph, callback) {
     var data = {}
     data.query = sparql
     if (useRDF) {

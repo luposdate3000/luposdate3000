@@ -2,6 +2,7 @@
     "endpoints": [
         "Luposdate3000 Browser", "Luposdate IFIS"
     ],
+"withGraph":true,
     "useRDF": true,
     "lectures": [{
             "label": "cloud-and-web-technologies",
