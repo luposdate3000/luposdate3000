@@ -38,7 +38,6 @@ public object LogicalOptimizerJoinOrderCostBasedOnDynamicProgramming {
         for (c in allChilds) {
             val hist = c.getHistogram()
             histograms.add(hist.count to hist.values)
-            println("finished histogram $ctrrrr")
             ctrrrr++
         }
 

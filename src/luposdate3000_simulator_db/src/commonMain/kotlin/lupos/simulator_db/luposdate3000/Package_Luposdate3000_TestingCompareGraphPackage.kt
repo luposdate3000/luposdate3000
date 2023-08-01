@@ -38,9 +38,9 @@ public class Package_Luposdate3000_TestingCompareGraphPackage(
     public fun prepare(): Package_Luposdate3000_TestingCompareGraphPackage {
         if (needsPrepare) {
             val q: String = if (graph == "") {
-                "\"SELECT ?s ?p ?o WHERE { ?s ?p ?o . }\""
+                "SELECT ?s ?p ?o WHERE { ?s ?p ?o . }"
             } else {
-                "\"SELECT ?s ?p ?o WHERE { GRAPH <\${$graph}> { ?s ?p ?o . }}\""
+                "SELECT ?s ?p ?o WHERE { GRAPH <$graph> { ?s ?p ?o . }}"
             }
             var res: Package_Luposdate3000_TestingCompareGraphPackage? = null
             for (idx in instance!!.tripleStoreManager!!.getGraph(graph!!).getIndices()) {

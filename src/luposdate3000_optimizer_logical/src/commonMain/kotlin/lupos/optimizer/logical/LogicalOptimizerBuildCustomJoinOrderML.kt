@@ -94,7 +94,6 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
             val oSorted = generateJoinOrderHelperSort(mutableListOf(), oCpy, oCpy.size - 2)
             res[o] = res1.getOrPut(oSorted, { res1.size })
         }
-        println("successfully generated join order map for $n triples")
         return res
     }
 
@@ -116,7 +115,6 @@ public object LogicalOptimizerBuildCustomJoinOrderML {
         joinOrderCountForTripleCount(tripleCount)
         val order = mappingOfJoinOrders[tripleCount][joinOrder]
         val intermediates = mutableListOf<IOPBase>()
-        println("order ${order.toList()}")
         for (i in 0 until order.size / 2) {
             val ai = i * 2
             val bi = ai + 1

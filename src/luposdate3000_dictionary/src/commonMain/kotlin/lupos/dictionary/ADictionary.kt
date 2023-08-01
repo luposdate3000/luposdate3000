@@ -105,7 +105,6 @@ public abstract class ADictionary(
 
     @Suppress("NOTHING_TO_INLINE")
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
         var mymapping = DictionaryValueTypeArray(0)
         var lastid = DictionaryValueHelper.NULL
         val buffer = ByteArrayWrapper()
