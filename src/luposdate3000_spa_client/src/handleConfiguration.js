@@ -20,6 +20,17 @@ export function getUseRDF() {
     return jquery("#useRDF").prop("checked");
 }
 
+export function setWithGraph(data) {
+    if (data) {
+        jquery("#withGraph").prop("checked", true);
+    } else {
+        jquery("#withGraph").prop("checked", false);
+    }
+}
+export function getWithGraph() {
+    return jquery("#WithGraph").prop("checked");
+}
+
 function loadSparql(url) {
     if ((url !== undefined) && (url !== null)) {
         jquery.get(url, function(data) {
@@ -52,6 +63,7 @@ function loadConfig(url) {
     }
     jquery.getJSON(url, function(data) {
         setUseRDF(data.useRDF)
+        setWithGraph(data.withGraph)
         enableEndpoints(data.endpoints)
         enableExampleLectures(data.lectures)
     });

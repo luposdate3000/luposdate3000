@@ -6,7 +6,7 @@ import {
     init as initLuposdate
 } from "./endpointLuposdate.js"
 import {
-    getUseRDF
+    getUseRDF,getWithGraph
 } from "./handleConfiguration.js"
 import {
     getRDF,
@@ -81,7 +81,9 @@ jquery("#evaluate").click(
         namespaces.xsd = 'http://www.w3.org/2001/XMLSchema#';
         jquery.extend(namespaces, extractRDFPrefixes(rdf))
         jquery.extend(namespaces, extractSPARQLPrefixes(sparql))
-        endpoint.evaluate(endpoint, sparql, rdf, getUseRDF(), function(result) {
+const useRDF=getUseRDF()
+   const withGraph=getWithGraph()
+        endpoint.evaluate(endpoint, sparql, rdf, useRDF,withGraph, function(result) {
             result.namespaces = namespaces
             updateResultTab(result)
         });
