@@ -36,6 +36,8 @@
         "codemirror-lang-sparql": "^0.4.0",
         "codemirror-lang-turtle": "^0.0.2",
         "jquery": "^3.7.0",
-        "randomcolor": "^0.6.2"
+        "randomcolor": "^0.6.2",
+        "vis-data": "^7.1.6",
+        "vis-network": "^9.1.6"
     }
 }

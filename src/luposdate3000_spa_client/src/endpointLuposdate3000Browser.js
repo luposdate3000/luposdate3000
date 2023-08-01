@@ -15,10 +15,10 @@ function evaluate(env, sparql, rdf, useRDF, withGraph, callback) {
         }
         const eev = new luposdate3000.lupos.endpoint.EndpointExtendedVisualize(sparql, env.instance);
         for (const e of eev.getOptimizedStepsLogical()) {
-            res.optimization_steps.push(JSON.parse(e.toJson()));
+            res.optimization_steps.push(JSON.parse(e.toJson()))
         }
         for (const e of eev.getOptimizedStepsPhysical()) {
-            res.optimization_steps.push(JSON.parse(e.toJson()));
+            res.optimization_steps.push(JSON.parse(e.toJson()))
         }
         res.xml = eev.getResult();
         for (const e of eev.getDataSteps()) {
