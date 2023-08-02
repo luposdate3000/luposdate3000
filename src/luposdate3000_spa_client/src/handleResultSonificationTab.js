@@ -7,7 +7,7 @@ import {
 import "vis-network/styles/vis-network.css";
 const jquery = require("jquery")
 import {
-    getColorByType
+    getColorByType,getAnimationSpeed
 } from "./handleConfiguration.js"
 import {
     visNetworkOptions
@@ -20,7 +20,6 @@ var cacheAnimation = []
 var animationStep = 0
 var animationSpeed = 1
 var animationState = 'stop';
-var animationStepDelay = 500
 var animationVisualDelay = 30
 var animationRunning = false
 export function updateResultSonificationTab(result) {
@@ -55,7 +54,7 @@ export function updateResultSonificationTab(result) {
         setTimeout(function() {
             clearAnimationElement()
         }, 100)
-        jquery("#result-sonification-progress").attr('aria-valuemax', cacheAnimation.length-1);
+        jquery("#result-sonification-progress").attr('aria-valuemax', cacheAnimation.length - 1);
         setStep(0)
     } else {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
@@ -79,19 +78,20 @@ function setStep(x) {
         animationStep = 0
     }
     const newprogress = animationStep / (cacheAnimation.length - 1)
-    jquery("#result-sonification-progress").attr('aria-valuenow', animationStep).css('width', newprogress*100 + '%').text(""+animationStep+"/"+(cacheAnimation.length-1));
+    jquery("#result-sonification-progress").attr('aria-valuenow', animationStep).css('width', newprogress * 100 + '%').text("" + animationStep + "/" + (cacheAnimation.length - 1));
 }
 
 function animationLoop() {
     if (!animationRunning) {
         animationRunning = true
+const speed=getAnimationSpeed()
         if (animationSpeed !== 0) {
             setStep(animationStep + animationSpeed)
             if (animationStep > cacheAnimation.length - 1) {
                 animationRunning = false
-jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
-        animationState = 'pause';
-        animationSpeed = 0
+                jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
+                animationState = 'pause';
+                animationSpeed = 0
                 return
             }
             const currentAnimation = cacheAnimation[animationStep]
@@ -102,7 +102,7 @@ jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
                 label: currentAnimation.label
             });
 
-            const loopCtrLimit = animationStepDelay / animationVisualDelay;
+            const loopCtrLimit = speed / animationVisualDelay;
             var loopCtr = loopCtrLimit - 1
             const x_delta = (pFrom.x - pTo.x) / loopCtrLimit
             const y_delta = (pFrom.y - pTo.y) / loopCtrLimit
@@ -117,7 +117,7 @@ jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
 
             setTimeout(() => {
                 animationLoop();
-            }, animationStepDelay);
+            }, speed);
         }
         animationRunning = false
     }
