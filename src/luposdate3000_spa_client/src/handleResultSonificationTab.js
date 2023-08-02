@@ -69,11 +69,11 @@ function showSonification() {
 function clearAnimationElement() {
     nodes.updateOnly({
         id: 999,
-        label: "",
+        label: ""
     });
     const p = network.getPosition(cacheGraph.nodes[0].id);
     network.moveNode(999, p.x, p.y);
-network.fit();
+    network.fit();
 }
 
 function animationLoop() {
@@ -85,14 +85,15 @@ function animationLoop() {
                 animationStep = 0
             }
             if (animationStep > cacheAnimation.length - 1) {
-                animationStep = cacheAnimation.length - 1
+                animationRunning = false
+                return
             }
             const currentAnimation = cacheAnimation[animationStep]
             const pFrom = network.getPosition(currentAnimation.from)
             const pTo = network.getPosition(currentAnimation.to)
             nodes.updateOnly({
                 id: 999,
-                label: currentAnimation.label,
+                label: currentAnimation.label
             });
 
             const loopCtrLimit = animationStepDelay / animationVisualDelay;
