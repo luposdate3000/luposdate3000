@@ -13,12 +13,14 @@ import {
     visNetworkOptions
 } from "./util.js"
 
-var resultCache = []
+var network = null;
+var cacheGraph = []
 export function updateResultSonificationTab(result) {
+console.log(result)
     if ("optimization_steps" in result) {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "list-item"
-        resultCache = result.optimization_steps[result.optimization_steps.length - 1]
-        for (const n of resultCache.nodes) {
+        cacheGraph = result.optimization_steps[result.optimization_steps.length - 1]
+        for (const n of cacheGraph.nodes) {
             n.color = getColorByType(n.label.split(' ')[0])
         }
         showSonification()
@@ -26,15 +28,14 @@ export function updateResultSonificationTab(result) {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
     }
 }
-var network = null;
 
 function showSonification() {
     if (network != null) {
         network.destroy();
     }
     network = new Network(document.getElementById("result-sonification-view"), {
-        nodes: new DataSet(resultCache.nodes),
-        edges: new DataSet(resultCache.edges)
+        nodes: new DataSet(cacheGraph.nodes),
+        edges: new DataSet(cacheGraph.edges)
     }, visNetworkOptions);
     setTimeout(function() {
         network.fit();

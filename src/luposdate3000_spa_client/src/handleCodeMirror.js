@@ -33,8 +33,6 @@ function enableCodeMirror(prefix, lang) {
         "view": view
     }
 }
-enableCodeMirror("sparql", sparql())
-enableCodeMirror("rdf", turtle())
 
 function setCode(prefix, data) {
     const view = codeMirrorHelper[prefix].view
@@ -62,3 +60,6 @@ export function getSparql() {
 export function getRDF() {
     return getCode("rdf")
 }
+
+enableCodeMirror("sparql", sparql())
+enableCodeMirror("rdf", turtle())

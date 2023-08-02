@@ -13,12 +13,13 @@ import {
     visNetworkOptions
 } from "./util.js"
 
-var resultCache = []
+var network = null;
+var cacheGraphs = []
 export function updateResultGraphTab(result) {
     if ("optimization_steps" in result) {
         document.querySelector("#result-graph-tab-nav-item").style.display = "list-item"
-        resultCache = []
-        const resultCacheMinified = []
+        cacheGraphs = []
+        const cacheGraphsMinified = []
         for (const r of result.optimization_steps) {
             const m = {
                 edges: r.edges,
@@ -34,28 +35,27 @@ export function updateResultGraphTab(result) {
                 })
             }
             const mstr = JSON.stringify(m)
-            if (resultCache.length == 0) {
-                resultCache.push(r)
-                resultCacheMinified.push(mstr)
-            } else if (resultCacheMinified[resultCacheMinified.length - 1] != mstr) {
-                resultCache.push(r)
-                resultCacheMinified.push(mstr)
+            if (cacheGraphs.length == 0) {
+                cacheGraphs.push(r)
+                cacheGraphsMinified.push(mstr)
+            } else if (cacheGraphsMinified[cacheGraphsMinified.length - 1] != mstr) {
+                cacheGraphs.push(r)
+                cacheGraphsMinified.push(mstr)
             }
         }
-        for (const r of resultCache) {
+        for (const r of cacheGraphs) {
             for (const n of r.nodes) {
                 n.color = getColorByType(n.label.split(' ')[0])
             }
         }
         jquery("#result-graph-view-input").val("0")
         setTimeout(function() {
-            showGraph(resultCache[0])
+            showGraph(cacheGraphs[0])
         }, 100);
     } else {
         document.querySelector("#result-graph-tab-nav-item").style.display = "none"
     }
 }
-var network = null;
 
 function showGraph(g) {
     if (network != null) {
@@ -80,11 +80,11 @@ jquery("#result-graph-view-input").on("change", function() {
     if (v < 0) {
         v = 0
         jquery("#result-graph-view-input").val(v)
-    } else if (v >= resultCache.length) {
-        v = resultCache.length - 1
+    } else if (v >= cacheGraphs.length) {
+        v = cacheGraphs.length - 1
         jquery("#result-graph-view-input").val(v)
     }
-    showGraph(resultCache[v])
+    showGraph(cacheGraphs[v])
 });
 jquery("#result-graph-tab-trigger").on("click", function() {
     network.fit()
