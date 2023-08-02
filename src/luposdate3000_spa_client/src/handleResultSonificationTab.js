@@ -55,7 +55,7 @@ export function updateResultSonificationTab(result) {
         setTimeout(function() {
             clearAnimationElement()
         }, 100)
-        jquery("#result-sonification-progress").attr('aria-valuemax', cacheAnimation.length);
+        jquery("#result-sonification-progress").attr('aria-valuemax', cacheAnimation.length-1);
         setStep(0)
     } else {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
@@ -79,7 +79,7 @@ function setStep(x) {
         animationStep = 0
     }
     const newprogress = animationStep / (cacheAnimation.length - 1)
-    jquery("#result-sonification-progress").attr('aria-valuenow', animationStep).css('width', newprogress*100 + '%').text(""+animationStep+"/"+cacheAnimation.length);
+    jquery("#result-sonification-progress").attr('aria-valuenow', animationStep).css('width', newprogress*100 + '%').text(""+animationStep+"/"+(cacheAnimation.length-1));
 }
 
 function animationLoop() {
