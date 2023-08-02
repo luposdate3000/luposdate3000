@@ -141,16 +141,20 @@ jquery("#save-btn").on("click", function() {
     config.withGraph = getWithGraph()
     download(JSON.stringify(config), "application/json", "config.json")
 });
-jquery("#sonification-animation-speed").on("change",function(){
-const v=jquery("#sonification-animation-speed").val()
-console.log(v)
+jquery("#sonification-animation-speed").on("change", function() {
+    const v = jquery("#sonification-animation-speed").val()
+    console.log(v)
 });
 
 const urlParams = new URLSearchParams(window.location.search);
 loadData(urlParams.get('data'));
 loadConfig(urlParams.get('config'));
 
-export function setAnimationSpeed(data){
-if ((data !== undefined) && (data !== null)) {jquery("#sonification-animation-speed").val(data);
-}}
-export function getAnimationSpeed(){return jquery("#sonification-animation-speed").val();}
+export function setAnimationSpeed(data) {
+    if ((data !== undefined) && (data !== null)) {
+        jquery("#sonification-animation-speed").val(data);
+    }
+}
+export function getAnimationSpeed() {
+    return jquery("#sonification-animation-speed").val();
+}

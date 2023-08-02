@@ -7,7 +7,8 @@ import {
 import "vis-network/styles/vis-network.css";
 const jquery = require("jquery")
 import {
-    getColorByType,getAnimationSpeed
+    getColorByType,
+    getAnimationSpeed
 } from "./handleConfiguration.js"
 import {
     visNetworkOptions
@@ -84,7 +85,7 @@ function setStep(x) {
 function animationLoop() {
     if (!animationRunning) {
         animationRunning = true
-const speed=getAnimationSpeed()
+        const speed = getAnimationSpeed()
         if (animationSpeed !== 0) {
             setStep(animationStep + animationSpeed)
             if (animationStep > cacheAnimation.length - 1) {
