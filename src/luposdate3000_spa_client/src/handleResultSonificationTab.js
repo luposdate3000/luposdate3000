@@ -26,6 +26,7 @@ var animationRunning = false
 export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
+        animationSpeed = 0
         animationStep = 0
         document.querySelector("#result-sonification-tab-nav-item").style.display = "list-item"
         cacheGraph = result.optimization_steps[result.optimization_steps.length - 1]
@@ -61,10 +62,18 @@ function showSonification() {
         edges: new DataSet(cacheGraph.edges)
     }, visNetworkOptions);
     setTimeout(function() {
-        const p = network.getPosition(cacheGraph.nodes[0].id);
-        network.moveNode(999, p.x, p.y);
-        network.fit();
+        clearAnimationElement()
     }, 100)
+}
+
+function clearAnimationElement() {
+    nodes.updateOnly({
+        id: 999,
+        label: "",
+    });
+    const p = network.getPosition(cacheGraph.nodes[0].id);
+    network.moveNode(999, p.x, p.y);
+network.fit();
 }
 
 function animationLoop() {
@@ -79,26 +88,23 @@ function animationLoop() {
                 animationStep = cacheAnimation.length - 1
             }
             const currentAnimation = cacheAnimation[animationStep]
-            var positions = network.getPositions();
-            var x_start = positions[currentAnimation.from].x;
-            var y_start = positions[currentAnimation.from].y;
-            var x_target = positions[currentAnimation.to].x;
-            var y_target = positions[currentAnimation.to].y;
+            const pFrom = network.getPosition(currentAnimation.from)
+            const pTo = network.getPosition(currentAnimation.to)
             nodes.updateOnly({
                 id: 999,
                 label: currentAnimation.label,
             });
 
-            var loopCtrLimit = animationStepDelay / animationVisualDelay;
+            const loopCtrLimit = animationStepDelay / animationVisualDelay;
             var loopCtr = loopCtrLimit - 1
-            var x_delta = (x_start - x_target) / loopCtrLimit
-            var y_delta = (y_start - y_target) / loopCtrLimit
-            var looper = setInterval(function() {
+            const x_delta = (pFrom.x - pTo.x) / loopCtrLimit
+            const y_delta = (pFrom.y - pTo.y) / loopCtrLimit
+            const looper = setInterval(function() {
                 loopCtr--;
                 if (loopCtr <= 0) {
                     clearInterval(looper);
                 } else {
-                    network.moveNode(999, x_target + x_delta * loopCtr, y_target + y_delta * loopCtr);
+                    network.moveNode(999, pTo.x + x_delta * loopCtr, pTo.y + y_delta * loopCtr);
                 }
             }, animationVisualDelay);
 
@@ -145,6 +151,7 @@ jquery("#result-sonification-btn-play").on("click", function() {
         jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
         animationState = 'pause';
         animationSpeed = 0
+        clearAnimationElement()
     } else if (animationState == 'pause') {
         jquery("#result-sonification-btn-play").append('<i class="fa fa-pause">')
         animationState = 'resume';
@@ -159,4 +166,5 @@ jquery("#result-sonification-btn-stop").on("click", function() {
     animationState = 'stop';
     animationSpeed = 0
     animationStep = 0
+    clearAnimationElement()
 });
