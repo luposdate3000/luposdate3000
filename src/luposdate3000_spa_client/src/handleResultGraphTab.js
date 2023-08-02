@@ -13,21 +13,21 @@ import {
 
 var resultCache = []
 export function updateResultGraphTab(result) {
-if("optimization_steps" in result){
-    document.querySelector("#result-graph-tab-nav-item").style.display = "list-item"
-    resultCache = result.optimization_steps
-    for (const r of resultCache) {
-        for (const n of r.nodes) {
-            n.color = getColorByType(n.label.split(' ')[0])
+    if ("optimization_steps" in result) {
+        document.querySelector("#result-graph-tab-nav-item").style.display = "list-item"
+        resultCache = result.optimization_steps
+        for (const r of resultCache) {
+            for (const n of r.nodes) {
+                n.color = getColorByType(n.label.split(' ')[0])
+            }
         }
+        jquery("#result-graph-view-input").val("0")
+        setTimeout(function() {
+            showGraph(resultCache[0])
+        }, 100);
+    } else {
+        document.querySelector("#result-graph-tab-nav-item").style.display = "none"
     }
-    jquery("#result-graph-view-input").val("0")
-    setTimeout(function() {
-        showGraph(resultCache[0])
-    }, 100);
-}else{
-document.querySelector("#result-graph-tab-nav-item").style.display = "none"
-}
 }
 var network = null;
 
@@ -92,11 +92,21 @@ function showGraph(g) {
 }
 
 jquery("#result-graph-view-input").on("change", function() {
-    const v = parseInt(jquery("#result-graph-view-input").val());
-    if (v >= 0 && v < resultCache.length - 1) {
-        showGraph(resultCache[v])
+    const v1 = jquery("#result-graph-view-input").val()
+    var v = parseInt(v1);
+    if (v != v1) {
+        v = 0
+        jquery("#result-graph-view-input").val(v)
     }
+    if (v < 0) {
+        v = 0
+        jquery("#result-graph-view-input").val(v)
+    } else if (v >= resultCache.length) {
+        v = resultCache.length - 1
+        jquery("#result-graph-view-input").val(v)
+    }
+    showGraph(resultCache[v])
 });
 jquery("#result-graph-tab-trigger").on("click", function() {
-network.fit()
+    network.fit()
 });

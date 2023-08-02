@@ -1,4 +1,6 @@
-import {download} from "./util.js"
+import {
+    download
+} from "./util.js"
 const randomColor = require('randomcolor');
 const jquery = require("jquery")
 import {
@@ -92,6 +94,7 @@ function enableExampleLectures(data) {
             lectures.append(jquery("<option></option>").attr("value", lecture.label).text(lecture.label));
         }
     }
+    exampleLectureOnChange();
 }
 
 function enableExampleLecture(data) {
@@ -115,7 +118,8 @@ function enableExampleLecture(data) {
         }
     }
 }
-jquery("#exampleLecture").on("change", function() {
+
+function exampleLectureOnChange() {
     const lecture = knownLectures[jquery("#exampleLecture").val()]
     if ((lecture.data === undefined) || (lecture.data === null)) {
         jquery.getJSON(lecture.url, function(data) {
@@ -125,7 +129,8 @@ jquery("#exampleLecture").on("change", function() {
     } else {
         enableExampleLecture(lecture.data)
     }
-});
+}
+jquery("#exampleLecture").on("change", exampleLectureOnChange);
 jquery("#exampleLoad").on("click", function() {
     const data = knownTasks[jquery("#exampleTask").val()]
     loadSparql(data.sparql);
@@ -134,7 +139,7 @@ jquery("#exampleLoad").on("click", function() {
 jquery("#save-btn").on("click", function() {
     config.useRDF = getUseRDF()
     config.withGraph = getWithGraph()
-download(JSON.stringify(config),"application/json","config.json")
+    download(JSON.stringify(config), "application/json", "config.json")
 });
 
 const urlParams = new URLSearchParams(window.location.search);

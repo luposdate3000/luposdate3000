@@ -1,6 +1,9 @@
 const jquery = require("jquery")
 const randomColor = require('randomcolor');
-import {download} from "./util.js"
+import {
+    download
+} from "./util.js"
+
 function resultXMLToHTMLUri(uri, namespaces, colors, target) {
     for (var k in namespaces) {
         const v = namespaces[k];
