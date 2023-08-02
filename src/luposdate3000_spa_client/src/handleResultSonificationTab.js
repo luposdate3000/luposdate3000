@@ -27,7 +27,6 @@ export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
         animationSpeed = 0
-        animationStep = 0
         document.querySelector("#result-sonification-tab-nav-item").style.display = "list-item"
         cacheGraph = result.optimization_steps[result.optimization_steps.length - 1]
         for (const n of cacheGraph.nodes) {
@@ -41,29 +40,28 @@ export function updateResultSonificationTab(result) {
                 "id": n[3]
             })
         }
-        showSonification()
+        if (network != null) {
+            network.destroy();
+        }
+        nodes = new DataSet(cacheGraph.nodes);
+        nodes.add([{
+            id: 999,
+            label: ""
+        }]);
+        network = new Network(document.getElementById("result-sonification-view"), {
+            nodes: nodes,
+            edges: new DataSet(cacheGraph.edges)
+        }, visNetworkOptions);
+        setTimeout(function() {
+            clearAnimationElement()
+        }, 100)
+        jquery("#result-sonification-progress").attr('aria-valuemax', cacheAnimation.length);
+        setStep(0)
     } else {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
     }
 }
 
-function showSonification() {
-    if (network != null) {
-        network.destroy();
-    }
-    nodes = new DataSet(cacheGraph.nodes);
-    nodes.add([{
-        id: 999,
-        label: ""
-    }]);
-    network = new Network(document.getElementById("result-sonification-view"), {
-        nodes: nodes,
-        edges: new DataSet(cacheGraph.edges)
-    }, visNetworkOptions);
-    setTimeout(function() {
-        clearAnimationElement()
-    }, 100)
-}
 
 function clearAnimationElement() {
     nodes.updateOnly({
@@ -75,16 +73,25 @@ function clearAnimationElement() {
     network.fit();
 }
 
+function setStep(x) {
+    animationStep = x
+    if (animationStep < 0) {
+        animationStep = 0
+    }
+    const newprogress = animationStep / (cacheAnimation.length - 1)
+    jquery("#result-sonification-progress").attr('aria-valuenow', animationStep).css('width', newprogress*100 + '%').text(""+animationStep+"/"+cacheAnimation.length);
+}
+
 function animationLoop() {
     if (!animationRunning) {
         animationRunning = true
         if (animationSpeed !== 0) {
-            animationStep += animationSpeed
-            if (animationStep < 0) {
-                animationStep = 0
-            }
+            setStep(animationStep + animationSpeed)
             if (animationStep > cacheAnimation.length - 1) {
                 animationRunning = false
+jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
+        animationState = 'pause';
+        animationSpeed = 0
                 return
             }
             const currentAnimation = cacheAnimation[animationStep]
@@ -121,19 +128,19 @@ jquery("#result-sonification-tab-trigger").on("click", function() {
 });
 
 jquery("#result-sonification-btn-fbw").on("click", function() {
-    animationStep = 0
+    setStep(0)
 });
 
 jquery("#result-sonification-btn-bw").on("click", function() {
-        animationStep -= 1
+    setStep(animationStep - 1)
 });
 
 jquery("#result-sonification-btn-fw").on("click", function() {
-        animationStep += 1
+    setStep(animationStep + 1)
 });
 
 jquery("#result-sonification-btn-ffw").on("click", function() {
-    animationStep = cacheAnimation.length - 1
+    setStep(cacheAnimation.length - 1)
 });
 
 jquery("#result-sonification-btn-play").on("click", function() {
@@ -161,6 +168,6 @@ jquery("#result-sonification-btn-stop").on("click", function() {
     jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
     animationState = 'stop';
     animationSpeed = 0
-    animationStep = 0
+    setStep(0)
     clearAnimationElement()
 });
