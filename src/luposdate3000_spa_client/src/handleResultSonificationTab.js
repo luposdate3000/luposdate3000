@@ -17,6 +17,10 @@ var network = null;
 var cacheGraph = []
 var cacheAnimation = []
 var animationStep = 0
+var animationSpeed = 1
+var animationState = 'stop';
+var animationDelay = 500
+var animationRunning = false
 export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
@@ -54,12 +58,21 @@ function showSonification() {
     }, 100)
 }
 
+function animationLoop() {
+    if (!animationRunning) {
+        animationRunning = true
+
+        setTimeout(() => {
+            animationRunning = false
+            animationLoop();
+        }, animationDelay);
+    }
+}
+
 jquery("#result-sonification-tab-trigger").on("click", function() {
     network.fit()
 });
 
-var animationSpeed = 1
-var animationState = 'stop';
 jquery("#result-sonification-btn-fbw").on("click", function() {
     animationStep = 0
 });
@@ -85,22 +98,24 @@ jquery("#result-sonification-btn-play").on("click", function() {
         animationState = 'play';
         var button = d3.select("#button_play").classed('btn-success', true);
         button.select("i").attr('class', "fa fa-pause");
-animationSpeed = 1
+        animationSpeed = 1
+        animationLoop()
     } else if (animationState == 'play' || animationState == 'resume') {
         animationState = 'pause';
         d3.select("#button_play i").attr('class', "fa fa-play");
-animationSpeed = 0
+        animationSpeed = 0
     } else if (animationState == 'pause') {
         animationState = 'resume';
         d3.select("#button_play i").attr('class', "fa fa-pause");
-animationSpeed = 1
+        animationSpeed = 1
+        animationLoop()
     }
-    console.log("button play pressed, play was " + animationState);
 });
 
 jquery("#result-sonification-btn-stop").on("click", function() {
     animationState = 'stop';
     var button = d3.select("#button_play").classed('btn-success', false);
     button.select("i").attr('class', "fa fa-play");
-    console.log("button stop invoked.");
+    animationSpeed = 0
+    animationStep = 0
 });
