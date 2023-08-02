@@ -14,12 +14,14 @@ import {
 } from "./util.js"
 
 var network = null;
+var nodes = null
 var cacheGraph = []
 var cacheAnimation = []
 var animationStep = 0
 var animationSpeed = 1
 var animationState = 'stop';
-var animationDelay = 500
+var animationStepDelay = 500
+var animationVisualDelay = 30
 var animationRunning = false
 export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
@@ -49,11 +51,18 @@ function showSonification() {
     if (network != null) {
         network.destroy();
     }
+    nodes = new DataSet(cacheGraph.nodes);
+    nodes.add([{
+        id: 999,
+        label: ""
+    }]);
     network = new Network(document.getElementById("result-sonification-view"), {
-        nodes: new DataSet(cacheGraph.nodes),
+        nodes: nodes,
         edges: new DataSet(cacheGraph.edges)
     }, visNetworkOptions);
     setTimeout(function() {
+        const p = network.getPosition(cacheGraph.nodes[0].id);
+        network.moveNode(999, p.x, p.y);
         network.fit();
     }, 100)
 }
@@ -61,11 +70,43 @@ function showSonification() {
 function animationLoop() {
     if (!animationRunning) {
         animationRunning = true
+        if (animationSpeed !== 0) {
+            animationStep += animationSpeed
+            if (animationStep < 0) {
+                animationStep = 0
+            }
+            if (animationStep > cacheAnimation.length - 1) {
+                animationStep = cacheAnimation.length - 1
+            }
+            const currentAnimation = cacheAnimation[animationStep]
+            var positions = network.getPositions();
+            var x_start = positions[currentAnimation.from].x;
+            var y_start = positions[currentAnimation.from].y;
+            var x_target = positions[currentAnimation.to].x;
+            var y_target = positions[currentAnimation.to].y;
+            nodes.updateOnly({
+                id: 999,
+                label: currentAnimation.label,
+            });
 
-        setTimeout(() => {
-            animationRunning = false
-            animationLoop();
-        }, animationDelay);
+            var loopCtrLimit = animationStepDelay / animationVisualDelay;
+            var loopCtr = loopCtrLimit - 1
+            var x_delta = (x_start - x_target) / loopCtrLimit
+            var y_delta = (y_start - y_target) / loopCtrLimit
+            var looper = setInterval(function() {
+                loopCtr--;
+                if (loopCtr <= 0) {
+                    clearInterval(looper);
+                } else {
+                    network.moveNode(999, x_target + x_delta * loopCtr, y_target + y_delta * loopCtr);
+                }
+            }, animationVisualDelay);
+
+            setTimeout(() => {
+                animationLoop();
+            }, animationStepDelay);
+        }
+        animationRunning = false
     }
 }
 
@@ -78,14 +119,14 @@ jquery("#result-sonification-btn-fbw").on("click", function() {
 });
 
 jquery("#result-sonification-btn-bw").on("click", function() {
-    if (animationSpeed >= 0) {
-        animationSpeed = -1
+    if (animationStep > 0) {
+        animationStep -= 1
     }
 });
 
 jquery("#result-sonification-btn-fw").on("click", function() {
-    if (animationSpeed >= 0) {
-        animationSpeed = 1
+    if (animationStep < cacheAnimation.length - 1) {
+        animationStep += 1
     }
 });
 
@@ -94,28 +135,28 @@ jquery("#result-sonification-btn-ffw").on("click", function() {
 });
 
 jquery("#result-sonification-btn-play").on("click", function() {
+    jquery("#result-sonification-btn-play").empty()
     if (animationState == 'stop') {
+        jquery("#result-sonification-btn-play").append('<i class="fa fa-pause">')
         animationState = 'play';
-        var button = d3.select("#button_play").classed('btn-success', true);
-        button.select("i").attr('class', "fa fa-pause");
         animationSpeed = 1
         animationLoop()
     } else if (animationState == 'play' || animationState == 'resume') {
+        jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
         animationState = 'pause';
-        d3.select("#button_play i").attr('class', "fa fa-play");
         animationSpeed = 0
     } else if (animationState == 'pause') {
+        jquery("#result-sonification-btn-play").append('<i class="fa fa-pause">')
         animationState = 'resume';
-        d3.select("#button_play i").attr('class', "fa fa-pause");
         animationSpeed = 1
         animationLoop()
     }
 });
 
 jquery("#result-sonification-btn-stop").on("click", function() {
+    jquery("#result-sonification-btn-play").empty()
+    jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
     animationState = 'stop';
-    var button = d3.select("#button_play").classed('btn-success', false);
-    button.select("i").attr('class', "fa fa-play");
     animationSpeed = 0
     animationStep = 0
 });
