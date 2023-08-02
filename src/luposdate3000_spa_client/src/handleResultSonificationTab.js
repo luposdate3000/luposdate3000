@@ -41,7 +41,6 @@ export function updateResultSonificationTab(result) {
                 "id": n[3]
             })
         }
-        console.log(cacheAnimation)
         showSonification()
     } else {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
@@ -126,15 +125,11 @@ jquery("#result-sonification-btn-fbw").on("click", function() {
 });
 
 jquery("#result-sonification-btn-bw").on("click", function() {
-    if (animationStep > 0) {
         animationStep -= 1
-    }
 });
 
 jquery("#result-sonification-btn-fw").on("click", function() {
-    if (animationStep < cacheAnimation.length - 1) {
         animationStep += 1
-    }
 });
 
 jquery("#result-sonification-btn-ffw").on("click", function() {
