@@ -9,13 +9,39 @@ const jquery = require("jquery")
 import {
     getColorByType
 } from "./handleConfiguration.js"
-
+import {
+    visNetworkOptions
+} from "./util.js"
 
 var resultCache = []
 export function updateResultGraphTab(result) {
     if ("optimization_steps" in result) {
         document.querySelector("#result-graph-tab-nav-item").style.display = "list-item"
-        resultCache = result.optimization_steps
+        resultCache = []
+        const resultCacheMinified = []
+        for (const r of result.optimization_steps) {
+            const m = {
+                edges: r.edges,
+                nodes: []
+            }
+            for (const n of r.nodes) {
+                const a = n.label.split(" ")
+                const b = a[1].substring(a[1].indexOf("\n") + 1);
+                const l = a[0] + b
+                m.nodes.push({
+                    id: n.id,
+                    label: l
+                })
+            }
+            const mstr = JSON.stringify(m)
+            if (resultCache.length == 0) {
+                resultCache.push(r)
+                resultCacheMinified.push(mstr)
+            } else if (resultCacheMinified[resultCacheMinified.length - 1] != mstr) {
+                resultCache.push(r)
+                resultCacheMinified.push(mstr)
+            }
+        }
         for (const r of resultCache) {
             for (const n of r.nodes) {
                 n.color = getColorByType(n.label.split(' ')[0])
@@ -38,54 +64,7 @@ function showGraph(g) {
     network = new Network(document.getElementById("result-graph-view"), {
         nodes: new DataSet(g.nodes),
         edges: new DataSet(g.edges)
-    }, {
-        autoResize: false,
-        nodes: {
-            physics: false,
-            shape: "box",
-            font: {
-                size: 14,
-                color: "#000000",
-                face: "Ubuntu",
-            },
-            borderWidth: 1,
-            color: {
-                background: "#E1E1E1",
-                border: "#000000",
-                hover: {
-                    background: "#C5C5C5",
-                    border: "#000000",
-                },
-                highlight: {
-                    background: "#C5C5C5",
-                    border: "#000000",
-                },
-
-            },
-
-        },
-        edges: {
-            smooth: false
-        },
-        physics: {
-            enabled: true,
-            hierarchicalRepulsion: {
-                nodeDistance: 200,
-                avoidOverlap: 1
-            },
-        },
-        layout: {
-            improvedLayout: true,
-            hierarchical: {
-                levelSeparation: 100,
-                nodeSpacing: 300,
-                treeSpacing: 200,
-            }
-        },
-        interaction: {
-            hover: true
-        }
-    });
+    }, visNetworkOptions);
     setTimeout(function() {
         network.fit();
     }, 100)

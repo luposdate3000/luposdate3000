@@ -19,6 +19,9 @@ import {
 import {
     updateResultGraphTab
 } from "./handleResultGraphTab.js"
+import {
+    updateResultSonificationTab
+} from "./handleResultSonificationTab.js"
 
 const availableEndpoints = [
     initLuposdate3000Browser({
@@ -92,6 +95,7 @@ jquery("#evaluate").click(
             updateResultTab(result)
             if (withGraph) {
                 updateResultGraphTab(result)
+                updateResultSonificationTab(result)
             }
         });
     }
