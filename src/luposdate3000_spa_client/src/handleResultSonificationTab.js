@@ -42,6 +42,13 @@ function reverseArray(src, dest) {
     }
 }
 
+function objectToArray(obj) {
+    const res = []
+    for (const k in obj) {
+        res[k] = obj[k]
+    }
+    return res
+}
 export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
@@ -129,6 +136,17 @@ export function updateResultSonificationTab(result) {
         reverseArray(sonificationRanges.data.variables, sonificationRangesReverse.data.variables)
         reverseArray(sonificationRanges.data.ids, sonificationRangesReverse.data.ids)
         reverseArray(sonificationRanges.query.progress, sonificationRangesReverse.query.progress)
+        for (const cc of ["variables", "ids", "types", "depths"]) {
+            const res = []
+            for (const nn in result.animation) {
+                const n = result.animation[nn]
+                res[nn] = sonificationRangesReverse.operator[cc][n[0]]
+            }
+            sonificationRangesReverse.operator[cc] = res
+        }
+        sonificationRangesReverse.data.ids = objectToArray(sonificationRangesReverse.data.ids)
+        sonificationRangesReverse.data.variables = objectToArray(sonificationRangesReverse.data.variables)
+        sonificationRangesReverse.query.progress = objectToArray(sonificationRangesReverse.query.progress)
         console.log(cacheGraph)
         if (network != null) {
             network.destroy();
