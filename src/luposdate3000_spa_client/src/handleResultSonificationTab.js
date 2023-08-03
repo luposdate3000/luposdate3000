@@ -13,7 +13,12 @@ import {
 import {
     visNetworkOptions
 } from "./util.js"
-import {extractRanges} from "./sonificationExtractRanges.js";
+import {
+    extractRanges
+} from "./sonificationExtractRanges.js";
+import {
+    createConfigHtml
+} from "./handleResultSonificationConfig.js";
 var network = null;
 var nodes = null
 var cacheGraph = []
@@ -32,7 +37,8 @@ export function updateResultSonificationTab(result) {
         animationSpeed = 0
         document.querySelector("#result-sonification-tab-nav-item").style.display = "list-item"
         cacheGraph = result.optimization_steps[result.optimization_steps.length - 1]
-extractRanges(result,cacheGraph,sonificationRanges,sonificationRangesReverse)
+        extractRanges(result, cacheGraph, sonificationRanges, sonificationRangesReverse)
+        createConfigHtml(sonificationRanges)
         for (const nn in result.animation) {
             const n = result.animation[nn]
             cacheAnimation.push({
