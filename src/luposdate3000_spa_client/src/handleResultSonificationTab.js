@@ -23,16 +23,71 @@ var animationSpeed = 1
 var animationState = 'stop';
 var animationVisualDelay = 30
 var animationRunning = false
+var sonificationRanges = {}
+var sonificationRangesReverse={}
+
+function createOrAppend(arr, key, element) {
+    if (key in arr) {
+        arr[key].push(element)
+    } else {
+        arr[key] = [element]
+    }
+}
 export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
         animationSpeed = 0
+        sonificationRanges = {
+            "operator": {
+                "types": {},
+                "ids": {},
+                "variables": {},
+                "depths": {}
+            },
+            "query": {
+                "progress": {}
+            },
+            "data": {
+                "ids": {},
+                "variables": {}
+            }
+        }
+        sonificationRangesReverse = {
+            "operator": {
+                "types": {},
+                "ids": {},
+                "variables": {},
+                "depths": {}
+            },
+            "query": {
+                "progress": {}
+            },
+            "data": {
+                "ids": {},
+                "variables": {}
+            }
+        }
         document.querySelector("#result-sonification-tab-nav-item").style.display = "list-item"
         cacheGraph = result.optimization_steps[result.optimization_steps.length - 1]
-        for (const n of cacheGraph.nodes) {
-            n.color = getColorByType(n.label.split(' ')[0])
+        sonificationRangesReverse.operator.depths[cacheGraph.nodes[0].id] = 0
+        var changed = true
+        while (changed) {
+            changed = false
+            for (const n of cacheGraph.edges) {
+                if (n.from in sonificationRangesReverse.operator.depths && (!(n.to in sonificationRangesReverse.operator.depths))) {
+                    changed = true
+                    sonificationRangesReverse.operator.depths[n.to] = sonificationRangesReverse.operator.depths[n.from] + 1
+                }
+            }
         }
-        for (const n of result.animation) {
+        const relevantNodes = {}
+        for (const nn in result.animation) {
+            const n = result.animation[nn]
+            const l = n[2].split(" = ")
+            relevantNodes[n[0]] = 1
+            createOrAppend(sonificationRanges.query.progress, nn, nn)
+            createOrAppend(sonificationRanges.data.ids, n[3], nn)
+            createOrAppend(sonificationRanges.data.variables, l[0], nn)
             cacheAnimation.push({
                 "from": n[0],
                 "to": n[1],
@@ -40,6 +95,25 @@ export function updateResultSonificationTab(result) {
                 "id": n[3]
             })
         }
+        for (const n in sonificationRangesReverse.operator.depths) {
+            const nn = sonificationRangesReverse.operator.depths[n]
+if(nn in relevantNodes){
+            createOrAppend(sonificationRanges.operator.depths, nn, n)
+        }else{
+delete sonificationRangesReverse.operator.depths[n]
+}}
+
+        for (const n of cacheGraph.nodes) {
+            const l = n.label.split(' ')
+            const l2 = l[1].split("\n")
+            n.color = getColorByType(l[0])
+            if (n.id in relevantNodes) {
+                createOrAppend(sonificationRanges.operator.types, l[0], n.id)
+                createOrAppend(sonificationRanges.operator.ids, l2[0], n.id)
+                createOrAppend(sonificationRanges.operator.variables, l2[1], n.id)
+            }
+        }
+        console.log(cacheGraph)
         if (network != null) {
             network.destroy();
         }
@@ -57,6 +131,7 @@ export function updateResultSonificationTab(result) {
         }, 100)
         jquery("#result-sonification-progress").attr('aria-valuemax', cacheAnimation.length - 1);
         setStep(0)
+        console.log(sonificationRanges, sonificationRangesReverse)
     } else {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
     }
