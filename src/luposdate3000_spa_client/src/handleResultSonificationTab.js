@@ -32,8 +32,7 @@ export function updateResultSonificationTab(result) {
         animationSpeed = 0
         document.querySelector("#result-sonification-tab-nav-item").style.display = "list-item"
         cacheGraph = result.optimization_steps[result.optimization_steps.length - 1]
-        sonificationRangesReverse.operator.depths[cacheGraph.nodes[0].id] = 0
-extractRanges(result,sonificationRanges,sonificationRangesReverse)
+extractRanges(result,cacheGraph,sonificationRanges,sonificationRangesReverse)
         for (const nn in result.animation) {
             const n = result.animation[nn]
             cacheAnimation.push({

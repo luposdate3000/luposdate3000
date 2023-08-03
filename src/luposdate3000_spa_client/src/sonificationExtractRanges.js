@@ -35,7 +35,7 @@ function objectKeysToArray(obj) {
     return res
 }
 
-export function extractRanges(result, sonificationRanges, sonificationRangesReverse) {
+export function extractRanges(result,cacheGraph, sonificationRanges, sonificationRangesReverse) {
     sonificationRanges.operator = {
         "types": {},
         "ids": {},
@@ -62,7 +62,7 @@ export function extractRanges(result, sonificationRanges, sonificationRangesReve
         "ids": {},
         "variables": {}
     }
-
+sonificationRangesReverse.operator.depths[cacheGraph.nodes[0].id] = 0
 var changed = true
         while (changed) {
             changed = false
