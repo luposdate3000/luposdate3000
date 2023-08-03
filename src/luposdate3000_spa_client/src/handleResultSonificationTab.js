@@ -24,7 +24,7 @@ var animationState = 'stop';
 var animationVisualDelay = 30
 var animationRunning = false
 var sonificationRanges = {}
-var sonificationRangesReverse={}
+var sonificationRangesReverse = {}
 
 function createOrAppend(arr, key, element) {
     if (key in arr) {
@@ -33,6 +33,15 @@ function createOrAppend(arr, key, element) {
         arr[key] = [element]
     }
 }
+
+function reverseArray(src, dest) {
+    for (const k in src) {
+        for (const v of src[k]) {
+            createOrAppend(dest, v, k)
+        }
+    }
+}
+
 export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
@@ -97,11 +106,12 @@ export function updateResultSonificationTab(result) {
         }
         for (const n in sonificationRangesReverse.operator.depths) {
             const nn = sonificationRangesReverse.operator.depths[n]
-if(nn in relevantNodes){
-            createOrAppend(sonificationRanges.operator.depths, nn, n)
-        }else{
-delete sonificationRangesReverse.operator.depths[n]
-}}
+            if (nn in relevantNodes) {
+                createOrAppend(sonificationRanges.operator.depths, nn, n)
+            } else {
+                delete sonificationRangesReverse.operator.depths[n]
+            }
+        }
 
         for (const n of cacheGraph.nodes) {
             const l = n.label.split(' ')
@@ -113,6 +123,12 @@ delete sonificationRangesReverse.operator.depths[n]
                 createOrAppend(sonificationRanges.operator.variables, l2[1], n.id)
             }
         }
+        reverseArray(sonificationRanges.operator.types, sonificationRangesReverse.operator.types)
+        reverseArray(sonificationRanges.operator.ids, sonificationRangesReverse.operator.ids)
+        reverseArray(sonificationRanges.operator.variables, sonificationRangesReverse.operator.variables)
+        reverseArray(sonificationRanges.data.variables, sonificationRangesReverse.data.variables)
+        reverseArray(sonificationRanges.data.ids, sonificationRangesReverse.data.ids)
+        reverseArray(sonificationRanges.query.progress, sonificationRangesReverse.query.progress)
         console.log(cacheGraph)
         if (network != null) {
             network.destroy();
