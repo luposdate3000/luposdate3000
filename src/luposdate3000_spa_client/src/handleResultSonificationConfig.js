@@ -2,7 +2,7 @@ const jquery = require("jquery")
 import {
     SampleLibrary
 } from "tonejs-instruments"
-const sonificationConf = {}
+var sonificationConf = {}
 
 const sonificationOptions = {
     "Pitch": {
@@ -75,6 +75,16 @@ const sonificationOptions = {
 }
 const sonificationModeKeys = ["Simple", "Operator Types", "Operator IDs", "Operator Variables", "Operator Depths", "Data IDs", "Data Variables", "Query Progress"]
 const sonificationTypeKeys = ["Pitch", "Instrument", "Loudness", "Duration", "Octave", "Spatialization"]
+
+export function setSonificationConf(data) {
+    if ((data !== undefined) && (data !== null)) {
+        sonificationConf = data
+    }
+}
+export function getSonificationConf(data) {
+    sonificationConf.animationSpeed = getAnimationSpeed()
+    return sonificationConf
+}
 export function createConfigHtml(sonificationRanges) {
     jquery("#sonification-config-root").empty()
     const target = document.getElementById("sonification-config-root");
@@ -128,20 +138,30 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
 
     function onChangeFunc() {
         const value = jquery("#sonification-" + label + "-select").val()
-        sonificationConf[label] = {}
-        sonificationConf[label].mode = value
-        sonificationConf[label][value] = {}
+        if (!(label in sonificationConf) || sonificationConf[label].mode != value) {
+            sonificationConf[label] = {}
+            sonificationConf[label].mode = value
+            sonificationConf[label].value = {}
+        }
         jquery("#sonification-" + label + "-details").empty();
         const target = document.getElementById("sonification-" + label + "-details");
         for (const k in sonificationRanges[value]) {
             const v = sonificationRanges[value][k]
+            var defaultValue = sonificationOptions[label].defaultValue
+            if (label in sonificationConf) {
+                if (value in sonificationConf[label]) {
+                    if (v in sonificationConf[label].value) {
+                        defaultValue = sonificationConf[label].value[v]
+                    }
+                }
+            }
             switch (sonificationOptions[label].mode) {
                 case "values": {
                     function nestedChangeFunc() {
                         const value2 = jquery("#sonification-" + label + "-" + k).val()
-                        sonificationConf[label][value][v] = value2
+                        sonificationConf[label].value[v] = value2
                     }
-                    target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label].defaultValue, ["mt-3"], nestedChangeFunc))
+                    target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, defaultValue, ["mt-3"], nestedChangeFunc))
                     nestedChangeFunc()
                     break;
                 }
@@ -149,7 +169,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
                     if (value == "Simple") {
                         function nestedChangeFunc2() {
                             const value2 = jquery("#sonification-" + label + "-slider").val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
-                            sonificationConf[label][value][v] = value2
+                            sonificationConf[label].value[v] = value2
                         }
                         const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
                         res[0].classList.add("input-group")
@@ -161,6 +181,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
                         res[2].id = "sonification-" + label + "-slider"
                         res[2].onchange = nestedChangeFunc2
                         res[2].min = 0
+                        res[2].value = defaultValue
                         res[2].max = 100
                         res[2].type = "range"
                         res[2].style.height = "2.4rem"
@@ -174,7 +195,12 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
             }
         }
     }
-    res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, sonificationOptions[label].defaultMode, [], onChangeFunc));
+    var defaultMode = sonificationOptions[label].defaultMode
+    if (label in sonificationConf) {
+        defaultMode = sonificationConf[label].mode
+    }
+
+    res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, defaultMode, [], onChangeFunc));
     const resDetails = document.createElement("div");
     resDetails.id = "sonification-" + label + "-details"
     res.appendChild(resDetails)
@@ -194,11 +220,11 @@ export function applySonification(sonificationRangesReverse) {
             const mm = sonificationConf[tt].mode
             switch (mm) {
                 case "Simple": {
-                    resstep[tt] = sonificationConf[tt][mm].Global
+                    resstep[tt] = sonificationConf[tt].value.Global
                     break
                 }
                 default: {
-                    resstep[tt] = sonificationConf[tt][mm][sonificationRangesReverse[mm][step]]
+                    resstep[tt] = sonificationConf[tt].value[sonificationRangesReverse[mm][step]]
                     break
                 }
             }
@@ -207,4 +233,12 @@ export function applySonification(sonificationRangesReverse) {
     }
     console.log(res)
     return res
+}
+export function setAnimationSpeed(data) {
+    if ((data !== undefined) && (data !== null)) {
+        jquery("#sonification-animation-speed").val(data);
+    }
+}
+export function getAnimationSpeed() {
+    return jquery("#sonification-animation-speed").val();
 }

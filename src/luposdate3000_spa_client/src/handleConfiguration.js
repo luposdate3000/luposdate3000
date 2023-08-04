@@ -10,6 +10,10 @@ import {
 import {
     enableEndpoints
 } from "./handleEndpoint.js"
+import {
+    getSonificationConf,
+    setSonificationConf
+} from "./handleResultSonificationConfig.js"
 var knownLectures = {}
 var knownTasks = {}
 var config = {}
@@ -78,6 +82,7 @@ function loadConfig(url) {
     }
     jquery.getJSON(url, function(data) {
         config = data
+        setSonificationConf(config.sonification)
         setUseRDF(data.useRDF)
         setWithGraph(data.withGraph)
         enableEndpoints(data.endpoints)
@@ -139,18 +144,10 @@ jquery("#exampleLoad").on("click", function() {
 jquery("#save-btn").on("click", function() {
     config.useRDF = getUseRDF()
     config.withGraph = getWithGraph()
+    config.sonification = getSonificationConf()
     download(JSON.stringify(config), "application/json", "config.json")
 });
 
 const urlParams = new URLSearchParams(window.location.search);
 loadData(urlParams.get('data'));
 loadConfig(urlParams.get('config'));
-
-export function setAnimationSpeed(data) {
-    if ((data !== undefined) && (data !== null)) {
-        jquery("#sonification-animation-speed").val(data);
-    }
-}
-export function getAnimationSpeed() {
-    return jquery("#sonification-animation-speed").val();
-}

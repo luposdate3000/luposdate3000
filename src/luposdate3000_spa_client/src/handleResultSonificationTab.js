@@ -8,7 +8,6 @@ import "vis-network/styles/vis-network.css";
 const jquery = require("jquery")
 import {
     getColorByType,
-    getAnimationSpeed
 } from "./handleConfiguration.js"
 import {
     visNetworkOptions
@@ -17,6 +16,7 @@ import {
     extractRanges
 } from "./sonificationExtractRanges.js";
 import {
+    getAnimationSpeed,
     createConfigHtml,
     applySonification
 } from "./handleResultSonificationConfig.js";
@@ -118,7 +118,7 @@ function setStep(x) {
     }
     if (animationStep > cacheAnimation.length - 1) {
         animationStep = cacheAnimation.length - 1
-playBackPause()
+        playBackPause()
     }
     const newprogress = animationStep / (cacheAnimation.length - 1)
     jquery("#result-sonification-progress").attr('aria-valuenow', animationStep).css('width', newprogress * 100 + '%').text("" + animationStep + "/" + (cacheAnimation.length - 1));
