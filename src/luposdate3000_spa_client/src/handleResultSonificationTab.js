@@ -17,7 +17,8 @@ import {
     extractRanges
 } from "./sonificationExtractRanges.js";
 import {
-    createConfigHtml,applySonification
+    createConfigHtml,
+    applySonification
 } from "./handleResultSonificationConfig.js";
 var network = null;
 var nodes = null
@@ -70,8 +71,7 @@ export function updateResultSonificationTab(result) {
         }, 100)
         jquery("#result-sonification-progress").attr('aria-valuemax', cacheAnimation.length - 1);
         setStep(0)
-        console.log(sonificationRanges, sonificationRangesReverse)
-        createConfigHtml(sonificationRanges,sonificationRangesReverse)
+        createConfigHtml(sonificationRanges, sonificationRangesReverse)
     } else {
         document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
     }

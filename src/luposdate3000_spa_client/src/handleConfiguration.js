@@ -141,10 +141,6 @@ jquery("#save-btn").on("click", function() {
     config.withGraph = getWithGraph()
     download(JSON.stringify(config), "application/json", "config.json")
 });
-jquery("#sonification-animation-speed").on("change", function() {
-    const v = jquery("#sonification-animation-speed").val()
-    console.log(v)
-});
 
 const urlParams = new URLSearchParams(window.location.search);
 loadData(urlParams.get('data'));

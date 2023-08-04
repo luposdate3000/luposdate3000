@@ -85,9 +85,9 @@ const sonificationOptions = {
         "default": 0.0
     }
 }
-var sonificationRangesReverseCache={}
-export function createConfigHtml(sonificationRanges,sonificationRangesReverse) {
-sonificationRangesReverseCache=sonificationRangesReverse
+var sonificationRangesReverseCache = {}
+export function createConfigHtml(sonificationRanges, sonificationRangesReverse) {
+    sonificationRangesReverseCache = sonificationRangesReverse
     jquery("#sonification-config-root").empty()
     const target = document.getElementById("sonification-config-root");
     createConfigHtmlForLabel(target, sonificationRanges, "Pitch", ["mb-3"]);
@@ -139,13 +139,13 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
     res.classList.add("rcorners2")
     const nameMappings = {
         "Simple": ["Global"],
-        "Operator Types": sonificationRanges.operator.types,
-        "Operator IDs": sonificationRanges.operator.ids,
-        "Operator Variables": sonificationRanges.operator.variables,
-        "Operator Depths": sonificationRanges.operator.depths,
-        "Data IDs": sonificationRanges.data.ids,
-        "Data Variables": sonificationRanges.data.variables,
-        "Query Progress": sonificationRanges.query.progress
+        "Operator Types": sonificationRanges["Operator Types"],
+        "Operator IDs": sonificationRanges["Operator IDs"],
+        "Operator Variables": sonificationRanges["Operator Variables"],
+        "Operator Depths": sonificationRanges["Operator Depths"],
+        "Data IDs": sonificationRanges["Data IDs"],
+        "Data Variables": sonificationRanges["Data Variables"],
+        "Query Progress": sonificationRanges["Query Progress"]
     }
     const options = ["Simple"]
     for (const k in nameMappings) {
@@ -157,7 +157,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
     function onChangeFunc() {
         const value = jquery("#sonification-" + label + "-select").val()
         sonificationConf[label] = {}
-        sonificationConf[label].mode=value
+        sonificationConf[label].mode = value
         sonificationConf[label][value] = {}
         jquery("#sonification-" + label + "-details").empty();
         const target = document.getElementById("sonification-" + label + "-details");
@@ -168,7 +168,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
                     function nestedChangeFunc() {
                         const value2 = jquery("#sonification-" + label + "-" + k).val()
                         sonificationConf[label][value][v] = value2
-applySonification(sonificationRangesReverseCache)
+                        applySonification(sonificationRanges,sonificationRangesReverseCache)
                     }
                     target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label]["default"], ["mt-3"], nestedChangeFunc))
                     nestedChangeFunc()
@@ -179,7 +179,7 @@ applySonification(sonificationRangesReverseCache)
                         function nestedChangeFunc2() {
                             const value2 = jquery("#sonification-" + label + "-slider").val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
                             sonificationConf[label][value][v] = value2
-applySonification(sonificationRangesReverseCache)
+                            applySonification(sonificationRanges,sonificationRangesReverseCache)
                         }
                         const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
                         res[0].classList.add("input-group")
@@ -206,26 +206,27 @@ applySonification(sonificationRangesReverseCache)
     }
     res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, "Simple", [], onChangeFunc));
     const resDetails = document.createElement("div");
-    resDetails.id = "sonification-" + labesl + "-details"
+    resDetails.id = "sonification-" + label + "-details"
     res.appendChild(resDetails)
     targetParent.appendChild(res)
     onChangeFunc()
 }
-export function applySonification(sonificationRangesReverse){
-const res=[]
-console.log(sonificationRangesReverse)
-console.log(sonificationConf)
-for(const step in sonificationRangesReverse.query.progress){
-const resstep={}
-for(const tt in sonificationConf){
-switch(sonificationConf[tt].mode){
-case "Simple":{
-resstep[tt]=sonificationConf[tt][sonificationConf[tt].mode].Global
-break
-}
-}
-}
-res.push(resstep)
-}
-console.log(res)
+export function applySonification(sonificationRanges,sonificationRangesReverse) {
+    const res = []
+    console.log(sonificationRanges)
+    console.log(sonificationRangesReverse)
+    console.log(sonificationConf)
+    for (const step in sonificationRangesReverse["Query Progress"]) {
+        const resstep = {}
+        for (const tt in sonificationConf) {
+            switch (sonificationConf[tt].mode) {
+                case "Simple": {
+                    resstep[tt] = sonificationConf[tt][sonificationConf[tt].mode].Global
+                    break
+                }
+            }
+        }
+        res.push(resstep)
+    }
+    console.log(res)
 }

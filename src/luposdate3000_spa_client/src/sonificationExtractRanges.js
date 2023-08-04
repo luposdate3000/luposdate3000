@@ -35,41 +35,21 @@ function objectKeysToArray(obj) {
     return res
 }
 
+const sonificationKeys = ["Operator Types", "Operator IDs", "Operator Variables", "Operator Depths", "Data IDs", "Data Variables", "Query Progress"]
+
 export function extractRanges(result, cacheGraph, sonificationRanges, sonificationRangesReverse) {
-    sonificationRanges.operator = {
-        "types": {},
-        "ids": {},
-        "variables": {},
-        "depths": {}
+    for (const k of sonificationKeys) {
+        sonificationRanges[k] = {}
+        sonificationRangesReverse[k] = {}
     }
-    sonificationRanges.query = {
-        "progress": {}
-    }
-    sonificationRanges.data = {
-        "ids": {},
-        "variables": {}
-    }
-    sonificationRangesReverse.operator = {
-        "types": {},
-        "ids": {},
-        "variables": {},
-        "depths": {}
-    }
-    sonificationRangesReverse.query = {
-        "progress": {}
-    }
-    sonificationRangesReverse.data = {
-        "ids": {},
-        "variables": {}
-    }
-    sonificationRangesReverse.operator.depths[cacheGraph.nodes[0].id] = 0
+    sonificationRangesReverse["Operator Depths"][cacheGraph.nodes[0].id] = 0
     var changed = true
     while (changed) {
         changed = false
         for (const n of cacheGraph.edges) {
-            if (n.from in sonificationRangesReverse.operator.depths && (!(n.to in sonificationRangesReverse.operator.depths))) {
+            if (n.from in sonificationRangesReverse["Operator Depths"] && (!(n.to in sonificationRangesReverse["Operator Depths"]))) {
                 changed = true
-                sonificationRangesReverse.operator.depths[n.to] = sonificationRangesReverse.operator.depths[n.from] + 1
+                sonificationRangesReverse["Operator Depths"][n.to] = sonificationRangesReverse["Operator Depths"][n.from] + 1
             }
         }
     }
@@ -78,55 +58,42 @@ export function extractRanges(result, cacheGraph, sonificationRanges, sonificati
         const n = result.animation[nn]
         const l = n[2].split(" = ")
         relevantNodes[n[0]] = 1
-        createOrAppend(sonificationRanges.query.progress, nn, nn)
-        createOrAppend(sonificationRanges.data.ids, n[3], nn)
-        createOrAppend(sonificationRanges.data.variables, l[0], nn)
+        createOrAppend(sonificationRanges["Query Progress"], nn, nn)
+        createOrAppend(sonificationRanges["Data IDs"], n[3], nn)
+        createOrAppend(sonificationRanges["Data Variables"], l[0], nn)
     }
-    for (const n in sonificationRangesReverse.operator.depths) {
-        const nn = sonificationRangesReverse.operator.depths[n]
+    for (const n in sonificationRangesReverse["Operator Depths"]) {
+        const nn = sonificationRangesReverse["Operator Depths"][n]
         if (nn in relevantNodes) {
-            createOrAppend(sonificationRanges.operator.depths, nn, n)
+            createOrAppend(sonificationRanges["Operator Depths"], nn, n)
         } else {
-            delete sonificationRangesReverse.operator.depths[n]
+            delete sonificationRangesReverse["Operator Depths"][n]
         }
     }
-
     for (const n of cacheGraph.nodes) {
         const l = n.label.split(' ')
         const l2 = l[1].split("\n")
         if (n.id in relevantNodes) {
-            createOrAppend(sonificationRanges.operator.types, l[0], n.id)
-            createOrAppend(sonificationRanges.operator.ids, l2[0], n.id)
-            createOrAppend(sonificationRanges.operator.variables, l2[1], n.id)
+            createOrAppend(sonificationRanges["Operator Types"], l[0], n.id)
+            createOrAppend(sonificationRanges["Operator IDs"], l2[0], n.id)
+            createOrAppend(sonificationRanges["Operator Variables"], l2[1], n.id)
         }
     }
-    reverseArray(sonificationRanges.operator.types, sonificationRangesReverse.operator.types)
-    reverseArray(sonificationRanges.operator.ids, sonificationRangesReverse.operator.ids)
-    reverseArray(sonificationRanges.operator.variables, sonificationRangesReverse.operator.variables)
-    reverseArray(sonificationRanges.data.variables, sonificationRangesReverse.data.variables)
-    reverseArray(sonificationRanges.data.ids, sonificationRangesReverse.data.ids)
-    reverseArray(sonificationRanges.query.progress, sonificationRangesReverse.query.progress)
-    for (const cc of ["variables", "ids", "types", "depths"]) {
+    for (const k of sonificationKeys) {
+if(k !="Operator Depths"){
+        reverseArray(sonificationRanges[k], sonificationRangesReverse[k])
+}
+    }
+    for (const cc of ["Operator Types", "Operator IDs", "Operator Variables", "Operator Depths"]) {
         const res = []
         for (const nn in result.animation) {
             const n = result.animation[nn]
-            res[nn] = sonificationRangesReverse.operator[cc][n[0]]
+            res[nn] = sonificationRangesReverse[cc][n[0]]
         }
-        sonificationRangesReverse.operator[cc] = res
+        sonificationRangesReverse[cc] = res
     }
-    sonificationRangesReverse.operator.ids = objectToArray(sonificationRangesReverse.operator.ids)
-    sonificationRangesReverse.operator.types = objectToArray(sonificationRangesReverse.operator.types)
-    sonificationRangesReverse.operator.variables = objectToArray(sonificationRangesReverse.operator.variables)
-    sonificationRangesReverse.operator.depths = objectToArray(sonificationRangesReverse.operator.depths)
-    sonificationRangesReverse.data.ids = objectToArray(sonificationRangesReverse.data.ids)
-    sonificationRangesReverse.data.variables = objectToArray(sonificationRangesReverse.data.variables)
-    sonificationRangesReverse.query.progress = objectToArray(sonificationRangesReverse.query.progress)
-
-    sonificationRanges.operator.ids = objectKeysToArray(sonificationRanges.operator.ids)
-    sonificationRanges.operator.types = objectKeysToArray(sonificationRanges.operator.types)
-    sonificationRanges.operator.variables = objectKeysToArray(sonificationRanges.operator.variables)
-    sonificationRanges.operator.depths = objectKeysToArray(sonificationRanges.operator.depths)
-    sonificationRanges.data.ids = objectKeysToArray(sonificationRanges.data.ids)
-    sonificationRanges.data.variables = objectKeysToArray(sonificationRanges.data.variables)
-    sonificationRanges.query.progress = objectKeysToArray(sonificationRanges.query.progress)
+    for (const k of sonificationKeys) {
+        sonificationRangesReverse[k] = objectToArray(sonificationRangesReverse[k])
+        sonificationRanges[k] = objectKeysToArray(sonificationRanges[k])
+    }
 }
