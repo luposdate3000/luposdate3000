@@ -27,6 +27,9 @@ const config = {
                 from: "resources",
                 to: "resources"
             }, {
+                from: "node_modules/tonejs-instruments/samples/",
+                to: "samples"
+            }, {
                 from: "src/html_result_style.css",
                 to: "html_result_style.css"
             }],

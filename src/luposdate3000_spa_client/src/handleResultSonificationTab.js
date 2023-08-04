@@ -20,33 +20,41 @@ import {
     createConfigHtml,
     applySonification
 } from "./handleResultSonificationConfig.js";
-import{SampleLibrary} from "Tonejs-Instruments.js"
-var Tone=require('tone');
+import * as Tone from "tone"
+import {
+    SampleLibrary
+} from "tonejs-instruments"
 var network = null;
 var nodes = null
 var cacheGraph = []
 var cacheAnimation = []
 var animationStep = 0
-var animationSpeed = 1
-var animationState = 'pause';
+var animationSpeed = 0
 var animationVisualDelay = 30
 var animationRunning = false
 var sonificationRanges = {
     "Simple": ["Global"]
 }
 var sonificationRangesReverse = {}
-var instrumentsLoaded=false
-var instruments = SampleLibrary.load({onload=onLoadInstruments});
-var audioCache=[]
 
+var instrumentsLoaded = false
+var instruments = {}
+var audioCache = []
 const audioPanner = new Tone.Panner(0).toDestination();
 
-function onLoadInstruments(){
-for(const k of instruments){
-k.toMaster();
+function loadInstruments() {
+    for (const inst of SampleLibrary.list) {
+        instruments[inst] = new Tone.Sampler({
+            urls: SampleLibrary[inst],
+            release: 1,
+            baseUrl: '/samples/' + inst + "/"
+        }).toDestination();
+    }
+    Tone.loaded().then(() => {
+        instrumentsLoaded = true;
+    })
 }
-instrumentsLoaded=true;
-}
+
 export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
@@ -108,15 +116,21 @@ function setStep(x) {
     if (animationStep < 0) {
         animationStep = 0
     }
+    if (animationStep > cacheAnimation.length - 1) {
+        animationStep = cacheAnimation.length - 1
+playBackPause()
+    }
     const newprogress = animationStep / (cacheAnimation.length - 1)
     jquery("#result-sonification-progress").attr('aria-valuenow', animationStep).css('width', newprogress * 100 + '%').text("" + animationStep + "/" + (cacheAnimation.length - 1));
 }
-function playTone(audio){
-if(instrumentsLoaded){
-audioPanner.pan.value=audio.Spatialization
-instruments[audio.Instrument].triggerAttackRelease(audio.Pitch+audio.Octave, audio.Duration, "+0", audio.Loudness);
+
+function playTone(audio) {
+    if (instrumentsLoaded) {
+        audioPanner.pan.value = audio.Spatialization
+        instruments[audio.Instrument].triggerAttackRelease(audio.Pitch + audio.Octave, audio.Duration, "+0", audio.Loudness);
+    }
 }
-}
+
 function animationLoop() {
     if (!animationRunning) {
         animationRunning = true
@@ -125,9 +139,6 @@ function animationLoop() {
             setStep(animationStep + animationSpeed)
             if (animationStep > cacheAnimation.length - 1) {
                 animationRunning = false
-                jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
-                animationState = 'pause';
-                animationSpeed = 0
                 return
             }
             const currentAnimation = cacheAnimation[animationStep]
@@ -150,7 +161,7 @@ function animationLoop() {
                     network.moveNode(999, pTo.x + x_delta * loopCtr, pTo.y + y_delta * loopCtr);
                 }
             }, animationVisualDelay);
-playTone(audioCache[animationStep])
+            playTone(audioCache[animationStep])
             setTimeout(() => {
                 animationLoop();
             }, speed);
@@ -159,6 +170,12 @@ playTone(audioCache[animationStep])
     }
 }
 
+function playBackPause() {
+    jquery("#result-sonification-btn-play").empty()
+    jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
+    animationSpeed = 0
+    clearAnimationElement()
+}
 jquery("#result-sonification-tab-trigger").on("click", function() {
     network.fit()
 });
@@ -181,25 +198,18 @@ jquery("#result-sonification-btn-ffw").on("click", function() {
 
 jquery("#result-sonification-btn-play").on("click", function() {
     jquery("#result-sonification-btn-play").empty()
-    if (animationState == 'pause') {
+    if (animationSpeed == 0) {
         jquery("#result-sonification-btn-play").append('<i class="fa fa-pause">')
-        animationState = 'play';
         animationSpeed = 1
-audioCache=applySonification(sonificationRangesReverse)
+        audioCache = applySonification(sonificationRangesReverse)
         animationLoop()
-    } else if (animationState == 'play') {
-        jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
-        animationState = 'pause';
-        animationSpeed = 0
-        clearAnimationElement()
+    } else {
+        playBackPause()
     }
 });
 
 jquery("#result-sonification-btn-stop").on("click", function() {
-    jquery("#result-sonification-btn-play").empty()
-    jquery("#result-sonification-btn-play").append('<i class="fa fa-play">')
-    animationState = 'pause';
-    animationSpeed = 0
+    playBackPause()
     setStep(0)
-    clearAnimationElement()
 });
+loadInstruments()

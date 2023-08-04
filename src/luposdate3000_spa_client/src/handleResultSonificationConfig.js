@@ -1,5 +1,7 @@
 const jquery = require("jquery")
-
+import {
+    SampleLibrary
+} from "tonejs-instruments"
 const sonificationConf = {}
 
 const sonificationOptions = {
@@ -30,27 +32,7 @@ const sonificationOptions = {
         "defaultMode": "Simple",
         "mode": "values",
         "defaultValue": "piano",
-        "values": ["piano",
-            "bass-electric",
-            "bassoon",
-            "cello",
-            "clarinet",
-            "contrabass",
-            "flute",
-            "french-horn",
-            "guitar-acoustic",
-            "guitar-electric",
-            "guitar-nylon",
-            "harmonium",
-            "harp",
-            "organ",
-            "saxophone",
-            "trombone",
-            "trumpet",
-            "tuba",
-            "violin",
-            "xylophone"
-        ]
+        "values": SampleLibrary.list
     },
     "Duration": {
         "mode": "values",
@@ -224,5 +206,5 @@ export function applySonification(sonificationRangesReverse) {
         res.push(resstep)
     }
     console.log(res)
-return res
+    return res
 }

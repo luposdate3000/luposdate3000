@@ -8,6 +8,7 @@
     "jquery": "^3.7.0",
     "randomcolor": "^0.6.2",
     "tone": "^14.7.77",
+    "tonejs-instruments": "github:Qualenritter/tonejs-instruments",
     "vis-data": "^7.1.6",
     "vis-network": "^9.1.6"
   },
