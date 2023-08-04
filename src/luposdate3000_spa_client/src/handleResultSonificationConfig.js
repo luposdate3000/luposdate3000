@@ -85,8 +85,9 @@ const sonificationOptions = {
         "default": 0.0
     }
 }
-
-export function createConfigHtml(sonificationRanges) {
+var sonificationRangesReverseCache={}
+export function createConfigHtml(sonificationRanges,sonificationRangesReverse) {
+sonificationRangesReverseCache=sonificationRangesReverse
     jquery("#sonification-config-root").empty()
     const target = document.getElementById("sonification-config-root");
     createConfigHtmlForLabel(target, sonificationRanges, "Pitch", ["mb-3"]);
@@ -156,8 +157,8 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
     function onChangeFunc() {
         const value = jquery("#sonification-" + label + "-select").val()
         sonificationConf[label] = {}
+        sonificationConf[label].mode=value
         sonificationConf[label][value] = {}
-        console.log(value)
         jquery("#sonification-" + label + "-details").empty();
         const target = document.getElementById("sonification-" + label + "-details");
         for (const k in nameMappings[value]) {
@@ -167,7 +168,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
                     function nestedChangeFunc() {
                         const value2 = jquery("#sonification-" + label + "-" + k).val()
                         sonificationConf[label][value][v] = value2
-                        console.log(sonificationConf)
+applySonification(sonificationRangesReverseCache)
                     }
                     target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label]["default"], ["mt-3"], nestedChangeFunc))
                     nestedChangeFunc()
@@ -178,7 +179,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
                         function nestedChangeFunc2() {
                             const value2 = jquery("#sonification-" + label + "-slider").val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
                             sonificationConf[label][value][v] = value2
-                            console.log(sonificationConf)
+applySonification(sonificationRangesReverseCache)
                         }
                         const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
                         res[0].classList.add("input-group")
@@ -197,11 +198,6 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
                         res[0].appendChild(res[2])
                         target.appendChild(res[0])
                         nestedChangeFunc2()
-                        /*
-                        <div class="input-group mb-3">
-                                    <span class="input-group-text" id="labelAnimationSpeed">Animation Speed</span> <input aria-describedby="labelAnimationSpeed" class="form-range form-control" id="sonification-animation-speed" max="5000" min="30" style="height: 2.4rem" type="range">
-                                  </div>
-                        */
                     }
                     break
                 }
@@ -210,8 +206,26 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
     }
     res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, "Simple", [], onChangeFunc));
     const resDetails = document.createElement("div");
-    resDetails.id = "sonification-" + label + "-details"
+    resDetails.id = "sonification-" + labesl + "-details"
     res.appendChild(resDetails)
     targetParent.appendChild(res)
     onChangeFunc()
+}
+export function applySonification(sonificationRangesReverse){
+const res=[]
+console.log(sonificationRangesReverse)
+console.log(sonificationConf)
+for(const step in sonificationRangesReverse.query.progress){
+const resstep={}
+for(const tt in sonificationConf){
+switch(sonificationConf[tt].mode){
+case "Simple":{
+resstep[tt]=sonificationConf[tt][sonificationConf[tt].mode].Global
+break
+}
+}
+}
+res.push(resstep)
+}
+console.log(res)
 }
