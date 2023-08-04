@@ -92,19 +92,16 @@ const sonificationOptions = {
     }
 }
 const sonificationModeKeys = ["Simple", "Operator Types", "Operator IDs", "Operator Variables", "Operator Depths", "Data IDs", "Data Variables", "Query Progress"]
+const sonificationTypeKeys = ["Pitch", "Instrument", "Loudness", "Duration", "Octave", "Spatialization"]
 var sonificationRangesReverseCache = {}
 export function createConfigHtml(sonificationRanges, sonificationRangesReverse) {
     sonificationRangesReverseCache = sonificationRangesReverse
     jquery("#sonification-config-root").empty()
     const target = document.getElementById("sonification-config-root");
-    createConfigHtmlForLabel(target, sonificationRanges, "Pitch");
-    createConfigHtmlForLabel(target, sonificationRanges, "Instrument");
-    createConfigHtmlForLabel(target, sonificationRanges, "Loudness");
-    createConfigHtmlForLabel(target, sonificationRanges, "Duration");
-    createConfigHtmlForLabel(target, sonificationRanges, "Octave");
-    createConfigHtmlForLabel(target, sonificationRanges, "Spatialization");
+    for (const k of sonificationTypeKeys) {
+        createConfigHtmlForLabel(target, sonificationRanges, k);
+    }
 }
-
 
 function createOptionWithValue(value, defaultOption) {
     const res = document.createElement("option");
@@ -211,17 +208,24 @@ export function applySonification(sonificationRanges, sonificationRangesReverse)
     console.log(sonificationRanges)
     console.log(sonificationRangesReverse)
     console.log(sonificationConf)
+    for (const tt of sonificationTypeKeys) {
+        if (!(tt in sonificationConf)) {
+            console.log("config is missing", tt)
+            return
+        }
+    }
     for (const step in sonificationRangesReverse["Query Progress"]) {
         const resstep = {}
-        for (const tt in sonificationConf) {
-            switch (sonificationConf[tt].mode) {
+        for (const tt of sonificationTypeKeys) {
+            const mm = sonificationConf[tt].mode
+            switch (mm) {
                 case "Simple": {
-                    console.log("setting", sonificationConf[tt][sonificationConf[tt].mode])
-                    resstep[tt] = sonificationConf[tt][sonificationConf[tt].mode].Global
+                    resstep[tt] = sonificationConf[tt][mm].Global
                     break
                 }
                 default: {
-                    console.log("unknown mode", sonificationConf[tt].mode)
+                    resstep[tt] = sonificationConf[tt][mm][sonificationRangesReverse[mm][step]]
+                    break
                 }
             }
         }
