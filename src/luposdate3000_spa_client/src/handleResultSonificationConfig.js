@@ -93,9 +93,7 @@ const sonificationOptions = {
 }
 const sonificationModeKeys = ["Simple", "Operator Types", "Operator IDs", "Operator Variables", "Operator Depths", "Data IDs", "Data Variables", "Query Progress"]
 const sonificationTypeKeys = ["Pitch", "Instrument", "Loudness", "Duration", "Octave", "Spatialization"]
-var sonificationRangesReverseCache = {}
-export function createConfigHtml(sonificationRanges, sonificationRangesReverse) {
-    sonificationRangesReverseCache = sonificationRangesReverse
+export function createConfigHtml(sonificationRanges) {
     jquery("#sonification-config-root").empty()
     const target = document.getElementById("sonification-config-root");
     for (const k of sonificationTypeKeys) {
@@ -160,7 +158,6 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
                     function nestedChangeFunc() {
                         const value2 = jquery("#sonification-" + label + "-" + k).val()
                         sonificationConf[label][value][v] = value2
-                        applySonification(sonificationRanges, sonificationRangesReverseCache)
                     }
                     target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label].defaultValue, ["mt-3"], nestedChangeFunc))
                     nestedChangeFunc()
@@ -171,7 +168,6 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
                         function nestedChangeFunc2() {
                             const value2 = jquery("#sonification-" + label + "-slider").val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
                             sonificationConf[label][value][v] = value2
-                            applySonification(sonificationRanges, sonificationRangesReverseCache)
                         }
                         const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
                         res[0].classList.add("input-group")
@@ -203,7 +199,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
     targetParent.appendChild(res)
     onChangeFunc()
 }
-export function applySonification(sonificationRanges, sonificationRangesReverse) {
+export function applySonification(sonificationRangesReverse) {
     const res = []
     for (const tt of sonificationTypeKeys) {
         if (!(tt in sonificationConf)) {
