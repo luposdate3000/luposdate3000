@@ -103,6 +103,28 @@ function createOptionWithValue(value, defaultOption) {
     return res
 }
 
+function createLabelWithSlider(label, id, defaultValue, additionalClasses, onChange) {
+    const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
+    res[0].classList.add("input-group")
+    for (const c of additionalClasses) {
+        res[0].classList.add(c)
+    }
+    res[1].classList.add("input-group-text")
+    res[1].textContent = label
+    res[2].classList.add("form-range")
+    res[2].classList.add("form-select")
+    res[2].id = id
+    res[2].onchange = onChange
+    res[2].min = 0
+    res[2].value = defaultValue
+    res[2].max = 100
+    res[2].type = "range"
+    res[2].style.height = "2.4rem"
+    res[0].appendChild(res[1])
+    res[0].appendChild(res[2])
+    return res[0]
+}
+
 function createLabelWithSelector(label, id, options, defaultOption, additionalClasses, onChange) {
     const res = [document.createElement("div"), document.createElement("span"), document.createElement("select")]
     res[0].classList.add("input-group")
@@ -133,64 +155,73 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
     for (const k of sonificationModeKeys) {
         if (sonificationRanges[k].length > 1) {
             options.push(k)
+            options.push(k + " - Automatic")
         }
     }
 
     function onChangeFunc() {
-        const value = jquery("#sonification-" + label + "-select").val()
+        var value = jquery("#sonification-" + label + "-select").val()
         if (!(label in sonificationConf) || sonificationConf[label].mode != value) {
             sonificationConf[label] = {}
             sonificationConf[label].mode = value
             sonificationConf[label].value = {}
         }
+        const isAutomatic = value.endsWith(" - Automatic")
         jquery("#sonification-" + label + "-details").empty();
-        const target = document.getElementById("sonification-" + label + "-details");
-        for (const k in sonificationRanges[value]) {
-            const v = sonificationRanges[value][k]
-            var defaultValue = sonificationOptions[label].defaultValue
-            if (label in sonificationConf) {
-                if (value in sonificationConf[label]) {
-                    if (v in sonificationConf[label].value) {
-                        defaultValue = sonificationConf[label].value[v]
+        if (isAutomatic) {
+            value = value.replace(" - Automatic", "")
+            for (const k in sonificationRanges[value]) {
+                const v = sonificationRanges[value][k]
+                const fraction = (k * 1.0) / sonificationRanges[value].length
+                switch (sonificationOptions[label].mode) {
+                    case "values": {
+                        var idx = Math.round(sonificationOptions[label].values.length * fraction)
+                        if (idx >= sonificationOptions[label].values.length) {
+                            idx = sonificationOptions[label].values.length - 1
+                        }
+                        if (idx < 0) {
+                            idx = 0
+                        }
+                        sonificationConf[label].value[v] = sonificationOptions[label].values[idx]
+                        break;
+                    }
+                    case "range": {
+                        sonificationConf[label].value[v] = sonificationOptions[label].min + (sonificationOptions[label].max - sonificationOptions[label].min) * fraction
+                        break
                     }
                 }
             }
-            switch (sonificationOptions[label].mode) {
-                case "values": {
-                    function nestedChangeFunc() {
-                        const value2 = jquery("#sonification-" + label + "-" + k).val()
-                        sonificationConf[label].value[v] = value2
+        } else {
+            const target = document.getElementById("sonification-" + label + "-details");
+            for (const k in sonificationRanges[value]) {
+                const v = sonificationRanges[value][k]
+                var defaultValue = sonificationOptions[label].defaultValue
+                if (label in sonificationConf) {
+                    if (value in sonificationConf[label]) {
+                        if (v in sonificationConf[label].value) {
+                            defaultValue = sonificationConf[label].value[v]
+                        }
                     }
-                    target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, defaultValue, ["mt-3"], nestedChangeFunc))
-                    nestedChangeFunc()
-                    break;
                 }
-                case "range": {
-                    if (value == "Simple") {
-                        function nestedChangeFunc2() {
-                            const value2 = jquery("#sonification-" + label + "-slider").val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
+                switch (sonificationOptions[label].mode) {
+                    case "values": {
+                        function nestedChangeFunc() {
+                            const value2 = jquery("#sonification-" + label + "-" + k).val()
                             sonificationConf[label].value[v] = value2
                         }
-                        const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
-                        res[0].classList.add("input-group")
-                        res[0].classList.add("mt-3")
-                        res[1].classList.add("input-group-text")
-                        res[1].textContent = "Value"
-                        res[2].classList.add("form-range")
-                        res[2].classList.add("form-select")
-                        res[2].id = "sonification-" + label + "-slider"
-                        res[2].onchange = nestedChangeFunc2
-                        res[2].min = 0
-                        res[2].value = defaultValue
-                        res[2].max = 100
-                        res[2].type = "range"
-                        res[2].style.height = "2.4rem"
-                        res[0].appendChild(res[1])
-                        res[0].appendChild(res[2])
-                        target.appendChild(res[0])
-                        nestedChangeFunc2()
+                        target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, defaultValue, ["mt-3"], nestedChangeFunc))
+                        nestedChangeFunc()
+                        break;
                     }
-                    break
+                    case "range": {
+                        function nestedChangeFunc2() {
+                            const value2 = jquery("#sonification-" + label + "-"+k).val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
+                            sonificationConf[label].value[v] = value2
+                        }
+                        target.appendChild(createLabelWithSlider(v, "sonification-" + label + "-" + k, defaultValue, ["mt-3"], nestedChangeFunc2))
+                        nestedChangeFunc2()
+                        break
+                    }
                 }
             }
         }
@@ -217,7 +248,7 @@ export function applySonification(sonificationRangesReverse) {
     for (const step in sonificationRangesReverse["Query Progress"]) {
         const resstep = {}
         for (const tt of sonificationTypeKeys) {
-            const mm = sonificationConf[tt].mode
+            const mm = sonificationConf[tt].mode.replace(" - Automatic", "")
             switch (mm) {
                 case "Simple": {
                     resstep[tt] = sonificationConf[tt].value.Global
@@ -231,7 +262,7 @@ export function applySonification(sonificationRangesReverse) {
         }
         res.push(resstep)
     }
-    console.log(res)
+    console.log(JSON.stringify(res, null, 2))
     return res
 }
 export function setAnimationSpeed(data) {
