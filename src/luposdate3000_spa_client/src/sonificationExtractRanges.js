@@ -1,3 +1,5 @@
+const sonificationKeys = ["Operator Types", "Operator IDs", "Operator Variables", "Operator Depths", "Data IDs", "Data Variables", "Query Progress"]
+
 function createOrAppend(arr, key, element) {
     if (key in arr) {
         arr[key].push(element)
@@ -35,7 +37,6 @@ function objectKeysToArray(obj) {
     return res
 }
 
-const sonificationKeys = ["Operator Types", "Operator IDs", "Operator Variables", "Operator Depths", "Data IDs", "Data Variables", "Query Progress"]
 
 export function extractRanges(result, cacheGraph, sonificationRanges, sonificationRangesReverse) {
     for (const k of sonificationKeys) {
@@ -80,9 +81,9 @@ export function extractRanges(result, cacheGraph, sonificationRanges, sonificati
         }
     }
     for (const k of sonificationKeys) {
-if(k !="Operator Depths"){
-        reverseArray(sonificationRanges[k], sonificationRangesReverse[k])
-}
+        if (k != "Operator Depths") {
+            reverseArray(sonificationRanges[k], sonificationRangesReverse[k])
+        }
     }
     for (const cc of ["Operator Types", "Operator IDs", "Operator Variables", "Operator Depths"]) {
         const res = []

@@ -5,7 +5,8 @@ const sonificationConf = {}
 const sonificationOptions = {
     "Pitch": {
         "mode": "values",
-        "default": "C",
+        "defaultMode": "Simple",
+        "defaultValue": "C",
         "values": ["C",
             "C#",
             "Db",
@@ -26,8 +27,9 @@ const sonificationOptions = {
         ]
     },
     "Instrument": {
+        "defaultMode": "Simple",
         "mode": "values",
-        "default": "piano",
+        "defaultValue": "piano",
         "values": ["piano",
             "bass-electric",
             "bassoon",
@@ -52,7 +54,8 @@ const sonificationOptions = {
     },
     "Duration": {
         "mode": "values",
-        "default": "1n",
+        "defaultValue": "1n",
+        "defaultMode": "Simple",
         "values": ["1n",
             "2n",
             "4n",
@@ -62,7 +65,8 @@ const sonificationOptions = {
     },
     "Octave": {
         "mode": "values",
-        "default": "3",
+        "defaultMode": "Simple",
+        "defaultValue": "3",
         "values": [1,
             2,
             3,
@@ -74,28 +78,31 @@ const sonificationOptions = {
     },
     "Loudness": {
         "mode": "range",
+        "defaultMode": "Simple",
         "min": 0.0,
         "max": 1.0,
-        "default": 0.5
+        "defaultValue": 0.5
     },
     "Spatialization": {
         "mode": "range",
+        "defaultMode": "Simple",
         "min": -1.0,
         "max": 1.0,
-        "default": 0.0
+        "defaultValue": 0.0
     }
 }
+const sonificationModeKeys = ["Simple", "Operator Types", "Operator IDs", "Operator Variables", "Operator Depths", "Data IDs", "Data Variables", "Query Progress"]
 var sonificationRangesReverseCache = {}
 export function createConfigHtml(sonificationRanges, sonificationRangesReverse) {
     sonificationRangesReverseCache = sonificationRangesReverse
     jquery("#sonification-config-root").empty()
     const target = document.getElementById("sonification-config-root");
-    createConfigHtmlForLabel(target, sonificationRanges, "Pitch", ["mb-3"]);
-    createConfigHtmlForLabel(target, sonificationRanges, "Instrument", ["mb-3"]);
-    createConfigHtmlForLabel(target, sonificationRanges, "Loudness", ["mb-3"]);
-    createConfigHtmlForLabel(target, sonificationRanges, "Duration", ["mb-3"]);
-    createConfigHtmlForLabel(target, sonificationRanges, "Octave", ["mb-3"]);
-    createConfigHtmlForLabel(target, sonificationRanges, "Spatialization", []);
+    createConfigHtmlForLabel(target, sonificationRanges, "Pitch");
+    createConfigHtmlForLabel(target, sonificationRanges, "Instrument");
+    createConfigHtmlForLabel(target, sonificationRanges, "Loudness");
+    createConfigHtmlForLabel(target, sonificationRanges, "Duration");
+    createConfigHtmlForLabel(target, sonificationRanges, "Octave");
+    createConfigHtmlForLabel(target, sonificationRanges, "Spatialization");
 }
 
 
@@ -131,25 +138,13 @@ function createLabelWithSelector(label, id, options, defaultOption, additionalCl
     return res[0]
 }
 
-function createConfigHtmlForLabel(targetParent, sonificationRanges, label, additionalClasses) {
+function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
     const res = document.createElement("div");
-    for (const c of additionalClasses) {
-        res.classList.add(c)
-    }
+    res.classList.add("mt-3")
     res.classList.add("rcorners2")
-    const nameMappings = {
-        "Simple": ["Global"],
-        "Operator Types": sonificationRanges["Operator Types"],
-        "Operator IDs": sonificationRanges["Operator IDs"],
-        "Operator Variables": sonificationRanges["Operator Variables"],
-        "Operator Depths": sonificationRanges["Operator Depths"],
-        "Data IDs": sonificationRanges["Data IDs"],
-        "Data Variables": sonificationRanges["Data Variables"],
-        "Query Progress": sonificationRanges["Query Progress"]
-    }
     const options = ["Simple"]
-    for (const k in nameMappings) {
-        if (nameMappings[k].length > 1) {
+    for (const k of sonificationModeKeys) {
+        if (sonificationRanges[k].length > 1) {
             options.push(k)
         }
     }
@@ -161,16 +156,16 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
         sonificationConf[label][value] = {}
         jquery("#sonification-" + label + "-details").empty();
         const target = document.getElementById("sonification-" + label + "-details");
-        for (const k in nameMappings[value]) {
-            const v = nameMappings[value][k]
+        for (const k in sonificationRanges[value]) {
+            const v = sonificationRanges[value][k]
             switch (sonificationOptions[label].mode) {
                 case "values": {
                     function nestedChangeFunc() {
                         const value2 = jquery("#sonification-" + label + "-" + k).val()
                         sonificationConf[label][value][v] = value2
-                        applySonification(sonificationRanges,sonificationRangesReverseCache)
+                        applySonification(sonificationRanges, sonificationRangesReverseCache)
                     }
-                    target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label]["default"], ["mt-3"], nestedChangeFunc))
+                    target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label].defaultValue, ["mt-3"], nestedChangeFunc))
                     nestedChangeFunc()
                     break;
                 }
@@ -179,7 +174,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
                         function nestedChangeFunc2() {
                             const value2 = jquery("#sonification-" + label + "-slider").val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
                             sonificationConf[label][value][v] = value2
-                            applySonification(sonificationRanges,sonificationRangesReverseCache)
+                            applySonification(sonificationRanges, sonificationRangesReverseCache)
                         }
                         const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
                         res[0].classList.add("input-group")
@@ -204,14 +199,14 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
             }
         }
     }
-    res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, "Simple", [], onChangeFunc));
+    res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, sonificationOptions[label].defaultMode, [], onChangeFunc));
     const resDetails = document.createElement("div");
     resDetails.id = "sonification-" + label + "-details"
     res.appendChild(resDetails)
     targetParent.appendChild(res)
     onChangeFunc()
 }
-export function applySonification(sonificationRanges,sonificationRangesReverse) {
+export function applySonification(sonificationRanges, sonificationRangesReverse) {
     const res = []
     console.log(sonificationRanges)
     console.log(sonificationRangesReverse)
@@ -221,12 +216,17 @@ export function applySonification(sonificationRanges,sonificationRangesReverse) 
         for (const tt in sonificationConf) {
             switch (sonificationConf[tt].mode) {
                 case "Simple": {
+                    console.log("setting", sonificationConf[tt][sonificationConf[tt].mode])
                     resstep[tt] = sonificationConf[tt][sonificationConf[tt].mode].Global
                     break
+                }
+                default: {
+                    console.log("unknown mode", sonificationConf[tt].mode)
                 }
             }
         }
         res.push(resstep)
+        break // TODO remove this when first step is working
     }
     console.log(res)
 }

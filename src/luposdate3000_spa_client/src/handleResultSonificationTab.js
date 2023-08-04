@@ -29,7 +29,9 @@ var animationSpeed = 1
 var animationState = 'stop';
 var animationVisualDelay = 30
 var animationRunning = false
-var sonificationRanges = {}
+var sonificationRanges = {
+    "Simple": ["Global"]
+}
 var sonificationRangesReverse = {}
 
 export function updateResultSonificationTab(result) {
