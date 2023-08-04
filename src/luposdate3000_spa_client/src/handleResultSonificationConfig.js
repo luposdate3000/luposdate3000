@@ -205,12 +205,8 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
 }
 export function applySonification(sonificationRanges, sonificationRangesReverse) {
     const res = []
-    console.log(sonificationRanges)
-    console.log(sonificationRangesReverse)
-    console.log(sonificationConf)
     for (const tt of sonificationTypeKeys) {
         if (!(tt in sonificationConf)) {
-            console.log("config is missing", tt)
             return
         }
     }
@@ -230,7 +226,7 @@ export function applySonification(sonificationRanges, sonificationRangesReverse)
             }
         }
         res.push(resstep)
-        break // TODO remove this when first step is working
     }
     console.log(res)
+return res
 }
