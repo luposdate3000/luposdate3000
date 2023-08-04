@@ -74,15 +74,15 @@ const sonificationOptions = {
     },
     "Loudness": {
         "mode": "range",
-        "min": 0,
-        "max": 1,
+        "min": 0.0,
+        "max": 1.0,
         "default": 0.5
     },
     "Spatialization": {
         "mode": "range",
-        "min": -1,
-        "max": 1,
-        "default": 0
+        "min": -1.0,
+        "max": 1.0,
+        "default": 0.0
     }
 }
 
@@ -115,7 +115,6 @@ function createLabelWithSelector(label, id, options, defaultOption, additionalCl
         res[0].classList.add(c)
     }
     res[1].classList.add("input-group-text")
-    res[1].id = id + "-header"
     res[1].textContent = label
     res[2].classList.add("form-control")
     res[2].classList.add("form-select")
@@ -162,31 +161,54 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label, addit
         jquery("#sonification-" + label + "-details").empty();
         const target = document.getElementById("sonification-" + label + "-details");
         for (const k in nameMappings[value]) {
+            const v = nameMappings[value][k]
             switch (sonificationOptions[label].mode) {
                 case "values": {
-                    const v = nameMappings[value][k]
-                    const addCl = []
-                    if (k < nameMappings[value].length - 1) {
-                        addCl.push("mb-3")
-                    }
-
                     function nestedChangeFunc() {
                         const value2 = jquery("#sonification-" + label + "-" + k).val()
                         sonificationConf[label][value][v] = value2
-                        console.log("setting -", label, "-", value, "-", v, "-", value2)
                         console.log(sonificationConf)
                     }
-                    target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label]["default"], addCl, nestedChangeFunc))
+                    target.appendChild(createLabelWithSelector(v, "sonification-" + label + "-" + k, sonificationOptions[label].values, sonificationOptions[label]["default"], ["mt-3"], nestedChangeFunc))
                     nestedChangeFunc()
                     break;
                 }
                 case "range": {
+                    if (value == "Simple") {
+                        function nestedChangeFunc2() {
+                            const value2 = jquery("#sonification-" + label + "-slider").val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
+                            sonificationConf[label][value][v] = value2
+                            console.log(sonificationConf)
+                        }
+                        const res = [document.createElement("div"), document.createElement("span"), document.createElement("input")]
+                        res[0].classList.add("input-group")
+                        res[0].classList.add("mt-3")
+                        res[1].classList.add("input-group-text")
+                        res[1].textContent = "Value"
+                        res[2].classList.add("form-range")
+                        res[2].classList.add("form-select")
+                        res[2].id = "sonification-" + label + "-slider"
+                        res[2].onchange = nestedChangeFunc2
+                        res[2].min = 0
+                        res[2].max = 100
+                        res[2].type = "range"
+                        res[2].style.height = "2.4rem"
+                        res[0].appendChild(res[1])
+                        res[0].appendChild(res[2])
+                        target.appendChild(res[0])
+                        nestedChangeFunc2()
+                        /*
+                        <div class="input-group mb-3">
+                                    <span class="input-group-text" id="labelAnimationSpeed">Animation Speed</span> <input aria-describedby="labelAnimationSpeed" class="form-range form-control" id="sonification-animation-speed" max="5000" min="30" style="height: 2.4rem" type="range">
+                                  </div>
+                        */
+                    }
                     break
                 }
             }
         }
     }
-    res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, "Simple", ["mb-3"], onChangeFunc));
+    res.appendChild(createLabelWithSelector(label, "sonification-" + label + "-select", options, "Simple", [], onChangeFunc));
     const resDetails = document.createElement("div");
     resDetails.id = "sonification-" + label + "-details"
     res.appendChild(resDetails)
