@@ -14,3 +14,13 @@ with open ("./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTest
 with open ("./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTest.kt", "w") as f:
  for l in srcCode:
   f.write(l+"\n")
+if os.system("./launcher.main.kts --setup --target=JVM --releaseMode=Disable")!=0:
+ sys.exit(-1)
+if os.system("./gradlew --offline assemble")!=0:
+ sys.exit(-1)
+if os.system("./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi")!=0:
+ sys.exit(-1)
+#if os.system("./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi")!=0:
+# sys.exit(-1)
+#if os.system("./gradlew build --offline")!=0:
+# sys.exit(-1)
