@@ -1,12 +1,3 @@
-import lupos.launch_code_gen_test_00.DROPDEFAULT
-import lupos.launch_code_gen_test_00.parentquerywithhasChildmin1restriction
-import lupos.launch_code_gen_test_00.pp28aDiamondwithlooppp
-import lupos.launch_code_gen_test_00.resourcessp2bq6sparql247
-import lupos.launch_code_gen_test_00.resourcessp2bq12b4sparql700
-import lupos.launch_code_gen_test_00.resourcessp2bq12asparql973
-import lupos.launch_code_gen_test_00.resourcessp2bq12b4sparql1294
-import lupos.launch_code_gen_test_00.resourcessp2bq42sparql1294
-import lupos.launch_code_gen_test_00.resourcessp2bq6sparql32978
 internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
     return exec(clazz.name,args,jvmArgs)
 }
@@ -22,20 +13,24 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
     command.add(className)
     command.addAll(args)
     val builder = ProcessBuilder(command)
-    builder.redirectErrorStream(true)
+    val env = builder.environment()
+    env.putAll(System.getenv())
+    println(env)
+    builder.redirectError(java.io.File(className+".err"))
     builder.redirectOutput(java.io.File(className+".log"))
     val process = builder.start()
     process.waitFor()
     return process.exitValue()
 }
 public fun main(){
-        exec("lupos.launch_code_gen_test_00.DROPDEFAULTKt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.ParentquerywithhasChildmin1restrictionKt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.Pp28aDiamondwithloopppKt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.Resourcessp2bq6sparql247Kt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.Resourcessp2bq12b4sparql700Kt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.Resourcessp2bq12asparql973Kt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.Resourcessp2bq12b4sparql1294Kt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.Resourcessp2bq42sparql1294Kt", jvmArgs = listOf("-Xmx8g"))
-        exec("lupos.launch_code_gen_test_00.Resourcessp2bq6sparql32978Kt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.COUNT3Kt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.SimpleDELETE3Kt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.RDFinferencetestKt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.Simple2Kt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.STRDTKt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.CalculatewhichsetsaresubsetsofothersexcludeAsubsetOfAKt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.Synbad07rqKt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.Resourcessp2bq12asparql21Kt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.Resourcessp2bq12bsparql1640Kt", jvmArgs = listOf("-Xmx8g"))
+        exec("lupos.launch_code_gen_test_00.Resourcessp2bq65sparql32978Kt", jvmArgs = listOf("-Xmx8g"))
 }

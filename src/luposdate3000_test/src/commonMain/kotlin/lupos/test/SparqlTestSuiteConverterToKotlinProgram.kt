@@ -149,8 +149,10 @@ out.println("    command.add(classpath)")
 out.println("    command.add(className)")
 out.println("    command.addAll(args)")
 out.println("    val builder = ProcessBuilder(command)")
-//out.println("    builder.directory(java.io.File(\"src/luposdate3000_launch_code_gen_test_00\"));")
-out.println("    builder.redirectErrorStream(true)")
+out.println("    val env = builder.environment()")
+out.println("    env.putAll(System.getenv())")
+out.println("    println(env)")
+out.println("    builder.redirectError(java.io.File(className+\".err\"))")
 out.println("    builder.redirectOutput(java.io.File(className+\".log\"))")
 out.println("    val process = builder.start()")
 out.println("    process.waitFor()")
@@ -356,12 +358,12 @@ out.println("        exec(\"lupos.launch_code_gen_test_00.${n.replaceFirstChar {
         if (inputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val inputData = arrayOf(")
             for (k in inputGraphs.keys) {
-                fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
+                fileBufferPrefix.println("        File(\"src/luposdate3000_launch_code_gen_test_00/src/jvmTest/resources/$k\").readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputDataFile = arrayOf(")
             for (k in inputGraphs.keys) {
-                fileBufferPrefix.println("        \"src/jvmTest/resources/$k\",")
+                fileBufferPrefix.println("        \"src/luposdate3000_launch_code_gen_test_00/src/jvmTest/resources/$k\",")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val inputGraph = arrayOf(")
@@ -379,12 +381,12 @@ out.println("        exec(\"lupos.launch_code_gen_test_00.${n.replaceFirstChar {
         if (outputGraphs.isNotEmpty()) {
             fileBufferPrefix.println("    internal val outputData = arrayOf(")
             for (k in outputGraphs.keys) {
-                fileBufferPrefix.println("        File(\"src/jvmTest/resources/$k\").readAsString(),")
+                fileBufferPrefix.println("        File(\"src/luposdate3000_launch_code_gen_test_00/src/jvmTest/resources/$k\").readAsString(),")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputDataFile = arrayOf(")
             for (k in outputGraphs.keys) {
-                fileBufferPrefix.println("        \"src/jvmTest/resources/$k\",")
+                fileBufferPrefix.println("        \"src/luposdate3000_launch_code_gen_test_00/src/jvmTest/resources/$k\",")
             }
             fileBufferPrefix.println("    )")
             fileBufferPrefix.println("    internal val outputGraph = arrayOf(")
@@ -400,7 +402,7 @@ out.println("        exec(\"lupos.launch_code_gen_test_00.${n.replaceFirstChar {
             fileBufferPrefix.println("    )")
         }
         if (mode == BinaryTestCaseOutputModeExt.SELECT_QUERY_RESULT) {
-            fileBufferPrefix.println("    internal val targetData = File(\"src/jvmTest/resources/$testCaseName.output\").readAsString()")
+            fileBufferPrefix.println("    internal val targetData = File(\"src/luposdate3000_launch_code_gen_test_00/src/jvmTest/resources/$testCaseName.output\").readAsString()")
             fileBufferPrefix.println("    internal val targetType = \"$targetType\"")
         }
         fileBufferPrefix.println("    internal val query = \"${cleanFileContent(File(queryFile).readAsString())}\"")
@@ -524,9 +526,9 @@ out.println("        exec(\"lupos.launch_code_gen_test_00.${n.replaceFirstChar {
                                 fileBufferTest.println("    public fun `$finalTestName`() {")
                                 fileBufferTest.println("        simulatorHelper(")
                                 if (LUPOS_PARTITION_MODE == EPartitionModeExt.names[EPartitionModeExt.Process]) {
-                                    fileBufferTest.println("            \"../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
+                                    fileBufferTest.println("            \"src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json\",")
                                 } else {
-                                    fileBufferTest.println("            \"../luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
+                                    fileBufferTest.println("            \"src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json\",")
                                 }
                                 fileBufferTest.println("            mutableMapOf(")
                                 fileBufferTest.println("                \"predefinedPartitionScheme\" to \"$predefinedPartitionScheme\",")
@@ -603,7 +605,7 @@ out.println("        exec(\"lupos.launch_code_gen_test_00.${n.replaceFirstChar {
                 }
             } else {
                 File("${outputFolderSrcJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
-allTestClassNames.add(finalClassName)
+allTestClassNames.add(testCaseName)
                     var stringBufferSimulatorRequired = false
                     var stringBufferNormalHelperRequired = false
                     out.print(prefix)
@@ -634,13 +636,14 @@ allTestClassNames.add(finalClassName)
                     out.print(postfix)
                     out.println("public fun main(){")
                     out.println("    for((name,func) in $testCaseName().getTests()){")
-                    out.println("        File(\"logs/\$name.stat\").withOutputStream{ out->")
+                    out.println("        File(\"lupos.launch_code_gen_test_00.\${name.replaceFirstChar { it.uppercase() }}.stat\").withOutputStream{ out->")
                     out.println("            out.println(\"started\")")
                     out.println("            try{")
                     out.println("                func()")
                     out.println("                out.println(\"passed\")")
-                    out.println("            }catch(e:Exception){")
+                    out.println("            }catch(e:Error){")
                     out.println("                out.println(\"failed\")")
+                    out.println("                e.printStackTrace()")
                     out.println("            }")
                     out.println("        }")
                     out.println("    }")

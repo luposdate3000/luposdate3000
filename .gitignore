@@ -1,4 +1,6 @@
 lupos.launch_code_gen_test_00.*.log
+lupos.launch_code_gen_test_00.*.stat
+lupos.launch_code_gen_test_00.*.err
 *.cov
 *.dot
 *.generated

@@ -22,13 +22,15 @@ def setup():
     with open("./src/luposdate3000_test/src/commonMain/kotlin/lupos/test/SparqlTestSuiteConverterToUnitTest.kt", "w") as f:
         for l in srcCode:
             f.write(l + "\n")
-    if os.system("rm -rf src/luposdate3000_launch_code_gen_test_00 build.config")!=0:
-        sys.exit(-1)
+    os.system("rm -rf src/luposdate3000_launch_code_gen_test_00 build.config lupos.launch_code_gen_test_00.*log lupos.launch_code_gen_test_00.*err lupos.launch_code_gen_test_00.*stat")
     if os.system("./launcher.main.kts --setup --target=JVM --releaseMode=Disable") != 0:
+        print("exit")
         sys.exit(-1)
     if os.system("./gradlew --offline assemble") != 0:
+        print("exit")
         sys.exit(-1)
     if os.system("./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi") != 0:
+        print("exit")
         sys.exit(-1)
 
 
@@ -57,14 +59,16 @@ def loop():
         for i in range(start, len(allTests)):
             f.write(allTests[i] + "\n")
     if os.system("./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi") != 0:
+        print("exit")
         sys.exit(-1)
-    if os.system("rm build.config")!=0:
-        sys.exit(-1)
+    os.system("rm build.config lupos.launch_code_gen_test_00.*log lupos.launch_code_gen_test_00.*err lupos.launch_code_gen_test_00.*stat")
     if os.system("./launcher.main.kts --setup --target=JVM --releaseMode=Disable") != 0:
+        print("exit")
         sys.exit(-1)
     if os.system("./gradlew --offline assemble") != 0:
+        print("exit")
         sys.exit(-1)
-    os.system("./launcher.main.kts --run --mainClass=Launch_Code_Gen_Test_00")
+    os.system("./launcher.main.kts --run --mainClass=Launch_Code_Gen_Test_00 --processCount=1 --threadCount=1")
 
 setup()
 loop()
