@@ -83,18 +83,32 @@ public class CalculatewhichsetsaresubsetsofothersexcludeAsubsetOfA {
         "} \n" +
         ""
 
-    public fun `Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -127,7 +141,8 @@ public class CalculatewhichsetsaresubsetsofothersexcludeAsubsetOfA {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath" to ::`Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`,
+            "Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
         )
     }
 }

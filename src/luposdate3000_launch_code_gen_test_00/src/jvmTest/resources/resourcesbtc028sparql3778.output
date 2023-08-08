@@ -1,0 +1,57 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="p"/>
+  <variable name="a"/>
+ </head>
+ <results>
+  <result>
+   <binding name="p">
+    <uri>http://purl.uniprot.org/uniprot/A7E2E4</uri>
+   </binding>
+   <binding name="a">
+    <uri>http://purl.uniprot.org/uniprot/A7E2E4#SIP1C9C10AB5067213F</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="p">
+    <uri>http://purl.uniprot.org/uniprot/Q8IYG9</uri>
+   </binding>
+   <binding name="a">
+    <uri>http://purl.uniprot.org/uniprot/Q8IYG9#SIP8B16250522A0AF57</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="p">
+    <uri>http://purl.uniprot.org/uniprot/P14784</uri>
+   </binding>
+   <binding name="a">
+    <uri>http://purl.uniprot.org/uniprot/P14784#SIPF7C8F9F4AB42D193</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="p">
+    <uri>http://purl.uniprot.org/uniprot/H3BLT0</uri>
+   </binding>
+   <binding name="a">
+    <uri>http://purl.uniprot.org/uniprot/H3BLT0#SIP7E2ED57EB0A96B1D</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="p">
+    <uri>http://purl.uniprot.org/uniprot/Q15303</uri>
+   </binding>
+   <binding name="a">
+    <uri>http://purl.uniprot.org/uniprot/Q15303#SIP638160CED73E9035</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="p">
+    <uri>http://purl.uniprot.org/uniprot/P42658</uri>
+   </binding>
+   <binding name="a">
+    <uri>http://purl.uniprot.org/uniprot/P42658#SIPD334194AAFCA71E9</uri>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

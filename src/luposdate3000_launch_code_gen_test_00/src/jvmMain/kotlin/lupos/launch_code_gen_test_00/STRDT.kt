@@ -62,18 +62,60 @@ public class STRDT {
         "} \n" +
         ""
 
-    public fun `STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `STRDT - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -106,7 +148,10 @@ public class STRDT {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
+            "STRDT - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`STRDT - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "STRDT - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`STRDT - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
+            "STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
         )
     }
 }

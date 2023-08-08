@@ -120,6 +120,7 @@ without minify mode only the passing tests will be added
             File("${outputFolderRoot(idx)}/module_config").withOutputStream { out ->
                 out.println("package=Luposdate3000_Main")
                 out.println("disableJS=true")
+                out.println("dependencyJvm=org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
                 if (fileModeMany) { // because this yields out of memory during compilation
                     out.println("useKTLint=false")
                 }
@@ -134,6 +135,16 @@ without minify mode only the passing tests will be added
             }
         }
         File("${outputFolderSrcJvm(folderCurrent)}/Main.kt").withOutputStream { out ->
+out.println("import java.util.concurrent.TimeUnit")
+out.println("import kotlinx.coroutines.async")
+out.println("import kotlinx.coroutines.runBlocking")
+out.println("import kotlinx.coroutines.launch")
+out.println("import kotlinx.coroutines.Dispatchers")
+out.println("import kotlinx.coroutines.awaitAll")
+out.println("import kotlinx.coroutines.CoroutineScope")
+out.println("import kotlinx.coroutines.coroutineScope")
+out.println("import kotlinx.coroutines.sync.Semaphore")
+out.println("import kotlinx.coroutines.sync.withPermit")
 out.println("internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
 out.println("    return exec(clazz.name,args,jvmArgs)")
 out.println("}")
@@ -155,13 +166,21 @@ out.println("    println(env)")
 out.println("    builder.redirectError(java.io.File(className+\".err\"))")
 out.println("    builder.redirectOutput(java.io.File(className+\".log\"))")
 out.println("    val process = builder.start()")
+out.println("    process.waitFor(10, TimeUnit.SECONDS)")
+out.println("    process.destroyForcibly()")
 out.println("    process.waitFor()")
 out.println("    return process.exitValue()")
 out.println("}")
             out.println("public fun main(){")
+out.println("    val tests=listOf(")
 for (n in allTestClassNames) {
-out.println("        exec(\"lupos.launch_code_gen_test_00.${n.replaceFirstChar { it.uppercase() }}Kt\", jvmArgs = listOf(\"-Xmx8g\"))")
+out.println("        \"lupos.launch_code_gen_test_00.${n.replaceFirstChar { it.uppercase() }}Kt\",")
 }
+out.println("    )")
+out.println("    val gate = Semaphore(20)")
+out.println("    runBlocking {")
+out.println("        tests.map{async {gate.withPermit {exec(it, jvmArgs = listOf(\"-Xmx8g\"))}}}.awaitAll()")
+            out.println("    }")
             out.println("}")
         }
     }

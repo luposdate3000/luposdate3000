@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="X"/>
+  <variable name="Y"/>
+  <variable name="Z"/>
+ </head>
+ <results>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/GraduateStudent5</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/FullProfessor1</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse1</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/GraduateStudent4</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/FullProfessor1</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse1</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/GraduateStudent3</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/FullProfessor1</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse1</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/GraduateStudent2</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/FullProfessor1</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse1</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/UndergraduateStudent33</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/AssistantProfessor0</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse0</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/UndergraduateStudent44</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/AssistantProfessor0</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse0</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/UndergraduateStudent22</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/AssistantProfessor0</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse0</uri>
+    </binding>
+   </result>
+   <result>
+    <binding name="X">
+     <uri>http://www.Department0.University0.edu/UndergraduateStudent55</uri>
+    </binding>
+    <binding name="Y">
+     <uri>http://www.Department0.University0.edu/AssistantProfessor0</uri>
+    </binding>
+    <binding name="Z">
+     <uri>http://www.Department0.University0.edu/GraduateCourse0</uri>
+    </binding>
+   </result>
+ </results>
+</sparql>

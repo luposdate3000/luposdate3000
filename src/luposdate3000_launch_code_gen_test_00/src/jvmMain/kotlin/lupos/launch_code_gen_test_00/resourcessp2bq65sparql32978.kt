@@ -76,18 +76,32 @@ public class resourcessp2bq65sparql32978 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq65sparql32978 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `resourcessp2bq65sparql32978 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `resourcessp2bq65sparql32978 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -120,7 +134,8 @@ public class resourcessp2bq65sparql32978 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq65sparql32978 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`resourcessp2bq65sparql32978 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
+            "resourcessp2bq65sparql32978 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`resourcessp2bq65sparql32978 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
+            "resourcessp2bq65sparql32978 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL" to ::`resourcessp2bq65sparql32978 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`,
         )
     }
 }

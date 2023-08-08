@@ -4,7 +4,7 @@ import random
 import sys
 from subprocess import STDOUT, check_output, PIPE
 
-testCount=10
+testCount = 1000
 try:
     os.makedirs("resources/tests")
 except:
@@ -51,6 +51,12 @@ def loop():
                 ll = l.strip()
                 if ll in allTests:
                     allTests.remove(ll)
+    if os.path.exists("resources/tests/timeout"):
+        with open("resources/tests/timeout") as f:
+            for l in f:
+                ll = l.strip()
+                if ll in allTests:
+                    allTests.remove(ll)
     random.shuffle(allTests)
     with open("resources/tests/blacklist", "w") as f:
         if len(allTests) == 0:
@@ -69,6 +75,21 @@ def loop():
         print("exit")
         sys.exit(-1)
     os.system("./launcher.main.kts --run --mainClass=Launch_Code_Gen_Test_00 --processCount=1 --threadCount=1")
+    files = [filename for filename in os.listdir(".") if filename.startswith('lupos.launch_code_gen_test_00') and filename.endswith('stat')]
+    with open("resources/tests/passed", "a") as fp:
+        with open("resources/tests/failed", "a") as ff:
+            with open("resources/tests/timeout", "a") as ft:
+                for f in files:
+                    with open(f) as file:
+                        s = file.read()
+                    if "passed" in s:
+                        fp.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
+                    elif "failed" in s:
+                        ff.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
+                    else:
+                        ft.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
 
-setup()
-loop()
+
+#setup()
+while True:
+ loop()

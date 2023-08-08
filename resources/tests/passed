@@ -1,0 +1,5 @@
+Resourcessp2bq8sparql247 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcessp2bq12asparql247 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+Resourcessp2bq12b4sparql1640 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+COUNT 2 - in simulator - Simple - Centralized - false - None - RPL
+Resourcessp2bq12b2sparql973 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath

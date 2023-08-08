@@ -1,0 +1,76 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="s"/>
+  <variable name="p"/>
+  <variable name="o"/>
+ </head>
+ <results>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://purl.org/dc/elements/1.1/publisher</uri>
+   </binding>
+   <binding name="o">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/RatingSite1</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://xmlns.com/foaf/0.1/mbox_sha1sum</uri>
+   </binding>
+   <binding name="o">
+    <literal>df1cf8e68d49e5b65f1507dbecec6b61e9dc98</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://purl.org/dc/elements/1.1/date</uri>
+   </binding>
+   <binding name="o">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#date">2008-08-07</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/country</uri>
+   </binding>
+   <binding name="o">
+    <uri>http://downlode.org/rdf/iso-3166/countries#JP</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://www.w3.org/1999/02/22-rdf-syntax-ns#type</uri>
+   </binding>
+   <binding name="o">
+    <uri>http://xmlns.com/foaf/0.1/Person</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="s">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+   </binding>
+   <binding name="p">
+    <uri>http://xmlns.com/foaf/0.1/name</uri>
+   </binding>
+   <binding name="o">
+    <literal>Eyana-Aurelianus</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+
