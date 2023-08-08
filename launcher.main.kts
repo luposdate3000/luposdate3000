@@ -762,8 +762,6 @@ loop@ for (arg in args) {
     }
     for (param in enabledParams) {
         if (arg == param.name) {
-println(arg)
-println(param.name)
             param.exec(arg)
             if (skipArgs) {
                 break@loop

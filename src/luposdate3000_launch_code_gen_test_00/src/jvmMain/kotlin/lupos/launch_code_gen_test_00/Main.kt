@@ -1,17 +1,14 @@
-import java.util.concurrent.TimeUnit
+
 import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
+import java.util.concurrent.TimeUnit
 internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
-    return exec(clazz.name,args,jvmArgs)
+    return exec(clazz.name, args, jvmArgs)
 }
-internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
+internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
     val javaHome = System.getProperty("java.home")
     val javaBin = javaHome + "/bin/java"
     val classpath = System.getProperty("java.class.path")
@@ -26,16 +23,16 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
     val env = builder.environment()
     env.putAll(System.getenv())
     println(env)
-    builder.redirectError(java.io.File(className+".err"))
-    builder.redirectOutput(java.io.File(className+".log"))
+    builder.redirectError(java.io.File(className + ".err"))
+    builder.redirectOutput(java.io.File(className + ".log"))
     val process = builder.start()
     process.waitFor(10, TimeUnit.SECONDS)
     process.destroyForcibly()
     process.waitFor()
     return process.exitValue()
 }
-public fun main(){
-    val tests=listOf(
+public fun main() {
+    val tests = listOf(
         "lupos.launch_code_gen_test_00.ADD1Kt",
         "lupos.launch_code_gen_test_00.ADD2Kt",
         "lupos.launch_code_gen_test_00.ADD4Kt",
@@ -596,6 +593,6 @@ public fun main(){
     )
     val gate = Semaphore(20)
     runBlocking {
-        tests.map{async {gate.withPermit {exec(it, jvmArgs = listOf("-Xmx8g"))}}}.awaitAll()
+        tests.map { async { gate.withPermit { exec(it, jvmArgs = listOf("-Xmx8g")) } } }.awaitAll()
     }
 }

@@ -15,29 +15,14 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch_code_gen_test_00
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-import lupos.optimizer.physical.PhysicalOptimizer
-import lupos.endpoint.LuposdateEndpoint
-import lupos.operator.arithmetik.noinput.AOPVariable
-import simora.addQuerySender
 import lupos.operator.base.Query
-import lupos.result_format.EQueryResultToStreamExt
-import lupos.shared.EIndexPatternExt
-import lupos.shared.EQueryDistributionModeExt
-import lupos.shared.Luposdate3000Config
-import lupos.shared.Luposdate3000Instance
-import lupos.shared.EPartitionModeExt
 import lupos.shared.MemoryTable
-import lupos.shared.EPredefinedPartitionSchemesExt
 import lupos.shared.inline.File
-import lupos.shared.inline.MyPrintWriter
-import simora.SimulationRun
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
 import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
-import lupos.simulator_db.luposdate3000.Application_Luposdate3000
-
+import simora.SimulationRun
+import simora.addQuerySender
 
 public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
     internal val inputData = arrayOf(
@@ -80,56 +65,57 @@ public class sq04Subquerywithingraphpatterndefaultgraphdoesnotapply {
             "RPL_Fast",
         )
     }
-    public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
+    public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
         val simRun = SimulationRun()
-        simRun.parseConfig(fileName,false,{
-            it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
-            it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
-        })
-        
-        
-        
+        simRun.parseConfig(
+            fileName, false,
+            {
+                it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
+                it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
+            }
+        )
+
         simRun.startUp()
-        val instance = (simRun.devices.map{it.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance
+        val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first()as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
         val pkg1 = Package_Luposdate3000_TestingImportPackage(inputDataFile[1], inputGraph[1], inputType[1])
         pkg0.setOnFinish(pkg1)
         var verifyExecuted2 = 0
-        val pkg2 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, {verifyExecuted2++},inputGraph[0],instance)
+        val pkg2 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, { verifyExecuted2++ }, inputGraph[0], instance)
         pkg1.setOnFinish(pkg2)
         var verifyExecuted3 = 0
-        val pkg3 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, {verifyExecuted3++},inputGraph[1],instance)
+        val pkg3 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(inputData[1], inputType[1], Query(instance))!!, { verifyExecuted3++ }, inputGraph[1], instance)
         pkg2.setOnFinish(pkg3)
         var verifyExecuted4 = 0
-        val pkg4 = Package_Luposdate3000_TestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, {verifyExecuted4++},"",instance)
+        val pkg4 = Package_Luposdate3000_TestingCompareGraphPackage(query, MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, { verifyExecuted4++ }, "", instance)
         pkg3.setOnFinish(pkg4)
-        simRun.addQuerySender(10,1,1,pkg0)
+        simRun.addQuerySender(10, 1, 1, pkg0)
         simRun.run()
         simRun.shutDown()
-        if (verifyExecuted2==0) {
+        if (verifyExecuted2 == 0) {
             TODO("pck2 not verified")
         }
-        if (verifyExecuted3==0) {
+        if (verifyExecuted3 == 0) {
             TODO("pck3 not verified")
         }
-        if (verifyExecuted4==0) {
+        if (verifyExecuted4 == 0) {
             TODO("pck4 not verified")
         }
     }
-    public fun getTests():Set<Pair<String,()->Unit>> {
+    public fun getTests(): Set<Pair<String, ()->Unit>> {
         return setOf(
             "sq04  Subquery within graph pattern default graph does not apply - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`sq04  Subquery within graph pattern default graph does not apply - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
         )
     }
 }
-public fun main(){
-    for((name,func) in sq04Subquerywithingraphpatterndefaultgraphdoesnotapply().getTests()){
-        File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
+public fun main() {
+    for ((name, func) in sq04Subquerywithingraphpatterndefaultgraphdoesnotapply().getTests()) {
+        File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream { out ->
             out.println("started")
-            try{
+            try {
                 func()
                 out.println("passed")
-            }catch(e:Error){
+            } catch (e: Error) {
                 out.println("failed")
                 e.printStackTrace()
             }

@@ -135,51 +135,50 @@ without minify mode only the passing tests will be added
             }
         }
         File("${outputFolderSrcJvm(folderCurrent)}/Main.kt").withOutputStream { out ->
-out.println("import java.util.concurrent.TimeUnit")
-out.println("import kotlinx.coroutines.async")
-out.println("import kotlinx.coroutines.runBlocking")
-out.println("import kotlinx.coroutines.launch")
-out.println("import kotlinx.coroutines.Dispatchers")
-out.println("import kotlinx.coroutines.awaitAll")
-out.println("import kotlinx.coroutines.CoroutineScope")
-out.println("import kotlinx.coroutines.coroutineScope")
-out.println("import kotlinx.coroutines.sync.Semaphore")
-out.println("import kotlinx.coroutines.sync.withPermit")
-out.println("internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
-out.println("    return exec(clazz.name,args,jvmArgs)")
-out.println("}")
-out.println("internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
-out.println("    val javaHome = System.getProperty(\"java.home\")")
-out.println("    val javaBin = javaHome + \"/bin/java\"")
-out.println("    val classpath = System.getProperty(\"java.class.path\")")
-out.println("    val command = ArrayList<String>()")
-out.println("    command.add(javaBin)")
-out.println("    command.addAll(jvmArgs)")
-out.println("    command.add(\"-cp\")")
-out.println("    command.add(classpath)")
-out.println("    command.add(className)")
-out.println("    command.addAll(args)")
-out.println("    val builder = ProcessBuilder(command)")
-out.println("    val env = builder.environment()")
-out.println("    env.putAll(System.getenv())")
-out.println("    println(env)")
-out.println("    builder.redirectError(java.io.File(className+\".err\"))")
-out.println("    builder.redirectOutput(java.io.File(className+\".log\"))")
-out.println("    val process = builder.start()")
-out.println("    process.waitFor(10, TimeUnit.SECONDS)")
-out.println("    process.destroyForcibly()")
-out.println("    process.waitFor()")
-out.println("    return process.exitValue()")
-out.println("}")
+            out.println("import java.util.concurrent.TimeUnit")
+            out.println("import kotlinx.coroutines.async")
+            out.println("import kotlinx.coroutines.runBlocking")
+            out.println("import kotlinx.coroutines.launch")
+            out.println("import kotlinx.coroutines.Dispatchers")
+            out.println("import kotlinx.coroutines.awaitAll")
+            out.println("import kotlinx.coroutines.CoroutineScope")
+            out.println("import kotlinx.coroutines.coroutineScope")
+            out.println("import kotlinx.coroutines.sync.Semaphore")
+            out.println("import kotlinx.coroutines.sync.withPermit")
+            out.println("internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
+            out.println("    return exec(clazz.name,args,jvmArgs)")
+            out.println("}")
+            out.println("internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
+            out.println("    val javaHome = System.getProperty(\"java.home\")")
+            out.println("    val javaBin = javaHome + \"/bin/java\"")
+            out.println("    val classpath = System.getProperty(\"java.class.path\")")
+            out.println("    val command = ArrayList<String>()")
+            out.println("    command.add(javaBin)")
+            out.println("    command.addAll(jvmArgs)")
+            out.println("    command.add(\"-cp\")")
+            out.println("    command.add(classpath)")
+            out.println("    command.add(className)")
+            out.println("    command.addAll(args)")
+            out.println("    val builder = ProcessBuilder(command)")
+            out.println("    val env = builder.environment()")
+            out.println("    env.putAll(System.getenv())")
+            out.println("    builder.redirectError(java.io.File(className+\".err\"))")
+            out.println("    builder.redirectOutput(java.io.File(className+\".log\"))")
+            out.println("    val process = builder.start()")
+            out.println("    process.waitFor(10, TimeUnit.SECONDS)")
+            out.println("    process.destroyForcibly()")
+            out.println("    process.waitFor()")
+            out.println("    return process.exitValue()")
+            out.println("}")
             out.println("public fun main(){")
-out.println("    val tests=listOf(")
-for (n in allTestClassNames) {
-out.println("        \"lupos.launch_code_gen_test_00.${n.replaceFirstChar { it.uppercase() }}Kt\",")
-}
-out.println("    )")
-out.println("    val gate = Semaphore(20)")
-out.println("    runBlocking {")
-out.println("        tests.map{async {gate.withPermit {exec(it, jvmArgs = listOf(\"-Xmx8g\"))}}}.awaitAll()")
+            out.println("    val tests=listOf(")
+            for (n in allTestClassNames) {
+                out.println("        \"lupos.launch_code_gen_test_00.${n.replaceFirstChar { it.uppercase() }}Kt\",")
+            }
+            out.println("    )")
+            out.println("    val gate = Semaphore(20)")
+            out.println("    runBlocking {")
+            out.println("        tests.map{async {gate.withPermit {exec(it, jvmArgs = listOf(\"-Xmx8g\"))}}}.awaitAll()")
             out.println("    }")
             out.println("}")
         }
@@ -601,7 +600,7 @@ out.println("        tests.map{async {gate.withPermit {exec(it, jvmArgs = listOf
                     if (shouldAddFunction(testname)) {
                         val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
                         File("${outputFolderSrcJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
-                        allTestClassNames.add(finalClassName)
+                            allTestClassNames.add(finalClassName)
                             var stringBufferSimulatorRequired = false
                             var stringBufferNormalHelperRequired = false
                             if (testname.contains(" - in simulator - ")) {
@@ -624,7 +623,7 @@ out.println("        tests.map{async {gate.withPermit {exec(it, jvmArgs = listOf
                 }
             } else {
                 File("${outputFolderSrcJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
-allTestClassNames.add(testCaseName)
+                    allTestClassNames.add(testCaseName)
                     var stringBufferSimulatorRequired = false
                     var stringBufferNormalHelperRequired = false
                     out.print(prefix)
