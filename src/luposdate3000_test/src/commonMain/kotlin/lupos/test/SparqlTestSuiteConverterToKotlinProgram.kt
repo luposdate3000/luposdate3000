@@ -47,7 +47,7 @@ without minify mode only the passing tests will be added
     internal val folderCount = 1
     internal var folderCurrent = 0
 
-    internal fun folderPathCoponent(idx: Int) = "code_gen_test_${idx.toString().padStart(2, '0')}"
+    internal fun folderPathCoponent(idx: Int) = "launch_code_gen_test_${idx.toString().padStart(2, '0')}"
     internal fun outputFolderRoot(idx: Int) = "src/luposdate3000_${folderPathCoponent(idx)}/"
     internal fun outputFolderSrcJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmMain/kotlin/lupos/${folderPathCoponent(idx)}/"
     internal fun outputFolderTestJvm(idx: Int) = "${outputFolderRoot(idx)}src/jvmTest/kotlin/lupos/${folderPathCoponent(idx)}/"
@@ -118,6 +118,7 @@ without minify mode only the passing tests will be added
             File(outputFolderTestJvm(idx)).mkdirs()
             File(outputFolderTestResourcesJvm(idx)).mkdirs()
             File("${outputFolderRoot(idx)}/module_config").withOutputStream { out ->
+                out.println("package=Luposdate3000_Main")
                 out.println("disableJS=true")
                 if (fileModeMany) { // because this yields out of memory during compilation
                     out.println("useKTLint=false")
@@ -132,9 +133,9 @@ without minify mode only the passing tests will be added
                 out.println(t)
             }
         }
-        File("${outputFolderSrcJvm(folderCurrent)}/MainFunc.kt").withOutputStream { out ->
+        File("${outputFolderSrcJvm(folderCurrent)}/MyMainFunc.kt").withOutputStream { out ->
             for (n in allTestClassNames) {
-                out.println("import lupos.code_gen_test_00.$n")
+                out.println("import lupos.launch_code_gen_test_00.$n")
             }
 out.println("internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
 out.println("    val javaHome = System.getProperty(\"java.home\")")
