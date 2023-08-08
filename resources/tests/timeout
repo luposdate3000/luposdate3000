@@ -1,3 +1,404 @@
 Resourcesbsbmexplorequery82553sparql2553 - Thread - PartitionByID_1_AllCollations - false
 Resourcesmyqueriesubungent19sparql709 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
 Resourcessp2bq3asparql32978 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
+Resourcesbsbmexplorequery102210sparql2210 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Sparqldl08rq two distinguished variables  undist - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+PapersparqldlQ4 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+Simple DELETE WHERE 3 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Sparqldl03rq combined query with complex class description - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Sq02  Subquery within graph pattern graph variable is bound - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+Error in AVG - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+INSERT 02 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+Resourcesbsbmexplorequery51853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
+INSERT 04 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Resourcesbsbmbiquery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+Pp34 Named Graph 1 - Thread - PartitionByID_O_AllCollations - true
+PapersparqldlQ1rdfs - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
+RDF inference test luposDuplicate1 - Thread - PartitionByKeyAllCollations - true
+MOVE 1 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Resourcesbsbmexplorequery82210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+Resourcesmyqueriesubungent08sparql567 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL
+Resourcesbsbmbiquery22553sparql2553 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast
+Resourcesmyqueriesubungent10sparql567 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+DELETE INSERT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery122553sparql2553 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Constructwhere02  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByKeyAllCollations - true
+Simple 1 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Resourcesbsbmexplorequery52553sparql2553 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast
+Simple DELETE DATA 3 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+Resourcesbsbmbiquery72210sparql2210 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+COUNT 4 - Thread - PartitionByID_2_AllCollations - false
+Simple 5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+MIN with GROUP BY - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+PapersparqldlQ5 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+DELETE INSERT 6b - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Resourcesmyqueriesubungent11sparql567 - Thread - PartitionByID_O_AllCollations - false
+Parent query with hasChild max 1 Female restriction - in simulator - Simple - Centralized - true - None - RPL
+Simple DELETE 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Resourcesbsbmexplorequery22210sparql2210 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+COUNT 7 - Thread - PartitionByKeyAllCollations - true
+ABS - Thread - PartitionByID_O_AllCollations - true
+COPY 2 - in simulator - Simple - Centralized - false - None - AllShortestPath
+Simple 6 - in simulator - Simple - Centralized - false - None - RPL_Fast
+Sq04  Subquery within graph pattern default graph does not apply - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery22553sparql2553 - Thread - PartitionByID_1_AllCollations - true
+Graphspecific DELETE 2 WITH - Thread - PartitionByID_S_AllCollations - false
+AVG - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Resourcesmyqueriesubungent14sparql567 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Simple triple pattern match - Thread - PartitionByKeyAllCollations - false
+Resourcesbsbmexplorequery91853sparql1853 - Thread - PartitionByID_S_AllCollations - false
+MOVE 4 - in simulator - Simple - Centralized - false - None - RPL_Fast
+RDFS inference test subClassOf - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Postquery VALUES with 2 objvars 1 row with UNDEF - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast
+STRLANG TypeErrors - Thread - PartitionByIDTwiceAllCollations - false
+Graphspecific DELETE 1 USING - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery62553sparql2553 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Simple DELETE 1 WITH - Thread - PartitionByID_O_AllCollations - true
+Resourcesmyqueriesubungent21sparql709 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Syntaxupdate33ru - Thread - PartitionByID_S_AllCollations - false
+RDFS inference test range - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmbiquery22210sparql2210 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesbsbmexplorequery11853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Simple DELETE 2 USING - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery112553sparql2553 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Simple 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+MOVE 6 - Thread - PartitionByID_S_AllCollations - true
+Pp06 Path with two graphs - Thread - PartitionByID_1_AllCollations - true
+Graphspecific DELETE WHERE 2 - Thread - PartitionByID_2_AllCollations - true
+Constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+Resourcesmyqueriesubungent19sparql709 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent03sparql764 - Thread - PartitionByID_2_AllCollations - true
+Filtered subclass query with hasChild some Thing restriction - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+Resourcesbsbmexplorequery72210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesbsbmbiquery11853sparql1853 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+Sq06  Subquery with graph pattern from named applies - in simulator - Simple - Centralized - false - None - RPL_Fast
+COUNT 8b - Thread - PartitionByIDTwiceAllCollations - true
+Graphspecific DELETE WHERE 1 - Thread - PartitionByID_1_AllCollations - false
+Nested negative exists in positive exists - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+Simple DELETE 1 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Sparqldl10rq undist vars test - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL
+RDFS inference test rdfssubPropertyOf - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+Jsonres04  JSON Result Format - Thread - Simple - true
+Sq08  Subquery with aggregate - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+MOVE 2 - in simulator - Simple - Centralized - false - None - AllShortestPath
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery12553sparql2553 - in simulator - Simple - Centralized - false - None - RPL_Fast
+ADD 6 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Resourcesbsbmbiquery81853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+Simple 3 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath
+Simple DELETE WHERE 1 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath
+Resourcesmyqueriesubungent12sparql567 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+Subclass query with hasChild some Thing restriction - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Sparqldl11rq domain test - in simulator - Simple - Centralized - false - None - RPL_Fast
+Jsonres02  JSON Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath
+Resourcesbsbmexplorequery121853sparql1853 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Sq03  Subquery within graph pattern graph variable is not bound - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath
+Csv03  CSV Result Format - Thread - BenchmarkFig5 - true
+ADD 1 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent22sparql709 - Thread - PartitionByID_1_AllCollations - false
+Graphspecific DELETE 2 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Simple DELETE 1 USING - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+SUBSTR 2argument - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 5b - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Sq01  Subquery within graph pattern - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL
+Graphspecific DELETE 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+Bind06  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Routing - false - Process - RPL
+STRBEFORE datatyping - Thread - PartitionByID_2_AllCollations - false
+Pp32 Operator precedence 3 - Thread - BenchmarkFig5 - false
+Calculate which sets are subsets of others include A subsetOf A - in simulator - Simple - Centralized - false - None - AllShortestPath
+ADD 8 - Thread - BenchmarkFig5 - true
+Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+Simple 8 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
+Resourcesbsbmexplorequery61853sparql1853 - Thread - PartitionByID_S_AllCollations - true
+Simple DELETE 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery111853sparql1853 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery42210sparql2210 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+GROUPCONCAT with SEPARATOR - Thread - BenchmarkFig5 - true
+STRDTSTR - Thread - PartitionByID_O_AllCollations - false
+ROUND - Thread - BenchmarkFig5 - false
+Resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByKeyAllCollations - true
+Resourcesbsbmexplorequery92210sparql2210 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+CLEAR ALL - Thread - PartitionByIDTwiceAllCollations - true
+Parent query with hasChild some Female restriction - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+Sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+Subtraction with MINUS from a partially bound minuend - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Bind06  BIND - Thread - PartitionByID_2_AllCollations - false
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode - Thread - PartitionByID_1_AllCollations - false
+Group4 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmbiquery31853sparql1853 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - Simple - false
+Bind02  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false
+Expression has variable that may be unbound - Thread - PartitionByKeyAllCollations - false
+Resourcesmyqueriesubungent09sparql567 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Postsubquery VALUES - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+INSERT USING 01 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+STRLANGSTR - Thread - PartitionByID_O_AllCollations - true
+Resourcesbsbmbiquery72553sparql2553 - Thread - BenchmarkFig5 - false
+ADD 5 - Thread - PartitionByID_1_AllCollations - false
+Subsets by exclusion MINUS - Thread - PartitionByID_O_AllCollations - true
+GROUPCONCAT 1 - Thread - PartitionByID_2_AllCollations - false
+STRDT TypeErrors - Thread - PartitionByID_O_AllCollations - false
+Resourcesmyqueriesubungent07sparql567 - Thread - PartitionByKeyAllCollations - true
+Parent query with hasChild some Thing restriction - Thread - PartitionByID_2_AllCollations - false
+NOW - Thread - PartitionByID_2_AllCollations - false
+Parent query with hasChild min 1 Female restriction - Thread - PartitionByKeyAllCollations - false
+Resourcesbsbmbiquery82210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Postquery VALUES with subjvar 1 row - Thread - PartitionByKeyAllCollations - true
+RDFS inference test combining subPropertyOf and domain - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Resourcesbsbmbiquery42553sparql2553 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Graphspecific DELETE 1 WITH - Thread - PartitionByID_1_AllCollations - true
+Parent query with hasChild min 1 restriction - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+Resourcesbsbmexplorequery42553sparql2553 - in simulator - Simple - Centralized - false - None - RPL
+Resourcesbsbmbiquery42210sparql2210 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+Resourcesmyqueriesubungent20sparql709 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery112210sparql2210 - Thread - BenchmarkFig5 - false
+Resourcesbsbmexplorequery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+Bind03  BIND - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Postquery VALUES with OPTIONAL objvar 1 row - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesmyqueriesubungent17sparql709 - Thread - PartitionByID_S_AllCollations - false
+COUNT 3 - Thread - PartitionByID_2_AllCollations - true
+INSERT same bnode twice - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Bind01  BIND - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+Sparqldl05rq simple undistinguished variable test - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesmyqueriesubungent01sparql764 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Simple 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+Group5 - Thread - BenchmarkFig5 - true
+Resourcesbsbmbiquery32553sparql2553 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery32210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Simple DELETE 2 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Simple DELETE 3 - Thread - BenchmarkFig5 - true
+SAMPLE - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+Simple DELETE DATA 4 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+RDFS inference test subProperty and instances - Thread - BenchmarkFig5 - false
+Simple insert data named 2 - Thread - PartitionByID_O_AllCollations - true
+Resourcesbsbmexplorequery122210sparql2210 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Sq13  Subqueries dont inject bindings - Thread - PartitionByID_S_AllCollations - false
+Resourcesbsbmbiquery12553sparql2553 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Parent query with hasChild exactly 1 Female restriction - Thread - PartitionByKeyAllCollations - false
+INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
+COPY 4 - Thread - PartitionByIDTwiceAllCollations - false
+Simple insert data named 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+Sparqldl13rq sameAs - Thread - PartitionByKeyAllCollations - false
+RDFS inference test subClassOf luposDuplicate1 - Thread - PartitionByID_O_AllCollations - true
+DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+DELETE INSERT 4b - in simulator - Simple - Centralized - true - None - RPL_Fast
+FLOOR - Thread - PartitionByID_1_AllCollations - true
+Calculate which sets have the same elements - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
+Bind03  BIND fixed data for OWL DL - Thread - PartitionByID_S_AllCollations - false
+MOVE 3 - Thread - PartitionByKeyAllCollations - false
+Sparqldl04rq bug fixing test - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+Resourcesbsbmexplorequery102210sparql2210 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Sparqldl08rq two distinguished variables  undist - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+PapersparqldlQ4 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+Simple DELETE WHERE 3 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Sparqldl03rq combined query with complex class description - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Sq02  Subquery within graph pattern graph variable is bound - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+Error in AVG - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+INSERT 02 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+Resourcesbsbmexplorequery51853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
+INSERT 04 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Resourcesbsbmbiquery12210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+Pp34 Named Graph 1 - Thread - PartitionByID_O_AllCollations - true
+PapersparqldlQ1rdfs - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
+RDF inference test luposDuplicate1 - Thread - PartitionByKeyAllCollations - true
+MOVE 1 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Resourcesbsbmexplorequery82210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+Resourcesmyqueriesubungent08sparql567 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL
+Resourcesbsbmbiquery22553sparql2553 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast
+Resourcesmyqueriesubungent10sparql567 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+DELETE INSERT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery122553sparql2553 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Constructwhere02  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByKeyAllCollations - true
+Simple 1 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Resourcesbsbmexplorequery52553sparql2553 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast
+Simple DELETE DATA 3 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+Resourcesbsbmbiquery72210sparql2210 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+COUNT 4 - Thread - PartitionByID_2_AllCollations - false
+Simple 5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+MIN with GROUP BY - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+PapersparqldlQ5 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+DELETE INSERT 6b - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Resourcesmyqueriesubungent11sparql567 - Thread - PartitionByID_O_AllCollations - false
+Parent query with hasChild max 1 Female restriction - in simulator - Simple - Centralized - true - None - RPL
+Simple DELETE 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Resourcesbsbmexplorequery22210sparql2210 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+COUNT 7 - Thread - PartitionByKeyAllCollations - true
+ABS - Thread - PartitionByID_O_AllCollations - true
+COPY 2 - in simulator - Simple - Centralized - false - None - AllShortestPath
+Simple 6 - in simulator - Simple - Centralized - false - None - RPL_Fast
+Sq04  Subquery within graph pattern default graph does not apply - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery22553sparql2553 - Thread - PartitionByID_1_AllCollations - true
+Graphspecific DELETE 2 WITH - Thread - PartitionByID_S_AllCollations - false
+AVG - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Resourcesmyqueriesubungent14sparql567 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Simple triple pattern match - Thread - PartitionByKeyAllCollations - false
+Resourcesbsbmexplorequery91853sparql1853 - Thread - PartitionByID_S_AllCollations - false
+MOVE 4 - in simulator - Simple - Centralized - false - None - RPL_Fast
+RDFS inference test subClassOf - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Postquery VALUES with 2 objvars 1 row with UNDEF - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast
+STRLANG TypeErrors - Thread - PartitionByIDTwiceAllCollations - false
+Graphspecific DELETE 1 USING - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery62553sparql2553 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Simple DELETE 1 WITH - Thread - PartitionByID_O_AllCollations - true
+Resourcesmyqueriesubungent21sparql709 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Syntaxupdate33ru - Thread - PartitionByID_S_AllCollations - false
+RDFS inference test range - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmbiquery22210sparql2210 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesbsbmexplorequery11853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Simple DELETE 2 USING - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery112553sparql2553 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Simple 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+DELETE INSERT 1c - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+MOVE 6 - Thread - PartitionByID_S_AllCollations - true
+Pp06 Path with two graphs - Thread - PartitionByID_1_AllCollations - true
+Graphspecific DELETE WHERE 2 - Thread - PartitionByID_2_AllCollations - true
+Constructwhere03  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+Resourcesmyqueriesubungent19sparql709 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent03sparql764 - Thread - PartitionByID_2_AllCollations - true
+Filtered subclass query with hasChild some Thing restriction - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+Resourcesbsbmexplorequery72210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesbsbmbiquery11853sparql1853 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+Sq06  Subquery with graph pattern from named applies - in simulator - Simple - Centralized - false - None - RPL_Fast
+COUNT 8b - Thread - PartitionByIDTwiceAllCollations - true
+Graphspecific DELETE WHERE 1 - Thread - PartitionByID_1_AllCollations - false
+Nested negative exists in positive exists - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+Simple DELETE 1 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Sparqldl10rq undist vars test - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL
+RDFS inference test rdfssubPropertyOf - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+Jsonres04  JSON Result Format - Thread - Simple - true
+Sq08  Subquery with aggregate - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+MOVE 2 - in simulator - Simple - Centralized - false - None - AllShortestPath
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery12553sparql2553 - in simulator - Simple - Centralized - false - None - RPL_Fast
+ADD 6 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Resourcesbsbmbiquery81853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+Simple 3 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath
+Simple DELETE WHERE 1 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath
+Resourcesmyqueriesubungent12sparql567 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+Subclass query with hasChild some Thing restriction - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Sparqldl11rq domain test - in simulator - Simple - Centralized - false - None - RPL_Fast
+Jsonres02  JSON Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath
+Resourcesbsbmexplorequery121853sparql1853 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Sq03  Subquery within graph pattern graph variable is not bound - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath
+Csv03  CSV Result Format - Thread - BenchmarkFig5 - true
+ADD 1 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent22sparql709 - Thread - PartitionByID_1_AllCollations - false
+Graphspecific DELETE 2 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Simple DELETE 1 USING - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+SUBSTR 2argument - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 5b - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Sq01  Subquery within graph pattern - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL
+Graphspecific DELETE 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+Bind06  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Routing - false - Process - RPL
+STRBEFORE datatyping - Thread - PartitionByID_2_AllCollations - false
+Pp32 Operator precedence 3 - Thread - BenchmarkFig5 - false
+Calculate which sets are subsets of others include A subsetOf A - in simulator - Simple - Centralized - false - None - AllShortestPath
+ADD 8 - Thread - BenchmarkFig5 - true
+Calculate which sets are subsets of others exclude A subsetOf A - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+Simple 8 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
+Resourcesbsbmexplorequery61853sparql1853 - Thread - PartitionByID_S_AllCollations - true
+Simple DELETE 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery111853sparql1853 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery42210sparql2210 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+GROUPCONCAT with SEPARATOR - Thread - BenchmarkFig5 - true
+STRDTSTR - Thread - PartitionByID_O_AllCollations - false
+ROUND - Thread - BenchmarkFig5 - false
+Resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByKeyAllCollations - true
+Resourcesbsbmexplorequery92210sparql2210 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+CLEAR ALL - Thread - PartitionByIDTwiceAllCollations - true
+Parent query with hasChild some Female restriction - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+Sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+Subtraction with MINUS from a partially bound minuend - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Bind06  BIND - Thread - PartitionByID_2_AllCollations - false
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode - Thread - PartitionByID_1_AllCollations - false
+Group4 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmbiquery31853sparql1853 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - Thread - Simple - false
+Bind02  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false
+Expression has variable that may be unbound - Thread - PartitionByKeyAllCollations - false
+Resourcesmyqueriesubungent09sparql567 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Postsubquery VALUES - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+INSERT USING 01 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+STRLANGSTR - Thread - PartitionByID_O_AllCollations - true
+Resourcesbsbmbiquery72553sparql2553 - Thread - BenchmarkFig5 - false
+ADD 5 - Thread - PartitionByID_1_AllCollations - false
+Subsets by exclusion MINUS - Thread - PartitionByID_O_AllCollations - true
+GROUPCONCAT 1 - Thread - PartitionByID_2_AllCollations - false
+STRDT TypeErrors - Thread - PartitionByID_O_AllCollations - false
+Resourcesmyqueriesubungent07sparql567 - Thread - PartitionByKeyAllCollations - true
+Parent query with hasChild some Thing restriction - Thread - PartitionByID_2_AllCollations - false
+NOW - Thread - PartitionByID_2_AllCollations - false
+Parent query with hasChild min 1 Female restriction - Thread - PartitionByKeyAllCollations - false
+Resourcesbsbmbiquery82210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Postquery VALUES with subjvar 1 row - Thread - PartitionByKeyAllCollations - true
+RDFS inference test combining subPropertyOf and domain - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Resourcesbsbmbiquery42553sparql2553 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Graphspecific DELETE 1 WITH - Thread - PartitionByID_1_AllCollations - true
+Parent query with hasChild min 1 restriction - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+Resourcesbsbmexplorequery42553sparql2553 - in simulator - Simple - Centralized - false - None - RPL
+Resourcesbsbmbiquery42210sparql2210 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+Resourcesmyqueriesubungent20sparql709 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery112210sparql2210 - Thread - BenchmarkFig5 - false
+Resourcesbsbmexplorequery21853sparql1853 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+Bind03  BIND - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Postquery VALUES with OPTIONAL objvar 1 row - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesmyqueriesubungent17sparql709 - Thread - PartitionByID_S_AllCollations - false
+COUNT 3 - Thread - PartitionByID_2_AllCollations - true
+INSERT same bnode twice - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Bind01  BIND - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+Sparqldl05rq simple undistinguished variable test - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesmyqueriesubungent01sparql764 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+Simple 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+Group5 - Thread - BenchmarkFig5 - true
+Resourcesbsbmbiquery32553sparql2553 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Resourcesbsbmexplorequery32210sparql2210 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Simple DELETE 2 WITH - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Simple DELETE 3 - Thread - BenchmarkFig5 - true
+SAMPLE - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+Simple DELETE DATA 4 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+RDFS inference test subProperty and instances - Thread - BenchmarkFig5 - false
+Simple insert data named 2 - Thread - PartitionByID_O_AllCollations - true
+Resourcesbsbmexplorequery122210sparql2210 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Sq13  Subqueries dont inject bindings - Thread - PartitionByID_S_AllCollations - false
+Resourcesbsbmbiquery12553sparql2553 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Parent query with hasChild exactly 1 Female restriction - Thread - PartitionByKeyAllCollations - false
+INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
+COPY 4 - Thread - PartitionByIDTwiceAllCollations - false
+Simple insert data named 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+Sparqldl13rq sameAs - Thread - PartitionByKeyAllCollations - false
+RDFS inference test subClassOf luposDuplicate1 - Thread - PartitionByID_O_AllCollations - true
+DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+DELETE INSERT 4b - in simulator - Simple - Centralized - true - None - RPL_Fast
+FLOOR - Thread - PartitionByID_1_AllCollations - true
+Calculate which sets have the same elements - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
+Bind03  BIND fixed data for OWL DL - Thread - PartitionByID_S_AllCollations - false
+MOVE 3 - Thread - PartitionByKeyAllCollations - false
+Sparqldl04rq bug fixing test - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+ADD 6 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+ADD 8 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+ADD 4 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+ADD 2 - Thread - BenchmarkFig5 - false
+ADD 7 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+ADD 6 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+ADD 8 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+ADD 4 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+ADD 2 - Thread - BenchmarkFig5 - false
+ADD 7 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+ADD 4 - Thread - BenchmarkFig5 - true
+ADD 5 - Thread - PartitionByID_1_AllCollations - true
+ADD 1 - Thread - PartitionByKeyAllCollations - true

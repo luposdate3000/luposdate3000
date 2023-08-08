@@ -3,3 +3,338 @@ Resourcessp2bq12asparql247 - in simulator - PartitionByID_O_AllCollations - Cent
 Resourcessp2bq12b4sparql1640 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
 COUNT 2 - in simulator - Simple - Centralized - false - None - RPL
 Resourcessp2bq12b2sparql973 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+INSERT 01 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+RDFS inference test rdfXMLLiteral - Thread - Simple - true
+Resourcesmyqueriesubungent15sparql567 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Sq12  Subquery in CONSTRUCT with builtins - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+Plus2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+DROP NAMED - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+Bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+INSERT 03 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+COUNT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+IN 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+Plus2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+Inline VALUES graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+Postquery VALUES with predvar 1 row - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+STRLEN - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
+Group3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Sq12  Subquery in CONSTRUCT with builtins - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+DROP SILENT GRAPH iri - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+SHA256 - Thread - Simple - true
+STRLANG - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+Syntaxupdate19ru - Thread - PartitionByID_1_AllCollations - false
+ADD 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast
+MOVE 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+CLEAR GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+NOT IN 1 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+UCASE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+STRLANG - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent02sparql764 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+SyntaxBINDscope2rq - None - Simple - true
+IN 2 - in simulator - Simple - Centralized - true - None - RPL
+BNODEstr - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+Bind04  BIND - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
+Tsv03  TSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+Reuse a project expression variable in order by - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+Syntaxupdate10ru - Thread - PartitionByID_1_AllCollations - false
+Postquery VALUES with predvar 1 row - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Syntaxaggregate12rq - Thread - BenchmarkFig5 - true
+IF - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+SUM - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+RDF test for blank node cardinalities - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+Syntaxupdate29ru - Thread - BenchmarkFig5 - false
+Constructwhere06  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true
+Sq11  Subquery limit per resource - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+STRLEN - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
+COALESCE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+SUM - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+RDFS inference test containers - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery32553sparql2553 - None - Simple - false
+Sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Bnodes are not existentials - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+Syntaxselectexpr01rq - Thread - PartitionByID_S_AllCollations - true
+Syntaxnotexists03rq - Thread - PartitionByID_1_AllCollations - false
+MINUTES - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
+CLEAR SILENT DEFAULT - Thread - PartitionByID_O_AllCollations - false
+Bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+BNODEstr - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Tvs02  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Bind04  BIND - Thread - Simple - false
+SyntaxSELECTscope2 - Thread - PartitionByID_S_AllCollations - false
+Simple DELETE 4 WITH - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+CREATE SILENT iri - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+LCASE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+Syntaxupdate19ru - Thread - PartitionByID_1_AllCollations - true
+MOVE 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+Sparqldl01rq triple pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+CONCAT - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+IsNumeric - Thread - Simple - false
+Agg empty group - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Sparqldl09rq undist vars test - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+Syntaxupdate02ru - Thread - Simple - true
+Simple insert data 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Csv01  CSV Result Format - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+DROP GRAPH - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery42210sparql2210 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
+UCASE - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
+Bind04  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Bind04  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+IN 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Syntaxupdatebad09ru - Thread - Simple - false
+Postquery VALUES with predvar 1 row - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+Tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+SUM - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+CLEAR DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+Csv01  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
+Group3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+MINUTES - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+COUNT 5 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+Syntaxbindings09rq - Thread - Simple - false
+Syntaxaggregate07rq - Thread - Simple - true
+Syntaxupdatebad07ru - Thread - Simple - true
+MIN - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Group3 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Group3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+MINUTES - None - Simple - false
+MOVE 7 - in simulator - Simple - Centralized - false - None - RPL_Fast
+RDFS inference test rdfXMLLiteral - Thread - Simple - false
+Bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+SyntaxBINDscope1rq - Thread - PartitionByID_S_AllCollations - true
+RDF test for blank node cardinalities - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+STRDT - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+ADD 4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
+DROP GRAPH - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Synpname06 - Thread - PartitionByID_1_AllCollations - false
+Syntaxbindings02arq with VALUES clause - Thread - PartitionByID_S_AllCollations - true
+COPY 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Resourcesbsbmbiquery22210sparql2210 - in simulator - Simple - Centralized - false - None - AllShortestPath
+STRDT - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Sparqldl01rq triple pattern - Thread - Simple - true
+ADD 2 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+Bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+Bnodes are not existentials - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+Simple DELETE 3 USING - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath
+Resourcesmyqueriesubungent18sparql709 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+CONCAT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Sq12  Subquery in CONSTRUCT with builtins - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+Syntaxaggregate09rq - Thread - Simple - false
+Syntaxupdate16ru - Thread - PartitionByID_O_AllCollations - true
+Medical temporal proximity by exclusion NOT EXISTS - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+COPY 6 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+BNODEstr - Thread - Simple - true
+Syntaxupdatebad01ru - Thread - PartitionByID_2_AllCollations - false
+SHA1 on Unicode data - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
+SHA256 on Unicode data - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast
+Expression is equality - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+Syntaxexists01rq - Thread - PartitionByID_1_AllCollations - true
+Expression has undefined variable - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+COPY 3 - Thread - Simple - false
+Simple DELETE 4 USING - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Syntaxexists02rq - Thread - Simple - true
+Postquery VALUES with 2 objvars 1 row - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+STRENDS - in simulator - Simple - Centralized - false - None - RPL_Fast
+Inline VALUES graph pattern - Thread - Simple - false
+CREATE SILENT iri - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+Sparqldl09rq undist vars test - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Resourcesmyqueriesubungent02sparql764 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+CLEAR NAMED - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+STRSTARTS - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Literal with language tag test - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+MINUTES - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent02sparql764 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+SECONDS - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
+DROP GRAPH - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
+CREATE SILENT iri - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
+Synbadpname08 - Thread - PartitionByIDTwiceAllCollations - false
+IN 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+NOT IN 2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+UCASE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+CLEAR GRAPH - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+INSERT 01 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+RDFS inference test rdfXMLLiteral - Thread - Simple - true
+Resourcesmyqueriesubungent15sparql567 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Sq12  Subquery in CONSTRUCT with builtins - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+Plus2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+DROP NAMED - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+Bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+INSERT 03 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+COUNT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+IN 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+Plus2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+Inline VALUES graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+Postquery VALUES with predvar 1 row - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+STRLEN - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
+Group3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Sq12  Subquery in CONSTRUCT with builtins - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+DROP SILENT GRAPH iri - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+MD5 over Unicode data - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+SHA256 - Thread - Simple - true
+STRLANG - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+Syntaxupdate19ru - Thread - PartitionByID_1_AllCollations - false
+ADD 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast
+MOVE 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+CLEAR GRAPH - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+Bind02  BIND - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+NOT IN 1 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+UCASE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+STRLANG - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent02sparql764 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+SyntaxBINDscope2rq - None - Simple - true
+IN 2 - in simulator - Simple - Centralized - true - None - RPL
+BNODEstr - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+Bind04  BIND - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
+Tsv03  TSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+Reuse a project expression variable in order by - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+Syntaxupdate10ru - Thread - PartitionByID_1_AllCollations - false
+Postquery VALUES with predvar 1 row - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+Syntaxaggregate12rq - Thread - BenchmarkFig5 - true
+IF - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+SUM - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+RDF test for blank node cardinalities - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+Syntaxupdate29ru - Thread - BenchmarkFig5 - false
+Constructwhere06  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true
+Sq11  Subquery limit per resource - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+STRLEN - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
+COALESCE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+SUM - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+RDFS inference test containers - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery32553sparql2553 - None - Simple - false
+Sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
+RDFS inference test rdfXMLLiteral - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Bnodes are not existentials - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+Syntaxselectexpr01rq - Thread - PartitionByID_S_AllCollations - true
+Syntaxnotexists03rq - Thread - PartitionByID_1_AllCollations - false
+MINUTES - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Resourcesbsbmexplorequery12210sparql2210 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
+CLEAR SILENT DEFAULT - Thread - PartitionByID_O_AllCollations - false
+Bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+BNODEstr - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Tvs02  TSV Result Format - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Bind04  BIND - Thread - Simple - false
+SyntaxSELECTscope2 - Thread - PartitionByID_S_AllCollations - false
+Simple DELETE 4 WITH - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+CREATE SILENT iri - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+LCASE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+Syntaxupdate19ru - Thread - PartitionByID_1_AllCollations - true
+MOVE 7 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+Sparqldl01rq triple pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+CONCAT - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+IsNumeric - Thread - Simple - false
+Agg empty group - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Sparqldl09rq undist vars test - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+Syntaxupdate02ru - Thread - Simple - true
+Simple insert data 1 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Csv01  CSV Result Format - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+DROP GRAPH - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery42210sparql2210 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
+UCASE - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
+Bind04  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Bind04  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+IN 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Syntaxupdatebad09ru - Thread - Simple - false
+Postquery VALUES with predvar 1 row - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+Tsv03  TSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+SUM - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+CLEAR DEFAULT - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+Csv01  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
+Group3 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+MINUTES - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+COUNT 5 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+Syntaxbindings09rq - Thread - Simple - false
+Syntaxaggregate07rq - Thread - Simple - true
+Syntaxupdatebad07ru - Thread - Simple - true
+MIN - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Group3 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Group3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Bind10  BIND scoping  Variable in filter not in scope - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+MINUTES - None - Simple - false
+MOVE 7 - in simulator - Simple - Centralized - false - None - RPL_Fast
+RDFS inference test rdfXMLLiteral - Thread - Simple - false
+Bind11  BIND scoping  Variable in filter in scope - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+SyntaxBINDscope1rq - Thread - PartitionByID_S_AllCollations - true
+RDF test for blank node cardinalities - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+STRDT - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+ADD 4 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
+DROP GRAPH - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Synpname06 - Thread - PartitionByID_1_AllCollations - false
+Syntaxbindings02arq with VALUES clause - Thread - PartitionByID_S_AllCollations - true
+COPY 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Resourcesbsbmbiquery22210sparql2210 - in simulator - Simple - Centralized - false - None - AllShortestPath
+STRDT - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Sparqldl01rq triple pattern - Thread - Simple - true
+ADD 2 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Simple DELETE 4 WITH - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+Bind01  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+Bnodes are not existentials - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+Simple DELETE 3 USING - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath
+Resourcesmyqueriesubungent18sparql709 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+CONCAT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Sq12  Subquery in CONSTRUCT with builtins - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+Syntaxaggregate09rq - Thread - Simple - false
+Syntaxupdate16ru - Thread - PartitionByID_O_AllCollations - true
+Medical temporal proximity by exclusion NOT EXISTS - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+COPY 6 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+BNODEstr - Thread - Simple - true
+Syntaxupdatebad01ru - Thread - PartitionByID_2_AllCollations - false
+SHA1 on Unicode data - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
+SHA256 on Unicode data - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast
+Expression is equality - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+Syntaxexists01rq - Thread - PartitionByID_1_AllCollations - true
+Expression has undefined variable - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+COPY 3 - Thread - Simple - false
+Simple DELETE 4 USING - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Syntaxexists02rq - Thread - Simple - true
+Postquery VALUES with 2 objvars 1 row - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+STRENDS - in simulator - Simple - Centralized - false - None - RPL_Fast
+Inline VALUES graph pattern - Thread - Simple - false
+CREATE SILENT iri - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+Sparqldl09rq undist vars test - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+Resourcesmyqueriesubungent02sparql764 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+CLEAR NAMED - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+STRSTARTS - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Literal with language tag test - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Tsv03  TSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+MINUTES - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent02sparql764 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+SECONDS - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
+DROP GRAPH - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
+CREATE SILENT iri - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
+Synbadpname08 - Thread - PartitionByIDTwiceAllCollations - false
+IN 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+NOT IN 2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+UCASE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+CLEAR GRAPH - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Sparqldl07rq two distinguished variables  undist - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+ADD 5 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+ADD 3 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL
+ADD 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+ADD 5 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+ADD 5 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+ADD 3 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL
+ADD 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+ADD 5 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+ADD 2 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+COUNT 4 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+COUNT 3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
+ADD 6 - Thread - Simple - true
+ADD 7 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+ADD 3 - Thread - Simple - true
+COUNT 3 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+ADD 7 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
+COUNT 4 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath

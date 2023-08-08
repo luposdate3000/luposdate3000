@@ -35,6 +35,19 @@ def setup():
 
 
 def loop():
+    files = [filename for filename in os.listdir(".") if filename.startswith('lupos.launch_code_gen_test_00') and filename.endswith('stat')]
+    with open("resources/tests/passed", "a") as fp:
+        with open("resources/tests/failed", "a") as ff:
+            with open("resources/tests/timeout", "a") as ft:
+                for f in files:
+                    with open(f) as file:
+                        s = file.read()
+                    if "passed" in s:
+                        fp.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
+                    elif "failed" in s:
+                        ff.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
+                    else:
+                        ft.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
     allTests = []
     with open("resources/tests/all") as f:
         for l in f:
@@ -75,19 +88,6 @@ def loop():
         print("exit")
         sys.exit(-1)
     os.system("./launcher.main.kts --run --mainClass=Launch_Code_Gen_Test_00 --processCount=1 --threadCount=1")
-    files = [filename for filename in os.listdir(".") if filename.startswith('lupos.launch_code_gen_test_00') and filename.endswith('stat')]
-    with open("resources/tests/passed", "a") as fp:
-        with open("resources/tests/failed", "a") as ff:
-            with open("resources/tests/timeout", "a") as ft:
-                for f in files:
-                    with open(f) as file:
-                        s = file.read()
-                    if "passed" in s:
-                        fp.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
-                    elif "failed" in s:
-                        ff.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
-                    else:
-                        ft.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
 
 
 #setup()

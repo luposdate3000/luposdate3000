@@ -1,2 +1,184 @@
 TZ - Thread - Simple - false
 Simple DELETE 2 WITH - None - Simple - false
+STRBEFORE - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Resourcesbsbmexplorequery92210sparql2210 - in simulator - Simple - Centralized - false - None - RPL
+Sq07  Subquery with from  - Thread - Simple - true
+SHA512 on Unicode data - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+Nested positive exists - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
+Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+DELETE INSERT 7b - Thread - Simple - false
+Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Expression may return no value - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+Pp03 Simple path with loop - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery51853sparql1853 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+UUID pattern match - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesbsbmbiquery31853sparql1853 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+STRBEFORE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+Resourcesbsbmbiquery81853sparql1853 - in simulator - Simple - Centralized - false - None - RPL
+Pp23 Diamond with tail  p - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Syntaxselectexpr04rq - Thread - BenchmarkFig5 - true
+SHA512 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Pp07 Path with one graph - None - Simple - true
+RDFS inference test combining subPropertyOf and domain - Thread - Simple - false
+Pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+GROUPCONCAT 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
+DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - false
+TZ - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+Synbadpname06 - Thread - PartitionByKeyAllCollations - false
+Pp02 Star path - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+Pp35 Named Graph 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+SUBSTR 3argument - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+STRUUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+TIMEZONE - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery52210sparql2210 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Pp01 Simple path - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+TZ - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+ENCODEFORURI - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+UUID pattern match - in simulator - Simple - Centralized - false - None - AllShortestPath
+Pp01 Simple path - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Sq03  Subquery within graph pattern graph variable is not bound - Thread - PartitionByID_2_AllCollations - true
+TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
+Pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+REPLACE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Pp01 Simple path - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+STRAFTER datatyping - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+Syntaxconstructwhere02rq - Thread - PartitionByID_1_AllCollations - true
+STRAFTER - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
+SHA512 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
+Pp35 Named Graph 2 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+REPLACE - in simulator - Simple - Centralized - false - None - AllShortestPath
+Pp33 Operator precedence 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
+Resourcesmyqueriesubungent05sparql66 - in simulator - Simple - Centralized - false - None - RPL
+RAND - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
+Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+SHA512 on Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Resourcesbsbmbiquery42553sparql2553 - in simulator - Simple - Centralized - false - None - RPL
+Resourcesbsbmbiquery32210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+Pp25 Diamond with loop  p - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesbsbmbiquery42553sparql2553 - None - Simple - false
+UUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false
+GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Nested positive exists - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+STRUUID pattern match - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Pp14 Star path over foafknows - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+SHA512 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+Positive EXISTS 2 - in simulator - Simple - Centralized - true - None - RPL
+Syntaxupdatebad11ru - Thread - PartitionByID_2_AllCollations - false
+TZ - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Reuse a project expression variable in select - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+SHA512 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+DELETE INSERT 3b - Thread - PartitionByID_S_AllCollations - true
+Resourcesbsbmexplorequery62210sparql2210 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery101853sparql1853 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+Protect from error in AVG - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+Pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
+IRIURI - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
+Simple DELETE DATA 2 - Thread - Simple - true
+Resourcesbsbmbiquery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+Resourcesbsbmbiquery42210sparql2210 - in simulator - Simple - Centralized - false - None - RPL_Fast
+Pp16 Duplicate paths and cycles through foafknows - None - Simple - false
+Sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true
+GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+STRBEFORE - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+Resourcesbsbmexplorequery92210sparql2210 - in simulator - Simple - Centralized - false - None - RPL
+Sq07  Subquery with from  - Thread - Simple - true
+SHA512 on Unicode data - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+Nested positive exists - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
+Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+DELETE INSERT 7b - Thread - Simple - false
+Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+Expression may return no value - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+Pp03 Simple path with loop - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+Resourcesbsbmexplorequery51853sparql1853 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+UUID pattern match - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
+Resourcesbsbmbiquery31853sparql1853 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+STRBEFORE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+Resourcesbsbmbiquery81853sparql1853 - in simulator - Simple - Centralized - false - None - RPL
+Pp23 Diamond with tail  p - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+Syntaxselectexpr04rq - Thread - BenchmarkFig5 - true
+SHA512 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Pp07 Path with one graph - None - Simple - true
+RDFS inference test combining subPropertyOf and domain - Thread - Simple - false
+Pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+GROUPCONCAT 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
+DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - false
+TZ - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+Synbadpname06 - Thread - PartitionByKeyAllCollations - false
+Pp02 Star path - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+Pp35 Named Graph 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+SUBSTR 3argument - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+STRUUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+TIMEZONE - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery52210sparql2210 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Pp01 Simple path - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+TZ - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+ENCODEFORURI - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+UUID pattern match - in simulator - Simple - Centralized - false - None - AllShortestPath
+Pp01 Simple path - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Sq03  Subquery within graph pattern graph variable is not bound - Thread - PartitionByID_2_AllCollations - true
+TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
+Pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+REPLACE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Pp01 Simple path - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+STRAFTER datatyping - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+Syntaxconstructwhere02rq - Thread - PartitionByID_1_AllCollations - true
+STRAFTER - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
+SHA512 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
+Pp35 Named Graph 2 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+REPLACE - in simulator - Simple - Centralized - false - None - AllShortestPath
+Pp33 Operator precedence 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
+Resourcesmyqueriesubungent05sparql66 - in simulator - Simple - Centralized - false - None - RPL
+RAND - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
+Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+SHA512 on Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Resourcesbsbmbiquery42553sparql2553 - in simulator - Simple - Centralized - false - None - RPL
+Resourcesbsbmbiquery32210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+Pp25 Diamond with loop  p - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesbsbmbiquery42553sparql2553 - None - Simple - false
+UUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false
+GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+Nested positive exists - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+STRUUID pattern match - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Pp14 Star path over foafknows - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+SHA512 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+Positive EXISTS 2 - in simulator - Simple - Centralized - true - None - RPL
+Syntaxupdatebad11ru - Thread - PartitionByID_2_AllCollations - false
+TZ - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Reuse a project expression variable in select - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+SHA512 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+DELETE INSERT 3b - Thread - PartitionByID_S_AllCollations - true
+Resourcesbsbmexplorequery62210sparql2210 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Resourcesbsbmexplorequery101853sparql1853 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+Protect from error in AVG - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+Pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
+IRIURI - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
+Simple DELETE DATA 2 - Thread - Simple - true
+Resourcesbsbmbiquery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+Resourcesbsbmbiquery42210sparql2210 - in simulator - Simple - Centralized - false - None - RPL_Fast
+Pp16 Duplicate paths and cycles through foafknows - None - Simple - false
+Sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true
+GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast

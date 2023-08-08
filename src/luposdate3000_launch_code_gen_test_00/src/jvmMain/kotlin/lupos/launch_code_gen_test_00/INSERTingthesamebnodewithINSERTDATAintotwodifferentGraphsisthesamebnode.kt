@@ -15,14 +15,29 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.launch_code_gen_test_00
-import lupos.operator.base.Query
-import lupos.shared.MemoryTable
-import lupos.shared.inline.File
-import lupos.simulator_db.luposdate3000.Application_Luposdate3000
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
-import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
-import simora.SimulationRun
+import lupos.shared.myPrintStackTraceAndThrowAgain
+import lupos.shared.myPrintStackTrace
+import lupos.optimizer.physical.PhysicalOptimizer
+import lupos.endpoint.LuposdateEndpoint
+import lupos.operator.arithmetik.noinput.AOPVariable
 import simora.addQuerySender
+import lupos.operator.base.Query
+import lupos.result_format.EQueryResultToStreamExt
+import lupos.shared.EIndexPatternExt
+import lupos.shared.EQueryDistributionModeExt
+import lupos.shared.Luposdate3000Config
+import lupos.shared.Luposdate3000Instance
+import lupos.shared.EPartitionModeExt
+import lupos.shared.MemoryTable
+import lupos.shared.EPredefinedPartitionSchemesExt
+import lupos.shared.inline.File
+import lupos.shared.inline.MyPrintWriter
+import simora.SimulationRun
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingCompareGraphPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingImportPackage
+import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute
+import lupos.simulator_db.luposdate3000.Application_Luposdate3000
+
 
 public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesamebnode {
     internal val outputData = arrayOf(
@@ -57,25 +72,11 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
         "DROP GRAPH :g2 \n" +
         ""
 
-    public fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
@@ -85,44 +86,42 @@ public class INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesameb
             "RPL",
         )
     }
-    public fun simulatorHelper(fileName: String, database_cfg: MutableMap<String, Any>, routingProtocol: String) {
+    public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
         val simRun = SimulationRun()
-        simRun.parseConfig(
-            fileName, false,
-            {
-                it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
-                it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
-            }
-        )
-
+        simRun.parseConfig(fileName,false,{
+            it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
+            it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
+        })
+        
+        
+        
         simRun.startUp()
-        val instance = (simRun.devices.map { it.getAllChildApplications() }.flatten().filter { it is Application_Luposdate3000 }.first()as Application_Luposdate3000).instance
+        val instance = (simRun.devices.map{it.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance
         val pkg0 = Package_Luposdate3000_TestingExecute(query)
         var verifyExecuted1 = 0
-        val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null, MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, { verifyExecuted1++ }, outputGraph[0], instance)
+        val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(outputData[0], outputType[0], Query(instance))!!, {verifyExecuted1++},outputGraph[0],instance)
         pkg0.setOnFinish(pkg1)
-        simRun.addQuerySender(10, 1, 1, pkg0)
+        simRun.addQuerySender(10,1,1,pkg0)
         simRun.run()
         simRun.shutDown()
-        if (verifyExecuted1 == 0) {
+        if (verifyExecuted1==0) {
             TODO("pck1 not verified")
         }
     }
-    public fun getTests(): Set<Pair<String, ()->Unit>> {
+    public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
+            "INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
         )
     }
 }
-public fun main() {
-    for ((name, func) in INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesamebnode().getTests()) {
-        File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream { out ->
+public fun main(){
+    for((name,func) in INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesamebnode().getTests()){
+        File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started")
-            try {
+            try{
                 func()
                 out.println("passed")
-            } catch (e: Error) {
+            }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
             }
