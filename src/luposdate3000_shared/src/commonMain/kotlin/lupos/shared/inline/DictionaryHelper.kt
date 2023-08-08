@@ -20,14 +20,13 @@ import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
 import com.ionspin.kotlin.bignum.integer.toBigInteger
-import lupos.shared.InvalidInputException
 import lupos.shared.DictionaryHelperLarge
-import lupos.shared.UnreachableException
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
-import lupos.shared.SanityCheck
+import lupos.shared.InvalidInputException
+import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
@@ -777,9 +776,9 @@ public object DictionaryHelper {
                 } else if (typeD == ETripleComponentTypeExt.INTEGER) {
                     cv.compareTo(BigDecimal.fromBigInteger(byteArrayToInteger_I(d)))
                 } else if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
-"http://www.w3.org/2001/XMLSchema#decimal".compareTo(byteArrayToTyped_Type(d))
+                    "http://www.w3.org/2001/XMLSchema#decimal".compareTo(byteArrayToTyped_Type(d))
                 } else if (typeD == ETripleComponentTypeExt.STRING) {
-"http://www.w3.org/2001/XMLSchema#decimal".compareTo("http://www.w3.org/2001/XMLSchema#string")
+                    "http://www.w3.org/2001/XMLSchema#decimal".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
@@ -790,9 +789,9 @@ public object DictionaryHelper {
                 } else if (typeD == ETripleComponentTypeExt.INTEGER) {
                     -byteArrayToInteger_I(d).compareTo(cv)
                 } else if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
-"http://www.w3.org/2001/XMLSchema#double".compareTo(byteArrayToTyped_Type(d))
+                    "http://www.w3.org/2001/XMLSchema#double".compareTo(byteArrayToTyped_Type(d))
                 } else if (typeD == ETripleComponentTypeExt.STRING) {
-"http://www.w3.org/2001/XMLSchema#double".compareTo("http://www.w3.org/2001/XMLSchema#string")
+                    "http://www.w3.org/2001/XMLSchema#double".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
@@ -801,25 +800,25 @@ public object DictionaryHelper {
                 if (typeD == ETripleComponentTypeExt.INTEGER) {
                     -byteArrayToInteger_I(d).compareTo(cv)
                 } else if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
-"http://www.w3.org/2001/XMLSchema#float".compareTo(byteArrayToTyped_Type(d))
+                    "http://www.w3.org/2001/XMLSchema#float".compareTo(byteArrayToTyped_Type(d))
                 } else if (typeD == ETripleComponentTypeExt.STRING) {
-"http://www.w3.org/2001/XMLSchema#float".compareTo("http://www.w3.org/2001/XMLSchema#string")
+                    "http://www.w3.org/2001/XMLSchema#float".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
             } else if (typeC == ETripleComponentTypeExt.INTEGER) {
                 if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
-"http://www.w3.org/2001/XMLSchema#integer".compareTo(byteArrayToTyped_Type(d))
+                    "http://www.w3.org/2001/XMLSchema#integer".compareTo(byteArrayToTyped_Type(d))
                 } else if (typeD == ETripleComponentTypeExt.STRING) {
-"http://www.w3.org/2001/XMLSchema#integer".compareTo("http://www.w3.org/2001/XMLSchema#string")
+                    "http://www.w3.org/2001/XMLSchema#integer".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
-} else if (typeC == ETripleComponentTypeExt.DATE_TIME) {
+            } else if (typeC == ETripleComponentTypeExt.DATE_TIME) {
                 if (typeD == ETripleComponentTypeExt.STRING_TYPED) {
-"http://www.w3.org/2001/XMLSchema#dateTime".compareTo(byteArrayToTyped_Type(d))
+                    "http://www.w3.org/2001/XMLSchema#dateTime".compareTo(byteArrayToTyped_Type(d))
                 } else if (typeD == ETripleComponentTypeExt.STRING) {
-"http://www.w3.org/2001/XMLSchema#dateTime".compareTo("http://www.w3.org/2001/XMLSchema#string")
+                    "http://www.w3.org/2001/XMLSchema#dateTime".compareTo("http://www.w3.org/2001/XMLSchema#string")
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }

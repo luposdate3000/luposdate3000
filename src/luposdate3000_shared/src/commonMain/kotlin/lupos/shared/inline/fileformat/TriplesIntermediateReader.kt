@@ -21,11 +21,11 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
 import lupos.shared.EIndexPatternHelper
+import lupos.shared.InvalidInputException
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.Compressor
 import lupos.shared.inline.File
 import kotlin.jvm.JvmField
-import lupos.shared.InvalidInputException
 public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(filename) {
     public val writeOrder: EIndexPattern
     public val i0: Int
@@ -57,7 +57,7 @@ public class TriplesIntermediateReader(filename: String) : TriplesIntermediate(f
     public val buf: ByteArray = ByteArray(24)
 
     @JvmField
-public     val bufWrapper :ByteArrayWrapper= ByteArrayWrapper(buf, 24)
+    public val bufWrapper: ByteArrayWrapper = ByteArrayWrapper(buf, 24)
 
     @JvmField
     public val buffer: DictionaryValueTypeArray = DictionaryValueTypeArray(3)

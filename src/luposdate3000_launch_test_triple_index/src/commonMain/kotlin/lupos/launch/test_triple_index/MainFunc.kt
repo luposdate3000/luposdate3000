@@ -24,8 +24,8 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.ParallelThread
 import lupos.shared.TripleStoreIndex
+import lupos.shared.inline.ParallelThread
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.triple_store_id_triple.TripleStoreIndexIDTriple
 import kotlin.jvm.JvmField

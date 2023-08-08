@@ -19,9 +19,9 @@ package lupos.launch.benchmark
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint_launcher.HttpEndpointLauncher
 import lupos.shared.DateHelperRelative
-import lupos.shared.inline.ParallelThread
 import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
+import lupos.shared.inline.ParallelThread
 
 internal enum class OptimizerMode {
     All, OnlyWith, OnlyWithout

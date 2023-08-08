@@ -15,19 +15,17 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.UnreachableException
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import kotlin.contracts.InvocationKind.AT_MOST_ONCE
 import kotlin.contracts.contract
 
 @OptIn(kotlin.contracts.ExperimentalContracts::class)
 public object SanityCheckOn {
-    public val enabled :Boolean= true
-    public const val SANITYCHECK_PRINTING :Boolean= false
-    public const val SANITYCHECK_PRINTING_NODEMANAGER :Boolean= false
-    public const val SANITYCHECK_PRINTING_BUFFERMANAGER :Boolean= false
+    public val enabled: Boolean = true
+    public const val SANITYCHECK_PRINTING: Boolean = false
+    public const val SANITYCHECK_PRINTING_NODEMANAGER: Boolean = false
+    public const val SANITYCHECK_PRINTING_BUFFERMANAGER: Boolean = false
     public inline fun println_buffermanager(crossinline s: () -> Any?) {
         contract { callsInPlace(s, AT_MOST_ONCE) }
         if (SANITYCHECK_PRINTING_BUFFERMANAGER) {
@@ -55,10 +53,10 @@ public object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.invoke at ${filename()}")
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:57"/*SOURCE_FILE_END*/ )
-            }else{
-            throw e
-}
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:57"/*SOURCE_FILE_END*/)
+            } else {
+                throw e
+            }
         }
     }
 
@@ -69,10 +67,10 @@ public object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.suspended")
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:71"/*SOURCE_FILE_END*/ )
-            }else{
-            throw e
-}
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:71"/*SOURCE_FILE_END*/)
+            } else {
+                throw e
+            }
         }
     }
 
@@ -90,10 +88,10 @@ public object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.check")
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:92"/*SOURCE_FILE_END*/ )
-            }else{
-            throw e
-}
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:92"/*SOURCE_FILE_END*/)
+            } else {
+                throw e
+            }
         }
     }
 
@@ -106,11 +104,11 @@ public object SanityCheckOn {
         } catch (e: Throwable) {
             if (SANITYCHECK_PRINTING) {
                 println("Exception during SanityCheck.check")
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:108"/*SOURCE_FILE_END*/ )
-            }else{
-            throw e
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/SanityCheckOn.kt:108"/*SOURCE_FILE_END*/)
+            } else {
+                throw e
+            }
         }
-}
     }
 
     @Suppress("NOTHING_TO_INLINE")

@@ -64,9 +64,9 @@ import lupos.shared.inline.fileformat.TriplesIntermediateReader
 import lupos.shared.myPrintStackTrace
 import lupos.shared.myPrintStackTraceAndThrowAgain
 import lupos.shared.operator.IOPBase
-import kotlin.js.JsExport
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.TripleStoreManagerImpl
+import kotlin.js.JsExport
 import kotlin.js.JsName
 import kotlin.jvm.JvmField
 

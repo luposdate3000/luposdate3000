@@ -15,16 +15,15 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
+import lupos.shared.EOFException
 import lupos.shared.IMyInputStream
 import lupos.shared.UUID_Counter
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.myPrintStackTrace
 import java.io.InputStream
 import kotlin.jvm.JvmField
-import lupos.shared.EOFException
 
 public actual class MyInputStream(@JvmField public val stream: InputStream) : IMyInputStream {
 
@@ -32,10 +31,10 @@ public actual class MyInputStream(@JvmField public val stream: InputStream) : IM
     public val buf8: ByteArray = ByteArray(8)
 
     @JvmField
-public    val buf8Wrapper :ByteArrayWrapper= ByteArrayWrapper(buf8, 8)
+    public val buf8Wrapper: ByteArrayWrapper = ByteArrayWrapper(buf8, 8)
 
     @JvmField
-    public val uuid:Long = UUID_Counter.getNextUUID()
+    public val uuid: Long = UUID_Counter.getNextUUID()
 
     init {
     }
@@ -73,30 +72,30 @@ public    val buf8Wrapper :ByteArrayWrapper= ByteArrayWrapper(buf8, 8)
     }
 
     actual override fun readInt(): Int {
-if(        read(buf8, 4)<4){
-throw EOFException()
-}
+        if (read(buf8, 4) <4) {
+            throw EOFException()
+        }
         return ByteArrayHelper.readInt4(buf8, 0)
     }
 
     actual override fun readDictionaryValueType(): DictionaryValueType {
-if(        read(buf8, DictionaryValueHelper.getSize())<DictionaryValueHelper.getSize()){
-throw EOFException()
-}
+        if (read(buf8, DictionaryValueHelper.getSize()) <DictionaryValueHelper.getSize()) {
+            throw EOFException()
+        }
         return DictionaryValueHelper.fromByteArray(buf8Wrapper, 0)
     }
 
     actual override fun readLong(): Long {
-if(        read(buf8, 8)<8){ 
-throw EOFException()
-}
+        if (read(buf8, 8) <8) {
+            throw EOFException()
+        }
         return ByteArrayHelper.readLong8(buf8, 0)
     }
 
     actual override fun readByte(): Byte {
-if(        read(buf8, 1)<1){ 
-throw EOFException()
-}
+        if (read(buf8, 1) <1) {
+            throw EOFException()
+        }
         return buf8[0]
     }
 
@@ -105,7 +104,7 @@ throw EOFException()
     }
 
     @JvmField
-    public var buffer :ByteArray= ByteArray(1)
+    public var buffer: ByteArray = ByteArray(1)
     actual override fun readLine(): String? {
 // TODO this may break on utf-8 if '\r' or '\0' is part of another char
         var len = 0
@@ -131,7 +130,7 @@ throw EOFException()
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/jvmMain/kotlin/lupos/shared/inline/MyInputStream.kt:133"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/jvmMain/kotlin/lupos/shared/inline/MyInputStream.kt:133"/*SOURCE_FILE_END*/)
             if (len == 0) {
                 return null
             }

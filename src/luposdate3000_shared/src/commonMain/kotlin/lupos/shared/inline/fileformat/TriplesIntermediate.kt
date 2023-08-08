@@ -31,7 +31,7 @@ public abstract class TriplesIntermediate(@JvmField public val filename: String)
 
     public companion object {
         public const val version: Int = 2
-        public const val filenameEnding:String = ".triples"
+        public const val filenameEnding: String = ".triples"
 
         @Suppress("NOTHING_TO_INLINE")
         public inline fun delete(filename: String) {

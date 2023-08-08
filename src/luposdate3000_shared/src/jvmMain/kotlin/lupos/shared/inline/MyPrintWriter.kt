@@ -24,17 +24,17 @@ import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.jvm.JvmField
 
- actual public open class MyPrintWriter : IMyOutputStream {
+public actual open class MyPrintWriter : IMyOutputStream {
     @JvmField
-public    val buffer :StringWriter= StringWriter()
+    public val buffer: StringWriter = StringWriter()
 
     @JvmField
-public    val printer: PrintWriter
+    public val printer: PrintWriter
 
     @JvmField
-public    val bufferMode: MyPrintWriterMode
+    public val bufferMode: MyPrintWriterMode
 
-public    actual constructor(hasBuffer: Boolean) {
+    public actual constructor(hasBuffer: Boolean) {
         if (hasBuffer) {
             bufferMode = MyPrintWriterModeExt.BUFFER
             printer = PrintWriter(buffer)
@@ -44,7 +44,7 @@ public    actual constructor(hasBuffer: Boolean) {
         }
     }
 
-public    actual fun clearBuffer() {
+    public actual fun clearBuffer() {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             buffer.buffer.setLength(0)
         } else {
@@ -52,7 +52,7 @@ public    actual fun clearBuffer() {
         }
     }
 
-    actual public override fun toString(): String {
+    public actual override fun toString(): String {
         if (bufferMode == MyPrintWriterModeExt.BUFFER) {
             return buffer.toString()
         } else {
@@ -60,65 +60,65 @@ public    actual fun clearBuffer() {
         }
     }
 
-    actual public override fun println(x: String) {
+    public actual override fun println(x: String) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
 
-    actual public override fun print(x: String) {
+    public actual override fun print(x: String) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
 
-    actual public fun println(x: Boolean) {
+    public actual fun println(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
 
-    actual public override fun print(x: Boolean) {
+    public actual override fun print(x: Boolean) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
 
-    actual public fun println(x: Int) {
+    public actual fun println(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
 
-    actual public override fun print(x: Int) {
+    public actual override fun print(x: Int) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
 
-    actual public fun println(x: Double) {
+    public actual fun println(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println(x)
         }
     }
 
-    actual public override fun print(x: Double) {
+    public actual override fun print(x: Double) {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.print(x)
         }
     }
 
-    actual public override fun println() {
+    public actual override fun println() {
         if (bufferMode != MyPrintWriterModeExt.NONE) {
             printer.println()
         }
     }
 
-    actual public override fun write(buf: ByteArray, len: Int): Unit = TODO("MyPrintWriter")
-    actual public override fun write(buf: ByteArray): Unit = TODO("MyPrintWriter")
-    actual public override fun writeInt(value: Int): Unit = TODO("MyPrintWriter")
-    actual public override fun writeDictionaryValueType(value: DictionaryValueType): Unit = TODO("MyPrintWriter")
-    actual public override fun writeLong(value: Long): Unit = TODO("MyPrintWriter")
-    actual public override fun close(): Unit = TODO("MyPrintWriter")
-    actual public override fun flush(): Unit = TODO("MyPrintWriter")
+    public actual override fun write(buf: ByteArray, len: Int): Unit = TODO("MyPrintWriter")
+    public actual override fun write(buf: ByteArray): Unit = TODO("MyPrintWriter")
+    public actual override fun writeInt(value: Int): Unit = TODO("MyPrintWriter")
+    public actual override fun writeDictionaryValueType(value: DictionaryValueType): Unit = TODO("MyPrintWriter")
+    public actual override fun writeLong(value: Long): Unit = TODO("MyPrintWriter")
+    public actual override fun close(): Unit = TODO("MyPrintWriter")
+    public actual override fun flush(): Unit = TODO("MyPrintWriter")
 }

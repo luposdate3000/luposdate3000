@@ -24,7 +24,7 @@ import lupos.shared.inline.File
 import lupos.shared.inline.MyPrintWriter
 import kotlin.jvm.JvmField
 
-public class SparqlTestSuiteConverterToUnitTest(resource_folder: String) : SparqlTestSuite() {
+public class SparqlTestSuiteConverterToKotlinProgram(resource_folder: String) : SparqlTestSuite() {
     public companion object {
         private val fastMode = false
         private val withSimulator = true
@@ -40,9 +40,6 @@ without minify mode only the passing tests will be added
 
     @JvmField
     internal var counter = 0
-
-    @JvmField
-    internal var funcCounter = 0
 
     @JvmField
     internal var lastFile: String = ""
@@ -67,6 +64,8 @@ without minify mode only the passing tests will be added
     internal val listOfRemoved = mutableSetOf<String>()
     internal val listOfAllTests = mutableSetOf<String>()
     internal val listOfBlacklist = mutableSetOf<String>()
+
+    internal val allTestClassNames = mutableSetOf<String>()
 
     internal fun isIgnored(testName: String): Boolean {
         if (minifyMode) {
@@ -132,6 +131,60 @@ without minify mode only the passing tests will be added
             for (t in listOfAllTests) {
                 out.println(t)
             }
+        }
+        File("${outputFolderSrcJvm(folderCurrent)}/MainFunc.kt").withOutputStream { out ->
+            for (n in allTestClassNames) {
+                out.println("import lupos.code_gen_test_00.$n")
+            }
+            out.println(
+                """
+@Throws(IOException::class, InterruptedException::class)
+fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
+  val javaHome = System.getProperty("java.home")
+  val javaBin = javaHome + File.separator + "bin" + File.separator + "java"
+  val classpath = System.getProperty("java.class.path")
+  val className = clazz.name
+
+  val command = ArrayList<String>()
+  command.add(javaBin)
+  command.addAll(jvmArgs)
+  command.add("-cp")
+  command.add(classpath)
+  command.add(className)
+  command.addAll(args)
+
+  val builder = ProcessBuilder(command)
+  val process = builder.inheritIO().start()
+  process.waitFor()
+  return process.exitValue()
+}"""
+            )
+            out.println("public fun main(){")
+            out.println("    val tests=mutableListOf<Pair<String,()->Unit>>()")
+            for (n in allTestClassNames) {
+                out.println("    tests.addAll($n().getTests())")
+            }
+//
+            out.println(
+                """
+java.io.File("logs").mkdirs()
+java.io.File("logs/started.log").withOutputStream { outS ->
+java.io.File("logs/passed.log").withOutputStream { outP ->
+java.io.File("logs/failed.log").withOutputStream { outF ->
+for (t in tests){
+outS.println(t.first)
+try{
+t.second()
+outP.println(t.first)
+}catch(e:Exception){
+outF.println(t.first)
+}
+}
+}}}
+"""
+            )
+//
+            out.println("}")
         }
     }
 
@@ -236,7 +289,7 @@ without minify mode only the passing tests will be added
                 if (verify) {
                     distributedTest.appendLine("        var verifyExecuted$distributedTestCtr = 0")
                     distributedTestAtEnd.appendLine("        if (verifyExecuted$distributedTestCtr==0) {")
-                    distributedTestAtEnd.appendLine("            fail(\"pck$distributedTestCtr not verified\")")
+                    distributedTestAtEnd.appendLine("            TODO(\"pck$distributedTestCtr not verified\")")
                     distributedTestAtEnd.appendLine("        }")
                 }
                 distributedTest.appendLine("        val pkg$distributedTestCtr = $s")
@@ -267,7 +320,7 @@ without minify mode only the passing tests will be added
             out.println("        val buf_err$counter = MyPrintWriter()")
             out.println("        if (!expected$counter.equalsVerbose(actual$counter, ${!queryResultIsOrdered}, true, $verifyOrderOfColumns, buf_err$counter)) {")
             val s = "expected$counter.toString() + \" .. \" + actual$counter.toString() + \" .. \" + buf_err$counter.toString() + \" .. \" + operator$counter"
-            out.println("            fail($s)")
+            out.println("            TODO($s)")
             out.println("        }")
         }
 
@@ -320,9 +373,6 @@ without minify mode only the passing tests will be added
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Package_Luposdate3000_TestingExecute")
         fileBufferPrefix.println("import lupos.simulator_db.luposdate3000.Application_Luposdate3000")
         fileBufferPrefix.println("")
-        fileBufferPrefix.println("import kotlin.test.Ignore")
-        fileBufferPrefix.println("import kotlin.test.Test")
-        fileBufferPrefix.println("import kotlin.test.fail")
         fileBufferPrefix.println("")
         val inputGraphIsDefaultGraph = mutableListOf<Boolean>()
         val outputGraphIsDefaultGraph = mutableListOf<Boolean>()
@@ -417,7 +467,7 @@ without minify mode only the passing tests will be added
             fileBufferNormalHelper.println("            flag = true")
             fileBufferNormalHelper.println("        }")
             fileBufferNormalHelper.println("        if (!flag) {")
-            fileBufferNormalHelper.println("            fail(\"expected failure\")")
+            fileBufferNormalHelper.println("            TODO(\"expected failure\")")
             fileBufferNormalHelper.println("        }")
         }
         for (i in 0 until outputGraphs.size) {
@@ -425,7 +475,7 @@ without minify mode only the passing tests will be added
             myVerifyGraph(c, "outputData[$i]", "outputType[$i]", "outputGraph[$i]", "null", outputGraphIsDefaultGraph[i], fileBufferNormalHelper)
         }
         fileBufferNormalHelper.println("    }")
-
+        val listOfTestNames = mutableSetOf<String>()
         outerloop@ for (LUPOS_PARTITION_MODE in EPartitionModeExt.names) {
             for (predefinedPartitionScheme in EPredefinedPartitionSchemesExt.names) {
                 for (useDictionaryInlineEncoding in listOf("true", "false")) {
@@ -446,13 +496,8 @@ without minify mode only the passing tests will be added
                     listOfAllTests.add(finalTestName)
                     val fileBufferTest = MyPrintWriter(true)
                     fileBufferTests[finalTestName] = fileBufferTest
-                    if (isIgnored(finalTestName)) {
-                        fileBufferTest.println("    @Ignore")
-                    }
-                    if (minifyMode) {
-                        fileBufferTest.println("    @Test(timeout = 10000)")
-                    } else {
-                        fileBufferTest.println("    @Test")
+                    if (!isIgnored(finalTestName)) {
+                        listOfTestNames.add(finalTestName)
                     }
                     fileBufferTest.println("    public fun `$finalTestName`() {")
                     fileBufferTest.println("      var instance = Luposdate3000Instance()")
@@ -497,17 +542,8 @@ without minify mode only the passing tests will be added
                                 listOfAllTests.add(finalTestName)
                                 val fileBufferTest = MyPrintWriter(true)
                                 fileBufferTests[finalTestName] = fileBufferTest
-                                if (fastMode) {
-                                    fileBufferTest.println("    @Ignore")
-                                } else {
-                                    if (isIgnored(finalTestName) || !withSimulator) {
-                                        fileBufferTest.println("    @Ignore")
-                                    }
-                                }
-                                if (minifyMode) {
-                                    fileBufferTest.println("    @Test(timeout = 10000)")
-                                } else {
-                                    fileBufferTest.println("    @Test")
+                                if (!isIgnored(finalTestName)) {
+                                    listOfTestNames.add(finalTestName)
                                 }
                                 fileBufferTest.println("    public fun `$finalTestName`() {")
                                 fileBufferTest.println("        simulatorHelper(")
@@ -554,92 +590,96 @@ without minify mode only the passing tests will be added
         val stringBufferSimulator = fileBufferSimulator.toString()
         val stringBufferNormalHelper = fileBufferNormalHelper.toString()
         fileBufferPostfix.println("}")
-        if (!minifyMode || funcCounter < 5000) {
-            val prefix = fileBufferPrefix.toString()
-            val postfix = fileBufferPostfix.toString()
-            var ctr = 0
-            for (testname in fileBufferTests.keys) {
-                if (shouldAddFunction(testname)) {
-                    ctr++
-                }
+        val prefix = fileBufferPrefix.toString()
+        val postfix = fileBufferPostfix.toString()
+        var ctr = 0
+        for (testname in fileBufferTests.keys) {
+            if (shouldAddFunction(testname)) {
+                ctr++
             }
-            if (ctr > 0) {
-                if (fileModeMany) {
+        }
+        if (ctr > 0) {
+            if (fileModeMany) {
+                for ((testname, fileBufferTest) in fileBufferTests) {
+                    if (shouldAddFunction(testname)) {
+                        val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
+                        File("${outputFolderSrcJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
+                            var stringBufferSimulatorRequired = false
+                            var stringBufferNormalHelperRequired = false
+                            if (testname.contains(" - in simulator - ")) {
+                                stringBufferSimulatorRequired = true
+                            } else {
+                                stringBufferNormalHelperRequired = true
+                            }
+                            val content = fileBufferTest.toString()
+                            out.print(prefix.replace("class $testCaseName", "class $finalClassName"))
+                            out.print(content)
+                            if (stringBufferSimulatorRequired) {
+                                out.print(stringBufferSimulator)
+                            }
+                            if (stringBufferNormalHelperRequired) {
+                                out.print(stringBufferNormalHelper)
+                            }
+                            out.print(postfix)
+                        }
+                    }
+                }
+            } else {
+                File("${outputFolderSrcJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
+                    var stringBufferSimulatorRequired = false
+                    var stringBufferNormalHelperRequired = false
+                    out.print(prefix)
                     for ((testname, fileBufferTest) in fileBufferTests) {
                         if (shouldAddFunction(testname)) {
-                            funcCounter++
-                            val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
-                            File("${outputFolderSrcJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
-                                var stringBufferSimulatorRequired = false
-                                var stringBufferNormalHelperRequired = false
-                                if (testname.contains(" - in simulator - ")) {
-                                    stringBufferSimulatorRequired = true
-                                } else {
-                                    stringBufferNormalHelperRequired = true
-                                }
-                                val content = fileBufferTest.toString()
-                                out.print(prefix.replace("class $testCaseName", "class $finalClassName"))
-                                out.print(content)
-                                if (stringBufferSimulatorRequired) {
-                                    out.print(stringBufferSimulator)
-                                }
-                                if (stringBufferNormalHelperRequired) {
-                                    out.print(stringBufferNormalHelper)
-                                }
-                                out.print(postfix)
+                            if (testname.contains(" - in simulator - ")) {
+                                stringBufferSimulatorRequired = true
+                            } else {
+                                stringBufferNormalHelperRequired = true
                             }
+                            val content = fileBufferTest.toString()
+                            out.print(content)
                         }
                     }
-                } else {
-                    File("${outputFolderSrcJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
-                        var stringBufferSimulatorRequired = false
-                        var stringBufferNormalHelperRequired = false
-                        out.print(prefix)
-                        for ((testname, fileBufferTest) in fileBufferTests) {
-                            if (shouldAddFunction(testname)) {
-                                if (testname.contains(" - in simulator - ")) {
-                                    stringBufferSimulatorRequired = true
-                                } else {
-                                    stringBufferNormalHelperRequired = true
-                                }
-                                funcCounter++
-                                val content = fileBufferTest.toString()
-                                out.print(content)
-                            }
+                    if (stringBufferSimulatorRequired) {
+                        out.print(stringBufferSimulator)
+                    }
+                    if (stringBufferNormalHelperRequired) {
+                        out.print(stringBufferNormalHelper)
+                    }
+                    out.println("    public fun getTests():Set<Pair<String,()->Unit>> {")
+                    out.println("        return setOf(")
+                    for (testname in listOfTestNames) {
+                        allTestClassNames.add(testCaseName)
+                        out.println("            \"$testname\" to ::`$testname`,")
+                    }
+                    out.println("        )")
+                    out.println("    }")
+                    out.print(postfix)
+                }
+            }
+            if (fileBufferTests.size > 0) {
+                for (g in inputGraphs.values) {
+                    File(g.filename).withOutputStream { out ->
+                        File(g.filenameoriginal).forEachLine {
+                            out.println(it)
                         }
-                        if (stringBufferSimulatorRequired) {
-                            out.print(stringBufferSimulator)
-                        }
-                        if (stringBufferNormalHelperRequired) {
-                            out.print(stringBufferNormalHelper)
-                        }
-                        out.print(postfix)
                     }
                 }
-                if (fileBufferTests.size > 0) {
-                    for (g in inputGraphs.values) {
-                        File(g.filename).withOutputStream { out ->
-                            File(g.filenameoriginal).forEachLine {
-                                out.println(it)
-                            }
+                for (g in outputGraphs.values) {
+                    File(g.filename).withOutputStream { out ->
+                        File(g.filenameoriginal).forEachLine {
+                            out.println(it)
                         }
                     }
-                    for (g in outputGraphs.values) {
-                        File(g.filename).withOutputStream { out ->
-                            File(g.filenameoriginal).forEachLine {
-                                out.println(it)
-                            }
-                        }
-                    }
-                    if (resultDataFileName != null) {
-                        File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.output").withOutputStream { out ->
-                            File(resultDataFileName).forEachLine {
-                                out.println(it)
-                            }
-                        }
-                    }
-                    folderCurrent = (folderCurrent + 1) % folderCount
                 }
+                if (resultDataFileName != null) {
+                    File("${outputFolderTestResourcesJvm(folderCurrent)}/$testCaseName.output").withOutputStream { out ->
+                        File(resultDataFileName).forEachLine {
+                            out.println(it)
+                        }
+                    }
+                }
+                folderCurrent = (folderCurrent + 1) % folderCount
             }
         }
         return true

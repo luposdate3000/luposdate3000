@@ -18,10 +18,10 @@
 package lupos.shared.inline.fileformat
 
 import lupos.shared.DictionaryValueType
+import lupos.shared.InvalidInputException
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.fileformat.DictionaryIntermediateRow
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.shared.InvalidInputException
 public class DictionaryIntermediateReader(filename: String) : DictionaryIntermediate(filename) {
     init {
         streamIn = getFile().openInputStream()

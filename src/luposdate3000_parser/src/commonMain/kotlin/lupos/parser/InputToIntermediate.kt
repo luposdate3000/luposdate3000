@@ -24,11 +24,11 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPatternExt
 import lupos.shared.EIndexPatternHelper
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.ParallelThread
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
+import lupos.shared.inline.ParallelThread
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediate
 import lupos.shared.inline.fileformat.DictionaryIntermediateReader
@@ -261,20 +261,20 @@ public object InputToIntermediate {
                         chunc++
                     }
                 }
-               // try {
-                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
-                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
-                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
-                    addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
-                    val bb = ByteArrayWrapper()
-                    DictionaryHelper.sparqlToByteArray(bb, "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-                    addToDict(bb)
-                    DictionaryHelper.sparqlToByteArray(bb, "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
-                    addToDict(bb)
-                    parserObject.parserDefinedParse()
-               // } catch (e: Throwable) {
-               //     throw Exception(inputFileName, e)
-               // }
+                // try {
+                addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#nil")
+                addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#first")
+                addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#rest")
+                addIriToDict("http://www.w3.org/1999/02/22-rdf-syntax-ns#type")
+                val bb = ByteArrayWrapper()
+                DictionaryHelper.sparqlToByteArray(bb, "\"true\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                addToDict(bb)
+                DictionaryHelper.sparqlToByteArray(bb, "\"false\"^^<http://www.w3.org/2001/XMLSchema#boolean>")
+                addToDict(bb)
+                parserObject.parserDefinedParse()
+                // } catch (e: Throwable) {
+                //     throw Exception(inputFileName, e)
+                // }
             }
             ".n4" -> {
                 val parserObject = NQuadsParser(File(inputFileName).openInputStream())

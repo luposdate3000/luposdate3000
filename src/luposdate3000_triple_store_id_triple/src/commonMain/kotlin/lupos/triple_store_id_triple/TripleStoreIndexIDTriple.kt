@@ -25,11 +25,11 @@ import lupos.shared.ETripleIndexTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.IQuery
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.MyThreadReadWriteLock
-import lupos.shared.inline.ParallelThread
 import lupos.shared.SanityCheck
 import lupos.shared.TripleStoreBulkImportExt
 import lupos.shared.TripleStoreIndex
+import lupos.shared.inline.MyThreadReadWriteLock
+import lupos.shared.inline.ParallelThread
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.ColumnIteratorEmpty
 import lupos.shared.operator.iterator.IteratorBundle

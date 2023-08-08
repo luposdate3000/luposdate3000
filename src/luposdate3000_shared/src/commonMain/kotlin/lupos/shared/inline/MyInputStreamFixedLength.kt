@@ -15,13 +15,12 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.IMyInputStream
-import kotlin.jvm.JvmField
 import lupos.shared.EOFException
+import lupos.shared.IMyInputStream
+import lupos.shared.myPrintStackTrace
+import kotlin.jvm.JvmField
 
 public class MyInputStreamFixedLength(@JvmField public val stream: IMyInputStream, @JvmField public var remainingBytes: Int) : IMyInputStream {
     override fun readDictionaryValueType(): DictionaryValueType {
@@ -103,7 +102,7 @@ public class MyInputStreamFixedLength(@JvmField public val stream: IMyInputStrea
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:105"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:105"/*SOURCE_FILE_END*/)
             if (buf.size == 0) {
                 return null
             }

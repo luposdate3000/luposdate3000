@@ -24,13 +24,13 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.ParallelThread
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.EDictionaryTypeExt
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.ParallelThread
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.math.abs
 import kotlin.math.max

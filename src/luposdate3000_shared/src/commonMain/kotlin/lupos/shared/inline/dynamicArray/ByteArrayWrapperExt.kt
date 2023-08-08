@@ -58,7 +58,6 @@ public object ByteArrayWrapperExt {
         return i
     }
 
-
     @Suppress("NOTHING_TO_INLINE")
     public inline fun copyInto(a: ByteArrayWrapper, b: ByteArrayWrapper, copy: Boolean) {
         setSize(b, a.size_, copy)

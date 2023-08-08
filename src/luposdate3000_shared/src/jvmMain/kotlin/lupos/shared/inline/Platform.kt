@@ -27,13 +27,13 @@ public actual object Platform {
     public val userHome: String = System.getProperty("user.home")
 
     @JvmField
-    public val operatingSystem :EOperatingSystem = if (System.getProperty("os.name").contains("Win")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
+    public val operatingSystem: EOperatingSystem = if (System.getProperty("os.name").contains("Win")) EOperatingSystemExt.Windows else EOperatingSystemExt.Linux
 
     @JvmField
-    public val pathSepatator :String= if (operatingSystem == EOperatingSystemExt.Windows) "\\\\" else "/"
+    public val pathSepatator: String = if (operatingSystem == EOperatingSystemExt.Windows) "\\\\" else "/"
 
     @JvmField
-    public val nullFileName :String= if (operatingSystem == EOperatingSystemExt.Windows) "NUL" else "/dev/null"
+    public val nullFileName: String = if (operatingSystem == EOperatingSystemExt.Windows) "NUL" else "/dev/null"
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun getHostName(): String {
@@ -41,13 +41,13 @@ public actual object Platform {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getOperatingSystem() :EOperatingSystem= operatingSystem
+    public actual inline fun getOperatingSystem(): EOperatingSystem = operatingSystem
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getUserHome():String = userHome
+    public actual inline fun getUserHome(): String = userHome
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getPathSeparator() :String= pathSepatator
+    public actual inline fun getPathSeparator(): String = pathSepatator
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun findNamedFileInDirectory(dir: String, name: String): List<String> {

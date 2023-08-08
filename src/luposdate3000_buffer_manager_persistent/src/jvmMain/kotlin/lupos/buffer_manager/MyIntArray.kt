@@ -19,9 +19,9 @@ package lupos.buffer_manager
 import lupos.ProguardTestAnnotation
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.inline.File
+import lupos.shared.inline.MyThreadReadWriteLock
 import java.io.RandomAccessFile
 import kotlin.jvm.JvmField
 

@@ -20,10 +20,10 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.dictionary.DictionaryExt
 import lupos.shared.dictionary.IDictionaryCache
 import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 
 public class DictionaryCache : IDictionaryCache {

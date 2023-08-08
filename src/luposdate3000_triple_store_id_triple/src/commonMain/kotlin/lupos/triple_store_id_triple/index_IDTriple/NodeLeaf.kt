@@ -20,8 +20,8 @@ import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.operator.iterator.ColumnIterator
 
 internal object NodeLeaf {

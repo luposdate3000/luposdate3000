@@ -25,20 +25,20 @@ import lupos.optimizer.physical.PhysicalOptimizerVisualisation
 import lupos.parser.sparql.ASTSparqlDoc
 import lupos.parser.sparql.SparqlParser
 import lupos.shared.Luposdate3000Instance
-import kotlin.js.JsExport
 import lupos.shared.OPVisualGraph
 import lupos.shared.inline.MyPrintWriter
 import lupos.shared.inline.MyStringStream
 import lupos.shared.operator.IOPBase
+import kotlin.js.JsExport
 import kotlin.js.JsName
 @JsExport
-public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance)  {
+public class EndpointExtendedVisualize(input: String, internal val instance: Luposdate3000Instance) {
     private var resultLog: Array<OPVisualGraph>
     private var resultPhys: Array<OPVisualGraph>
     private var result: String
     private var animationData: MutableList<String> = mutableListOf()
 
-   init {
+    init {
         val q: Query = Query(instance)
         val stream = MyStringStream(input)
         val parser: SparqlParser = SparqlParser(stream)

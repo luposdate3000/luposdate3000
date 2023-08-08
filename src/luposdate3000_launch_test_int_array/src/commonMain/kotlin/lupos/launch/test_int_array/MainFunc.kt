@@ -20,8 +20,8 @@ import lupos.buffer_manager.BufferManagerExt
 import lupos.buffer_manager.MyIntArray
 import lupos.shared.AflCore
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.ParallelThread
 import lupos.shared.SanityCheck
+import lupos.shared.inline.ParallelThread
 import kotlin.math.abs
 
 internal const val verbose = false

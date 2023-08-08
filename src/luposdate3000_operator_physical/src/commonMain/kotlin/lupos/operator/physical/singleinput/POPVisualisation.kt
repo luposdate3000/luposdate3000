@@ -46,10 +46,10 @@ public class POPVisualisation public constructor(
     override fun getPartitionCount(variable: String): Int = getChildren()[0].getPartitionCount(variable)
     override fun equals(other: Any?): Boolean = other is POPVisualisation && getChildren()[0] == other.getChildren()[0]
     override fun cloneOP(): IOPBase {
-val res=POPVisualisation(query, projectedVariables, getChildren()[0].cloneOP())
-res.visualTest=visualTest
-return res
-}
+        val res = POPVisualisation(query, projectedVariables, getChildren()[0].cloneOP())
+        res.visualTest = visualTest
+        return res
+    }
     override fun getRequiredVariableNames(): List<String> = listOf()
     override fun getProvidedVariableNames(): List<String> = getChildren()[0].getProvidedVariableNames()
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()

@@ -24,7 +24,6 @@ import lupos.shared.ESortPriority
 import lupos.shared.ESortPriorityExt
 import lupos.shared.ESortTypeExt
 import lupos.shared.IQuery
-import lupos.shared.inline.ParallelThread
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
@@ -34,6 +33,7 @@ import lupos.shared.UnreachableException
 import lupos.shared.VariableNotDefinedSyntaxException
 import lupos.shared.XMLElement
 import lupos.shared.dictionary.DictionaryNotImplemented
+import lupos.shared.inline.ParallelThread
 import lupos.shared.myPrintStackTrace
 import lupos.shared.operator.HistogramResult
 import lupos.shared.operator.IAOPBase

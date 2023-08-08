@@ -25,11 +25,11 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
+import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.inline.fileformat.DictionaryIntermediateReader
 import lupos.vk.ValueKeyStore

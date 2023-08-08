@@ -17,11 +17,18 @@
 package lupos.launch.generate_unit_test_suite_multi
 
 import lupos.test.SparqlTestSuite
+import lupos.test.SparqlTestSuiteConverterToKotlinProgram
 import lupos.test.SparqlTestSuiteConverterToUnitTest
 
 internal fun mainFunc() {
     SparqlTestSuite.prefixDirectory = ""
-    val converter = SparqlTestSuiteConverterToUnitTest(".")
-    converter.testMain()
-    converter.finish()
+    if (true) {
+        val converter = SparqlTestSuiteConverterToKotlinProgram(".")
+        converter.testMain()
+        converter.finish()
+    } else {
+        val converter = SparqlTestSuiteConverterToUnitTest(".")
+        converter.testMain()
+        converter.finish()
+    }
 }

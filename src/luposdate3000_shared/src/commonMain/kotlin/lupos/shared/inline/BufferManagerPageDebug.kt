@@ -17,7 +17,6 @@
 package lupos.shared.inline
 
 import lupos.shared.BufferManagerPageWrapperDebug
-import lupos.shared.SanityCheck
 
 public object BufferManagerPageDebug {
     public const val BUFFER_MANAGER_PAGE_SIZE_IN_BYTES: Int = 8192

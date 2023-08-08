@@ -22,51 +22,51 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IQuery
 public object ColumnIteratorChildIteratorExt {
-    /*suspend*/ public inline fun nextHelper(query:IQuery,iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
-if(query.shouldAbortNow()){
-onClose()
-return DictionaryValueHelper.nullValue
-}else{
-        when (iterator.label) {
-            1 -> {
-                while (iterator.queueRead < iterator.queueWrite) {
-                    val res = iterator.queue[iterator.queueRead].next()
-                    if (res == DictionaryValueHelper.nullValue) {
-                        iterator.releaseValue(iterator.queue[iterator.queueRead])
-                        iterator.queueRead++
-                    } else {
-                        return res
+    /*suspend*/ public inline fun nextHelper(query: IQuery, iterator: ColumnIteratorChildIterator, crossinline onNoMoreElements: /*suspend*/ () -> Unit, crossinline onClose: /*suspend*/ () -> Unit): DictionaryValueType {
+        if (query.shouldAbortNow()) {
+            onClose()
+            return DictionaryValueHelper.nullValue
+        } else {
+            when (iterator.label) {
+                1 -> {
+                    while (iterator.queueRead < iterator.queueWrite) {
+                        val res = iterator.queue[iterator.queueRead].next()
+                        if (res == DictionaryValueHelper.nullValue) {
+                            iterator.releaseValue(iterator.queue[iterator.queueRead])
+                            iterator.queueRead++
+                        } else {
+                            return res
+                        }
                     }
-                }
-                onNoMoreElements()
-                return if (iterator.queueRead == iterator.queueWrite) {
-                    onClose()
-                    DictionaryValueHelper.nullValue
-                } else {
-                    val res = iterator.queue[iterator.queueRead].next()
-                    if (res == DictionaryValueHelper.nullValue) {
+                    onNoMoreElements()
+                    return if (iterator.queueRead == iterator.queueWrite) {
                         onClose()
-                    }
-                    res
-                }
-            }
-            2 -> {
-                while (iterator.queueRead < iterator.queueWrite) {
-                    val res = iterator.queue[iterator.queueRead].next()
-                    if (res == DictionaryValueHelper.nullValue) {
-                        iterator.releaseValue(iterator.queue[iterator.queueRead])
-                        iterator.queueRead++
+                        DictionaryValueHelper.nullValue
                     } else {
-                        return res
+                        val res = iterator.queue[iterator.queueRead].next()
+                        if (res == DictionaryValueHelper.nullValue) {
+                            onClose()
+                        }
+                        res
                     }
                 }
-                onClose()
-                return DictionaryValueHelper.nullValue
-            }
-            else -> {
-                return DictionaryValueHelper.nullValue
+                2 -> {
+                    while (iterator.queueRead < iterator.queueWrite) {
+                        val res = iterator.queue[iterator.queueRead].next()
+                        if (res == DictionaryValueHelper.nullValue) {
+                            iterator.releaseValue(iterator.queue[iterator.queueRead])
+                            iterator.queueRead++
+                        } else {
+                            return res
+                        }
+                    }
+                    onClose()
+                    return DictionaryValueHelper.nullValue
+                }
+                else -> {
+                    return DictionaryValueHelper.nullValue
+                }
             }
         }
     }
-}
 }

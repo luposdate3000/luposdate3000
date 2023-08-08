@@ -21,12 +21,12 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
-import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.SanityCheck
 import lupos.shared.UnreachableException
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
+import lupos.shared.inline.MyThreadReadWriteLock
 
 public class DictionaryCacheLayer(
     private val instance: Luposdate3000Instance,

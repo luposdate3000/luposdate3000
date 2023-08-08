@@ -33,7 +33,7 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     public val i2: Int
 
     @JvmField
-    public var count :Long= 0L
+    public var count: Long = 0L
 
     @JvmField
     public var last0: DictionaryValueType = 0
@@ -48,7 +48,7 @@ public class TriplesIntermediateWriter : TriplesIntermediate {
     public val buf: ByteArray = ByteArray(25)
 
     @JvmField
-public    val bufWrapper :ByteArrayWrapper= ByteArrayWrapper(buf, 24)
+    public val bufWrapper: ByteArrayWrapper = ByteArrayWrapper(buf, 24)
     public val writeOrder: EIndexPattern
 
     public constructor(filename: String, writeOrder: EIndexPattern) : super(filename) {

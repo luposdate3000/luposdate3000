@@ -22,11 +22,11 @@ import lupos.operator.physical.multiinput.POPUnion
 import lupos.shared.EOperatorIDExt
 import lupos.shared.ESortPriorityExt
 import lupos.shared.IQuery
-import lupos.shared.inline.ParallelThread
 import lupos.shared.Partition
 import lupos.shared.PartitionHelper
 import lupos.shared.SanityCheck
 import lupos.shared.XMLElement
+import lupos.shared.inline.ParallelThread
 import lupos.shared.operator.IOPBase
 import lupos.shared.operator.iterator.IteratorBundle
 import kotlin.jvm.JvmField

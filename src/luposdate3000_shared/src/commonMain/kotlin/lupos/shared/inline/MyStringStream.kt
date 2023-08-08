@@ -15,28 +15,27 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
+import lupos.shared.myPrintStackTrace
 import kotlin.jvm.JvmField
 
 public class MyStringStream(str: String) : IMyInputStream {
 
     @JvmField
-public    val buf8 :ByteArray= ByteArray(8)
+    public val buf8: ByteArray = ByteArray(8)
 
     @JvmField
-public    val buf8Wrapper :ByteArrayWrapper= ByteArrayWrapper(buf8, 8)
+    public val buf8Wrapper: ByteArrayWrapper = ByteArrayWrapper(buf8, 8)
 
     @JvmField
-    public val data :ByteArray= str.encodeToByteArray()
+    public val data: ByteArray = str.encodeToByteArray()
 
     @JvmField
-    public var pos :Int= 0
+    public var pos: Int = 0
     override fun close() {
     }
 
@@ -108,7 +107,7 @@ public    val buf8Wrapper :ByteArrayWrapper= ByteArrayWrapper(buf8, 8)
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyStringStream.kt:110"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyStringStream.kt:110"/*SOURCE_FILE_END*/)
             if (buf.size == 0) {
                 return null
             }

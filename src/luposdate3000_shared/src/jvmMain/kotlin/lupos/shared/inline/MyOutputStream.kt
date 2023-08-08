@@ -15,19 +15,16 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyOutputStream
-import lupos.shared.SanityCheck
 import java.io.OutputStream
 import kotlin.jvm.JvmField
 
 public actual class MyOutputStream : IMyOutputStream {
     @JvmField
-public    val buffer: ByteArray
-public    var bufferPos :Int= 0
+    public val buffer: ByteArray
+    public var bufferPos: Int = 0
 
     @JvmField
     public var stream: OutputStream?
@@ -113,10 +110,10 @@ public    var bufferPos :Int= 0
         _write(buf, 0, buf.size)
     }
 
-    public actual override fun println(x: String) :Unit= _print("$x\n")
-    public actual override fun print(x: String) :Unit= _print(x)
-    public actual override fun print(x: Boolean) :Unit= _print("$x")
-    public actual override fun print(x: Int) :Unit= _print("$x")
-    public actual override fun print(x: Double) :Unit= _print("$x")
-    public actual override fun println() :Unit= _print("\n")
+    public actual override fun println(x: String): Unit = _print("$x\n")
+    public actual override fun print(x: String): Unit = _print(x)
+    public actual override fun print(x: Boolean): Unit = _print("$x")
+    public actual override fun print(x: Int): Unit = _print("$x")
+    public actual override fun print(x: Double): Unit = _print("$x")
+    public actual override fun println(): Unit = _print("\n")
 }

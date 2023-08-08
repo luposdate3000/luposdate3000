@@ -20,7 +20,6 @@ import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.IMyInputStream
 import lupos.shared.IMyOutputStream
-import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import kotlin.jvm.JvmField
@@ -81,28 +80,28 @@ public object DictionaryValueHelperInt {
     public val FIRST_BNODE: Int = 5
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf() :IntArray= intArrayOf()
+    public inline fun DictionaryValueTypeArrayOf(): IntArray = intArrayOf()
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf(a: Int) :IntArray= intArrayOf(a)
+    public inline fun DictionaryValueTypeArrayOf(a: Int): IntArray = intArrayOf(a)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf(a: Int, b: Int) :IntArray= intArrayOf(a, b)
+    public inline fun DictionaryValueTypeArrayOf(a: Int, b: Int): IntArray = intArrayOf(a, b)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun DictionaryValueTypeArrayOf(a: Int, b: Int, c: Int) :IntArray= intArrayOf(a, b, c)
+    public inline fun DictionaryValueTypeArrayOf(a: Int, b: Int, c: Int): IntArray = intArrayOf(a, b, c)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Int) :Unit= BufferManagerPage.writeInt4(buffer, off, value)
+    public inline fun toByteArray(buffer: BufferManagerPageWrapper, off: Int, value: Int): Unit = BufferManagerPage.writeInt4(buffer, off, value)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int, crossinline comment: () -> String = { "TODO" }) :Unit= ByteArrayWrapperExt.writeIntX(buffer, off, value, count, comment)
+    public inline fun toByteArrayX(buffer: ByteArrayWrapper, off: Int, value: Int, count: Int, crossinline comment: () -> String = { "TODO" }): Unit = ByteArrayWrapperExt.writeIntX(buffer, off, value, count, comment)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Int, count: Int) :Unit= BufferManagerPage.writeIntX(buffer, off, value, count)
+    public inline fun toByteArrayX(buffer: BufferManagerPageWrapper, off: Int, value: Int, count: Int): Unit = BufferManagerPage.writeIntX(buffer, off, value, count)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int, crossinline comment: () -> String = { "TODO" }) :Unit= ByteArrayWrapperExt.writeInt4(buffer, off, value, comment)
+    public inline fun toByteArray(buffer: ByteArrayWrapper, off: Int, value: Int, crossinline comment: () -> String = { "TODO" }): Unit = ByteArrayWrapperExt.writeInt4(buffer, off, value, comment)
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun fromByteArray(buffer: BufferManagerPageWrapper, off: Int): Int = BufferManagerPage.readInt4(buffer, off)
@@ -153,8 +152,8 @@ public object DictionaryValueHelperInt {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun sendToStream(stream: IMyOutputStream, value: Int) :Unit= stream.writeInt(value)
+    public inline fun sendToStream(stream: IMyOutputStream, value: Int): Unit = stream.writeInt(value)
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun readFromStream(stream: IMyInputStream) :Int= stream.readInt()
+    public inline fun readFromStream(stream: IMyInputStream): Int = stream.readInt()
 }
