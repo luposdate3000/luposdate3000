@@ -158,7 +158,7 @@ without minify mode only the passing tests will be added
         resultDataFileName: String?, //
         services: List<Map<String, String>>?, //
         inputDataGraph: MutableList<MutableMap<String, String>>, //
-        outputDataGraph: MutableList<MutableMap<String, String>> //
+        outputDataGraph: MutableList<MutableMap<String, String>>, //
     ): Boolean {
         var testCaseName2 = testName.filter { it.isLetterOrDigit() || it == ' ' }
         var testCaseName = testCaseName2.filter { it.isLetterOrDigit() }

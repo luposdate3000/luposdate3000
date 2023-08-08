@@ -136,54 +136,27 @@ without minify mode only the passing tests will be added
             for (n in allTestClassNames) {
                 out.println("import lupos.code_gen_test_00.$n")
             }
-            out.println(
-                """
-@Throws(IOException::class, InterruptedException::class)
-fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
-  val javaHome = System.getProperty("java.home")
-  val javaBin = javaHome + File.separator + "bin" + File.separator + "java"
-  val classpath = System.getProperty("java.class.path")
-  val className = clazz.name
-
-  val command = ArrayList<String>()
-  command.add(javaBin)
-  command.addAll(jvmArgs)
-  command.add("-cp")
-  command.add(classpath)
-  command.add(className)
-  command.addAll(args)
-
-  val builder = ProcessBuilder(command)
-  val process = builder.inheritIO().start()
-  process.waitFor()
-  return process.exitValue()
-}"""
-            )
+out.println("internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
+out.println("    val javaHome = System.getProperty(\"java.home\")")
+out.println("    val javaBin = javaHome + \"/bin/java\"")
+out.println("    val classpath = System.getProperty(\"java.class.path\")")
+out.println("    val className = clazz.name")
+out.println("    val command = ArrayList<String>()")
+out.println("    command.add(javaBin)")
+out.println("    command.addAll(jvmArgs)")
+out.println("    command.add(\"-cp\")")
+out.println("    command.add(classpath)")
+out.println("    command.add(className)")
+out.println("    command.addAll(args)")
+out.println("    val builder = ProcessBuilder(command)")
+out.println("    val process = builder.inheritIO().start()")
+out.println("    process.waitFor()")
+out.println("    return process.exitValue()")
+out.println("}")
             out.println("public fun main(){")
-            out.println("    val tests=mutableListOf<Pair<String,()->Unit>>()")
-            for (n in allTestClassNames) {
-                out.println("    tests.addAll($n().getTests())")
-            }
-//
-            out.println(
-                """
-java.io.File("logs").mkdirs()
-java.io.File("logs/started.log").withOutputStream { outS ->
-java.io.File("logs/passed.log").withOutputStream { outP ->
-java.io.File("logs/failed.log").withOutputStream { outF ->
-for (t in tests){
-outS.println(t.first)
-try{
-t.second()
-outP.println(t.first)
-}catch(e:Exception){
-outF.println(t.first)
+for (n in allTestClassNames) {
+out.println("        exec($n::class.java, jvmArgs = listOf(\"-Xmx8g\"))")
 }
-}
-}}}
-"""
-            )
-//
             out.println("}")
         }
     }
@@ -211,7 +184,7 @@ outF.println(t.first)
         resultDataFileName: String?, //
         services: List<Map<String, String>>?, //
         inputDataGraph: MutableList<MutableMap<String, String>>, //
-        outputDataGraph: MutableList<MutableMap<String, String>> //
+        outputDataGraph: MutableList<MutableMap<String, String>>, //
     ): Boolean {
         var testCaseName2 = testName.filter { it.isLetterOrDigit() || it == ' ' }
         var testCaseName = testCaseName2.filter { it.isLetterOrDigit() }
@@ -653,6 +626,19 @@ outF.println(t.first)
                         out.println("            \"$testname\" to ::`$testname`,")
                     }
                     out.println("        )")
+                    out.println("    }")
+                    out.println("    public fun main(){")
+                    out.println("        for((name,func) in getTests()){")
+                    out.println("            File(\"logs/\$name.stat\").withOutputStream{ out->")
+                    out.println("                out.println(\"started\")")
+                    out.println("                try{")
+                    out.println("                    func()")
+                    out.println("                    out.println(\"passed\")")
+                    out.println("                }catch(e:Exception){")
+                    out.println("                    out.println(\"failed\")")
+                    out.println("                }")
+                    out.println("            }")
+                    out.println("        }")
                     out.println("    }")
                     out.print(postfix)
                 }

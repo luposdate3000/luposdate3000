@@ -102,7 +102,7 @@ public class MyInputStreamFixedLength(@JvmField public val stream: IMyInputStrea
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:105"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/inline/MyInputStreamFixedLength.kt:104"/*SOURCE_FILE_END*/)
             if (buf.size == 0) {
                 return null
             }
