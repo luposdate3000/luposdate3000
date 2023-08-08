@@ -133,15 +133,14 @@ without minify mode only the passing tests will be added
                 out.println(t)
             }
         }
-        File("${outputFolderSrcJvm(folderCurrent)}/MyMainFunc.kt").withOutputStream { out ->
-            for (n in allTestClassNames) {
-                out.println("import lupos.launch_code_gen_test_00.$n")
-            }
+        File("${outputFolderSrcJvm(folderCurrent)}/Main.kt").withOutputStream { out ->
 out.println("internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
+out.println("    return exec(clazz.name,args,jvmArgs)")
+out.println("}")
+out.println("internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
 out.println("    val javaHome = System.getProperty(\"java.home\")")
 out.println("    val javaBin = javaHome + \"/bin/java\"")
 out.println("    val classpath = System.getProperty(\"java.class.path\")")
-out.println("    val className = clazz.name")
 out.println("    val command = ArrayList<String>()")
 out.println("    command.add(javaBin)")
 out.println("    command.addAll(jvmArgs)")
@@ -150,13 +149,16 @@ out.println("    command.add(classpath)")
 out.println("    command.add(className)")
 out.println("    command.addAll(args)")
 out.println("    val builder = ProcessBuilder(command)")
-out.println("    val process = builder.inheritIO().start()")
+//out.println("    builder.directory(java.io.File(\"src/luposdate3000_launch_code_gen_test_00\"));")
+out.println("    builder.redirectErrorStream(true)")
+out.println("    builder.redirectOutput(java.io.File(className+\".log\"))")
+out.println("    val process = builder.start()")
 out.println("    process.waitFor()")
 out.println("    return process.exitValue()")
 out.println("}")
             out.println("public fun main(){")
 for (n in allTestClassNames) {
-out.println("        exec($n::class.java, jvmArgs = listOf(\"-Xmx8g\"))")
+out.println("        exec(\"lupos.launch_code_gen_test_00.${n.replaceFirstChar { it.uppercase() }}Kt\", jvmArgs = listOf(\"-Xmx8g\"))")
 }
             out.println("}")
         }
@@ -578,6 +580,7 @@ out.println("        exec($n::class.java, jvmArgs = listOf(\"-Xmx8g\"))")
                     if (shouldAddFunction(testname)) {
                         val finalClassName = "${testname.takeLast(150)}".filter { it.isLetterOrDigit() }
                         File("${outputFolderSrcJvm(folderCurrent)}/$finalClassName.kt").withOutputStream { out ->
+                        allTestClassNames.add(finalClassName)
                             var stringBufferSimulatorRequired = false
                             var stringBufferNormalHelperRequired = false
                             if (testname.contains(" - in simulator - ")) {
@@ -600,6 +603,7 @@ out.println("        exec($n::class.java, jvmArgs = listOf(\"-Xmx8g\"))")
                 }
             } else {
                 File("${outputFolderSrcJvm(folderCurrent)}/$testCaseName.kt").withOutputStream { out ->
+allTestClassNames.add(finalClassName)
                     var stringBufferSimulatorRequired = false
                     var stringBufferNormalHelperRequired = false
                     out.print(prefix)
@@ -623,25 +627,24 @@ out.println("        exec($n::class.java, jvmArgs = listOf(\"-Xmx8g\"))")
                     out.println("    public fun getTests():Set<Pair<String,()->Unit>> {")
                     out.println("        return setOf(")
                     for (testname in listOfTestNames) {
-                        allTestClassNames.add(testCaseName)
                         out.println("            \"$testname\" to ::`$testname`,")
                     }
                     out.println("        )")
                     out.println("    }")
-                    out.println("    public fun main(){")
-                    out.println("        for((name,func) in getTests()){")
-                    out.println("            File(\"logs/\$name.stat\").withOutputStream{ out->")
-                    out.println("                out.println(\"started\")")
-                    out.println("                try{")
-                    out.println("                    func()")
-                    out.println("                    out.println(\"passed\")")
-                    out.println("                }catch(e:Exception){")
-                    out.println("                    out.println(\"failed\")")
-                    out.println("                }")
+                    out.print(postfix)
+                    out.println("public fun main(){")
+                    out.println("    for((name,func) in $testCaseName().getTests()){")
+                    out.println("        File(\"logs/\$name.stat\").withOutputStream{ out->")
+                    out.println("            out.println(\"started\")")
+                    out.println("            try{")
+                    out.println("                func()")
+                    out.println("                out.println(\"passed\")")
+                    out.println("            }catch(e:Exception){")
+                    out.println("                out.println(\"failed\")")
                     out.println("            }")
                     out.println("        }")
                     out.println("    }")
-                    out.print(postfix)
+                    out.println("}")
                 }
             }
             if (fileBufferTests.size > 0) {
