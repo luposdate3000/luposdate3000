@@ -285,9 +285,9 @@ public object LuposdateEndpoint {
                             val newA = mapping[newOriginalA]
                             val newB = mapping[newOriginalB]
                             val newC = mapping[newOriginalC]
-                            if (SanityCheck.enabled) { if (!(newA >= oldA)) { throw Exception("SanityCheck failed") } }
-                            if (SanityCheck.enabled) { if (!(newB >= oldB || newA > oldA)) { throw Exception("SanityCheck failed") } }
-                            if (SanityCheck.enabled) { if (!(newC > oldC || newA > oldA || newB > oldB)) { throw Exception("SanityCheck failed") } }
+                            if (SanityCheck.enabled) { if (!(newA >= oldA)) { throw Exception("SanityCheck failed "+newA+" "+oldA) } }
+                            if (SanityCheck.enabled) { if (!(newB >= oldB || newA > oldA)) { throw Exception("SanityCheck failed "+newA+" "+oldA+" "+newB+" "+oldB) } }
+                            if (SanityCheck.enabled) { if (!(newC > oldC || newA > oldA || newB > oldB)) { throw Exception("SanityCheck failed "+newA+" "+oldA+" "+newB+" "+oldB+" "+newC+" "+oldC) } }
                             oldA = newA
                             oldB = newB
                             oldC = newC
