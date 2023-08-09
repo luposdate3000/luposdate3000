@@ -111,7 +111,6 @@ without minify mode only the passing tests will be added
             File("${outputFolderRoot(idx)}/module_config").withOutputStream { out ->
                 out.println("package=Luposdate3000_Main")
                 out.println("disableJS=true")
-                out.println("dependencyJvm=org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt")
                 if (fileModeMany) { // because this yields out of memory during compilation
                     out.println("useKTLint=false")
                 }
@@ -127,15 +126,7 @@ without minify mode only the passing tests will be added
         }
         File("${outputFolderSrcJvm(folderCurrent)}/Main.kt").withOutputStream { out ->
             out.println("import java.util.concurrent.TimeUnit")
-            out.println("import kotlinx.coroutines.async")
-            out.println("import kotlinx.coroutines.runBlocking")
-            out.println("import kotlinx.coroutines.launch")
-            out.println("import kotlinx.coroutines.Dispatchers")
-            out.println("import kotlinx.coroutines.awaitAll")
-            out.println("import kotlinx.coroutines.CoroutineScope")
-            out.println("import kotlinx.coroutines.coroutineScope")
-            out.println("import kotlinx.coroutines.sync.Semaphore")
-            out.println("import kotlinx.coroutines.sync.withPermit")
+            out.println("import java.lang.ProcessBuilder.Redirect")
             out.println("internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {")
             out.println("    return exec(clazz.name,args,jvmArgs)")
             out.println("}")
@@ -153,8 +144,8 @@ without minify mode only the passing tests will be added
             out.println("    val builder = ProcessBuilder(command)")
             out.println("    val env = builder.environment()")
             out.println("    env.putAll(System.getenv())")
-            out.println("    builder.redirectError(java.io.File(className+\".err\"))")
-            out.println("    builder.redirectOutput(java.io.File(className+\".log\"))")
+            out.println("    builder.redirectError(Redirect.appendTo(java.io.File(className+\".err\")))")
+            out.println("    builder.redirectOutput(Redirect.appendTo(java.io.File(className+\".log\")))")
             out.println("    val process = builder.start()")
             out.println("    process.waitFor(10, TimeUnit.SECONDS)")
             out.println("    process.destroyForcibly()")

@@ -104,6 +104,7 @@ internal object POPJoin {
         if (count <0 || count <countA || count <countB) {
             throw TooManyIntermediateResultsException()
         }
+
         if (SanityCheck.enabled) { if (!(count > 0)) { throw Exception("SanityCheck failed") } }
         when {
             count == 1 -> {

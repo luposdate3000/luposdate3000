@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.physical
+import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoinTopology
@@ -30,12 +31,7 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
     // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         if (node is LOPJoinTopology) {
-            // println("PhysicalOptimizerPartitionJoinTopology check")
             if (parent !is POPMergePartitionOrderedByIntId && parent !is POPMergePartition) {
-                // println()
-                // println()
-                // println()
-                // println("PhysicalOptimizerPartitionJoinTopology start")
 
                 val variableNamesAndWhereTheyAppear = mutableMapOf<String, MutableSet<Int>>()
                 val partitionings = mutableMapOf<String, MutableSet<Int>>()
@@ -83,11 +79,6 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                         }
                     }
                 }
-                // println("found ${node.children.size} childs")
-                // println("original variable mapping is: $variableNamesAndWhereTheyAppear")
-                // println("join variable mapping is: $variableNamesAndWhereTheyAppear")
-                // println("partitions $partitionings")
-                // println("possible partitions $possiblePartitions")
                 if (possiblePartitions.size> 0) {
                     var largestC = 0
                     var largestV = "" to 0
@@ -109,7 +100,6 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                                 parentInputs.add(node.children[i])
                             }
                         }
-// println("childInputs.size "+childInputs.size)
                         val partitionID = query.getNextPartitionOperatorID()
 
                         val childInputs2 = childInputs.map { POPSplitPartition(query, it.getProvidedVariableNames(), largestV.first, largestV.second, partitionID, it) }
@@ -118,17 +108,30 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                             query.addPartitionOperator(c.getUUID(), partitionID)
                         }
 
-                        val child = LOPJoinTopology(node.query, childInputs2.toTypedArray())
+                        val child = if(childInputs2.size>1){
+LOPJoinTopology(node.query, childInputs2.toTypedArray())
+}else{
+if(node.projectedVariables!=null){
+POPProjection(query,node.projectedVariables!!,childInputs2[0])
+}else{
+childInputs2[0]
+}
+}
                         parentInputs.add(POPMergePartition(query, childInputs.map { it.getProvidedVariableNames() }.flatten(), largestV.first, largestV.second, partitionID, child))
                         query.addPartitionOperator(parentInputs.last().getUUID(), partitionID)
 
                         onChange()
-                        val res = LOPJoinTopology(node.query, parentInputs.toTypedArray())
-                        res.projectedVariables = node.projectedVariables
-                        // println("PhysicalOptimizerPartitionJoinTopology end")
-                        // println()
-                        // println()
-//                    println(res)
+                        val res = if(parentInputs.size>1){
+val rr=LOPJoinTopology(node.query, parentInputs.toTypedArray())
+                        rr.projectedVariables = node.projectedVariables
+rr
+}else{
+if (node.projectedVariables!=null){
+POPProjection(query,node.projectedVariables!!,parentInputs[0])
+}else{
+parentInputs[0]
+}
+}
                         return res
                     }
                 }

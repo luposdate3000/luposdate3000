@@ -26,7 +26,6 @@ import kotlin.jvm.JvmField
 public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmField public val b: RowIterator, @JvmField public val comparator: Comparator<DictionaryValueType>, @JvmField public val compCount: Int) : RowIterator() {
     public companion object {
         public /*suspend*/ operator fun invoke(a: RowIterator, comparator: Comparator<DictionaryValueType>, compCount: Int, columns: Array<String>): RowIterator {
-            println("RowIteratorMerge .. ${columns.toList()} .. ${a.columns.size}")
             if (SanityCheck.enabled) { if (!(columns.size == a.columns.size)) { throw Exception("SanityCheck failed") } }
             var buf1 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)
             var buf2 = DictionaryValueTypeArray(columns.size * MERGE_SORT_MIN_ROWS)

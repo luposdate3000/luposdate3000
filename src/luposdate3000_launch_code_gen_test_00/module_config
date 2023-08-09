@@ -1,3 +1,2 @@
 package=Luposdate3000_Main
 disableJS=true
-dependencyJvm=org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-native-mt

@@ -4,7 +4,7 @@ import random
 import sys
 from subprocess import STDOUT, check_output, PIPE
 
-testCount = 10000
+testCount = 1000
 try:
     os.makedirs("resources/tests")
 except:

@@ -334,6 +334,7 @@ public abstract class OPBase public constructor(
             }
         } else if (sortPriority == ESortPriorityExt.SAME_AS_CHILD || sortPriority == ESortPriorityExt.BIND || sortPriority == ESortPriorityExt.MINUS) {
             val provided = getProvidedVariableNames()
+if(children.size>0){
             for (x in children[0].getPossibleSortPriorities()) {
                 val tmp = mutableListOf<SortHelper>()
                 for (v in x) {
@@ -344,12 +345,13 @@ public abstract class OPBase public constructor(
                     }
                 }
                 addToPrefixFreeList(tmp, res)
-            }
+            }}
         } else if (sortPriority == ESortPriorityExt.GROUP) {
             throw UnreachableException()
         } else if (sortPriority == ESortPriorityExt.SORT) {
             throw UnreachableException()
         } else if (sortPriority == ESortPriorityExt.JOIN) {
+if(children.size==2){
             val resTmp = arrayOf(mutableListOf<List<SortHelper>>(), mutableListOf())
             val childA = children[0]
             val childB = children[1]
@@ -394,7 +396,7 @@ public abstract class OPBase public constructor(
                         break
                     }
                 }
-            }
+            }}
         }
         return res
     }
@@ -482,7 +484,7 @@ public abstract class OPBase public constructor(
                     val h = getHistogram()
                     res.addAttribute("histogram", "${h.count} - ${h.values}")
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:484"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:486"/*SOURCE_FILE_END*/)
                 }
             }
             if (!excludeChildren) {
@@ -493,8 +495,8 @@ public abstract class OPBase public constructor(
         } catch (e: Throwable) {
             if (!hadXMLWarning) {
                 hadXMLWarning = true
-                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:495"/*SOURCE_FILE_END*/)
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:496"/*SOURCE_FILE_END*/)
+                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:497"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:498"/*SOURCE_FILE_END*/)
             }
         }
         return res

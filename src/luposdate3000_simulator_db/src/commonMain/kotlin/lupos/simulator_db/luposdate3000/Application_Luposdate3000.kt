@@ -18,11 +18,13 @@
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
+import lupos.operator.physical.singleinput.EvalSort
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.PathMappingHelper
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.physical.multiinput.EvalJoinMerge
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
@@ -303,7 +305,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:305"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:307"/*SOURCE_FILE_END*/)
             }
         } else {
             // println("can not use local execution due to instance.tryLocalExecution")
@@ -882,11 +884,13 @@ public class Application_Luposdate3000 public constructor(
                 }
                 var isCartesian = projected0.intersect(projected1).size == 0
                 val x = if (isCartesian) {
-// println("joining cart :: $projected0 + $projected1 -> $finalSet")
                     EvalJoinCartesianProduct(query, child0, child1, false)
                 } else {
-// println("joining merge :: $projected0 + $projected1 -> $finalSet")
-                    EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
+val sortOrder=projected0.intersect(projected1).toList()
+val child0s=EvalSort(child0,sortOrder,query,arrayOf(),projected0,true)
+val child1s=EvalSort(child1,sortOrder,query,arrayOf(),projected1,true)
+EvalJoinMerge(query,child0s,child1s,finalSet.toList(),sortOrder)
+//                    EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
 // EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
                 }
 
@@ -1103,7 +1107,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1105"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1109"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1129,7 +1133,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1131"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1135"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null
