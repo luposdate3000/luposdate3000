@@ -21,6 +21,7 @@ import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallABS
 import lupos.operator.arithmetik.generated.AOPBuildInCallBNODE1
+import lupos.operator.arithmetik.noinput.AOPBuildInCallBNODE0
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
@@ -33,9 +34,14 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallLANGMATCHES
 import lupos.operator.arithmetik.generated.AOPBuildInCallLCASE
 import lupos.operator.arithmetik.generated.AOPBuildInCallMD5
+import lupos.operator.arithmetik.generated.AOPFunctionCallFloat
+import lupos.operator.arithmetik.generated.AOPFunctionCallDouble
+import lupos.operator.arithmetik.generated.AOPBuildInCallTIMEZONE
 import lupos.operator.arithmetik.generated.AOPBuildInCallMINUTES
 import lupos.operator.arithmetik.generated.AOPBuildInCallMONTH
 import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
+import lupos.operator.arithmetik.generated.AOPBuildInCallTZ
+import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
 import lupos.operator.arithmetik.generated.AOPBuildInCallSECONDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
@@ -48,8 +54,12 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallSTRSTARTS
 import lupos.operator.arithmetik.generated.AOPBuildInCallUCASE
 import lupos.operator.arithmetik.generated.AOPBuildInCallYEAR
 import lupos.operator.arithmetik.generated.AOPDivision
+import lupos.operator.arithmetik.generated.AOPSubtraction
+import lupos.operator.arithmetik.generated.AOPMultiplication
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTRAFTER
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTRBEFORE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
 import lupos.operator.arithmetik.multiinput.AOPEQ
@@ -252,9 +262,39 @@ public object ConverterBinaryToAOPBase {
             },
         )
         assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPBuildInCallTZID,
+            { query, data, off ->
+                AOPBuildInCallTZ(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallTZ.child" })))
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPBuildInCallDATATYPEID,
+            { query, data, off ->
+                AOPBuildInCallDATATYPE(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDATATYPE.child" })))
+            },
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPBuildInCallMD5ID,
             { query, data, off ->
                 AOPBuildInCallMD5(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" })))
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPFunctionCallFloatID,
+            { query, data, off ->
+                AOPFunctionCallFloat(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPFunctionCallFloat.child" })))
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPFunctionCallDoubleID,
+            { query, data, off ->
+                AOPFunctionCallDouble(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPFunctionCallDouble.child" })))
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPBuildInCallTIMEZONEID,
+            { query, data, off ->
+                AOPBuildInCallTIMEZONE(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallTIMEZONE.child" })))
             },
         )
         assignOperatorArithmetikDecode(
@@ -303,6 +343,12 @@ public object ConverterBinaryToAOPBase {
             EOperatorIDExt.AOPBuildInCallBNODE1ID,
             { query, data, off ->
                 AOPBuildInCallBNODE1(query, decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBNODE1.child" })))
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPBuildInCallBNODE0ID,
+            { query, data, off ->
+                AOPBuildInCallBNODE0(query)
             },
         )
         assignOperatorArithmetikDecode(
@@ -487,6 +533,26 @@ public object ConverterBinaryToAOPBase {
             },
         )
         assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPSubtractionID,
+            { query, data, off ->
+                AOPSubtraction(
+                    query,
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPSubtraction.child[0]" })),
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPSubtraction.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPMultiplicationID,
+            { query, data, off ->
+                AOPMultiplication(
+                    query,
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPMultiplication.child[0]" })),
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPMultiplication.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetikDecode(
             EOperatorIDExt.AOPAndID,
             { query, data, off ->
                 AOPAnd(
@@ -503,6 +569,26 @@ public object ConverterBinaryToAOPBase {
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPEQ.child[0]" })),
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPEQ.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPBuildInCallSTRAFTERID,
+            { query, data, off ->
+                AOPBuildInCallSTRAFTER(
+                    query,
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRAFTER.child[0]" })),
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRAFTER.child[1]" }))
+                )
+            },
+        )
+        assignOperatorArithmetikDecode(
+            EOperatorIDExt.AOPBuildInCallSTRBEFOREID,
+            { query, data, off ->
+                AOPBuildInCallSTRBEFORE(
+                    query,
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRBEFORE.child[0]" })),
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRBEFORE.child[1]" }))
                 )
             },
         )

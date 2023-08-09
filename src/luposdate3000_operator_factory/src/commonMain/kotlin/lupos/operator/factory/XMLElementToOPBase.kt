@@ -25,7 +25,6 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONTAINS
-import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
 import lupos.operator.arithmetik.generated.AOPBuildInCallDAY
 import lupos.operator.arithmetik.generated.AOPBuildInCallFLOOR
 import lupos.operator.arithmetik.generated.AOPBuildInCallHOURS
@@ -40,6 +39,8 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallMD5
 import lupos.operator.arithmetik.generated.AOPBuildInCallMINUTES
 import lupos.operator.arithmetik.generated.AOPBuildInCallMONTH
 import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
+import lupos.operator.arithmetik.generated.AOPBuildInCallTZ
+import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
 import lupos.operator.arithmetik.generated.AOPBuildInCallSECONDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
@@ -52,17 +53,16 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLEN
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRSTARTS
 import lupos.operator.arithmetik.generated.AOPBuildInCallTIMEZONE
-import lupos.operator.arithmetik.generated.AOPBuildInCallTZ
 import lupos.operator.arithmetik.generated.AOPBuildInCallUCASE
 import lupos.operator.arithmetik.generated.AOPBuildInCallYEAR
 import lupos.operator.arithmetik.generated.AOPDivision
+import lupos.operator.arithmetik.generated.AOPSubtraction
 import lupos.operator.arithmetik.generated.AOPFunctionCallDouble
 import lupos.operator.arithmetik.generated.AOPFunctionCallFloat
 import lupos.operator.arithmetik.generated.AOPFunctionCallString
 import lupos.operator.arithmetik.generated.AOPMultiplication
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
-import lupos.operator.arithmetik.generated.AOPSubtraction
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
 import lupos.operator.arithmetik.multiinput.AOPEQ
@@ -238,9 +238,6 @@ public object XMLElementToOPBase {
         operatorMap["AOPFunctionCallFloat"] = { query, node, mapping, recursionFunc ->
             AOPFunctionCallFloat(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
-        operatorMap["AOPFunctionCallDouble"] = { query, node, mapping, recursionFunc ->
-            AOPFunctionCallDouble(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
-        }
         operatorMap["AOPFunctionCallString"] = { query, node, mapping, recursionFunc ->
             AOPFunctionCallString(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
@@ -265,6 +262,12 @@ public object XMLElementToOPBase {
         operatorMap["AOPBuildInCallROUND"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallROUND(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
+        operatorMap["AOPBuildInCallTZ"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallTZ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallDATATYPE"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallDATATYPE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
         operatorMap["AOPBuildInCallBOUND"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallBOUND(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
@@ -279,6 +282,12 @@ public object XMLElementToOPBase {
         }
         operatorMap["AOPBuildInCallMD5"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallMD5(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPFunctionCallDouble"] = { query, node, mapping, recursionFunc ->
+            AOPFunctionCallDouble(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPBuildInCallTIMEZONE"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallTIMEZONE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
         operatorMap["AOPBuildInCallSTRLEN"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallSTRLEN(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
@@ -304,17 +313,14 @@ public object XMLElementToOPBase {
         operatorMap["AOPEQ"] = { query, node, mapping, recursionFunc ->
             AOPEQ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
+        operatorMap["AOPBuildInCallSTRAFTER"] = { query, node, mapping, recursionFunc ->
+            AOPBuildInCallSTRAFTER(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
         operatorMap["AOPVariable"] = { query, node, mapping, recursionFunc ->
             AOPVariable(query, node.attributes["name"]!!)
         }
         operatorMap["AOPBuildInCallIRI"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallIRI(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, node.attributes["prefix"]!!)
-        }
-        operatorMap["AOPBuildInCallDATATYPE"] = { query, node, mapping, recursionFunc ->
-            AOPBuildInCallDATATYPE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
-        }
-        operatorMap["AOPBuildInCallTIMEZONE"] = { query, node, mapping, recursionFunc ->
-            AOPBuildInCallTIMEZONE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
         operatorMap["AOPBuildInCallUCASE"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallUCASE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
@@ -327,6 +333,9 @@ public object XMLElementToOPBase {
         }
         operatorMap["AOPDivision"] = { query, node, mapping, recursionFunc ->
             AOPDivision(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
+        }
+        operatorMap["AOPMultiplication"] = { query, node, mapping, recursionFunc ->
+            AOPMultiplication(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
         operatorMap["ValueBnode"] = { query, node, mapping, recursionFunc ->
             val dictvalue = node.attributes["dictvalue"]!!
@@ -500,17 +509,11 @@ public object XMLElementToOPBase {
         operatorMap["AOPConstant"] = { query, node, mapping, recursionFunc ->
             TODO("$node")
         }
-        operatorMap["AOPMultiplication"] = { query, node, mapping, recursionFunc ->
-            AOPMultiplication(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
-        }
         operatorMap["AOPBuildInCallSTRDT"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallSTRDT(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
         operatorMap["AOPBuildInCallSTRLANG"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallSTRLANG(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
-        }
-        operatorMap["AOPBuildInCallSTRAFTER"] = { query, node, mapping, recursionFunc ->
-            AOPBuildInCallSTRAFTER(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
         }
         operatorMap["AOPBuildInCallSTRBEFORE"] = { query, node, mapping, recursionFunc ->
             AOPBuildInCallSTRBEFORE(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
@@ -605,9 +608,6 @@ public object XMLElementToOPBase {
         }
         operatorMap["AOPAnd"] = { query, node, mapping, recursionFunc ->
             AOPAnd(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase, XMLElementToOPBase(query, node["children"]!!.childs[1], mapping, recursionFunc) as AOPBase)
-        }
-        operatorMap["AOPBuildInCallTZ"] = { query, node, mapping, recursionFunc ->
-            AOPBuildInCallTZ(query, XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc) as AOPBase)
         }
         operatorMap["POPSort"] = { query, node, mapping, recursionFunc ->
             val child = XMLElementToOPBase(query, node["children"]!!.childs[0], mapping, recursionFunc)

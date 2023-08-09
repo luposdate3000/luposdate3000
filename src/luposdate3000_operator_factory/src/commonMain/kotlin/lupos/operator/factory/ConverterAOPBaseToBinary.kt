@@ -21,6 +21,7 @@ import lupos.operator.arithmetik.generated.AOPAddition
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallABS
 import lupos.operator.arithmetik.generated.AOPBuildInCallBNODE1
+import lupos.operator.arithmetik.noinput.AOPBuildInCallBNODE0
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
@@ -33,9 +34,14 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallLANGMATCHES
 import lupos.operator.arithmetik.generated.AOPBuildInCallLCASE
 import lupos.operator.arithmetik.generated.AOPBuildInCallMD5
+import lupos.operator.arithmetik.generated.AOPFunctionCallFloat
+import lupos.operator.arithmetik.generated.AOPFunctionCallDouble
+import lupos.operator.arithmetik.generated.AOPBuildInCallTIMEZONE
 import lupos.operator.arithmetik.generated.AOPBuildInCallMINUTES
 import lupos.operator.arithmetik.generated.AOPBuildInCallMONTH
 import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
+import lupos.operator.arithmetik.generated.AOPBuildInCallTZ
+import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
 import lupos.operator.arithmetik.generated.AOPBuildInCallSECONDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
@@ -48,8 +54,12 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallSTRSTARTS
 import lupos.operator.arithmetik.generated.AOPBuildInCallUCASE
 import lupos.operator.arithmetik.generated.AOPBuildInCallYEAR
 import lupos.operator.arithmetik.generated.AOPDivision
+import lupos.operator.arithmetik.generated.AOPSubtraction
+import lupos.operator.arithmetik.generated.AOPMultiplication
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTRAFTER
+import lupos.operator.arithmetik.generated.AOPBuildInCallSTRBEFORE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
 import lupos.operator.arithmetik.multiinput.AOPEQ
@@ -328,6 +338,28 @@ public object ConverterAOPBaseToBinary {
             },
         )
         assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPBuildInCallTZID,
+            { op, data, mapping ->
+                op as AOPBuildInCallTZ
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallTZID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallTZ.child" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPBuildInCallDATATYPEID,
+            { op, data, mapping ->
+                op as AOPBuildInCallDATATYPE
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallDATATYPEID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallDATATYPE.child" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPBuildInCallMD5ID,
             { op, data, mapping ->
                 op as AOPBuildInCallMD5
@@ -335,6 +367,39 @@ public object ConverterAOPBaseToBinary {
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallMD5ID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallMD5.child" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPFunctionCallFloatID,
+            { op, data, mapping ->
+                op as AOPFunctionCallFloat
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPFunctionCallFloatID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPFunctionCallFloat.child" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPFunctionCallDoubleID,
+            { op, data, mapping ->
+                op as AOPFunctionCallDouble
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPFunctionCallDoubleID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPFunctionCallDouble.child" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPBuildInCallTIMEZONEID,
+            { op, data, mapping ->
+                op as AOPBuildInCallTIMEZONE
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 8, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallTIMEZONEID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallTIMEZONE.child" })
                 off
             },
         )
@@ -423,6 +488,16 @@ public object ConverterAOPBaseToBinary {
                 ByteArrayWrapperExt.setSize(data, off + 8, true)
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallBNODE1ID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallBNODE1.child" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPBuildInCallBNODE0ID,
+            { op, data, mapping ->
+                op as AOPBuildInCallBNODE0
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 4, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallBNODE0ID, { "operatorID" })
                 off
             },
         )
@@ -645,6 +720,30 @@ public object ConverterAOPBaseToBinary {
             },
         )
         assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPSubtractionID,
+            { op, data, mapping ->
+                op as AOPSubtraction
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPSubtractionID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPSubtraction.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPSubtraction.child[1]" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPMultiplicationID,
+            { op, data, mapping ->
+                op as AOPMultiplication
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPMultiplicationID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPMultiplication.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPMultiplication.child[1]" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
             EOperatorIDExt.AOPAndID,
             { op, data, mapping ->
                 op as AOPAnd
@@ -665,6 +764,30 @@ public object ConverterAOPBaseToBinary {
                 ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPEQID, { "operatorID" })
                 ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPEQ.child[0]" })
                 ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPEQ.child[1]" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPBuildInCallSTRAFTERID,
+            { op, data, mapping ->
+                op as AOPBuildInCallSTRAFTER
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallSTRAFTERID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSTRAFTER.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallSTRAFTER.child[1]" })
+                off
+            },
+        )
+        assignOperatorArithmetikEncode(
+            EOperatorIDExt.AOPBuildInCallSTRBEFOREID,
+            { op, data, mapping ->
+                op as AOPBuildInCallSTRBEFORE
+                val off = ByteArrayWrapperExt.getSize(data)
+                ByteArrayWrapperExt.setSize(data, off + 12, true)
+                ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.AOPBuildInCallSTRBEFOREID, { "operatorID" })
+                ByteArrayWrapperExt.writeInt4(data, off + 4, encodeAOP(op.children[0] as AOPBase, data, mapping), { "AOPBuildInCallSTRBEFORE.child[0]" })
+                ByteArrayWrapperExt.writeInt4(data, off + 8, encodeAOP(op.children[1] as AOPBase, data, mapping), { "AOPBuildInCallSTRBEFORE.child[1]" })
                 off
             },
         )
