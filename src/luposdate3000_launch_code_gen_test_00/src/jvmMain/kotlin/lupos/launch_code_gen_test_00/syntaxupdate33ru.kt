@@ -49,12 +49,12 @@ public class syntaxupdate33ru {
         "  { ?s ?p ?o } \n" +
         ""
 
-    public fun `syntaxupdate33ru - Thread - Simple - true`() {
+    public fun `syntaxupdate33ru - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,13 +64,13 @@ public class syntaxupdate33ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdate33ru - Thread - Simple - false`() {
+    public fun `syntaxupdate33ru - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -85,8 +85,8 @@ public class syntaxupdate33ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate33ru - Thread - Simple - true" to ::`syntaxupdate33ru - Thread - Simple - true`,
-            "syntaxupdate33ru - Thread - Simple - false" to ::`syntaxupdate33ru - Thread - Simple - false`,
+            "syntaxupdate33ru - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxupdate33ru - Thread - PartitionByIDTwiceAllCollations - true`,
+            "syntaxupdate33ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdate33ru - Thread - PartitionByID_S_AllCollations - true`,
         )
     }
 }
@@ -100,6 +100,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

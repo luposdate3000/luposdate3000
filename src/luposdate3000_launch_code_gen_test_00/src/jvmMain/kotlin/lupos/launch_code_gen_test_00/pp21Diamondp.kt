@@ -60,12 +60,12 @@ public class pp21Diamondp {
         "}  \n" +
         ""
 
-    public fun `pp21 Diamond  p - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `pp21 Diamond  p - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -75,12 +75,12 @@ public class pp21Diamondp {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp21 Diamond  p - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `pp21 Diamond  p - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -90,12 +90,12 @@ public class pp21Diamondp {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp21 Diamond  p - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `pp21 Diamond  p - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -105,37 +105,7 @@ public class pp21Diamondp {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp21 Diamond  p - Thread - PartitionByKeyAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp21Diamondp.kt:117"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp21 Diamond  p - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp21Diamondp.kt:132"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
+    public fun `pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -146,24 +116,10 @@ public class pp21Diamondp {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
-    public fun `pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
+    public fun `pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -174,21 +130,7 @@ public class pp21Diamondp {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
     public fun `pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
@@ -199,6 +141,20 @@ public class pp21Diamondp {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -219,126 +175,42 @@ public class pp21Diamondp {
             "RPL_Fast",
         )
     }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
         )
     }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
+    public fun `pp21 Diamond  p - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -357,6 +229,20 @@ public class pp21Diamondp {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
+        )
+    }
+    public fun `pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -414,27 +300,19 @@ public class pp21Diamondp {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "pp21 Diamond  p - Thread - PartitionByID_1_AllCollations - true" to ::`pp21 Diamond  p - Thread - PartitionByID_1_AllCollations - true`,
-            "pp21 Diamond  p - Thread - PartitionByID_S_AllCollations - true" to ::`pp21 Diamond  p - Thread - PartitionByID_S_AllCollations - true`,
-            "pp21 Diamond  p - Thread - PartitionByID_S_AllCollations - false" to ::`pp21 Diamond  p - Thread - PartitionByID_S_AllCollations - false`,
-            "pp21 Diamond  p - Thread - PartitionByKeyAllCollations - false" to ::`pp21 Diamond  p - Thread - PartitionByKeyAllCollations - false`,
-            "pp21 Diamond  p - Thread - Simple - true" to ::`pp21 Diamond  p - Thread - Simple - true`,
-            "pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
-            "pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
-            "pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
+            "pp21 Diamond  p - Thread - PartitionByID_2_AllCollations - true" to ::`pp21 Diamond  p - Thread - PartitionByID_2_AllCollations - true`,
+            "pp21 Diamond  p - Thread - PartitionByID_O_AllCollations - true" to ::`pp21 Diamond  p - Thread - PartitionByID_O_AllCollations - true`,
+            "pp21 Diamond  p - Thread - PartitionByID_O_AllCollations - false" to ::`pp21 Diamond  p - Thread - PartitionByID_O_AllCollations - false`,
+            "pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`pp21 Diamond  p - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
+            "pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`pp21 Diamond  p - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
             "pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
+            "pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
             "pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
-            "pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp21 Diamond  p - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
-            "pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
-            "pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
-            "pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp21 Diamond  p - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
+            "pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
+            "pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "pp21 Diamond  p - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`pp21 Diamond  p - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
             "pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
+            "pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`pp21 Diamond  p - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
         )
     }
 }
@@ -448,6 +326,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

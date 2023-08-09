@@ -17,6 +17,7 @@
 package lupos.triple_store_manager
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.shared.BugException
+import lupos.operator.physical.singleinput.POPSort
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
@@ -147,6 +148,22 @@ public class TripleStoreDescription(
                 return POPTripleStoreIterator(query, projectedVariables, index, arrayOf(params[0], params[1], params[2]))
             }
         }
+//fallback::
+for (index in indices) {
+                val projectedVariables = mutableListOf<String>()
+                for (param in params) {
+                    if (param is AOPVariable && param.name != "_") {
+                        projectedVariables.add(param.name)
+                    }
+                }
+if(projectedVariables.size>0){
+val sortBy = EIndexPatternHelper.tripleIndicees[idx].map{params[it]}.filter{it is AOPVariable}.map{it as AOPVariable}.filter{it.name!="_"}
+                return POPSort(query,projectedVariables,sortBy.toTypedArray(),true,POPTripleStoreIterator(query, projectedVariables, index, arrayOf(params[0], params[1], params[2])))
+}else{
+return POPTripleStoreIterator(query, projectedVariables, index, arrayOf(params[0], params[1], params[2]))
+}
+        }
+
         throw NoValidIndexFoundException()
     }
 
@@ -193,8 +210,8 @@ public class TripleStoreDescription(
                         } catch (e: Throwable) {
                             if (!hadShownHistogramStacktrace) {
                                 hadShownHistogramStacktrace = true
-                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:195"/*SOURCE_FILE_END*/)
-                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:196"/*SOURCE_FILE_END*/)
+                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:212"/*SOURCE_FILE_END*/)
+                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:213"/*SOURCE_FILE_END*/)
                             }
                             first += 100
                             second += 100
@@ -204,6 +221,7 @@ public class TripleStoreDescription(
                 return Pair(first, second)
             }
         }
+return Pair(1000,1000)
         throw NoValidIndexFoundException()
     }
 }

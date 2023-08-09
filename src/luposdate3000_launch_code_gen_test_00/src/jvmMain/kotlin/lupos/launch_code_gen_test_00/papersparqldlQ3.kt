@@ -71,21 +71,6 @@ public class papersparqldlQ3 {
         "} \n" +
         ""
 
-    public fun `papersparqldlQ3 - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/papersparqldlQ3.kt:83"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
     public fun `papersparqldlQ3 - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -96,17 +81,32 @@ public class papersparqldlQ3 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/papersparqldlQ3.kt:83"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `papersparqldlQ3 - Thread - BenchmarkFig5 - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/papersparqldlQ3.kt:98"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `papersparqldlQ3 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `papersparqldlQ3 - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -116,12 +116,12 @@ public class papersparqldlQ3 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `papersparqldlQ3 - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `papersparqldlQ3 - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -131,13 +131,13 @@ public class papersparqldlQ3 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `papersparqldlQ3 - Thread - Simple - false`() {
+    public fun `papersparqldlQ3 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -146,28 +146,14 @@ public class papersparqldlQ3 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `papersparqldlQ3 - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+    public fun `papersparqldlQ3 - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `papersparqldlQ3 - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "None",
             ),
@@ -188,20 +174,6 @@ public class papersparqldlQ3 {
             "AllShortestPath",
         )
     }
-    public fun `papersparqldlQ3 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
     public fun `papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -216,21 +188,7 @@ public class papersparqldlQ3 {
             "RPL",
         )
     }
-    public fun `papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -241,21 +199,21 @@ public class papersparqldlQ3 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
-    public fun `papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
     public fun `papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
@@ -272,7 +230,35 @@ public class papersparqldlQ3 {
             "RPL_Fast",
         )
     }
-    public fun `papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -280,6 +266,48 @@ public class papersparqldlQ3 {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -314,7 +342,21 @@ public class papersparqldlQ3 {
             "RPL_Fast",
         )
     }
-    public fun `papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -325,16 +367,44 @@ public class papersparqldlQ3 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL_Fast",
         )
     }
-    public fun `papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
+    public fun `papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -397,25 +467,30 @@ public class papersparqldlQ3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "papersparqldlQ3 - None - Simple - true" to ::`papersparqldlQ3 - None - Simple - true`,
             "papersparqldlQ3 - Thread - BenchmarkFig5 - true" to ::`papersparqldlQ3 - Thread - BenchmarkFig5 - true`,
-            "papersparqldlQ3 - Thread - PartitionByID_2_AllCollations - false" to ::`papersparqldlQ3 - Thread - PartitionByID_2_AllCollations - false`,
-            "papersparqldlQ3 - Thread - PartitionByID_O_AllCollations - false" to ::`papersparqldlQ3 - Thread - PartitionByID_O_AllCollations - false`,
-            "papersparqldlQ3 - Thread - Simple - false" to ::`papersparqldlQ3 - Thread - Simple - false`,
-            "papersparqldlQ3 - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`papersparqldlQ3 - in simulator - Simple - Centralized - false - None - RPL_Fast`,
-            "papersparqldlQ3 - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`papersparqldlQ3 - in simulator - Simple - Centralized - false - None - AllShortestPath`,
+            "papersparqldlQ3 - Thread - BenchmarkFig5 - false" to ::`papersparqldlQ3 - Thread - BenchmarkFig5 - false`,
+            "papersparqldlQ3 - Thread - PartitionByID_S_AllCollations - false" to ::`papersparqldlQ3 - Thread - PartitionByID_S_AllCollations - false`,
+            "papersparqldlQ3 - Thread - PartitionByKeyAllCollations - false" to ::`papersparqldlQ3 - Thread - PartitionByKeyAllCollations - false`,
+            "papersparqldlQ3 - Thread - Simple - true" to ::`papersparqldlQ3 - Thread - Simple - true`,
+            "papersparqldlQ3 - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`papersparqldlQ3 - in simulator - Simple - Centralized - true - None - AllShortestPath`,
             "papersparqldlQ3 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "papersparqldlQ3 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
             "papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`,
-            "papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
-            "papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`,
+            "papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
             "papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`,
+            "papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
+            "papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`papersparqldlQ3 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
+            "papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
             "papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
             "papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
-            "papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
+            "papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
+            "papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
+            "papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`papersparqldlQ3 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
+            "papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
+            "papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`papersparqldlQ3 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
         )
     }
 }
@@ -429,6 +504,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

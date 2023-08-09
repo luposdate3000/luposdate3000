@@ -62,12 +62,12 @@ public class synpname05 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `synpname05 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `synpname05 - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -77,13 +77,13 @@ public class synpname05 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `synpname05 - Thread - Simple - false`() {
+    public fun `synpname05 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -99,8 +99,8 @@ public class synpname05 {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "synpname05 - Thread - PartitionByIDTwiceAllCollations - false" to ::`synpname05 - Thread - PartitionByIDTwiceAllCollations - false`,
-            "synpname05 - Thread - PartitionByID_2_AllCollations - false" to ::`synpname05 - Thread - PartitionByID_2_AllCollations - false`,
-            "synpname05 - Thread - Simple - false" to ::`synpname05 - Thread - Simple - false`,
+            "synpname05 - Thread - PartitionByID_S_AllCollations - false" to ::`synpname05 - Thread - PartitionByID_S_AllCollations - false`,
+            "synpname05 - Thread - Simple - true" to ::`synpname05 - Thread - Simple - true`,
         )
     }
 }
@@ -114,6 +114,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

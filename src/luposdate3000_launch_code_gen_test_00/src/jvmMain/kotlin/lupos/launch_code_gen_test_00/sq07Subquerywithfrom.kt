@@ -61,62 +61,17 @@ public class sq07Subquerywithfrom {
         "{select * where {graph ?g {?x ?p ?y}}} \n" +
         "}"
 
-    public fun `sq07  Subquery with from  - None - Simple - true`() {
+    public fun `sq07  Subquery with from  - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:73"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:88"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `sq07  Subquery with from  - Thread - PartitionByID_S_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:118"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -131,7 +86,7 @@ public class sq07Subquerywithfrom {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:133"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:88"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -146,40 +101,12 @@ public class sq07Subquerywithfrom {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:148"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq07Subquerywithfrom.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq07  Subquery with from  - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
+    public fun `sq07  Subquery with from  - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -190,112 +117,14 @@ public class sq07Subquerywithfrom {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
@@ -305,18 +134,60 @@ public class sq07Subquerywithfrom {
             "AllShortestPath",
         )
     }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
+        )
+    }
+    public fun `sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun `sq07  Subquery with from  - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
@@ -333,14 +204,14 @@ public class sq07Subquerywithfrom {
             "RPL",
         )
     }
-    public fun `sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -416,26 +287,17 @@ public class sq07Subquerywithfrom {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sq07  Subquery with from  - None - Simple - true" to ::`sq07  Subquery with from  - None - Simple - true`,
-            "sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - true" to ::`sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - true`,
-            "sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false" to ::`sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false`,
-            "sq07  Subquery with from  - Thread - PartitionByID_S_AllCollations - false" to ::`sq07  Subquery with from  - Thread - PartitionByID_S_AllCollations - false`,
+            "sq07  Subquery with from  - Thread - PartitionByID_1_AllCollations - true" to ::`sq07  Subquery with from  - Thread - PartitionByID_1_AllCollations - true`,
             "sq07  Subquery with from  - Thread - Simple - true" to ::`sq07  Subquery with from  - Thread - Simple - true`,
             "sq07  Subquery with from  - Thread - Simple - false" to ::`sq07  Subquery with from  - Thread - Simple - false`,
-            "sq07  Subquery with from  - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - Simple - Centralized - true - None - RPL_Fast`,
-            "sq07  Subquery with from  - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
-            "sq07  Subquery with from  - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`sq07  Subquery with from  - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
-            "sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`,
-            "sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
-            "sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL" to ::`sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`,
-            "sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
-            "sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL" to ::`sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`,
-            "sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "sq07  Subquery with from  - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "sq07  Subquery with from  - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
+            "sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`,
+            "sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
+            "sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`sq07  Subquery with from  - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
+            "sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`sq07  Subquery with from  - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
             "sq07  Subquery with from  - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`sq07  Subquery with from  - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
-            "sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`,
+            "sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
             "sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`sq07  Subquery with from  - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
         )
     }
@@ -450,6 +312,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

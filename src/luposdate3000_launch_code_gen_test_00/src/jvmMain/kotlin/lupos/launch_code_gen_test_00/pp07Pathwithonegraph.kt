@@ -90,13 +90,13 @@ public class pp07Pathwithonegraph {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp07 Path with one graph - Thread - Simple - false`() {
+    public fun `pp07 Path with one graph - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -105,7 +105,7 @@ public class pp07Pathwithonegraph {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp07 Path with one graph - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+    public fun `pp07 Path with one graph - in simulator - Simple - Centralized - false - None - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
@@ -116,35 +116,7 @@ public class pp07Pathwithonegraph {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "None",
             ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp07 Path with one graph - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp07 Path with one graph - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun `pp07 Path with one graph - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`() {
@@ -161,35 +133,21 @@ public class pp07Pathwithonegraph {
             "RPL_Fast",
         )
     }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `pp07 Path with one graph - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -200,7 +158,35 @@ public class pp07Pathwithonegraph {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
+        )
+    }
+    public fun `pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun `pp07 Path with one graph - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
@@ -217,27 +203,13 @@ public class pp07Pathwithonegraph {
             "RPL_Fast",
         )
     }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `pp07 Path with one graph - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -259,34 +231,6 @@ public class pp07Pathwithonegraph {
             "RPL",
         )
     }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
     public fun `pp07 Path with one graph - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
@@ -301,21 +245,21 @@ public class pp07Pathwithonegraph {
             "RPL",
         )
     }
-    public fun `pp07 Path with one graph - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
-    public fun `pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
+    public fun `pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -326,7 +270,7 @@ public class pp07Pathwithonegraph {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -386,23 +330,19 @@ public class pp07Pathwithonegraph {
         return setOf(
             "pp07 Path with one graph - Thread - PartitionByID_1_AllCollations - false" to ::`pp07 Path with one graph - Thread - PartitionByID_1_AllCollations - false`,
             "pp07 Path with one graph - Thread - PartitionByID_S_AllCollations - false" to ::`pp07 Path with one graph - Thread - PartitionByID_S_AllCollations - false`,
-            "pp07 Path with one graph - Thread - Simple - false" to ::`pp07 Path with one graph - Thread - Simple - false`,
-            "pp07 Path with one graph - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`pp07 Path with one graph - in simulator - Simple - Centralized - false - None - RPL_Fast`,
-            "pp07 Path with one graph - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`pp07 Path with one graph - in simulator - Simple - Centralized - false - None - AllShortestPath`,
-            "pp07 Path with one graph - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "pp07 Path with one graph - Thread - PartitionByKeyAllCollations - true" to ::`pp07 Path with one graph - Thread - PartitionByKeyAllCollations - true`,
+            "pp07 Path with one graph - in simulator - Simple - Centralized - false - None - RPL" to ::`pp07 Path with one graph - in simulator - Simple - Centralized - false - None - RPL`,
             "pp07 Path with one graph - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
-            "pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
+            "pp07 Path with one graph - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`pp07 Path with one graph - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
+            "pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
+            "pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
             "pp07 Path with one graph - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
-            "pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "pp07 Path with one graph - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
             "pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
-            "pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
             "pp07 Path with one graph - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`pp07 Path with one graph - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
-            "pp07 Path with one graph - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp07 Path with one graph - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
+            "pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
+            "pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`pp07 Path with one graph - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
         )
     }
 }
@@ -416,6 +356,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

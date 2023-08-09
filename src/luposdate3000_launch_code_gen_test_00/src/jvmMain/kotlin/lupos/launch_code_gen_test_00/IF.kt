@@ -62,13 +62,13 @@ public class IF {
         "} \n" +
         ""
 
-    public fun `IF - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `IF - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -77,35 +77,49 @@ public class IF {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `IF - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
+    public fun `IF - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
+                "LUPOS_PARTITION_MODE" to "None",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `IF - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
+    public fun `IF - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
+                "LUPOS_PARTITION_MODE" to "None",
             ),
             "AllShortestPath",
         )
     }
-    public fun `IF - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
+    public fun `IF - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `IF - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -116,21 +130,7 @@ public class IF {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
-        )
-    }
-    public fun `IF - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun `IF - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
@@ -147,28 +147,42 @@ public class IF {
             "AllShortestPath",
         )
     }
-    public fun `IF - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `IF - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `IF - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `IF - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `IF - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -230,14 +244,15 @@ public class IF {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "IF - Thread - PartitionByID_1_AllCollations - false" to ::`IF - Thread - PartitionByID_1_AllCollations - false`,
-            "IF - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`IF - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
-            "IF - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`IF - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
-            "IF - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`IF - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
-            "IF - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`IF - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
+            "IF - Thread - Simple - true" to ::`IF - Thread - Simple - true`,
+            "IF - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`IF - in simulator - Simple - Centralized - true - None - RPL_Fast`,
+            "IF - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`IF - in simulator - Simple - Centralized - true - None - AllShortestPath`,
+            "IF - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`IF - in simulator - Simple - Centralized - false - None - AllShortestPath`,
+            "IF - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`IF - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
             "IF - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`IF - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
-            "IF - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`IF - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
-            "IF - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`IF - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
+            "IF - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`IF - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
+            "IF - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath" to ::`IF - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`,
+            "IF - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`IF - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
 }
@@ -251,6 +266,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

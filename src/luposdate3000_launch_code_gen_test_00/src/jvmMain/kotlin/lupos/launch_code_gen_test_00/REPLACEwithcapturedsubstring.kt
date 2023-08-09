@@ -61,13 +61,13 @@ public class REPLACEwithcapturedsubstring {
         "} \n" +
         ""
 
-    public fun `REPLACE with captured substring - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `REPLACE with captured substring - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -76,12 +76,12 @@ public class REPLACEwithcapturedsubstring {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `REPLACE with captured substring - Thread - Simple - false`() {
+    public fun `REPLACE with captured substring - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -91,19 +91,20 @@ public class REPLACEwithcapturedsubstring {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `REPLACE with captured substring - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "AllShortestPath",
-        )
+    public fun `REPLACE with captured substring - Thread - PartitionByID_1_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/REPLACEwithcapturedsubstring.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
     public fun `REPLACE with captured substring - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
         simulatorHelper(
@@ -117,20 +118,6 @@ public class REPLACEwithcapturedsubstring {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
-        )
-    }
-    public fun `REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
         )
     }
     public fun `REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
@@ -161,27 +148,13 @@ public class REPLACEwithcapturedsubstring {
             "RPL_Fast",
         )
     }
-    public fun `REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+    public fun `REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -189,27 +162,13 @@ public class REPLACEwithcapturedsubstring {
             "AllShortestPath",
         )
     }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -217,67 +176,39 @@ public class REPLACEwithcapturedsubstring {
             "RPL_Fast",
         )
     }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
+    public fun `REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL_Fast",
+        )
+    }
+    public fun `REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL",
         )
     }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
@@ -287,27 +218,13 @@ public class REPLACEwithcapturedsubstring {
             "RPL",
         )
     }
-    public fun `REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
+    public fun `REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `REPLACE with captured substring - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -315,11 +232,25 @@ public class REPLACEwithcapturedsubstring {
             "AllShortestPath",
         )
     }
-    public fun `REPLACE with captured substring - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
+    public fun `REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
@@ -327,6 +258,20 @@ public class REPLACEwithcapturedsubstring {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+    public fun `REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -384,25 +329,21 @@ public class REPLACEwithcapturedsubstring {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "REPLACE with captured substring - Thread - PartitionByID_S_AllCollations - false" to ::`REPLACE with captured substring - Thread - PartitionByID_S_AllCollations - false`,
-            "REPLACE with captured substring - Thread - Simple - false" to ::`REPLACE with captured substring - Thread - Simple - false`,
-            "REPLACE with captured substring - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`REPLACE with captured substring - in simulator - Simple - Centralized - false - None - AllShortestPath`,
+            "REPLACE with captured substring - Thread - PartitionByIDTwiceAllCollations - true" to ::`REPLACE with captured substring - Thread - PartitionByIDTwiceAllCollations - true`,
+            "REPLACE with captured substring - Thread - PartitionByIDTwiceAllCollations - false" to ::`REPLACE with captured substring - Thread - PartitionByIDTwiceAllCollations - false`,
+            "REPLACE with captured substring - Thread - PartitionByID_1_AllCollations - true" to ::`REPLACE with captured substring - Thread - PartitionByID_1_AllCollations - true`,
             "REPLACE with captured substring - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`REPLACE with captured substring - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
-            "REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
             "REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
             "REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
-            "REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
-            "REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
-            "REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
-            "REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
-            "REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
-            "REPLACE with captured substring - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`REPLACE with captured substring - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
-            "REPLACE with captured substring - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
+            "REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath" to ::`REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`,
+            "REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`,
+            "REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`REPLACE with captured substring - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`,
+            "REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`REPLACE with captured substring - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
+            "REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`REPLACE with captured substring - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
+            "REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
+            "REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`REPLACE with captured substring - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
         )
     }
 }
@@ -416,6 +357,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

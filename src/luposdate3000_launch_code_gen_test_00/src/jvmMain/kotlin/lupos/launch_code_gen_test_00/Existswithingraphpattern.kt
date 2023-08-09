@@ -67,17 +67,47 @@ public class Existswithingraphpattern {
         "} \n" +
         ""
 
-    public fun `Exists within graph pattern - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `Exists within graph pattern - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/Existswithingraphpattern.kt:79"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Exists within graph pattern - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/Existswithingraphpattern.kt:94"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Exists within graph pattern - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/Existswithingraphpattern.kt:109"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -92,46 +122,102 @@ public class Existswithingraphpattern {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/Existswithingraphpattern.kt:94"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/Existswithingraphpattern.kt:124"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Exists within graph pattern - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
+    public fun `Exists within graph pattern - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Exists within graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -153,18 +239,32 @@ public class Existswithingraphpattern {
             "RPL",
         )
     }
-    public fun `Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun `Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
@@ -181,42 +281,28 @@ public class Existswithingraphpattern {
             "RPL_Fast",
         )
     }
-    public fun `Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
-    public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+    public fun `Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -301,17 +387,23 @@ public class Existswithingraphpattern {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Exists within graph pattern - Thread - PartitionByIDTwiceAllCollations - true" to ::`Exists within graph pattern - Thread - PartitionByIDTwiceAllCollations - true`,
+            "Exists within graph pattern - Thread - PartitionByIDTwiceAllCollations - false" to ::`Exists within graph pattern - Thread - PartitionByIDTwiceAllCollations - false`,
+            "Exists within graph pattern - Thread - PartitionByID_2_AllCollations - false" to ::`Exists within graph pattern - Thread - PartitionByID_2_AllCollations - false`,
+            "Exists within graph pattern - Thread - PartitionByID_S_AllCollations - false" to ::`Exists within graph pattern - Thread - PartitionByID_S_AllCollations - false`,
             "Exists within graph pattern - Thread - PartitionByKeyAllCollations - false" to ::`Exists within graph pattern - Thread - PartitionByKeyAllCollations - false`,
-            "Exists within graph pattern - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`Exists within graph pattern - in simulator - Simple - Centralized - true - None - AllShortestPath`,
-            "Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
-            "Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
+            "Exists within graph pattern - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`Exists within graph pattern - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "Exists within graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`Exists within graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
+            "Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
+            "Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
+            "Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
+            "Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
             "Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
-            "Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
+            "Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
             "Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
-            "Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`Exists within graph pattern - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
-            "Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath" to ::`Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`,
-            "Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
+            "Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast" to ::`Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`,
+            "Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`Exists within graph pattern - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
         )
     }
 }
@@ -325,6 +417,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

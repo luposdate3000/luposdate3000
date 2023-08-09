@@ -654,6 +654,7 @@ without minify mode only the passing tests will be added
                     out.println("        File(\"lupos.launch_code_gen_test_00.\${name.replaceFirstChar { it.uppercase() }}.stat\").withOutputStream{ out->")
                     out.println("            out.println(\"started\"+idx)")
                     out.println("            try{")
+                    out.println("                println(name)")
                     out.println("                func()")
                     out.println("                out.println(\"passed\")")
                     out.println("            }catch(e:Error){")

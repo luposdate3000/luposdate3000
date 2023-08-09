@@ -88,13 +88,13 @@ public class GraphspecificDELETEDATA1 {
         "} \n" +
         ""
 
-    public fun `Graphspecific DELETE DATA 1 - None - Simple - true`() {
+    public fun `Graphspecific DELETE DATA 1 - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -103,21 +103,22 @@ public class GraphspecificDELETEDATA1 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
+    public fun `Graphspecific DELETE DATA 1 - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/GraphspecificDELETEDATA1.kt:115"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
     }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`() {
+    public fun `Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -128,58 +129,44 @@ public class GraphspecificDELETEDATA1 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL",
+        )
+    }
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL_Fast",
         )
     }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -187,13 +174,13 @@ public class GraphspecificDELETEDATA1 {
             "AllShortestPath",
         )
     }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -215,27 +202,13 @@ public class GraphspecificDELETEDATA1 {
             "RPL_Fast",
         )
     }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -243,18 +216,60 @@ public class GraphspecificDELETEDATA1 {
             "RPL_Fast",
         )
     }
-    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
+        )
+    }
+    public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun `Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
@@ -411,18 +426,19 @@ public class GraphspecificDELETEDATA1 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Graphspecific DELETE DATA 1 - None - Simple - true" to ::`Graphspecific DELETE DATA 1 - None - Simple - true`,
-            "Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
+            "Graphspecific DELETE DATA 1 - Thread - PartitionByID_S_AllCollations - false" to ::`Graphspecific DELETE DATA 1 - Thread - PartitionByID_S_AllCollations - false`,
+            "Graphspecific DELETE DATA 1 - Thread - Simple - false" to ::`Graphspecific DELETE DATA 1 - Thread - Simple - false`,
+            "Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`,
             "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
-            "Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
+            "Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
             "Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`Graphspecific DELETE DATA 1 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
@@ -437,6 +453,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

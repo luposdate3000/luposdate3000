@@ -62,12 +62,12 @@ public class STRDT {
         "} \n" +
         ""
 
-    public fun `STRDT - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `STRDT - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -77,12 +77,12 @@ public class STRDT {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `STRDT - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `STRDT - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -92,13 +92,13 @@ public class STRDT {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `STRDT - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `STRDT - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -107,7 +107,63 @@ public class STRDT {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
+    public fun `STRDT - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `STRDT - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `STRDT - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -118,10 +174,94 @@ public class STRDT {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL_Fast",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL",
         )
     }
-    public fun `STRDT - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `STRDT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `STRDT - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -132,7 +272,7 @@ public class STRDT {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -190,11 +330,21 @@ public class STRDT {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRDT - Thread - PartitionByID_1_AllCollations - true" to ::`STRDT - Thread - PartitionByID_1_AllCollations - true`,
-            "STRDT - Thread - PartitionByID_2_AllCollations - false" to ::`STRDT - Thread - PartitionByID_2_AllCollations - false`,
-            "STRDT - Thread - PartitionByKeyAllCollations - true" to ::`STRDT - Thread - PartitionByKeyAllCollations - true`,
-            "STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL" to ::`STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`,
-            "STRDT - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`STRDT - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
+            "STRDT - None - Simple - true" to ::`STRDT - None - Simple - true`,
+            "STRDT - Thread - PartitionByIDTwiceAllCollations - false" to ::`STRDT - Thread - PartitionByIDTwiceAllCollations - false`,
+            "STRDT - Thread - PartitionByKeyAllCollations - false" to ::`STRDT - Thread - PartitionByKeyAllCollations - false`,
+            "STRDT - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`STRDT - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
+            "STRDT - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`STRDT - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
+            "STRDT - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`STRDT - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
+            "STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`STRDT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`STRDT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
+            "STRDT - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`STRDT - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
+            "STRDT - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`STRDT - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
+            "STRDT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`STRDT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "STRDT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`STRDT - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
+            "STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`STRDT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
+            "STRDT - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`STRDT - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
+            "STRDT - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`STRDT - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
         )
     }
 }
@@ -208,6 +358,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

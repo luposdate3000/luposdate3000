@@ -57,13 +57,13 @@ public class constructwhere01CONSTRUCTWHERE {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "CONSTRUCT WHERE { ?s ?p ?o}"
 
-    public fun `constructwhere01  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -72,12 +72,12 @@ public class constructwhere01CONSTRUCTWHERE {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -87,13 +87,13 @@ public class constructwhere01CONSTRUCTWHERE {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -101,20 +101,6 @@ public class constructwhere01CONSTRUCTWHERE {
       }finally{
         LuposdateEndpoint.close(instance)
       }
-    }
-    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL_Fast",
-        )
     }
     public fun `constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
         simulatorHelper(
@@ -144,53 +130,39 @@ public class constructwhere01CONSTRUCTWHERE {
             "AllShortestPath",
         )
     }
-    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
@@ -200,13 +172,13 @@ public class constructwhere01CONSTRUCTWHERE {
             "AllShortestPath",
         )
     }
-    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -228,13 +200,41 @@ public class constructwhere01CONSTRUCTWHERE {
             "RPL",
         )
     }
-    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -297,19 +297,19 @@ public class constructwhere01CONSTRUCTWHERE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "constructwhere01  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true" to ::`constructwhere01  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true`,
-            "constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true" to ::`constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true`,
-            "constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false" to ::`constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false`,
-            "constructwhere01  CONSTRUCT WHERE - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - Simple - Centralized - true - None - RPL_Fast`,
+            "constructwhere01  CONSTRUCT WHERE - None - Simple - false" to ::`constructwhere01  CONSTRUCT WHERE - None - Simple - false`,
+            "constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - true" to ::`constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - true`,
+            "constructwhere01  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - true" to ::`constructwhere01  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - true`,
             "constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
             "constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`,
-            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
-            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`,
+            "constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
+            "constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
+            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`,
+            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`,
             "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
-            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
+            "constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`constructwhere01  CONSTRUCT WHERE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
 }
@@ -323,6 +323,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

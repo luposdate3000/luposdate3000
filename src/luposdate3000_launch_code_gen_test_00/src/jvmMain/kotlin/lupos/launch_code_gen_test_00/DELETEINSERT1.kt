@@ -80,13 +80,13 @@ public class DELETEINSERT1 {
         "} \n" +
         ""
 
-    public fun `DELETE INSERT 1 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `DELETE INSERT 1 - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -95,7 +95,22 @@ public class DELETEINSERT1 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
+    public fun `DELETE INSERT 1 - Thread - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DELETEINSERT1.kt:107"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -106,21 +121,7 @@ public class DELETEINSERT1 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
-        )
-    }
-    public fun `DELETE INSERT 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
+            "RPL_Fast",
         )
     }
     public fun `DELETE INSERT 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
@@ -131,6 +132,20 @@ public class DELETEINSERT1 {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `DELETE INSERT 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -151,53 +166,11 @@ public class DELETEINSERT1 {
             "AllShortestPath",
         )
     }
-    public fun `DELETE INSERT 1 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+    public fun `DELETE INSERT 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
@@ -207,11 +180,67 @@ public class DELETEINSERT1 {
             "RPL_Fast",
         )
     }
-    public fun `DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `DELETE INSERT 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
@@ -219,6 +248,34 @@ public class DELETEINSERT1 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
+        )
+    }
+    public fun `DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -283,16 +340,20 @@ public class DELETEINSERT1 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DELETE INSERT 1 - Thread - PartitionByID_2_AllCollations - false" to ::`DELETE INSERT 1 - Thread - PartitionByID_2_AllCollations - false`,
-            "DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "DELETE INSERT 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`DELETE INSERT 1 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
+            "DELETE INSERT 1 - Thread - PartitionByID_O_AllCollations - true" to ::`DELETE INSERT 1 - Thread - PartitionByID_O_AllCollations - true`,
+            "DELETE INSERT 1 - Thread - Simple - true" to ::`DELETE INSERT 1 - Thread - Simple - true`,
+            "DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`DELETE INSERT 1 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
             "DELETE INSERT 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL" to ::`DELETE INSERT 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`,
+            "DELETE INSERT 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`DELETE INSERT 1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
             "DELETE INSERT 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`DELETE INSERT 1 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "DELETE INSERT 1 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`DELETE INSERT 1 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
-            "DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
-            "DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
-            "DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast" to ::`DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`,
-            "DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
+            "DELETE INSERT 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`DELETE INSERT 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "DELETE INSERT 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`DELETE INSERT 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
+            "DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
+            "DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`DELETE INSERT 1 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
+            "DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`DELETE INSERT 1 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`DELETE INSERT 1 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
         )
     }
 }
@@ -306,6 +367,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

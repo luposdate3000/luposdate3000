@@ -60,13 +60,13 @@ public class pp03Simplepathwithloop {
         "in:a ex:p1/ex:p2/ex:p3/ex:p4 ?x \n" +
         "}"
 
-    public fun `pp03 Simple path with loop - None - Simple - true`() {
+    public fun `pp03 Simple path with loop - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -75,13 +75,13 @@ public class pp03Simplepathwithloop {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp03 Simple path with loop - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `pp03 Simple path with loop - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -90,12 +90,12 @@ public class pp03Simplepathwithloop {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp03 Simple path with loop - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `pp03 Simple path with loop - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -105,50 +105,7 @@ public class pp03Simplepathwithloop {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp03 Simple path with loop - Thread - PartitionByKeyAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp03Simplepathwithloop.kt:117"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp03 Simple path with loop - in simulator - Simple - Centralized - true - None - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp03 Simple path with loop - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -159,10 +116,52 @@ public class pp03Simplepathwithloop {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL",
+        )
+    }
+    public fun `pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "AllShortestPath",
         )
     }
-    public fun `pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+    public fun `pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -173,21 +172,49 @@ public class pp03Simplepathwithloop {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `pp03 Simple path with loop - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `pp03 Simple path with loop - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
+        )
+    }
+    public fun `pp03 Simple path with loop - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun `pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
@@ -204,7 +231,7 @@ public class pp03Simplepathwithloop {
             "RPL_Fast",
         )
     }
-    public fun `pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -215,7 +242,7 @@ public class pp03Simplepathwithloop {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -273,17 +300,19 @@ public class pp03Simplepathwithloop {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "pp03 Simple path with loop - None - Simple - true" to ::`pp03 Simple path with loop - None - Simple - true`,
-            "pp03 Simple path with loop - Thread - PartitionByID_S_AllCollations - true" to ::`pp03 Simple path with loop - Thread - PartitionByID_S_AllCollations - true`,
-            "pp03 Simple path with loop - Thread - PartitionByKeyAllCollations - true" to ::`pp03 Simple path with loop - Thread - PartitionByKeyAllCollations - true`,
-            "pp03 Simple path with loop - Thread - PartitionByKeyAllCollations - false" to ::`pp03 Simple path with loop - Thread - PartitionByKeyAllCollations - false`,
-            "pp03 Simple path with loop - in simulator - Simple - Centralized - true - None - RPL" to ::`pp03 Simple path with loop - in simulator - Simple - Centralized - true - None - RPL`,
-            "pp03 Simple path with loop - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`pp03 Simple path with loop - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
-            "pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
-            "pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
-            "pp03 Simple path with loop - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`pp03 Simple path with loop - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
+            "pp03 Simple path with loop - None - Simple - false" to ::`pp03 Simple path with loop - None - Simple - false`,
+            "pp03 Simple path with loop - Thread - PartitionByID_1_AllCollations - false" to ::`pp03 Simple path with loop - Thread - PartitionByID_1_AllCollations - false`,
+            "pp03 Simple path with loop - Thread - PartitionByID_2_AllCollations - true" to ::`pp03 Simple path with loop - Thread - PartitionByID_2_AllCollations - true`,
+            "pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
+            "pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`pp03 Simple path with loop - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`pp03 Simple path with loop - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
+            "pp03 Simple path with loop - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`pp03 Simple path with loop - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "pp03 Simple path with loop - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`pp03 Simple path with loop - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
+            "pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
             "pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
-            "pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
+            "pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`pp03 Simple path with loop - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
 }
@@ -297,6 +326,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

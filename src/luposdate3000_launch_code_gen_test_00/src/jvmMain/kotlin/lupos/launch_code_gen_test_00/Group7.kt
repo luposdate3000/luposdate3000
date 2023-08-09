@@ -58,12 +58,12 @@ public class Group7 {
         "GROUP BY ?event \n" +
         ""
 
-    public fun `Group7 - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `Group7 - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -73,13 +73,13 @@ public class Group7 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Group7 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `Group7 - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -102,8 +102,8 @@ public class Group7 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Group7 - Thread - PartitionByIDTwiceAllCollations - false" to ::`Group7 - Thread - PartitionByIDTwiceAllCollations - false`,
-            "Group7 - Thread - PartitionByID_2_AllCollations - true" to ::`Group7 - Thread - PartitionByID_2_AllCollations - true`,
+            "Group7 - None - Simple - false" to ::`Group7 - None - Simple - false`,
+            "Group7 - Thread - PartitionByID_1_AllCollations - false" to ::`Group7 - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }
@@ -117,6 +117,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

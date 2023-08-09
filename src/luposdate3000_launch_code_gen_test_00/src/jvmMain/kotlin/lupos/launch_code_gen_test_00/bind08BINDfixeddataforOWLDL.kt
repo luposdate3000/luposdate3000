@@ -66,13 +66,13 @@ public class bind08BINDfixeddataforOWLDL {
         "} \n" +
         ""
 
-    public fun `bind08  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `bind08  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -81,12 +81,12 @@ public class bind08BINDfixeddataforOWLDL {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `bind08  BIND fixed data for OWL DL - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `bind08  BIND fixed data for OWL DL - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -96,13 +96,13 @@ public class bind08BINDfixeddataforOWLDL {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `bind08  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `bind08  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -111,28 +111,85 @@ public class bind08BINDfixeddataforOWLDL {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
+    public fun `bind08  BIND fixed data for OWL DL - Thread - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/bind08BINDfixeddataforOWLDL.kt:123"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL",
+        )
+    }
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -153,49 +210,35 @@ public class bind08BINDfixeddataforOWLDL {
             "AllShortestPath",
         )
     }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -206,77 +249,49 @@ public class bind08BINDfixeddataforOWLDL {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
+        )
+    }
+    public fun `bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -334,21 +349,22 @@ public class bind08BINDfixeddataforOWLDL {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "bind08  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true" to ::`bind08  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true`,
-            "bind08  BIND fixed data for OWL DL - Thread - PartitionByID_2_AllCollations - true" to ::`bind08  BIND fixed data for OWL DL - Thread - PartitionByID_2_AllCollations - true`,
-            "bind08  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - true" to ::`bind08  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - true`,
-            "bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL`,
+            "bind08  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - false" to ::`bind08  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - false`,
+            "bind08  BIND fixed data for OWL DL - Thread - PartitionByID_1_AllCollations - true" to ::`bind08  BIND fixed data for OWL DL - Thread - PartitionByID_1_AllCollations - true`,
+            "bind08  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false" to ::`bind08  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false`,
+            "bind08  BIND fixed data for OWL DL - Thread - Simple - true" to ::`bind08  BIND fixed data for OWL DL - Thread - Simple - true`,
+            "bind08  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL`,
+            "bind08  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`bind08  BIND fixed data for OWL DL - in simulator - Simple - Centralized - false - None - RPL_Fast`,
+            "bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
+            "bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
+            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
             "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`,
-            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
+            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
+            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
+            "bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`bind08  BIND fixed data for OWL DL - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
         )
     }
 }
@@ -362,6 +378,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

@@ -60,13 +60,13 @@ public class Expressionmayreturnnovalue {
         "  ?x ex:p ?l \n" +
         "}"
 
-    public fun `Expression may return no value - Thread - Simple - true`() {
+    public fun `Expression may return no value - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -75,35 +75,63 @@ public class Expressionmayreturnnovalue {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Expression may return no value - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
+    public fun `Expression may return no value - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Expression may return no value - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Expression may return no value - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
-    public fun `Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `Expression may return no value - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
-    public fun `Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -111,6 +139,34 @@ public class Expressionmayreturnnovalue {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Expression may return no value - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -131,18 +187,18 @@ public class Expressionmayreturnnovalue {
             "AllShortestPath",
         )
     }
-    public fun `Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `Expression may return no value - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
     public fun `Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
@@ -153,20 +209,6 @@ public class Expressionmayreturnnovalue {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -187,7 +229,7 @@ public class Expressionmayreturnnovalue {
             "RPL",
         )
     }
-    public fun `Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -198,7 +240,77 @@ public class Expressionmayreturnnovalue {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Expression may return no value - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "AllShortestPath",
+        )
+    }
+    public fun `Expression may return no value - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Expression may return no value - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Expression may return no value - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Expression may return no value - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -256,16 +368,24 @@ public class Expressionmayreturnnovalue {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Expression may return no value - Thread - Simple - true" to ::`Expression may return no value - Thread - Simple - true`,
-            "Expression may return no value - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`Expression may return no value - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
-            "Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast" to ::`Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`,
+            "Expression may return no value - Thread - PartitionByID_S_AllCollations - false" to ::`Expression may return no value - Thread - PartitionByID_S_AllCollations - false`,
+            "Expression may return no value - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`Expression may return no value - in simulator - Simple - Centralized - false - None - RPL_Fast`,
+            "Expression may return no value - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`Expression may return no value - in simulator - Simple - Centralized - false - None - AllShortestPath`,
+            "Expression may return no value - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`Expression may return no value - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "Expression may return no value - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`Expression may return no value - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
+            "Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
+            "Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`Expression may return no value - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
+            "Expression may return no value - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`Expression may return no value - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
             "Expression may return no value - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`Expression may return no value - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
+            "Expression may return no value - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast" to ::`Expression may return no value - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`,
             "Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath" to ::`Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`Expression may return no value - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
             "Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
-            "Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
+            "Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`Expression may return no value - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
+            "Expression may return no value - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`Expression may return no value - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "Expression may return no value - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`Expression may return no value - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
+            "Expression may return no value - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast" to ::`Expression may return no value - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`,
+            "Expression may return no value - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath" to ::`Expression may return no value - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`,
+            "Expression may return no value - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`Expression may return no value - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
         )
     }
 }
@@ -279,6 +399,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

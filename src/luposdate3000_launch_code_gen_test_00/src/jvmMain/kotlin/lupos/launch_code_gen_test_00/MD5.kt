@@ -60,12 +60,12 @@ public class MD5 {
         "} \n" +
         ""
 
-    public fun `MD5 - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `MD5 - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -74,6 +74,34 @@ public class MD5 {
       }finally{
         LuposdateEndpoint.close(instance)
       }
+    }
+    public fun `MD5 - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `MD5 - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "AllShortestPath",
+        )
     }
     public fun `MD5 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
         simulatorHelper(
@@ -89,18 +117,74 @@ public class MD5 {
             "RPL",
         )
     }
-    public fun `MD5 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `MD5 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL_Fast",
+        )
+    }
+    public fun `MD5 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `MD5 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "AllShortestPath",
+        )
+    }
+    public fun `MD5 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -158,9 +242,15 @@ public class MD5 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MD5 - Thread - PartitionByIDTwiceAllCollations - false" to ::`MD5 - Thread - PartitionByIDTwiceAllCollations - false`,
+            "MD5 - None - Simple - false" to ::`MD5 - None - Simple - false`,
+            "MD5 - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`MD5 - in simulator - Simple - Centralized - false - None - RPL_Fast`,
+            "MD5 - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`MD5 - in simulator - Simple - Centralized - false - None - AllShortestPath`,
             "MD5 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`MD5 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
-            "MD5 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`MD5 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
+            "MD5 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`MD5 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "MD5 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`MD5 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`MD5 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "MD5 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`MD5 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
+            "MD5 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`MD5 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
         )
     }
 }
@@ -174,6 +264,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

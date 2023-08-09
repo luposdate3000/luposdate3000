@@ -96,6 +96,8 @@ def loop(filter):
             for x in allTests:
                 if not (x in filter):
                     f.write(x + "\n")
+            for x in blacklist:
+             f.write(x + "\n")
     else:
         with open("resources/tests/blacklist", "w") as f:
             if len(allTests) == 0:
@@ -127,7 +129,7 @@ if len(sys.argv) > 1:
             loop()
     else:
         setup(True)
-        loop(sys.argv[2:])
+        loop(sys.argv[1:])
 else:
     setup(True)
     while True:

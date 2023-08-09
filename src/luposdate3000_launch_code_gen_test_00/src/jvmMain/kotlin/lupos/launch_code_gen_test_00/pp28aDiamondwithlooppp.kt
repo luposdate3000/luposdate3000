@@ -60,13 +60,13 @@ public class pp28aDiamondwithlooppp {
         "}  \n" +
         ""
 
-    public fun `pp28a Diamond with loop  pp - None - Simple - true`() {
+    public fun `pp28a Diamond with loop  pp - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -75,13 +75,13 @@ public class pp28aDiamondwithlooppp {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp28a Diamond with loop  pp - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `pp28a Diamond with loop  pp - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -90,93 +90,18 @@ public class pp28aDiamondwithlooppp {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp28a Diamond with loop  pp - Thread - PartitionByID_1_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp28aDiamondwithlooppp.kt:102"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp28a Diamond with loop  pp - Thread - PartitionByID_O_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp28aDiamondwithlooppp.kt:117"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp28a Diamond with loop  pp - Thread - PartitionByID_O_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp28aDiamondwithlooppp.kt:132"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp28a Diamond with loop  pp - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp28aDiamondwithlooppp.kt:147"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp28a Diamond with loop  pp - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp28aDiamondwithlooppp.kt:162"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - Simple - Centralized - false - None - RPL`() {
+    public fun `pp28a Diamond with loop  pp - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
+                "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
     public fun `pp28a Diamond with loop  pp - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
@@ -207,109 +132,25 @@ public class pp28aDiamondwithlooppp {
             "RPL_Fast",
         )
     }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
+    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
@@ -319,39 +160,11 @@ public class pp28aDiamondwithlooppp {
             "RPL",
         )
     }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
@@ -361,7 +174,49 @@ public class pp28aDiamondwithlooppp {
             "RPL_Fast",
         )
     }
-    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -372,7 +227,7 @@ public class pp28aDiamondwithlooppp {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -430,28 +285,18 @@ public class pp28aDiamondwithlooppp {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "pp28a Diamond with loop  pp - None - Simple - true" to ::`pp28a Diamond with loop  pp - None - Simple - true`,
-            "pp28a Diamond with loop  pp - Thread - PartitionByID_1_AllCollations - true" to ::`pp28a Diamond with loop  pp - Thread - PartitionByID_1_AllCollations - true`,
-            "pp28a Diamond with loop  pp - Thread - PartitionByID_1_AllCollations - false" to ::`pp28a Diamond with loop  pp - Thread - PartitionByID_1_AllCollations - false`,
-            "pp28a Diamond with loop  pp - Thread - PartitionByID_O_AllCollations - true" to ::`pp28a Diamond with loop  pp - Thread - PartitionByID_O_AllCollations - true`,
-            "pp28a Diamond with loop  pp - Thread - PartitionByID_O_AllCollations - false" to ::`pp28a Diamond with loop  pp - Thread - PartitionByID_O_AllCollations - false`,
-            "pp28a Diamond with loop  pp - Thread - Simple - true" to ::`pp28a Diamond with loop  pp - Thread - Simple - true`,
-            "pp28a Diamond with loop  pp - Thread - Simple - false" to ::`pp28a Diamond with loop  pp - Thread - Simple - false`,
-            "pp28a Diamond with loop  pp - in simulator - Simple - Centralized - false - None - RPL" to ::`pp28a Diamond with loop  pp - in simulator - Simple - Centralized - false - None - RPL`,
+            "pp28a Diamond with loop  pp - Thread - BenchmarkFig5 - false" to ::`pp28a Diamond with loop  pp - Thread - BenchmarkFig5 - false`,
+            "pp28a Diamond with loop  pp - Thread - PartitionByID_S_AllCollations - false" to ::`pp28a Diamond with loop  pp - Thread - PartitionByID_S_AllCollations - false`,
+            "pp28a Diamond with loop  pp - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`pp28a Diamond with loop  pp - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
             "pp28a Diamond with loop  pp - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
             "pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
-            "pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
+            "pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "pp28a Diamond with loop  pp - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
+            "pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`pp28a Diamond with loop  pp - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
 }
@@ -465,6 +310,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

@@ -43,12 +43,12 @@ public class syntaxexists02rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER EXISTS{?s ?p ?o} } \n" +
         ""
 
-    public fun `syntaxexists02rq - None - Simple - false`() {
+    public fun `syntaxexists02rq - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,13 +58,13 @@ public class syntaxexists02rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxexists02rq - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `syntaxexists02rq - Thread - PartitionByID_2_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -73,12 +73,12 @@ public class syntaxexists02rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxexists02rq - Thread - Simple - true`() {
+    public fun `syntaxexists02rq - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -94,9 +94,9 @@ public class syntaxexists02rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxexists02rq - None - Simple - false" to ::`syntaxexists02rq - None - Simple - false`,
-            "syntaxexists02rq - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxexists02rq - Thread - PartitionByID_2_AllCollations - true`,
-            "syntaxexists02rq - Thread - Simple - true" to ::`syntaxexists02rq - Thread - Simple - true`,
+            "syntaxexists02rq - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxexists02rq - Thread - PartitionByIDTwiceAllCollations - false`,
+            "syntaxexists02rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxexists02rq - Thread - PartitionByID_2_AllCollations - false`,
+            "syntaxexists02rq - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxexists02rq - Thread - PartitionByID_S_AllCollations - true`,
         )
     }
 }
@@ -110,6 +110,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

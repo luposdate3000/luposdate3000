@@ -58,12 +58,12 @@ public class pp36Arbitrarypathwithboundendpoints {
         "SELECT * WHERE { :a0 (:p)* :a1 } \n" +
         ""
 
-    public fun `pp36 Arbitrary path with bound endpoints - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `pp36 Arbitrary path with bound endpoints - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -73,11 +73,11 @@ public class pp36Arbitrarypathwithboundendpoints {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
@@ -87,13 +87,13 @@ public class pp36Arbitrarypathwithboundendpoints {
             "RPL_Fast",
         )
     }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -101,21 +101,7 @@ public class pp36Arbitrarypathwithboundendpoints {
             "AllShortestPath",
         )
     }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -126,10 +112,10 @@ public class pp36Arbitrarypathwithboundendpoints {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -140,31 +126,17 @@ public class pp36Arbitrarypathwithboundendpoints {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -185,35 +157,35 @@ public class pp36Arbitrarypathwithboundendpoints {
             "AllShortestPath",
         )
     }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
-    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `pp36 Arbitrary path with bound endpoints - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -224,7 +196,7 @@ public class pp36Arbitrarypathwithboundendpoints {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -282,18 +254,16 @@ public class pp36Arbitrarypathwithboundendpoints {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "pp36 Arbitrary path with bound endpoints - Thread - PartitionByID_S_AllCollations - true" to ::`pp36 Arbitrary path with bound endpoints - Thread - PartitionByID_S_AllCollations - true`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "pp36 Arbitrary path with bound endpoints - Thread - PartitionByIDTwiceAllCollations - true" to ::`pp36 Arbitrary path with bound endpoints - Thread - PartitionByIDTwiceAllCollations - true`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
             "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
+            "pp36 Arbitrary path with bound endpoints - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`pp36 Arbitrary path with bound endpoints - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
         )
     }
 }
@@ -307,6 +277,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

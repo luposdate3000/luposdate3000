@@ -76,17 +76,32 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp12 Variable length path and two paths to same target node - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `pp12 Variable length path and two paths to same target node - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp12Variablelengthpathandtwopathstosametargetnode.kt:88"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `pp12 Variable length path and two paths to same target node - Thread - PartitionByID_1_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp12Variablelengthpathandtwopathstosametargetnode.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -101,27 +116,27 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp12Variablelengthpathandtwopathstosametargetnode.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `pp12 Variable length path and two paths to same target node - Thread - PartitionByID_S_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp12Variablelengthpathandtwopathstosametargetnode.kt:118"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
+    public fun `pp12 Variable length path and two paths to same target node - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp12Variablelengthpathandtwopathstosametargetnode.kt:133"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -132,16 +147,16 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -149,49 +164,49 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
             "RPL",
         )
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -202,10 +217,10 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -216,16 +231,58 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL",
+        )
+    }
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "AllShortestPath",
         )
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -233,18 +290,18 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
             "RPL_Fast",
         )
     }
-    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -303,18 +360,22 @@ public class pp12Variablelengthpathandtwopathstosametargetnode {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "pp12 Variable length path and two paths to same target node - None - Simple - true" to ::`pp12 Variable length path and two paths to same target node - None - Simple - true`,
-            "pp12 Variable length path and two paths to same target node - Thread - PartitionByID_2_AllCollations - false" to ::`pp12 Variable length path and two paths to same target node - Thread - PartitionByID_2_AllCollations - false`,
+            "pp12 Variable length path and two paths to same target node - Thread - PartitionByIDTwiceAllCollations - false" to ::`pp12 Variable length path and two paths to same target node - Thread - PartitionByIDTwiceAllCollations - false`,
+            "pp12 Variable length path and two paths to same target node - Thread - PartitionByID_1_AllCollations - false" to ::`pp12 Variable length path and two paths to same target node - Thread - PartitionByID_1_AllCollations - false`,
             "pp12 Variable length path and two paths to same target node - Thread - PartitionByID_O_AllCollations - true" to ::`pp12 Variable length path and two paths to same target node - Thread - PartitionByID_O_AllCollations - true`,
-            "pp12 Variable length path and two paths to same target node - Thread - PartitionByID_S_AllCollations - true" to ::`pp12 Variable length path and two paths to same target node - Thread - PartitionByID_S_AllCollations - true`,
-            "pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "pp12 Variable length path and two paths to same target node - Thread - PartitionByID_S_AllCollations - false" to ::`pp12 Variable length path and two paths to same target node - Thread - PartitionByID_S_AllCollations - false`,
+            "pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
+            "pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
+            "pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
         )
     }
 }
@@ -328,6 +389,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

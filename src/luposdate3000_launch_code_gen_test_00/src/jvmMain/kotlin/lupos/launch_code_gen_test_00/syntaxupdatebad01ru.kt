@@ -44,12 +44,12 @@ public class syntaxupdatebad01ru {
         "LOAD ; \n" +
         ""
 
-    public fun `syntaxupdatebad01ru - Thread - Simple - true`() {
+    public fun `syntaxupdatebad01ru - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -73,7 +73,7 @@ public class syntaxupdatebad01ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdatebad01ru - Thread - Simple - true" to ::`syntaxupdatebad01ru - Thread - Simple - true`,
+            "syntaxupdatebad01ru - Thread - PartitionByID_O_AllCollations - true" to ::`syntaxupdatebad01ru - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }
@@ -87,6 +87,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

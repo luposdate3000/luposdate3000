@@ -80,32 +80,17 @@ public class resourcessp2bq12bsparql700 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq12bsparql700 - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcessp2bq12bsparql700.kt:92"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcessp2bq12bsparql700 - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `resourcessp2bq12bsparql700 - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcessp2bq12bsparql700.kt:107"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcessp2bq12bsparql700.kt:92"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -120,98 +105,41 @@ public class resourcessp2bq12bsparql700 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcessp2bq12bsparql700.kt:107"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcessp2bq12bsparql700 - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcessp2bq12bsparql700.kt:122"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcessp2bq12bsparql700 - Thread - PartitionByID_O_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcessp2bq12bsparql700.kt:137"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcessp2bq12bsparql700 - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcessp2bq12bsparql700.kt:152"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
+    public fun `resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
+                "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - false - None - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
+    public fun `resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -222,35 +150,7 @@ public class resourcessp2bq12bsparql700 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
             "RPL",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
         )
     }
     public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
@@ -281,97 +181,13 @@ public class resourcessp2bq12bsparql700 {
             "AllShortestPath",
         )
     }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -379,7 +195,21 @@ public class resourcessp2bq12bsparql700 {
             "RPL",
         )
     }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -390,21 +220,21 @@ public class resourcessp2bq12bsparql700 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
+    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
     public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
@@ -421,28 +251,14 @@ public class resourcessp2bq12bsparql700 {
             "RPL_Fast",
         )
     }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -504,32 +320,19 @@ public class resourcessp2bq12bsparql700 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq12bsparql700 - None - Simple - true" to ::`resourcessp2bq12bsparql700 - None - Simple - true`,
-            "resourcessp2bq12bsparql700 - Thread - PartitionByIDTwiceAllCollations - true" to ::`resourcessp2bq12bsparql700 - Thread - PartitionByIDTwiceAllCollations - true`,
+            "resourcessp2bq12bsparql700 - Thread - BenchmarkFig5 - false" to ::`resourcessp2bq12bsparql700 - Thread - BenchmarkFig5 - false`,
             "resourcessp2bq12bsparql700 - Thread - PartitionByID_2_AllCollations - true" to ::`resourcessp2bq12bsparql700 - Thread - PartitionByID_2_AllCollations - true`,
-            "resourcessp2bq12bsparql700 - Thread - PartitionByID_O_AllCollations - false" to ::`resourcessp2bq12bsparql700 - Thread - PartitionByID_O_AllCollations - false`,
-            "resourcessp2bq12bsparql700 - Thread - Simple - true" to ::`resourcessp2bq12bsparql700 - Thread - Simple - true`,
-            "resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - true - None - AllShortestPath`,
-            "resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - false - None - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - false - None - RPL`,
-            "resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - Simple - Centralized - false - None - RPL_Fast`,
-            "resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
-            "resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
-            "resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
-            "resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
+            "resourcessp2bq12bsparql700 - Thread - PartitionByID_2_AllCollations - false" to ::`resourcessp2bq12bsparql700 - Thread - PartitionByID_2_AllCollations - false`,
+            "resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
+            "resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
             "resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`,
             "resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
+            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
+            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
+            "resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
             "resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
-            "resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
+            "resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast" to ::`resourcessp2bq12bsparql700 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`,
         )
     }
 }
@@ -543,6 +346,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

@@ -84,12 +84,12 @@ public class CLEARNAMED {
         "CLEAR NAMED \n" +
         ""
 
-    public fun `CLEAR NAMED - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `CLEAR NAMED - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -99,11 +99,67 @@ public class CLEARNAMED {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `CLEAR NAMED - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
+    public fun `CLEAR NAMED - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
@@ -113,11 +169,39 @@ public class CLEARNAMED {
             "RPL",
         )
     }
-    public fun `CLEAR NAMED - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `CLEAR NAMED - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
@@ -127,14 +211,42 @@ public class CLEARNAMED {
             "RPL_Fast",
         )
     }
-    public fun `CLEAR NAMED - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `CLEAR NAMED - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -281,10 +393,18 @@ public class CLEARNAMED {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "CLEAR NAMED - Thread - PartitionByID_1_AllCollations - false" to ::`CLEAR NAMED - Thread - PartitionByID_1_AllCollations - false`,
-            "CLEAR NAMED - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`CLEAR NAMED - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
-            "CLEAR NAMED - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`CLEAR NAMED - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
-            "CLEAR NAMED - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`CLEAR NAMED - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
+            "CLEAR NAMED - Thread - PartitionByID_O_AllCollations - false" to ::`CLEAR NAMED - Thread - PartitionByID_O_AllCollations - false`,
+            "CLEAR NAMED - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`CLEAR NAMED - in simulator - Simple - Centralized - true - None - RPL_Fast`,
+            "CLEAR NAMED - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`CLEAR NAMED - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
+            "CLEAR NAMED - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`CLEAR NAMED - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
+            "CLEAR NAMED - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`CLEAR NAMED - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "CLEAR NAMED - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL" to ::`CLEAR NAMED - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`,
+            "CLEAR NAMED - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`CLEAR NAMED - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
+            "CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
+            "CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
+            "CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`CLEAR NAMED - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
+            "CLEAR NAMED - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`CLEAR NAMED - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
+            "CLEAR NAMED - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`CLEAR NAMED - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
         )
     }
 }
@@ -298,6 +418,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

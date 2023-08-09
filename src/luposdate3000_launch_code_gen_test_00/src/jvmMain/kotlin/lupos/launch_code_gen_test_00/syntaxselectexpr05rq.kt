@@ -44,12 +44,12 @@ public class syntaxselectexpr05rq {
         "SELECT (COUNT(*) AS ?count) {} \n" +
         ""
 
-    public fun `syntaxselectexpr05rq - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `syntaxselectexpr05rq - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -59,47 +59,17 @@ public class syntaxselectexpr05rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxselectexpr05rq - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `syntaxselectexpr05rq - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxselectexpr05rq.kt:71"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxselectexpr05rq - Thread - PartitionByID_O_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxselectexpr05rq.kt:86"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxselectexpr05rq - Thread - PartitionByID_S_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxselectexpr05rq.kt:101"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxselectexpr05rq.kt:71"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -110,10 +80,8 @@ public class syntaxselectexpr05rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxselectexpr05rq - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxselectexpr05rq - Thread - PartitionByIDTwiceAllCollations - false`,
-            "syntaxselectexpr05rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxselectexpr05rq - Thread - PartitionByID_2_AllCollations - false`,
-            "syntaxselectexpr05rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxselectexpr05rq - Thread - PartitionByID_O_AllCollations - false`,
-            "syntaxselectexpr05rq - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxselectexpr05rq - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxselectexpr05rq - None - Simple - false" to ::`syntaxselectexpr05rq - None - Simple - false`,
+            "syntaxselectexpr05rq - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxselectexpr05rq - Thread - PartitionByID_1_AllCollations - true`,
         )
     }
 }
@@ -127,6 +95,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

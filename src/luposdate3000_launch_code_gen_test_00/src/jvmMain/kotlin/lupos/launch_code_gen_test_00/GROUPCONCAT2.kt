@@ -81,6 +81,21 @@ public class GROUPCONCAT2 {
         LuposdateEndpoint.close(instance)
       }
     }
+    public fun `GROUPCONCAT 2 - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/GROUPCONCAT2.kt:93"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     public fun `GROUPCONCAT 2 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -91,7 +106,7 @@ public class GROUPCONCAT2 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/GROUPCONCAT2.kt:93"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/GROUPCONCAT2.kt:108"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -110,25 +125,39 @@ public class GROUPCONCAT2 {
             "AllShortestPath",
         )
     }
-    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `GROUPCONCAT 2 - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
         )
     }
-    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
@@ -138,11 +167,39 @@ public class GROUPCONCAT2 {
             "RPL_Fast",
         )
     }
-    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
@@ -152,39 +209,53 @@ public class GROUPCONCAT2 {
             "AllShortestPath",
         )
     }
-    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
         )
     }
-    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
@@ -192,6 +263,62 @@ public class GROUPCONCAT2 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `GROUPCONCAT 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -250,14 +377,23 @@ public class GROUPCONCAT2 {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "GROUPCONCAT 2 - Thread - PartitionByID_2_AllCollations - true" to ::`GROUPCONCAT 2 - Thread - PartitionByID_2_AllCollations - true`,
+            "GROUPCONCAT 2 - Thread - PartitionByID_S_AllCollations - true" to ::`GROUPCONCAT 2 - Thread - PartitionByID_S_AllCollations - true`,
             "GROUPCONCAT 2 - Thread - Simple - true" to ::`GROUPCONCAT 2 - Thread - Simple - true`,
             "GROUPCONCAT 2 - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`GROUPCONCAT 2 - in simulator - Simple - Centralized - true - None - AllShortestPath`,
-            "GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL`,
-            "GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
-            "GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`,
-            "GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`,
-            "GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
+            "GROUPCONCAT 2 - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`GROUPCONCAT 2 - in simulator - Simple - Centralized - false - None - AllShortestPath`,
+            "GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
+            "GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
+            "GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`,
+            "GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`GROUPCONCAT 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
+            "GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
+            "GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "GROUPCONCAT 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
+            "GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
+            "GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`GROUPCONCAT 2 - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
+            "GROUPCONCAT 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`GROUPCONCAT 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
         )
     }
 }
@@ -271,6 +407,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

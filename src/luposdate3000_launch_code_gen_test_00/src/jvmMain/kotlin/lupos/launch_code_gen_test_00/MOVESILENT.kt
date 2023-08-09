@@ -82,169 +82,70 @@ public class MOVESILENT {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `MOVE SILENT - Thread - PartitionByKeyAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MOVESILENT.kt:94"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
         )
     }
-    public fun `MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `MOVE SILENT - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
         )
     }
-    public fun `MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
+    public fun `MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -265,7 +166,7 @@ public class MOVESILENT {
             "RPL",
         )
     }
-    public fun `MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -276,7 +177,21 @@ public class MOVESILENT {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
+        )
+    }
+    public fun `MOVE SILENT - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -342,20 +257,14 @@ public class MOVESILENT {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "MOVE SILENT - Thread - PartitionByID_1_AllCollations - false" to ::`MOVE SILENT - Thread - PartitionByID_1_AllCollations - false`,
-            "MOVE SILENT - Thread - PartitionByKeyAllCollations - true" to ::`MOVE SILENT - Thread - PartitionByKeyAllCollations - true`,
-            "MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast" to ::`MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`,
-            "MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
-            "MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
-            "MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath" to ::`MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`,
-            "MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
-            "MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`MOVE SILENT - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
-            "MOVE SILENT - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath" to ::`MOVE SILENT - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
-            "MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
+            "MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
+            "MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`,
+            "MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`MOVE SILENT - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
+            "MOVE SILENT - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
+            "MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
             "MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
-            "MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast" to ::`MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`,
+            "MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`MOVE SILENT - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
+            "MOVE SILENT - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`MOVE SILENT - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
         )
     }
 }
@@ -369,6 +278,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

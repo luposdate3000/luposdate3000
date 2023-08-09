@@ -79,198 +79,13 @@ public class bnodesarenotexistentialswithanswer {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `bnodes are not existentials with answer - Thread - PartitionByIDTwiceAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/bnodesarenotexistentialswithanswer.kt:91"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `bnodes are not existentials with answer - Thread - PartitionByID_2_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/bnodesarenotexistentialswithanswer.kt:106"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `bnodes are not existentials with answer - Thread - PartitionByID_O_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/bnodesarenotexistentialswithanswer.kt:121"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `bnodes are not existentials with answer - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
+    public fun `bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -278,35 +93,7 @@ public class bnodesarenotexistentialswithanswer {
             "RPL_Fast",
         )
     }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -314,20 +101,6 @@ public class bnodesarenotexistentialswithanswer {
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -348,7 +121,21 @@ public class bnodesarenotexistentialswithanswer {
             "AllShortestPath",
         )
     }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
+    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -359,10 +146,10 @@ public class bnodesarenotexistentialswithanswer {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
+    public fun `bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -373,30 +160,16 @@ public class bnodesarenotexistentialswithanswer {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -460,29 +233,13 @@ public class bnodesarenotexistentialswithanswer {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "bnodes are not existentials with answer - Thread - BenchmarkFig5 - true" to ::`bnodes are not existentials with answer - Thread - BenchmarkFig5 - true`,
-            "bnodes are not existentials with answer - Thread - PartitionByIDTwiceAllCollations - false" to ::`bnodes are not existentials with answer - Thread - PartitionByIDTwiceAllCollations - false`,
-            "bnodes are not existentials with answer - Thread - PartitionByID_2_AllCollations - false" to ::`bnodes are not existentials with answer - Thread - PartitionByID_2_AllCollations - false`,
-            "bnodes are not existentials with answer - Thread - PartitionByID_O_AllCollations - true" to ::`bnodes are not existentials with answer - Thread - PartitionByID_O_AllCollations - true`,
-            "bnodes are not existentials with answer - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`bnodes are not existentials with answer - in simulator - Simple - Centralized - false - None - AllShortestPath`,
-            "bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
-            "bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
-            "bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`,
-            "bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
+            "bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
             "bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
-            "bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
-            "bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
+            "bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
+            "bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
+            "bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`bnodes are not existentials with answer - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
+            "bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`bnodes are not existentials with answer - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
         )
     }
 }
@@ -496,6 +253,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

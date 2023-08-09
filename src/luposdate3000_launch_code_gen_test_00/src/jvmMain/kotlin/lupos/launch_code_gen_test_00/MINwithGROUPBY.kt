@@ -62,35 +62,190 @@ public class MINwithGROUPBY {
         "GROUP BY ?s \n" +
         ""
 
-    public fun `MIN with GROUP BY - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
+    public fun `MIN with GROUP BY - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MINwithGROUPBY.kt:74"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `MIN with GROUP BY - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
+    public fun `MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -101,7 +256,7 @@ public class MINwithGROUPBY {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -132,11 +287,47 @@ public class MINwithGROUPBY {
             TODO("pck2 not verified")
         }
     }
+    internal fun normalHelper(instance:Luposdate3000Instance) {
+        val buf = MyPrintWriter(false)
+        if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0],inputType[0], inputGraph[0])
+        } else {
+            TODO()
+        }
+        val query0 = Query(instance)
+        val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
+        val iterator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val operator0 = PhysicalOptimizer(query0).optimizeCall(iterator0)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
+        val buf_err0 = MyPrintWriter()
+        if (!expected0.equalsVerbose(actual0, true, true, false, buf_err0)) {
+            TODO(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
+        }
+        val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
+        val buf_err1 = MyPrintWriter()
+        if (!expected1.equalsVerbose(actual1, true, true, false, buf_err1)) {
+            TODO(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
+        }
+    }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MIN with GROUP BY - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`MIN with GROUP BY - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
-            "MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
-            "MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
+            "MIN with GROUP BY - Thread - PartitionByKeyAllCollations - true" to ::`MIN with GROUP BY - Thread - PartitionByKeyAllCollations - true`,
+            "MIN with GROUP BY - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`MIN with GROUP BY - in simulator - Simple - Centralized - true - None - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`MIN with GROUP BY - in simulator - Simple - Centralized - false - None - RPL_Fast`,
+            "MIN with GROUP BY - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`MIN with GROUP BY - in simulator - Simple - Centralized - false - None - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast" to ::`MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`,
+            "MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`MIN with GROUP BY - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
+            "MIN with GROUP BY - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`MIN with GROUP BY - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "MIN with GROUP BY - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
         )
     }
 }
@@ -150,6 +341,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

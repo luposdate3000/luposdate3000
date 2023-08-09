@@ -56,12 +56,12 @@ public class DELETEINSERT5 {
         "} \n" +
         ""
 
-    public fun `DELETE INSERT 5 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `DELETE INSERT 5 - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -71,47 +71,17 @@ public class DELETEINSERT5 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DELETE INSERT 5 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `DELETE INSERT 5 - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DELETEINSERT5.kt:83"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DELETEINSERT5.kt:98"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `DELETE INSERT 5 - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DELETEINSERT5.kt:113"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -130,10 +100,8 @@ public class DELETEINSERT5 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DELETE INSERT 5 - Thread - PartitionByID_2_AllCollations - true" to ::`DELETE INSERT 5 - Thread - PartitionByID_2_AllCollations - true`,
-            "DELETE INSERT 5 - Thread - PartitionByID_2_AllCollations - false" to ::`DELETE INSERT 5 - Thread - PartitionByID_2_AllCollations - false`,
-            "DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - true" to ::`DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - true`,
-            "DELETE INSERT 5 - Thread - Simple - true" to ::`DELETE INSERT 5 - Thread - Simple - true`,
+            "DELETE INSERT 5 - Thread - BenchmarkFig5 - true" to ::`DELETE INSERT 5 - Thread - BenchmarkFig5 - true`,
+            "DELETE INSERT 5 - Thread - PartitionByKeyAllCollations - false" to ::`DELETE INSERT 5 - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }
@@ -147,6 +115,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

@@ -56,13 +56,13 @@ public class DELETEINSERT7b {
         "} \n" +
         ""
 
-    public fun `DELETE INSERT 7b - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `DELETE INSERT 7b - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -71,12 +71,12 @@ public class DELETEINSERT7b {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DELETE INSERT 7b - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `DELETE INSERT 7b - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -100,8 +100,8 @@ public class DELETEINSERT7b {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DELETE INSERT 7b - Thread - PartitionByID_1_AllCollations - false" to ::`DELETE INSERT 7b - Thread - PartitionByID_1_AllCollations - false`,
-            "DELETE INSERT 7b - Thread - PartitionByKeyAllCollations - false" to ::`DELETE INSERT 7b - Thread - PartitionByKeyAllCollations - false`,
+            "DELETE INSERT 7b - Thread - PartitionByID_O_AllCollations - true" to ::`DELETE INSERT 7b - Thread - PartitionByID_O_AllCollations - true`,
+            "DELETE INSERT 7b - Thread - PartitionByID_S_AllCollations - false" to ::`DELETE INSERT 7b - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }
@@ -115,6 +115,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

@@ -64,13 +64,13 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
         "} \n" +
         ""
 
-    public fun `sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `sq05  Subquery within graph pattern from named applies - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -79,12 +79,12 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -94,12 +94,12 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq05  Subquery within graph pattern from named applies - Thread - Simple - false`() {
+    public fun `sq05  Subquery within graph pattern from named applies - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -109,74 +109,18 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - None - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+    public fun `sq05  Subquery within graph pattern from named applies - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
     public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
@@ -193,11 +137,11 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
             "RPL_Fast",
         )
     }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
@@ -207,27 +151,13 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
             "RPL_Fast",
         )
     }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -235,63 +165,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
             "RPL",
         )
     }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -302,38 +176,10 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
             "RPL",
         )
     }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
+    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -344,21 +190,7 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
-        )
-    }
-    public fun `sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -416,27 +248,15 @@ public class sq05Subquerywithingraphpatternfromnamedapplies {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true" to ::`sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true`,
-            "sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_O_AllCollations - true" to ::`sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_O_AllCollations - true`,
-            "sq05  Subquery within graph pattern from named applies - Thread - Simple - false" to ::`sq05  Subquery within graph pattern from named applies - Thread - Simple - false`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - None - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - None - RPL`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`sq05  Subquery within graph pattern from named applies - in simulator - Simple - Centralized - false - None - AllShortestPath`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
+            "sq05  Subquery within graph pattern from named applies - None - Simple - false" to ::`sq05  Subquery within graph pattern from named applies - None - Simple - false`,
+            "sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_S_AllCollations - true" to ::`sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_S_AllCollations - true`,
+            "sq05  Subquery within graph pattern from named applies - Thread - PartitionByKeyAllCollations - false" to ::`sq05  Subquery within graph pattern from named applies - Thread - PartitionByKeyAllCollations - false`,
+            "sq05  Subquery within graph pattern from named applies - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
             "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
-            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
+            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
+            "sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`sq05  Subquery within graph pattern from named applies - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
         )
     }
 }
@@ -450,6 +270,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

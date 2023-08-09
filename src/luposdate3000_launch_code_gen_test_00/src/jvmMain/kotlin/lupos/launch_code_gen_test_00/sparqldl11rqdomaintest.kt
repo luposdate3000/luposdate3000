@@ -61,13 +61,13 @@ public class sparqldl11rqdomaintest {
         "where {:parent rdfs:range ?C} \n" +
         ""
 
-    public fun `sparqldl11rq domain test - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `sparqldl11rq domain test - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -76,12 +76,12 @@ public class sparqldl11rqdomaintest {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sparqldl11rq domain test - Thread - Simple - true`() {
+    public fun `sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -91,17 +91,32 @@ public class sparqldl11rqdomaintest {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sparqldl11rq domain test - Thread - Simple - false`() {
+    public fun `sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sparqldl11rqdomaintest.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sparqldl11rq domain test - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sparqldl11rqdomaintest.kt:118"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -120,27 +135,27 @@ public class sparqldl11rqdomaintest {
             "RPL_Fast",
         )
     }
-    public fun `sparqldl11rq domain test - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -162,83 +177,13 @@ public class sparqldl11rqdomaintest {
             "AllShortestPath",
         )
     }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
+    public fun `sparqldl11rq domain test - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -246,14 +191,14 @@ public class sparqldl11rqdomaintest {
             "AllShortestPath",
         )
     }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
+    public fun `sparqldl11rq domain test - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -272,34 +217,6 @@ public class sparqldl11rqdomaintest {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sparqldl11rq domain test - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -357,23 +274,17 @@ public class sparqldl11rqdomaintest {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sparqldl11rq domain test - Thread - PartitionByID_O_AllCollations - false" to ::`sparqldl11rq domain test - Thread - PartitionByID_O_AllCollations - false`,
-            "sparqldl11rq domain test - Thread - Simple - true" to ::`sparqldl11rq domain test - Thread - Simple - true`,
-            "sparqldl11rq domain test - Thread - Simple - false" to ::`sparqldl11rq domain test - Thread - Simple - false`,
+            "sparqldl11rq domain test - Thread - PartitionByIDTwiceAllCollations - true" to ::`sparqldl11rq domain test - Thread - PartitionByIDTwiceAllCollations - true`,
+            "sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - true" to ::`sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - true`,
+            "sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - false" to ::`sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - false`,
+            "sparqldl11rq domain test - Thread - PartitionByID_S_AllCollations - true" to ::`sparqldl11rq domain test - Thread - PartitionByID_S_AllCollations - true`,
             "sparqldl11rq domain test - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - Simple - Centralized - true - None - RPL_Fast`,
-            "sparqldl11rq domain test - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
-            "sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`,
+            "sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
+            "sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
             "sparqldl11rq domain test - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`sparqldl11rq domain test - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
-            "sparqldl11rq domain test - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`sparqldl11rq domain test - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
-            "sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
-            "sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath" to ::`sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
+            "sparqldl11rq domain test - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath" to ::`sparqldl11rq domain test - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath`,
+            "sparqldl11rq domain test - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`sparqldl11rq domain test - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
             "sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
-            "sparqldl11rq domain test - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`sparqldl11rq domain test - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
-            "sparqldl11rq domain test - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`sparqldl11rq domain test - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
         )
     }
 }
@@ -387,6 +298,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

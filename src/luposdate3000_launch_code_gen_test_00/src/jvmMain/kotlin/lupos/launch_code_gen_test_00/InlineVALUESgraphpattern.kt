@@ -65,6 +65,21 @@ public class InlineVALUESgraphpattern {
         "} \n" +
         ""
 
+    public fun `Inline VALUES graph pattern - None - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/InlineVALUESgraphpattern.kt:77"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     public fun `Inline VALUES graph pattern - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -75,12 +90,69 @@ public class InlineVALUESgraphpattern {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/InlineVALUESgraphpattern.kt:77"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/InlineVALUESgraphpattern.kt:92"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
+    public fun `Inline VALUES graph pattern - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/InlineVALUESgraphpattern.kt:107"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Inline VALUES graph pattern - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -91,7 +163,7 @@ public class InlineVALUESgraphpattern {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun `Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
@@ -108,18 +180,60 @@ public class InlineVALUESgraphpattern {
             "AllShortestPath",
         )
     }
-    public fun `Inline VALUES graph pattern - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
+    public fun `Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Inline VALUES graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL",
+        )
+    }
+    public fun `Inline VALUES graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Inline VALUES graph pattern - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -177,10 +291,18 @@ public class InlineVALUESgraphpattern {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
+            "Inline VALUES graph pattern - None - Simple - true" to ::`Inline VALUES graph pattern - None - Simple - true`,
             "Inline VALUES graph pattern - Thread - PartitionByID_O_AllCollations - true" to ::`Inline VALUES graph pattern - Thread - PartitionByID_O_AllCollations - true`,
-            "Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
+            "Inline VALUES graph pattern - Thread - Simple - false" to ::`Inline VALUES graph pattern - Thread - Simple - false`,
+            "Inline VALUES graph pattern - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`Inline VALUES graph pattern - in simulator - Simple - Centralized - true - None - RPL_Fast`,
+            "Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
+            "Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
+            "Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`Inline VALUES graph pattern - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
             "Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
-            "Inline VALUES graph pattern - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`Inline VALUES graph pattern - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
+            "Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`Inline VALUES graph pattern - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
+            "Inline VALUES graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`Inline VALUES graph pattern - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "Inline VALUES graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`Inline VALUES graph pattern - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "Inline VALUES graph pattern - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`Inline VALUES graph pattern - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
         )
     }
 }
@@ -194,6 +316,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

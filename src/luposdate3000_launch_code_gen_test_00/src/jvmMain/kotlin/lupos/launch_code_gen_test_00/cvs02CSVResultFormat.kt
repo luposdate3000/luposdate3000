@@ -57,12 +57,12 @@ public class cvs02CSVResultFormat {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "SELECT * WHERE { ?s ?p ?o OPTIONAL {?o ?p2 ?o2 } } ORDER BY ?s ?p ?o ?p2 ?o2"
 
-    public fun `cvs02  CSV Result Format - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `cvs02  CSV Result Format - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -72,62 +72,32 @@ public class cvs02CSVResultFormat {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `cvs02  CSV Result Format - Thread - PartitionByID_S_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/cvs02CSVResultFormat.kt:84"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `cvs02  CSV Result Format - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/cvs02CSVResultFormat.kt:99"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
+    public fun `cvs02  CSV Result Format - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
+                "LUPOS_PARTITION_MODE" to "None",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
+    public fun `cvs02  CSV Result Format - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "predefinedPartitionScheme" to "Simple",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
+                "LUPOS_PARTITION_MODE" to "None",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
     public fun `cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
@@ -144,7 +114,21 @@ public class cvs02CSVResultFormat {
             "AllShortestPath",
         )
     }
-    public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -155,24 +139,52 @@ public class cvs02CSVResultFormat {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
-    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
         )
     }
-    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -183,21 +195,49 @@ public class cvs02CSVResultFormat {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
-    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
+        )
+    }
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun `cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
@@ -207,6 +247,34 @@ public class cvs02CSVResultFormat {
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -269,17 +337,22 @@ public class cvs02CSVResultFormat {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "cvs02  CSV Result Format - Thread - PartitionByIDTwiceAllCollations - false" to ::`cvs02  CSV Result Format - Thread - PartitionByIDTwiceAllCollations - false`,
-            "cvs02  CSV Result Format - Thread - PartitionByID_S_AllCollations - false" to ::`cvs02  CSV Result Format - Thread - PartitionByID_S_AllCollations - false`,
-            "cvs02  CSV Result Format - Thread - Simple - false" to ::`cvs02  CSV Result Format - Thread - Simple - false`,
-            "cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
-            "cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
+            "cvs02  CSV Result Format - Thread - PartitionByID_1_AllCollations - false" to ::`cvs02  CSV Result Format - Thread - PartitionByID_1_AllCollations - false`,
+            "cvs02  CSV Result Format - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`cvs02  CSV Result Format - in simulator - Simple - Centralized - false - None - RPL_Fast`,
+            "cvs02  CSV Result Format - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - Simple - Centralized - false - None - AllShortestPath`,
             "cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
-            "cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast" to ::`cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast`,
-            "cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
-            "cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
-            "cvs02  CSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
+            "cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
+            "cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL`,
+            "cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
+            "cvs02  CSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
+            "cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
             "cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`cvs02  CSV Result Format - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
+            "cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
+            "cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`cvs02  CSV Result Format - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
         )
     }
 }
@@ -293,6 +366,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

@@ -46,12 +46,12 @@ public class syntaxsubquery02rq {
         "} \n" +
         ""
 
-    public fun `syntaxsubquery02rq - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `syntaxsubquery02rq - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -61,32 +61,17 @@ public class syntaxsubquery02rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxsubquery02rq - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `syntaxsubquery02rq - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxsubquery02rq.kt:73"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxsubquery02rq - Thread - PartitionByKeyAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxsubquery02rq.kt:88"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxsubquery02rq.kt:73"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -101,7 +86,7 @@ public class syntaxsubquery02rq {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxsubquery02rq.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxsubquery02rq.kt:88"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -112,9 +97,8 @@ public class syntaxsubquery02rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxsubquery02rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxsubquery02rq - Thread - PartitionByID_2_AllCollations - false`,
-            "syntaxsubquery02rq - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxsubquery02rq - Thread - PartitionByID_S_AllCollations - false`,
-            "syntaxsubquery02rq - Thread - PartitionByKeyAllCollations - true" to ::`syntaxsubquery02rq - Thread - PartitionByKeyAllCollations - true`,
+            "syntaxsubquery02rq - Thread - BenchmarkFig5 - false" to ::`syntaxsubquery02rq - Thread - BenchmarkFig5 - false`,
+            "syntaxsubquery02rq - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxsubquery02rq - Thread - PartitionByID_1_AllCollations - true`,
             "syntaxsubquery02rq - Thread - Simple - false" to ::`syntaxsubquery02rq - Thread - Simple - false`,
         )
     }
@@ -129,6 +113,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

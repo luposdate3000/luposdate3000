@@ -43,12 +43,12 @@ public class syntaxselectexpr02rq {
     internal val query = "SELECT ?x ?y (?x +?y AS ?z) {} \n" +
         ""
 
-    public fun `syntaxselectexpr02rq - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `syntaxselectexpr02rq - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -79,7 +79,7 @@ public class syntaxselectexpr02rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxselectexpr02rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxselectexpr02rq - Thread - PartitionByID_2_AllCollations - false`,
+            "syntaxselectexpr02rq - Thread - PartitionByKeyAllCollations - false" to ::`syntaxselectexpr02rq - Thread - PartitionByKeyAllCollations - false`,
             "syntaxselectexpr02rq - Thread - Simple - true" to ::`syntaxselectexpr02rq - Thread - Simple - true`,
         )
     }
@@ -94,6 +94,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

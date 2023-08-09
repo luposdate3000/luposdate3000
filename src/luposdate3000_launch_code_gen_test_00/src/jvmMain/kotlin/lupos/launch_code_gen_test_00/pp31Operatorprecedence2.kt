@@ -60,13 +60,13 @@ public class pp31Operatorprecedence2 {
         "  :a (:p1|:p2)/(:p3|:p4) ?t \n" +
         "}"
 
-    public fun `pp31 Operator precedence 2 - Thread - BenchmarkFig5 - true`() {
+    public fun `pp31 Operator precedence 2 - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -75,13 +75,13 @@ public class pp31Operatorprecedence2 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp31 Operator precedence 2 - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `pp31 Operator precedence 2 - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -90,63 +90,63 @@ public class pp31Operatorprecedence2 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
+    public fun `pp31 Operator precedence 2 - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
         )
     }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+    public fun `pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -157,31 +157,31 @@ public class pp31Operatorprecedence2 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL",
+        )
+    }
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL_Fast",
         )
     }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -202,14 +202,28 @@ public class pp31Operatorprecedence2 {
             "RPL_Fast",
         )
     }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -230,35 +244,7 @@ public class pp31Operatorprecedence2 {
             "RPL_Fast",
         )
     }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -269,21 +255,21 @@ public class pp31Operatorprecedence2 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `pp31 Operator precedence 2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -341,22 +327,21 @@ public class pp31Operatorprecedence2 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "pp31 Operator precedence 2 - Thread - BenchmarkFig5 - true" to ::`pp31 Operator precedence 2 - Thread - BenchmarkFig5 - true`,
-            "pp31 Operator precedence 2 - Thread - PartitionByIDTwiceAllCollations - true" to ::`pp31 Operator precedence 2 - Thread - PartitionByIDTwiceAllCollations - true`,
-            "pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
+            "pp31 Operator precedence 2 - Thread - BenchmarkFig5 - false" to ::`pp31 Operator precedence 2 - Thread - BenchmarkFig5 - false`,
+            "pp31 Operator precedence 2 - Thread - PartitionByID_1_AllCollations - false" to ::`pp31 Operator precedence 2 - Thread - PartitionByID_1_AllCollations - false`,
+            "pp31 Operator precedence 2 - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - Simple - Centralized - true - None - RPL_Fast`,
+            "pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
+            "pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath" to ::`pp31 Operator precedence 2 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath" to ::`pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
             "pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
             "pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
-            "pp31 Operator precedence 2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`pp31 Operator precedence 2 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`pp31 Operator precedence 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
         )
     }
 }
@@ -370,6 +355,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

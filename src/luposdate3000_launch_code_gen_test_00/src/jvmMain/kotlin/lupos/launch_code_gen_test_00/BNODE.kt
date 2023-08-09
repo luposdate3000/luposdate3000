@@ -60,12 +60,12 @@ public class BNODE {
         "WHERE {} \n" +
         ""
 
-    public fun `BNODE - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `BNODE - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -75,13 +75,13 @@ public class BNODE {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `BNODE - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `BNODE - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -90,7 +90,21 @@ public class BNODE {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `BNODE - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
+    public fun `BNODE - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `BNODE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -101,7 +115,7 @@ public class BNODE {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun `BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
@@ -132,27 +146,13 @@ public class BNODE {
             "RPL_Fast",
         )
     }
-    public fun `BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -160,13 +160,13 @@ public class BNODE {
             "AllShortestPath",
         )
     }
-    public fun `BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
+    public fun `BNODE - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -174,11 +174,11 @@ public class BNODE {
             "RPL",
         )
     }
-    public fun `BNODE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `BNODE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
@@ -188,126 +188,14 @@ public class BNODE {
             "AllShortestPath",
         )
     }
-    public fun `BNODE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `BNODE - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `BNODE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -369,24 +257,16 @@ public class BNODE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "BNODE - Thread - PartitionByIDTwiceAllCollations - true" to ::`BNODE - Thread - PartitionByIDTwiceAllCollations - true`,
-            "BNODE - Thread - PartitionByID_S_AllCollations - false" to ::`BNODE - Thread - PartitionByID_S_AllCollations - false`,
-            "BNODE - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`BNODE - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
+            "BNODE - None - Simple - true" to ::`BNODE - None - Simple - true`,
+            "BNODE - Thread - Simple - true" to ::`BNODE - Thread - Simple - true`,
+            "BNODE - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`BNODE - in simulator - Simple - Centralized - true - None - RPL_Fast`,
+            "BNODE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`BNODE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
             "BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
             "BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
-            "BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast" to ::`BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast`,
-            "BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
-            "BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`BNODE - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
-            "BNODE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`BNODE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
-            "BNODE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath" to ::`BNODE - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "BNODE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`BNODE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
-            "BNODE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`BNODE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "BNODE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`BNODE - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "BNODE - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`BNODE - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
-            "BNODE - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`BNODE - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
-            "BNODE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath" to ::`BNODE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`,
-            "BNODE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`BNODE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
-            "BNODE - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`BNODE - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
+            "BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`BNODE - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
+            "BNODE - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`BNODE - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
+            "BNODE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`BNODE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
+            "BNODE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`BNODE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
 }
@@ -400,6 +280,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

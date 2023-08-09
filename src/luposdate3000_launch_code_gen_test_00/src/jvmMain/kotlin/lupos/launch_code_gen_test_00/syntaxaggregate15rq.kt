@@ -43,12 +43,12 @@ public class syntaxaggregate15rq {
     internal val query = "SELECT (GROUP_CONCAT(?x; SEPARATOR=';') AS ?y) {} \n" +
         ""
 
-    public fun `syntaxaggregate15rq - Thread - BenchmarkFig5 - false`() {
+    public fun `syntaxaggregate15rq - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,7 +64,7 @@ public class syntaxaggregate15rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxaggregate15rq - Thread - BenchmarkFig5 - false" to ::`syntaxaggregate15rq - Thread - BenchmarkFig5 - false`,
+            "syntaxaggregate15rq - Thread - PartitionByID_1_AllCollations - false" to ::`syntaxaggregate15rq - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }
@@ -78,6 +78,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

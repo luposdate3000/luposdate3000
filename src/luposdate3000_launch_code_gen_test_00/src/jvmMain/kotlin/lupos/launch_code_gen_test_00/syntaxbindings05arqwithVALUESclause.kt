@@ -43,12 +43,12 @@ public class syntaxbindings05arqwithVALUESclause {
     internal val query = "SELECT * { } VALUES (?x ?y) { (1 2) } \n" +
         ""
 
-    public fun `syntaxbindings05arq with VALUES clause - None - Simple - false`() {
+    public fun `syntaxbindings05arq with VALUES clause - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,47 +58,17 @@ public class syntaxbindings05arqwithVALUESclause {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxbindings05arq with VALUES clause - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `syntaxbindings05arq with VALUES clause - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxbindings05arqwithVALUESclause.kt:70"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxbindings05arq with VALUES clause - Thread - PartitionByKeyAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxbindings05arqwithVALUESclause.kt:85"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxbindings05arq with VALUES clause - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxbindings05arqwithVALUESclause.kt:100"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -109,10 +79,8 @@ public class syntaxbindings05arqwithVALUESclause {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxbindings05arq with VALUES clause - None - Simple - false" to ::`syntaxbindings05arq with VALUES clause - None - Simple - false`,
-            "syntaxbindings05arq with VALUES clause - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxbindings05arq with VALUES clause - Thread - PartitionByIDTwiceAllCollations - true`,
-            "syntaxbindings05arq with VALUES clause - Thread - PartitionByKeyAllCollations - true" to ::`syntaxbindings05arq with VALUES clause - Thread - PartitionByKeyAllCollations - true`,
-            "syntaxbindings05arq with VALUES clause - Thread - Simple - true" to ::`syntaxbindings05arq with VALUES clause - Thread - Simple - true`,
+            "syntaxbindings05arq with VALUES clause - Thread - PartitionByID_1_AllCollations - false" to ::`syntaxbindings05arq with VALUES clause - Thread - PartitionByID_1_AllCollations - false`,
+            "syntaxbindings05arq with VALUES clause - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxbindings05arq with VALUES clause - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }
@@ -126,6 +94,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

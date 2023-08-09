@@ -72,17 +72,32 @@ public class SimpleDELETEWHERE2 {
         "} \n" +
         ""
 
-    public fun `Simple DELETE WHERE 2 - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `Simple DELETE WHERE 2 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SimpleDELETEWHERE2.kt:84"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Simple DELETE WHERE 2 - None - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SimpleDELETEWHERE2.kt:99"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -97,60 +112,46 @@ public class SimpleDELETEWHERE2 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SimpleDELETEWHERE2.kt:99"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SimpleDELETEWHERE2.kt:114"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Simple DELETE WHERE 2 - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`() {
+    public fun `Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
-                "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
         )
     }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -158,74 +159,46 @@ public class SimpleDELETEWHERE2 {
             "AllShortestPath",
         )
     }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
         )
     }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun `Simple DELETE WHERE 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
@@ -240,20 +213,6 @@ public class SimpleDELETEWHERE2 {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
-        )
-    }
-    public fun `Simple DELETE WHERE 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -318,19 +277,16 @@ public class SimpleDELETEWHERE2 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Simple DELETE WHERE 2 - Thread - PartitionByID_1_AllCollations - false" to ::`Simple DELETE WHERE 2 - Thread - PartitionByID_1_AllCollations - false`,
+            "Simple DELETE WHERE 2 - None - Simple - true" to ::`Simple DELETE WHERE 2 - None - Simple - true`,
+            "Simple DELETE WHERE 2 - None - Simple - false" to ::`Simple DELETE WHERE 2 - None - Simple - false`,
             "Simple DELETE WHERE 2 - Thread - PartitionByID_S_AllCollations - true" to ::`Simple DELETE WHERE 2 - Thread - PartitionByID_S_AllCollations - true`,
-            "Simple DELETE WHERE 2 - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`Simple DELETE WHERE 2 - in simulator - Simple - Centralized - false - None - RPL_Fast`,
-            "Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast" to ::`Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
+            "Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
+            "Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
+            "Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`Simple DELETE WHERE 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
+            "Simple DELETE WHERE 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "Simple DELETE WHERE 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
+            "Simple DELETE WHERE 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
             "Simple DELETE WHERE 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
-            "Simple DELETE WHERE 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`Simple DELETE WHERE 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
         )
     }
 }
@@ -344,6 +300,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

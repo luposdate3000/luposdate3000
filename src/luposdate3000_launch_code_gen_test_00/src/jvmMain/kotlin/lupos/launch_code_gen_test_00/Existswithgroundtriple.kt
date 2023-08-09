@@ -61,12 +61,12 @@ public class Existswithgroundtriple {
         "} \n" +
         ""
 
-    public fun `Exists with ground triple - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `Exists with ground triple - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -76,7 +76,7 @@ public class Existswithgroundtriple {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Exists with ground triple - in simulator - Simple - Centralized - true - None - RPL`() {
+    public fun `Exists with ground triple - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
             mutableMapOf(
@@ -87,122 +87,66 @@ public class Existswithgroundtriple {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "None",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `Exists with ground triple - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+    public fun `Exists with ground triple - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Exists with ground triple - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Exists with ground triple - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
         )
     }
-    public fun `Exists with ground triple - in simulator - Simple - Centralized - false - None - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Exists with ground triple - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Exists with ground triple - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -213,35 +157,49 @@ public class Existswithgroundtriple {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
-    public fun `Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "AllShortestPath",
         )
     }
-    public fun `Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `Exists with ground triple - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
+        )
+    }
+    public fun `Exists with ground triple - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -299,19 +257,16 @@ public class Existswithgroundtriple {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Exists with ground triple - Thread - PartitionByID_S_AllCollations - false" to ::`Exists with ground triple - Thread - PartitionByID_S_AllCollations - false`,
-            "Exists with ground triple - in simulator - Simple - Centralized - true - None - RPL" to ::`Exists with ground triple - in simulator - Simple - Centralized - true - None - RPL`,
-            "Exists with ground triple - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`Exists with ground triple - in simulator - Simple - Centralized - false - None - RPL_Fast`,
-            "Exists with ground triple - in simulator - Simple - Centralized - false - None - AllShortestPath" to ::`Exists with ground triple - in simulator - Simple - Centralized - false - None - AllShortestPath`,
-            "Exists with ground triple - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
-            "Exists with ground triple - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`Exists with ground triple - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
-            "Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath`,
-            "Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
-            "Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
-            "Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
-            "Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast" to ::`Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast`,
-            "Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`,
+            "Exists with ground triple - Thread - PartitionByID_1_AllCollations - false" to ::`Exists with ground triple - Thread - PartitionByID_1_AllCollations - false`,
+            "Exists with ground triple - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`Exists with ground triple - in simulator - Simple - Centralized - true - None - AllShortestPath`,
+            "Exists with ground triple - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
+            "Exists with ground triple - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "Exists with ground triple - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
+            "Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`Exists with ground triple - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
+            "Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
+            "Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
+            "Exists with ground triple - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`Exists with ground triple - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
+            "Exists with ground triple - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast" to ::`Exists with ground triple - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
 }
@@ -325,6 +280,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

@@ -43,13 +43,13 @@ public class syntaxaggregate03rq {
     internal val query = "SELECT (COUNT(?x) AS ?count) {} \n" +
         ""
 
-    public fun `syntaxaggregate03rq - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `syntaxaggregate03rq - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -58,17 +58,32 @@ public class syntaxaggregate03rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxaggregate03rq - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `syntaxaggregate03rq - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxaggregate03rq.kt:70"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxaggregate03rq - Thread - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxaggregate03rq.kt:85"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -79,8 +94,9 @@ public class syntaxaggregate03rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxaggregate03rq - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxaggregate03rq - Thread - PartitionByID_2_AllCollations - true`,
-            "syntaxaggregate03rq - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxaggregate03rq - Thread - PartitionByID_S_AllCollations - false`,
+            "syntaxaggregate03rq - Thread - BenchmarkFig5 - false" to ::`syntaxaggregate03rq - Thread - BenchmarkFig5 - false`,
+            "syntaxaggregate03rq - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxaggregate03rq - Thread - PartitionByIDTwiceAllCollations - false`,
+            "syntaxaggregate03rq - Thread - Simple - true" to ::`syntaxaggregate03rq - Thread - Simple - true`,
         )
     }
 }
@@ -94,6 +110,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

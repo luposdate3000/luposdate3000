@@ -60,12 +60,12 @@ public class LCASE {
         "} \n" +
         ""
 
-    public fun `LCASE - Thread - Simple - true`() {
+    public fun `LCASE - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -75,28 +75,155 @@ public class LCASE {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `LCASE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `LCASE - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/LCASE.kt:87"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `LCASE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `LCASE - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
+    public fun `LCASE - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `LCASE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -158,9 +285,18 @@ public class LCASE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "LCASE - Thread - Simple - true" to ::`LCASE - Thread - Simple - true`,
-            "LCASE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`LCASE - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
-            "LCASE - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`LCASE - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
+            "LCASE - Thread - PartitionByID_2_AllCollations - true" to ::`LCASE - Thread - PartitionByID_2_AllCollations - true`,
+            "LCASE - Thread - PartitionByKeyAllCollations - true" to ::`LCASE - Thread - PartitionByKeyAllCollations - true`,
+            "LCASE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`LCASE - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
+            "LCASE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`LCASE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
+            "LCASE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`LCASE - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
+            "LCASE - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`LCASE - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "LCASE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`LCASE - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "LCASE - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`LCASE - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
+            "LCASE - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast" to ::`LCASE - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "LCASE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`LCASE - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
+            "LCASE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`LCASE - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
+            "LCASE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`LCASE - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
         )
     }
 }
@@ -174,6 +310,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

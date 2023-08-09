@@ -64,13 +64,13 @@ public class sq09NestedSubqueries {
         "} \n" +
         ""
 
-    public fun `sq09  Nested Subqueries - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `sq09  Nested Subqueries - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -79,33 +79,32 @@ public class sq09NestedSubqueries {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq09  Nested Subqueries - Thread - PartitionByKeyAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq09NestedSubqueries.kt:91"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `sq09  Nested Subqueries - in simulator - Simple - Centralized - false - None - RPL`() {
+    public fun `sq09  Nested Subqueries - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "Simple",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "None",
+                "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
+        )
+    }
+    public fun `sq09  Nested Subqueries - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun `sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
@@ -122,18 +121,18 @@ public class sq09NestedSubqueries {
             "RPL",
         )
     }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun `sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
@@ -150,18 +149,32 @@ public class sq09NestedSubqueries {
             "RPL",
         )
     }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
+        )
+    }
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun `sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`() {
@@ -178,119 +191,49 @@ public class sq09NestedSubqueries {
             "RPL_Fast",
         )
     }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
         )
     }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "RPL_Fast",
         )
     }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -301,63 +244,21 @@ public class sq09NestedSubqueries {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
             "RPL",
         )
     }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+    public fun `sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL",
-        )
-    }
-    public fun `sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -415,27 +316,20 @@ public class sq09NestedSubqueries {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sq09  Nested Subqueries - Thread - PartitionByID_1_AllCollations - true" to ::`sq09  Nested Subqueries - Thread - PartitionByID_1_AllCollations - true`,
-            "sq09  Nested Subqueries - Thread - PartitionByKeyAllCollations - false" to ::`sq09  Nested Subqueries - Thread - PartitionByKeyAllCollations - false`,
-            "sq09  Nested Subqueries - in simulator - Simple - Centralized - false - None - RPL" to ::`sq09  Nested Subqueries - in simulator - Simple - Centralized - false - None - RPL`,
+            "sq09  Nested Subqueries - Thread - BenchmarkFig5 - false" to ::`sq09  Nested Subqueries - Thread - BenchmarkFig5 - false`,
+            "sq09  Nested Subqueries - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
+            "sq09  Nested Subqueries - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath`,
             "sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
-            "sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
+            "sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL`,
             "sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
-            "sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
+            "sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
             "sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
-            "sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast`,
-            "sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
-            "sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
-            "sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
-            "sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
+            "sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
+            "sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
+            "sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL`,
+            "sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`sq09  Nested Subqueries - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
         )
     }
 }
@@ -449,6 +343,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

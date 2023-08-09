@@ -72,13 +72,13 @@ public class sq14limitbyresource {
         "} \n" +
         ""
 
-    public fun `sq14  limit by resource - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `sq14  limit by resource - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -87,13 +87,13 @@ public class sq14limitbyresource {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq14  limit by resource - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `sq14  limit by resource - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -102,12 +102,12 @@ public class sq14limitbyresource {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq14  limit by resource - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `sq14  limit by resource - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -117,41 +117,39 @@ public class sq14limitbyresource {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq14  limit by resource - Thread - PartitionByKeyAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq14limitbyresource.kt:129"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
+    public fun `sq14  limit by resource - in simulator - Simple - Centralized - false - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
     }
-    public fun `sq14  limit by resource - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sq14limitbyresource.kt:144"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `sq14  limit by resource - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `sq14  limit by resource - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
@@ -159,6 +157,20 @@ public class sq14limitbyresource {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
+        )
+    }
+    public fun `sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun `sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
@@ -175,32 +187,18 @@ public class sq14limitbyresource {
             "RPL_Fast",
         )
     }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
-        )
-    }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "RPL_Fast",
         )
     }
     public fun `sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`() {
@@ -217,27 +215,13 @@ public class sq14limitbyresource {
             "RPL_Fast",
         )
     }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `sq14  limit by resource - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -245,27 +229,13 @@ public class sq14limitbyresource {
             "RPL",
         )
     }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -273,35 +243,7 @@ public class sq14limitbyresource {
             "AllShortestPath",
         )
     }
-    public fun `sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`() {
-        simulatorHelper(
-            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
-            mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
-                "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
-                "REPLACE_STORE_WITH_VALUES" to false,
-                "LUPOS_PARTITION_MODE" to "Process",
-            ),
-            "AllShortestPath",
-        )
-    }
-    public fun `sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -312,7 +254,7 @@ public class sq14limitbyresource {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -370,23 +312,19 @@ public class sq14limitbyresource {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sq14  limit by resource - Thread - PartitionByID_O_AllCollations - true" to ::`sq14  limit by resource - Thread - PartitionByID_O_AllCollations - true`,
-            "sq14  limit by resource - Thread - PartitionByID_O_AllCollations - false" to ::`sq14  limit by resource - Thread - PartitionByID_O_AllCollations - false`,
-            "sq14  limit by resource - Thread - PartitionByID_S_AllCollations - true" to ::`sq14  limit by resource - Thread - PartitionByID_S_AllCollations - true`,
-            "sq14  limit by resource - Thread - PartitionByKeyAllCollations - true" to ::`sq14  limit by resource - Thread - PartitionByKeyAllCollations - true`,
-            "sq14  limit by resource - Thread - Simple - false" to ::`sq14  limit by resource - Thread - Simple - false`,
-            "sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath`,
+            "sq14  limit by resource - None - Simple - false" to ::`sq14  limit by resource - None - Simple - false`,
+            "sq14  limit by resource - Thread - PartitionByID_1_AllCollations - true" to ::`sq14  limit by resource - Thread - PartitionByID_1_AllCollations - true`,
+            "sq14  limit by resource - Thread - PartitionByID_2_AllCollations - true" to ::`sq14  limit by resource - Thread - PartitionByID_2_AllCollations - true`,
+            "sq14  limit by resource - in simulator - Simple - Centralized - false - None - RPL_Fast" to ::`sq14  limit by resource - in simulator - Simple - Centralized - false - None - RPL_Fast`,
+            "sq14  limit by resource - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`sq14  limit by resource - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
+            "sq14  limit by resource - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
+            "sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sq14  limit by resource - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast`,
             "sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
-            "sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
             "sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast" to ::`sq14  limit by resource - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast`,
-            "sq14  limit by resource - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL" to ::`sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL`,
-            "sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
-            "sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
-            "sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath`,
-            "sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
+            "sq14  limit by resource - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`sq14  limit by resource - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath" to ::`sq14  limit by resource - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`,
+            "sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`sq14  limit by resource - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
         )
     }
 }
@@ -400,6 +338,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){

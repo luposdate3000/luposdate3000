@@ -49,12 +49,12 @@ public class syntaxupdate34ru {
         "  { ?s ?p ?o } \n" +
         ""
 
-    public fun `syntaxupdate34ru - Thread - BenchmarkFig5 - true`() {
+    public fun `syntaxupdate34ru - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,13 +64,13 @@ public class syntaxupdate34ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdate34ru - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `syntaxupdate34ru - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -79,13 +79,13 @@ public class syntaxupdate34ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdate34ru - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `syntaxupdate34ru - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -94,32 +94,17 @@ public class syntaxupdate34ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdate34ru - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `syntaxupdate34ru - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxupdate34ru.kt:106"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxupdate34ru - Thread - PartitionByID_S_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/syntaxupdate34ru.kt:121"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -130,11 +115,10 @@ public class syntaxupdate34ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate34ru - Thread - BenchmarkFig5 - true" to ::`syntaxupdate34ru - Thread - BenchmarkFig5 - true`,
-            "syntaxupdate34ru - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxupdate34ru - Thread - PartitionByIDTwiceAllCollations - false`,
-            "syntaxupdate34ru - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxupdate34ru - Thread - PartitionByID_1_AllCollations - true`,
-            "syntaxupdate34ru - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxupdate34ru - Thread - PartitionByID_2_AllCollations - true`,
-            "syntaxupdate34ru - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxupdate34ru - Thread - PartitionByID_S_AllCollations - false`,
+            "syntaxupdate34ru - None - Simple - true" to ::`syntaxupdate34ru - None - Simple - true`,
+            "syntaxupdate34ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdate34ru - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxupdate34ru - Thread - PartitionByKeyAllCollations - false" to ::`syntaxupdate34ru - Thread - PartitionByKeyAllCollations - false`,
+            "syntaxupdate34ru - Thread - Simple - true" to ::`syntaxupdate34ru - Thread - Simple - true`,
         )
     }
 }
@@ -148,6 +132,7 @@ public fun main(){
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
             out.println("started"+idx)
             try{
+                println(name)
                 func()
                 out.println("passed")
             }catch(e:Error){
