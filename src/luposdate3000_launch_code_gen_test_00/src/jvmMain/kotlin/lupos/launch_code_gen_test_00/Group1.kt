@@ -62,13 +62,27 @@ public class Group1 {
         "GROUP BY ?s \n" +
         ""
 
-    public fun `Group1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `Group1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Group1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -106,21 +120,29 @@ public class Group1 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Group1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`Group1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "Group1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL" to ::`Group1 - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL`,
+            "Group1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast" to ::`Group1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in Group1().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

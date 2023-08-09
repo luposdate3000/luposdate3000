@@ -64,12 +64,12 @@ public class Group4 {
         "GROUP BY (COALESCE(?w, \"1605-11-05\"^^xsd:date) AS ?X)  \n" +
         ""
 
-    public fun `Group4 - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `Group4 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -78,6 +78,62 @@ public class Group4 {
       }finally{
         LuposdateEndpoint.close(instance)
       }
+    }
+    public fun `Group4 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Group4 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
+        val simRun = SimulationRun()
+        simRun.parseConfig(fileName,false,{
+            it.getOrEmptyObject("deviceType").getOrEmptyObject("LUPOSDATE_DEVICE").getOrEmptyObject("applications").getOrEmptyObject("lupos.simulator_db.luposdate3000.ApplicationFactory_Luposdate3000").putAll(database_cfg)
+            it.getOrEmptyObject("routing").putAll(mapOf("protocol" to routingProtocol))
+        })
+        
+        
+        
+        simRun.startUp()
+        val instance = (simRun.devices.map{it.getAllChildApplications()}.flatten().filter{it is Application_Luposdate3000}.first()as Application_Luposdate3000).instance
+        val pkg0 = Package_Luposdate3000_TestingImportPackage(inputDataFile[0], inputGraph[0], inputType[0])
+        var verifyExecuted1 = 0
+        val pkg1 = Package_Luposdate3000_TestingCompareGraphPackage(null,MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!, {verifyExecuted1++},inputGraph[0],instance)
+        pkg0.setOnFinish(pkg1)
+        var verifyExecuted2 = 0
+        val pkg2 = Package_Luposdate3000_TestingCompareGraphPackage(query,MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!, {verifyExecuted2++},"",instance)
+        pkg1.setOnFinish(pkg2)
+        simRun.addQuerySender(10,1,1,pkg0)
+        simRun.run()
+        simRun.shutDown()
+        if (verifyExecuted1==0) {
+            TODO("pck1 not verified")
+        }
+        if (verifyExecuted2==0) {
+            TODO("pck2 not verified")
+        }
     }
     internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
@@ -106,21 +162,30 @@ public class Group4 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Group4 - Thread - PartitionByID_O_AllCollations - true" to ::`Group4 - Thread - PartitionByID_O_AllCollations - true`,
+            "Group4 - Thread - PartitionByKeyAllCollations - true" to ::`Group4 - Thread - PartitionByKeyAllCollations - true`,
+            "Group4 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`Group4 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
+            "Group4 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`Group4 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in Group4().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

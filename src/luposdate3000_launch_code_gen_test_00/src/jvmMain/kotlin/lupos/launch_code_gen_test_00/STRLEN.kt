@@ -60,18 +60,18 @@ public class STRLEN {
         "} \n" +
         ""
 
-    public fun `STRLEN - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `STRLEN - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -104,21 +104,28 @@ public class STRLEN {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRLEN - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`STRLEN - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
+            "STRLEN - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`STRLEN - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in STRLEN().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

@@ -60,17 +60,32 @@ public class MONTH {
         "} \n" +
         ""
 
-    public fun `MONTH - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `MONTH - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MONTH.kt:72"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `MONTH - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MONTH.kt:87"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -102,21 +117,29 @@ public class MONTH {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MONTH - Thread - PartitionByID_2_AllCollations - true" to ::`MONTH - Thread - PartitionByID_2_AllCollations - true`,
+            "MONTH - Thread - BenchmarkFig5 - true" to ::`MONTH - Thread - BenchmarkFig5 - true`,
+            "MONTH - Thread - PartitionByID_S_AllCollations - false" to ::`MONTH - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in MONTH().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

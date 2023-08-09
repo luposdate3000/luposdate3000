@@ -61,13 +61,13 @@ public class MAX {
         "} \n" +
         ""
 
-    public fun `MAX - Thread - Simple - false`() {
+    public fun `MAX - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -76,18 +76,46 @@ public class MAX {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `MAX - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `MAX - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "RPL_Fast",
+        )
+    }
+    public fun `MAX - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MAX - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -145,22 +173,31 @@ public class MAX {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MAX - Thread - Simple - false" to ::`MAX - Thread - Simple - false`,
-            "MAX - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`MAX - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "MAX - Thread - PartitionByIDTwiceAllCollations - true" to ::`MAX - Thread - PartitionByIDTwiceAllCollations - true`,
+            "MAX - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`MAX - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
+            "MAX - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`MAX - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
+            "MAX - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath" to ::`MAX - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in MAX().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

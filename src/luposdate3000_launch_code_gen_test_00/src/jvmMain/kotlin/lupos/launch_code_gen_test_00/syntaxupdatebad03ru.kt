@@ -44,12 +44,12 @@ public class syntaxupdatebad03ru {
         "DELETE DATA { ?s <p> <o> } \n" +
         ""
 
-    public fun `syntaxupdatebad03ru - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `syntaxupdatebad03ru - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -73,21 +73,28 @@ public class syntaxupdatebad03ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdatebad03ru - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxupdatebad03ru - Thread - PartitionByID_O_AllCollations - false`,
+            "syntaxupdatebad03ru - Thread - PartitionByID_1_AllCollations - false" to ::`syntaxupdatebad03ru - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in syntaxupdatebad03ru().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

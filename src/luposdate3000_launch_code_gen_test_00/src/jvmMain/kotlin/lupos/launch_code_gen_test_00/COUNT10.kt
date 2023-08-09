@@ -45,12 +45,12 @@ public class COUNT10 {
         "WHERE { ?S ?P ?O } \n" +
         ""
 
-    public fun `COUNT 10 - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `COUNT 10 - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -74,21 +74,28 @@ public class COUNT10 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COUNT 10 - Thread - PartitionByID_1_AllCollations - true" to ::`COUNT 10 - Thread - PartitionByID_1_AllCollations - true`,
+            "COUNT 10 - Thread - PartitionByIDTwiceAllCollations - true" to ::`COUNT 10 - Thread - PartitionByIDTwiceAllCollations - true`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in COUNT10().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

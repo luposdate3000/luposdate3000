@@ -60,32 +60,32 @@ public class MINUTES {
         "} \n" +
         ""
 
-    public fun `MINUTES - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
+    public fun `MINUTES - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `MINUTES - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `MINUTES - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -118,22 +118,29 @@ public class MINUTES {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MINUTES - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`MINUTES - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
-            "MINUTES - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath" to ::`MINUTES - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath`,
+            "MINUTES - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`MINUTES - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "MINUTES - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`MINUTES - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in MINUTES().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

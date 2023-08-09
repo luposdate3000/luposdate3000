@@ -44,17 +44,32 @@ public class constructwhere05CONSTRUCTWHERE {
         "CONSTRUCT  \n" +
         "WHERE { ?s ?p ?o FILTER ( ?o = :o1) }"
 
-    public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/constructwhere05CONSTRUCTWHERE.kt:56"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `constructwhere05  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/constructwhere05CONSTRUCTWHERE.kt:71"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -73,21 +88,29 @@ public class constructwhere05CONSTRUCTWHERE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false" to ::`constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false`,
+            "constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - false" to ::`constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - false`,
+            "constructwhere05  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false" to ::`constructwhere05  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in constructwhere05CONSTRUCTWHERE().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

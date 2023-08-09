@@ -62,28 +62,42 @@ public class MINwithGROUPBY {
         "GROUP BY ?s \n" +
         ""
 
-    public fun `MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `MIN with GROUP BY - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
-    public fun `MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -120,22 +134,30 @@ public class MINwithGROUPBY {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
-            "MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`,
+            "MIN with GROUP BY - in simulator - BenchmarkFig5 - Routing - true - Process - RPL" to ::`MIN with GROUP BY - in simulator - BenchmarkFig5 - Routing - true - Process - RPL`,
+            "MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`MIN with GROUP BY - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
+            "MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`MIN with GROUP BY - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in MINwithGROUPBY().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

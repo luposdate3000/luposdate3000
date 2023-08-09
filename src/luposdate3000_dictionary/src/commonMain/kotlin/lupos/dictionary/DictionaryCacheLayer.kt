@@ -46,57 +46,57 @@ public class DictionaryCacheLayer(
     private val lock = MyThreadReadWriteLock()
 
     override fun close() {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         dictionary.close()
     }
 
     override fun createNewBNode(): DictionaryValueType {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.createNewBNode()
     }
 
     override fun createNewBNode(s: String): DictionaryValueType {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.createNewBNode(s)
     }
 
     override fun createNewUUID(): Int {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.createNewUUID()
     }
 
     override fun delete() {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         dictionary.delete()
     }
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         dictionary.forEachValue(buffer, action)
     }
 
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.importFromDictionaryFile(filename)
     }
 
     override fun isBnode(value: DictionaryValueType): Boolean {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.isBnode(value)
     }
 
     override fun isInmemoryOnly(): Boolean {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.isInmemoryOnly()
     }
 
     override fun isLocalValue(value: DictionaryValueType): Boolean {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.isLocalValue(value)
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         return dictionary.valueToGlobal(value)
     }
 
@@ -109,7 +109,7 @@ public class DictionaryCacheLayer(
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {
@@ -169,7 +169,7 @@ public class DictionaryCacheLayer(
     }
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         when (value) {
             DictionaryValueHelper.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
             DictionaryValueHelper.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
@@ -200,7 +200,7 @@ public class DictionaryCacheLayer(
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        if (SanityCheck.enabled) { if (!(isLocal != (instance.nodeGlobalDictionary == this))) { throw Exception("SanityCheck failed") } }
+        
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {

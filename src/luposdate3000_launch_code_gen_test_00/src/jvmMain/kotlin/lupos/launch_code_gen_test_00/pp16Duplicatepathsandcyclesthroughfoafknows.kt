@@ -61,7 +61,137 @@ public class pp16Duplicatepathsandcyclesthroughfoafknows {
         "ORDER BY ?X ?Y \n" +
         ""
 
-    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`() {
+    public fun `pp16 Duplicate paths and cycles through foafknows - Thread - BenchmarkFig5 - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp16Duplicatepathsandcyclesthroughfoafknows.kt:73"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp16Duplicatepathsandcyclesthroughfoafknows.kt:88"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp16Duplicatepathsandcyclesthroughfoafknows.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/pp16Duplicatepathsandcyclesthroughfoafknows.kt:118"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - Simple - Centralized - true - None - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - Simple - Centralized - false - None - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "RPL",
+        )
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -72,21 +202,35 @@ public class pp16Duplicatepathsandcyclesthroughfoafknows {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL",
+            "AllShortestPath",
         )
     }
-    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Centralized",
+                "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
+        )
+    }
+    public fun `pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -117,24 +261,66 @@ public class pp16Duplicatepathsandcyclesthroughfoafknows {
             TODO("pck2 not verified")
         }
     }
+    internal fun normalHelper(instance:Luposdate3000Instance) {
+        val buf = MyPrintWriter(false)
+        if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
+            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[0],inputType[0], inputGraph[0])
+        } else {
+            TODO()
+        }
+        val query0 = Query(instance)
+        val graph0 = instance.tripleStoreManager!!.getGraph(inputGraph[0])
+        val iterator0 = graph0.getIterator(query0, arrayOf(AOPVariable(query0, "s"), AOPVariable(query0, "p"), AOPVariable(query0, "o")), EIndexPatternExt.SPO)
+        val operator0 = PhysicalOptimizer(query0).optimizeCall(iterator0)
+        val actual0 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator0, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected0 = MemoryTable.parseFromAny(inputData[0], inputType[0], Query(instance))!!
+        val buf_err0 = MyPrintWriter()
+        if (!expected0.equalsVerbose(actual0, true, true, false, buf_err0)) {
+            TODO(expected0.toString() + " .. " + actual0.toString() + " .. " + buf_err0.toString() + " .. " + operator0)
+        }
+        val operator1 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
+        val actual1 = (LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, operator1, buf, EQueryResultToStreamExt.MEMORY_TABLE) as List<MemoryTable>).first()
+        val expected1 = MemoryTable.parseFromAny(targetData, targetType, Query(instance))!!
+        val buf_err1 = MyPrintWriter()
+        if (!expected1.equalsVerbose(actual1, true, true, false, buf_err1)) {
+            TODO(expected1.toString() + " .. " + actual1.toString() + " .. " + buf_err1.toString() + " .. " + operator1)
+        }
+    }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL`,
-            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "pp16 Duplicate paths and cycles through foafknows - Thread - BenchmarkFig5 - true" to ::`pp16 Duplicate paths and cycles through foafknows - Thread - BenchmarkFig5 - true`,
+            "pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_O_AllCollations - true" to ::`pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_O_AllCollations - true`,
+            "pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_S_AllCollations - false" to ::`pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_S_AllCollations - false`,
+            "pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByKeyAllCollations - false" to ::`pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByKeyAllCollations - false`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - Simple - Centralized - true - None - RPL_Fast" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - Simple - Centralized - true - None - RPL_Fast`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - Simple - Centralized - false - None - RPL" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - Simple - Centralized - false - None - RPL`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL`,
+            "pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in pp16Duplicatepathsandcyclesthroughfoafknows().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

@@ -76,11 +76,7 @@ without minify mode only the passing tests will be added
     }
 
     internal fun shouldAddFunction(testName: String): Boolean {
-//        if (minifyMode) {
         return !isIgnored(testName)
-//        } else {
-//            return true
-//        }
     }
 
     init {
@@ -104,11 +100,6 @@ without minify mode only the passing tests will be added
             File("resources/tests/timeout").forEachLine {
                 listOfTimeout.add(it)
             }
-        }
-        if (minifyMode) {
-            listOfRemoved.addAll(listOfFailed)
-            listOfRemoved.addAll(listOfTimeout)
-            listOfRemoved.addAll(listOfPassed)
         }
         listOfRemoved.addAll(listOfBlacklist)
         for (idx in 0 until folderCount) {
@@ -176,17 +167,10 @@ without minify mode only the passing tests will be added
                 out.println("        \"lupos.launch_code_gen_test_00.${n.replaceFirstChar { it.uppercase() }}Kt\",")
             }
             out.println("    )")
-            out.println("    val gate = Semaphore(20)")
-            out.println("    runBlocking {")
-            out.println("        tests.mapIndexed{idx,it->")
-            out.println("          async {")
-            out.println("            gate.withPermit {")
-            out.println("              println(\"idx \"+idx+\"/\"+tests.size+\"start\")")
+            out.println("    tests.parallelStream().forEach{it->")
+            out.println("              println(it+\" start\")")
             out.println("              exec(it, jvmArgs = listOf(\"-Xmx8g\"))")
-            out.println("              println(\"idx \"+idx+\"/\"+tests.size+\"done\")")
-            out.println("            }")
-            out.println("          }")
-            out.println("        }.awaitAll()")
+            out.println("              println(it+\" done\")")
             out.println("    }")
             out.println("}")
         }
@@ -661,17 +645,24 @@ without minify mode only the passing tests will be added
                     out.println("    }")
                     out.print(postfix)
                     out.println("public fun main(){")
+                    out.println("    var idx=0")
+                    out.println("    var stop=false")
                     out.println("    for((name,func) in $testCaseName().getTests()){")
+                    out.println("        if (stop){")
+                    out.println("            return")
+                    out.println("        }")
                     out.println("        File(\"lupos.launch_code_gen_test_00.\${name.replaceFirstChar { it.uppercase() }}.stat\").withOutputStream{ out->")
-                    out.println("            out.println(\"started\")")
+                    out.println("            out.println(\"started\"+idx)")
                     out.println("            try{")
                     out.println("                func()")
                     out.println("                out.println(\"passed\")")
                     out.println("            }catch(e:Error){")
                     out.println("                out.println(\"failed\")")
                     out.println("                e.printStackTrace()")
+                    out.println("                stop=true")
                     out.println("            }")
                     out.println("        }")
+                    out.println("        idx+=1")
                     out.println("    }")
                     out.println("}")
                 }

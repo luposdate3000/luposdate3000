@@ -77,11 +77,7 @@ without minify mode only the passing tests will be added
     }
 
     internal fun shouldAddFunction(testName: String): Boolean {
-//        if (minifyMode) {
         return !isIgnored(testName)
-//        } else {
-//            return true
-//        }
     }
 
     init {
@@ -105,11 +101,6 @@ without minify mode only the passing tests will be added
             File("resources/tests/timeout").forEachLine {
                 listOfTimeout.add(it)
             }
-        }
-        if (minifyMode) {
-            listOfRemoved.addAll(listOfFailed)
-            listOfRemoved.addAll(listOfTimeout)
-            listOfRemoved.addAll(listOfPassed)
         }
         listOfRemoved.addAll(listOfBlacklist)
         for (idx in 0 until folderCount) {

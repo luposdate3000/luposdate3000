@@ -1,184 +1,1602 @@
-TZ - Thread - Simple - false
+Parent query with hasChild some Female restriction - None - Simple - false
+GROUPCONCAT 1 - in simulator - Simple - Centralized - true - None - RPL_Fast
+Resourcesmyqueriesubungent16sparql567 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Pp35 Named Graph 2 - Thread - Simple - false
+Pp33 Operator precedence 4 - in simulator - Simple - Centralized - true - None - RPL_Fast
+TZ - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+DELETE INSERT 7b - Thread - Simple - false
+Pp06 Path with two graphs - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesbsbmbiquery31853sparql1853 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Sq14  limit by resource - None - Simple - true
+STRUUID pattern match - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+Constructwhere04  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Sq01  Subquery within graph pattern - Thread - PartitionByID_S_AllCollations - true
+Pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+PapersparqldlQ2 - None - Simple - false
+Syntaxaggregate15rq - Thread - Simple - false
+Pp01 Simple path - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+SUBSTR 3argument - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+Graphspecific DELETE 1 USING - Thread - Simple - true
+Pp32 Operator precedence 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+Nested negative exists in positive exists - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Pp03 Simple path with loop - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+Positive EXISTS 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+DELETE INSERT 8 - Thread - PartitionByID_O_AllCollations - true
+Resourcesmyqueriesubungent06sparql10467 - in simulator - Simple - Centralized - false - None - AllShortestPath
+GROUPCONCAT with SEPARATOR - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath
+Pp34 Named Graph 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
+Syntaxupdate54ru - Thread - Simple - false
+Pp30 Operator precedence 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+Pp16 Duplicate paths and cycles through foafknows - Thread - Simple - true
+SHA512 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+SUBSTR 2argument - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+ENCODEFORURI - Thread - Simple - false
+Exists with one constant - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Pp25 Diamond with loop  p - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+RAND - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+Pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
+Syntaxservice03rq - Thread - PartitionByID_2_AllCollations - true
+Reuse a project expression variable in select - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+STRAFTER datatyping - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+REPLACE with overlapping pattern - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+Pp08 Reverse path - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Syntaxservice01rq - Thread - PartitionByID_S_AllCollations - false
+Sq08  Subquery with aggregate - Thread - PartitionByID_1_AllCollations - false
+Parent query with hasChild some Female restriction - None - Simple - false
+GROUPCONCAT 1 - in simulator - Simple - Centralized - true - None - RPL_Fast
+Resourcesmyqueriesubungent16sparql567 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+Pp35 Named Graph 2 - Thread - Simple - false
+Pp33 Operator precedence 4 - in simulator - Simple - Centralized - true - None - RPL_Fast
+TZ - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+DELETE INSERT 7b - Thread - Simple - false
+Pp06 Path with two graphs - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
+Resourcesbsbmbiquery31853sparql1853 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Sq14  limit by resource - None - Simple - true
+STRUUID pattern match - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+Pp12 Variable length path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+Constructwhere04  CONSTRUCT WHERE - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Sq01  Subquery within graph pattern - Thread - PartitionByID_S_AllCollations - true
+Pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+PapersparqldlQ2 - None - Simple - false
+Syntaxaggregate15rq - Thread - Simple - false
+Pp01 Simple path - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+SUBSTR 3argument - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+Pp07 Path with one graph - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+Graphspecific DELETE 1 USING - Thread - Simple - true
+Pp32 Operator precedence 3 - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+Nested negative exists in positive exists - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Pp03 Simple path with loop - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+Positive EXISTS 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+DELETE INSERT 8 - Thread - PartitionByID_O_AllCollations - true
+Resourcesmyqueriesubungent06sparql10467 - in simulator - Simple - Centralized - false - None - AllShortestPath
+GROUPCONCAT with SEPARATOR - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath
+Pp34 Named Graph 1 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
+Syntaxupdate54ru - Thread - Simple - false
+Pp30 Operator precedence 1 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Pp21 Diamond  p - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+Pp16 Duplicate paths and cycles through foafknows - Thread - Simple - true
+SHA512 - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+SUBSTR 2argument - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+ENCODEFORURI - Thread - Simple - false
+Exists with one constant - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+Pp25 Diamond with loop  p - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+REPLACE with captured substring - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+RAND - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+Pp28a Diamond with loop  pp - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
+Syntaxservice03rq - Thread - PartitionByID_2_AllCollations - true
+Reuse a project expression variable in select - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+STRAFTER datatyping - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+REPLACE with overlapping pattern - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+Pp08 Reverse path - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+Syntaxservice01rq - Thread - PartitionByID_S_AllCollations - false
+Sq08  Subquery with aggregate - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 4b - None - Simple - true
+Sq03  Subquery within graph pattern graph variable is not bound - Thread - BenchmarkFig5 - true
+Resourcesmyqueriesubungent06sparql10467 - None - Simple - false
+Syntaxservice01rq - None - Simple - false
+DELETE INSERT 5 - Thread - PartitionByIDTwiceAllCollations - true
+RDFS inference test rdfssubPropertyOf - None - Simple - true
+SyntaxpropertyPaths01rq - Thread - PartitionByIDTwiceAllCollations - false
+Synbad01rq - None - Simple - false
+Simple DELETE DATA 2 - None - Simple - true
+Syntaxupdatebad03ru - None - Simple - true
+Synppincollection - None - Simple - false
+Simple 6 - None - Simple - true
+STRDT TypeErrors - None - Simple - true
+DELETE INSERT 3b - Thread - PartitionByIDTwiceAllCollations - false
+Pp10 Path with negation - None - Simple - true
+Pp07 Path with one graph - None - Simple - true
+Resourcessp2bq65sparql700 - None - Simple - false
+Syntaxupdatebad10ru - None - Simple - true
+DELETE INSERT 1 - None - Simple - false
+Sq10  Subquery with exists - None - Simple - true
+Pp06 Path with two graphs - None - Simple - true
+Sq06  Subquery with graph pattern from named applies - Thread - PartitionByIDTwiceAllCollations - true
+Graphspecific DELETE 2 WITH - None - Simple - false
+Calculate which sets have the same elements - None - Simple - false
+Syntaxaggregate14rq - Thread - BenchmarkFig5 - true
+Sq07  Subquery with from  - Thread - BenchmarkFig5 - true
+Syntaxaggregate13rq - Thread - PartitionByID_S_AllCollations - false
+Synbadpname06 - Thread - PartitionByIDTwiceAllCollations - false
+Simple DELETE WHERE 2 - None - Simple - true
+Parent query with hasChild min 1 restriction - None - Simple - false
+Simple DELETE 1 WITH - None - Simple - false
+Sq09  Nested Subqueries - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq67sparql973 - None - Simple - true
+DELETE INSERT 7 - Thread - PartitionByID_2_AllCollations - false
+Syntaxupdatebad04ru - Thread - PartitionByIDTwiceAllCollations - true
+Group6 - Thread - PartitionByIDTwiceAllCollations - true
+Graphspecific DELETE DATA 1 - Thread - Simple - true
+GROUPCONCAT with SEPARATOR - Thread - Simple - false
+Constructwhere04  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true
+REPLACE with captured substring - None - Simple - false
+Syntaxaggregate15rq - Thread - BenchmarkFig5 - true
+Error in AVG - None - Simple - false
+Synbad02rq - Thread - PartitionByID_2_AllCollations - true
+Syntaxselectexpr04rq - Thread - BenchmarkFig5 - false
+Resourcesbsbmexplorequery22210sparql2210 - None - Simple - false
+RDFS inference test subClassOf luposDuplicate1 - None - Simple - false
+RDFS inference test domain - None - Simple - true
+DELETE INSERT 8 - Thread - PartitionByIDTwiceAllCollations - true
+Parent query with hasChild some Female restriction - None - Simple - true
+Syntaxupdate54ru - Thread - BenchmarkFig5 - false
+Resourcesbtc020sparql80 - None - Simple - true
+Sq04  Subquery within graph pattern default graph does not apply - Thread - BenchmarkFig5 - true
+DELETE INSERT 9 - None - Simple - true
+Resourcesbsbmexplorequery62553sparql2553 - None - Simple - true
+Resourcesbsbmexplorequery22553sparql2553 - Thread - Simple - true
+Sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByIDTwiceAllCollations - false
+STRAFTER - None - Simple - true
+Sq01  Subquery within graph pattern - None - Simple - true
+Pp36 Arbitrary path with bound endpoints - None - Simple - false
+Sparqldl10rq undist vars test - None - Simple - false
+DELETE INSERT 3 - Thread - PartitionByID_O_AllCollations - true
+RDFS inference test range - None - Simple - true
+Simple DELETE WHERE 1 - None - Simple - true
+Resourcessp2bq67sparql1640 - None - Simple - true
+Resourcesbsbmbiquery41853sparql1853 - None - Simple - false
+Resourcesbsbmbiquery42553sparql2553 - None - Simple - false
+PapersparqldlQ1 - None - Simple - false
+Syntaxconstructwhere02rq - Thread - PartitionByID_2_AllCollations - true
+PapersparqldlQ1rdfs - None - Simple - false
+NOW - None - Simple - true
+Resourcesbsbmexplorequery72210sparql2210 - None - Simple - true
+Simple 5 - None - Simple - false
+Syntaxservice03rq - Thread - BenchmarkFig5 - true
+DELETE INSERT 7b - Thread - PartitionByID_O_AllCollations - false
+Sq05  Subquery within graph pattern from named applies - Thread - PartitionByIDTwiceAllCollations - true
+RAND - None - Simple - false
+Resourcesmyqueriesubungent17sparql709 - None - Simple - true
+Simple DELETE 2 USING - None - Simple - false
+Simple 1 - None - Simple - true
+Syntaxservice02rq - None - Simple - true
+Sparqldl11rq domain test - None - Simple - false
+Resourcessp2bq65sparql1294 - None - Simple - false
+BNODE - None - Simple - false
+Resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
+DELETE INSERT 6 - Thread - PartitionByID_1_AllCollations - false
+COUNT 9 - None - Simple - true
+Pp03 Simple path with loop - None - Simple - true
+Simple 8 - None - Simple - true
+Pp16 Duplicate paths and cycles through foafknows - None - Simple - false
+Syntaxupdate36ru - None - Simple - false
+Pp28a Diamond with loop  pp - Thread - Simple - false
+Syntaxupdatebad11ru - Thread - PartitionByID_2_AllCollations - true
+Sq08  Subquery with aggregate - Thread - PartitionByID_S_AllCollations - false
+Simple 3 - None - Simple - true
+DELETE INSERT 6 - Thread - PartitionByID_2_AllCollations - true
+Pp33 Operator precedence 4 - None - Simple - true
+Syntaxupdatebad12ru - Thread - PartitionByID_1_AllCollations - false
+Resourcesmyqueriesubungent06sparql10467 - None - Simple - false
+Resourcessp2bq11sparql1294 - None - Simple - true
+Syntaxservice01rq - None - Simple - false
+Graphspecific DELETE 2 WITH - None - Simple - true
+DELETE INSERT 7 - Thread - PartitionByIDTwiceAllCollations - true
+SyntaxpropertyPaths01rq - Thread - PartitionByIDTwiceAllCollations - false
+RDFS inference test subClassOf - None - Simple - false
+Sq14  limit by resource - None - Simple - true
+STRAFTER - in simulator - Simple - Centralized - false - None - RPL
+Graphspecific DELETE WHERE 2 - None - Simple - false
+Resourcesbsbmexplorequery82553sparql2553 - None - Simple - true
+IRIURI - None - Simple - false
+Syntaxupdatebad04ru - None - Simple - false
+Group6 - Thread - PartitionByID_1_AllCollations - true
+Sq08  Subquery with aggregate - None - Simple - false
+Expression may return no value - None - Simple - false
+Pp34 Named Graph 1 - None - Simple - false
+DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - false
+Sq10  Subquery with exists - None - Simple - true
+Parent query with hasChild some Thing restriction - None - Simple - false
+DELETE INSERT 3b - None - Simple - false
+Resourcesbsbmexplorequery62210sparql2210 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast
+Pp14 Star path over foafknows - Thread - Simple - false
+Graphspecific DELETE 2 - None - Simple - true
+Resourcesbsbmexplorequery91853sparql1853 - None - Simple - true
+RDFS inference test rdfssubPropertyOf - None - Simple - false
+Syntaxaggregate13rq - Thread - BenchmarkFig5 - true
+Sq09  Nested Subqueries - None - Simple - false
+RAND - in simulator - Simple - Centralized - true - None - RPL_Fast
+Pp28a Diamond with loop  pp - None - Simple - false
+Syntaxupdatebad03ru - Thread - BenchmarkFig5 - true
+Synbad01rq - Thread - PartitionByID_O_AllCollations - true
+Simple DELETE WHERE 1 - None - Simple - false
+Syntaxconstructwhere02rq - None - Simple - true
+Syntaxaggregate14rq - Thread - PartitionByID_S_AllCollations - true
+Sq06  Subquery with graph pattern from named applies - Thread - BenchmarkFig5 - true
+Syntaxaggregate15rq - Thread - PartitionByID_2_AllCollations - true
 Simple DELETE 2 WITH - None - Simple - false
-STRBEFORE - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
-Resourcesbsbmexplorequery92210sparql2210 - in simulator - Simple - Centralized - false - None - RPL
-Sq07  Subquery with from  - Thread - Simple - true
-SHA512 on Unicode data - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
-Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
-Nested positive exists - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
-Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
-Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
-DELETE INSERT 7b - Thread - Simple - false
-Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
-Expression may return no value - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
-Pp03 Simple path with loop - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
-Resourcesbsbmexplorequery51853sparql1853 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
-UUID pattern match - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
-Resourcesbsbmbiquery31853sparql1853 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
-STRBEFORE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
-Resourcesbsbmbiquery81853sparql1853 - in simulator - Simple - Centralized - false - None - RPL
-Pp23 Diamond with tail  p - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
-Syntaxselectexpr04rq - Thread - BenchmarkFig5 - true
-SHA512 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
-Pp07 Path with one graph - None - Simple - true
-RDFS inference test combining subPropertyOf and domain - Thread - Simple - false
-Pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
-GROUPCONCAT 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
-DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - false
-TZ - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
-Synbadpname06 - Thread - PartitionByKeyAllCollations - false
-Pp02 Star path - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
-Pp35 Named Graph 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
-Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
-Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
-SUBSTR 3argument - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
-STRUUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
-Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
-TIMEZONE - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
-Resourcesbsbmexplorequery52210sparql2210 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
-TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
-Pp01 Simple path - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
-TZ - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
-ENCODEFORURI - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
-UUID pattern match - in simulator - Simple - Centralized - false - None - AllShortestPath
-Pp01 Simple path - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+DELETE INSERT 2 - Thread - Simple - true
+Resourcesbsbmexplorequery92210sparql2210 - None - Simple - false
+RDFS inference test subClassOf luposDuplicate1 - None - Simple - true
+Synbadpname06 - Thread - Simple - true
+SERVICE test 7 - None - Simple - false
+Simple DELETE 2 - None - Simple - false
+Parent query with hasChild some Female restriction - None - Simple - true
+Syntaxupdatebad10ru - Thread - PartitionByID_2_AllCollations - true
 Sq03  Subquery within graph pattern graph variable is not bound - Thread - PartitionByID_2_AllCollations - true
-TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
-Pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
-REPLACE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
-Pp01 Simple path - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
-STRAFTER datatyping - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
-Syntaxconstructwhere02rq - Thread - PartitionByID_1_AllCollations - true
-STRAFTER - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
-SHA512 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
-Pp35 Named Graph 2 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
-REPLACE - in simulator - Simple - Centralized - false - None - AllShortestPath
-Pp33 Operator precedence 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
-Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
-Resourcesmyqueriesubungent05sparql66 - in simulator - Simple - Centralized - false - None - RPL
-RAND - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
-Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
-SHA512 on Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
-Resourcesbsbmbiquery42553sparql2553 - in simulator - Simple - Centralized - false - None - RPL
-Resourcesbsbmbiquery32210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
-Pp25 Diamond with loop  p - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+Expression has variable that may be unbound - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+Sq04  Subquery within graph pattern default graph does not apply - Thread - BenchmarkFig5 - true
+PapersparqldlQ4 - None - Simple - false
+Resourcessp2bq11sparql700 - None - Simple - true
+Sq01  Subquery within graph pattern - Thread - BenchmarkFig5 - false
+Parent query with hasChild exactly 1 Female restriction - None - Simple - true
+Syntaxupdate54ru - Thread - Simple - false
+ENCODEFORURI - in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath
+Syntaxservice02rq - Thread - PartitionByIDTwiceAllCollations - false
+COUNT 9 - Thread - PartitionByID_2_AllCollations - true
+DELETE INSERT 1c - None - Simple - false
+SUBSTR 3argument - None - Simple - true
+Constructwhere04  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - false
+Sparqldl11rq domain test - None - Simple - true
+DELETE INSERT 9 - Thread - PartitionByID_1_AllCollations - true
+BNODE - None - Simple - true
+COUNT 10 - Thread - PartitionByID_1_AllCollations - true
+DELETE INSERT 1 - Thread - Simple - true
 Resourcesbsbmbiquery42553sparql2553 - None - Simple - false
-UUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+Resourcesbsbmexplorequery82210sparql2210 - Thread - Simple - false
+Pp37 Nested  - Thread - Simple - false
+Syntaxselectexpr04rq - None - Simple - false
 Sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false
-GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
-Nested positive exists - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
-Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
-STRUUID pattern match - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
-Pp14 Star path over foafknows - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
-SHA512 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
-Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
-Positive EXISTS 2 - in simulator - Simple - Centralized - true - None - RPL
+Sq05  Subquery within graph pattern from named applies - Thread - PartitionByIDTwiceAllCollations - false
+Syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbtc020sparql80 - None - Simple - false
+UUID pattern match - None - Simple - false
+Resourcesbsbmbiquery82553sparql2553 - None - Simple - false
+Cvs02  CSV Result Format - Thread - Simple - false
+Graphspecific DELETE 1 USING - None - Simple - true
+Pp25 Diamond with loop  p - None - Simple - false
+Resourcessp2bq67sparql700 - None - Simple - true
+Resourcessp2bq65sparql1294 - None - Simple - true
+Syntaxservice03rq - None - Simple - false
+IF error propogation - None - Simple - true
+Resourcesbsbmbiquery42210sparql2210 - None - Simple - false
+Simple 8 - None - Simple - true
+DELETE INSERT 7b - Thread - PartitionByID_1_AllCollations - true
+Syntaxupdatebad11ru - None - Simple - true
+Synppincollection - Thread - BenchmarkFig5 - true
+Synbad02rq - Thread - PartitionByID_O_AllCollations - true
+GROUPCONCAT 1 - None - Simple - true
+IF error propogation - None - Simple - false
+Pp33 Operator precedence 4 - None - Simple - true
+Sparqldl02rq simple combined query - None - Simple - false
+Syntaxservice02rq - Thread - PartitionByIDTwiceAllCollations - true
+Syntaxupdatebad12ru - Thread - PartitionByID_1_AllCollations - false
+Syntaxservice01rq - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq11sparql1294 - None - Simple - true
+Resourcessp2bq65sparql973 - None - Simple - false
+COUNT 9 - Thread - Simple - true
+Resourcessp2bq12b1sparql973 - Thread - Simple - true
+RDFS inference test combining subPropertyOf and domain - None - Simple - false
+Group6 - None - Simple - true
+Sq07  Subquery with from  - None - Simple - true
+SHA512 on Unicode data - None - Simple - true
+SyntaxpropertyPaths01rq - Thread - PartitionByIDTwiceAllCollations - false
+Calculate which sets have the same elements - None - Simple - true
+Simple 4 - None - Simple - false
+Syntaxupdatebad04ru - Thread - Simple - true
+Synbadpname06 - None - Simple - false
+DELETE INSERT 5 - Thread - Simple - false
+Pp10 Path with negation - None - Simple - true
+Filtered subclass query with hasChild some Thing restriction - None - Simple - false
+DELETE INSERT 9 - Thread - PartitionByID_2_AllCollations - true
+Protect from error in AVG - in simulator - BenchmarkFig5 - Routing - false - Process - RPL
+Syntaxupdate54ru - Thread - PartitionByIDTwiceAllCollations - true
+Syntaxupdatebad10ru - Thread - PartitionByID_1_AllCollations - true
+Sq01  Subquery within graph pattern - Thread - PartitionByID_O_AllCollations - true
+Constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false
+Reuse a project expression variable in select - in simulator - Simple - Centralized - true - None - AllShortestPath
+Pp32 Operator precedence 3 - None - Simple - true
+Resourcesbsbmexplorequery91853sparql1853 - None - Simple - true
+Sq04  Subquery within graph pattern default graph does not apply - None - Simple - false
+REPLACE with captured substring - None - Simple - true
+Pp28a Diamond with loop  pp - None - Simple - false
+Sq10  Subquery with exists - None - Simple - false
+ENCODEFORURI - None - Simple - false
+Syntaxconstructwhere02rq - None - Simple - true
+Resourcessp2bq67sparql1294 - None - Simple - true
+Sq05  Subquery within graph pattern from named applies - None - Simple - false
+Sq09  Nested Subqueries - Thread - BenchmarkFig5 - false
+Sq08  Subquery with aggregate - Thread - PartitionByID_O_AllCollations - false
+Syntaxselectexpr04rq - Thread - BenchmarkFig5 - false
+Subclass query with hasChild some Thing restriction - None - Simple - true
+Pp30 Operator precedence 1 - None - Simple - true
+Resourcessp2bq67sparql1640 - None - Simple - false
+Syntaxservice03rq - Thread - BenchmarkFig5 - false
+Parent query with hasChild exactly 1 Female restriction - None - Simple - true
+Sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_O_AllCollations - false
+SUBSTR 2argument - None - Simple - false
+UUID pattern match - None - Simple - true
+Syntaxaggregate13rq - Thread - PartitionByID_2_AllCollations - true
+DELETE INSERT 7 - None - Simple - true
+Syntaxaggregate15rq - Thread - PartitionByID_2_AllCollations - false
+IRIURI - in simulator - Simple - Centralized - false - None - RPL_Fast
+DELETE INSERT 3b - Thread - PartitionByID_O_AllCollations - true
+Resourcesbsbmbiquery41853sparql1853 - None - Simple - false
+DELETE INSERT 3 - None - Simple - true
+PapersparqldlQ3 - None - Simple - true
+Simple DELETE WHERE 1 - Thread - Simple - true
+Synbad02rq - Thread - PartitionByIDTwiceAllCollations - false
+Pp11 Simple path and two paths to same target node - None - Simple - false
+DELETE INSERT 8 - Thread - PartitionByID_O_AllCollations - false
+GROUPCONCAT with SEPARATOR - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+Resourcesbsbmexplorequery72210sparql2210 - None - Simple - true
+Resourcessp2bq68sparql973 - None - Simple - false
+DELETE INSERT 6 - Thread - Simple - true
+DELETE INSERT 2 - None - Simple - false
+STRDT TypeErrors - None - Simple - false
+Syntaxaggregate14rq - None - Simple - true
+RDFS inference test subProperty and instances - None - Simple - true
+Pp37 Nested  - None - Simple - false
+DELETE INSERT 5b - None - Simple - true
+Simple DELETE 1 - None - Simple - false
+Resourcesmyqueriesubungent06sparql10467 - Thread - PartitionByID_1_AllCollations - false
 Syntaxupdatebad11ru - Thread - PartitionByID_2_AllCollations - false
-TZ - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
-Reuse a project expression variable in select - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
-SHA512 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
-DELETE INSERT 3b - Thread - PartitionByID_S_AllCollations - true
-Resourcesbsbmexplorequery62210sparql2210 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
-Resourcesbsbmexplorequery101853sparql1853 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
-Protect from error in AVG - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
-Pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
-Pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
-IRIURI - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
-Simple DELETE DATA 2 - Thread - Simple - true
-Resourcesbsbmbiquery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
-Resourcesbsbmbiquery42210sparql2210 - in simulator - Simple - Centralized - false - None - RPL_Fast
-Pp16 Duplicate paths and cycles through foafknows - None - Simple - false
-Sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true
-GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
-Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
-STRBEFORE - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
-Resourcesbsbmexplorequery92210sparql2210 - in simulator - Simple - Centralized - false - None - RPL
-Sq07  Subquery with from  - Thread - Simple - true
-SHA512 on Unicode data - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
-Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
-Nested positive exists - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
-Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
-Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
-DELETE INSERT 7b - Thread - Simple - false
-Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
-Expression may return no value - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
-Pp03 Simple path with loop - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
-Resourcesbsbmexplorequery51853sparql1853 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL
-UUID pattern match - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
-Resourcesbsbmbiquery31853sparql1853 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
-STRBEFORE - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
-Resourcesbsbmbiquery81853sparql1853 - in simulator - Simple - Centralized - false - None - RPL
-Pp23 Diamond with tail  p - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
-Syntaxselectexpr04rq - Thread - BenchmarkFig5 - true
-SHA512 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
-Pp07 Path with one graph - None - Simple - true
-RDFS inference test combining subPropertyOf and domain - Thread - Simple - false
-Pp12 Variable length path and two paths to same target node - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
-GROUPCONCAT 2 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
-DELETE INSERT 5 - Thread - PartitionByID_O_AllCollations - false
-TZ - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
-Synbadpname06 - Thread - PartitionByKeyAllCollations - false
-Pp02 Star path - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
-Pp35 Named Graph 2 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
-Pp36 Arbitrary path with bound endpoints - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
-Resourcesmyqueriesubungent06sparql10467 - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
-SUBSTR 3argument - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
-STRUUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
-Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
-TIMEZONE - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
-Resourcesbsbmexplorequery52210sparql2210 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
-TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
-Pp01 Simple path - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
-TZ - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
-ENCODEFORURI - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
-UUID pattern match - in simulator - Simple - Centralized - false - None - AllShortestPath
+Pp31 Operator precedence 2 - None - Simple - false
+Simple 6 - None - Simple - false
+Resourcesmyqueriesubungent17sparql709 - None - Simple - true
+DELETE INSERT 7b - None - Simple - true
+Simple DELETE 1 USING - None - Simple - false
+Synppincollection - None - Simple - true
+Synbad01rq - Thread - PartitionByID_S_AllCollations - false
+Group7 - Thread - PartitionByID_1_AllCollations - false
+Resourcesmyqueriesubungent22sparql709 - None - Simple - false
+Expression has variable that may be unbound - None - Simple - false
+Resourcessp2bq65sparql1294 - None - Simple - true
+Syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - false
+STRBEFORE datatyping - None - Simple - false
+Simple DELETE DATA 3 - None - Simple - true
+Sq06  Subquery with graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq12a1sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery61853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq7sparql1294 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq41sparql1294 - Thread - PartitionByID_2_AllCollations - true
+Csv01  CSV Result Format - Thread - PartitionByID_S_AllCollations - true
+Simple 2 - Thread - PartitionByID_1_AllCollations - false
+ADD 8 - Thread - PartitionByID_S_AllCollations - true
+Simple DELETE DATA 1 - None - Simple - false
+Resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_S_AllCollations - false
+Resourcesbsbmexplorequery32553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+COALESCE - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 9 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12b3sparql700 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq12csparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+INSERT USING 01 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery61853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+Bnodes are not existentials - Thread - PartitionByID_2_AllCollations - true
+CONCAT 2 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq11sparql1294 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq6sparql1294 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq2sparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+PapersparqldlQ1rdfs - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq91sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_1_AllCollations - false
+COPY 6 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12b1sparql21 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbtc028sparql3778 - Thread - PartitionByIDTwiceAllCollations - false
+Graphspecific DELETE 2 WITH - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery21853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+Simple DELETE 1 USING - Thread - PartitionByIDTwiceAllCollations - false
+Simple insert data named 3 - Thread - PartitionByID_O_AllCollations - true
+Inline VALUES graph pattern - Thread - PartitionByID_2_AllCollations - true
+Resourcesbtc030sparql867 - Thread - PartitionByID_S_AllCollations - false
+Subclass query with hasChild some Thing restriction - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12bsparql21 - Thread - PartitionByID_2_AllCollations - true
+DELETE INSERT 2 - None - Simple - true
+Resourcessp2bq92sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Simple DELETE WHERE 3 - Thread - PartitionByIDTwiceAllCollations - false
+COUNT 1 - Thread - PartitionByID_1_AllCollations - true
+MD5 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq72sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 1 - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmbiquery71853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery81853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Pp28a Diamond with loop  pp - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq12asparql700 - Thread - PartitionByID_2_AllCollations - true
+SUBSTR 3argument - Thread - PartitionByID_2_AllCollations - true
+Sq05  Subquery within graph pattern from named applies - Thread - BenchmarkFig5 - false
+Simple DELETE DATA 3 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq1sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery101853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+Group7 - None - Simple - true
+Simple DELETE 2 USING - None - Simple - true
+PapersparqldlQ4 - Thread - PartitionByID_O_AllCollations - false
+Bind05  BIND - Thread - PartitionByID_1_AllCollations - true
+Nested negative exists in positive exists - Thread - PartitionByID_O_AllCollations - true
+COPY SILENT - Thread - PartitionByIDTwiceAllCollations - false
+COUNT 9 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery121853sparql1853 - Thread - PartitionByID_2_AllCollations - false
+INSERT same bnode twice - Thread - PartitionByIDTwiceAllCollations - false
+Simple 4 - None - Simple - false
+Sparqldl13rq sameAs - Thread - PartitionByID_S_AllCollations - false
+Filtered subclass query with hasChild some Thing restriction - Thread - PartitionByID_2_AllCollations - false
+Resourcesbsbmbiquery62210sparql2210 - Thread - PartitionByID_S_AllCollations - true
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12b3sparql1294 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq3csparql247 - Thread - PartitionByID_1_AllCollations - true
+IN 1 - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE WHERE 2 - None - Simple - false
+DELETE INSERT 1b - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery91853sparql1853 - Thread - PartitionByID_1_AllCollations - true
+COUNT 7 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq6sparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12b2sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Expression may return no value - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq8sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+COUNT 10 - Thread - PartitionByIDTwiceAllCollations - false
+STRLANG - Thread - PartitionByID_2_AllCollations - true
+Postquery VALUES with 2 objvars 1 row with UNDEF - Thread - PartitionByID_1_AllCollations - true
+Sq13  Subqueries dont inject bindings - Thread - PartitionByID_O_AllCollations - true
+Resourcesmyqueriesubungent21sparql709 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery82553sparql2553 - None - Simple - true
+Resourcessp2bq91sparql700 - Thread - PartitionByID_S_AllCollations - false
+RAND - in simulator - Simple - Centralized - true - None - RPL
+CLEAR DEFAULT - Thread - PartitionByID_S_AllCollations - false
+RDFS inference test subClassOf - None - Simple - true
+Resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByID_O_AllCollations - false
+RDF inference test - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq3bsparql700 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12b1sparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq3bsparql1294 - Thread - PartitionByID_O_AllCollations - false
+LCASE - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq111sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Pp12 Variable length path and two paths to same target node - None - Simple - false
+Simple 8 - Thread - PartitionByID_S_AllCollations - true
+CLEAR GRAPH - Thread - PartitionByID_2_AllCollations - false
+AVG with GROUP BY - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12a1sparql247 - Thread - PartitionByID_S_AllCollations - false
+Simple DELETE 1 WITH - Thread - Simple - true
+Resourcessp2bq63sparql1294 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq12b1sparql247 - Thread - PartitionByID_S_AllCollations - true
+Syntaxupdatebad10ru - None - Simple - true
+Syntaxupdatebad04ru - Thread - PartitionByID_O_AllCollations - false
+DELETE INSERT 4b - None - Simple - false
+MIN with GROUP BY - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery122553sparql2553 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq12bsparql1640 - Thread - PartitionByID_O_AllCollations - true
+Postquery VALUES with 2 objvars 1 row - Thread - PartitionByID_2_AllCollations - false
+Postsubquery VALUES - Thread - PartitionByID_1_AllCollations - true
+Bind11  BIND scoping  Variable in filter in scope - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12b1sparql973 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmbiquery51853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq42sparql973 - Thread - PartitionByID_2_AllCollations - false
+Resourcesbsbmexplorequery111853sparql1853 - Thread - PartitionByID_O_AllCollations - false
+Jsonres01  JSON Result Format - Thread - PartitionByID_1_AllCollations - false
+BNODE - Thread - PartitionByID_1_AllCollations - false
+DAY - Thread - PartitionByIDTwiceAllCollations - false
+SAMPLE - Thread - PartitionByID_O_AllCollations - false
+Reuse a project expression variable in select - Thread - PartitionByID_1_AllCollations - true
+Parent query with hasChild max 1 Female restriction - Thread - PartitionByID_1_AllCollations - false
+Pp03 Simple path with loop - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+ADD 5 - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmbiquery31853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+MD5 over Unicode data - Thread - PartitionByID_1_AllCollations - true
+SHA1 on Unicode data - Thread - PartitionByIDTwiceAllCollations - true
+Graphspecific DELETE 1 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq4sparql973 - Thread - PartitionByID_2_AllCollations - true
+Simple insert data named 2 - Thread - PartitionByID_S_AllCollations - true
+RDFS inference test rdfssubPropertyOf - Thread - PartitionByID_2_AllCollations - false
+Bind07  BIND - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmbiquery11853sparql1853 - None - Simple - false
+DELETE INSERT 8 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq10sparql247 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq3asparql700 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery42553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12b3sparql21 - Thread - PartitionByID_1_AllCollations - true
+Parent query with hasChild min 1 restriction - None - Simple - false
+Sq11  Subquery limit per resource - Thread - PartitionByID_1_AllCollations - true
+Group4 - Thread - PartitionByID_2_AllCollations - true
+Bind05  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq7sparql1640 - Thread - PartitionByID_S_AllCollations - true
+Pp08 Reverse path - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByID_1_AllCollations - true
+Plus2 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq41sparql21 - Thread - PartitionByID_O_AllCollations - false
+Sq09  Nested Subqueries - None - Simple - false
+PapersparqldlQ5 - Thread - PartitionByID_S_AllCollations - true
+Resourcesbsbmbiquery12553sparql2553 - Thread - PartitionByID_1_AllCollations - false
+Bind02  BIND fixed data for OWL DL - Thread - PartitionByID_1_AllCollations - true
+Group1 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq111sparql247 - Thread - PartitionByID_O_AllCollations - false
+DELETE INSERT 5 - Thread - PartitionByID_1_AllCollations - true
+Sq10  Subquery with exists - None - Simple - false
+Graphspecific DELETE 1 USING - Thread - Simple - false
+STRLANG TypeErrors - Thread - PartitionByIDTwiceAllCollations - true
+Constructwhere04  CONSTRUCT WHERE - Thread - BenchmarkFig5 - false
+Graphspecific DELETE WHERE 1 - Thread - PartitionByID_S_AllCollations - true
+Pp21 Diamond  p - Thread - PartitionByID_2_AllCollations - false
+Sparqldl10rq undist vars test - None - Simple - true
+DELETE INSERT 3 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq4sparql700 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmbiquery42553sparql2553 - Thread - PartitionByID_1_AllCollations - false
+Syntaxconstructwhere02rq - Thread - PartitionByIDTwiceAllCollations - false
+Bind07  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - false
+STRENDS - Thread - PartitionByIDTwiceAllCollations - true
+Simple triple pattern match - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq62sparql21 - Thread - PartitionByIDTwiceAllCollations - false
+IRIURI - None - Simple - true
+Resourcesbsbmbiquery41853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12a1sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+ROUND - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq12b4sparql247 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq92sparql1640 - Thread - PartitionByID_2_AllCollations - true
+Syntaxservice03rq - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByIDTwiceAllCollations - true
+UCASE - Thread - PartitionByID_2_AllCollations - false
+Pp34 Named Graph 1 - Thread - PartitionByID_1_AllCollations - false
+Syntaxaggregate13rq - None - Simple - true
+RDFS inference test subProperty and instances - None - Simple - false
+REPLACE - None - Simple - false
+Resourcesbsbmexplorequery72210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12csparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Syntaxservice01rq - None - Simple - true
+Resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq61sparql700 - Thread - PartitionByID_2_AllCollations - false
+COUNT 4 - Thread - PartitionByID_S_AllCollations - false
+Pp09 Reverse sequence path - Thread - PartitionByID_2_AllCollations - false
+Plus1 - Thread - PartitionByID_1_AllCollations - false
+Syntaxaggregate15rq - Thread - BenchmarkFig5 - true
+Resourcesbsbmexplorequery92210sparql2210 - None - Simple - false
+Resourcessp2bq12b2sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq9sparql700 - Thread - PartitionByIDTwiceAllCollations - false
+COUNT 2 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq65sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Sq02  Subquery within graph pattern graph variable is bound - None - Simple - true
+Resourcessp2bq12a1sparql973 - Thread - Simple - true
+Syntaxservice02rq - Thread - BenchmarkFig5 - false
+Calculate which sets are subsets of others include A subsetOf A - None - Simple - false
+SECONDS - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmbiquery42210sparql2210 - None - Simple - true
+Resourcessp2bq5asparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Graphspecific DELETE DATA 2 - Thread - PartitionByID_S_AllCollations - true
+STRLANGSTR - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq62sparql973 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq3csparql973 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq12asparql1294 - Thread - PartitionByID_O_AllCollations - true
+Syntaxaggregate14rq - Thread - PartitionByIDTwiceAllCollations - true
+Simple 5 - Thread - PartitionByID_2_AllCollations - false
+Sq03  Subquery within graph pattern graph variable is not bound - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq12b4sparql700 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq63sparql973 - Thread - PartitionByID_1_AllCollations - true
+SERVICE test 7 - Thread - PartitionByID_O_AllCollations - true
+PapersparqldlQ2 - Thread - PartitionByIDTwiceAllCollations - true
+RDFS inference test rdfssubPropertyOf luposDuplicate1 - Thread - Simple - true
+DELETE INSERT 5b - Thread - PartitionByID_S_AllCollations - true
+Pp36 Arbitrary path with bound endpoints - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq5bsparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+IF - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq3bsparql21 - Thread - PartitionByID_1_AllCollations - false
+Subsets by exclusion MINUS - Thread - PartitionByID_1_AllCollations - false
+Resourcesmyqueriesubungent18sparql709 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq3bsparql973 - Thread - PartitionByIDTwiceAllCollations - false
+NOT IN 1 - Thread - PartitionByID_S_AllCollations - true
+MIN - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbtc020sparql80 - Thread - PartitionByIDTwiceAllCollations - true
+Pp10 Path with negation - Thread - PartitionByIDTwiceAllCollations - true
+RDFS inference test transitivity of subPropertyOf - None - Simple - true
+Resourcessp2bq12asparql21 - Thread - PartitionByID_S_AllCollations - true
+Synppincollection - Thread - BenchmarkFig5 - false
+Resourcessp2bq5bsparql700 - Thread - PartitionByID_1_AllCollations - true
+SUBSTR 2argument - None - Simple - true
+STRSTARTS - Thread - PartitionByID_2_AllCollations - false
+Resourcesbsbmexplorequery12553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq2sparql1640 - Thread - PartitionByID_2_AllCollations - false
+Jsonres03  JSON Result Format - Thread - PartitionByID_1_AllCollations - true
+Resourcesbtc029sparql1198 - Thread - PartitionByID_1_AllCollations - false
+YEAR - Thread - PartitionByID_O_AllCollations - true
+Syntaxupdatebad03ru - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 3b - Thread - PartitionByID_S_AllCollations - false
+Calculate which sets have the same elements - Thread - PartitionByID_2_AllCollations - false
+Graphspecific DELETE 1 WITH - Thread - PartitionByID_2_AllCollations - false
+TZ - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Resourcessp2bq2sparql247 - Thread - PartitionByID_2_AllCollations - true
+DELETE INSERT 7 - None - Simple - false
+Cvs02  CSV Result Format - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq12b4sparql21 - Thread - PartitionByID_1_AllCollations - false
+Simple DELETE WHERE 1 - Thread - PartitionByID_1_AllCollations - true
+DROP GRAPH - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbtc005sparql578 - Thread - PartitionByID_1_AllCollations - true
+Postquery VALUES with OPTIONAL objvar 1 row - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq12b4sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Positive EXISTS 2 - Thread - PartitionByID_S_AllCollations - false
+Sq01  Subquery within graph pattern - None - Simple - true
+Resourcessp2bq12csparql700 - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE WHERE 4 - Thread - PartitionByID_S_AllCollations - false
+Pp35 Named Graph 2 - Thread - PartitionByIDTwiceAllCollations - true
+COPY 3 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq91sparql1294 - Thread - PartitionByID_1_AllCollations - false
+Resourcesmyqueriesubungent20sparql709 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq5asparql1294 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq3asparql247 - Thread - PartitionByIDTwiceAllCollations - true
+Sparqldl07rq two distinguished variables  undist - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq41sparql700 - Thread - PartitionByID_S_AllCollations - true
+ADD 2 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq12b2sparql973 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmbiquery21853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
+DROP ALL - Thread - PartitionByID_1_AllCollations - false
+Calculate which sets are subsets of others exclude A subsetOf A - Thread - PartitionByID_1_AllCollations - true
+NOW - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq111sparql700 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq63sparql21 - Thread - PartitionByID_2_AllCollations - true
+STRBEFORE - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq62sparql700 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq12b2sparql247 - Thread - PartitionByID_O_AllCollations - false
+COUNT 5 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq11sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+COPY 7 - Thread - PartitionByIDTwiceAllCollations - false
+RDFS inference test rdfXMLLiteral - Thread - PartitionByID_O_AllCollations - false
+Simple 6 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq67sparql973 - None - Simple - false
+Synbad01rq - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq9sparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcesmyqueriesubungent06sparql10467 - Thread - PartitionByID_2_AllCollations - true
+NOT IN 2 - Thread - PartitionByIDTwiceAllCollations - false
+MOVE SILENT - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12b4sparql973 - Thread - PartitionByID_O_AllCollations - true
+RDFS inference test transitivity of subClassOf - None - Simple - false
+Sq08  Subquery with aggregate - Thread - PartitionByKeyAllCollations - true
+Pp25 Diamond with loop  p - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq1sparql21 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq5asparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false
+INSERT 01 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq9sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Synbadpname06 - Thread - BenchmarkFig5 - true
+INSERT 04 - Thread - PartitionByID_2_AllCollations - false
+MOVE 7 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq65sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq61sparql1640 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq91sparql247 - Thread - PartitionByID_2_AllCollations - true
+Calculate proper subset - Thread - Simple - false
+Resourcesbsbmbiquery72553sparql2553 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq5bsparql973 - Thread - PartitionByID_O_AllCollations - true
+Syntaxselectexpr04rq - Thread - PartitionByID_O_AllCollations - true
+Sparqldl03rq combined query with complex class description - Thread - PartitionByID_1_AllCollations - false
+Sq04  Subquery within graph pattern default graph does not apply - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq62sparql247 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq68sparql700 - Thread - PartitionByID_2_AllCollations - false
+Pp01 Simple path - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq8sparql700 - Thread - PartitionByID_1_AllCollations - true
+STRDT TypeErrors - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq71sparql700 - Thread - PartitionByID_1_AllCollations - false
+Tsv01  TSV Result Format - Thread - PartitionByIDTwiceAllCollations - false
+CLEAR NAMED - Thread - PartitionByIDTwiceAllCollations - false
+Pp31 Operator precedence 2 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+Bind03  BIND - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq10sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery22553sparql2553 - Thread - PartitionByID_O_AllCollations - true
+Bind04  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq65sparql247 - Thread - PartitionByID_1_AllCollations - true
+ADD 6 - Thread - PartitionByID_O_AllCollations - true
+Pp06 Path with two graphs - in simulator - Simple - Centralized - true - None - RPL_Fast
+Expression raise an error - Thread - PartitionByID_O_AllCollations - false
+ADD 4 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq61sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+MAX with GROUP BY - Thread - PartitionByID_1_AllCollations - true
+PapersparqldlQ1 - Thread - Simple - true
+Simple insert data 1 - Thread - PartitionByID_2_AllCollations - false
+SHA1 - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 7b - Thread - PartitionByID_2_AllCollations - true
+Pp14 Star path over foafknows - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12asparql247 - Thread - PartitionByID_1_AllCollations - true
+Bnodes are not existentials with answer - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq72sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+MOVE 3 - Thread - PartitionByID_O_AllCollations - true
+Simple 1 - None - Simple - true
+Bind06  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq67sparql1640 - Thread - PartitionByID_O_AllCollations - true
+MOVE 4 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq68sparql1640 - None - Simple - true
+Jsonres04  JSON Result Format - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq42sparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+DROP NAMED - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq4sparql247 - Thread - PartitionByID_2_AllCollations - false
+Resourcesbsbmexplorequery82210sparql2210 - Thread - PartitionByIDTwiceAllCollations - true
+Csv03  CSV Result Format - None - Simple - true
+Resourcesmyqueriesubungent01sparql764 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq92sparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq7sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+STRAFTER datatyping - Thread - PartitionByID_1_AllCollations - true
+ENCODEFORURI - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq3csparql21 - Thread - PartitionByID_2_AllCollations - false
+Tvs02  TSV Result Format - Thread - PartitionByID_S_AllCollations - false
+Resourcesbsbmexplorequery11853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq3asparql973 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
+Simple DELETE 2 - None - Simple - true
+IN 2 - Thread - PartitionByIDTwiceAllCollations - false
+Postquery VALUES with 2 objvars 2 rows with UNDEF - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq6sparql21 - Thread - PartitionByID_O_AllCollations - true
+Resourcesmyqueriesubungent03sparql764 - Thread - PartitionByIDTwiceAllCollations - true
+SHA256 on Unicode data - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery112210sparql2210 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq1sparql973 - Thread - PartitionByID_1_AllCollations - false
+Error in AVG - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq67sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq63sparql700 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq7sparql700 - Thread - PartitionByID_2_AllCollations - false
+UUID pattern match - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq62sparql1640 - Thread - PartitionByID_S_AllCollations - false
+Sparqldl12rq range test - None - Simple - false
+Resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq3csparql1640 - Thread - PartitionByID_O_AllCollations - false
+Sparqldl09rq undist vars test - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq67sparql700 - None - Simple - true
+Resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq65sparql1294 - None - Simple - true
+Resourcessp2bq61sparql1294 - Thread - PartitionByID_2_AllCollations - true
+Syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - false
+Reuse a project expression variable in order by - Thread - PartitionByIDTwiceAllCollations - true
+STRAFTER - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+Resourcessp2bq42sparql700 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq63sparql1640 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq41sparql973 - Thread - PartitionByID_2_AllCollations - true
+SHA512 - Thread - PartitionByID_O_AllCollations - true
+Graphspecific DELETE DATA 1 - Thread - PartitionByID_S_AllCollations - true
+Resourcesbsbmbiquery12210sparql2210 - None - Simple - true
+Resourcessp2bq12b2sparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery62210sparql2210 - None - Simple - false
+Resourcessp2bq12a1sparql1294 - Thread - PartitionByID_1_AllCollations - true
+CONCAT - Thread - PartitionByID_2_AllCollations - true
+ADD SILENT - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12b2sparql700 - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 6b - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq7sparql247 - Thread - PartitionByID_2_AllCollations - false
+Pp33 Operator precedence 4 - Thread - PartitionByID_1_AllCollations - false
+Simple DELETE 4 WITH - Thread - PartitionByIDTwiceAllCollations - false
+RDFS inference test containers - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq3asparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq9sparql21 - Thread - PartitionByID_2_AllCollations - true
+Pp32 Operator precedence 3 - Thread - PartitionByIDTwiceAllCollations - false
+Syntaxupdatebad12ru - Thread - PartitionByIDTwiceAllCollations - true
+Parent query with hasChild exactly 1 Female restriction - Thread - PartitionByIDTwiceAllCollations - false
+Synbad02rq - Thread - PartitionByID_O_AllCollations - true
+Postquery VALUES with subjvar 1 row - Thread - PartitionByID_2_AllCollations - true
+CLEAR SILENT GRAPH iri - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq12b2sparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+Pp07 Path with one graph - Thread - PartitionByIDTwiceAllCollations - true
+Simple 2 - Thread - PartitionByID_1_AllCollations - false
+RAND - Thread - PartitionByIDTwiceAllCollations - true
+MOVE 6 - Thread - PartitionByID_2_AllCollations - true
+CONCAT 2 - Thread - PartitionByIDTwiceAllCollations - false
+Error in AVG - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq66sparql21 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq6sparql1294 - Thread - PartitionByID_S_AllCollations - false
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - false
+NOW - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq12b4sparql700 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq11sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+RDF inference test - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq91sparql247 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq66sparql973 - Thread - PartitionByID_1_AllCollations - true
+LCASE - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12asparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Literal with language tag test - Thread - PartitionByID_2_AllCollations - true
+COUNT 10 - Thread - PartitionByID_2_AllCollations - false
+CREATE SILENT iri - Thread - PartitionByID_1_AllCollations - true
+Plus1 - Thread - PartitionByIDTwiceAllCollations - true
+STRUUID pattern match - Thread - Simple - true
+STRBEFORE - None - Simple - false
+Resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_O_AllCollations - true
+RDFS inference test domain - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq42sparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Bind02  BIND - Thread - PartitionByID_O_AllCollations - false
+Postquery VALUES with 2 objvars 1 row - Thread - PartitionByID_2_AllCollations - true
+Bind07  BIND fixed data for OWL DL - Thread - PartitionByID_1_AllCollations - false
+Subsets by exclusion NOT EXISTS - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq42sparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery112553sparql2553 - Thread - PartitionByID_1_AllCollations - true
+Postquery VALUES with subjobjvars 2 rows with UNDEF - Thread - Simple - false
+Resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_1_AllCollations - true
+Bind03  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true
+SUM with GROUP BY - Thread - PartitionByID_O_AllCollations - true
+Sparqldl12rq range test - Thread - PartitionByID_1_AllCollations - false
+Sq07  Subquery with from  - None - Simple - true
+Resourcessp2bq68sparql1640 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq41sparql973 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq68sparql700 - None - Simple - true
+Resourcessp2bq3csparql973 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq10sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 8 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq111sparql973 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq3csparql21 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq3bsparql1294 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq10sparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq61sparql1640 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq61sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+IRIURI - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Resourcessp2bq111sparql21 - Thread - PartitionByID_S_AllCollations - false
+MIN with GROUP BY - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12a1sparql1640 - Thread - PartitionByID_S_AllCollations - false
+Simple triple pattern match - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery12210sparql2210 - None - Simple - false
+Simple 6 - Thread - PartitionByID_O_AllCollations - true
+RDFS inference test subClassOf - Thread - PartitionByIDTwiceAllCollations - false
+Group1 - Thread - PartitionByIDTwiceAllCollations - true
+RDFS inference test containers - Thread - PartitionByID_2_AllCollations - false
+Simple 7 - None - Simple - true
+Sq13  Subqueries dont inject bindings - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq2sparql21 - Thread - PartitionByID_1_AllCollations - false
+Pp11 Simple path and two paths to same target node - Thread - PartitionByID_1_AllCollations - false
+Positive EXISTS 1 - Thread - PartitionByID_O_AllCollations - false
+ADD 4 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq6sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Bind02  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery82210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq68sparql1294 - Thread - PartitionByID_S_AllCollations - true
+PapersparqldlQ2 - Thread - PartitionByID_O_AllCollations - true
+Constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - true
+Syntaxupdatebad04ru - None - Simple - false
+CLEAR GRAPH - Thread - PartitionByID_1_AllCollations - true
+STRDT - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq7sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Postquery VALUES with 2 objvars 2 rows with UNDEF - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq7sparql973 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq71sparql1640 - Thread - PartitionByID_1_AllCollations - true
+DELETE INSERT 7b - Thread - PartitionByID_O_AllCollations - true
+COPY 2 - Thread - PartitionByID_S_AllCollations - false
+Expression has variable that may be unbound - None - Simple - true
+Cvs02  CSV Result Format - None - Simple - true
+Resourcessp2bq12b1sparql700 - Thread - PartitionByID_1_AllCollations - false
+Synbad01rq - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq8sparql1640 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq1sparql247 - Thread - PartitionByID_2_AllCollations - false
+Sq08  Subquery with aggregate - None - Simple - false
+Simple DELETE 2 WITH - Thread - Simple - false
+Resourcessp2bq4sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12a1sparql700 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq7sparql21 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq4sparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery52553sparql2553 - Thread - PartitionByID_O_AllCollations - true
+Calculate proper subset - None - Simple - true
+Sq10  Subquery with exists - None - Simple - true
+MAX with GROUP BY - Thread - PartitionByID_2_AllCollations - false
+STRLANG TypeErrors - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12b4sparql1294 - Thread - PartitionByID_S_AllCollations - false
+SHA512 - in simulator - Simple - Centralized - false - None - AllShortestPath
+Csv03  CSV Result Format - Thread - PartitionByID_S_AllCollations - false
+Parent query with hasChild some Thing restriction - None - Simple - false
+Resourcessp2bq68sparql21 - Thread - PartitionByIDTwiceAllCollations - false
+Postquery VALUES with 2 objvars 1 row with UNDEF - Thread - PartitionByID_S_AllCollations - true
+Simple insert data named 3 - Thread - PartitionByID_1_AllCollations - false
+PapersparqldlQ5 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq5bsparql700 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq6sparql21 - Thread - PartitionByID_2_AllCollations - true
+STRENDS - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE WHERE 4 - Thread - PartitionByID_1_AllCollations - true
+Constructwhere02  CONSTRUCT WHERE - Thread - PartitionByID_1_AllCollations - false
+Pp32 Operator precedence 3 - None - Simple - true
+Resourcesbsbmbiquery42210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByID_S_AllCollations - true
+Pp35 Named Graph 2 - Thread - PartitionByID_1_AllCollations - true
+MOVE 2 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq3csparql1294 - Thread - PartitionByID_2_AllCollations - false
+Reuse a project expression variable in order by - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq12csparql973 - Thread - PartitionByID_O_AllCollations - true
+UUID pattern match - Thread - PartitionByID_1_AllCollations - true
+Graphspecific DELETE 2 - Thread - PartitionByID_1_AllCollations - false
+Nested negative exists in positive exists - Thread - PartitionByIDTwiceAllCollations - true
+RDFS inference test combining subPropertyOf and domain - Thread - PartitionByID_2_AllCollations - false
+ADD 8 - Thread - PartitionByID_2_AllCollations - false
+Resourcesmyqueriesubungent16sparql567 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+Pp09 Reverse sequence path - None - Simple - true
+Simple DELETE 1 USING - Thread - Simple - false
+Sq02  Subquery within graph pattern graph variable is bound - None - Simple - false
+COUNT 5 - Thread - PartitionByID_2_AllCollations - false
+Syntaxaggregate13rq - Thread - BenchmarkFig5 - true
+Resourcessp2bq41sparql21 - Thread - PartitionByID_2_AllCollations - true
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 1 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12b3sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq3bsparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Bind08  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq61sparql247 - Thread - PartitionByID_1_AllCollations - true
+Resourcesmyqueriesubungent19sparql709 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq3bsparql247 - Thread - PartitionByID_O_AllCollations - true
+Calculate which sets have the same elements - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery41853sparql1853 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmbiquery11853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+Sq14  limit by resource - Thread - PartitionByID_2_AllCollations - true
+SUM - Thread - PartitionByID_1_AllCollations - false
+Sq09  Nested Subqueries - None - Simple - false
+Resourcessp2bq4sparql700 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq71sparql247 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByID_O_AllCollations - false
+Graphspecific DELETE 2 WITH - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmexplorequery22210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+RDF test for blank node cardinalities - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery91853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Bind11  BIND scoping  Variable in filter in scope - Thread - PartitionByID_1_AllCollations - true
+STRLANG - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq42sparql973 - Thread - PartitionByID_1_AllCollations - false
+ADD 7 - Thread - PartitionByID_O_AllCollations - false
+Subclass query with hasChild some Thing restriction - None - Simple - false
+Resourcessp2bq68sparql973 - Thread - Simple - false
+Sparqldl09rq undist vars test - Thread - PartitionByID_S_AllCollations - false
+Resourcesbsbmexplorequery92210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+Syntaxconstructwhere02rq - Thread - PartitionByIDTwiceAllCollations - false
+MOVE SILENT - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq3asparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Simple DELETE DATA 2 - Thread - PartitionByID_1_AllCollations - false
+Syntaxupdatebad11ru - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq72sparql21 - Thread - PartitionByID_O_AllCollations - true
+COUNT 3 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12a1sparql21 - Thread - PartitionByID_O_AllCollations - true
+Pp02 Star path - None - Simple - false
+Resourcesbsbmexplorequery61853sparql1853 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq8sparql21 - Thread - PartitionByID_S_AllCollations - true
+YEAR - Thread - PartitionByID_2_AllCollations - true
+Pp34 Named Graph 1 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery111853sparql1853 - Thread - PartitionByID_O_AllCollations - true
+MONTH - Thread - PartitionByID_S_AllCollations - true
+DELETE INSERT 5b - Thread - PartitionByIDTwiceAllCollations - true
+Syntaxaggregate15rq - Thread - BenchmarkFig5 - true
+Simple DELETE 4 WITH - Thread - PartitionByID_S_AllCollations - false
+DELETE INSERT 6b - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq3bsparql1640 - Thread - PartitionByID_1_AllCollations - true
+Sparqldl03rq combined query with complex class description - Thread - PartitionByID_2_AllCollations - true
+ADD 6 - Thread - PartitionByID_O_AllCollations - false
+SHA1 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq71sparql973 - Thread - PartitionByID_2_AllCollations - true
+INSERT 01 - Thread - PartitionByIDTwiceAllCollations - true
+MD5 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12bsparql1640 - Thread - PartitionByID_1_AllCollations - true
+STRDT TypeErrors - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq92sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+ADD 1 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq1sparql1640 - Thread - PartitionByID_2_AllCollations - true
+Syntaxselectexpr04rq - Thread - BenchmarkFig5 - false
+SUBSTR 2argument - Thread - PartitionByID_S_AllCollations - false
+MAX - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq61sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent18sparql709 - Thread - PartitionByID_1_AllCollations - false
+Parent query with hasChild some Female restriction - Thread - PartitionByIDTwiceAllCollations - false
+Sq12  Subquery in CONSTRUCT with builtins - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq65sparql700 - Thread - PartitionByID_O_AllCollations - true
+DROP SILENT GRAPH iri - Thread - PartitionByID_2_AllCollations - true
+Syntaxupdatebad03ru - Thread - PartitionByIDTwiceAllCollations - true
+Graphspecific DELETE 1 WITH - None - Simple - true
 Pp01 Simple path - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
-Sq03  Subquery within graph pattern graph variable is not bound - Thread - PartitionByID_2_AllCollations - true
-TZ - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
-Pp16 Duplicate paths and cycles through foafknows - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
-REPLACE - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
-Pp01 Simple path - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
-STRAFTER datatyping - in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
-Syntaxconstructwhere02rq - Thread - PartitionByID_1_AllCollations - true
-STRAFTER - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
-SHA512 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
-Pp35 Named Graph 2 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
-REPLACE - in simulator - Simple - Centralized - false - None - AllShortestPath
-Pp33 Operator precedence 4 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
-Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
-Resourcesmyqueriesubungent05sparql66 - in simulator - Simple - Centralized - false - None - RPL
-RAND - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
-Pp11 Simple path and two paths to same target node - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
-SHA512 on Unicode data - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
-Resourcesbsbmbiquery42553sparql2553 - in simulator - Simple - Centralized - false - None - RPL
-Resourcesbsbmbiquery32210sparql2210 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
-Pp25 Diamond with loop  p - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
-Resourcesbsbmbiquery42553sparql2553 - None - Simple - false
-UUID pattern match - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
-Sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false
-GROUPCONCAT 2 - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
-Nested positive exists - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
-Exists with ground triple - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
-STRUUID pattern match - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
-Pp14 Star path over foafknows - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
-SHA512 - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
-Resourcesmyqueriesubungent16sparql567 - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
-Positive EXISTS 2 - in simulator - Simple - Centralized - true - None - RPL
-Syntaxupdatebad11ru - Thread - PartitionByID_2_AllCollations - false
-TZ - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
-Reuse a project expression variable in select - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
-SHA512 - in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+Graphspecific DELETE WHERE 2 - None - Simple - true
+Resourcessp2bq12csparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq3asparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent06sparql10467 - Thread - BenchmarkFig5 - false
+Resourcesmyqueriesubungent05sparql66 - None - Simple - true
+Pp31 Operator precedence 2 - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE WHERE 1 - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByID_O_AllCollations - true
+Reuse a project expression variable in select - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq12bsparql247 - Thread - PartitionByIDTwiceAllCollations - true
+Simple 4 - None - Simple - true
+Synbadpname06 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq66sparql700 - Thread - PartitionByID_2_AllCollations - true
+Parent query with hasChild min 1 Female restriction - Thread - Simple - false
+Resourcessp2bq2sparql247 - Thread - PartitionByIDTwiceAllCollations - false
+Simple 3 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq12bsparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent20sparql709 - Thread - PartitionByID_1_AllCollations - true
+Graphspecific DELETE DATA 2 - Thread - PartitionByID_1_AllCollations - false
+Pp36 Arbitrary path with bound endpoints - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq11sparql700 - None - Simple - true
+Resourcessp2bq5bsparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery71853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq63sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+BNODE - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq3bsparql700 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq4sparql21 - Thread - PartitionByID_O_AllCollations - false
+PapersparqldlQ3 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbtc029sparql1198 - Thread - PartitionByID_1_AllCollations - false
+Syntaxservice01rq - Thread - BenchmarkFig5 - true
+Resourcessp2bq91sparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq3csparql247 - Thread - PartitionByIDTwiceAllCollations - true
+Group5 - Thread - PartitionByIDTwiceAllCollations - false
+Pp21 Diamond  p - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq9sparql1640 - Thread - PartitionByID_O_AllCollations - false
+UCASE - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq2sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+GROUPCONCAT 1 - Thread - PartitionByID_S_AllCollations - false
+Bind07  BIND - Thread - PartitionByID_1_AllCollations - false
+GROUPCONCAT 2 - Thread - PartitionByID_1_AllCollations - false
+Simple 5 - None - Simple - true
+Resourcessp2bq5asparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 5 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq3bsparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq41sparql1640 - Thread - PartitionByID_O_AllCollations - true
+RDFS inference test transitivity of subPropertyOf - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq11sparql247 - Thread - PartitionByIDTwiceAllCollations - true
+Bnodes are not existentials with answer - Thread - PartitionByID_2_AllCollations - false
+DELETE INSERT 3 - None - Simple - false
+IsNumeric - Thread - PartitionByID_1_AllCollations - true
+MOVE 1 - Thread - PartitionByID_O_AllCollations - true
+COPY 7 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq68sparql247 - Thread - PartitionByIDTwiceAllCollations - false
+STRBEFORE datatyping - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+SECONDS - Thread - PartitionByID_1_AllCollations - true
+Synbad02rq - Thread - PartitionByID_1_AllCollations - false
+ABS - Thread - PartitionByIDTwiceAllCollations - false
+Plus2 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq11sparql973 - Thread - PartitionByID_1_AllCollations - false
+SUBSTR 3argument - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 7 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmbiquery72553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12b4sparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq72sparql700 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq12asparql973 - Thread - PartitionByIDTwiceAllCollations - false
+INSERT USING 01 - Thread - PartitionByID_1_AllCollations - false
+Bnodes are not existentials - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmexplorequery101853sparql1853 - Thread - PartitionByID_O_AllCollations - true
+Sq06  Subquery with graph pattern from named applies - None - Simple - true
+Resourcessp2bq2sparql1294 - Thread - PartitionByID_S_AllCollations - true
+Expression may return no value - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq3csparql700 - Thread - PartitionByID_1_AllCollations - false
+Graphspecific DELETE DATA 1 - Thread - PartitionByIDTwiceAllCollations - false
+DELETE INSERT 1c - Thread - PartitionByIDTwiceAllCollations - true
+Jsonres03  JSON Result Format - Thread - PartitionByIDTwiceAllCollations - false
+Sparqldl11rq domain test - None - Simple - true
+Syntaxupdatebad10ru - None - Simple - false
+Protect from error in AVG - Thread - PartitionByID_1_AllCollations - false
+Resourcesmyqueriesubungent17sparql709 - Thread - PartitionByID_2_AllCollations - false
+Tsv01  TSV Result Format - Thread - PartitionByID_1_AllCollations - true
+Pp10 Path with negation - None - Simple - false
+RDFS inference test subProperty and instances - Thread - PartitionByID_S_AllCollations - true
+Pp08 Reverse path - Thread - PartitionByIDTwiceAllCollations - true
+Calculate which sets are subsets of others include A subsetOf A - Thread - PartitionByID_S_AllCollations - false
+Simple DELETE 1 WITH - Thread - PartitionByIDTwiceAllCollations - false
+RDFS inference test range - Thread - Simple - true
+Resourcessp2bq63sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq3asparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+DROP NAMED - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq42sparql247 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByIDTwiceAllCollations - false
+PapersparqldlQ1 - None - Simple - false
+Resourcessp2bq6sparql700 - Thread - PartitionByID_1_AllCollations - true
+DELETE INSERT 2 - Thread - PartitionByIDTwiceAllCollations - true
+COUNT 9 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq7sparql247 - Thread - PartitionByID_O_AllCollations - false
+Tvs02  TSV Result Format - Thread - PartitionByID_O_AllCollations - true
+Pp06 Path with two graphs - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq71sparql1294 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq41sparql1294 - Thread - PartitionByID_O_AllCollations - true
+COUNT 7 - Thread - PartitionByID_O_AllCollations - true
+INSERT 04 - Thread - PartitionByIDTwiceAllCollations - false
+RDFS inference test subClassOf luposDuplicate1 - Thread - Simple - true
+SyntaxpropertyPaths01rq - Thread - BenchmarkFig5 - false
+Resourcessp2bq65sparql1640 - None - Simple - false
+Parent query with hasChild exactly 1 Female restriction - Thread - PartitionByIDTwiceAllCollations - true
+REPLACE - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq12bsparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+GROUPCONCAT with SEPARATOR - None - Simple - true
+Agg empty group - Thread - PartitionByID_O_AllCollations - true
+FLOOR - Thread - PartitionByIDTwiceAllCollations - false
+Parent query with hasChild min 1 restriction - None - Simple - true
+TZ - Thread - PartitionByID_2_AllCollations - false
+Exists within graph pattern - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12b1sparql21 - Thread - PartitionByID_O_AllCollations - false
+Resourcesbtc030sparql867 - Thread - PartitionByIDTwiceAllCollations - false
+Simple DELETE DATA 1 - Thread - PartitionByID_1_AllCollations - false
+STRAFTER - None - Simple - false
+Sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_O_AllCollations - false
+Syntaxaggregate14rq - None - Simple - true
+Resourcessp2bq71sparql700 - Thread - PartitionByID_1_AllCollations - false
+COALESCE - Thread - PartitionByID_2_AllCollations - true
+Sq04  Subquery within graph pattern default graph does not apply - Thread - BenchmarkFig5 - false
+Resourcesbsbmexplorequery62210sparql2210 - None - Simple - true
+Pp14 Star path over foafknows - Thread - PartitionByID_O_AllCollations - true
+Resourcesbtc020sparql80 - None - Simple - false
+Resourcessp2bq65sparql247 - Thread - PartitionByID_O_AllCollations - true
+Pp37 Nested  - Thread - PartitionByID_O_AllCollations - false
+Simple insert data named 2 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq5asparql700 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery122210sparql2210 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12bsparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq10sparql700 - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 9 - Thread - PartitionByKeyAllCollations - false
+Bind05  BIND - Thread - PartitionByIDTwiceAllCollations - true
+Group6 - Thread - PartitionByKeyAllCollations - true
+IN 1 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery31853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
+CEIL - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq111sparql700 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq62sparql21 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq72sparql247 - Thread - PartitionByID_1_AllCollations - true
+Sq01  Subquery within graph pattern - Thread - PartitionByIDTwiceAllCollations - false
+Group7 - Thread - PartitionByID_O_AllCollations - true
 DELETE INSERT 3b - Thread - PartitionByID_S_AllCollations - true
-Resourcesbsbmexplorequery62210sparql2210 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
-Resourcesbsbmexplorequery101853sparql1853 - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
-Protect from error in AVG - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
-Pp31 Operator precedence 2 - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
-Pp28a Diamond with loop  pp - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
-IRIURI - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
-Simple DELETE DATA 2 - Thread - Simple - true
-Resourcesbsbmbiquery41853sparql1853 - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
-Resourcesbsbmbiquery42210sparql2210 - in simulator - Simple - Centralized - false - None - RPL_Fast
-Pp16 Duplicate paths and cycles through foafknows - None - Simple - false
-Sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - true
-GROUPCONCAT 2 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
-Exists within graph pattern - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+Syntaxservice02rq - None - Simple - true
+Simple DELETE 1 - None - Simple - true
+Sq03  Subquery within graph pattern graph variable is not bound - Thread - PartitionByIDTwiceAllCollations - true
+Simple DELETE 3 USING - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12b1sparql1294 - Thread - PartitionByID_1_AllCollations - false
+STRLANGSTR - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmbiquery42553sparql2553 - Thread - PartitionByID_1_AllCollations - true
+Resourcesmyqueriesubungent21sparql709 - Thread - PartitionByID_2_AllCollations - false
+Synppincollection - None - Simple - true
+Resourcesbsbmexplorequery11853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Exists with ground triple - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
+IF error propogation - in simulator - Simple - Centralized - true - None - AllShortestPath
+COUNT 1 - Thread - PartitionByID_1_AllCollations - false
+Resourcesmyqueriesubungent22sparql709 - None - Simple - false
+Sq11  Subquery limit per resource - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmbiquery81853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery52210sparql2210 - in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+SHA512 on Unicode data - None - Simple - false
+Resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_O_AllCollations - true
+Bind03  BIND - Thread - PartitionByID_O_AllCollations - true
+Resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByID_S_AllCollations - false
+Pp12 Variable length path and two paths to same target node - in simulator - Simple - Centralized - true - None - RPL
+DELETE INSERT 6 - Thread - PartitionByID_O_AllCollations - true
+Simple DELETE WHERE 3 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq65sparql1294 - None - Simple - true
+Resourcessp2bq9sparql973 - Thread - PartitionByID_1_AllCollations - true
+Simple 1 - Thread - PartitionByID_O_AllCollations - true
+Tsv03  TSV Result Format - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq66sparql247 - Thread - PartitionByID_O_AllCollations - true
+Pp16 Duplicate paths and cycles through foafknows - None - Simple - true
+Syntaxupdate54ru - Thread - PartitionByID_S_AllCollations - true
+Bind04  BIND - Thread - PartitionByIDTwiceAllCollations - false
+ROUND - Thread - PartitionByIDTwiceAllCollations - false
+Pp23 Diamond with tail  p - None - Simple - true
+Resourcessp2bq62sparql1640 - Thread - PartitionByID_1_AllCollations - true
+SHA1 on Unicode data - Thread - PartitionByID_1_AllCollations - true
+Syntaxservice03rq - None - Simple - false
+Sq05  Subquery within graph pattern from named applies - Thread - PartitionByID_1_AllCollations - false
+Bind10  BIND scoping  Variable in filter not in scope - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByID_1_AllCollations - true
+Group3 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12a1sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Bind01  BIND - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq91sparql973 - Thread - PartitionByID_2_AllCollations - true
+PapersparqldlQ4 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq7sparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq11sparql1640 - Thread - PartitionByID_1_AllCollations - false
+Syntaxupdate36ru - None - Simple - false
+Bind04  BIND fixed data for OWL DL - Thread - PartitionByID_2_AllCollations - false
+Pp30 Operator precedence 1 - None - Simple - false
+Resourcessp2bq67sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq5bsparql973 - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE WHERE 2 - Thread - PartitionByID_2_AllCollations - false
+Syntaxupdatebad12ru - Thread - PartitionByIDTwiceAllCollations - true
+Simple DELETE 3 - Thread - PartitionByID_1_AllCollations - true
+Sparqldl07rq two distinguished variables  undist - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq92sparql1294 - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE DATA 3 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq41sparql1294 - Thread - PartitionByID_2_AllCollations - true
+DELETE INSERT 8 - None - Simple - false
+Postquery VALUES with subjobjvars 2 rows with UNDEF - Thread - PartitionByIDTwiceAllCollations - true
+Syntaxupdatebad12ru - None - Simple - true
+Graphspecific DELETE WHERE 1 - Thread - Simple - false
+Sq12  Subquery in CONSTRUCT with builtins - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq91sparql700 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq5bsparql21 - Thread - PartitionByID_1_AllCollations - true
+Bind03  BIND - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq3csparql1294 - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmexplorequery52553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Simple DELETE 1 WITH - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq68sparql21 - Thread - PartitionByID_1_AllCollations - false
+FLOOR - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq11sparql1294 - None - Simple - true
+Resourcesbsbmexplorequery12553sparql2553 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_O_AllCollations - true
+Expression is equality - Thread - PartitionByID_S_AllCollations - true
+Parent query with hasChild some Thing restriction - Thread - PartitionByID_2_AllCollations - true
+Exists within graph pattern - Thread - PartitionByID_O_AllCollations - true
+DELETE INSERT 3 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq67sparql247 - Thread - PartitionByID_O_AllCollations - true
+DELETE INSERT 4b - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq3csparql247 - Thread - PartitionByIDTwiceAllCollations - false
+Sparqldl03rq combined query with complex class description - None - Simple - true
+Resourcesbsbmbiquery12553sparql2553 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq1sparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12csparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery71853sparql1853 - None - Simple - true
+DELETE INSERT 6b - Thread - PartitionByID_S_AllCollations - true
+Postquery VALUES with 2 objvars 1 row - Thread - PartitionByID_O_AllCollations - true
+Pp37 Nested  - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq41sparql973 - Thread - PartitionByID_1_AllCollations - false
+MOVE 3 - Thread - PartitionByID_2_AllCollations - false
+Graphspecific DELETE 2 - Thread - PartitionByID_2_AllCollations - true
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq9sparql21 - Thread - PartitionByIDTwiceAllCollations - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_1_AllCollations - false
+Bind06  BIND fixed data for OWL DL - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmexplorequery121853sparql1853 - Thread - PartitionByID_2_AllCollations - false
+RDFS inference test subClassOf luposDuplicate1 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq91sparql1294 - Thread - PartitionByID_O_AllCollations - true
+CLEAR GRAPH - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq3bsparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery52210sparql2210 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+Resourcessp2bq10sparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq61sparql1640 - Thread - PartitionByID_1_AllCollations - false
+ADD 6 - Thread - PartitionByID_1_AllCollations - true
+Group4 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq61sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Synbad01rq - None - Simple - false
+Resourcessp2bq8sparql1640 - Thread - PartitionByID_O_AllCollations - true
+MIN with GROUP BY - Thread - PartitionByIDTwiceAllCollations - false
+Filtered subclass query with hasChild some Thing restriction - None - Simple - true
+IF error propogation - Thread - PartitionByIDTwiceAllCollations - false
+SERVICE test 7 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq71sparql700 - Thread - PartitionByIDTwiceAllCollations - false
+COUNT 10 - Thread - PartitionByKeyAllCollations - false
+Resourcessp2bq12b2sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12b2sparql21 - Thread - PartitionByID_2_AllCollations - true
+Pp31 Operator precedence 2 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq67sparql973 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12a1sparql700 - Thread - PartitionByID_1_AllCollations - false
+COUNT 9 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq3bsparql247 - Thread - PartitionByID_1_AllCollations - true
+Parent query with distinguished variable - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmbiquery22210sparql2210 - Thread - PartitionByIDTwiceAllCollations - true
+Simple DELETE 2 WITH - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq11sparql21 - Thread - PartitionByID_S_AllCollations - false
+Sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq10sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Bind02  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - true
+Bind01  BIND - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 5b - Thread - PartitionByIDTwiceAllCollations - false
+Synbad02rq - None - Simple - false
+Bind11  BIND scoping  Variable in filter in scope - Thread - PartitionByID_S_AllCollations - false
+REPLACE - None - Simple - true
+Bind08  BIND - Thread - PartitionByID_O_AllCollations - true
+Resourcesbsbmexplorequery92553sparql2553 - None - Simple - false
+Plus2 - Thread - PartitionByID_S_AllCollations - false
+Graphspecific DELETE 2 WITH - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq71sparql1640 - Thread - PartitionByID_1_AllCollations - true
+RDFS inference test containers - Thread - PartitionByID_S_AllCollations - true
+Simple DELETE DATA 4 - Thread - PartitionByID_O_AllCollations - true
+Syntaxservice03rq - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq12b1sparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq7sparql21 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesmyqueriesubungent18sparql709 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq111sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Syntaxupdatebad04ru - Thread - BenchmarkFig5 - true
+GROUPCONCAT 2 - None - Simple - false
+Pp03 Simple path with loop - Thread - PartitionByID_2_AllCollations - true
+Pp36 Arbitrary path with bound endpoints - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq65sparql700 - None - Simple - false
+ABS - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery81853sparql1853 - Thread - PartitionByID_1_AllCollations - true
+Expression has undefined variable - Thread - PartitionByIDTwiceAllCollations - false
+Reuse a project expression variable in order by - Thread - PartitionByID_S_AllCollations - true
+Resourcesbsbmexplorequery82210sparql2210 - None - Simple - false
+Postquery VALUES with subjvar 1 row - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq68sparql1294 - None - Simple - false
+STRLANG TypeErrors - Thread - PartitionByID_1_AllCollations - false
+Jsonres01  JSON Result Format - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq5asparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+Pp33 Operator precedence 4 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq1sparql973 - Thread - PartitionByID_1_AllCollations - true
+Exists with one constant - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq72sparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12csparql1294 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq1sparql21 - Thread - PartitionByID_2_AllCollations - false
+IRIURI - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE 2 USING - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq61sparql21 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq111sparql247 - Thread - PartitionByID_1_AllCollations - false
+MINUTES - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq91sparql1640 - Thread - PartitionByID_1_AllCollations - true
+MD5 - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery42553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Simple DELETE 1 USING - Thread - PartitionByID_S_AllCollations - true
+AVG with GROUP BY - Thread - PartitionByIDTwiceAllCollations - true
+DELETE INSERT 7 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq3asparql247 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq5asparql21 - Thread - PartitionByIDTwiceAllCollations - false
+Pp21 Diamond  p - Thread - PartitionByID_1_AllCollations - false
+SUM - Thread - PartitionByID_S_AllCollations - true
+Sq10  Subquery with exists - Thread - BenchmarkFig5 - false
+Resourcessp2bq3bsparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent19sparql709 - Thread - PartitionByIDTwiceAllCollations - false
+Group6 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmbiquery72210sparql2210 - Thread - PartitionByID_2_AllCollations - true
+DELETE INSERT 1b - None - Simple - false
+Resourcesbsbmbiquery21853sparql1853 - Thread - PartitionByID_1_AllCollations - true
+Syntaxaggregate13rq - Thread - PartitionByID_O_AllCollations - false
+ADD 3 - Thread - PartitionByID_1_AllCollations - false
+Pp10 Path with negation - Thread - PartitionByID_2_AllCollations - false
+Syntaxaggregate15rq - Thread - BenchmarkFig5 - false
+MAX - Thread - PartitionByID_S_AllCollations - false
+Pp09 Reverse sequence path - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq61sparql973 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq65sparql1640 - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmbiquery31853sparql1853 - Thread - Simple - false
+Resourcessp2bq71sparql973 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq42sparql973 - Thread - PartitionByID_1_AllCollations - false
+Sparqldl01rq triple pattern - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq42sparql1294 - Thread - PartitionByID_1_AllCollations - false
+Bind07  BIND fixed data for OWL DL - Thread - PartitionByID_2_AllCollations - false
+Subclass query with hasChild some Thing restriction - None - Simple - false
+SHA512 on Unicode data - Thread - PartitionByIDTwiceAllCollations - false
+Bind06  BIND - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12asparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12bsparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq4sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Pp25 Diamond with loop  p - Thread - PartitionByIDTwiceAllCollations - false
+ADD SILENT - Thread - PartitionByID_S_AllCollations - true
+Syntaxupdatebad10ru - Thread - PartitionByID_S_AllCollations - false
+IsNumeric - Thread - PartitionByIDTwiceAllCollations - true
+RDFS inference test rdfXMLLiteral - Thread - PartitionByID_2_AllCollations - false
+COPY 3 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12b1sparql1294 - Thread - Simple - false
+RDF inference test luposDuplicate1 - Thread - PartitionByID_O_AllCollations - false
+Syntaxupdatebad11ru - Thread - PartitionByIDTwiceAllCollations - false
+RDFS inference test combining subPropertyOf and domain - Thread - PartitionByIDTwiceAllCollations - true
+STRUUID pattern match - None - Simple - true
+Resourcessp2bq67sparql700 - None - Simple - false
+Graphspecific DELETE 1 WITH - Thread - PartitionByID_2_AllCollations - true
+ADD 7 - Thread - PartitionByID_S_AllCollations - false
+Postquery VALUES with 2 objvars 1 row with UNDEF - Thread - Simple - false
+Positive EXISTS 2 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery22210sparql2210 - Thread - PartitionByID_1_AllCollations - true
+SAMPLE - Thread - PartitionByID_S_AllCollations - true
+SUBSTR 3argument - Thread - PartitionByID_O_AllCollations - true
+Tvs02  TSV Result Format - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmexplorequery62553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq2sparql1294 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq68sparql247 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq3asparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12a1sparql21 - Thread - Simple - true
+Resourcesmyqueriesubungent03sparql764 - Thread - PartitionByID_O_AllCollations - true
+Sparqldl13rq sameAs - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq12asparql21 - Thread - PartitionByID_2_AllCollations - true
+SHA512 - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+PapersparqldlQ1rdfs - None - Simple - true
+Pp08 Reverse path - None - Simple - false
+Group7 - None - Simple - false
+Resourcessp2bq9sparql700 - Thread - PartitionByID_S_AllCollations - false
+ENCODEFORURI - Thread - PartitionByIDTwiceAllCollations - true
+Synbadpname06 - Thread - PartitionByIDTwiceAllCollations - true
+Sq07  Subquery with from  - Thread - PartitionByID_O_AllCollations - true
+Plain literals with language tag are not the same as the same literal without - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq12asparql700 - Thread - PartitionByID_O_AllCollations - true
+Resourcessp2bq68sparql700 - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmexplorequery21853sparql1853 - None - Simple - true
+Syntaxupdatebad03ru - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery102210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12b3sparql700 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq12b1sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent06sparql10467 - Thread - BenchmarkFig5 - false
+Pp12 Variable length path and two paths to same target node - None - Simple - true
+RAND - None - Simple - true
+Sparqldl08rq two distinguished variables  undist - Thread - PartitionByIDTwiceAllCollations - true
+RDFS inference test domain - None - Simple - false
+Resourcessp2bq11sparql973 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq7sparql1294 - Thread - PartitionByID_2_AllCollations - true
+Pp34 Named Graph 1 - None - Simple - true
+Resourcesbtc020sparql80 - None - Simple - true
+Postquery VALUES with objvar 1 row - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmbiquery81853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
+CONCAT - Thread - PartitionByID_O_AllCollations - true
+Simple 4 - None - Simple - true
+Resourcesbsbmexplorequery92210sparql2210 - Thread - PartitionByID_S_AllCollations - true
+Resourcesbsbmexplorequery111853sparql1853 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq12b4sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Simple DELETE 4 USING - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq91sparql973 - Thread - PartitionByID_S_AllCollations - true
+Sq06  Subquery with graph pattern from named applies - Thread - PartitionByKeyAllCollations - false
+Simple insert data named 2 - Thread - PartitionByID_1_AllCollations - true
+PapersparqldlQ4 - Thread - PartitionByID_1_AllCollations - true
+Sq03  Subquery within graph pattern graph variable is not bound - Thread - PartitionByID_S_AllCollations - true
+Resourcesbtc005sparql578 - Thread - PartitionByID_1_AllCollations - false
+Simple DELETE 4 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq5bsparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq63sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+TIMEZONE - None - Simple - false
+Sparqldl10rq undist vars test - Thread - PartitionByID_1_AllCollations - true
+ADD 2 - Thread - PartitionByID_1_AllCollations - false
+CLEAR NAMED - Thread - PartitionByID_O_AllCollations - false
+Bind08  BIND fixed data for OWL DL - Thread - PartitionByID_2_AllCollations - false
+Tsv03  TSV Result Format - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq65sparql973 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq111sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Expression raise an error - Thread - PartitionByID_2_AllCollations - true
+Sq09  Nested Subqueries - Thread - BenchmarkFig5 - true
+SHA256 on Unicode data - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq41sparql21 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq5asparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+DROP ALL - Thread - PartitionByID_O_AllCollations - false
+RDFS inference test range - Thread - PartitionByID_O_AllCollations - false
+NOW - None - Simple - false
+Resourcessp2bq12csparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq72sparql1640 - Thread - PartitionByIDTwiceAllCollations - true
+GROUPCONCAT 1 - Thread - Simple - true
+Pp01 Simple path - None - Simple - true
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq6sparql1294 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq66sparql973 - Thread - PartitionByID_1_AllCollations - false
+Syntaxconstructwhere02rq - Thread - PartitionByID_1_AllCollations - true
+STRBEFORE - None - Simple - true
+Resourcesbsbmexplorequery72553sparql2553 - None - Simple - false
+Resourcessp2bq12b3sparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq92sparql700 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq8sparql1294 - Thread - PartitionByID_2_AllCollations - true
+Pp16 Duplicate paths and cycles through foafknows - Thread - PartitionByID_O_AllCollations - true
+Pp28a Diamond with loop  pp - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq92sparql1640 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq7sparql1640 - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 1c - Thread - PartitionByID_O_AllCollations - true
+Simple DELETE 1 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq9sparql1294 - Thread - PartitionByID_1_AllCollations - true
+Bnodes are not existentials - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq61sparql700 - Thread - PartitionByID_2_AllCollations - true
+Constructwhere04  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - false
+INSERT 02 - Thread - PartitionByID_2_AllCollations - true
+INSERT 04 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq6sparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq12b4sparql700 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq12a1sparql247 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq42sparql1640 - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE DATA 1 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq65sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+STRDT - Thread - PartitionByIDTwiceAllCollations - true
+PapersparqldlQ5 - Thread - PartitionByID_2_AllCollations - true
+MOVE 2 - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmexplorequery61853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
+Syntaxupdate54ru - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq92sparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq5bsparql700 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmbiquery41853sparql1853 - None - Simple - false
+Bind05  BIND - Thread - PartitionByID_2_AllCollations - true
+Pp35 Named Graph 2 - Thread - PartitionByID_O_AllCollations - true
+Bind01  BIND fixed data for OWL DL - Thread - PartitionByID_1_AllCollations - true
+Resourcesbsbmbiquery62553sparql2553 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq9sparql247 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq8sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Bind04  BIND - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmexplorequery91853sparql1853 - None - Simple - false
+Resourcessp2bq6sparql973 - Thread - PartitionByID_2_AllCollations - true
+Resourcesbsbmbiquery62210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq42sparql700 - Thread - PartitionByID_2_AllCollations - false
+Simple DELETE WHERE 2 - Thread - PartitionByID_2_AllCollations - true
+Sparqldl02rq simple combined query - Thread - PartitionByID_2_AllCollations - false
+DAY - Thread - PartitionByID_2_AllCollations - false
+Syntaxupdate36ru - None - Simple - true
+Bind07  BIND - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByID_1_AllCollations - false
+DELETE INSERT 3b - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq12b3sparql21 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq8sparql973 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq5asparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq66sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmbiquery52210sparql2210 - Thread - PartitionByID_1_AllCollations - false
+PapersparqldlQ3 - Thread - Simple - false
+REPLACE with overlapping pattern - Thread - PartitionByID_O_AllCollations - true
+Bind02  BIND - Thread - PartitionByIDTwiceAllCollations - true
+Pp02 Star path - Thread - PartitionByIDTwiceAllCollations - false
+Syntaxselectexpr04rq - Thread - PartitionByIDTwiceAllCollations - true
+SyntaxpropertyPaths01rq - None - Simple - false
+SUBSTR 2argument - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+Resourcesbsbmexplorequery72210sparql2210 - None - Simple - true
+Resourcessp2bq62sparql1294 - Thread - PartitionByIDTwiceAllCollations - false
+Sq04  Subquery within graph pattern default graph does not apply - Thread - PartitionByID_1_AllCollations - true
+Group1 - Thread - PartitionByID_O_AllCollations - false
+Calculate proper subset - Thread - PartitionByID_2_AllCollations - true
+DELETE INSERT 9 - Thread - PartitionByIDTwiceAllCollations - false
+INSERT USING 01 - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq72sparql1294 - Thread - PartitionByID_1_AllCollations - true
+Simple 8 - Thread - PartitionByID_1_AllCollations - true
+Bnodes are not existentials with answer - Thread - PartitionByIDTwiceAllCollations - true
+Graphspecific DELETE DATA 2 - None - Simple - true
+Simple insert data named 3 - Thread - PartitionByID_S_AllCollations - true
+Pp14 Star path over foafknows - None - Simple - false
+Resourcessp2bq62sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesmyqueriesubungent17sparql709 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq111sparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq67sparql1294 - None - Simple - false
+DELETE INSERT 7b - None - Simple - false
+CLEAR ALL - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq62sparql1640 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq42sparql247 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq111sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq6sparql247 - Thread - PartitionByID_1_AllCollations - true
+MOVE 7 - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq111sparql700 - Thread - PartitionByID_S_AllCollations - false
+DROP GRAPH - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq12b2sparql973 - Thread - PartitionByID_O_AllCollations - true
+Reuse a project expression variable in select - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq9sparql973 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq66sparql1294 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq92sparql973 - Thread - PartitionByID_1_AllCollations - true
+CLEAR DEFAULT - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq72sparql21 - Thread - PartitionByID_O_AllCollations - false
+REPLACE with captured substring - Thread - PartitionByIDTwiceAllCollations - false
+Graphspecific DELETE 2 USING - Thread - PartitionByID_1_AllCollations - false
+Resourcesbsbmbiquery32553sparql2553 - Thread - PartitionByID_O_AllCollations - false
+STRAFTER datatyping - Thread - PartitionByID_O_AllCollations - false
+Protect from error in AVG - in simulator - Simple - Centralized - true - None - RPL_Fast
+Simple 6 - None - Simple - false
+Simple 1 - None - Simple - true
+Resourcessp2bq3csparql973 - Thread - PartitionByID_1_AllCollations - false
+COPY SILENT - Thread - PartitionByID_O_AllCollations - false
+Resourcessp2bq12b4sparql21 - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq3csparql21 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery51853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
+Sq01  Subquery within graph pattern - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmexplorequery102553sparql2553 - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq68sparql1640 - None - Simple - true
+Agg empty group - Thread - PartitionByID_1_AllCollations - true
+DROP NAMED - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq1sparql700 - Thread - PartitionByID_O_AllCollations - true
+Pp30 Operator precedence 1 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq7sparql973 - Thread - PartitionByIDTwiceAllCollations - true
+DROP DEFAULT - Thread - PartitionByID_O_AllCollations - false
+Expression has variable that may be unbound - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq12b4sparql247 - Thread - PartitionByID_1_AllCollations - true
+RDFS inference test rdfssubPropertyOf - Thread - PartitionByID_O_AllCollations - false
+Resourcesbsbmbiquery22553sparql2553 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq4sparql247 - Thread - PartitionByID_1_AllCollations - true
+Sparqldl11rq domain test - Thread - PartitionByID_O_AllCollations - true
+Cvs02  CSV Result Format - None - Simple - false
+Sq05  Subquery within graph pattern from named applies - None - Simple - true
+Resourcessp2bq63sparql21 - Thread - PartitionByID_2_AllCollations - false
+Resourcesmyqueriesubungent22sparql709 - None - Simple - false
+GROUPCONCAT with SEPARATOR - None - Simple - false
+Parent query with hasChild min 1 Female restriction - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery52553sparql2553 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq7sparql700 - Thread - PartitionByID_2_AllCollations - false
+Resourcesbsbmexplorequery22553sparql2553 - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq5asparql247 - Thread - PartitionByID_O_AllCollations - false
+Simple DELETE WHERE 3 - Thread - PartitionByID_2_AllCollations - false
+Sparqldl12rq range test - None - Simple - false
+Resourcessp2bq3asparql973 - Thread - PartitionByID_1_AllCollations - true
+PapersparqldlQ1 - Thread - PartitionByID_1_AllCollations - false
+Parent query with hasChild min 1 restriction - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq66sparql21 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcesbsbmbiquery71853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_2_AllCollations - true
+Resourcessp2bq68sparql973 - None - Simple - true
+Resourcesbsbmexplorequery62210sparql2210 - Thread - Simple - true
+Expression may return no value - in simulator - Simple - Centralized - true - None - RPL
+COPY 4 - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq72sparql247 - Thread - PartitionByIDTwiceAllCollations - false
+COPY 6 - Thread - PartitionByID_2_AllCollations - true
+Bind10  BIND scoping  Variable in filter not in scope - Thread - PartitionByIDTwiceAllCollations - false
+Resourcesbsbmbiquery42210sparql2210 - None - Simple - false
+Sq08  Subquery with aggregate - Thread - BenchmarkFig5 - false
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - false
+Resourcessp2bq71sparql1294 - Thread - PartitionByID_O_AllCollations - false
+Syntaxservice02rq - None - Simple - false
+Resourcesbsbmbiquery61853sparql1853 - Thread - PartitionByID_O_AllCollations - false
+CONCAT 2 - Thread - PartitionByID_1_AllCollations - false
+PapersparqldlQ2 - None - Simple - true
+DELETE INSERT 5 - None - Simple - true
+RDFS inference test rdfssubPropertyOf luposDuplicate1 - Thread - PartitionByID_1_AllCollations - true
+RDF inference test - None - Simple - false
+COUNT 1 - Thread - PartitionByID_S_AllCollations - true
+COALESCE - Thread - PartitionByID_O_AllCollations - false
+Syntaxservice01rq - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq12bsparql973 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq3asparql1294 - Thread - PartitionByIDTwiceAllCollations - true
+Synppincollection - Thread - BenchmarkFig5 - true
+STRLANGSTR - Thread - PartitionByID_2_AllCollations - false
+Parent query with hasChild exactly 1 Female restriction - Thread - PartitionByIDTwiceAllCollations - false

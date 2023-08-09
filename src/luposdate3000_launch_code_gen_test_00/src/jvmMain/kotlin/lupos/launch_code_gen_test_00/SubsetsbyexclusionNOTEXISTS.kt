@@ -75,28 +75,99 @@ public class SubsetsbyexclusionNOTEXISTS {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
+    public fun `Subsets by exclusion NOT EXISTS - Thread - PartitionByID_O_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SubsetsbyexclusionNOTEXISTS.kt:87"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
         )
     }
-    public fun `Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`() {
+    public fun `Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Subsets by exclusion NOT EXISTS - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -159,22 +230,34 @@ public class SubsetsbyexclusionNOTEXISTS {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "Subsets by exclusion NOT EXISTS - Thread - PartitionByID_2_AllCollations - false" to ::`Subsets by exclusion NOT EXISTS - Thread - PartitionByID_2_AllCollations - false`,
-            "Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
-            "Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath" to ::`Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath`,
+            "Subsets by exclusion NOT EXISTS - Thread - PartitionByID_O_AllCollations - false" to ::`Subsets by exclusion NOT EXISTS - Thread - PartitionByID_O_AllCollations - false`,
+            "Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
+            "Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
+            "Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast" to ::`Subsets by exclusion NOT EXISTS - in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast`,
+            "Subsets by exclusion NOT EXISTS - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`Subsets by exclusion NOT EXISTS - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
+            "Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath" to ::`Subsets by exclusion NOT EXISTS - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in SubsetsbyexclusionNOTEXISTS().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

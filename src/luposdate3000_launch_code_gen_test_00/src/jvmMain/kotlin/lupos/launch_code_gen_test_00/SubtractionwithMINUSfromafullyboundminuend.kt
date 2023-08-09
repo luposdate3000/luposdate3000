@@ -66,13 +66,13 @@ public class SubtractionwithMINUSfromafullyboundminuend {
         "order by ?a \n" +
         ""
 
-    public fun `Subtraction with MINUS from a fully bound minuend - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `Subtraction with MINUS from a fully bound minuend - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -81,13 +81,28 @@ public class SubtractionwithMINUSfromafullyboundminuend {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`() {
+    public fun `Subtraction with MINUS from a fully bound minuend - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SubtractionwithMINUSfromafullyboundminuend.kt:93"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
@@ -95,18 +110,158 @@ public class SubtractionwithMINUSfromafullyboundminuend {
             "RPL",
         )
     }
-    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
-                "queryDistributionMode" to "Routing",
+                "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -164,23 +319,41 @@ public class SubtractionwithMINUSfromafullyboundminuend {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Subtraction with MINUS from a fully bound minuend - Thread - PartitionByIDTwiceAllCollations - false" to ::`Subtraction with MINUS from a fully bound minuend - Thread - PartitionByIDTwiceAllCollations - false`,
-            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL`,
-            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
+            "Subtraction with MINUS from a fully bound minuend - Thread - Simple - true" to ::`Subtraction with MINUS from a fully bound minuend - Thread - Simple - true`,
+            "Subtraction with MINUS from a fully bound minuend - Thread - Simple - false" to ::`Subtraction with MINUS from a fully bound minuend - Thread - Simple - false`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath`,
+            "Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`Subtraction with MINUS from a fully bound minuend - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in SubtractionwithMINUSfromafullyboundminuend().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

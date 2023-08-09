@@ -72,12 +72,12 @@ public class SimpleDELETEWHERE4 {
         "} \n" +
         ""
 
-    public fun `Simple DELETE WHERE 4 - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `Simple DELETE WHERE 4 - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -87,14 +87,28 @@ public class SimpleDELETEWHERE4 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Simple DELETE WHERE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
+    public fun `Simple DELETE WHERE 4 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
                 "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Simple DELETE WHERE 4 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -163,22 +177,30 @@ public class SimpleDELETEWHERE4 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Simple DELETE WHERE 4 - Thread - PartitionByID_S_AllCollations - true" to ::`Simple DELETE WHERE 4 - Thread - PartitionByID_S_AllCollations - true`,
-            "Simple DELETE WHERE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`Simple DELETE WHERE 4 - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
+            "Simple DELETE WHERE 4 - Thread - PartitionByID_2_AllCollations - true" to ::`Simple DELETE WHERE 4 - Thread - PartitionByID_2_AllCollations - true`,
+            "Simple DELETE WHERE 4 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL" to ::`Simple DELETE WHERE 4 - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL`,
+            "Simple DELETE WHERE 4 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath" to ::`Simple DELETE WHERE 4 - in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in SimpleDELETEWHERE4().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

@@ -91,6 +91,9 @@ public class TripleStoreIndexDescriptionPartitionedByID(
             data = v
             flag = true
         }
+if(!flag){
+TODO("there is nothing to partition on")
+}
         return Pair(hostnames[data], keys[data])
     }
 

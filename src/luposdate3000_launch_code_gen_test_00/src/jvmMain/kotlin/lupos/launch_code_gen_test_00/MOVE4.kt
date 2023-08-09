@@ -75,7 +75,7 @@ public class MOVE4 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "MOVE :g1 TO :g2"
 
-    public fun `MOVE 4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `MOVE 4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -86,7 +86,91 @@ public class MOVE4 {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MOVE 4 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MOVE 4 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL_Fast",
+        )
+    }
+    public fun `MOVE 4 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MOVE 4 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -135,21 +219,34 @@ public class MOVE4 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MOVE 4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast" to ::`MOVE 4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "MOVE 4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`MOVE 4 - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "MOVE 4 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`MOVE 4 - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "MOVE 4 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast" to ::`MOVE 4 - in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast`,
+            "MOVE 4 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath" to ::`MOVE 4 - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "MOVE 4 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath" to ::`MOVE 4 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath`,
+            "MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
+            "MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`MOVE 4 - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in MOVE4().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

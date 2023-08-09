@@ -92,12 +92,12 @@ public class Calculatepropersubset {
         "} \n" +
         ""
 
-    public fun `Calculate proper subset - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `Calculate proper subset - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -107,7 +107,22 @@ public class Calculatepropersubset {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`() {
+    public fun `Calculate proper subset - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/Calculatepropersubset.kt:119"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -118,21 +133,77 @@ public class Calculatepropersubset {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
         )
     }
-    public fun `Calculate proper subset - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`() {
+    public fun `Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Calculate proper subset - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `Calculate proper subset - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `Calculate proper subset - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
                 "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "AllShortestPath",
+            "RPL_Fast",
+        )
+    }
+    public fun `Calculate proper subset - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun `Calculate proper subset - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`() {
@@ -204,24 +275,36 @@ public class Calculatepropersubset {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Calculate proper subset - Thread - PartitionByID_1_AllCollations - false" to ::`Calculate proper subset - Thread - PartitionByID_1_AllCollations - false`,
-            "Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath" to ::`Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath`,
-            "Calculate proper subset - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath" to ::`Calculate proper subset - in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath`,
+            "Calculate proper subset - None - Simple - false" to ::`Calculate proper subset - None - Simple - false`,
+            "Calculate proper subset - Thread - PartitionByID_S_AllCollations - true" to ::`Calculate proper subset - Thread - PartitionByID_S_AllCollations - true`,
+            "Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast" to ::`Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast`,
+            "Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL" to ::`Calculate proper subset - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL`,
+            "Calculate proper subset - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath" to ::`Calculate proper subset - in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "Calculate proper subset - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`Calculate proper subset - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
+            "Calculate proper subset - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast" to ::`Calculate proper subset - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast`,
+            "Calculate proper subset - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast" to ::`Calculate proper subset - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast`,
             "Calculate proper subset - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL" to ::`Calculate proper subset - in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in Calculatepropersubset().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

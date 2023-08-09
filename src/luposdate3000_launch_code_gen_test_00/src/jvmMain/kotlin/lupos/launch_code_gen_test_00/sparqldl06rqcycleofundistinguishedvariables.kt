@@ -67,13 +67,13 @@ public class sparqldl06rqcycleofundistinguishedvariables {
         "} \n" +
         ""
 
-    public fun `sparqldl06rq cycle of undistinguished variables - None - Simple - false`() {
+    public fun `sparqldl06rq cycle of undistinguished variables - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -82,12 +82,12 @@ public class sparqldl06rqcycleofundistinguishedvariables {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `sparqldl06rq cycle of undistinguished variables - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -96,6 +96,65 @@ public class sparqldl06rqcycleofundistinguishedvariables {
       }finally{
         LuposdateEndpoint.close(instance)
       }
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sparqldl06rqcycleofundistinguishedvariables.kt:109"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sparqldl06rqcycleofundistinguishedvariables.kt:124"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sparqldl06rqcycleofundistinguishedvariables.kt:139"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - Simple - Centralized - true - None - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test2.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "Simple",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "None",
+            ),
+            "AllShortestPath",
+        )
     }
     public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
@@ -109,6 +168,34 @@ public class sparqldl06rqcycleofundistinguishedvariables {
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
             "AllShortestPath",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByIDTwiceAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
         )
     }
     public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`() {
@@ -125,14 +212,28 @@ public class sparqldl06rqcycleofundistinguishedvariables {
             "AllShortestPath",
         )
     }
-    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`() {
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
                 "predefinedPartitionScheme" to "PartitionByID_1_AllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
@@ -153,7 +254,35 @@ public class sparqldl06rqcycleofundistinguishedvariables {
             "RPL",
         )
     }
-    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`() {
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_2_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
@@ -164,7 +293,119 @@ public class sparqldl06rqcycleofundistinguishedvariables {
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
+            "RPL",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_O_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
             "RPL_Fast",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Centralized",
+                "useDictionaryInlineEncoding" to false,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL_Fast",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "RPL",
+        )
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`() {
+        simulatorHelper(
+            "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
+            mutableMapOf(
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
+                "mergeLocalOperatorgraphs" to true,
+                "queryDistributionMode" to "Routing",
+                "useDictionaryInlineEncoding" to true,
+                "REPLACE_STORE_WITH_VALUES" to false,
+                "LUPOS_PARTITION_MODE" to "Process",
+            ),
+            "AllShortestPath",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -222,27 +463,51 @@ public class sparqldl06rqcycleofundistinguishedvariables {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sparqldl06rq cycle of undistinguished variables - None - Simple - false" to ::`sparqldl06rq cycle of undistinguished variables - None - Simple - false`,
-            "sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_1_AllCollations - true" to ::`sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_1_AllCollations - true`,
+            "sparqldl06rq cycle of undistinguished variables - Thread - BenchmarkFig5 - true" to ::`sparqldl06rq cycle of undistinguished variables - Thread - BenchmarkFig5 - true`,
+            "sparqldl06rq cycle of undistinguished variables - Thread - PartitionByIDTwiceAllCollations - true" to ::`sparqldl06rq cycle of undistinguished variables - Thread - PartitionByIDTwiceAllCollations - true`,
+            "sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_O_AllCollations - true" to ::`sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_O_AllCollations - true`,
+            "sparqldl06rq cycle of undistinguished variables - Thread - PartitionByKeyAllCollations - true" to ::`sparqldl06rq cycle of undistinguished variables - Thread - PartitionByKeyAllCollations - true`,
+            "sparqldl06rq cycle of undistinguished variables - Thread - Simple - false" to ::`sparqldl06rq cycle of undistinguished variables - Thread - Simple - false`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - Simple - Centralized - true - None - AllShortestPath" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - Simple - Centralized - true - None - AllShortestPath`,
             "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast`,
             "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath`,
-            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast`,
             "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL`,
-            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL`,
+            "sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath" to ::`sparqldl06rq cycle of undistinguished variables - in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in sparqldl06rqcycleofundistinguishedvariables().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

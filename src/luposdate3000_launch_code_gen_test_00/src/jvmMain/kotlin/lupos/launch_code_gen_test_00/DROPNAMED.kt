@@ -76,13 +76,13 @@ public class DROPNAMED {
         "DROP NAMED \n" +
         ""
 
-    public fun `DROP NAMED - Thread - BenchmarkFig5 - true`() {
+    public fun `DROP NAMED - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -91,18 +91,48 @@ public class DROPNAMED {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DROP NAMED - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`() {
+    public fun `DROP NAMED - Thread - PartitionByID_O_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DROPNAMED.kt:103"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `DROP NAMED - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DROPNAMED.kt:118"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `DROP NAMED - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "BenchmarkFig5",
+                "predefinedPartitionScheme" to "PartitionByKeyAllCollations",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Centralized",
-                "useDictionaryInlineEncoding" to false,
+                "useDictionaryInlineEncoding" to true,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -213,22 +243,31 @@ public class DROPNAMED {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DROP NAMED - Thread - BenchmarkFig5 - true" to ::`DROP NAMED - Thread - BenchmarkFig5 - true`,
-            "DROP NAMED - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast" to ::`DROP NAMED - in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast`,
+            "DROP NAMED - Thread - BenchmarkFig5 - false" to ::`DROP NAMED - Thread - BenchmarkFig5 - false`,
+            "DROP NAMED - Thread - PartitionByID_O_AllCollations - false" to ::`DROP NAMED - Thread - PartitionByID_O_AllCollations - false`,
+            "DROP NAMED - Thread - PartitionByID_S_AllCollations - true" to ::`DROP NAMED - Thread - PartitionByID_S_AllCollations - true`,
+            "DROP NAMED - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL" to ::`DROP NAMED - in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in DROPNAMED().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

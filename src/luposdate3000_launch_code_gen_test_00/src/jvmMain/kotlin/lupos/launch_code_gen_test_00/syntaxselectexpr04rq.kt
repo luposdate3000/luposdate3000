@@ -44,12 +44,12 @@ public class syntaxselectexpr04rq {
         "SELECT (:function(?x +?y) AS ?F) ?z {} \n" +
         ""
 
-    public fun `syntaxselectexpr04rq - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `syntaxselectexpr04rq - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -65,21 +65,28 @@ public class syntaxselectexpr04rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxselectexpr04rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxselectexpr04rq - Thread - PartitionByID_O_AllCollations - false`,
+            "syntaxselectexpr04rq - Thread - Simple - false" to ::`syntaxselectexpr04rq - Thread - Simple - false`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in syntaxselectexpr04rq().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }

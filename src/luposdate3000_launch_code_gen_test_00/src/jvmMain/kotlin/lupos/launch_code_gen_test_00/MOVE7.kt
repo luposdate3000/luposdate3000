@@ -75,18 +75,18 @@ public class MOVE7 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "MOVE :g1 TO :g1"
 
-    public fun `MOVE 7 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`() {
+    public fun `MOVE 7 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`() {
         simulatorHelper(
             "src/luposdate3000_simulator_db/src/jvmTest/resources/autoIntegrationTest/test1.json",
             mutableMapOf(
-                "predefinedPartitionScheme" to "PartitionByID_S_AllCollations",
+                "predefinedPartitionScheme" to "BenchmarkFig5",
                 "mergeLocalOperatorgraphs" to true,
                 "queryDistributionMode" to "Routing",
-                "useDictionaryInlineEncoding" to true,
+                "useDictionaryInlineEncoding" to false,
                 "REPLACE_STORE_WITH_VALUES" to false,
                 "LUPOS_PARTITION_MODE" to "Process",
             ),
-            "RPL_Fast",
+            "RPL",
         )
     }
     public fun simulatorHelper(fileName:String,database_cfg:MutableMap<String,Any>,routingProtocol:String) {
@@ -135,21 +135,28 @@ public class MOVE7 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MOVE 7 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast" to ::`MOVE 7 - in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast`,
+            "MOVE 7 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL" to ::`MOVE 7 - in simulator - BenchmarkFig5 - Routing - false - Process - RPL`,
         )
     }
 }
 public fun main(){
+    var idx=0
+    var stop=false
     for((name,func) in MOVE7().getTests()){
+        if (stop){
+            return
+        }
         File("lupos.launch_code_gen_test_00.${name.replaceFirstChar { it.uppercase() }}.stat").withOutputStream{ out->
-            out.println("started")
+            out.println("started"+idx)
             try{
                 func()
                 out.println("passed")
             }catch(e:Error){
                 out.println("failed")
                 e.printStackTrace()
+                stop=true
             }
         }
+        idx+=1
     }
 }
