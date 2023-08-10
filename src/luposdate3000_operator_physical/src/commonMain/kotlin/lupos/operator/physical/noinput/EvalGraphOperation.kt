@@ -102,7 +102,7 @@ public object EvalGraphOperation {
                     EGraphOperationTypeExt.CREATE -> {
                         when (graph1type) {
                             EGraphRefTypeExt.IriGraphRef -> {
-                                manager.createGraph(query, graph1iri!!)
+                                manager.createGraph(query, graph1iri!!,silent)
                             }
                             else -> {
                                 TODO("EvalGraphOperation b $graph1type")

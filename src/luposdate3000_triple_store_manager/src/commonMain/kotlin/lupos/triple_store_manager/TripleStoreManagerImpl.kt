@@ -478,8 +478,8 @@ public class TripleStoreManagerImpl public constructor(
         return Pair(instance.LUPOS_PROCESS_URLS_ALL[hostidx], "$key")
     }
 
-    override fun createGraph(query: IQuery, graphName: LuposGraphName) {
-        createGraph(query, graphName) { it.apply(defaultTripleStoreLayout) }
+    override fun createGraph(query: IQuery, graphName: LuposGraphName,silence:Boolean) {
+        createGraph(query, graphName,silence) { it.apply(defaultTripleStoreLayout) }
     }
 
     override fun remoteHistogram(tag: String, filter: DictionaryValueTypeArray): Pair<Int, Int> {
@@ -522,7 +522,7 @@ public class TripleStoreManagerImpl public constructor(
 
     override fun remoteCreateGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean, meta: String?) {
         if (origin) {
-            createGraph(query, graphName)
+            createGraph(query, graphName,false)
         } else {
             val graph = TripleStoreDescription(meta!!, instance)
             metadataAdd(graphName, graph)
@@ -544,8 +544,12 @@ public class TripleStoreManagerImpl public constructor(
         }
     }
 
-    public fun createGraph(query: IQuery, graphName: LuposGraphName, action: (ITripleStoreDescriptionFactory) -> Unit) {
+    public fun createGraph(query: IQuery, graphName: LuposGraphName,silence:Boolean, action: (ITripleStoreDescriptionFactory) -> Unit) {
+println("TripleStoreManagerImpl.kt .. createGraph "+graphName+" "+metadata_.keys)
         if (metadata_[graphName] != null) {
+if(silence){
+return
+}
             throw GraphAlreadyExistsException()
         }
         val factory = TripleStoreDescriptionFactory(instance)
@@ -576,7 +580,7 @@ public class TripleStoreManagerImpl public constructor(
 
     override fun resetGraph(query: IQuery, graphName: LuposGraphName) {
         dropGraph(query, graphName)
-        createGraph(query, graphName) { it.apply(defaultTripleStoreLayout) }
+        createGraph(query, graphName,false) { it.apply(defaultTripleStoreLayout) }
     }
 
     override fun clearGraph(query: IQuery, graphName: LuposGraphName) {
@@ -585,7 +589,7 @@ public class TripleStoreManagerImpl public constructor(
 
     override fun remoteClearGraph(query: IQuery, graphName: LuposGraphName, origin: Boolean) {
         if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
-            createGraph(query, graphName)
+            createGraph(query, graphName,false)
         } else {
             val graph = metadata_[graphName]
             if (graph != null) {
@@ -701,8 +705,9 @@ public class TripleStoreManagerImpl public constructor(
     override fun getGraph(graphName: LuposGraphName): TripleStoreDescription {
         if (graphName == DEFAULT_GRAPH_NAME && metadata_[graphName] == null) {
             val query = Query(instance)
-            createGraph(query, graphName)
+            createGraph(query, graphName,false)
         }
+println("TripleStoreManagerImpl.kt .. "+graphName+" "+metadata_.keys)
         val res = metadata_[graphName]
         return res!!
     }

@@ -34,7 +34,8 @@ public abstract class TripleStoreManager {
     public abstract fun updateDefaultTripleStoreLayout(action: (ITripleStoreDescriptionFactory) -> Unit)
     public abstract fun commit(query: IQuery)
     public abstract fun remoteCommit(query: IQuery, origin: Boolean)
-    public abstract fun createGraph(query: IQuery, graphName: LuposGraphName): Unit
+
+    public abstract fun createGraph(query: IQuery, graphName: LuposGraphName,silence:Boolean): Unit
     public abstract fun resetGraph(query: IQuery, graphName: LuposGraphName): Unit
     public abstract fun clearGraph(query: IQuery, graphName: LuposGraphName): Unit
     public abstract fun dropGraph(query: IQuery, graphName: LuposGraphName): Unit

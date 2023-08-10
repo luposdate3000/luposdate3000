@@ -258,7 +258,7 @@ public object RestEndpoint {
         }
         paths["/shacl/ontology/import"] = PathMappingHelper(true, mapOf(Pair("data", "") to ::inputElement)) { params, _, _ ->
             if (instance.LUPOS_PROCESS_ID == 0) {
-                instance.tripleStoreManager!!.createGraph(Query(instance), "")
+                instance.tripleStoreManager!!.createGraph(Query(instance), "",false)
                 LuposdateEndpoint.loadShaclOntology(instance, params["data"]!!)
             } else {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/shacl/ontology/import", params, -1)

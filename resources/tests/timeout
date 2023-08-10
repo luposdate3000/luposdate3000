@@ -63,3 +63,14 @@ Resourcessp2bq12bsparql973 - None - Simple - true
 Resourcesbsbmexplorequery111853sparql1853 - None - Simple - true
 Resourcessp2bq12b4sparql32978 - None - Simple - false
 INSERT same bnode twice - None - Simple - false
+COPY 2 - None - Simple - false
+Sparqldl13rq sameAs - None - Simple - true
+Simple insert data named 1 - None - Simple - true
+INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - None - Simple - true
+Resourcesmyqueriesubungent19sparql709 - None - Simple - false
+Sparqldl13rq sameAs - None - Simple - true
+Subtraction with MINUS from a fully bound minuend - None - Simple - false
+MOVE 6 - None - Simple - true
+Resourcesmyqueriesubungent19sparql709 - None - Simple - false
+Resourcesbsbmexplorequery112210sparql2210 - None - Simple - true
+COPY 3 - None - Simple - true

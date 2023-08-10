@@ -143,3 +143,49 @@ Sparqldl11rq domain test - None - Simple - false
 Resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
 Graphspecific DELETE DATA 1 - None - Simple - false
 Sparqldl12rq range test - None - Simple - true
+Group7 - None - Simple - true
+Filtered subclass query with hasChild some Thing restriction - None - Simple - true
+Parent query with hasChild some Thing restriction - None - Simple - true
+COUNT 10 - None - Simple - false
+Calculate proper subset - None - Simple - false
+Simple 1 - None - Simple - false
+Resourcessp2bq67sparql700 - None - Simple - false
+Calculate which sets are subsets of others include A subsetOf A - None - Simple - false
+Simple DELETE 2 - None - Simple - false
+DELETE INSERT 7 - None - Simple - false
+COUNT 9 - None - Simple - false
+Resourcesmyqueriesubungent03sparql764 - None - Simple - true
+Parent query with hasChild max 1 Female restriction - None - Simple - true
+Parent query with hasChild min 1 restriction - None - Simple - true
+Graphspecific DELETE DATA 2 - None - Simple - true
+Resourcesbsbmexplorequery22210sparql2210 - None - Simple - true
+Cvs02  CSV Result Format - None - Simple - false
+Expression has variable that may be unbound - None - Simple - false
+Resourcessp2bq65sparql700 - None - Simple - true
+RDF inference test - None - Simple - false
+Graphspecific DELETE DATA 1 - None - Simple - true
+Resourcessp2bq68sparql700 - None - Simple - false
+Resourcessp2bq65sparql973 - None - Simple - false
+RDFS inference test rdfssubPropertyOf - None - Simple - true
+Resourcesbsbmexplorequery71853sparql1853 - None - Simple - true
+Sq14  limit by resource - None - Simple - true
+PapersparqldlQ3 - None - Simple - false
+RDFS inference test range - None - Simple - false
+Resourcesbsbmexplorequery82210sparql2210 - None - Simple - false
+DELETE INSERT 4b - None - Simple - false
+Calculate which sets are subsets of others include A subsetOf A - None - Simple - true
+Simple DELETE 1 WITH - None - Simple - false
+Subclass query with hasChild some Thing restriction - None - Simple - true
+Resourcesbsbmexplorequery22210sparql2210 - None - Simple - false
+Simple 2 - None - Simple - false
+Resourcessp2bq67sparql1640 - None - Simple - false
+Simple 3 - None - Simple - false
+RDFS inference test transitivity of subClassOf - None - Simple - true
+Sparqldl11rq domain test - None - Simple - true
+PapersparqldlQ1 - None - Simple - false
+DELETE INSERT 1b - None - Simple - true
+DELETE INSERT 2 - None - Simple - false
+Resourcesbsbmbiquery82553sparql2553 - None - Simple - false
+Simple DELETE 2 USING - None - Simple - false
+STRBEFORE datatyping - None - Simple - false
+DELETE INSERT 5 - None - Simple - true

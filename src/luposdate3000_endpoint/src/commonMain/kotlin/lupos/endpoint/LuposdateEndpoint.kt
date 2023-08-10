@@ -228,7 +228,7 @@ public object LuposdateEndpoint {
                 instance.tripleStoreManager!!.dropGraph(query, graphName)
             }
             try {
-                instance.tripleStoreManager!!.createGraph(query, graphName)
+                instance.tripleStoreManager!!.createGraph(query, graphName,false)
             } catch (e: Throwable) {
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:232"/*SOURCE_FILE_END*/)
             }
