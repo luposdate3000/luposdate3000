@@ -22,7 +22,9 @@ filetype,sq09  Nested Subqueries
 filetype,sq10  Subquery with exists
 functioncall,syntaxselectexpr04rq
 manual no triplepattern with bind,NOW
+manual owl,simple 2
 manual owl,simple 4
+manual owl,simple 6
 manual simulator,in simulator
 manual subClassOf,sparqldl02rq simple combined query
 manual thread,- Thread -
