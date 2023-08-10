@@ -222,8 +222,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_165_content, tmp_165_lang)
                                     query.getDictionary().createValue(tmp_4)
                                 } else {
-                                    val tmp_165_content: String = ""
-                                    DictionaryHelper.langToByteArray(tmp_4, tmp_165_content, tmp_165_lang)
+                                    DictionaryHelper.stringToByteArray(tmp_4, "")
                                     query.getDictionary().createValue(tmp_4)
                                 }
                             }
@@ -239,8 +238,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_169_content, tmp_169_lang)
                                     query.getDictionary().createValue(tmp_4)
                                 } else {
-                                    val tmp_169_content: String = ""
-                                    DictionaryHelper.langToByteArray(tmp_4, tmp_169_content, tmp_169_lang)
+ DictionaryHelper.stringToByteArray(tmp_4, "")
                                     query.getDictionary().createValue(tmp_4)
                                 }
                             }
@@ -256,8 +254,7 @@ public class AOPBuildInCallSTRBEFORE public constructor(query: IQuery, child0: A
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_173_content, tmp_173_lang)
                                     query.getDictionary().createValue(tmp_4)
                                 } else {
-                                    val tmp_173_content: String = ""
-                                    DictionaryHelper.langToByteArray(tmp_4, tmp_173_content, tmp_173_lang)
+ DictionaryHelper.stringToByteArray(tmp_4, "")
                                     query.getDictionary().createValue(tmp_4)
                                 }
                             }

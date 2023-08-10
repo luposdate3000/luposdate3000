@@ -34,7 +34,7 @@ public class AOPBuildInCallBNODE0 public constructor(query: IQuery) : AOPBase(qu
     override fun evaluate(row: IteratorBundle): () -> ByteArrayWrapper {
         val buffer = ByteArrayWrapper()
         return {
-            DictionaryHelper.iriToByteArray(buffer, "" + uuid + localbnode++)
+            DictionaryHelper.bnodeToByteArray(buffer, "" + uuid + localbnode++)
             buffer
         }
     }

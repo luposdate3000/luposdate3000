@@ -419,7 +419,7 @@ without minify mode only the passing tests will be added
             fileBufferNormalHelper.println("        if (listOf(\".n3\", \".ttl\", \".nt\").contains(inputType[$i])) {")
             fileBufferNormalHelper.println("            LuposdateEndpoint.importTripleFileC(instance, inputDataFile[$i],inputType[$i], inputGraph[$i])")
             fileBufferNormalHelper.println("        } else {")
-            fileBufferNormalHelper.println("            TODO()")
+            fileBufferNormalHelper.println("            TODO(\"unknown filetype \"+inputType[$i])")
             fileBufferNormalHelper.println("        }")
         }
         for (i in 0 until inputGraphs.size) {

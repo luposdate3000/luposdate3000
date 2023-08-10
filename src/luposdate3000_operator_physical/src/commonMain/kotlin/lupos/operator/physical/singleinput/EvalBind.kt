@@ -34,12 +34,9 @@ public object EvalBind {
         value: AOPBase,
     ): IteratorBundle {
         val variablesInCount = child.names.size
-        val variablesLocal = (child.columns.keys + name).toList()
-        val outMap = mutableMapOf<String, ColumnIterator>()
         val localMap = mutableMapOf<String, ColumnIterator>()
-        val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
+        val outMap = mutableMapOf<String, ColumnIterator>()
         var expression: () -> DictionaryValueType = { DictionaryValueHelper.errorValue }
-        val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
         fun expressionWrapper(): DictionaryValueType {
             var res = expression()
             if (res == DictionaryValueHelper.errorValue) {
@@ -47,9 +44,33 @@ public object EvalBind {
             }
             return res
         }
-        if (variablesLocal.size == 1 && variablesInCount == 0) {
-            outMap[name] = ColumnIteratorRepeatValue(child.count(), expressionWrapper())
+        println("EvalBind .. " + variablesInCount)
+        if (variablesInCount == 0) {
+
+            outMap[name] = object : ColumnIteratorQueue() {
+var ctr=child.count()
+                    override /*suspend*/ fun close() {
+                        ColumnIteratorQueueExt._close(this)
+                    }
+
+                    override /*suspend*/ fun next(): DictionaryValueType {
+                        return ColumnIteratorQueueExt.nextHelper(
+                            this,
+                            {
+                                if (ctr>0) {
+ctr=ctr-1
+queue.add(expressionWrapper())
+                                }
+                            },
+                            { ColumnIteratorQueueExt._close(this) },
+                        )
+                    }
+                }
         } else {
+            println("EvalBind .. with input data")
+            val variablesLocal = (child.columns.keys + name).toList()
+            val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
+            val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
             var boundIndex = -1
             for (variableIndex in variablesLocal.indices) {
                 if (variablesLocal[variableIndex] == name) {
@@ -71,6 +92,7 @@ public object EvalBind {
                                 for (variableIndex2 in variablesLocal.indices) {
                                     if (boundIndex != variableIndex2) {
                                         val value2 = columnsIn[variableIndex2]!!.next()
+                                        println("EvalBind .. next[$variableIndex2] = $value2")
                                         if (value2 == DictionaryValueHelper.nullValue) {
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
@@ -90,26 +112,28 @@ public object EvalBind {
                                 if (!done) {
                                     columnsLocal[boundIndex].tmp = expressionWrapper()
                                     for (variableIndex2 in columnsOut.indices) {
+                                        println("EvalBind .. assign[$variableIndex2] = ${columnsOut[variableIndex2].tmp}")
                                         columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                     }
                                 }
                             },
-                            { ColumnIteratorQueueExt._close(this) }
+                            { ColumnIteratorQueueExt._close(this) },
                         )
                     }
                 }
             }
-        }
-        for (variableIndex in variablesLocal.indices) {
-            localMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
-            if (variablesOut.contains(variablesLocal[variableIndex])) {
-                outMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
+            for (variableIndex in variablesLocal.indices) {
+                localMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
+                if (variablesOut.contains(variablesLocal[variableIndex])) {
+                    outMap[variablesLocal[variableIndex]] = columnsLocal[variableIndex]
+                }
+            }
+            for (it in variablesOut.indices) {
+                columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
             }
         }
-        for (it in variablesOut.indices) {
-            columnsOut[it] = localMap[variablesOut[it]] as ColumnIteratorQueue
-        }
         expression = value.evaluateID(IteratorBundle(localMap))
+        println("EvalBind .. " + outMap.keys)
         return IteratorBundle(outMap)
     }
 }

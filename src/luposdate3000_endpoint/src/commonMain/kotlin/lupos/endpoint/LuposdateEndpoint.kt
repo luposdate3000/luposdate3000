@@ -516,6 +516,7 @@ public object LuposdateEndpoint {
     public fun close(instance: Luposdate3000Instance) {
         try {
             if (instance.initialized) {
+println("LuposdateEndpoint.kt -> closing instance ... ")
                 instance.initialized = false
                 instance.nodeGlobalDictionary!!.close()
                 instance.nodeGlobalDictionary = null

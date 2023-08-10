@@ -345,13 +345,16 @@ println("byteArrayToDateTime_TimeZone " + headerDecodeFlag(buffer))
             off += 4
             off += 4
             off += 4
-            val timezoneHours = ByteArrayWrapperExt.readInt4(buffer, off)
+            var timezoneHours = ByteArrayWrapperExt.readInt4(buffer, off)
             off += 4
-            val timezoneMinutes = ByteArrayWrapperExt.readInt4(buffer, off)
+            var timezoneMinutes = ByteArrayWrapperExt.readInt4(buffer, off)
 println("byteArrayToDateTime_TimeZone " + timezoneHours+" "+timezoneMinutes)
             if (timezoneHours == 0 && timezoneMinutes == 0) {
                 return "PT0S" to "http://www.w3.org/2001/XMLSchema#dayTimeDuration"
             }
+if(timezoneHours<0){
+timezoneHours=-timezoneHours
+}
             if (timezoneHours >= 0 && timezoneMinutes == 0) {
                 return "-PT${timezoneHours}H" to "http://www.w3.org/2001/XMLSchema#dayTimeDuration"
             }
@@ -824,6 +827,12 @@ println("byteArrayToDateTime_TimeZone " + timezoneHours+" "+timezoneMinutes)
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
+} else if (typeC == ETripleComponentTypeExt.STRING) {
+if(typeD==ETripleComponentTypeExt.STRING_LANG){
+byteArrayToString(c).compareTo(byteArrayToLang_Content(d))
+}else {
+                    TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
+                } 
             } else {
                 TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
             }

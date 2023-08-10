@@ -79,6 +79,8 @@ def loop(filter):
             for i in ignoreList:
              if i in l:
               found=True
+              print("removing",l.strip(),"due to",i.strip())
+              break
             if found:
              blacklist.append(l.strip())
             else:
