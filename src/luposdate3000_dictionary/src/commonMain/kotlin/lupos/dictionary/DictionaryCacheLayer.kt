@@ -46,57 +46,46 @@ public class DictionaryCacheLayer(
     private val lock = MyThreadReadWriteLock()
 
     override fun close() {
-        
         dictionary.close()
     }
 
     override fun createNewBNode(): DictionaryValueType {
-        
         return dictionary.createNewBNode()
     }
 
     override fun createNewBNode(s: String): DictionaryValueType {
-        
         return dictionary.createNewBNode(s)
     }
 
     override fun createNewUUID(): Int {
-        
         return dictionary.createNewUUID()
     }
 
     override fun delete() {
-        
         dictionary.delete()
     }
 
     override fun forEachValue(buffer: ByteArrayWrapper, action: (DictionaryValueType) -> Unit) {
-        
         dictionary.forEachValue(buffer, action)
     }
 
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        
         return dictionary.importFromDictionaryFile(filename)
     }
 
     override fun isBnode(value: DictionaryValueType): Boolean {
-        
         return dictionary.isBnode(value)
     }
 
     override fun isInmemoryOnly(): Boolean {
-        
         return dictionary.isInmemoryOnly()
     }
 
     override fun isLocalValue(value: DictionaryValueType): Boolean {
-        
         return dictionary.isLocalValue(value)
     }
 
     override fun valueToGlobal(value: DictionaryValueType): DictionaryValueType {
-        
         return dictionary.valueToGlobal(value)
     }
 
@@ -109,7 +98,6 @@ public class DictionaryCacheLayer(
     }
 
     override fun createValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {
@@ -169,7 +157,6 @@ public class DictionaryCacheLayer(
     }
 
     override fun getValue(buffer: ByteArrayWrapper, value: DictionaryValueType) {
-        
         when (value) {
             DictionaryValueHelper.booleanTrueValue -> DictionaryHelper.booleanToByteArray(buffer, true)
             DictionaryValueHelper.booleanFalseValue -> DictionaryHelper.booleanToByteArray(buffer, false)
@@ -200,7 +187,6 @@ public class DictionaryCacheLayer(
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {
-        
         val type = DictionaryHelper.byteArrayToType(buffer)
         when (type) {
             ETripleComponentTypeExt.BOOLEAN -> {

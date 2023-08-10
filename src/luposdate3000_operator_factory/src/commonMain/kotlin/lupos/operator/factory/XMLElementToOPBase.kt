@@ -25,6 +25,7 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPBuildInCallCEIL
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONCAT
 import lupos.operator.arithmetik.generated.AOPBuildInCallCONTAINS
+import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
 import lupos.operator.arithmetik.generated.AOPBuildInCallDAY
 import lupos.operator.arithmetik.generated.AOPBuildInCallFLOOR
 import lupos.operator.arithmetik.generated.AOPBuildInCallHOURS
@@ -39,8 +40,6 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallMD5
 import lupos.operator.arithmetik.generated.AOPBuildInCallMINUTES
 import lupos.operator.arithmetik.generated.AOPBuildInCallMONTH
 import lupos.operator.arithmetik.generated.AOPBuildInCallROUND
-import lupos.operator.arithmetik.generated.AOPBuildInCallTZ
-import lupos.operator.arithmetik.generated.AOPBuildInCallDATATYPE
 import lupos.operator.arithmetik.generated.AOPBuildInCallSECONDS
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA1
 import lupos.operator.arithmetik.generated.AOPBuildInCallSHA256
@@ -53,16 +52,17 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLANG
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRLEN
 import lupos.operator.arithmetik.generated.AOPBuildInCallSTRSTARTS
 import lupos.operator.arithmetik.generated.AOPBuildInCallTIMEZONE
+import lupos.operator.arithmetik.generated.AOPBuildInCallTZ
 import lupos.operator.arithmetik.generated.AOPBuildInCallUCASE
 import lupos.operator.arithmetik.generated.AOPBuildInCallYEAR
 import lupos.operator.arithmetik.generated.AOPDivision
-import lupos.operator.arithmetik.generated.AOPSubtraction
 import lupos.operator.arithmetik.generated.AOPFunctionCallDouble
 import lupos.operator.arithmetik.generated.AOPFunctionCallFloat
 import lupos.operator.arithmetik.generated.AOPFunctionCallString
 import lupos.operator.arithmetik.generated.AOPMultiplication
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.generated.AOPOr
+import lupos.operator.arithmetik.generated.AOPSubtraction
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.arithmetik.multiinput.AOPBuildInCallIF
 import lupos.operator.arithmetik.multiinput.AOPEQ

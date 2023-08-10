@@ -103,24 +103,20 @@ public object EIndexPatternHelper {
             EIndexPatternExt.S_OP -> intArrayOf(0, 2, 1)
             EIndexPatternExt.SO_P -> intArrayOf(0, 2, 1)
             EIndexPatternExt.SOP -> intArrayOf(0, 2, 1)
-            EIndexPatternExt.P_OS -> intArrayOf(2,0,1) // ATTENTION swapped with OSP ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
-            EIndexPatternExt.PO_S -> intArrayOf(2,0,1) // ATTENTION swapped with OSP ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
-            EIndexPatternExt.POS -> intArrayOf(2,0,1) // ATTENTION swapped with OSP ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
+            EIndexPatternExt.P_OS -> intArrayOf(2, 0, 1) // ATTENTION swapped with OSP ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
+            EIndexPatternExt.PO_S -> intArrayOf(2, 0, 1) // ATTENTION swapped with OSP ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
+            EIndexPatternExt.POS -> intArrayOf(2, 0, 1) // ATTENTION swapped with OSP ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
             EIndexPatternExt.P_SO -> intArrayOf(1, 0, 2)
             EIndexPatternExt.PS_O -> intArrayOf(1, 0, 2)
             EIndexPatternExt.PSO -> intArrayOf(1, 0, 2)
-            EIndexPatternExt.O_SP -> intArrayOf(1, 2, 0)// ATTENTION swapped with POS ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
-            EIndexPatternExt.OS_P -> intArrayOf(1, 2, 0)// ATTENTION swapped with POS ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
-            EIndexPatternExt.OSP -> intArrayOf(1, 2, 0)// ATTENTION swapped with POS ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
-            EIndexPatternExt.O_PS -> intArrayOf(2,1,0) 
-            EIndexPatternExt.OP_S -> intArrayOf(2,1,0) 
-            EIndexPatternExt.OPS -> intArrayOf(2,1,0) 
+            EIndexPatternExt.O_SP -> intArrayOf(1, 2, 0) // ATTENTION swapped with POS ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
+            EIndexPatternExt.OS_P -> intArrayOf(1, 2, 0) // ATTENTION swapped with POS ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
+            EIndexPatternExt.OSP -> intArrayOf(1, 2, 0) // ATTENTION swapped with POS ... s,p,o ..(1,2,0).. p,o,s ..(2,0,1).. s,p,o
+            EIndexPatternExt.O_PS -> intArrayOf(2, 1, 0)
+            EIndexPatternExt.OP_S -> intArrayOf(2, 1, 0)
+            EIndexPatternExt.OPS -> intArrayOf(2, 1, 0)
 
             else -> throw UnreachableException()
         }
     }
 }
-
-
-
-

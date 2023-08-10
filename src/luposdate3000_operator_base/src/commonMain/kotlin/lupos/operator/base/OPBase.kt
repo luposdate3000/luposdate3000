@@ -334,69 +334,71 @@ public abstract class OPBase public constructor(
             }
         } else if (sortPriority == ESortPriorityExt.SAME_AS_CHILD || sortPriority == ESortPriorityExt.BIND || sortPriority == ESortPriorityExt.MINUS) {
             val provided = getProvidedVariableNames()
-if(children.size>0){
-            for (x in children[0].getPossibleSortPriorities()) {
-                val tmp = mutableListOf<SortHelper>()
-                for (v in x) {
-                    if (provided.contains(v.variableName)) {
-                        tmp.add(v)
-                    } else {
-                        break
-                    }
-                }
-                addToPrefixFreeList(tmp, res)
-            }}
-        } else if (sortPriority == ESortPriorityExt.GROUP) {
-            throw UnreachableException()
-        } else if (sortPriority == ESortPriorityExt.SORT) {
-            throw UnreachableException()
-        } else if (sortPriority == ESortPriorityExt.JOIN) {
-if(children.size==2){
-            val resTmp = arrayOf(mutableListOf<List<SortHelper>>(), mutableListOf())
-            val childA = children[0]
-            val childB = children[1]
-            val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
-            val provided = getProvidedVariableNames()
-            for (child in 0 until 2) {
-                for (x in children[child].getPossibleSortPriorities()) {
+            if (children.size> 0) {
+                for (x in children[0].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<SortHelper>()
-                    var countOnJoin = 0
                     for (v in x) {
                         if (provided.contains(v.variableName)) {
-                            if (columns[0].contains(v.variableName)) {
-                                countOnJoin++
-                            } else if (countOnJoin < columns[0].size) {
-                                break
-                            }
                             tmp.add(v)
                         } else {
                             break
                         }
                     }
-                    addToPrefixFreeList(tmp, resTmp[child])
+                    addToPrefixFreeList(tmp, res)
                 }
             }
-            for (child in 0 until 2) {
-// it is required, that both join-inputs are sorted by the same join columns in the same order - _if all join columns are equally sorted, than allow any additional sort by one of the children
-                for (i in 0 until resTmp[child].size) {
-                    loop@ for (j in 0 until resTmp[1 - child].size) {
-                        var s = columns[0].size
-                        if (s > resTmp[child][i].size) {
-                            s = resTmp[child][i].size
-                        }
-                        if (s > resTmp[1 - child][j].size) {
-                            s = resTmp[1 - child][j].size
-                        }
-                        for (k in 0 until s) {
-                            if (resTmp[1 - child][j][k] != resTmp[child][i][k]) {
-                                continue@loop
+        } else if (sortPriority == ESortPriorityExt.GROUP) {
+            throw UnreachableException()
+        } else if (sortPriority == ESortPriorityExt.SORT) {
+            throw UnreachableException()
+        } else if (sortPriority == ESortPriorityExt.JOIN) {
+            if (children.size == 2) {
+                val resTmp = arrayOf(mutableListOf<List<SortHelper>>(), mutableListOf())
+                val childA = children[0]
+                val childB = children[1]
+                val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
+                val provided = getProvidedVariableNames()
+                for (child in 0 until 2) {
+                    for (x in children[child].getPossibleSortPriorities()) {
+                        val tmp = mutableListOf<SortHelper>()
+                        var countOnJoin = 0
+                        for (v in x) {
+                            if (provided.contains(v.variableName)) {
+                                if (columns[0].contains(v.variableName)) {
+                                    countOnJoin++
+                                } else if (countOnJoin < columns[0].size) {
+                                    break
+                                }
+                                tmp.add(v)
+                            } else {
+                                break
                             }
                         }
-                        addToPrefixFreeList(resTmp[child][i], res)
-                        break
+                        addToPrefixFreeList(tmp, resTmp[child])
                     }
                 }
-            }}
+                for (child in 0 until 2) {
+// it is required, that both join-inputs are sorted by the same join columns in the same order - _if all join columns are equally sorted, than allow any additional sort by one of the children
+                    for (i in 0 until resTmp[child].size) {
+                        loop@ for (j in 0 until resTmp[1 - child].size) {
+                            var s = columns[0].size
+                            if (s > resTmp[child][i].size) {
+                                s = resTmp[child][i].size
+                            }
+                            if (s > resTmp[1 - child][j].size) {
+                                s = resTmp[1 - child][j].size
+                            }
+                            for (k in 0 until s) {
+                                if (resTmp[1 - child][j][k] != resTmp[child][i][k]) {
+                                    continue@loop
+                                }
+                            }
+                            addToPrefixFreeList(resTmp[child][i], res)
+                            break
+                        }
+                    }
+                }
+            }
         }
         return res
     }

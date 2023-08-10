@@ -40,7 +40,7 @@ public abstract class TripleStoreIndexDescription(@JvmField internal var instanc
     internal abstract fun getAllLocations(): List<Pair<LuposHostname, LuposStoreKey>>
     internal abstract fun findPartitionFor(query: IQuery, triple: DictionaryValueTypeArray): Int
     internal fun hasPattern(idx: EIndexPattern): Boolean = idx_set.contains(idx)
-internal fun getPatterns():IntArray=idx_set
+    internal fun getPatterns(): IntArray = idx_set
     internal fun getIndexWithMaximumPartitions(max_partitions: Int?, column: Int, params: Array<IOPBase>): TripleStoreIndexDescription? {
         var count = -1
         val distributionCount = -1

@@ -91,9 +91,9 @@ public class TripleStoreIndexDescriptionPartitionedByID(
             data = v
             flag = true
         }
-if(!flag){
-TODO("there is nothing to partition on")
-}
+        if (!flag) {
+            TODO("there is nothing to partition on")
+        }
         return Pair(hostnames[data], keys[data])
     }
 
@@ -144,7 +144,7 @@ TODO("there is nothing to partition on")
         }
         return res
     }
-override fun toString():String=toXMLElement().toString()
+    override fun toString(): String = toXMLElement().toString()
     override fun requireSplitFromStore(): Boolean = false
     override fun requiresPartitioning(params: Array<IOPBase>): Map<String, Int> = mapOf(fixedPartitionName to partitionCount)
 }

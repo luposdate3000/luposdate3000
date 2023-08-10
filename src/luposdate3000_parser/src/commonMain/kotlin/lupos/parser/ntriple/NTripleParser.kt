@@ -35,16 +35,16 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-            val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+            val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3).toInt()]) - bufferDefinedRangeStart)
             if ((bufferDefinedEreaseLength > 0)) {
-                bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
+                bufferDefinedData.copyInto(bufferDefinedData, 0.toInt(), bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                 bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                 bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
             } else {
                 if ((bufferDefinedPosition != 0L)) {
                     var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                     var data: ByteArray = ByteArray(newSize)
-                    bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
+                    bufferDefinedData.copyInto(data, 0.toInt(), 0.toInt(), bufferDefinedDataSize.toInt())
                     bufferDefinedAllocatedSize = newSize
                     bufferDefinedData = data
                 }
@@ -97,10 +97,13 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         }
     }
     private fun scannerDefinedNode2(): Int {
-        if ((scannerDefinedCurrentChar == -2)) {
-            return -2
-        } else {
-            return -1
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            else -> {
+                return -1
+            }
         }
     }
     private fun scannerDefinedNode3(): Int {
@@ -229,8 +232,17 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255 -> {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
                 return 11
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 21
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 19
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 20
             }
             else -> {
                 return -1
@@ -242,14 +254,23 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 93, 95, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255 -> {
+            33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 93, 95, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 126, 127 -> {
                 return 12
             }
             62 -> {
-                return 20
+                return 23
             }
             92 -> {
-                return 19
+                return 22
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 26
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 24
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 25
             }
             else -> {
                 return -1
@@ -262,7 +283,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
                 return -2
             }
             58 -> {
-                return 21
+                return 27
             }
             else -> {
                 return -1
@@ -292,14 +313,23 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 243, 244, 245, 246, 247, 248, 249, 250, 251, 252, 253, 254, 255 -> {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
                 return 15
             }
             34 -> {
-                return 23
+                return 29
             }
             92 -> {
-                return 22
+                return 28
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 32
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 30
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 31
             }
             else -> {
                 return -1
@@ -312,7 +342,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
                 return -2
             }
             94 -> {
-                return 24
+                return 33
             }
             else -> {
                 return -1
@@ -325,7 +355,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
                 return -2
             }
             65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
-                return 25
+                return 34
             }
             else -> {
                 return -1
@@ -338,10 +368,13 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
-        if ((scannerDefinedCurrentChar == -2)) {
-            return -2
-        } else {
-            return -1
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            else -> {
+                return -1
+            }
         }
     }
     private fun scannerDefinedNode19(): Int {
@@ -349,11 +382,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            85 -> {
-                return 27
-            }
-            117 -> {
-                return 26
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 21
             }
             else -> {
                 return -1
@@ -361,15 +391,16 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         }
     }
     private fun scannerDefinedNode20(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 1
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
-        if ((scannerDefinedCurrentChar == -2)) {
-            return -2
-        } else {
-            return -1
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 19
+            }
+            else -> {
+                return -1
+            }
         }
     }
     private fun scannerDefinedNode21(): Int {
@@ -377,11 +408,11 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 96, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 215, 247 -> {
-                return -1
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 11
             }
             else -> {
-                return 28
+                return -1
             }
         }
     }
@@ -390,14 +421,11 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            34, 39, 92, 98, 102, 110, 114, 116 -> {
-                return 15
-            }
             85 -> {
-                return 30
+                return 36
             }
             117 -> {
-                return 29
+                return 35
             }
             else -> {
                 return -1
@@ -406,31 +434,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
     }
     private fun scannerDefinedNode23(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 4
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
-        if ((scannerDefinedCurrentChar == -2)) {
-            return -2
-        } else {
-            return -1
-        }
-    }
-    private fun scannerDefinedNode24(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 5
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
-        if ((scannerDefinedCurrentChar == -2)) {
-            return -2
-        } else {
-            return -1
-        }
-    }
-    private fun scannerDefinedNode25(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 6
+        scannerDefinedTokenPendingType = 1
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
@@ -438,11 +442,31 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            45 -> {
-                return 31
+            else -> {
+                return -1
             }
-            65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
-                return 25
+        }
+    }
+    private fun scannerDefinedNode24(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 26
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode25(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 24
             }
             else -> {
                 return -1
@@ -454,8 +478,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 32
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 12
             }
             else -> {
                 return -1
@@ -467,8 +491,41 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 33
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 95, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
+                return 37
+            }
+            195 -> {
+                return 38
+            }
+            196, 197, 198, 199, 200, 201, 202, 203, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 39
+            }
+            205 -> {
+                return 40
+            }
+            224, 225, 228, 229, 230, 231, 232, 233, 234, 235, 236 -> {
+                return 41
+            }
+            226 -> {
+                return 42
+            }
+            227 -> {
+                return 43
+            }
+            237 -> {
+                return 44
+            }
+            239 -> {
+                return 45
+            }
+            240 -> {
+                return 46
+            }
+            241, 242 -> {
+                return 47
+            }
+            243 -> {
+                return 48
             }
             else -> {
                 return -1
@@ -476,33 +533,33 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         }
     }
     private fun scannerDefinedNode28(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            34, 39, 92, 98, 102, 110, 114, 116 -> {
+                return 15
+            }
+            85 -> {
+                return 50
+            }
+            117 -> {
+                return 49
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode29(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 2
+        scannerDefinedTokenPendingType = 4
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
-            }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 47, 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 96, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 184, 185, 186, 187, 188, 189, 190, 191, 215, 247 -> {
-                return -1
-            }
-            46 -> {
-                return 34
-            }
-            else -> {
-                return 28
-            }
-        }
-    }
-    private fun scannerDefinedNode29(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 35
             }
             else -> {
                 return -1
@@ -514,8 +571,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 36
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 32
             }
             else -> {
                 return -1
@@ -527,8 +584,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
-                return 37
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 30
             }
             else -> {
                 return -1
@@ -540,8 +597,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 38
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 15
             }
             else -> {
                 return -1
@@ -549,12 +606,14 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         }
     }
     private fun scannerDefinedNode33(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 5
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
-            }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 39
             }
             else -> {
                 return -1
@@ -562,18 +621,23 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         }
     }
     private fun scannerDefinedNode34(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 6
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 47, 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 94, 96, 123, 124, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 184, 185, 186, 187, 188, 189, 190, 191, 215, 247 -> {
-                return -1
+            45 -> {
+                return 51
             }
-            46 -> {
+            65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
                 return 34
             }
             else -> {
-                return 28
+                return -1
             }
         }
     }
@@ -583,7 +647,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
                 return -2
             }
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 40
+                return 52
             }
             else -> {
                 return -1
@@ -596,7 +660,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
                 return -2
             }
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 41
+                return 53
             }
             else -> {
                 return -1
@@ -605,7 +669,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
     }
     private fun scannerDefinedNode37(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 6
+        scannerDefinedTokenPendingType = 2
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
@@ -613,11 +677,47 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            45 -> {
-                return 31
-            }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
+            45, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 95, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
                 return 37
+            }
+            46 -> {
+                return 57
+            }
+            194 -> {
+                return 56
+            }
+            195 -> {
+                return 38
+            }
+            196, 197, 198, 199, 200, 201, 202, 203, 204, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 39
+            }
+            205 -> {
+                return 54
+            }
+            224, 225, 228, 229, 230, 231, 232, 233, 234, 235, 236 -> {
+                return 41
+            }
+            226 -> {
+                return 55
+            }
+            227 -> {
+                return 43
+            }
+            237 -> {
+                return 44
+            }
+            239 -> {
+                return 45
+            }
+            240 -> {
+                return 46
+            }
+            241, 242 -> {
+                return 47
+            }
+            243 -> {
+                return 48
             }
             else -> {
                 return -1
@@ -629,8 +729,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 42
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 37
             }
             else -> {
                 return -1
@@ -642,8 +742,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 43
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 37
             }
             else -> {
                 return -1
@@ -655,8 +755,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 44
+            176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 191 -> {
+                return 37
             }
             else -> {
                 return -1
@@ -668,8 +768,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             -2 -> {
                 return -2
             }
-            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 45
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 39
             }
             else -> {
                 return -1
@@ -677,6 +777,502 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         }
     }
     private fun scannerDefinedNode42(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128 -> {
+                return 58
+            }
+            129 -> {
+                return 59
+            }
+            130, 131, 132, 133, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190 -> {
+                return 39
+            }
+            134 -> {
+                return 60
+            }
+            191 -> {
+                return 61
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode43(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128 -> {
+                return 62
+            }
+            129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 39
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode44(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159 -> {
+                return 39
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode45(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 184, 185, 186, 187, 188, 189, 190 -> {
+                return 39
+            }
+            183 -> {
+                return 63
+            }
+            191 -> {
+                return 64
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode46(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 41
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode47(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 41
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode48(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175 -> {
+                return 41
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode49(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 65
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode50(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 66
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode51(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
+                return 67
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode52(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 68
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode53(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 69
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode54(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 191 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode55(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128 -> {
+                return 70
+            }
+            129 -> {
+                return 71
+            }
+            130, 131, 132, 133, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190 -> {
+                return 39
+            }
+            134 -> {
+                return 60
+            }
+            191 -> {
+                return 61
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode56(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            183 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode57(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            45, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 95, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
+                return 37
+            }
+            46 -> {
+                return 57
+            }
+            194 -> {
+                return 56
+            }
+            195 -> {
+                return 38
+            }
+            196, 197, 198, 199, 200, 201, 202, 203, 204, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 39
+            }
+            205 -> {
+                return 54
+            }
+            224, 225, 228, 229, 230, 231, 232, 233, 234, 235, 236 -> {
+                return 41
+            }
+            226 -> {
+                return 55
+            }
+            227 -> {
+                return 43
+            }
+            237 -> {
+                return 44
+            }
+            239 -> {
+                return 45
+            }
+            240 -> {
+                return 46
+            }
+            241, 242 -> {
+                return 47
+            }
+            243 -> {
+                return 48
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode58(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            140, 141 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode59(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode60(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode61(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode62(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode63(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode64(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode65(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 72
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode66(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 73
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode67(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 6
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            45 -> {
+                return 51
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122 -> {
+                return 67
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode68(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 74
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode69(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 75
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode70(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            140, 141, 191 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode71(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 37
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode72(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 76
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode73(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
+                return 77
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode74(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
@@ -689,20 +1285,20 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             }
         }
     }
-    private fun scannerDefinedNode43(): Int {
+    private fun scannerDefinedNode75(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 26
+                return 35
             }
             else -> {
                 return -1
             }
         }
     }
-    private fun scannerDefinedNode44(): Int {
+    private fun scannerDefinedNode76(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
@@ -715,13 +1311,13 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             }
         }
     }
-    private fun scannerDefinedNode45(): Int {
+    private fun scannerDefinedNode77(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
             48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 65, 66, 67, 68, 69, 70, 97, 98, 99, 100, 101, 102 -> {
-                return 29
+                return 49
             }
             else -> {
                 return -1
@@ -744,43 +1340,19 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
             if ((bufferDefinedCurrentPosition >= bufferDefinedDataSize)) {
                 scannerDefinedCurrentChar = -2
             } else {
-                val firstByte: Int = ((bufferDefinedData[bufferDefinedCurrentPosition.toInt()]).toInt() and 0xff)
-                if ((firstByte < 0b10000000)) {
-                    scannerDefinedCurrentChar = firstByte
-                    bufferDefinedLastSize = 1
-                } else {
-                    val secondByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 1).toInt()]).toInt() and 0xff) and 0b00111111)
-                    if ((((firstByte and 0b11100000) == 0b11000000) && ((secondByte and 0b11000000) == 0b10000000))) {
-                        scannerDefinedCurrentChar = (((firstByte and 0b00011111) shl 6) or secondByte)
-                        bufferDefinedLastSize = 2
-                    } else {
-                        val thirdByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 2).toInt()]).toInt() and 0xff) and 0b00111111)
-                        if (((((firstByte and 0b11110000) == 0b11100000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000))) {
-                            scannerDefinedCurrentChar = (((firstByte and 0b00001111) shl 12) or ((secondByte shl 6) or thirdByte))
-                            bufferDefinedLastSize = 3
-                        } else {
-                            val fourthByte: Int = (((bufferDefinedData[(bufferDefinedCurrentPosition + 3).toInt()]).toInt() and 0xff) and 0b00111111)
-                            if ((((((firstByte and 0b11111000) == 0b11110000) && ((secondByte and 0b11000000) == 0b10000000)) && ((thirdByte and 0b11000000) == 0b10000000)) && ((fourthByte and 0b11000000) == 0b10000000))) {
-                                scannerDefinedCurrentChar = (((firstByte and 0b00000111) shl 18) or ((secondByte shl 12) or ((thirdByte shl 6) or fourthByte)))
-                                bufferDefinedLastSize = 4
-                            } else {
-                                scannerDefinedCurrentChar = firstByte
-                                bufferDefinedLastSize = 1
-                            }
-                        }
-                    }
-                }
+                scannerDefinedCurrentChar = ((bufferDefinedData[bufferDefinedCurrentPosition.toInt()]).toInt() and 0xff)
+                bufferDefinedLastSize = 1
                 if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
-                    val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3)]) - bufferDefinedRangeStart)
+                    val bufferDefinedEreaseLength: Long = ((scannerDefinedTokenFoundEnd[((scannerDefinedTokenFoundWriteOffset + 1) % 3).toInt()]) - bufferDefinedRangeStart)
                     if ((bufferDefinedEreaseLength > 0)) {
-                        bufferDefinedData.copyInto(bufferDefinedData, 0, bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
+                        bufferDefinedData.copyInto(bufferDefinedData, 0.toInt(), bufferDefinedEreaseLength.toInt(), bufferDefinedDataSize.toInt())
                         bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                         bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
                     } else {
                         if ((bufferDefinedPosition != 0L)) {
                             var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                             var data: ByteArray = ByteArray(newSize)
-                            bufferDefinedData.copyInto(data, 0, 0, bufferDefinedDataSize.toInt())
+                            bufferDefinedData.copyInto(data, 0.toInt(), 0.toInt(), bufferDefinedDataSize.toInt())
                             bufferDefinedAllocatedSize = newSize
                             bufferDefinedData = data
                         }
@@ -931,10 +1503,106 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
                 45 -> {
                     node = scannerDefinedNode45()
                 }
+                46 -> {
+                    node = scannerDefinedNode46()
+                }
+                47 -> {
+                    node = scannerDefinedNode47()
+                }
+                48 -> {
+                    node = scannerDefinedNode48()
+                }
+                49 -> {
+                    node = scannerDefinedNode49()
+                }
+                50 -> {
+                    node = scannerDefinedNode50()
+                }
+                51 -> {
+                    node = scannerDefinedNode51()
+                }
+                52 -> {
+                    node = scannerDefinedNode52()
+                }
+                53 -> {
+                    node = scannerDefinedNode53()
+                }
+                54 -> {
+                    node = scannerDefinedNode54()
+                }
+                55 -> {
+                    node = scannerDefinedNode55()
+                }
+                56 -> {
+                    node = scannerDefinedNode56()
+                }
+                57 -> {
+                    node = scannerDefinedNode57()
+                }
+                58 -> {
+                    node = scannerDefinedNode58()
+                }
+                59 -> {
+                    node = scannerDefinedNode59()
+                }
+                60 -> {
+                    node = scannerDefinedNode60()
+                }
+                61 -> {
+                    node = scannerDefinedNode61()
+                }
+                62 -> {
+                    node = scannerDefinedNode62()
+                }
+                63 -> {
+                    node = scannerDefinedNode63()
+                }
+                64 -> {
+                    node = scannerDefinedNode64()
+                }
+                65 -> {
+                    node = scannerDefinedNode65()
+                }
+                66 -> {
+                    node = scannerDefinedNode66()
+                }
+                67 -> {
+                    node = scannerDefinedNode67()
+                }
+                68 -> {
+                    node = scannerDefinedNode68()
+                }
+                69 -> {
+                    node = scannerDefinedNode69()
+                }
+                70 -> {
+                    node = scannerDefinedNode70()
+                }
+                71 -> {
+                    node = scannerDefinedNode71()
+                }
+                72 -> {
+                    node = scannerDefinedNode72()
+                }
+                73 -> {
+                    node = scannerDefinedNode73()
+                }
+                74 -> {
+                    node = scannerDefinedNode74()
+                }
+                75 -> {
+                    node = scannerDefinedNode75()
+                }
+                76 -> {
+                    node = scannerDefinedNode76()
+                }
+                77 -> {
+                    node = scannerDefinedNode77()
+                }
             }
         }
         if ((node == -2)) {
-            if ((scannerDefinedTokenPendingType == -1)) {
+            if (((scannerDefinedTokenPendingType == -1) || (scannerDefinedTokenPendingStart == bufferDefinedPosition))) {
                 scannerDefinedTokenPendingType = -2
                 scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -2
                 scannerDefinedTokenPendingEnd = bufferDefinedPosition
@@ -942,19 +1610,19 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode])}"
+            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
     }
     private fun getLastTokenString(): String {
-        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt(), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset]) - bufferDefinedRangeStart).toInt())
+        return bufferDefinedData.decodeToString(((scannerDefinedTokenFoundStart[scannerDefinedTokenFoundReadOffset.toInt()]) - bufferDefinedRangeStart).toInt(), ((scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundReadOffset.toInt()]) - bufferDefinedRangeStart).toInt())
     }
     private fun parserDefinedNode0(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(1)
         }
-        val currentToken0: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken0: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken0) {
             1, 2 -> {
                 return 1
@@ -980,7 +1648,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(3)
         }
-        val currentToken2: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken2: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken2) {
             3 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
@@ -997,7 +1665,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(2)
         }
-        val currentToken3: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken3: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken3) {
             -2 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
@@ -1019,7 +1687,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
         }
-        val currentToken5: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken5: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken5) {
             1, 2 -> {
                 return 8
@@ -1040,7 +1708,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
         }
-        val currentToken7: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken7: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken7) {
             1 -> {
                 userCode1()
@@ -1078,7 +1746,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(5)
         }
-        val currentToken13: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken13: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken13) {
             1 -> {
                 userCode3()
@@ -1105,7 +1773,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(6)
         }
-        val currentToken17: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken17: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken17) {
             1 -> {
                 userCode4()
@@ -1139,7 +1807,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(7)
         }
-        val currentToken22: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken22: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken22) {
             5 -> {
                 return 24
@@ -1161,7 +1829,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(8)
         }
-        val currentToken23: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken23: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken23) {
             7 -> {
                 userCode0()
@@ -1179,7 +1847,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(9)
         }
-        val currentToken24: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken24: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken24) {
             5 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
@@ -1196,7 +1864,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(10)
         }
-        val currentToken25: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken25: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken25) {
             6 -> {
                 userCode8()
@@ -1214,7 +1882,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(5)
         }
-        val currentToken28: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken28: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken28) {
             1 -> {
                 userCode7()
@@ -1230,7 +1898,8 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
     }
     private fun parserDefinedNode30(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
-        when ((parserDefinedStackData[parserDefinedStackPosition])) {
+        val currentStack30: Int = (parserDefinedStackData[parserDefinedStackPosition.toInt()])
+        when (currentStack30) {
             0 -> {
                 return 32
             }
@@ -1238,7 +1907,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
                 return 32
             }
             else -> {
-                parsererror = "found stack ${(parserDefinedStackData[parserDefinedStackPosition])} unexpectedly in node 30, at position $bufferDefinedPosition"
+                parsererror = "found stack $currentStack30 unexpectedly in node 30, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1247,7 +1916,7 @@ public class NTripleParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputS
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(3)
         }
-        val currentToken32: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset])
+        val currentToken32: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken32) {
             3 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)

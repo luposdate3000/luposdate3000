@@ -18,13 +18,11 @@
 package lupos.simulator_db.luposdate3000
 import lupos.dictionary.DictionaryCacheLayer
 import lupos.dictionary.DictionaryFactory
-import lupos.operator.physical.singleinput.EvalSort
 import lupos.endpoint.LuposdateEndpoint
 import lupos.endpoint.PathMappingHelper
 import lupos.endpoint.RestEndpoint
 import lupos.endpoint.WebRootEndpoint
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.operator.physical.multiinput.EvalJoinMerge
 import lupos.operator.base.IPOPLimit
 import lupos.operator.base.OPBase
 import lupos.operator.base.OPBaseCompound
@@ -38,7 +36,7 @@ import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
 import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
-import lupos.operator.physical.multiinput.EvalJoinMergeFromUnsortedData
+import lupos.operator.physical.multiinput.EvalJoinMerge
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -48,6 +46,7 @@ import lupos.operator.physical.partition.EvalDistributedSendMulti
 import lupos.operator.physical.partition.EvalDistributedSendSingle
 import lupos.operator.physical.partition.EvalDistributedSendSingleCount
 import lupos.operator.physical.partition.EvalDistributedSendWrapper
+import lupos.operator.physical.singleinput.EvalSort
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
@@ -886,10 +885,10 @@ public class Application_Luposdate3000 public constructor(
                 val x = if (isCartesian) {
                     EvalJoinCartesianProduct(query, child0, child1, false)
                 } else {
-val sortOrder=projected0.intersect(projected1).toList()
-val child0s=EvalSort(child0,sortOrder,query,arrayOf(),projected0,true)
-val child1s=EvalSort(child1,sortOrder,query,arrayOf(),projected1,true)
-EvalJoinMerge(query,child0s,child1s,finalSet.toList(),sortOrder)
+                    val sortOrder = projected0.intersect(projected1).toList()
+                    val child0s = EvalSort(child0, sortOrder, query, arrayOf(), projected0, true)
+                    val child1s = EvalSort(child1, sortOrder, query, arrayOf(), projected1, true)
+                    EvalJoinMerge(query, child0s, child1s, finalSet.toList(), sortOrder)
 //                    EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
 // EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
                 }

@@ -15,13 +15,13 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.optimizer.physical
-import lupos.operator.physical.singleinput.POPProjection
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoinTopology
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionOrderedByIntId
 import lupos.operator.physical.partition.POPSplitPartition
+import lupos.operator.physical.singleinput.POPProjection
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.operator.IOPBase
@@ -32,7 +32,6 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         if (node is LOPJoinTopology) {
             if (parent !is POPMergePartitionOrderedByIntId && parent !is POPMergePartition) {
-
                 val variableNamesAndWhereTheyAppear = mutableMapOf<String, MutableSet<Int>>()
                 val partitionings = mutableMapOf<String, MutableSet<Int>>()
                 val possiblePartitions = mutableMapOf<Pair<String, Int>, MutableSet<Int>>()
@@ -108,30 +107,30 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                             query.addPartitionOperator(c.getUUID(), partitionID)
                         }
 
-                        val child = if(childInputs2.size>1){
-LOPJoinTopology(node.query, childInputs2.toTypedArray())
-}else{
-if(node.projectedVariables!=null){
-POPProjection(query,node.projectedVariables!!,childInputs2[0])
-}else{
-childInputs2[0]
-}
-}
+                        val child = if (childInputs2.size> 1) {
+                            LOPJoinTopology(node.query, childInputs2.toTypedArray())
+                        } else {
+                            if (node.projectedVariables != null) {
+                                POPProjection(query, node.projectedVariables!!, childInputs2[0])
+                            } else {
+                                childInputs2[0]
+                            }
+                        }
                         parentInputs.add(POPMergePartition(query, childInputs.map { it.getProvidedVariableNames() }.flatten(), largestV.first, largestV.second, partitionID, child))
                         query.addPartitionOperator(parentInputs.last().getUUID(), partitionID)
 
                         onChange()
-                        val res = if(parentInputs.size>1){
-val rr=LOPJoinTopology(node.query, parentInputs.toTypedArray())
-                        rr.projectedVariables = node.projectedVariables
-rr
-}else{
-if (node.projectedVariables!=null){
-POPProjection(query,node.projectedVariables!!,parentInputs[0])
-}else{
-parentInputs[0]
-}
-}
+                        val res = if (parentInputs.size> 1) {
+                            val rr = LOPJoinTopology(node.query, parentInputs.toTypedArray())
+                            rr.projectedVariables = node.projectedVariables
+                            rr
+                        } else {
+                            if (node.projectedVariables != null) {
+                                POPProjection(query, node.projectedVariables!!, parentInputs[0])
+                            } else {
+                                parentInputs[0]
+                            }
+                        }
                         return res
                     }
                 }

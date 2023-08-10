@@ -358,9 +358,9 @@ public class TripleStoreManagerImpl public constructor(
 
     override fun resetDefaultTripleStoreLayout() {
         var partitionCount = instance.defaultPartitionCount
-      if(partitionCount<2){
-partitionCount=2
-}
+        if (partitionCount <2) {
+            partitionCount = 2
+        }
         while (partitionCount < instance.LUPOS_PROCESS_URLS_STORE.size) {
             partitionCount *= 2
         }
