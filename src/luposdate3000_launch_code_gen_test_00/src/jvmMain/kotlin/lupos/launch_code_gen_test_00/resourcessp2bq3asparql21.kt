@@ -65,12 +65,12 @@ public class resourcessp2bq3asparql21 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq3asparql21 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `resourcessp2bq3asparql21 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -80,13 +80,13 @@ public class resourcessp2bq3asparql21 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcessp2bq3asparql21 - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `resourcessp2bq3asparql21 - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -122,8 +122,8 @@ public class resourcessp2bq3asparql21 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq3asparql21 - Thread - PartitionByID_2_AllCollations - true" to ::`resourcessp2bq3asparql21 - Thread - PartitionByID_2_AllCollations - true`,
-            "resourcessp2bq3asparql21 - Thread - PartitionByID_S_AllCollations - true" to ::`resourcessp2bq3asparql21 - Thread - PartitionByID_S_AllCollations - true`,
+            "resourcessp2bq3asparql21 - None - Simple - true" to ::`resourcessp2bq3asparql21 - None - Simple - true`,
+            "resourcessp2bq3asparql21 - Thread - PartitionByKeyAllCollations - false" to ::`resourcessp2bq3asparql21 - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

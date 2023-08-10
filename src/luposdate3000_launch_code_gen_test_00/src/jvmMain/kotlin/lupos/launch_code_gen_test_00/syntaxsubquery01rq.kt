@@ -43,13 +43,13 @@ public class syntaxsubquery01rq {
     internal val query = "SELECT * { SELECT * { ?s ?p ?o } } \n" +
         ""
 
-    public fun `syntaxsubquery01rq - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `syntaxsubquery01rq - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -58,12 +58,12 @@ public class syntaxsubquery01rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxsubquery01rq - Thread - Simple - false`() {
+    public fun `syntaxsubquery01rq - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -79,8 +79,8 @@ public class syntaxsubquery01rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxsubquery01rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxsubquery01rq - Thread - PartitionByID_O_AllCollations - false`,
-            "syntaxsubquery01rq - Thread - Simple - false" to ::`syntaxsubquery01rq - Thread - Simple - false`,
+            "syntaxsubquery01rq - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxsubquery01rq - Thread - PartitionByID_2_AllCollations - true`,
+            "syntaxsubquery01rq - Thread - PartitionByKeyAllCollations - false" to ::`syntaxsubquery01rq - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

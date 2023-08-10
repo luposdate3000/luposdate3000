@@ -71,13 +71,13 @@ public class STRAFTERdatatyping {
         "} \n" +
         ""
 
-    public fun `STRAFTER datatyping - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `STRAFTER datatyping - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -113,7 +113,7 @@ public class STRAFTERdatatyping {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRAFTER datatyping - Thread - PartitionByID_2_AllCollations - true" to ::`STRAFTER datatyping - Thread - PartitionByID_2_AllCollations - true`,
+            "STRAFTER datatyping - Thread - PartitionByKeyAllCollations - false" to ::`STRAFTER datatyping - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

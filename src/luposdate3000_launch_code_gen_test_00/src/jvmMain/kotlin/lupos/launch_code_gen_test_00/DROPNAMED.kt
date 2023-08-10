@@ -76,11 +76,11 @@ public class DROPNAMED {
         "DROP NAMED \n" +
         ""
 
-    public fun `DROP NAMED - None - Simple - true`() {
+    public fun `DROP NAMED - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
@@ -153,7 +153,7 @@ public class DROPNAMED {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DROP NAMED - None - Simple - true" to ::`DROP NAMED - None - Simple - true`,
+            "DROP NAMED - Thread - Simple - true" to ::`DROP NAMED - Thread - Simple - true`,
         )
     }
 }

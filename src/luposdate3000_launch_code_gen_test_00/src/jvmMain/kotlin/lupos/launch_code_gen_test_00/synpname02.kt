@@ -44,12 +44,27 @@ public class synpname02 {
         "ASK{} \n" +
         ""
 
-    public fun `synpname02 - None - Simple - true`() {
+    public fun `synpname02 - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `synpname02 - Thread - PartitionByID_2_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -74,14 +89,31 @@ public class synpname02 {
         LuposdateEndpoint.close(instance)
       }
     }
+    public fun `synpname02 - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "synpname02 - None - Simple - true" to ::`synpname02 - None - Simple - true`,
+            "synpname02 - Thread - BenchmarkFig5 - false" to ::`synpname02 - Thread - BenchmarkFig5 - false`,
+            "synpname02 - Thread - PartitionByID_2_AllCollations - true" to ::`synpname02 - Thread - PartitionByID_2_AllCollations - true`,
             "synpname02 - Thread - PartitionByID_S_AllCollations - false" to ::`synpname02 - Thread - PartitionByID_S_AllCollations - false`,
+            "synpname02 - Thread - Simple - false" to ::`synpname02 - Thread - Simple - false`,
         )
     }
 }

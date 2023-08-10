@@ -85,13 +85,13 @@ public class DELETEINSERT1c {
         "} \n" +
         ""
 
-    public fun `DELETE INSERT 1c - None - Simple - true`() {
+    public fun `DELETE INSERT 1c - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -100,13 +100,13 @@ public class DELETEINSERT1c {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DELETE INSERT 1c - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `DELETE INSERT 1c - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -147,8 +147,8 @@ public class DELETEINSERT1c {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DELETE INSERT 1c - None - Simple - true" to ::`DELETE INSERT 1c - None - Simple - true`,
-            "DELETE INSERT 1c - Thread - PartitionByID_O_AllCollations - false" to ::`DELETE INSERT 1c - Thread - PartitionByID_O_AllCollations - false`,
+            "DELETE INSERT 1c - None - Simple - false" to ::`DELETE INSERT 1c - None - Simple - false`,
+            "DELETE INSERT 1c - Thread - PartitionByID_O_AllCollations - true" to ::`DELETE INSERT 1c - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

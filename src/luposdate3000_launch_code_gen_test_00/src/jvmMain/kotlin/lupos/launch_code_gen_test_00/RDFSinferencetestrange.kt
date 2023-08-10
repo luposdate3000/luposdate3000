@@ -77,43 +77,13 @@ public class RDFSinferencetestrange {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `RDFS inference test range - None - Simple - false`() {
+    public fun `RDFS inference test range - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `RDFS inference test range - Thread - BenchmarkFig5 - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `RDFS inference test range - Thread - PartitionByID_O_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -150,9 +120,7 @@ public class RDFSinferencetestrange {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "RDFS inference test range - None - Simple - true" to ::`RDFS inference test range - None - Simple - true`,
-            "RDFS inference test range - None - Simple - false" to ::`RDFS inference test range - None - Simple - false`,
-            "RDFS inference test range - Thread - BenchmarkFig5 - true" to ::`RDFS inference test range - Thread - BenchmarkFig5 - true`,
-            "RDFS inference test range - Thread - PartitionByID_O_AllCollations - true" to ::`RDFS inference test range - Thread - PartitionByID_O_AllCollations - true`,
+            "RDFS inference test range - Thread - PartitionByID_S_AllCollations - false" to ::`RDFS inference test range - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

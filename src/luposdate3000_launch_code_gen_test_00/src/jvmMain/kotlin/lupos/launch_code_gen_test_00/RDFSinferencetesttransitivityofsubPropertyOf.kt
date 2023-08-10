@@ -62,13 +62,13 @@ public class RDFSinferencetesttransitivityofsubPropertyOf {
         "} \n" +
         ""
 
-    public fun `RDFS inference test transitivity of subPropertyOf - Thread - BenchmarkFig5 - false`() {
+    public fun `RDFS inference test transitivity of subPropertyOf - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -77,13 +77,13 @@ public class RDFSinferencetesttransitivityofsubPropertyOf {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `RDFS inference test transitivity of subPropertyOf - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `RDFS inference test transitivity of subPropertyOf - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -119,8 +119,8 @@ public class RDFSinferencetesttransitivityofsubPropertyOf {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "RDFS inference test transitivity of subPropertyOf - Thread - BenchmarkFig5 - false" to ::`RDFS inference test transitivity of subPropertyOf - Thread - BenchmarkFig5 - false`,
-            "RDFS inference test transitivity of subPropertyOf - Thread - PartitionByID_2_AllCollations - true" to ::`RDFS inference test transitivity of subPropertyOf - Thread - PartitionByID_2_AllCollations - true`,
+            "RDFS inference test transitivity of subPropertyOf - None - Simple - true" to ::`RDFS inference test transitivity of subPropertyOf - None - Simple - true`,
+            "RDFS inference test transitivity of subPropertyOf - None - Simple - false" to ::`RDFS inference test transitivity of subPropertyOf - None - Simple - false`,
         )
     }
 }

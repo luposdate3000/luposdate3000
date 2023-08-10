@@ -62,12 +62,12 @@ public class RDFSinferencetestcombiningsubPropertyOfanddomain {
         "} \n" +
         ""
 
-    public fun `RDFS inference test combining subPropertyOf and domain - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `RDFS inference test combining subPropertyOf and domain - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -77,27 +77,12 @@ public class RDFSinferencetestcombiningsubPropertyOfanddomain {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `RDFS inference test combining subPropertyOf and domain - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `RDFS inference test combining subPropertyOf and domain - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `RDFS inference test combining subPropertyOf and domain - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -134,9 +119,8 @@ public class RDFSinferencetestcombiningsubPropertyOfanddomain {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "RDFS inference test combining subPropertyOf and domain - Thread - PartitionByID_O_AllCollations - true" to ::`RDFS inference test combining subPropertyOf and domain - Thread - PartitionByID_O_AllCollations - true`,
-            "RDFS inference test combining subPropertyOf and domain - Thread - PartitionByKeyAllCollations - true" to ::`RDFS inference test combining subPropertyOf and domain - Thread - PartitionByKeyAllCollations - true`,
-            "RDFS inference test combining subPropertyOf and domain - Thread - Simple - false" to ::`RDFS inference test combining subPropertyOf and domain - Thread - Simple - false`,
+            "RDFS inference test combining subPropertyOf and domain - Thread - PartitionByIDTwiceAllCollations - true" to ::`RDFS inference test combining subPropertyOf and domain - Thread - PartitionByIDTwiceAllCollations - true`,
+            "RDFS inference test combining subPropertyOf and domain - Thread - PartitionByKeyAllCollations - false" to ::`RDFS inference test combining subPropertyOf and domain - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

@@ -49,28 +49,13 @@ public class syntaxBINDscope2rq {
         " } \n" +
         ""
 
-    public fun `syntaxBINDscope2rq - Thread - BenchmarkFig5 - true`() {
+    public fun `syntaxBINDscope2rq - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxBINDscope2rq - Thread - PartitionByID_1_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -85,8 +70,7 @@ public class syntaxBINDscope2rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxBINDscope2rq - Thread - BenchmarkFig5 - true" to ::`syntaxBINDscope2rq - Thread - BenchmarkFig5 - true`,
-            "syntaxBINDscope2rq - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxBINDscope2rq - Thread - PartitionByID_1_AllCollations - true`,
+            "syntaxBINDscope2rq - Thread - BenchmarkFig5 - false" to ::`syntaxBINDscope2rq - Thread - BenchmarkFig5 - false`,
         )
     }
 }

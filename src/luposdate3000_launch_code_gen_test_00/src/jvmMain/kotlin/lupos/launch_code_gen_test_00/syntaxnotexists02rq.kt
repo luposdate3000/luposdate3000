@@ -43,12 +43,42 @@ public class syntaxnotexists02rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER NOT EXISTS{?s ?p ?o} } \n" +
         ""
 
-    public fun `syntaxnotexists02rq - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `syntaxnotexists02rq - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxnotexists02rq - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxnotexists02rq - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,7 +94,9 @@ public class syntaxnotexists02rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxnotexists02rq - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxnotexists02rq - Thread - PartitionByID_S_AllCollations - false`,
+            "syntaxnotexists02rq - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxnotexists02rq - Thread - PartitionByID_1_AllCollations - true`,
+            "syntaxnotexists02rq - Thread - PartitionByID_O_AllCollations - true" to ::`syntaxnotexists02rq - Thread - PartitionByID_O_AllCollations - true`,
+            "syntaxnotexists02rq - Thread - Simple - false" to ::`syntaxnotexists02rq - Thread - Simple - false`,
         )
     }
 }

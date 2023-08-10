@@ -43,12 +43,12 @@ public class synbadpname07 {
     internal val query = "PREFIX 1: <http://example/> \n" +
         "ASK{}"
 
-    public fun `synbadpname07 - Thread - BenchmarkFig5 - false`() {
+    public fun `synbadpname07 - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,13 +58,13 @@ public class synbadpname07 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `synbadpname07 - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `synbadpname07 - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -87,8 +87,8 @@ public class synbadpname07 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "synbadpname07 - Thread - BenchmarkFig5 - false" to ::`synbadpname07 - Thread - BenchmarkFig5 - false`,
-            "synbadpname07 - Thread - PartitionByID_O_AllCollations - true" to ::`synbadpname07 - Thread - PartitionByID_O_AllCollations - true`,
+            "synbadpname07 - Thread - PartitionByKeyAllCollations - false" to ::`synbadpname07 - Thread - PartitionByKeyAllCollations - false`,
+            "synbadpname07 - Thread - Simple - false" to ::`synbadpname07 - Thread - Simple - false`,
         )
     }
 }

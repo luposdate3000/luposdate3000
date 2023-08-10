@@ -69,27 +69,12 @@ public class resourcessp2bq12a1sparql32978 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq12a1sparql32978 - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `resourcessp2bq12a1sparql32978 - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcessp2bq12a1sparql32978 - Thread - PartitionByIDTwiceAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -126,8 +111,7 @@ public class resourcessp2bq12a1sparql32978 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq12a1sparql32978 - Thread - PartitionByIDTwiceAllCollations - true" to ::`resourcessp2bq12a1sparql32978 - Thread - PartitionByIDTwiceAllCollations - true`,
-            "resourcessp2bq12a1sparql32978 - Thread - PartitionByIDTwiceAllCollations - false" to ::`resourcessp2bq12a1sparql32978 - Thread - PartitionByIDTwiceAllCollations - false`,
+            "resourcessp2bq12a1sparql32978 - Thread - PartitionByID_O_AllCollations - false" to ::`resourcessp2bq12a1sparql32978 - Thread - PartitionByID_O_AllCollations - false`,
         )
     }
 }

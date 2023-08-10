@@ -79,13 +79,13 @@ public class MOVE3 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "MOVE :g1 TO :g2"
 
-    public fun `MOVE 3 - Thread - BenchmarkFig5 - false`() {
+    public fun `MOVE 3 - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -94,12 +94,27 @@ public class MOVE3 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `MOVE 3 - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `MOVE 3 - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `MOVE 3 - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -181,8 +196,9 @@ public class MOVE3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MOVE 3 - Thread - BenchmarkFig5 - false" to ::`MOVE 3 - Thread - BenchmarkFig5 - false`,
-            "MOVE 3 - Thread - PartitionByID_O_AllCollations - false" to ::`MOVE 3 - Thread - PartitionByID_O_AllCollations - false`,
+            "MOVE 3 - Thread - PartitionByIDTwiceAllCollations - true" to ::`MOVE 3 - Thread - PartitionByIDTwiceAllCollations - true`,
+            "MOVE 3 - Thread - PartitionByID_1_AllCollations - true" to ::`MOVE 3 - Thread - PartitionByID_1_AllCollations - true`,
+            "MOVE 3 - Thread - Simple - false" to ::`MOVE 3 - Thread - Simple - false`,
         )
     }
 }

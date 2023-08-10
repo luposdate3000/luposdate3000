@@ -56,12 +56,12 @@ public class Simpleinsertdata1 {
         "INSERT DATA { :s :p :o } \n" +
         ""
 
-    public fun `Simple insert data 1 - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `Simple insert data 1 - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -88,7 +88,7 @@ public class Simpleinsertdata1 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Simple insert data 1 - Thread - PartitionByIDTwiceAllCollations - false" to ::`Simple insert data 1 - Thread - PartitionByIDTwiceAllCollations - false`,
+            "Simple insert data 1 - Thread - PartitionByID_O_AllCollations - false" to ::`Simple insert data 1 - Thread - PartitionByID_O_AllCollations - false`,
         )
     }
 }

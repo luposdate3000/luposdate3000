@@ -57,28 +57,13 @@ public class constructwhere03CONSTRUCTWHERE {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "CONSTRUCT WHERE { :s2 :p ?o1, ?o2 }"
 
-    public fun `constructwhere03  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true`() {
+    public fun `constructwhere03  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `constructwhere03  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -114,8 +99,7 @@ public class constructwhere03CONSTRUCTWHERE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "constructwhere03  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true" to ::`constructwhere03  CONSTRUCT WHERE - Thread - BenchmarkFig5 - true`,
-            "constructwhere03  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true" to ::`constructwhere03  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true`,
+            "constructwhere03  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false" to ::`constructwhere03  CONSTRUCT WHERE - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

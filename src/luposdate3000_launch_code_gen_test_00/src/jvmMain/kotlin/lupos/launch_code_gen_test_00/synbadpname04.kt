@@ -45,6 +45,21 @@ public class synbadpname04 {
         "ASK{} \n" +
         ""
 
+    public fun `synbadpname04 - Thread - BenchmarkFig5 - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     public fun `synbadpname04 - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -52,36 +67,6 @@ public class synbadpname04 {
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `synbadpname04 - Thread - PartitionByID_1_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `synbadpname04 - Thread - PartitionByID_1_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -104,9 +89,8 @@ public class synbadpname04 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
+            "synbadpname04 - Thread - BenchmarkFig5 - false" to ::`synbadpname04 - Thread - BenchmarkFig5 - false`,
             "synbadpname04 - Thread - PartitionByIDTwiceAllCollations - true" to ::`synbadpname04 - Thread - PartitionByIDTwiceAllCollations - true`,
-            "synbadpname04 - Thread - PartitionByID_1_AllCollations - true" to ::`synbadpname04 - Thread - PartitionByID_1_AllCollations - true`,
-            "synbadpname04 - Thread - PartitionByID_1_AllCollations - false" to ::`synbadpname04 - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }

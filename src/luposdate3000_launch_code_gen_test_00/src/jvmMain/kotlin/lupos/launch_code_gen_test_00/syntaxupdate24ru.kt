@@ -43,12 +43,12 @@ public class syntaxupdate24ru {
     internal val query = "INSERT DATA { GRAPH <G> { <s> <p> 'o1', 'o2', 'o3' } } \n" +
         ""
 
-    public fun `syntaxupdate24ru - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `syntaxupdate24ru - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,7 +64,7 @@ public class syntaxupdate24ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate24ru - Thread - PartitionByKeyAllCollations - true" to ::`syntaxupdate24ru - Thread - PartitionByKeyAllCollations - true`,
+            "syntaxupdate24ru - None - Simple - true" to ::`syntaxupdate24ru - None - Simple - true`,
         )
     }
 }

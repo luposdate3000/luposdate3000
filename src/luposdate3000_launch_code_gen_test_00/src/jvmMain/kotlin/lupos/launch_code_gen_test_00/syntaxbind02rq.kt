@@ -43,21 +43,6 @@ public class syntaxbind02rq {
     internal val query = "SELECT ?Z { ?s ?p ?o . BIND(?o+1 AS ?Z) BIND(?Z/2 AS ?Zby2) } \n" +
         ""
 
-    public fun `syntaxbind02rq - Thread - PartitionByIDTwiceAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
     public fun `syntaxbind02rq - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
@@ -73,13 +58,13 @@ public class syntaxbind02rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxbind02rq - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `syntaxbind02rq - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -94,9 +79,8 @@ public class syntaxbind02rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxbind02rq - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxbind02rq - Thread - PartitionByIDTwiceAllCollations - false`,
             "syntaxbind02rq - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxbind02rq - Thread - PartitionByID_S_AllCollations - false`,
-            "syntaxbind02rq - Thread - PartitionByKeyAllCollations - true" to ::`syntaxbind02rq - Thread - PartitionByKeyAllCollations - true`,
+            "syntaxbind02rq - Thread - Simple - false" to ::`syntaxbind02rq - Thread - Simple - false`,
         )
     }
 }

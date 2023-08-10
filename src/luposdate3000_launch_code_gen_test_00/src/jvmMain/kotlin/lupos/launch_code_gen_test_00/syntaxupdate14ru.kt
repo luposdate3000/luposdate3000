@@ -43,12 +43,27 @@ public class syntaxupdate14ru {
     internal val query = "CREATE SILENT GRAPH <graph> \n" +
         ""
 
-    public fun `syntaxupdate14ru - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `syntaxupdate14ru - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxupdate14ru - Thread - PartitionByID_1_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,7 +79,8 @@ public class syntaxupdate14ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate14ru - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxupdate14ru - Thread - PartitionByID_2_AllCollations - true`,
+            "syntaxupdate14ru - Thread - BenchmarkFig5 - false" to ::`syntaxupdate14ru - Thread - BenchmarkFig5 - false`,
+            "syntaxupdate14ru - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxupdate14ru - Thread - PartitionByID_1_AllCollations - true`,
         )
     }
 }

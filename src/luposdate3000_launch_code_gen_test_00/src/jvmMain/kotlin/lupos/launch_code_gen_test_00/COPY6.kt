@@ -75,12 +75,12 @@ public class COPY6 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "COPY :g1 TO DEFAULT"
 
-    public fun `COPY 6 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `COPY 6 - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -90,12 +90,12 @@ public class COPY6 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `COPY 6 - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `COPY 6 - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -162,8 +162,8 @@ public class COPY6 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COPY 6 - Thread - PartitionByID_2_AllCollations - true" to ::`COPY 6 - Thread - PartitionByID_2_AllCollations - true`,
-            "COPY 6 - Thread - PartitionByKeyAllCollations - false" to ::`COPY 6 - Thread - PartitionByKeyAllCollations - false`,
+            "COPY 6 - Thread - PartitionByID_O_AllCollations - true" to ::`COPY 6 - Thread - PartitionByID_O_AllCollations - true`,
+            "COPY 6 - Thread - PartitionByID_O_AllCollations - false" to ::`COPY 6 - Thread - PartitionByID_O_AllCollations - false`,
         )
     }
 }

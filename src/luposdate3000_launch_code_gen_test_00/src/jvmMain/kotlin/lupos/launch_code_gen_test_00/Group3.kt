@@ -63,13 +63,13 @@ public class Group3 {
         "GROUP BY ?w \n" +
         ""
 
-    public fun `Group3 - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `Group3 - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -105,7 +105,7 @@ public class Group3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Group3 - Thread - PartitionByKeyAllCollations - false" to ::`Group3 - Thread - PartitionByKeyAllCollations - false`,
+            "Group3 - Thread - PartitionByID_O_AllCollations - true" to ::`Group3 - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

@@ -83,13 +83,13 @@ public class COPY3 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "COPY :g1 TO :g2"
 
-    public fun `COPY 3 - Thread - Simple - true`() {
+    public fun `COPY 3 - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -180,7 +180,7 @@ public class COPY3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COPY 3 - Thread - Simple - true" to ::`COPY 3 - Thread - Simple - true`,
+            "COPY 3 - Thread - Simple - false" to ::`COPY 3 - Thread - Simple - false`,
         )
     }
 }

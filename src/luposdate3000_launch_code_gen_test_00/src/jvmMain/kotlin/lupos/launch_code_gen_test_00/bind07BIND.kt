@@ -62,13 +62,13 @@ public class bind07BIND {
         "} \n" +
         ""
 
-    public fun `bind07  BIND - Thread - BenchmarkFig5 - true`() {
+    public fun `bind07  BIND - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -77,13 +77,13 @@ public class bind07BIND {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `bind07  BIND - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `bind07  BIND - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -119,8 +119,8 @@ public class bind07BIND {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "bind07  BIND - Thread - BenchmarkFig5 - true" to ::`bind07  BIND - Thread - BenchmarkFig5 - true`,
-            "bind07  BIND - Thread - PartitionByID_O_AllCollations - false" to ::`bind07  BIND - Thread - PartitionByID_O_AllCollations - false`,
+            "bind07  BIND - Thread - PartitionByID_S_AllCollations - false" to ::`bind07  BIND - Thread - PartitionByID_S_AllCollations - false`,
+            "bind07  BIND - Thread - Simple - true" to ::`bind07  BIND - Thread - Simple - true`,
         )
     }
 }

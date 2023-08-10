@@ -57,13 +57,13 @@ public class syntaxupdate32ru {
         "  { ?s ?p ?o } \n" +
         ""
 
-    public fun `syntaxupdate32ru - Thread - BenchmarkFig5 - true`() {
+    public fun `syntaxupdate32ru - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -72,12 +72,12 @@ public class syntaxupdate32ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdate32ru - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `syntaxupdate32ru - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -93,8 +93,8 @@ public class syntaxupdate32ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate32ru - Thread - BenchmarkFig5 - true" to ::`syntaxupdate32ru - Thread - BenchmarkFig5 - true`,
-            "syntaxupdate32ru - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxupdate32ru - Thread - PartitionByID_2_AllCollations - false`,
+            "syntaxupdate32ru - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxupdate32ru - Thread - PartitionByID_O_AllCollations - false`,
+            "syntaxupdate32ru - Thread - PartitionByKeyAllCollations - false" to ::`syntaxupdate32ru - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

@@ -48,13 +48,13 @@ public class syntaxupdate31ru {
         "} \n" +
         ""
 
-    public fun `syntaxupdate31ru - Thread - BenchmarkFig5 - true`() {
+    public fun `syntaxupdate31ru - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -69,7 +69,7 @@ public class syntaxupdate31ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate31ru - Thread - BenchmarkFig5 - true" to ::`syntaxupdate31ru - Thread - BenchmarkFig5 - true`,
+            "syntaxupdate31ru - None - Simple - false" to ::`syntaxupdate31ru - None - Simple - false`,
         )
     }
 }

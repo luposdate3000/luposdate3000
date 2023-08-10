@@ -61,13 +61,13 @@ public class sparqldl02rqsimplecombinedquery {
         "WHERE { ?x rdf:type ?c . ?c rdfs:subClassOf :c } \n" +
         ""
 
-    public fun `sparqldl02rq simple combined query - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `sparqldl02rq simple combined query - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -76,12 +76,12 @@ public class sparqldl02rqsimplecombinedquery {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sparqldl02rq simple combined query - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `sparqldl02rq simple combined query - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -118,8 +118,8 @@ public class sparqldl02rqsimplecombinedquery {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sparqldl02rq simple combined query - Thread - PartitionByIDTwiceAllCollations - false" to ::`sparqldl02rq simple combined query - Thread - PartitionByIDTwiceAllCollations - false`,
-            "sparqldl02rq simple combined query - Thread - PartitionByID_O_AllCollations - true" to ::`sparqldl02rq simple combined query - Thread - PartitionByID_O_AllCollations - true`,
+            "sparqldl02rq simple combined query - Thread - PartitionByID_1_AllCollations - true" to ::`sparqldl02rq simple combined query - Thread - PartitionByID_1_AllCollations - true`,
+            "sparqldl02rq simple combined query - Thread - Simple - true" to ::`sparqldl02rq simple combined query - Thread - Simple - true`,
         )
     }
 }

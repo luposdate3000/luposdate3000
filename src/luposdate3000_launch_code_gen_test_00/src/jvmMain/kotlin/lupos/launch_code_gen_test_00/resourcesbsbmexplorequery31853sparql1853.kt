@@ -83,12 +83,42 @@ public class resourcesbsbmexplorequery31853sparql1853 {
         "LIMIT 10 \n" +
         ""
 
-    public fun `resourcesbsbmexplorequery31853sparql1853 - Thread - BenchmarkFig5 - false`() {
+    public fun `resourcesbsbmexplorequery31853sparql1853 - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_O_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -140,7 +170,9 @@ public class resourcesbsbmexplorequery31853sparql1853 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmexplorequery31853sparql1853 - Thread - BenchmarkFig5 - false" to ::`resourcesbsbmexplorequery31853sparql1853 - Thread - BenchmarkFig5 - false`,
+            "resourcesbsbmexplorequery31853sparql1853 - Thread - BenchmarkFig5 - true" to ::`resourcesbsbmexplorequery31853sparql1853 - Thread - BenchmarkFig5 - true`,
+            "resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false" to ::`resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByIDTwiceAllCollations - false`,
+            "resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_O_AllCollations - false" to ::`resourcesbsbmexplorequery31853sparql1853 - Thread - PartitionByID_O_AllCollations - false`,
             "resourcesbsbmexplorequery31853sparql1853 - Thread - Simple - false" to ::`resourcesbsbmexplorequery31853sparql1853 - Thread - Simple - false`,
         )
     }

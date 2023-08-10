@@ -73,13 +73,13 @@ public class resourcessp2bq12b1sparql32978 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq12b1sparql32978 - None - Simple - false`() {
+    public fun `resourcessp2bq12b1sparql32978 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -88,13 +88,13 @@ public class resourcessp2bq12b1sparql32978 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcessp2bq12b1sparql32978 - Thread - Simple - true`() {
+    public fun `resourcessp2bq12b1sparql32978 - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -130,8 +130,8 @@ public class resourcessp2bq12b1sparql32978 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
+            "resourcessp2bq12b1sparql32978 - None - Simple - true" to ::`resourcessp2bq12b1sparql32978 - None - Simple - true`,
             "resourcessp2bq12b1sparql32978 - None - Simple - false" to ::`resourcessp2bq12b1sparql32978 - None - Simple - false`,
-            "resourcessp2bq12b1sparql32978 - Thread - Simple - true" to ::`resourcessp2bq12b1sparql32978 - Thread - Simple - true`,
         )
     }
 }

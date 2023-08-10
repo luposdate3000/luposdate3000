@@ -57,12 +57,27 @@ public class jsonres04JSONResultFormat {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "ASK WHERE { :s1 :p1 :o1 }"
 
-    public fun `jsonres04  JSON Result Format - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `jsonres04  JSON Result Format - None - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `jsonres04  JSON Result Format - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -99,7 +114,8 @@ public class jsonres04JSONResultFormat {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "jsonres04  JSON Result Format - Thread - PartitionByIDTwiceAllCollations - true" to ::`jsonres04  JSON Result Format - Thread - PartitionByIDTwiceAllCollations - true`,
+            "jsonres04  JSON Result Format - None - Simple - false" to ::`jsonres04  JSON Result Format - None - Simple - false`,
+            "jsonres04  JSON Result Format - Thread - Simple - true" to ::`jsonres04  JSON Result Format - Thread - Simple - true`,
         )
     }
 }

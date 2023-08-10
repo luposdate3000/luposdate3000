@@ -43,12 +43,12 @@ public class syntaxconstructwhere01rq {
     internal val query = "CONSTRUCT WHERE { ?s ?p 1816 } \n" +
         ""
 
-    public fun `syntaxconstructwhere01rq - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `syntaxconstructwhere01rq - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,13 +58,13 @@ public class syntaxconstructwhere01rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxconstructwhere01rq - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `syntaxconstructwhere01rq - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -73,12 +73,12 @@ public class syntaxconstructwhere01rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxconstructwhere01rq - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `syntaxconstructwhere01rq - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -94,9 +94,9 @@ public class syntaxconstructwhere01rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxconstructwhere01rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxconstructwhere01rq - Thread - PartitionByID_O_AllCollations - false`,
-            "syntaxconstructwhere01rq - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxconstructwhere01rq - Thread - PartitionByID_S_AllCollations - false`,
-            "syntaxconstructwhere01rq - Thread - PartitionByKeyAllCollations - false" to ::`syntaxconstructwhere01rq - Thread - PartitionByKeyAllCollations - false`,
+            "syntaxconstructwhere01rq - None - Simple - false" to ::`syntaxconstructwhere01rq - None - Simple - false`,
+            "syntaxconstructwhere01rq - Thread - BenchmarkFig5 - true" to ::`syntaxconstructwhere01rq - Thread - BenchmarkFig5 - true`,
+            "syntaxconstructwhere01rq - Thread - PartitionByID_1_AllCollations - false" to ::`syntaxconstructwhere01rq - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }

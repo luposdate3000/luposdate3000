@@ -44,13 +44,13 @@ public class syntaxselectexpr05rq {
         "SELECT (COUNT(*) AS ?count) {} \n" +
         ""
 
-    public fun `syntaxselectexpr05rq - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `syntaxselectexpr05rq - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -65,7 +65,7 @@ public class syntaxselectexpr05rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxselectexpr05rq - Thread - PartitionByKeyAllCollations - false" to ::`syntaxselectexpr05rq - Thread - PartitionByKeyAllCollations - false`,
+            "syntaxselectexpr05rq - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxselectexpr05rq - Thread - PartitionByIDTwiceAllCollations - true`,
         )
     }
 }

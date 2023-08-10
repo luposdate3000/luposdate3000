@@ -62,6 +62,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         "{_:a rdf:type :Person .} \n" +
         ""
 
+    public fun `sparqldl05rq simple undistinguished variable test - None - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     public fun `sparqldl05rq simple undistinguished variable test - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
@@ -77,12 +92,12 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sparqldl05rq simple undistinguished variable test - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `sparqldl05rq simple undistinguished variable test - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -119,8 +134,9 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
+            "sparqldl05rq simple undistinguished variable test - None - Simple - true" to ::`sparqldl05rq simple undistinguished variable test - None - Simple - true`,
             "sparqldl05rq simple undistinguished variable test - None - Simple - false" to ::`sparqldl05rq simple undistinguished variable test - None - Simple - false`,
-            "sparqldl05rq simple undistinguished variable test - Thread - PartitionByKeyAllCollations - false" to ::`sparqldl05rq simple undistinguished variable test - Thread - PartitionByKeyAllCollations - false`,
+            "sparqldl05rq simple undistinguished variable test - Thread - PartitionByIDTwiceAllCollations - false" to ::`sparqldl05rq simple undistinguished variable test - Thread - PartitionByIDTwiceAllCollations - false`,
         )
     }
 }

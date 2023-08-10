@@ -64,43 +64,13 @@ public class resourcesmyqueriesubungent21sparql709 {
         "  MINUS {?article bench:cdrom ?cdrom} \n" +
         "}"
 
-    public fun `resourcesmyqueriesubungent21sparql709 - Thread - PartitionByID_1_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesmyqueriesubungent21sparql709 - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `resourcesmyqueriesubungent21sparql709 - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesmyqueriesubungent21sparql709 - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -136,9 +106,7 @@ public class resourcesmyqueriesubungent21sparql709 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesmyqueriesubungent21sparql709 - Thread - PartitionByID_1_AllCollations - false" to ::`resourcesmyqueriesubungent21sparql709 - Thread - PartitionByID_1_AllCollations - false`,
-            "resourcesmyqueriesubungent21sparql709 - Thread - PartitionByKeyAllCollations - true" to ::`resourcesmyqueriesubungent21sparql709 - Thread - PartitionByKeyAllCollations - true`,
-            "resourcesmyqueriesubungent21sparql709 - Thread - Simple - true" to ::`resourcesmyqueriesubungent21sparql709 - Thread - Simple - true`,
+            "resourcesmyqueriesubungent21sparql709 - Thread - PartitionByKeyAllCollations - false" to ::`resourcesmyqueriesubungent21sparql709 - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

@@ -44,12 +44,12 @@ public class syntaxupdate39ru {
         "# Otherwise empty \n" +
         ""
 
-    public fun `syntaxupdate39ru - Thread - BenchmarkFig5 - false`() {
+    public fun `syntaxupdate39ru - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -65,7 +65,7 @@ public class syntaxupdate39ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate39ru - Thread - BenchmarkFig5 - false" to ::`syntaxupdate39ru - Thread - BenchmarkFig5 - false`,
+            "syntaxupdate39ru - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxupdate39ru - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

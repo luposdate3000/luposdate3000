@@ -45,12 +45,27 @@ public class syntaxupdate26ru {
         "DATA { GRAPH <G> { <s> <p> 'o1', 'o2', 'o3' } } \n" +
         ""
 
-    public fun `syntaxupdate26ru - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `syntaxupdate26ru - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxupdate26ru - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -66,7 +81,8 @@ public class syntaxupdate26ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate26ru - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxupdate26ru - Thread - PartitionByIDTwiceAllCollations - false`,
+            "syntaxupdate26ru - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxupdate26ru - Thread - PartitionByIDTwiceAllCollations - true`,
+            "syntaxupdate26ru - Thread - PartitionByKeyAllCollations - false" to ::`syntaxupdate26ru - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

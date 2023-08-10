@@ -60,27 +60,12 @@ public class COUNT8b {
         "   ORDER BY ?O12 \n" +
         ""
 
-    public fun `COUNT 8b - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `COUNT 8b - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `COUNT 8b - Thread - PartitionByID_1_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -117,8 +102,7 @@ public class COUNT8b {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COUNT 8b - Thread - PartitionByIDTwiceAllCollations - false" to ::`COUNT 8b - Thread - PartitionByIDTwiceAllCollations - false`,
-            "COUNT 8b - Thread - PartitionByID_1_AllCollations - true" to ::`COUNT 8b - Thread - PartitionByID_1_AllCollations - true`,
+            "COUNT 8b - Thread - PartitionByIDTwiceAllCollations - true" to ::`COUNT 8b - Thread - PartitionByIDTwiceAllCollations - true`,
         )
     }
 }

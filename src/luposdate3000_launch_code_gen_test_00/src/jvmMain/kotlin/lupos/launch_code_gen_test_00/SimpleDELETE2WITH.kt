@@ -86,13 +86,13 @@ public class SimpleDELETE2WITH {
         "} \n" +
         ""
 
-    public fun `Simple DELETE 2 WITH - Thread - Simple - false`() {
+    public fun `Simple DELETE 2 WITH - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -158,7 +158,7 @@ public class SimpleDELETE2WITH {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Simple DELETE 2 WITH - Thread - Simple - false" to ::`Simple DELETE 2 WITH - Thread - Simple - false`,
+            "Simple DELETE 2 WITH - Thread - BenchmarkFig5 - true" to ::`Simple DELETE 2 WITH - Thread - BenchmarkFig5 - true`,
         )
     }
 }

@@ -69,27 +69,12 @@ public class resourcesbsbmexplorequery91853sparql1853 {
         "WHERE { dataFromRatingSite1:Review2 rev:reviewer ?x } \n" +
         ""
 
-    public fun `resourcesbsbmexplorequery91853sparql1853 - Thread - BenchmarkFig5 - false`() {
+    public fun `resourcesbsbmexplorequery91853sparql1853 - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesbsbmexplorequery91853sparql1853 - Thread - PartitionByKeyAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -126,8 +111,7 @@ public class resourcesbsbmexplorequery91853sparql1853 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmexplorequery91853sparql1853 - Thread - BenchmarkFig5 - false" to ::`resourcesbsbmexplorequery91853sparql1853 - Thread - BenchmarkFig5 - false`,
-            "resourcesbsbmexplorequery91853sparql1853 - Thread - PartitionByKeyAllCollations - false" to ::`resourcesbsbmexplorequery91853sparql1853 - Thread - PartitionByKeyAllCollations - false`,
+            "resourcesbsbmexplorequery91853sparql1853 - Thread - Simple - false" to ::`resourcesbsbmexplorequery91853sparql1853 - Thread - Simple - false`,
         )
     }
 }

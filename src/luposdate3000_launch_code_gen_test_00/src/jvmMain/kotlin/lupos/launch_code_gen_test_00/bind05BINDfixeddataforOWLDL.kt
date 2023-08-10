@@ -66,28 +66,13 @@ public class bind05BINDfixeddataforOWLDL {
         "} \n" +
         ""
 
-    public fun `bind05  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `bind05  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `bind05  BIND fixed data for OWL DL - Thread - PartitionByID_S_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -123,8 +108,7 @@ public class bind05BINDfixeddataforOWLDL {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "bind05  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - false" to ::`bind05  BIND fixed data for OWL DL - Thread - PartitionByIDTwiceAllCollations - false`,
-            "bind05  BIND fixed data for OWL DL - Thread - PartitionByID_S_AllCollations - true" to ::`bind05  BIND fixed data for OWL DL - Thread - PartitionByID_S_AllCollations - true`,
+            "bind05  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false" to ::`bind05  BIND fixed data for OWL DL - Thread - PartitionByID_O_AllCollations - false`,
         )
     }
 }

@@ -64,27 +64,12 @@ public class resourcesmyqueriesubungent20sparql709 {
         "  FILTER NOT EXISTS{?article bench:cdrom ?cdrom} \n" +
         "}"
 
-    public fun `resourcesmyqueriesubungent20sparql709 - Thread - BenchmarkFig5 - true`() {
+    public fun `resourcesmyqueriesubungent20sparql709 - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesmyqueriesubungent20sparql709 - Thread - PartitionByIDTwiceAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -94,12 +79,27 @@ public class resourcesmyqueriesubungent20sparql709 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcesmyqueriesubungent20sparql709 - Thread - Simple - true`() {
+    public fun `resourcesmyqueriesubungent20sparql709 - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcesmyqueriesubungent20sparql709 - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -136,9 +136,9 @@ public class resourcesmyqueriesubungent20sparql709 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesmyqueriesubungent20sparql709 - Thread - BenchmarkFig5 - true" to ::`resourcesmyqueriesubungent20sparql709 - Thread - BenchmarkFig5 - true`,
-            "resourcesmyqueriesubungent20sparql709 - Thread - PartitionByIDTwiceAllCollations - false" to ::`resourcesmyqueriesubungent20sparql709 - Thread - PartitionByIDTwiceAllCollations - false`,
-            "resourcesmyqueriesubungent20sparql709 - Thread - Simple - true" to ::`resourcesmyqueriesubungent20sparql709 - Thread - Simple - true`,
+            "resourcesmyqueriesubungent20sparql709 - None - Simple - false" to ::`resourcesmyqueriesubungent20sparql709 - None - Simple - false`,
+            "resourcesmyqueriesubungent20sparql709 - Thread - PartitionByID_O_AllCollations - true" to ::`resourcesmyqueriesubungent20sparql709 - Thread - PartitionByID_O_AllCollations - true`,
+            "resourcesmyqueriesubungent20sparql709 - Thread - PartitionByKeyAllCollations - true" to ::`resourcesmyqueriesubungent20sparql709 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

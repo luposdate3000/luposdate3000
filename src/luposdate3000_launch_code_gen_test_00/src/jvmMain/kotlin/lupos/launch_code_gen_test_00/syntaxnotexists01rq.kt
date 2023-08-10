@@ -43,13 +43,13 @@ public class syntaxnotexists01rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(NOT EXISTS{?s ?p ?o}) } \n" +
         ""
 
-    public fun `syntaxnotexists01rq - None - Simple - false`() {
+    public fun `syntaxnotexists01rq - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -58,12 +58,12 @@ public class syntaxnotexists01rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxnotexists01rq - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `syntaxnotexists01rq - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -79,8 +79,8 @@ public class syntaxnotexists01rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxnotexists01rq - None - Simple - false" to ::`syntaxnotexists01rq - None - Simple - false`,
-            "syntaxnotexists01rq - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxnotexists01rq - Thread - PartitionByID_1_AllCollations - true`,
+            "syntaxnotexists01rq - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxnotexists01rq - Thread - PartitionByIDTwiceAllCollations - true`,
+            "syntaxnotexists01rq - Thread - PartitionByID_O_AllCollations - true" to ::`syntaxnotexists01rq - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

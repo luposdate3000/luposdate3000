@@ -44,13 +44,13 @@ public class syntaxupdatebad03ru {
         "DELETE DATA { ?s <p> <o> } \n" +
         ""
 
-    public fun `syntaxupdatebad03ru - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `syntaxupdatebad03ru - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -73,7 +73,7 @@ public class syntaxupdatebad03ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdatebad03ru - Thread - PartitionByID_O_AllCollations - true" to ::`syntaxupdatebad03ru - Thread - PartitionByID_O_AllCollations - true`,
+            "syntaxupdatebad03ru - Thread - PartitionByKeyAllCollations - false" to ::`syntaxupdatebad03ru - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

@@ -62,12 +62,42 @@ public class sq02Subquerywithingraphpatterngraphvariableisbound {
         "} \n" +
         "}"
 
-    public fun `sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `sq02  Subquery within graph pattern graph variable is bound - None - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_2_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -104,7 +134,9 @@ public class sq02Subquerywithingraphpatterngraphvariableisbound {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_2_AllCollations - true" to ::`sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_2_AllCollations - true`,
+            "sq02  Subquery within graph pattern graph variable is bound - None - Simple - true" to ::`sq02  Subquery within graph pattern graph variable is bound - None - Simple - true`,
+            "sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_2_AllCollations - false" to ::`sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_2_AllCollations - false`,
+            "sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_O_AllCollations - true" to ::`sq02  Subquery within graph pattern graph variable is bound - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

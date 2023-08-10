@@ -43,13 +43,28 @@ public class syntaxaggregate02rq {
     internal val query = "SELECT (COUNT(DISTINCT *) AS ?count) {} \n" +
         ""
 
-    public fun `syntaxaggregate02rq - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `syntaxaggregate02rq - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxaggregate02rq - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -64,7 +79,8 @@ public class syntaxaggregate02rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxaggregate02rq - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxaggregate02rq - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxaggregate02rq - Thread - BenchmarkFig5 - true" to ::`syntaxaggregate02rq - Thread - BenchmarkFig5 - true`,
+            "syntaxaggregate02rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxaggregate02rq - Thread - PartitionByID_2_AllCollations - false`,
         )
     }
 }

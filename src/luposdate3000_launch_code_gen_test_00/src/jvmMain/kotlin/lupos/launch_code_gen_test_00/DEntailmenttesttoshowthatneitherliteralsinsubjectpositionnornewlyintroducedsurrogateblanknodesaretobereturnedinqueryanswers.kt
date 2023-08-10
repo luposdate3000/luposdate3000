@@ -61,12 +61,12 @@ public class DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyin
         "} \n" +
         ""
 
-    public fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -76,12 +76,27 @@ public class DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyin
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - Simple - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -118,8 +133,9 @@ public class DEntailmenttesttoshowthatneitherliteralsinsubjectpositionnornewlyin
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - true" to ::`DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - true`,
-            "DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_S_AllCollations - true" to ::`DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_S_AllCollations - true`,
+            "DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - BenchmarkFig5 - true" to ::`DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - BenchmarkFig5 - true`,
+            "DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - false" to ::`DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - false`,
+            "DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - Simple - true" to ::`DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - Simple - true`,
         )
     }
 }

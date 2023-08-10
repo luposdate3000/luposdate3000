@@ -64,21 +64,6 @@ public class DROPALL {
         "DROP ALL \n" +
         ""
 
-    public fun `DROP ALL - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
     public fun `DROP ALL - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -145,7 +130,6 @@ public class DROPALL {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DROP ALL - None - Simple - true" to ::`DROP ALL - None - Simple - true`,
             "DROP ALL - Thread - BenchmarkFig5 - true" to ::`DROP ALL - Thread - BenchmarkFig5 - true`,
         )
     }

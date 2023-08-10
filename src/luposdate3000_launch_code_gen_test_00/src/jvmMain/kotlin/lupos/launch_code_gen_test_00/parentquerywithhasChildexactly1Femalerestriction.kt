@@ -65,13 +65,13 @@ public class parentquerywithhasChildexactly1Femalerestriction {
         "       owl:onClass :Female ] . } \n" +
         ""
 
-    public fun `parent query with hasChild exactly 1 Female restriction - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `parent query with hasChild exactly 1 Female restriction - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -80,13 +80,13 @@ public class parentquerywithhasChildexactly1Femalerestriction {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -101,6 +101,36 @@ public class parentquerywithhasChildexactly1Femalerestriction {
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -137,9 +167,11 @@ public class parentquerywithhasChildexactly1Femalerestriction {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "parent query with hasChild exactly 1 Female restriction - Thread - PartitionByIDTwiceAllCollations - false" to ::`parent query with hasChild exactly 1 Female restriction - Thread - PartitionByIDTwiceAllCollations - false`,
-            "parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_O_AllCollations - true" to ::`parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_O_AllCollations - true`,
+            "parent query with hasChild exactly 1 Female restriction - Thread - BenchmarkFig5 - true" to ::`parent query with hasChild exactly 1 Female restriction - Thread - BenchmarkFig5 - true`,
+            "parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_1_AllCollations - false" to ::`parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_1_AllCollations - false`,
             "parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_O_AllCollations - false" to ::`parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_O_AllCollations - false`,
+            "parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_S_AllCollations - true" to ::`parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_S_AllCollations - true`,
+            "parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_S_AllCollations - false" to ::`parent query with hasChild exactly 1 Female restriction - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

@@ -61,42 +61,12 @@ public class RDFtestforblanknodecardinalities {
         "} \n" +
         ""
 
-    public fun `RDF test for blank node cardinalities - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `RDF test for blank node cardinalities - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `RDF test for blank node cardinalities - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `RDF test for blank node cardinalities - Thread - PartitionByKeyAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -133,9 +103,7 @@ public class RDFtestforblanknodecardinalities {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "RDF test for blank node cardinalities - None - Simple - true" to ::`RDF test for blank node cardinalities - None - Simple - true`,
-            "RDF test for blank node cardinalities - Thread - PartitionByIDTwiceAllCollations - false" to ::`RDF test for blank node cardinalities - Thread - PartitionByIDTwiceAllCollations - false`,
-            "RDF test for blank node cardinalities - Thread - PartitionByKeyAllCollations - false" to ::`RDF test for blank node cardinalities - Thread - PartitionByKeyAllCollations - false`,
+            "RDF test for blank node cardinalities - Thread - PartitionByID_S_AllCollations - false" to ::`RDF test for blank node cardinalities - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

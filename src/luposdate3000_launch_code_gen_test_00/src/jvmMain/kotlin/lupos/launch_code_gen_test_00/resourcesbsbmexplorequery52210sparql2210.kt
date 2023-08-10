@@ -82,13 +82,13 @@ public class resourcesbsbmexplorequery52210sparql2210 {
         "LIMIT 5 \n" +
         ""
 
-    public fun `resourcesbsbmexplorequery52210sparql2210 - None - Simple - false`() {
+    public fun `resourcesbsbmexplorequery52210sparql2210 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -97,12 +97,12 @@ public class resourcesbsbmexplorequery52210sparql2210 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcesbsbmexplorequery52210sparql2210 - Thread - BenchmarkFig5 - true`() {
+    public fun `resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -139,8 +139,8 @@ public class resourcesbsbmexplorequery52210sparql2210 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmexplorequery52210sparql2210 - None - Simple - false" to ::`resourcesbsbmexplorequery52210sparql2210 - None - Simple - false`,
-            "resourcesbsbmexplorequery52210sparql2210 - Thread - BenchmarkFig5 - true" to ::`resourcesbsbmexplorequery52210sparql2210 - Thread - BenchmarkFig5 - true`,
+            "resourcesbsbmexplorequery52210sparql2210 - None - Simple - true" to ::`resourcesbsbmexplorequery52210sparql2210 - None - Simple - true`,
+            "resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByID_2_AllCollations - true" to ::`resourcesbsbmexplorequery52210sparql2210 - Thread - PartitionByID_2_AllCollations - true`,
         )
     }
 }

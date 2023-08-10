@@ -43,12 +43,12 @@ public class syntaxoneof01rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(?o NOT IN(1,2,?s+57)) } \n" +
         ""
 
-    public fun `syntaxoneof01rq - None - Simple - true`() {
+    public fun `syntaxoneof01rq - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,13 +58,43 @@ public class syntaxoneof01rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxoneof01rq - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `syntaxoneof01rq - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxoneof01rq - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxoneof01rq - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -79,8 +109,10 @@ public class syntaxoneof01rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxoneof01rq - None - Simple - true" to ::`syntaxoneof01rq - None - Simple - true`,
-            "syntaxoneof01rq - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxoneof01rq - Thread - PartitionByID_2_AllCollations - true`,
+            "syntaxoneof01rq - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxoneof01rq - Thread - PartitionByIDTwiceAllCollations - true`,
+            "syntaxoneof01rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxoneof01rq - Thread - PartitionByID_O_AllCollations - false`,
+            "syntaxoneof01rq - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxoneof01rq - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxoneof01rq - Thread - PartitionByKeyAllCollations - false" to ::`syntaxoneof01rq - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

@@ -61,12 +61,12 @@ public class sparqldl12rqrangetest {
         "where {:child rdfs:domain ?C} \n" +
         ""
 
-    public fun `sparqldl12rq range test - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `sparqldl12rq range test - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -76,12 +76,27 @@ public class sparqldl12rqrangetest {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sparqldl12rq range test - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `sparqldl12rq range test - None - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sparqldl12rq range test - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -118,8 +133,9 @@ public class sparqldl12rqrangetest {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sparqldl12rq range test - Thread - PartitionByID_O_AllCollations - true" to ::`sparqldl12rq range test - Thread - PartitionByID_O_AllCollations - true`,
-            "sparqldl12rq range test - Thread - PartitionByID_S_AllCollations - false" to ::`sparqldl12rq range test - Thread - PartitionByID_S_AllCollations - false`,
+            "sparqldl12rq range test - None - Simple - true" to ::`sparqldl12rq range test - None - Simple - true`,
+            "sparqldl12rq range test - None - Simple - false" to ::`sparqldl12rq range test - None - Simple - false`,
+            "sparqldl12rq range test - Thread - PartitionByIDTwiceAllCollations - false" to ::`sparqldl12rq range test - Thread - PartitionByIDTwiceAllCollations - false`,
         )
     }
 }

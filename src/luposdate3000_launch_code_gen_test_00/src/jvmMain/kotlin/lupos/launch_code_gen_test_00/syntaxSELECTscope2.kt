@@ -46,13 +46,13 @@ public class syntaxSELECTscope2 {
         "  } \n" +
         ""
 
-    public fun `syntaxSELECTscope2 - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `syntaxSELECTscope2 - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -75,7 +75,7 @@ public class syntaxSELECTscope2 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxSELECTscope2 - Thread - PartitionByID_O_AllCollations - true" to ::`syntaxSELECTscope2 - Thread - PartitionByID_O_AllCollations - true`,
+            "syntaxSELECTscope2 - Thread - PartitionByKeyAllCollations - false" to ::`syntaxSELECTscope2 - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

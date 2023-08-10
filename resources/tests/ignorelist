@@ -1,134 +1,272 @@
+dataset,constructwhere04  CONSTRUCT WHERE
+dataset,syntaxconstructwhere02rq
+describe,resourcesbsbmexplorequery92210sparql2210
+describe,resourcesbsbmexplorequery92553sparql2553
 exists,Exists with ground triple
 exists,Exists with one constant
+exists,Exists within graph pattern
 exists,Nested negative exists in positive exists
 exists,Nested positive exists
 exists,Positive EXISTS 1
+exists,Positive EXISTS 2
+memory,COALESCE
 memory,Calculate proper subset
+memory,Calculate which sets are subsets of others include A subsetOf A
 memory,Calculate which sets have the same elements
+memory,DELETE INSERT 6b
+memory,Expression is equality
+memory,Expression raise an error
+memory,Graphspecific DELETE 1
+memory,Graphspecific DELETE 1 WITH
+memory,Graphspecific DELETE 2
 memory,Graphspecific DELETE 2 USING
 memory,Graphspecific DELETE 2 WITH
 memory,Group4
+memory,Postquery VALUES with 2 objvars 1 row
 memory,Postquery VALUES with 2 objvars 1 row with UNDEF
 memory,Postquery VALUES with 2 objvars 2 rows with UNDEF
+memory,Postquery VALUES with OPTIONAL objvar 1 row
 memory,Postquery VALUES with objvar 1 row
+memory,Postquery VALUES with predvar 1 row
 memory,Postquery VALUES with subjobjvars 2 rows with UNDEF
+memory,Postquery VALUES with subjvar 1 row
+memory,Postsubquery VALUES
+memory,RDFS inference test subClassOf luposDuplicate1
 memory,RDFS inference test subProperty and instances
+memory,Reuse a project expression variable in select
 memory,Simple DELETE 1 USING
+memory,Simple DELETE 1 WITH
+memory,Simple DELETE 2 USING
 memory,Simple DELETE 3
 memory,Simple DELETE 3 USING
+memory,Simple DELETE 4
 memory,Simple DELETE 4 USING
+memory,Simple DELETE 4 WITH
 memory,bind02  BIND fixed data for OWL DL
+memory,bind03  BIND
 memory,bind03  BIND fixed data for OWL DL
 memory,bind07  BIND fixed data for OWL DL
+memory,bind08  BIND fixed data for OWL DL
+memory,bnodes are not existentials
+memory,bnodes are not existentials with answer
 memory,constructwhere02  CONSTRUCT WHERE
+memory,cvs02  CSV Result Format
 memory,jsonres02  JSON Result Format
+memory,papersparqldlQ2
 memory,papersparqldlQ3
 memory,papersparqldlQ4
+memory,parent query with hasChild exactly 1 Female restriction
 memory,parent query with hasChild min 1 Female restriction
 memory,parent query with hasChild min 1 restriction
 memory,plus1
+memory,plus2
+memory,resourcesbsbmbiquery11853sparql1853
+memory,resourcesbsbmbiquery12553sparql2553
 memory,resourcesbsbmbiquery21853sparql1853
+memory,resourcesbsbmbiquery22210sparql2210
+memory,resourcesbsbmbiquery31853sparql1853
 memory,resourcesbsbmbiquery32210sparql2210
+memory,resourcesbsbmbiquery32553sparql2553
 memory,resourcesbsbmbiquery41853sparql1853
 memory,resourcesbsbmbiquery42210sparql2210
+memory,resourcesbsbmbiquery42553sparql2553
 memory,resourcesbsbmbiquery51853sparql1853
 memory,resourcesbsbmbiquery52210sparql2210
 memory,resourcesbsbmbiquery52553sparql2553
 memory,resourcesbsbmbiquery61853sparql1853
+memory,resourcesbsbmbiquery62210sparql2210
 memory,resourcesbsbmbiquery62553sparql2553
+memory,resourcesbsbmbiquery71853sparql1853
 memory,resourcesbsbmbiquery72210sparql2210
+memory,resourcesbsbmbiquery81853sparql1853
 memory,resourcesbsbmbiquery82210sparql2210
 memory,resourcesbsbmbiquery82553sparql2553
 memory,resourcesbsbmexplorequery101853sparql1853
 memory,resourcesbsbmexplorequery102210sparql2210
 memory,resourcesbsbmexplorequery102553sparql2553
+memory,resourcesbsbmexplorequery121853sparql1853
+memory,resourcesbsbmexplorequery122210sparql2210
+memory,resourcesbsbmexplorequery42210sparql2210
+memory,resourcesbsbmexplorequery51853sparql1853
+memory,resourcesbsbmexplorequery52210sparql2210
+memory,resourcesbsbmexplorequery52553sparql2553
+memory,resourcesbsbmexplorequery71853sparql1853
+memory,resourcesbsbmexplorequery72210sparql2210
+memory,resourcesbsbmexplorequery72553sparql2553
 memory,resourcesbsbmexplorequery81853sparql1853
 memory,resourcesbsbmexplorequery82210sparql2210
+memory,resourcesbsbmexplorequery82553sparql2553
+memory,resourcesbtc002sparql46
+memory,resourcesbtc005sparql578
+memory,resourcesbtc020sparql80
+memory,resourcesbtc028sparql3778
+memory,resourcesbtc029sparql1198
+memory,resourcesbtc030sparql867
+memory,resourcesmyqueriesubungent02sparql764
+memory,resourcesmyqueriesubungent03sparql764
+memory,resourcesmyqueriesubungent07sparql567
 memory,resourcesmyqueriesubungent09sparql567
+memory,resourcesmyqueriesubungent11sparql567
+memory,resourcesmyqueriesubungent17sparql709
+memory,resourcesmyqueriesubungent19sparql709
+memory,resourcessp2bq12a1sparql1294
 memory,resourcessp2bq12a1sparql1640
+memory,resourcessp2bq12a1sparql21
 memory,resourcessp2bq12a1sparql247
+memory,resourcessp2bq12a1sparql700
+memory,resourcessp2bq12a1sparql973
 memory,resourcessp2bq12asparql1294
 memory,resourcessp2bq12asparql1640
+memory,resourcessp2bq12asparql21
 memory,resourcessp2bq12asparql247
+memory,resourcessp2bq12asparql700
+memory,resourcessp2bq12asparql973
+memory,resourcessp2bq12b1sparql1294
 memory,resourcessp2bq12b1sparql1640
+memory,resourcessp2bq12b1sparql21
 memory,resourcessp2bq12b1sparql247
+memory,resourcessp2bq12b1sparql700
+memory,resourcessp2bq12b1sparql973
 memory,resourcessp2bq12b2sparql1294
 memory,resourcessp2bq12b2sparql1640
 memory,resourcessp2bq12b2sparql21
 memory,resourcessp2bq12b2sparql247
 memory,resourcessp2bq12b2sparql700
 memory,resourcessp2bq12b2sparql973
+memory,resourcessp2bq12b3sparql1294
 memory,resourcessp2bq12b3sparql1640
+memory,resourcessp2bq12b3sparql21
+memory,resourcessp2bq12b3sparql700
+memory,resourcessp2bq12b3sparql973
 memory,resourcessp2bq12b4sparql1640
+memory,resourcessp2bq12b4sparql21
+memory,resourcessp2bq12b4sparql247
 memory,resourcessp2bq12b4sparql973
+memory,resourcessp2bq1sparql1640
+memory,resourcessp2bq1sparql247
 memory,resourcessp2bq2sparql1294
+memory,resourcessp2bq2sparql1640
+memory,resourcessp2bq2sparql21
 memory,resourcessp2bq2sparql247
+memory,resourcessp2bq3asparql247
 memory,resourcessp2bq3asparql700
 memory,resourcessp2bq3bsparql21
+memory,resourcessp2bq3bsparql700
+memory,resourcessp2bq3csparql1294
+memory,resourcessp2bq3csparql1640
+memory,resourcessp2bq3csparql973
 memory,resourcessp2bq41sparql1294
 memory,resourcessp2bq41sparql1640
 memory,resourcessp2bq41sparql21
 memory,resourcessp2bq41sparql247
 memory,resourcessp2bq41sparql700
 memory,resourcessp2bq41sparql973
+memory,resourcessp2bq42sparql1294
 memory,resourcessp2bq42sparql1640
 memory,resourcessp2bq42sparql21
 memory,resourcessp2bq42sparql247
+memory,resourcessp2bq42sparql700
+memory,resourcessp2bq42sparql973
+memory,resourcessp2bq4sparql1294
 memory,resourcessp2bq4sparql1640
 memory,resourcessp2bq4sparql21
 memory,resourcessp2bq4sparql247
 memory,resourcessp2bq4sparql700
 memory,resourcessp2bq4sparql973
+memory,resourcessp2bq5asparql1294
 memory,resourcessp2bq5asparql1640
+memory,resourcessp2bq5asparql21
+memory,resourcessp2bq5asparql247
 memory,resourcessp2bq5asparql700
 memory,resourcessp2bq5asparql973
+memory,resourcessp2bq5bsparql1294
 memory,resourcessp2bq5bsparql1640
 memory,resourcessp2bq5bsparql21
 memory,resourcessp2bq5bsparql247
+memory,resourcessp2bq5bsparql700
+memory,resourcessp2bq5bsparql973
 memory,resourcessp2bq61sparql1294
+memory,resourcessp2bq61sparql1640
+memory,resourcessp2bq61sparql21
+memory,resourcessp2bq61sparql247
+memory,resourcessp2bq61sparql700
 memory,resourcessp2bq61sparql973
 memory,resourcessp2bq62sparql1294
 memory,resourcessp2bq62sparql1640
 memory,resourcessp2bq62sparql21
+memory,resourcessp2bq62sparql247
+memory,resourcessp2bq62sparql700
+memory,resourcessp2bq62sparql973
 memory,resourcessp2bq63sparql1294
+memory,resourcessp2bq63sparql1640
 memory,resourcessp2bq63sparql21
+memory,resourcessp2bq63sparql247
 memory,resourcessp2bq63sparql700
 memory,resourcessp2bq63sparql973
 memory,resourcessp2bq65sparql1294
 memory,resourcessp2bq65sparql1640
 memory,resourcessp2bq65sparql21
+memory,resourcessp2bq65sparql247
 memory,resourcessp2bq65sparql700
+memory,resourcessp2bq65sparql973
+memory,resourcessp2bq66sparql1294
+memory,resourcessp2bq66sparql1640
 memory,resourcessp2bq66sparql21
+memory,resourcessp2bq66sparql247
 memory,resourcessp2bq66sparql700
+memory,resourcessp2bq66sparql973
 memory,resourcessp2bq67sparql1294
 memory,resourcessp2bq67sparql1640
 memory,resourcessp2bq67sparql21
 memory,resourcessp2bq67sparql247
 memory,resourcessp2bq67sparql700
+memory,resourcessp2bq67sparql973
 memory,resourcessp2bq68sparql1294
 memory,resourcessp2bq68sparql1640
 memory,resourcessp2bq68sparql21
 memory,resourcessp2bq68sparql247
+memory,resourcessp2bq68sparql700
+memory,resourcessp2bq68sparql973
 memory,resourcessp2bq6sparql1294
 memory,resourcessp2bq6sparql1640
+memory,resourcessp2bq6sparql21
+memory,resourcessp2bq6sparql247
 memory,resourcessp2bq6sparql700
+memory,resourcessp2bq6sparql973
+memory,resourcessp2bq71sparql1294
 memory,resourcessp2bq71sparql1640
+memory,resourcessp2bq71sparql21
+memory,resourcessp2bq71sparql247
+memory,resourcessp2bq71sparql700
+memory,resourcessp2bq71sparql973
 memory,resourcessp2bq72sparql1294
+memory,resourcessp2bq72sparql1640
 memory,resourcessp2bq72sparql21
 memory,resourcessp2bq72sparql247
 memory,resourcessp2bq72sparql700
 memory,resourcessp2bq7sparql1294
 memory,resourcessp2bq7sparql1640
+memory,resourcessp2bq7sparql21
+memory,resourcessp2bq7sparql247
+memory,resourcessp2bq7sparql700
 memory,resourcessp2bq7sparql973
 memory,resourcessp2bq8sparql1294
+memory,resourcessp2bq8sparql1640
 memory,resourcessp2bq8sparql21
 memory,resourcessp2bq8sparql247
 memory,resourcessp2bq8sparql700
+memory,resourcessp2bq8sparql973
+memory,resourcessp2bq91sparql1640
+memory,resourcessp2bq91sparql21
 memory,resourcessp2bq91sparql247
 memory,resourcessp2bq91sparql973
+memory,resourcessp2bq92sparql1640
 memory,resourcessp2bq92sparql247
+memory,resourcessp2bq92sparql700
 memory,resourcessp2bq92sparql973
+memory,resourcessp2bq9sparql1294
 memory,resourcessp2bq9sparql1640
+memory,resourcessp2bq9sparql21
 memory,resourcessp2bq9sparql247
 memory,resourcessp2bq9sparql973
 memory,simple 1
@@ -137,26 +275,45 @@ memory,simple 3
 memory,simple 5
 memory,simple 6
 memory,simple 7
+memory,simple 8
+memory,sparqldl03rq combined query with complex class description
+memory,sparqldl08rq two distinguished variables  undist
+memory,sparqldl09rq undist vars test
 memory,sparqldl10rq undist vars test
+memory,sparqldl13rq sameAs
+memory,sq11  Subquery limit per resource
+memory,sq12  Subquery in CONSTRUCT with builtins
+memory,sq13  Subqueries dont inject bindings
+memory,tvs02  TSV Result Format
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
 operator,GROUPCONCAT 2
+operator,GROUPCONCAT with SEPARATOR
+operator,RAND
 operator,REPLACE
 operator,REPLACE with captured substring
 operator,REPLACE with overlapping pattern
 operator,SHA512
+operator,SUBSTR 2argument
 operator,SUBSTR 3argument
 operator,UUID pattern match
+operator,resourcesbsbmexplorequery61853sparql1853
 operator,resourcesbsbmexplorequery62210sparql2210
+operator,resourcesbsbmexplorequery62553sparql2553
+operator,resourcesmyqueriesubungent05sparql66
+operator,resourcesmyqueriesubungent13sparql567
 operator,resourcesmyqueriesubungent16sparql567
 operator,syntaxaggregate13rq
 operator,syntaxaggregate14rq
+operator,syntaxaggregate15rq
 path,pp01 Simple path
 path,pp02 Star path
 path,pp03 Simple path with loop
+path,pp06 Path with two graphs
 path,pp07 Path with one graph
 path,pp08 Reverse path
 path,pp09 Reverse sequence path
+path,pp10 Path with negation
 path,pp11 Simple path and two paths to same target node
 path,pp12 Variable length path and two paths to same target node
 path,pp14 Star path over foafknows
@@ -164,6 +321,8 @@ path,pp16 Duplicate paths and cycles through foafknows
 path,pp21 Diamond  p
 path,pp23 Diamond with tail  p
 path,pp25 Diamond with loop  p
+path,pp28a Diamond with loop  pp
+path,pp30 Operator precedence 1
 path,pp31 Operator precedence 2
 path,pp32 Operator precedence 3
 path,pp33 Operator precedence 4
@@ -171,6 +330,9 @@ path,pp34 Named Graph 1
 path,pp35 Named Graph 2
 path,pp36 Arbitrary path with bound endpoints
 path,pp37 Nested
+path,resourcesmyqueriesubungent22sparql709
+path,synppincollection
+path,syntaxpropertyPaths01rq
 service,SERVICE test 7
 service,syntaxservice02rq
 service,syntaxservice03rq

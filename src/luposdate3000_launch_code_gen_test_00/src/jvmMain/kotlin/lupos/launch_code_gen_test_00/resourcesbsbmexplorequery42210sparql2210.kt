@@ -90,12 +90,27 @@ public class resourcesbsbmexplorequery42210sparql2210 {
         "LIMIT 10 \n" +
         ""
 
-    public fun `resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByID_2_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcesbsbmexplorequery42210sparql2210 - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -132,7 +147,8 @@ public class resourcesbsbmexplorequery42210sparql2210 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false" to ::`resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false`,
+            "resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByID_2_AllCollations - false" to ::`resourcesbsbmexplorequery42210sparql2210 - Thread - PartitionByID_2_AllCollations - false`,
+            "resourcesbsbmexplorequery42210sparql2210 - Thread - Simple - false" to ::`resourcesbsbmexplorequery42210sparql2210 - Thread - Simple - false`,
         )
     }
 }

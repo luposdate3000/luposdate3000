@@ -62,13 +62,13 @@ public class MAXwithGROUPBY {
         "GROUP BY ?s \n" +
         ""
 
-    public fun `MAX with GROUP BY - None - Simple - false`() {
+    public fun `MAX with GROUP BY - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -77,13 +77,28 @@ public class MAXwithGROUPBY {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `MAX with GROUP BY - Thread - BenchmarkFig5 - false`() {
+    public fun `MAX with GROUP BY - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `MAX with GROUP BY - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -119,8 +134,9 @@ public class MAXwithGROUPBY {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MAX with GROUP BY - None - Simple - false" to ::`MAX with GROUP BY - None - Simple - false`,
-            "MAX with GROUP BY - Thread - BenchmarkFig5 - false" to ::`MAX with GROUP BY - Thread - BenchmarkFig5 - false`,
+            "MAX with GROUP BY - Thread - PartitionByIDTwiceAllCollations - true" to ::`MAX with GROUP BY - Thread - PartitionByIDTwiceAllCollations - true`,
+            "MAX with GROUP BY - Thread - PartitionByID_1_AllCollations - true" to ::`MAX with GROUP BY - Thread - PartitionByID_1_AllCollations - true`,
+            "MAX with GROUP BY - Thread - PartitionByID_O_AllCollations - true" to ::`MAX with GROUP BY - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

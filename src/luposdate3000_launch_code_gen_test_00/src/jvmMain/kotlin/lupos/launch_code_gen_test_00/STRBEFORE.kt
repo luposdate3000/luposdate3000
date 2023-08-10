@@ -61,13 +61,13 @@ public class STRBEFORE {
         "} \n" +
         ""
 
-    public fun `STRBEFORE - None - Simple - false`() {
+    public fun `STRBEFORE - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -76,13 +76,13 @@ public class STRBEFORE {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `STRBEFORE - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `STRBEFORE - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -118,8 +118,8 @@ public class STRBEFORE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRBEFORE - None - Simple - false" to ::`STRBEFORE - None - Simple - false`,
-            "STRBEFORE - Thread - PartitionByID_S_AllCollations - true" to ::`STRBEFORE - Thread - PartitionByID_S_AllCollations - true`,
+            "STRBEFORE - Thread - PartitionByIDTwiceAllCollations - true" to ::`STRBEFORE - Thread - PartitionByIDTwiceAllCollations - true`,
+            "STRBEFORE - Thread - PartitionByID_1_AllCollations - false" to ::`STRBEFORE - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }

@@ -72,12 +72,42 @@ public class SimpleDELETEDATA3 {
         "} \n" +
         ""
 
-    public fun `Simple DELETE DATA 3 - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `Simple DELETE DATA 3 - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Simple DELETE DATA 3 - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `Simple DELETE DATA 3 - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -119,7 +149,9 @@ public class SimpleDELETEDATA3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Simple DELETE DATA 3 - Thread - PartitionByIDTwiceAllCollations - false" to ::`Simple DELETE DATA 3 - Thread - PartitionByIDTwiceAllCollations - false`,
+            "Simple DELETE DATA 3 - Thread - PartitionByID_2_AllCollations - true" to ::`Simple DELETE DATA 3 - Thread - PartitionByID_2_AllCollations - true`,
+            "Simple DELETE DATA 3 - Thread - PartitionByID_S_AllCollations - true" to ::`Simple DELETE DATA 3 - Thread - PartitionByID_S_AllCollations - true`,
+            "Simple DELETE DATA 3 - Thread - Simple - false" to ::`Simple DELETE DATA 3 - Thread - Simple - false`,
         )
     }
 }

@@ -61,12 +61,42 @@ public class sq07Subquerywithfrom {
         "{select * where {graph ?g {?x ?p ?y}}} \n" +
         "}"
 
-    public fun `sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `sq07  Subquery with from  - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sq07  Subquery with from  - Thread - PartitionByID_O_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sq07  Subquery with from  - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -103,7 +133,9 @@ public class sq07Subquerywithfrom {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false" to ::`sq07  Subquery with from  - Thread - PartitionByIDTwiceAllCollations - false`,
+            "sq07  Subquery with from  - Thread - PartitionByID_1_AllCollations - true" to ::`sq07  Subquery with from  - Thread - PartitionByID_1_AllCollations - true`,
+            "sq07  Subquery with from  - Thread - PartitionByID_O_AllCollations - false" to ::`sq07  Subquery with from  - Thread - PartitionByID_O_AllCollations - false`,
+            "sq07  Subquery with from  - Thread - Simple - false" to ::`sq07  Subquery with from  - Thread - Simple - false`,
         )
     }
 }

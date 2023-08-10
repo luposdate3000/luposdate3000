@@ -80,13 +80,13 @@ public class DROPGRAPH {
         "DROP GRAPH :g1 \n" +
         ""
 
-    public fun `DROP GRAPH - Thread - Simple - true`() {
+    public fun `DROP GRAPH - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -167,7 +167,7 @@ public class DROPGRAPH {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DROP GRAPH - Thread - Simple - true" to ::`DROP GRAPH - Thread - Simple - true`,
+            "DROP GRAPH - Thread - PartitionByKeyAllCollations - false" to ::`DROP GRAPH - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

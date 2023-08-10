@@ -71,27 +71,12 @@ public class MOVE1 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "MOVE DEFAULT TO :g1"
 
-    public fun `MOVE 1 - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `MOVE 1 - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `MOVE 1 - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -101,13 +86,13 @@ public class MOVE1 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `MOVE 1 - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `MOVE 1 - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -163,9 +148,8 @@ public class MOVE1 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MOVE 1 - None - Simple - false" to ::`MOVE 1 - None - Simple - false`,
-            "MOVE 1 - Thread - PartitionByID_O_AllCollations - false" to ::`MOVE 1 - Thread - PartitionByID_O_AllCollations - false`,
-            "MOVE 1 - Thread - PartitionByID_S_AllCollations - true" to ::`MOVE 1 - Thread - PartitionByID_S_AllCollations - true`,
+            "MOVE 1 - Thread - BenchmarkFig5 - false" to ::`MOVE 1 - Thread - BenchmarkFig5 - false`,
+            "MOVE 1 - Thread - PartitionByID_S_AllCollations - false" to ::`MOVE 1 - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

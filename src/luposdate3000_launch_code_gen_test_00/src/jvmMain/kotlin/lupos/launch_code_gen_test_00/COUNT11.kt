@@ -45,13 +45,13 @@ public class COUNT11 {
         "WHERE { ?S :p ?O1; :q ?O2 } GROUP BY (?S) \n" +
         ""
 
-    public fun `COUNT 11 - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `COUNT 11 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -74,7 +74,7 @@ public class COUNT11 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COUNT 11 - Thread - PartitionByKeyAllCollations - false" to ::`COUNT 11 - Thread - PartitionByKeyAllCollations - false`,
+            "COUNT 11 - Thread - PartitionByKeyAllCollations - true" to ::`COUNT 11 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

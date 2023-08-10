@@ -75,21 +75,6 @@ public class YEAR {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `YEAR - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
     internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
@@ -118,7 +103,6 @@ public class YEAR {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "YEAR - None - Simple - true" to ::`YEAR - None - Simple - true`,
-            "YEAR - Thread - Simple - false" to ::`YEAR - Thread - Simple - false`,
         )
     }
 }

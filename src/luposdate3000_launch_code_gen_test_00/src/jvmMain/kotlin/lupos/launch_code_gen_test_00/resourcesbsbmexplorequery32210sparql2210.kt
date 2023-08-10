@@ -83,12 +83,12 @@ public class resourcesbsbmexplorequery32210sparql2210 {
         "LIMIT 10 \n" +
         ""
 
-    public fun `resourcesbsbmexplorequery32210sparql2210 - Thread - Simple - true`() {
+    public fun `resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -125,7 +125,7 @@ public class resourcesbsbmexplorequery32210sparql2210 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmexplorequery32210sparql2210 - Thread - Simple - true" to ::`resourcesbsbmexplorequery32210sparql2210 - Thread - Simple - true`,
+            "resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByID_1_AllCollations - true" to ::`resourcesbsbmexplorequery32210sparql2210 - Thread - PartitionByID_1_AllCollations - true`,
         )
     }
 }

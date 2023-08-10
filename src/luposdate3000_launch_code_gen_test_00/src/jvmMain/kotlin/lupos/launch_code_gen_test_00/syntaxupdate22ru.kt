@@ -43,12 +43,27 @@ public class syntaxupdate22ru {
     internal val query = "CLEAR SILENT GRAPH <graph> \n" +
         ""
 
-    public fun `syntaxupdate22ru - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `syntaxupdate22ru - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxupdate22ru - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,7 +79,8 @@ public class syntaxupdate22ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate22ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdate22ru - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxupdate22ru - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxupdate22ru - Thread - PartitionByIDTwiceAllCollations - true`,
+            "syntaxupdate22ru - Thread - PartitionByKeyAllCollations - true" to ::`syntaxupdate22ru - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

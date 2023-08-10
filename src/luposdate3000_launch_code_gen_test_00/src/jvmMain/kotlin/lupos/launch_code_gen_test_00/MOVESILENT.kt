@@ -82,13 +82,13 @@ public class MOVESILENT {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `MOVE SILENT - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `MOVE SILENT - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -130,7 +130,7 @@ public class MOVESILENT {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "MOVE SILENT - Thread - PartitionByID_2_AllCollations - true" to ::`MOVE SILENT - Thread - PartitionByID_2_AllCollations - true`,
-            "MOVE SILENT - Thread - PartitionByID_2_AllCollations - false" to ::`MOVE SILENT - Thread - PartitionByID_2_AllCollations - false`,
+            "MOVE SILENT - Thread - PartitionByID_O_AllCollations - true" to ::`MOVE SILENT - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

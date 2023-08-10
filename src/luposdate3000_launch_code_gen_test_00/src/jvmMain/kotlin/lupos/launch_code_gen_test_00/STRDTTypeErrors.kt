@@ -61,12 +61,12 @@ public class STRDTTypeErrors {
         "} \n" +
         ""
 
-    public fun `STRDT TypeErrors - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `STRDT TypeErrors - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -103,7 +103,7 @@ public class STRDTTypeErrors {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRDT TypeErrors - Thread - PartitionByID_2_AllCollations - false" to ::`STRDT TypeErrors - Thread - PartitionByID_2_AllCollations - false`,
+            "STRDT TypeErrors - Thread - PartitionByID_S_AllCollations - false" to ::`STRDT TypeErrors - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

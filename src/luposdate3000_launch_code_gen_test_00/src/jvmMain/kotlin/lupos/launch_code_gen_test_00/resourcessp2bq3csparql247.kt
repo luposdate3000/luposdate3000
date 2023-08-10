@@ -65,11 +65,11 @@ public class resourcessp2bq3csparql247 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq3csparql247 - None - Simple - true`() {
+    public fun `resourcessp2bq3csparql247 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
@@ -80,42 +80,12 @@ public class resourcessp2bq3csparql247 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcessp2bq3csparql247 - None - Simple - false`() {
+    public fun `resourcessp2bq3csparql247 - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcessp2bq3csparql247 - Thread - BenchmarkFig5 - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcessp2bq3csparql247 - Thread - PartitionByID_S_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -152,10 +122,8 @@ public class resourcessp2bq3csparql247 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq3csparql247 - None - Simple - true" to ::`resourcessp2bq3csparql247 - None - Simple - true`,
-            "resourcessp2bq3csparql247 - None - Simple - false" to ::`resourcessp2bq3csparql247 - None - Simple - false`,
-            "resourcessp2bq3csparql247 - Thread - BenchmarkFig5 - false" to ::`resourcessp2bq3csparql247 - Thread - BenchmarkFig5 - false`,
-            "resourcessp2bq3csparql247 - Thread - PartitionByID_S_AllCollations - false" to ::`resourcessp2bq3csparql247 - Thread - PartitionByID_S_AllCollations - false`,
+            "resourcessp2bq3csparql247 - Thread - Simple - true" to ::`resourcessp2bq3csparql247 - Thread - Simple - true`,
+            "resourcessp2bq3csparql247 - Thread - Simple - false" to ::`resourcessp2bq3csparql247 - Thread - Simple - false`,
         )
     }
 }

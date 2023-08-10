@@ -48,12 +48,27 @@ public class DELETEINSERT8 {
         "WHERE {?s :r ?q OPTIONAL { ?q :s ?o } } \n" +
         ""
 
-    public fun `DELETE INSERT 8 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `DELETE INSERT 8 - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `DELETE INSERT 8 - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -63,13 +78,13 @@ public class DELETEINSERT8 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DELETE INSERT 8 - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `DELETE INSERT 8 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -92,8 +107,9 @@ public class DELETEINSERT8 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DELETE INSERT 8 - Thread - PartitionByID_2_AllCollations - true" to ::`DELETE INSERT 8 - Thread - PartitionByID_2_AllCollations - true`,
-            "DELETE INSERT 8 - Thread - PartitionByKeyAllCollations - false" to ::`DELETE INSERT 8 - Thread - PartitionByKeyAllCollations - false`,
+            "DELETE INSERT 8 - Thread - PartitionByIDTwiceAllCollations - false" to ::`DELETE INSERT 8 - Thread - PartitionByIDTwiceAllCollations - false`,
+            "DELETE INSERT 8 - Thread - PartitionByID_O_AllCollations - true" to ::`DELETE INSERT 8 - Thread - PartitionByID_O_AllCollations - true`,
+            "DELETE INSERT 8 - Thread - PartitionByKeyAllCollations - true" to ::`DELETE INSERT 8 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

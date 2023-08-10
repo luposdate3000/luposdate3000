@@ -67,28 +67,13 @@ public class DROPSILENTGRAPHiri {
     internal val query = "DROP SILENT GRAPH <http://www.example.org> \n" +
         ""
 
-    public fun `DROP SILENT GRAPH iri - Thread - BenchmarkFig5 - true`() {
+    public fun `DROP SILENT GRAPH iri - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `DROP SILENT GRAPH iri - Thread - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -129,8 +114,7 @@ public class DROPSILENTGRAPHiri {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DROP SILENT GRAPH iri - Thread - BenchmarkFig5 - true" to ::`DROP SILENT GRAPH iri - Thread - BenchmarkFig5 - true`,
-            "DROP SILENT GRAPH iri - Thread - Simple - false" to ::`DROP SILENT GRAPH iri - Thread - Simple - false`,
+            "DROP SILENT GRAPH iri - Thread - PartitionByID_O_AllCollations - true" to ::`DROP SILENT GRAPH iri - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

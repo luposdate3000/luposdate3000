@@ -79,13 +79,43 @@ public class INSERTsamebnodetwice {
         "DROP GRAPH :g2 \n" +
         ""
 
-    public fun `INSERT same bnode twice - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `INSERT same bnode twice - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `INSERT same bnode twice - Thread - PartitionByID_1_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `INSERT same bnode twice - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -126,7 +156,9 @@ public class INSERTsamebnodetwice {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "INSERT same bnode twice - Thread - PartitionByID_S_AllCollations - true" to ::`INSERT same bnode twice - Thread - PartitionByID_S_AllCollations - true`,
+            "INSERT same bnode twice - Thread - BenchmarkFig5 - false" to ::`INSERT same bnode twice - Thread - BenchmarkFig5 - false`,
+            "INSERT same bnode twice - Thread - PartitionByID_1_AllCollations - true" to ::`INSERT same bnode twice - Thread - PartitionByID_1_AllCollations - true`,
+            "INSERT same bnode twice - Thread - PartitionByKeyAllCollations - false" to ::`INSERT same bnode twice - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

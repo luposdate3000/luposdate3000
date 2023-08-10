@@ -43,13 +43,28 @@ public class syntaxupdate23ru {
     internal val query = "INSERT DATA { <s> <p> 'o1', 'o2', 'o3' } \n" +
         ""
 
-    public fun `syntaxupdate23ru - Thread - BenchmarkFig5 - true`() {
+    public fun `syntaxupdate23ru - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxupdate23ru - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -79,7 +94,8 @@ public class syntaxupdate23ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate23ru - Thread - BenchmarkFig5 - true" to ::`syntaxupdate23ru - Thread - BenchmarkFig5 - true`,
+            "syntaxupdate23ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdate23ru - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxupdate23ru - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxupdate23ru - Thread - PartitionByID_S_AllCollations - false`,
             "syntaxupdate23ru - Thread - Simple - true" to ::`syntaxupdate23ru - Thread - Simple - true`,
         )
     }

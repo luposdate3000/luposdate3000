@@ -46,6 +46,36 @@ public class syntaxupdatebad08ru {
         "LOAD <remote> INTO GRAPH <g> \n" +
         ""
 
+    public fun `syntaxupdatebad08ru - Thread - PartitionByID_1_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxupdatebad08ru - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     public fun `syntaxupdatebad08ru - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
@@ -75,6 +105,8 @@ public class syntaxupdatebad08ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
+            "syntaxupdatebad08ru - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxupdatebad08ru - Thread - PartitionByID_1_AllCollations - true`,
+            "syntaxupdatebad08ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdatebad08ru - Thread - PartitionByID_S_AllCollations - true`,
             "syntaxupdatebad08ru - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxupdatebad08ru - Thread - PartitionByID_S_AllCollations - false`,
         )
     }

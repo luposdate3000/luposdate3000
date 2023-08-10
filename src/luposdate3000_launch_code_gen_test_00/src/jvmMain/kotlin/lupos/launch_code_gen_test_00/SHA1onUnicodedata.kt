@@ -60,12 +60,12 @@ public class SHA1onUnicodedata {
         "} \n" +
         ""
 
-    public fun `SHA1 on Unicode data - None - Simple - true`() {
+    public fun `SHA1 on Unicode data - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -102,7 +102,7 @@ public class SHA1onUnicodedata {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "SHA1 on Unicode data - None - Simple - true" to ::`SHA1 on Unicode data - None - Simple - true`,
+            "SHA1 on Unicode data - Thread - PartitionByID_2_AllCollations - true" to ::`SHA1 on Unicode data - Thread - PartitionByID_2_AllCollations - true`,
         )
     }
 }

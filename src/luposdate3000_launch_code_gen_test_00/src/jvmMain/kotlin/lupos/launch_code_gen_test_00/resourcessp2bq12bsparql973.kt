@@ -80,21 +80,6 @@ public class resourcessp2bq12bsparql973 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq12bsparql973 - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
     public fun `resourcessp2bq12bsparql973 - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -110,13 +95,13 @@ public class resourcessp2bq12bsparql973 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcessp2bq12bsparql973 - Thread - Simple - true`() {
+    public fun `resourcessp2bq12bsparql973 - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -152,9 +137,8 @@ public class resourcessp2bq12bsparql973 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq12bsparql973 - None - Simple - false" to ::`resourcessp2bq12bsparql973 - None - Simple - false`,
             "resourcessp2bq12bsparql973 - Thread - PartitionByIDTwiceAllCollations - true" to ::`resourcessp2bq12bsparql973 - Thread - PartitionByIDTwiceAllCollations - true`,
-            "resourcessp2bq12bsparql973 - Thread - Simple - true" to ::`resourcessp2bq12bsparql973 - Thread - Simple - true`,
+            "resourcessp2bq12bsparql973 - Thread - PartitionByKeyAllCollations - false" to ::`resourcessp2bq12bsparql973 - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

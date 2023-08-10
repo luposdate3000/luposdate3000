@@ -78,6 +78,36 @@ public class INSERT02 {
         "} \n" +
         ""
 
+    public fun `INSERT 02 - Thread - BenchmarkFig5 - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `INSERT 02 - Thread - PartitionByIDTwiceAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     public fun `INSERT 02 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
@@ -135,6 +165,8 @@ public class INSERT02 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
+            "INSERT 02 - Thread - BenchmarkFig5 - true" to ::`INSERT 02 - Thread - BenchmarkFig5 - true`,
+            "INSERT 02 - Thread - PartitionByIDTwiceAllCollations - false" to ::`INSERT 02 - Thread - PartitionByIDTwiceAllCollations - false`,
             "INSERT 02 - Thread - Simple - true" to ::`INSERT 02 - Thread - Simple - true`,
         )
     }

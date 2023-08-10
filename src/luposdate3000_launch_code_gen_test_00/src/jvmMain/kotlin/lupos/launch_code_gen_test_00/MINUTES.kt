@@ -60,13 +60,28 @@ public class MINUTES {
         "} \n" +
         ""
 
-    public fun `MINUTES - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `MINUTES - None - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `MINUTES - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -102,7 +117,8 @@ public class MINUTES {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MINUTES - Thread - PartitionByID_S_AllCollations - true" to ::`MINUTES - Thread - PartitionByID_S_AllCollations - true`,
+            "MINUTES - None - Simple - false" to ::`MINUTES - None - Simple - false`,
+            "MINUTES - Thread - PartitionByKeyAllCollations - false" to ::`MINUTES - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

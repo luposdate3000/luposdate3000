@@ -43,13 +43,13 @@ public class syntaxaggregate08rq {
     internal val query = "SELECT (MIN(DISTINCT ?x) AS ?y) {} \n" +
         ""
 
-    public fun `syntaxaggregate08rq - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `syntaxaggregate08rq - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -64,7 +64,7 @@ public class syntaxaggregate08rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxaggregate08rq - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxaggregate08rq - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxaggregate08rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxaggregate08rq - Thread - PartitionByID_O_AllCollations - false`,
         )
     }
 }

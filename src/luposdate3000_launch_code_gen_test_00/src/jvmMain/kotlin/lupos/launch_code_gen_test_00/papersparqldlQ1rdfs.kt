@@ -61,12 +61,27 @@ public class papersparqldlQ1rdfs {
         " ?c rdfs:subClassOf ex:Student .  \n" +
         "}"
 
-    public fun `papersparqldlQ1rdfs - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `papersparqldlQ1rdfs - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `papersparqldlQ1rdfs - Thread - Simple - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -103,7 +118,8 @@ public class papersparqldlQ1rdfs {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "papersparqldlQ1rdfs - Thread - PartitionByKeyAllCollations - false" to ::`papersparqldlQ1rdfs - Thread - PartitionByKeyAllCollations - false`,
+            "papersparqldlQ1rdfs - Thread - PartitionByID_1_AllCollations - false" to ::`papersparqldlQ1rdfs - Thread - PartitionByID_1_AllCollations - false`,
+            "papersparqldlQ1rdfs - Thread - Simple - false" to ::`papersparqldlQ1rdfs - Thread - Simple - false`,
         )
     }
 }

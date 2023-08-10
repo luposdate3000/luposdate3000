@@ -92,12 +92,12 @@ public class SimpleDELETE1 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Simple DELETE 1 - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `Simple DELETE 1 - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -107,13 +107,13 @@ public class SimpleDELETE1 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Simple DELETE 1 - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `Simple DELETE 1 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -155,8 +155,8 @@ public class SimpleDELETE1 {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "Simple DELETE 1 - None - Simple - true" to ::`Simple DELETE 1 - None - Simple - true`,
-            "Simple DELETE 1 - Thread - PartitionByIDTwiceAllCollations - false" to ::`Simple DELETE 1 - Thread - PartitionByIDTwiceAllCollations - false`,
-            "Simple DELETE 1 - Thread - PartitionByKeyAllCollations - false" to ::`Simple DELETE 1 - Thread - PartitionByKeyAllCollations - false`,
+            "Simple DELETE 1 - Thread - PartitionByID_O_AllCollations - false" to ::`Simple DELETE 1 - Thread - PartitionByID_O_AllCollations - false`,
+            "Simple DELETE 1 - Thread - PartitionByKeyAllCollations - true" to ::`Simple DELETE 1 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

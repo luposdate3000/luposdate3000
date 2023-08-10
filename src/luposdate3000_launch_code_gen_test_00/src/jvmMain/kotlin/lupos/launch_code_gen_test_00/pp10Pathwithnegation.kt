@@ -60,13 +60,13 @@ public class pp10Pathwithnegation {
         "in:a !(ex:p1|ex:p2) ?x \n" +
         "}"
 
-    public fun `pp10 Path with negation - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `pp10 Path with negation - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -117,7 +117,7 @@ public class pp10Pathwithnegation {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "pp10 Path with negation - Thread - PartitionByID_O_AllCollations - true" to ::`pp10 Path with negation - Thread - PartitionByID_O_AllCollations - true`,
+            "pp10 Path with negation - Thread - PartitionByID_O_AllCollations - false" to ::`pp10 Path with negation - Thread - PartitionByID_O_AllCollations - false`,
             "pp10 Path with negation - Thread - PartitionByKeyAllCollations - true" to ::`pp10 Path with negation - Thread - PartitionByKeyAllCollations - true`,
         )
     }

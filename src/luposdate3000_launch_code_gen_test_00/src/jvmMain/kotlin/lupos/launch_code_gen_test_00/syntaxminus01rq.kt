@@ -43,12 +43,27 @@ public class syntaxminus01rq {
     internal val query = "SELECT * { ?s ?p ?o MINUS { ?s ?q ?v } } \n" +
         ""
 
-    public fun `syntaxminus01rq - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `syntaxminus01rq - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxminus01rq - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -64,7 +79,8 @@ public class syntaxminus01rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxminus01rq - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxminus01rq - Thread - PartitionByIDTwiceAllCollations - false`,
+            "syntaxminus01rq - Thread - BenchmarkFig5 - true" to ::`syntaxminus01rq - Thread - BenchmarkFig5 - true`,
+            "syntaxminus01rq - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxminus01rq - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

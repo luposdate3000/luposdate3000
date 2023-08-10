@@ -183,13 +183,13 @@ public class syntaxupdateother01 {
         "} \n" +
         ""
 
-    public fun `syntaxupdateother01 - None - Simple - false`() {
+    public fun `syntaxupdateother01 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -204,7 +204,7 @@ public class syntaxupdateother01 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdateother01 - None - Simple - false" to ::`syntaxupdateother01 - None - Simple - false`,
+            "syntaxupdateother01 - Thread - PartitionByKeyAllCollations - true" to ::`syntaxupdateother01 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

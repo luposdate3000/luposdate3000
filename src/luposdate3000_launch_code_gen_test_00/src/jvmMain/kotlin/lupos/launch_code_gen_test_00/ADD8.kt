@@ -75,13 +75,13 @@ public class ADD8 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "ADD :g1 TO :g1"
 
-    public fun `ADD 8 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `ADD 8 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -90,13 +90,13 @@ public class ADD8 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `ADD 8 - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `ADD 8 - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -162,8 +162,8 @@ public class ADD8 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "ADD 8 - Thread - PartitionByID_2_AllCollations - false" to ::`ADD 8 - Thread - PartitionByID_2_AllCollations - false`,
-            "ADD 8 - Thread - PartitionByID_S_AllCollations - true" to ::`ADD 8 - Thread - PartitionByID_S_AllCollations - true`,
+            "ADD 8 - None - Simple - true" to ::`ADD 8 - None - Simple - true`,
+            "ADD 8 - Thread - PartitionByID_O_AllCollations - false" to ::`ADD 8 - Thread - PartitionByID_O_AllCollations - false`,
         )
     }
 }

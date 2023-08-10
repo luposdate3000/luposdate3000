@@ -66,12 +66,12 @@ public class BNODEstr {
         "} \n" +
         ""
 
-    public fun `BNODEstr - Thread - BenchmarkFig5 - true`() {
+    public fun `BNODEstr - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -108,7 +108,7 @@ public class BNODEstr {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "BNODEstr - Thread - BenchmarkFig5 - true" to ::`BNODEstr - Thread - BenchmarkFig5 - true`,
+            "BNODEstr - Thread - PartitionByID_S_AllCollations - true" to ::`BNODEstr - Thread - PartitionByID_S_AllCollations - true`,
         )
     }
 }

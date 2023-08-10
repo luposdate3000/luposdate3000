@@ -64,13 +64,13 @@ public class resourcessp2bq11sparql700 {
         "OFFSET 50 \n" +
         ""
 
-    public fun `resourcessp2bq11sparql700 - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `resourcessp2bq11sparql700 - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -106,7 +106,7 @@ public class resourcessp2bq11sparql700 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq11sparql700 - Thread - PartitionByIDTwiceAllCollations - true" to ::`resourcessp2bq11sparql700 - Thread - PartitionByIDTwiceAllCollations - true`,
+            "resourcessp2bq11sparql700 - Thread - Simple - false" to ::`resourcessp2bq11sparql700 - Thread - Simple - false`,
         )
     }
 }

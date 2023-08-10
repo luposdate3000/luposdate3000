@@ -78,57 +78,12 @@ public class resourcesbsbmexplorequery12210sparql2210 {
         "LIMIT 10 \n" +
         ""
 
-    public fun `resourcesbsbmexplorequery12210sparql2210 - Thread - BenchmarkFig5 - false`() {
+    public fun `resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_O_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesbsbmexplorequery12210sparql2210 - Thread - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -165,10 +120,7 @@ public class resourcesbsbmexplorequery12210sparql2210 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmexplorequery12210sparql2210 - Thread - BenchmarkFig5 - false" to ::`resourcesbsbmexplorequery12210sparql2210 - Thread - BenchmarkFig5 - false`,
-            "resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false" to ::`resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByIDTwiceAllCollations - false`,
-            "resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_O_AllCollations - true" to ::`resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByID_O_AllCollations - true`,
-            "resourcesbsbmexplorequery12210sparql2210 - Thread - Simple - true" to ::`resourcesbsbmexplorequery12210sparql2210 - Thread - Simple - true`,
+            "resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByKeyAllCollations - true" to ::`resourcesbsbmexplorequery12210sparql2210 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

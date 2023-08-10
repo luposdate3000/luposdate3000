@@ -64,13 +64,13 @@ public class resourcessp2bq12b4sparql247 {
         "} \n" +
         ""
 
-    public fun `resourcessp2bq12b4sparql247 - None - Simple - true`() {
+    public fun `resourcessp2bq12b4sparql247 - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -106,7 +106,7 @@ public class resourcessp2bq12b4sparql247 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcessp2bq12b4sparql247 - None - Simple - true" to ::`resourcessp2bq12b4sparql247 - None - Simple - true`,
+            "resourcessp2bq12b4sparql247 - Thread - BenchmarkFig5 - false" to ::`resourcessp2bq12b4sparql247 - Thread - BenchmarkFig5 - false`,
         )
     }
 }

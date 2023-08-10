@@ -52,12 +52,27 @@ public class DELETEINSERT3 {
         "} \n" +
         ""
 
-    public fun `DELETE INSERT 3 - Thread - BenchmarkFig5 - false`() {
+    public fun `DELETE INSERT 3 - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `DELETE INSERT 3 - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -67,13 +82,13 @@ public class DELETEINSERT3 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `DELETE INSERT 3 - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `DELETE INSERT 3 - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -96,8 +111,9 @@ public class DELETEINSERT3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DELETE INSERT 3 - Thread - BenchmarkFig5 - false" to ::`DELETE INSERT 3 - Thread - BenchmarkFig5 - false`,
-            "DELETE INSERT 3 - Thread - PartitionByID_1_AllCollations - true" to ::`DELETE INSERT 3 - Thread - PartitionByID_1_AllCollations - true`,
+            "DELETE INSERT 3 - Thread - PartitionByIDTwiceAllCollations - true" to ::`DELETE INSERT 3 - Thread - PartitionByIDTwiceAllCollations - true`,
+            "DELETE INSERT 3 - Thread - PartitionByID_2_AllCollations - false" to ::`DELETE INSERT 3 - Thread - PartitionByID_2_AllCollations - false`,
+            "DELETE INSERT 3 - Thread - PartitionByID_S_AllCollations - false" to ::`DELETE INSERT 3 - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

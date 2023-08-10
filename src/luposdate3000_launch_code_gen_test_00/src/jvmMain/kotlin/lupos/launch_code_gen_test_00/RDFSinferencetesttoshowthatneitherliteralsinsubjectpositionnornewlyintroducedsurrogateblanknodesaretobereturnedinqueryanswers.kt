@@ -61,27 +61,12 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
         "} \n" +
         ""
 
-    public fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -118,8 +103,7 @@ public class RDFSinferencetesttoshowthatneitherliteralsinsubjectpositionnornewly
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - true" to ::`RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - true`,
-            "RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_2_AllCollations - false" to ::`RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_2_AllCollations - false`,
+            "RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - false" to ::`RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByIDTwiceAllCollations - false`,
         )
     }
 }

@@ -45,13 +45,13 @@ public class synbadpname03 {
         "ASK{} \n" +
         ""
 
-    public fun `synbadpname03 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `synbadpname03 - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -74,7 +74,7 @@ public class synbadpname03 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "synbadpname03 - Thread - PartitionByID_2_AllCollations - false" to ::`synbadpname03 - Thread - PartitionByID_2_AllCollations - false`,
+            "synbadpname03 - Thread - PartitionByID_2_AllCollations - true" to ::`synbadpname03 - Thread - PartitionByID_2_AllCollations - true`,
         )
     }
 }

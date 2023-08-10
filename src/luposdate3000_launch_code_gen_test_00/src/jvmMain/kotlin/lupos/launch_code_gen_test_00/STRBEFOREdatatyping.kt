@@ -71,13 +71,43 @@ public class STRBEFOREdatatyping {
         "} \n" +
         ""
 
-    public fun `STRBEFORE datatyping - Thread - Simple - true`() {
+    public fun `STRBEFORE datatyping - Thread - PartitionByID_2_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `STRBEFORE datatyping - Thread - PartitionByID_O_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `STRBEFORE datatyping - Thread - PartitionByID_S_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -113,7 +143,9 @@ public class STRBEFOREdatatyping {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRBEFORE datatyping - Thread - Simple - true" to ::`STRBEFORE datatyping - Thread - Simple - true`,
+            "STRBEFORE datatyping - Thread - PartitionByID_2_AllCollations - false" to ::`STRBEFORE datatyping - Thread - PartitionByID_2_AllCollations - false`,
+            "STRBEFORE datatyping - Thread - PartitionByID_O_AllCollations - true" to ::`STRBEFORE datatyping - Thread - PartitionByID_O_AllCollations - true`,
+            "STRBEFORE datatyping - Thread - PartitionByID_S_AllCollations - false" to ::`STRBEFORE datatyping - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

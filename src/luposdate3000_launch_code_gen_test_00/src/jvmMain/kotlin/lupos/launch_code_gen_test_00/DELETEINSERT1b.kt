@@ -85,13 +85,13 @@ public class DELETEINSERT1b {
         "} \n" +
         ""
 
-    public fun `DELETE INSERT 1b - None - Simple - true`() {
+    public fun `DELETE INSERT 1b - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -132,7 +132,7 @@ public class DELETEINSERT1b {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "DELETE INSERT 1b - None - Simple - true" to ::`DELETE INSERT 1b - None - Simple - true`,
+            "DELETE INSERT 1b - Thread - PartitionByID_1_AllCollations - false" to ::`DELETE INSERT 1b - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }

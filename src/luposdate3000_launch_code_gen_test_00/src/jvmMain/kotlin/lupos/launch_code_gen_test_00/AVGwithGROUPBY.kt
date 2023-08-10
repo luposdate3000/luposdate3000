@@ -63,27 +63,12 @@ public class AVGwithGROUPBY {
         "HAVING (AVG(?o) <= 2.0) \n" +
         ""
 
-    public fun `AVG with GROUP BY - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `AVG with GROUP BY - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `AVG with GROUP BY - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -120,8 +105,7 @@ public class AVGwithGROUPBY {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "AVG with GROUP BY - None - Simple - false" to ::`AVG with GROUP BY - None - Simple - false`,
-            "AVG with GROUP BY - Thread - PartitionByID_1_AllCollations - true" to ::`AVG with GROUP BY - Thread - PartitionByID_1_AllCollations - true`,
+            "AVG with GROUP BY - Thread - Simple - true" to ::`AVG with GROUP BY - Thread - Simple - true`,
         )
     }
 }

@@ -62,28 +62,13 @@ public class parentquerywithhasChildsomeFemalerestriction {
         "       owl:onProperty :hasChild ; \n" +
         "       owl:someValuesFrom :Female ] . }"
 
-    public fun `parent query with hasChild some Female restriction - Thread - BenchmarkFig5 - false`() {
+    public fun `parent query with hasChild some Female restriction - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `parent query with hasChild some Female restriction - Thread - PartitionByKeyAllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -119,8 +104,7 @@ public class parentquerywithhasChildsomeFemalerestriction {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "parent query with hasChild some Female restriction - Thread - BenchmarkFig5 - false" to ::`parent query with hasChild some Female restriction - Thread - BenchmarkFig5 - false`,
-            "parent query with hasChild some Female restriction - Thread - PartitionByKeyAllCollations - false" to ::`parent query with hasChild some Female restriction - Thread - PartitionByKeyAllCollations - false`,
+            "parent query with hasChild some Female restriction - None - Simple - true" to ::`parent query with hasChild some Female restriction - None - Simple - true`,
         )
     }
 }

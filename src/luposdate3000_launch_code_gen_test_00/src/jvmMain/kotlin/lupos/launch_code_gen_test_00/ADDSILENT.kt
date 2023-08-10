@@ -67,12 +67,12 @@ public class ADDSILENT {
     internal val query = "ADD SILENT GRAPH <http://www.example.com/g1> TO GRAPH <http://www.example.com/g2> \n" +
         ""
 
-    public fun `ADD SILENT - Thread - Simple - true`() {
+    public fun `ADD SILENT - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -114,7 +114,7 @@ public class ADDSILENT {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "ADD SILENT - Thread - Simple - true" to ::`ADD SILENT - Thread - Simple - true`,
+            "ADD SILENT - Thread - BenchmarkFig5 - true" to ::`ADD SILENT - Thread - BenchmarkFig5 - true`,
         )
     }
 }

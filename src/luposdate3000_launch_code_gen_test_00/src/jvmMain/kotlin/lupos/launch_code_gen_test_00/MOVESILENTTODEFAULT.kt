@@ -43,13 +43,13 @@ public class MOVESILENTTODEFAULT {
     internal val query = "MOVE SILENT GRAPH <http://www.example.com/g1> TO DEFAULT \n" +
         ""
 
-    public fun `MOVE SILENT TO DEFAULT - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `MOVE SILENT TO DEFAULT - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -64,7 +64,7 @@ public class MOVESILENTTODEFAULT {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MOVE SILENT TO DEFAULT - Thread - PartitionByID_1_AllCollations - true" to ::`MOVE SILENT TO DEFAULT - Thread - PartitionByID_1_AllCollations - true`,
+            "MOVE SILENT TO DEFAULT - Thread - PartitionByID_S_AllCollations - false" to ::`MOVE SILENT TO DEFAULT - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

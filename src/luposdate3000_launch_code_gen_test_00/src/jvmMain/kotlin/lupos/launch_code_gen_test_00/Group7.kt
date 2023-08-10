@@ -58,13 +58,13 @@ public class Group7 {
         "GROUP BY ?event \n" +
         ""
 
-    public fun `Group7 - None - Simple - false`() {
+    public fun `Group7 - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -73,12 +73,12 @@ public class Group7 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `Group7 - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `Group7 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -102,8 +102,8 @@ public class Group7 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Group7 - None - Simple - false" to ::`Group7 - None - Simple - false`,
-            "Group7 - Thread - PartitionByID_O_AllCollations - true" to ::`Group7 - Thread - PartitionByID_O_AllCollations - true`,
+            "Group7 - Thread - PartitionByIDTwiceAllCollations - true" to ::`Group7 - Thread - PartitionByIDTwiceAllCollations - true`,
+            "Group7 - Thread - PartitionByKeyAllCollations - true" to ::`Group7 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

@@ -62,13 +62,13 @@ public class RDFinferencetestluposDuplicate1 {
         "} \n" +
         ""
 
-    public fun `RDF inference test luposDuplicate1 - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `RDF inference test luposDuplicate1 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -104,7 +104,7 @@ public class RDFinferencetestluposDuplicate1 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "RDF inference test luposDuplicate1 - Thread - PartitionByID_O_AllCollations - false" to ::`RDF inference test luposDuplicate1 - Thread - PartitionByID_O_AllCollations - false`,
+            "RDF inference test luposDuplicate1 - Thread - Simple - true" to ::`RDF inference test luposDuplicate1 - Thread - Simple - true`,
         )
     }
 }

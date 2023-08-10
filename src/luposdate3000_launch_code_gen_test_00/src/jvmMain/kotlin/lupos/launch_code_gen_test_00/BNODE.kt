@@ -60,12 +60,12 @@ public class BNODE {
         "WHERE {} \n" +
         ""
 
-    public fun `BNODE - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `BNODE - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -102,7 +102,7 @@ public class BNODE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "BNODE - Thread - PartitionByKeyAllCollations - false" to ::`BNODE - Thread - PartitionByKeyAllCollations - false`,
+            "BNODE - Thread - PartitionByID_1_AllCollations - false" to ::`BNODE - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }

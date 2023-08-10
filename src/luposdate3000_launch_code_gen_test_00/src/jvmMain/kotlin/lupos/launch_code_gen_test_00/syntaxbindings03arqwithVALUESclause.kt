@@ -43,42 +43,12 @@ public class syntaxbindings03arqwithVALUESclause {
     internal val query = "SELECT * { } VALUES () { () } \n" +
         ""
 
-    public fun `syntaxbindings03arq with VALUES clause - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxbindings03arq with VALUES clause - Thread - PartitionByIDTwiceAllCollations - true`() {
+    public fun `syntaxbindings03arq with VALUES clause - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxbindings03arq with VALUES clause - Thread - PartitionByID_1_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -94,9 +64,7 @@ public class syntaxbindings03arqwithVALUESclause {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxbindings03arq with VALUES clause - None - Simple - true" to ::`syntaxbindings03arq with VALUES clause - None - Simple - true`,
-            "syntaxbindings03arq with VALUES clause - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxbindings03arq with VALUES clause - Thread - PartitionByIDTwiceAllCollations - true`,
-            "syntaxbindings03arq with VALUES clause - Thread - PartitionByID_1_AllCollations - false" to ::`syntaxbindings03arq with VALUES clause - Thread - PartitionByID_1_AllCollations - false`,
+            "syntaxbindings03arq with VALUES clause - Thread - BenchmarkFig5 - false" to ::`syntaxbindings03arq with VALUES clause - Thread - BenchmarkFig5 - false`,
         )
     }
 }

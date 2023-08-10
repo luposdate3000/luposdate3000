@@ -59,13 +59,13 @@ public class COUNT1 {
         "WHERE { ?S ?P ?O } \n" +
         ""
 
-    public fun `COUNT 1 - Thread - BenchmarkFig5 - false`() {
+    public fun `COUNT 1 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -81,21 +81,6 @@ public class COUNT1 {
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `COUNT 1 - Thread - PartitionByID_2_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -131,9 +116,8 @@ public class COUNT1 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COUNT 1 - Thread - BenchmarkFig5 - false" to ::`COUNT 1 - Thread - BenchmarkFig5 - false`,
+            "COUNT 1 - None - Simple - true" to ::`COUNT 1 - None - Simple - true`,
             "COUNT 1 - Thread - PartitionByIDTwiceAllCollations - false" to ::`COUNT 1 - Thread - PartitionByIDTwiceAllCollations - false`,
-            "COUNT 1 - Thread - PartitionByID_2_AllCollations - true" to ::`COUNT 1 - Thread - PartitionByID_2_AllCollations - true`,
         )
     }
 }

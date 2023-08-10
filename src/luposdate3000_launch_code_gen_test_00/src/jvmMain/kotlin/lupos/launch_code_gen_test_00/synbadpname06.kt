@@ -47,12 +47,12 @@ public class synbadpname06 {
         "} \n" +
         ""
 
-    public fun `synbadpname06 - Thread - BenchmarkFig5 - false`() {
+    public fun `synbadpname06 - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -76,7 +76,7 @@ public class synbadpname06 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "synbadpname06 - Thread - BenchmarkFig5 - false" to ::`synbadpname06 - Thread - BenchmarkFig5 - false`,
+            "synbadpname06 - None - Simple - false" to ::`synbadpname06 - None - Simple - false`,
         )
     }
 }

@@ -48,13 +48,13 @@ public class syntaxupdate36ru {
         "{ GRAPH <G> { <s> <p> 123 ; <q> 4567.0 . } } \n" +
         ""
 
-    public fun `syntaxupdate36ru - Thread - BenchmarkFig5 - false`() {
+    public fun `syntaxupdate36ru - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -63,12 +63,12 @@ public class syntaxupdate36ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdate36ru - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -84,8 +84,8 @@ public class syntaxupdate36ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate36ru - Thread - BenchmarkFig5 - false" to ::`syntaxupdate36ru - Thread - BenchmarkFig5 - false`,
-            "syntaxupdate36ru - Thread - PartitionByID_1_AllCollations - false" to ::`syntaxupdate36ru - Thread - PartitionByID_1_AllCollations - false`,
+            "syntaxupdate36ru - Thread - BenchmarkFig5 - true" to ::`syntaxupdate36ru - Thread - BenchmarkFig5 - true`,
+            "syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxupdate36ru - Thread - PartitionByIDTwiceAllCollations - false`,
         )
     }
 }

@@ -47,12 +47,12 @@ public class constructwhere04CONSTRUCTWHERE {
         "FROM <data.ttl> \n" +
         "WHERE { ?s ?p ?o }"
 
-    public fun `constructwhere04  CONSTRUCT WHERE - None - Simple - true`() {
+    public fun `constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -62,12 +62,12 @@ public class constructwhere04CONSTRUCTWHERE {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `constructwhere04  CONSTRUCT WHERE - Thread - Simple - false`() {
+    public fun `constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -89,8 +89,8 @@ public class constructwhere04CONSTRUCTWHERE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "constructwhere04  CONSTRUCT WHERE - None - Simple - true" to ::`constructwhere04  CONSTRUCT WHERE - None - Simple - true`,
-            "constructwhere04  CONSTRUCT WHERE - Thread - Simple - false" to ::`constructwhere04  CONSTRUCT WHERE - Thread - Simple - false`,
+            "constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true" to ::`constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - true`,
+            "constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false" to ::`constructwhere04  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - false`,
         )
     }
 }

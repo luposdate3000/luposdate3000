@@ -71,12 +71,12 @@ public class ADD2 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "ADD DEFAULT TO :g1"
 
-    public fun `ADD 2 - None - Simple - true`() {
+    public fun `ADD 2 - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -86,12 +86,12 @@ public class ADD2 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `ADD 2 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `ADD 2 - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -143,8 +143,8 @@ public class ADD2 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "ADD 2 - None - Simple - true" to ::`ADD 2 - None - Simple - true`,
-            "ADD 2 - Thread - PartitionByID_2_AllCollations - true" to ::`ADD 2 - Thread - PartitionByID_2_AllCollations - true`,
+            "ADD 2 - Thread - PartitionByID_O_AllCollations - true" to ::`ADD 2 - Thread - PartitionByID_O_AllCollations - true`,
+            "ADD 2 - Thread - PartitionByKeyAllCollations - true" to ::`ADD 2 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

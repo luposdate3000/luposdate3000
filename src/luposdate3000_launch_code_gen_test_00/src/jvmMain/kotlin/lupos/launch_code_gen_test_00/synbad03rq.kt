@@ -43,12 +43,12 @@ public class synbad03rq {
     internal val query = "SELECT (1 AS ?X) (1 AS ?X) {} \n" +
         ""
 
-    public fun `synbad03rq - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `synbad03rq - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,12 +58,12 @@ public class synbad03rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `synbad03rq - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `synbad03rq - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -87,8 +87,8 @@ public class synbad03rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "synbad03rq - Thread - PartitionByID_1_AllCollations - false" to ::`synbad03rq - Thread - PartitionByID_1_AllCollations - false`,
             "synbad03rq - Thread - PartitionByKeyAllCollations - false" to ::`synbad03rq - Thread - PartitionByKeyAllCollations - false`,
+            "synbad03rq - Thread - Simple - false" to ::`synbad03rq - Thread - Simple - false`,
         )
     }
 }

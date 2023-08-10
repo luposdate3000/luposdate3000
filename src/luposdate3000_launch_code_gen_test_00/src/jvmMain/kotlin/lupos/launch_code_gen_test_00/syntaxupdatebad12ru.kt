@@ -44,12 +44,12 @@ public class syntaxupdatebad12ru {
         "DELETE DATA { _:a <p> <o> } \n" +
         ""
 
-    public fun `syntaxupdatebad12ru - Thread - PartitionByID_1_AllCollations - false`() {
+    public fun `syntaxupdatebad12ru - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -59,12 +59,27 @@ public class syntaxupdatebad12ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdatebad12ru - Thread - Simple - false`() {
+    public fun `syntaxupdatebad12ru - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxupdatebad12ru - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -88,8 +103,9 @@ public class syntaxupdatebad12ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdatebad12ru - Thread - PartitionByID_1_AllCollations - false" to ::`syntaxupdatebad12ru - Thread - PartitionByID_1_AllCollations - false`,
-            "syntaxupdatebad12ru - Thread - Simple - false" to ::`syntaxupdatebad12ru - Thread - Simple - false`,
+            "syntaxupdatebad12ru - Thread - BenchmarkFig5 - false" to ::`syntaxupdatebad12ru - Thread - BenchmarkFig5 - false`,
+            "syntaxupdatebad12ru - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxupdatebad12ru - Thread - PartitionByIDTwiceAllCollations - false`,
+            "syntaxupdatebad12ru - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxupdatebad12ru - Thread - PartitionByID_2_AllCollations - false`,
         )
     }
 }

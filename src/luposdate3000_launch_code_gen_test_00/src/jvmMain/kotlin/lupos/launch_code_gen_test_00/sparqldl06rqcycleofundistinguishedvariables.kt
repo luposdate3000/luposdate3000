@@ -82,6 +82,36 @@ public class sparqldl06rqcycleofundistinguishedvariables {
         LuposdateEndpoint.close(instance)
       }
     }
+    public fun `sparqldl06rq cycle of undistinguished variables - Thread - BenchmarkFig5 - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
@@ -110,6 +140,8 @@ public class sparqldl06rqcycleofundistinguishedvariables {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "sparqldl06rq cycle of undistinguished variables - None - Simple - true" to ::`sparqldl06rq cycle of undistinguished variables - None - Simple - true`,
+            "sparqldl06rq cycle of undistinguished variables - Thread - BenchmarkFig5 - true" to ::`sparqldl06rq cycle of undistinguished variables - Thread - BenchmarkFig5 - true`,
+            "sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_2_AllCollations - false" to ::`sparqldl06rq cycle of undistinguished variables - Thread - PartitionByID_2_AllCollations - false`,
         )
     }
 }

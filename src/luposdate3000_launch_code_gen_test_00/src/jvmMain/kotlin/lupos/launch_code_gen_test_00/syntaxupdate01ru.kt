@@ -45,12 +45,12 @@ public class syntaxupdate01ru {
         "LOAD <http://example.org/faraway> \n" +
         ""
 
-    public fun `syntaxupdate01ru - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `syntaxupdate01ru - Thread - PartitionByKeyAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -66,7 +66,7 @@ public class syntaxupdate01ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate01ru - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxupdate01ru - Thread - PartitionByID_1_AllCollations - true`,
+            "syntaxupdate01ru - Thread - PartitionByKeyAllCollations - true" to ::`syntaxupdate01ru - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

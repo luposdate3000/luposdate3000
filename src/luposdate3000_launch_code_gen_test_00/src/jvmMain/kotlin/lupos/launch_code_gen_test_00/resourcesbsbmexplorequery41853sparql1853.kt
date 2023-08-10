@@ -90,13 +90,13 @@ public class resourcesbsbmexplorequery41853sparql1853 {
         "LIMIT 10 \n" +
         ""
 
-    public fun `resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `resourcesbsbmexplorequery41853sparql1853 - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -105,12 +105,42 @@ public class resourcesbsbmexplorequery41853sparql1853 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_2_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -147,8 +177,10 @@ public class resourcesbsbmexplorequery41853sparql1853 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_2_AllCollations - true" to ::`resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_2_AllCollations - true`,
-            "resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_S_AllCollations - true" to ::`resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_S_AllCollations - true`,
+            "resourcesbsbmexplorequery41853sparql1853 - None - Simple - false" to ::`resourcesbsbmexplorequery41853sparql1853 - None - Simple - false`,
+            "resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_1_AllCollations - false" to ::`resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_1_AllCollations - false`,
+            "resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_2_AllCollations - false" to ::`resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_2_AllCollations - false`,
+            "resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByKeyAllCollations - true" to ::`resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

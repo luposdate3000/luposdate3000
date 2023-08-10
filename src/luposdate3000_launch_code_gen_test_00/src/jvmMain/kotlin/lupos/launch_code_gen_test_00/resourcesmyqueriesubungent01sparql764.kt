@@ -61,28 +61,13 @@ public class resourcesmyqueriesubungent01sparql764 {
         " ?person dbpprop:placeOfBirth dbpedia:L%C3%BCbeck . \n" +
         "}"
 
-    public fun `resourcesmyqueriesubungent01sparql764 - None - Simple - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesmyqueriesubungent01sparql764 - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `resourcesmyqueriesubungent01sparql764 - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -118,8 +103,7 @@ public class resourcesmyqueriesubungent01sparql764 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesmyqueriesubungent01sparql764 - None - Simple - true" to ::`resourcesmyqueriesubungent01sparql764 - None - Simple - true`,
-            "resourcesmyqueriesubungent01sparql764 - Thread - PartitionByID_2_AllCollations - true" to ::`resourcesmyqueriesubungent01sparql764 - Thread - PartitionByID_2_AllCollations - true`,
+            "resourcesmyqueriesubungent01sparql764 - Thread - PartitionByID_1_AllCollations - false" to ::`resourcesmyqueriesubungent01sparql764 - Thread - PartitionByID_1_AllCollations - false`,
         )
     }
 }

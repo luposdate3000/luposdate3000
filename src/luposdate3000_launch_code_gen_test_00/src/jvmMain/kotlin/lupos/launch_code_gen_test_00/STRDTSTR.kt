@@ -62,13 +62,13 @@ public class STRDTSTR {
         "} \n" +
         ""
 
-    public fun `STRDTSTR - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `STRDTSTR - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -77,13 +77,13 @@ public class STRDTSTR {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `STRDTSTR - Thread - Simple - true`() {
+    public fun `STRDTSTR - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -119,8 +119,8 @@ public class STRDTSTR {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "STRDTSTR - Thread - PartitionByID_S_AllCollations - false" to ::`STRDTSTR - Thread - PartitionByID_S_AllCollations - false`,
-            "STRDTSTR - Thread - Simple - true" to ::`STRDTSTR - Thread - Simple - true`,
+            "STRDTSTR - Thread - PartitionByIDTwiceAllCollations - true" to ::`STRDTSTR - Thread - PartitionByIDTwiceAllCollations - true`,
+            "STRDTSTR - Thread - Simple - false" to ::`STRDTSTR - Thread - Simple - false`,
         )
     }
 }

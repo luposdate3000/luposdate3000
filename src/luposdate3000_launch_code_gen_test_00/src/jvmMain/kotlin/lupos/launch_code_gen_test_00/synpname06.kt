@@ -47,13 +47,13 @@ public class synpname06 {
         "} \n" +
         ""
 
-    public fun `synpname06 - Thread - BenchmarkFig5 - false`() {
+    public fun `synpname06 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -62,13 +62,13 @@ public class synpname06 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `synpname06 - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `synpname06 - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -83,8 +83,8 @@ public class synpname06 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "synpname06 - Thread - BenchmarkFig5 - false" to ::`synpname06 - Thread - BenchmarkFig5 - false`,
-            "synpname06 - Thread - PartitionByKeyAllCollations - false" to ::`synpname06 - Thread - PartitionByKeyAllCollations - false`,
+            "synpname06 - None - Simple - true" to ::`synpname06 - None - Simple - true`,
+            "synpname06 - Thread - PartitionByID_S_AllCollations - true" to ::`synpname06 - Thread - PartitionByID_S_AllCollations - true`,
         )
     }
 }

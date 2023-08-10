@@ -61,12 +61,12 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
         "{select * where {?x ?p ?y}} \n" +
         "}"
 
-    public fun `sq06  Subquery with graph pattern from named applies - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `sq06  Subquery with graph pattern from named applies - None - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -76,13 +76,13 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sq06  Subquery with graph pattern from named applies - Thread - PartitionByKeyAllCollations - false`() {
+    public fun `sq06  Subquery with graph pattern from named applies - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -118,8 +118,8 @@ public class sq06Subquerywithgraphpatternfromnamedapplies {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sq06  Subquery with graph pattern from named applies - Thread - PartitionByID_S_AllCollations - false" to ::`sq06  Subquery with graph pattern from named applies - Thread - PartitionByID_S_AllCollations - false`,
-            "sq06  Subquery with graph pattern from named applies - Thread - PartitionByKeyAllCollations - false" to ::`sq06  Subquery with graph pattern from named applies - Thread - PartitionByKeyAllCollations - false`,
+            "sq06  Subquery with graph pattern from named applies - None - Simple - false" to ::`sq06  Subquery with graph pattern from named applies - None - Simple - false`,
+            "sq06  Subquery with graph pattern from named applies - Thread - PartitionByID_O_AllCollations - true" to ::`sq06  Subquery with graph pattern from named applies - Thread - PartitionByID_O_AllCollations - true`,
         )
     }
 }

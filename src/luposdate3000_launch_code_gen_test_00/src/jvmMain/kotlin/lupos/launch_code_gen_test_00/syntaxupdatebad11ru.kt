@@ -44,12 +44,12 @@ public class syntaxupdatebad11ru {
         "DELETE { <s> <p> [] } WHERE { ?x <p> <o> } \n" +
         ""
 
-    public fun `syntaxupdatebad11ru - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `syntaxupdatebad11ru - Thread - PartitionByID_S_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -73,7 +73,7 @@ public class syntaxupdatebad11ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdatebad11ru - Thread - PartitionByID_O_AllCollations - true" to ::`syntaxupdatebad11ru - Thread - PartitionByID_O_AllCollations - true`,
+            "syntaxupdatebad11ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdatebad11ru - Thread - PartitionByID_S_AllCollations - true`,
         )
     }
 }

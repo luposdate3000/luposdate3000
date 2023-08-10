@@ -43,12 +43,12 @@ public class syntaxupdate12ru {
     internal val query = "DROP SILENT GRAPH <graph> \n" +
         ""
 
-    public fun `syntaxupdate12ru - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `syntaxupdate12ru - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -73,14 +73,46 @@ public class syntaxupdate12ru {
         LuposdateEndpoint.close(instance)
       }
     }
+    public fun `syntaxupdate12ru - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxupdate12ru - Thread - PartitionByKeyAllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
     internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         val operator0 = LuposdateEndpoint.evaluateSparqlToOperatorgraphA(instance, query)
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate12ru - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxupdate12ru - Thread - PartitionByID_2_AllCollations - true`,
+            "syntaxupdate12ru - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxupdate12ru - Thread - PartitionByIDTwiceAllCollations - true`,
             "syntaxupdate12ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdate12ru - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxupdate12ru - Thread - PartitionByKeyAllCollations - true" to ::`syntaxupdate12ru - Thread - PartitionByKeyAllCollations - true`,
+            "syntaxupdate12ru - Thread - PartitionByKeyAllCollations - false" to ::`syntaxupdate12ru - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

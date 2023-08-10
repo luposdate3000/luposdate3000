@@ -43,13 +43,13 @@ public class syntaxaggregate12rq {
     internal val query = "SELECT (AVG(DISTINCT ?x) AS ?y) {} \n" +
         ""
 
-    public fun `syntaxaggregate12rq - Thread - PartitionByID_S_AllCollations - false`() {
+    public fun `syntaxaggregate12rq - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -64,7 +64,7 @@ public class syntaxaggregate12rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxaggregate12rq - Thread - PartitionByID_S_AllCollations - false" to ::`syntaxaggregate12rq - Thread - PartitionByID_S_AllCollations - false`,
+            "syntaxaggregate12rq - None - Simple - true" to ::`syntaxaggregate12rq - None - Simple - true`,
         )
     }
 }

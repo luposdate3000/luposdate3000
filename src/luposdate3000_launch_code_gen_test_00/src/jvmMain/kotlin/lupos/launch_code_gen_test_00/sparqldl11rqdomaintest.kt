@@ -61,13 +61,13 @@ public class sparqldl11rqdomaintest {
         "where {:parent rdfs:range ?C} \n" +
         ""
 
-    public fun `sparqldl11rq domain test - None - Simple - true`() {
+    public fun `sparqldl11rq domain test - Thread - PartitionByID_1_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -76,12 +76,12 @@ public class sparqldl11rqdomaintest {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `sparqldl11rq domain test - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -133,8 +133,8 @@ public class sparqldl11rqdomaintest {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sparqldl11rq domain test - None - Simple - true" to ::`sparqldl11rq domain test - None - Simple - true`,
-            "sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - false" to ::`sparqldl11rq domain test - Thread - PartitionByID_2_AllCollations - false`,
+            "sparqldl11rq domain test - Thread - PartitionByID_1_AllCollations - false" to ::`sparqldl11rq domain test - Thread - PartitionByID_1_AllCollations - false`,
+            "sparqldl11rq domain test - Thread - PartitionByID_O_AllCollations - false" to ::`sparqldl11rq domain test - Thread - PartitionByID_O_AllCollations - false`,
             "sparqldl11rq domain test - Thread - Simple - false" to ::`sparqldl11rq domain test - Thread - Simple - false`,
         )
     }

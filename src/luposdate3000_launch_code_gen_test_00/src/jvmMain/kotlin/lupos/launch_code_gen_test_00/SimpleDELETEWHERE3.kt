@@ -72,13 +72,13 @@ public class SimpleDELETEWHERE3 {
         "} \n" +
         ""
 
-    public fun `Simple DELETE WHERE 3 - Thread - PartitionByID_1_AllCollations - true`() {
+    public fun `Simple DELETE WHERE 3 - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -119,7 +119,7 @@ public class SimpleDELETEWHERE3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Simple DELETE WHERE 3 - Thread - PartitionByID_1_AllCollations - true" to ::`Simple DELETE WHERE 3 - Thread - PartitionByID_1_AllCollations - true`,
+            "Simple DELETE WHERE 3 - Thread - PartitionByIDTwiceAllCollations - false" to ::`Simple DELETE WHERE 3 - Thread - PartitionByIDTwiceAllCollations - false`,
         )
     }
 }

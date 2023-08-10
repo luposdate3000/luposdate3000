@@ -48,13 +48,13 @@ public class syntaxupdate25ru {
         "} \n" +
         ""
 
-    public fun `syntaxupdate25ru - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `syntaxupdate25ru - Thread - PartitionByIDTwiceAllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -63,13 +63,13 @@ public class syntaxupdate25ru {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxupdate25ru - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `syntaxupdate25ru - Thread - PartitionByKeyAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -84,8 +84,8 @@ public class syntaxupdate25ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate25ru - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxupdate25ru - Thread - PartitionByID_O_AllCollations - false`,
-            "syntaxupdate25ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdate25ru - Thread - PartitionByID_S_AllCollations - true`,
+            "syntaxupdate25ru - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxupdate25ru - Thread - PartitionByIDTwiceAllCollations - true`,
+            "syntaxupdate25ru - Thread - PartitionByKeyAllCollations - false" to ::`syntaxupdate25ru - Thread - PartitionByKeyAllCollations - false`,
         )
     }
 }

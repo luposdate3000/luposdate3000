@@ -84,13 +84,13 @@ public class resourcesbsbmbiquery12210sparql2210 {
         "Limit 10 \n" +
         ""
 
-    public fun `resourcesbsbmbiquery12210sparql2210 - Thread - BenchmarkFig5 - true`() {
+    public fun `resourcesbsbmbiquery12210sparql2210 - Thread - PartitionByID_O_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -99,13 +99,13 @@ public class resourcesbsbmbiquery12210sparql2210 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcesbsbmbiquery12210sparql2210 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `resourcesbsbmbiquery12210sparql2210 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -141,8 +141,8 @@ public class resourcesbsbmbiquery12210sparql2210 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesbsbmbiquery12210sparql2210 - Thread - BenchmarkFig5 - true" to ::`resourcesbsbmbiquery12210sparql2210 - Thread - BenchmarkFig5 - true`,
-            "resourcesbsbmbiquery12210sparql2210 - Thread - PartitionByID_2_AllCollations - false" to ::`resourcesbsbmbiquery12210sparql2210 - Thread - PartitionByID_2_AllCollations - false`,
+            "resourcesbsbmbiquery12210sparql2210 - Thread - PartitionByID_O_AllCollations - false" to ::`resourcesbsbmbiquery12210sparql2210 - Thread - PartitionByID_O_AllCollations - false`,
+            "resourcesbsbmbiquery12210sparql2210 - Thread - Simple - true" to ::`resourcesbsbmbiquery12210sparql2210 - Thread - Simple - true`,
         )
     }
 }

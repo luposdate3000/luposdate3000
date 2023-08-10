@@ -71,13 +71,13 @@ public class MOVE6 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "MOVE :g1 TO DEFAULT"
 
-    public fun `MOVE 6 - Thread - PartitionByID_O_AllCollations - false`() {
+    public fun `MOVE 6 - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -133,7 +133,7 @@ public class MOVE6 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MOVE 6 - Thread - PartitionByID_O_AllCollations - false" to ::`MOVE 6 - Thread - PartitionByID_O_AllCollations - false`,
+            "MOVE 6 - Thread - PartitionByID_1_AllCollations - true" to ::`MOVE 6 - Thread - PartitionByID_1_AllCollations - true`,
         )
     }
 }

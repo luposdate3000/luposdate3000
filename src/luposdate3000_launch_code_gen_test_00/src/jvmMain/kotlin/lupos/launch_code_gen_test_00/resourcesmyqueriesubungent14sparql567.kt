@@ -66,12 +66,12 @@ public class resourcesmyqueriesubungent14sparql567 {
         "} \n" +
         ""
 
-    public fun `resourcesmyqueriesubungent14sparql567 - None - Simple - true`() {
+    public fun `resourcesmyqueriesubungent14sparql567 - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -81,13 +81,28 @@ public class resourcesmyqueriesubungent14sparql567 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcesmyqueriesubungent14sparql567 - Thread - Simple - false`() {
+    public fun `resourcesmyqueriesubungent14sparql567 - Thread - PartitionByID_O_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
+        instance.useDictionaryInlineEncoding=true
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `resourcesmyqueriesubungent14sparql567 - Thread - PartitionByID_S_AllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -123,8 +138,9 @@ public class resourcesmyqueriesubungent14sparql567 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "resourcesmyqueriesubungent14sparql567 - None - Simple - true" to ::`resourcesmyqueriesubungent14sparql567 - None - Simple - true`,
-            "resourcesmyqueriesubungent14sparql567 - Thread - Simple - false" to ::`resourcesmyqueriesubungent14sparql567 - Thread - Simple - false`,
+            "resourcesmyqueriesubungent14sparql567 - Thread - BenchmarkFig5 - true" to ::`resourcesmyqueriesubungent14sparql567 - Thread - BenchmarkFig5 - true`,
+            "resourcesmyqueriesubungent14sparql567 - Thread - PartitionByID_O_AllCollations - true" to ::`resourcesmyqueriesubungent14sparql567 - Thread - PartitionByID_O_AllCollations - true`,
+            "resourcesmyqueriesubungent14sparql567 - Thread - PartitionByID_S_AllCollations - true" to ::`resourcesmyqueriesubungent14sparql567 - Thread - PartitionByID_S_AllCollations - true`,
         )
     }
 }

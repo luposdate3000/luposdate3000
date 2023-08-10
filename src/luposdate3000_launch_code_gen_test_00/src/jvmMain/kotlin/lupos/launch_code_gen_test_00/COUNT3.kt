@@ -61,13 +61,13 @@ public class COUNT3 {
         "HAVING (COUNT(?O) > 2 ) \n" +
         ""
 
-    public fun `COUNT 3 - Thread - PartitionByID_O_AllCollations - true`() {
+    public fun `COUNT 3 - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -76,13 +76,13 @@ public class COUNT3 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `COUNT 3 - Thread - PartitionByID_S_AllCollations - true`() {
+    public fun `COUNT 3 - Thread - Simple - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=true
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -118,8 +118,8 @@ public class COUNT3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COUNT 3 - Thread - PartitionByID_O_AllCollations - true" to ::`COUNT 3 - Thread - PartitionByID_O_AllCollations - true`,
-            "COUNT 3 - Thread - PartitionByID_S_AllCollations - true" to ::`COUNT 3 - Thread - PartitionByID_S_AllCollations - true`,
+            "COUNT 3 - Thread - BenchmarkFig5 - false" to ::`COUNT 3 - Thread - BenchmarkFig5 - false`,
+            "COUNT 3 - Thread - Simple - false" to ::`COUNT 3 - Thread - Simple - false`,
         )
     }
 }

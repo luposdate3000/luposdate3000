@@ -43,13 +43,13 @@ public class syntaxexists01rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(EXISTS{?s ?p ?o}) } \n" +
         ""
 
-    public fun `syntaxexists01rq - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `syntaxexists01rq - Thread - PartitionByID_1_AllCollations - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_1_AllCollations
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -73,12 +73,12 @@ public class syntaxexists01rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxexists01rq - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `syntaxexists01rq - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -94,9 +94,9 @@ public class syntaxexists01rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxexists01rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxexists01rq - Thread - PartitionByID_2_AllCollations - false`,
+            "syntaxexists01rq - Thread - PartitionByID_1_AllCollations - true" to ::`syntaxexists01rq - Thread - PartitionByID_1_AllCollations - true`,
             "syntaxexists01rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxexists01rq - Thread - PartitionByID_O_AllCollations - false`,
-            "syntaxexists01rq - Thread - PartitionByKeyAllCollations - true" to ::`syntaxexists01rq - Thread - PartitionByKeyAllCollations - true`,
+            "syntaxexists01rq - Thread - Simple - true" to ::`syntaxexists01rq - Thread - Simple - true`,
         )
     }
 }

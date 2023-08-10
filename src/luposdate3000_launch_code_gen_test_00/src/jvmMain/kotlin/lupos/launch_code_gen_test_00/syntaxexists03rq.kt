@@ -43,12 +43,27 @@ public class syntaxexists03rq {
     internal val query = "SELECT * { ?s ?p ?o FILTER(! EXISTS{?s ?p ?o}) } \n" +
         ""
 
-    public fun `syntaxexists03rq - Thread - PartitionByKeyAllCollations - true`() {
+    public fun `syntaxexists03rq - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxexists03rq - Thread - PartitionByIDTwiceAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,12 +73,27 @@ public class syntaxexists03rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxexists03rq - Thread - Simple - false`() {
+    public fun `syntaxexists03rq - Thread - PartitionByID_2_AllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxexists03rq - Thread - PartitionByID_O_AllCollations - false`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_O_AllCollations
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -79,8 +109,10 @@ public class syntaxexists03rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxexists03rq - Thread - PartitionByKeyAllCollations - true" to ::`syntaxexists03rq - Thread - PartitionByKeyAllCollations - true`,
-            "syntaxexists03rq - Thread - Simple - false" to ::`syntaxexists03rq - Thread - Simple - false`,
+            "syntaxexists03rq - Thread - BenchmarkFig5 - false" to ::`syntaxexists03rq - Thread - BenchmarkFig5 - false`,
+            "syntaxexists03rq - Thread - PartitionByIDTwiceAllCollations - true" to ::`syntaxexists03rq - Thread - PartitionByIDTwiceAllCollations - true`,
+            "syntaxexists03rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxexists03rq - Thread - PartitionByID_2_AllCollations - false`,
+            "syntaxexists03rq - Thread - PartitionByID_O_AllCollations - false" to ::`syntaxexists03rq - Thread - PartitionByID_O_AllCollations - false`,
         )
     }
 }

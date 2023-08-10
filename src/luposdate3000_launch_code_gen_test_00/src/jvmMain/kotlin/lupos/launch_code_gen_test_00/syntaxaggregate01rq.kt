@@ -43,12 +43,12 @@ public class syntaxaggregate01rq {
     internal val query = "SELECT (COUNT(*) AS ?count) {} \n" +
         ""
 
-    public fun `syntaxaggregate01rq - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `syntaxaggregate01rq - Thread - BenchmarkFig5 - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=false
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -58,12 +58,27 @@ public class syntaxaggregate01rq {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `syntaxaggregate01rq - Thread - Simple - true`() {
+    public fun `syntaxaggregate01rq - Thread - PartitionByIDTwiceAllCollations - false`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
+        instance.useDictionaryInlineEncoding=false
+        instance = LuposdateEndpoint.initializeB(instance)
+        normalHelper(instance)
+      }catch(e:Throwable){
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+      }finally{
+        LuposdateEndpoint.close(instance)
+      }
+    }
+    public fun `syntaxaggregate01rq - Thread - PartitionByKeyAllCollations - true`() {
+      var instance = Luposdate3000Instance()
+      try{
+        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByKeyAllCollations
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -79,8 +94,9 @@ public class syntaxaggregate01rq {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxaggregate01rq - Thread - PartitionByID_2_AllCollations - false" to ::`syntaxaggregate01rq - Thread - PartitionByID_2_AllCollations - false`,
-            "syntaxaggregate01rq - Thread - Simple - true" to ::`syntaxaggregate01rq - Thread - Simple - true`,
+            "syntaxaggregate01rq - Thread - BenchmarkFig5 - false" to ::`syntaxaggregate01rq - Thread - BenchmarkFig5 - false`,
+            "syntaxaggregate01rq - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxaggregate01rq - Thread - PartitionByIDTwiceAllCollations - false`,
+            "syntaxaggregate01rq - Thread - PartitionByKeyAllCollations - true" to ::`syntaxaggregate01rq - Thread - PartitionByKeyAllCollations - true`,
         )
     }
 }

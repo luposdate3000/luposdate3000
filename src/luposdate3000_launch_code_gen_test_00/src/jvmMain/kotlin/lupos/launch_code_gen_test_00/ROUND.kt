@@ -61,12 +61,12 @@ public class ROUND {
         "} \n" +
         ""
 
-    public fun `ROUND - Thread - PartitionByID_2_AllCollations - true`() {
+    public fun `ROUND - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -76,13 +76,13 @@ public class ROUND {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `ROUND - Thread - Simple - false`() {
+    public fun `ROUND - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -118,8 +118,8 @@ public class ROUND {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "ROUND - Thread - PartitionByID_2_AllCollations - true" to ::`ROUND - Thread - PartitionByID_2_AllCollations - true`,
-            "ROUND - Thread - Simple - false" to ::`ROUND - Thread - Simple - false`,
+            "ROUND - None - Simple - true" to ::`ROUND - None - Simple - true`,
+            "ROUND - Thread - Simple - true" to ::`ROUND - Thread - Simple - true`,
         )
     }
 }

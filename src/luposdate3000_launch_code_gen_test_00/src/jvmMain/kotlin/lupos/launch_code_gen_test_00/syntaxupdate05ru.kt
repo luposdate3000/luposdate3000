@@ -43,27 +43,12 @@ public class syntaxupdate05ru {
     internal val query = "DROP NAMED \n" +
         ""
 
-    public fun `syntaxupdate05ru - Thread - PartitionByIDTwiceAllCollations - false`() {
+    public fun `syntaxupdate05ru - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByIDTwiceAllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `syntaxupdate05ru - Thread - PartitionByID_2_AllCollations - true`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
         instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
@@ -94,8 +79,7 @@ public class syntaxupdate05ru {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "syntaxupdate05ru - Thread - PartitionByIDTwiceAllCollations - false" to ::`syntaxupdate05ru - Thread - PartitionByIDTwiceAllCollations - false`,
-            "syntaxupdate05ru - Thread - PartitionByID_2_AllCollations - true" to ::`syntaxupdate05ru - Thread - PartitionByID_2_AllCollations - true`,
+            "syntaxupdate05ru - Thread - BenchmarkFig5 - true" to ::`syntaxupdate05ru - Thread - BenchmarkFig5 - true`,
             "syntaxupdate05ru - Thread - PartitionByID_S_AllCollations - true" to ::`syntaxupdate05ru - Thread - PartitionByID_S_AllCollations - true`,
         )
     }

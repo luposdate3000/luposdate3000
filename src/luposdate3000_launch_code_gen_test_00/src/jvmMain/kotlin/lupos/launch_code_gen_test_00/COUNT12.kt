@@ -45,28 +45,13 @@ public class COUNT12 {
         "WHERE { ?S :p ?O1; :q ?O2 } GROUP BY (?O1 + ?O2) \n" +
         ""
 
-    public fun `COUNT 12 - Thread - PartitionByID_2_AllCollations - false`() {
+    public fun `COUNT 12 - Thread - BenchmarkFig5 - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 128
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_2_AllCollations
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `COUNT 12 - Thread - PartitionByID_S_AllCollations - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.PartitionByID_S_AllCollations
-        instance.useDictionaryInlineEncoding=false
+        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.BenchmarkFig5
+        instance.useDictionaryInlineEncoding=true
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
@@ -89,8 +74,7 @@ public class COUNT12 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "COUNT 12 - Thread - PartitionByID_2_AllCollations - false" to ::`COUNT 12 - Thread - PartitionByID_2_AllCollations - false`,
-            "COUNT 12 - Thread - PartitionByID_S_AllCollations - false" to ::`COUNT 12 - Thread - PartitionByID_S_AllCollations - false`,
+            "COUNT 12 - Thread - BenchmarkFig5 - true" to ::`COUNT 12 - Thread - BenchmarkFig5 - true`,
         )
     }
 }
