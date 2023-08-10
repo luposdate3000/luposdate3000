@@ -1,5 +1,6 @@
 dataset,constructwhere04  CONSTRUCT WHERE
 dataset,syntaxconstructwhere02rq
+describe,resourcesbsbmexplorequery91853sparql1853
 describe,resourcesbsbmexplorequery92210sparql2210
 describe,resourcesbsbmexplorequery92553sparql2553
 exists,Exists with ground triple
@@ -9,7 +10,9 @@ exists,Nested negative exists in positive exists
 exists,Nested positive exists
 exists,Positive EXISTS 1
 exists,Positive EXISTS 2
+functioncall,syntaxselectexpr04rq
 memory,COALESCE
+memory,COUNT 8b
 memory,Calculate proper subset
 memory,Calculate which sets are subsets of others include A subsetOf A
 memory,Calculate which sets have the same elements
@@ -21,7 +24,9 @@ memory,Graphspecific DELETE 1 WITH
 memory,Graphspecific DELETE 2
 memory,Graphspecific DELETE 2 USING
 memory,Graphspecific DELETE 2 WITH
+memory,Group3
 memory,Group4
+memory,Inline VALUES graph pattern
 memory,Postquery VALUES with 2 objvars 1 row
 memory,Postquery VALUES with 2 objvars 1 row with UNDEF
 memory,Postquery VALUES with 2 objvars 2 rows with UNDEF
@@ -37,14 +42,17 @@ memory,Reuse a project expression variable in select
 memory,Simple DELETE 1 USING
 memory,Simple DELETE 1 WITH
 memory,Simple DELETE 2 USING
+memory,Simple DELETE 2 WITH
 memory,Simple DELETE 3
 memory,Simple DELETE 3 USING
 memory,Simple DELETE 4
 memory,Simple DELETE 4 USING
 memory,Simple DELETE 4 WITH
+memory,bind01  BIND fixed data for OWL DL
 memory,bind02  BIND fixed data for OWL DL
 memory,bind03  BIND
 memory,bind03  BIND fixed data for OWL DL
+memory,bind05  BIND fixed data for OWL DL
 memory,bind07  BIND fixed data for OWL DL
 memory,bind08  BIND fixed data for OWL DL
 memory,bnodes are not existentials
@@ -105,8 +113,10 @@ memory,resourcesbtc030sparql867
 memory,resourcesmyqueriesubungent02sparql764
 memory,resourcesmyqueriesubungent03sparql764
 memory,resourcesmyqueriesubungent07sparql567
+memory,resourcesmyqueriesubungent08sparql567
 memory,resourcesmyqueriesubungent09sparql567
 memory,resourcesmyqueriesubungent11sparql567
+memory,resourcesmyqueriesubungent15sparql567
 memory,resourcesmyqueriesubungent17sparql709
 memory,resourcesmyqueriesubungent19sparql709
 memory,resourcessp2bq12a1sparql1294
@@ -143,15 +153,20 @@ memory,resourcessp2bq12b4sparql21
 memory,resourcessp2bq12b4sparql247
 memory,resourcessp2bq12b4sparql973
 memory,resourcessp2bq1sparql1640
+memory,resourcessp2bq1sparql21
 memory,resourcessp2bq1sparql247
+memory,resourcessp2bq1sparql973
 memory,resourcessp2bq2sparql1294
 memory,resourcessp2bq2sparql1640
 memory,resourcessp2bq2sparql21
 memory,resourcessp2bq2sparql247
+memory,resourcessp2bq2sparql973
+memory,resourcessp2bq3asparql1640
 memory,resourcessp2bq3asparql247
 memory,resourcessp2bq3asparql700
 memory,resourcessp2bq3bsparql21
 memory,resourcessp2bq3bsparql700
+memory,resourcessp2bq3bsparql973
 memory,resourcessp2bq3csparql1294
 memory,resourcessp2bq3csparql1640
 memory,resourcessp2bq3csparql973
@@ -256,10 +271,12 @@ memory,resourcessp2bq8sparql21
 memory,resourcessp2bq8sparql247
 memory,resourcessp2bq8sparql700
 memory,resourcessp2bq8sparql973
+memory,resourcessp2bq91sparql1294
 memory,resourcessp2bq91sparql1640
 memory,resourcessp2bq91sparql21
 memory,resourcessp2bq91sparql247
 memory,resourcessp2bq91sparql973
+memory,resourcessp2bq92sparql1294
 memory,resourcessp2bq92sparql1640
 memory,resourcessp2bq92sparql247
 memory,resourcessp2bq92sparql700
@@ -268,6 +285,7 @@ memory,resourcessp2bq9sparql1294
 memory,resourcessp2bq9sparql1640
 memory,resourcessp2bq9sparql21
 memory,resourcessp2bq9sparql247
+memory,resourcessp2bq9sparql700
 memory,resourcessp2bq9sparql973
 memory,simple 1
 memory,simple 2
@@ -277,6 +295,7 @@ memory,simple 6
 memory,simple 7
 memory,simple 8
 memory,sparqldl03rq combined query with complex class description
+memory,sparqldl07rq two distinguished variables  undist
 memory,sparqldl08rq two distinguished variables  undist
 memory,sparqldl09rq undist vars test
 memory,sparqldl10rq undist vars test
@@ -284,6 +303,7 @@ memory,sparqldl13rq sameAs
 memory,sq11  Subquery limit per resource
 memory,sq12  Subquery in CONSTRUCT with builtins
 memory,sq13  Subqueries dont inject bindings
+memory,subclass query with hasChild some Thing restriction
 memory,tvs02  TSV Result Format
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
