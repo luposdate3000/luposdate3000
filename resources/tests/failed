@@ -1,0 +1,145 @@
+Medical temporal proximity by exclusion NOT EXISTS - None - Simple - false
+DELETE INSERT 4b - None - Simple - true
+Resourcessp2bq68sparql1640 - None - Simple - false
+Resourcesbsbmexplorequery22553sparql2553 - None - Simple - true
+Graphspecific DELETE 2 WITH - None - Simple - true
+DELETE INSERT 2 - None - Simple - true
+Resourcessp2bq68sparql700 - None - Simple - true
+Simple DELETE DATA 2 - None - Simple - true
+Resourcessp2bq11sparql700 - None - Simple - false
+Graphspecific DELETE DATA 2 - None - Simple - false
+Parent query with hasChild some Thing restriction - None - Simple - true
+IRIURI - None - Simple - false
+Expression has variable that may be unbound - None - Simple - true
+Filtered subclass query with hasChild some Thing restriction - None - Simple - false
+DELETE INSERT 1 - None - Simple - false
+Graphspecific DELETE 1 USING - None - Simple - false
+DELETE INSERT 3b - None - Simple - false
+Expression may return no value - None - Simple - true
+Simple DELETE WHERE 2 - None - Simple - true
+Group6 - None - Simple - false
+DELETE INSERT 8 - None - Simple - true
+Simple DELETE 1 WITH - None - Simple - true
+RDFS inference test subProperty and instances - None - Simple - false
+RDFS inference test rdfssubPropertyOf luposDuplicate1 - None - Simple - true
+Group7 - None - Simple - false
+Resourcessp2bq67sparql1640 - None - Simple - false
+Simple DELETE DATA 3 - None - Simple - false
+Simple DELETE 2 WITH - None - Simple - true
+Resourcesbtc020sparql80 - None - Simple - true
+Simple 4 - None - Simple - true
+PapersparqldlQ4 - None - Simple - false
+RDFS inference test transitivity of subPropertyOf - None - Simple - true
+Simple DELETE DATA 4 - None - Simple - false
+DELETE INSERT 1c - None - Simple - false
+Graphspecific DELETE 1 WITH - None - Simple - false
+DELETE INSERT 3 - None - Simple - true
+PapersparqldlQ3 - None - Simple - true
+Parent query with hasChild max 1 Female restriction - None - Simple - true
+Resourcesbsbmexplorequery72210sparql2210 - None - Simple - true
+Resourcessp2bq11sparql973 - None - Simple - true
+Resourcesbsbmexplorequery22210sparql2210 - None - Simple - true
+Resourcesbsbmbiquery82553sparql2553 - None - Simple - false
+Graphspecific DELETE WHERE 1 - None - Simple - false
+Simple DELETE 1 - None - Simple - false
+Resourcesmyqueriesubungent17sparql709 - None - Simple - true
+Sparqldl11rq domain test - None - Simple - false
+Resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
+Graphspecific DELETE DATA 1 - None - Simple - false
+Sparqldl12rq range test - None - Simple - true
+Medical temporal proximity by exclusion NOT EXISTS - None - Simple - false
+DELETE INSERT 4b - None - Simple - true
+Resourcessp2bq68sparql1640 - None - Simple - false
+Resourcesbsbmexplorequery22553sparql2553 - None - Simple - true
+Graphspecific DELETE 2 WITH - None - Simple - true
+DELETE INSERT 2 - None - Simple - true
+Resourcessp2bq68sparql700 - None - Simple - true
+Simple DELETE DATA 2 - None - Simple - true
+Resourcessp2bq11sparql700 - None - Simple - false
+Graphspecific DELETE DATA 2 - None - Simple - false
+Parent query with hasChild some Thing restriction - None - Simple - true
+IRIURI - None - Simple - false
+Expression has variable that may be unbound - None - Simple - true
+Filtered subclass query with hasChild some Thing restriction - None - Simple - false
+DELETE INSERT 1 - None - Simple - false
+Graphspecific DELETE 1 USING - None - Simple - false
+DELETE INSERT 3b - None - Simple - false
+Expression may return no value - None - Simple - true
+Simple DELETE WHERE 2 - None - Simple - true
+Group6 - None - Simple - false
+DELETE INSERT 8 - None - Simple - true
+Simple DELETE 1 WITH - None - Simple - true
+RDFS inference test subProperty and instances - None - Simple - false
+RDFS inference test rdfssubPropertyOf luposDuplicate1 - None - Simple - true
+Group7 - None - Simple - false
+Resourcessp2bq67sparql1640 - None - Simple - false
+Simple DELETE 2 WITH - None - Simple - true
+Resourcesbtc020sparql80 - None - Simple - true
+Simple 4 - None - Simple - true
+PapersparqldlQ4 - None - Simple - false
+RDFS inference test transitivity of subPropertyOf - None - Simple - true
+Simple DELETE DATA 4 - None - Simple - false
+DELETE INSERT 1c - None - Simple - false
+Graphspecific DELETE 1 WITH - None - Simple - false
+DELETE INSERT 3 - None - Simple - true
+PapersparqldlQ3 - None - Simple - true
+Parent query with hasChild max 1 Female restriction - None - Simple - true
+Resourcesbsbmexplorequery72210sparql2210 - None - Simple - true
+Resourcessp2bq11sparql973 - None - Simple - true
+Resourcesbsbmexplorequery22210sparql2210 - None - Simple - true
+Resourcesbsbmbiquery82553sparql2553 - None - Simple - false
+Graphspecific DELETE WHERE 1 - None - Simple - false
+Simple DELETE 1 - None - Simple - false
+Resourcesmyqueriesubungent17sparql709 - None - Simple - true
+Sparqldl11rq domain test - None - Simple - false
+Resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
+Graphspecific DELETE DATA 1 - None - Simple - false
+Sparqldl12rq range test - None - Simple - true
+Medical temporal proximity by exclusion NOT EXISTS - None - Simple - false
+DELETE INSERT 4b - None - Simple - true
+Resourcessp2bq68sparql1640 - None - Simple - false
+Resourcesbsbmexplorequery22553sparql2553 - None - Simple - true
+Graphspecific DELETE 2 WITH - None - Simple - true
+DELETE INSERT 2 - None - Simple - true
+Resourcessp2bq68sparql700 - None - Simple - true
+Simple DELETE DATA 2 - None - Simple - true
+Resourcessp2bq11sparql700 - None - Simple - false
+Graphspecific DELETE DATA 2 - None - Simple - false
+Parent query with hasChild some Thing restriction - None - Simple - true
+IRIURI - None - Simple - false
+Expression has variable that may be unbound - None - Simple - true
+Filtered subclass query with hasChild some Thing restriction - None - Simple - false
+DELETE INSERT 1 - None - Simple - false
+Graphspecific DELETE 1 USING - None - Simple - false
+DELETE INSERT 3b - None - Simple - false
+Expression may return no value - None - Simple - true
+Simple DELETE WHERE 2 - None - Simple - true
+Group6 - None - Simple - false
+DELETE INSERT 8 - None - Simple - true
+Simple DELETE 1 WITH - None - Simple - true
+RDFS inference test subProperty and instances - None - Simple - false
+RDFS inference test rdfssubPropertyOf luposDuplicate1 - None - Simple - true
+Group7 - None - Simple - false
+Resourcessp2bq67sparql1640 - None - Simple - false
+Simple DELETE 2 WITH - None - Simple - true
+Resourcesbtc020sparql80 - None - Simple - true
+Simple 4 - None - Simple - true
+PapersparqldlQ4 - None - Simple - false
+RDFS inference test transitivity of subPropertyOf - None - Simple - true
+Simple DELETE DATA 4 - None - Simple - false
+DELETE INSERT 1c - None - Simple - false
+Graphspecific DELETE 1 WITH - None - Simple - false
+DELETE INSERT 3 - None - Simple - true
+PapersparqldlQ3 - None - Simple - true
+Parent query with hasChild max 1 Female restriction - None - Simple - true
+Resourcesbsbmexplorequery72210sparql2210 - None - Simple - true
+Resourcessp2bq11sparql973 - None - Simple - true
+Resourcesbsbmexplorequery22210sparql2210 - None - Simple - true
+Resourcesbsbmbiquery82553sparql2553 - None - Simple - false
+Graphspecific DELETE WHERE 1 - None - Simple - false
+Simple DELETE 1 - None - Simple - false
+Resourcesmyqueriesubungent17sparql709 - None - Simple - true
+Sparqldl11rq domain test - None - Simple - false
+Resourcesbsbmexplorequery81853sparql1853 - None - Simple - false
+Graphspecific DELETE DATA 1 - None - Simple - false
+Sparqldl12rq range test - None - Simple - true

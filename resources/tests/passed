@@ -1,0 +1,533 @@
+Agg empty group - None - Simple - false
+Resourcesbsbmexplorequery102553sparql2553 - None - Simple - true
+Resourcessp2bq66sparql247 - None - Simple - false
+Resourcesbsbmexplorequery122210sparql2210 - None - Simple - false
+Resourcessp2bq3asparql973 - None - Simple - true
+Resourcessp2bq6sparql21 - None - Simple - false
+Resourcesbsbmbiquery22553sparql2553 - None - Simple - false
+MD5 over Unicode data - None - Simple - false
+ADD 6 - None - Simple - false
+STRDTSTR - None - Simple - true
+Resourcesbtc030sparql867 - None - Simple - false
+Resourcesbsbmbiquery81853sparql1853 - None - Simple - true
+INSERT 01 - None - Simple - false
+Resourcessp2bq12bsparql247 - None - Simple - true
+COUNT 12 - None - Simple - true
+Resourcessp2bq3bsparql21 - None - Simple - true
+Resourcessp2bq111sparql1294 - None - Simple - true
+Resourcessp2bq65sparql21 - None - Simple - false
+Sparqldl07rq two distinguished variables  undist - None - Simple - true
+Resourcessp2bq7sparql700 - None - Simple - false
+AVG with GROUP BY - None - Simple - false
+STRBEFORE - None - Simple - false
+Bind07  BIND - None - Simple - true
+Resourcesbsbmexplorequery12553sparql2553 - None - Simple - false
+Resourcessp2bq67sparql247 - None - Simple - false
+ADD SILENT TO DEFAULT - None - Simple - true
+COPY 1 - None - Simple - true
+Resourcesbsbmbiquery61853sparql1853 - None - Simple - true
+Resourcessp2bq12b3sparql1640 - None - Simple - true
+Resourcessp2bq1sparql973 - None - Simple - true
+Resourcessp2bq12bsparql700 - None - Simple - false
+Simple DELETE 4 USING - None - Simple - true
+Resourcesmyqueriesubungent01sparql764 - None - Simple - true
+Resourcesbsbmbiquery62210sparql2210 - None - Simple - true
+Resourcessp2bq6sparql1294 - None - Simple - false
+Resourcessp2bq10sparql1640 - None - Simple - true
+Sparqldl08rq two distinguished variables  undist - None - Simple - false
+Resourcesmyqueriesubungent10sparql567 - None - Simple - false
+Resourcessp2bq42sparql21 - None - Simple - false
+LOAD SILENT INTO - None - Simple - true
+STRDT TypeErrors - None - Simple - true
+Resourcessp2bq4sparql21 - None - Simple - true
+Resourcessp2bq12b3sparql247 - None - Simple - true
+STRLANGSTR - None - Simple - false
+Resourcesbsbmbiquery22210sparql2210 - None - Simple - false
+RDF inference test luposDuplicate1 - None - Simple - true
+Resourcessp2bq4sparql1294 - None - Simple - false
+Resourcessp2bq1sparql700 - None - Simple - false
+Postquery VALUES with 2 objvars 1 row - None - Simple - true
+SUM - None - Simple - true
+Resourcessp2bq111sparql247 - None - Simple - true
+Resourcessp2bq62sparql1294 - None - Simple - true
+Resourcessp2bq61sparql700 - None - Simple - false
+Resourcessp2bq3asparql973 - None - Simple - false
+SHA256 on Unicode data - None - Simple - true
+Subsets by exclusion MINUS - None - Simple - true
+Resourcessp2bq12bsparql973 - None - Simple - false
+Resourcessp2bq12csparql247 - None - Simple - true
+Resourcesbsbmbiquery21853sparql1853 - None - Simple - true
+RDFS inference test containers - None - Simple - false
+Jsonres03  JSON Result Format - None - Simple - true
+Resourcessp2bq92sparql1294 - None - Simple - false
+Postquery VALUES with OPTIONAL objvar 1 row - None - Simple - true
+Tsv01  TSV Result Format - None - Simple - false
+Bind01  BIND fixed data for OWL DL - None - Simple - true
+STRDT - None - Simple - true
+CONCAT - None - Simple - true
+COUNT 8 - None - Simple - false
+Resourcessp2bq12b3sparql973 - None - Simple - false
+Bind02  BIND fixed data for OWL DL - None - Simple - false
+Resourcessp2bq4sparql247 - None - Simple - false
+COPY SILENT TO DEFAULT - None - Simple - true
+Resourcessp2bq12bsparql1294 - None - Simple - false
+Postquery VALUES with objvar 1 row - None - Simple - false
+Resourcesbsbmexplorequery122553sparql2553 - None - Simple - true
+Postquery VALUES with subjobjvars 2 rows with UNDEF - None - Simple - true
+Resourcesbsbmbiquery22210sparql2210 - None - Simple - true
+Resourcessp2bq72sparql1640 - None - Simple - true
+STRLANGSTR - None - Simple - true
+Jsonres02  JSON Result Format - None - Simple - false
+NOT IN 2 - None - Simple - false
+MIN - None - Simple - false
+Resourcessp2bq3bsparql700 - None - Simple - true
+Protect from error in AVG - None - Simple - false
+Sq11  Subquery limit per resource - None - Simple - true
+Resourcesmyqueriesubungent15sparql567 - None - Simple - true
+Resourcesbsbmbiquery32553sparql2553 - None - Simple - true
+Inline VALUES graph pattern - None - Simple - false
+Bind03  BIND - None - Simple - true
+Resourcessp2bq12a1sparql973 - None - Simple - true
+Resourcessp2bq12b2sparql1294 - None - Simple - true
+ADD 7 - None - Simple - false
+Resourcessp2bq66sparql21 - None - Simple - false
+ADD 8 - None - Simple - true
+INSERT 03 - None - Simple - true
+Sq13  Subqueries dont inject bindings - None - Simple - true
+Resourcessp2bq5asparql973 - None - Simple - true
+COPY 1 - None - Simple - false
+STRENDS - None - Simple - false
+Resourcessp2bq12asparql700 - None - Simple - true
+COPY 6 - None - Simple - false
+DROP SILENT GRAPH iri - None - Simple - true
+Resourcessp2bq72sparql700 - None - Simple - false
+PapersparqldlQ5 - None - Simple - false
+Bind06  BIND - None - Simple - true
+Tvs02  TSV Result Format - None - Simple - true
+Resourcessp2bq5bsparql1294 - None - Simple - true
+Resourcessp2bq6sparql973 - None - Simple - true
+Resourcessp2bq12bsparql700 - None - Simple - true
+Resourcessp2bq7sparql1640 - None - Simple - false
+MINUTES - None - Simple - false
+Resourcessp2bq5bsparql21 - None - Simple - false
+NOT IN 1 - None - Simple - true
+Resourcessp2bq12b1sparql1294 - None - Simple - true
+Resourcesmyqueriesubungent07sparql567 - None - Simple - false
+Resourcessp2bq5asparql1640 - None - Simple - true
+MAX with GROUP BY - None - Simple - true
+Resourcessp2bq3csparql21 - None - Simple - false
+Resourcesbsbmexplorequery41853sparql1853 - None - Simple - true
+Resourcessp2bq2sparql21 - None - Simple - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - false
+Resourcessp2bq12a1sparql973 - None - Simple - false
+Resourcessp2bq12b2sparql247 - None - Simple - false
+MOVE 3 - None - Simple - false
+STRBEFORE - None - Simple - true
+Resourcesbsbmbiquery71853sparql1853 - None - Simple - true
+Resourcessp2bq63sparql973 - None - Simple - false
+CLEAR NAMED - None - Simple - false
+PrefixName with hexencoded colons - None - Simple - true
+SAMPLE - None - Simple - false
+Expression raise an error - None - Simple - true
+COUNT 3 - None - Simple - true
+Resourcessp2bq12b4sparql247 - None - Simple - false
+Group3 - None - Simple - false
+Literal with language tag test - None - Simple - false
+Resourcessp2bq66sparql700 - None - Simple - true
+Resourcesbsbmbiquery31853sparql1853 - None - Simple - true
+Resourcesbsbmexplorequery32210sparql2210 - None - Simple - false
+Reuse a project expression variable in select - None - Simple - false
+Resourcessp2bq1sparql21 - None - Simple - true
+Sparqldl04rq bug fixing test - None - Simple - true
+Resourcessp2bq2sparql21 - None - Simple - true
+Resourcessp2bq12b4sparql700 - None - Simple - true
+CLEAR GRAPH - None - Simple - false
+Syntaxsubquery03rq - None - Simple - true
+Resourcessp2bq72sparql1294 - None - Simple - false
+Resourcesbsbmexplorequery12210sparql2210 - None - Simple - false
+COUNT 12 - None - Simple - false
+Group4 - None - Simple - true
+Resourcessp2bq66sparql1640 - None - Simple - false
+Resourcesbsbmbiquery82210sparql2210 - None - Simple - true
+Resourcesbtc030sparql867 - None - Simple - true
+Sparqldl01rq triple pattern - None - Simple - false
+Resourcessp2bq12bsparql973 - None - Simple - true
+Resourcessp2bq5asparql247 - None - Simple - false
+Bind11  BIND scoping  Variable in filter in scope - None - Simple - true
+Resourcessp2bq42sparql1640 - None - Simple - false
+MOVE 6 - None - Simple - false
+Resourcessp2bq41sparql700 - None - Simple - true
+Simple DELETE 3 USING - None - Simple - true
+Resourcessp2bq65sparql21 - None - Simple - true
+COUNT 7 - None - Simple - true
+BNODE - None - Simple - false
+Resourcessp2bq42sparql973 - None - Simple - false
+CEIL - None - Simple - true
+CLEAR ALL - None - Simple - false
+Resourcessp2bq9sparql700 - None - Simple - false
+Resourcessp2bq66sparql1294 - None - Simple - false
+Resourcessp2bq5asparql1294 - None - Simple - false
+COUNT 11 - None - Simple - true
+Resourcessp2bq1sparql700 - None - Simple - true
+Resourcessp2bq91sparql247 - None - Simple - true
+Bnodes are not existentials - None - Simple - false
+Resourcessp2bq111sparql700 - None - Simple - false
+Syntaxexists02rq - None - Simple - false
+Resourcesmyqueriesubungent07sparql567 - None - Simple - true
+Expression is equality - None - Simple - true
+Resourcessp2bq42sparql1294 - None - Simple - true
+Resourcessp2bq66sparql247 - None - Simple - true
+Resourcessp2bq91sparql973 - None - Simple - true
+Resourcessp2bq41sparql247 - None - Simple - true
+LOAD SILENT - None - Simple - false
+ADD 2 - None - Simple - true
+Resourcessp2bq65sparql247 - None - Simple - true
+Resourcessp2bq12a1sparql1294 - None - Simple - true
+HOURS - None - Simple - false
+Resourcessp2bq3asparql700 - None - Simple - false
+Agg empty group - None - Simple - false
+Resourcesbsbmexplorequery102553sparql2553 - None - Simple - true
+Resourcessp2bq66sparql247 - None - Simple - false
+Resourcessp2bq3asparql973 - None - Simple - true
+Resourcesbsbmbiquery22553sparql2553 - None - Simple - false
+MD5 over Unicode data - None - Simple - false
+ADD 6 - None - Simple - false
+STRDTSTR - None - Simple - true
+Resourcesbtc030sparql867 - None - Simple - false
+Resourcesbsbmbiquery81853sparql1853 - None - Simple - true
+INSERT 01 - None - Simple - false
+Resourcessp2bq12bsparql247 - None - Simple - true
+COUNT 12 - None - Simple - true
+Resourcessp2bq3bsparql21 - None - Simple - true
+Resourcessp2bq111sparql1294 - None - Simple - true
+Resourcessp2bq65sparql21 - None - Simple - false
+Sparqldl07rq two distinguished variables  undist - None - Simple - true
+Resourcessp2bq7sparql700 - None - Simple - false
+AVG with GROUP BY - None - Simple - false
+STRBEFORE - None - Simple - false
+Bind07  BIND - None - Simple - true
+Resourcesbsbmexplorequery12553sparql2553 - None - Simple - false
+Resourcessp2bq67sparql247 - None - Simple - false
+ADD SILENT TO DEFAULT - None - Simple - true
+COPY 1 - None - Simple - true
+Resourcesbsbmbiquery61853sparql1853 - None - Simple - true
+Resourcessp2bq12b3sparql1640 - None - Simple - true
+Resourcessp2bq1sparql973 - None - Simple - true
+Resourcessp2bq12bsparql700 - None - Simple - false
+Simple DELETE 4 USING - None - Simple - true
+Resourcesmyqueriesubungent01sparql764 - None - Simple - true
+Resourcesbsbmbiquery62210sparql2210 - None - Simple - true
+Resourcessp2bq6sparql1294 - None - Simple - false
+Resourcessp2bq10sparql1640 - None - Simple - true
+Resourcesmyqueriesubungent10sparql567 - None - Simple - false
+Resourcessp2bq42sparql21 - None - Simple - false
+LOAD SILENT INTO - None - Simple - true
+STRDT TypeErrors - None - Simple - true
+Resourcessp2bq4sparql21 - None - Simple - true
+Resourcessp2bq12b3sparql247 - None - Simple - true
+STRLANGSTR - None - Simple - false
+Resourcesbsbmbiquery22210sparql2210 - None - Simple - false
+RDF inference test luposDuplicate1 - None - Simple - true
+Resourcessp2bq4sparql1294 - None - Simple - false
+Resourcessp2bq1sparql700 - None - Simple - false
+Postquery VALUES with 2 objvars 1 row - None - Simple - true
+SUM - None - Simple - true
+Resourcessp2bq111sparql247 - None - Simple - true
+Resourcessp2bq62sparql1294 - None - Simple - true
+Resourcessp2bq61sparql700 - None - Simple - false
+Resourcessp2bq3asparql973 - None - Simple - false
+SHA256 on Unicode data - None - Simple - true
+Subsets by exclusion MINUS - None - Simple - true
+Resourcessp2bq12bsparql973 - None - Simple - false
+Resourcessp2bq12csparql247 - None - Simple - true
+Resourcesbsbmbiquery21853sparql1853 - None - Simple - true
+RDFS inference test containers - None - Simple - false
+Jsonres03  JSON Result Format - None - Simple - true
+Postquery VALUES with OPTIONAL objvar 1 row - None - Simple - true
+Tsv01  TSV Result Format - None - Simple - false
+Bind01  BIND fixed data for OWL DL - None - Simple - true
+STRDT - None - Simple - true
+CONCAT - None - Simple - true
+COUNT 8 - None - Simple - false
+Resourcessp2bq12b3sparql973 - None - Simple - false
+Bind02  BIND fixed data for OWL DL - None - Simple - false
+Resourcessp2bq4sparql247 - None - Simple - false
+Resourcessp2bq12bsparql1294 - None - Simple - false
+Postquery VALUES with objvar 1 row - None - Simple - false
+Postquery VALUES with subjobjvars 2 rows with UNDEF - None - Simple - true
+Resourcesbsbmbiquery22210sparql2210 - None - Simple - true
+STRLANGSTR - None - Simple - true
+Jsonres02  JSON Result Format - None - Simple - false
+NOT IN 2 - None - Simple - false
+MIN - None - Simple - false
+Resourcessp2bq3bsparql700 - None - Simple - true
+Protect from error in AVG - None - Simple - false
+Sq11  Subquery limit per resource - None - Simple - true
+Resourcesmyqueriesubungent15sparql567 - None - Simple - true
+Resourcesbsbmbiquery32553sparql2553 - None - Simple - true
+Inline VALUES graph pattern - None - Simple - false
+Bind03  BIND - None - Simple - true
+Resourcessp2bq12a1sparql973 - None - Simple - true
+Resourcessp2bq12b2sparql1294 - None - Simple - true
+ADD 7 - None - Simple - false
+Resourcessp2bq66sparql21 - None - Simple - false
+ADD 8 - None - Simple - true
+INSERT 03 - None - Simple - true
+Sq13  Subqueries dont inject bindings - None - Simple - true
+Resourcessp2bq5asparql973 - None - Simple - true
+COPY 1 - None - Simple - false
+STRENDS - None - Simple - false
+COPY 6 - None - Simple - false
+DROP SILENT GRAPH iri - None - Simple - true
+Resourcessp2bq72sparql700 - None - Simple - false
+PapersparqldlQ5 - None - Simple - false
+Bind06  BIND - None - Simple - true
+Tvs02  TSV Result Format - None - Simple - true
+Resourcessp2bq5bsparql1294 - None - Simple - true
+Resourcessp2bq12bsparql700 - None - Simple - true
+Resourcessp2bq7sparql1640 - None - Simple - false
+MINUTES - None - Simple - false
+Resourcessp2bq5bsparql21 - None - Simple - false
+NOT IN 1 - None - Simple - true
+Resourcessp2bq12b1sparql1294 - None - Simple - true
+Resourcesmyqueriesubungent07sparql567 - None - Simple - false
+Resourcessp2bq5asparql1640 - None - Simple - true
+MAX with GROUP BY - None - Simple - true
+Resourcessp2bq3csparql21 - None - Simple - false
+Resourcesbsbmexplorequery41853sparql1853 - None - Simple - true
+Resourcessp2bq2sparql21 - None - Simple - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - false
+Resourcessp2bq12a1sparql973 - None - Simple - false
+Resourcessp2bq12b2sparql247 - None - Simple - false
+MOVE 3 - None - Simple - false
+STRBEFORE - None - Simple - true
+Resourcesbsbmbiquery71853sparql1853 - None - Simple - true
+Resourcessp2bq63sparql973 - None - Simple - false
+CLEAR NAMED - None - Simple - false
+PrefixName with hexencoded colons - None - Simple - true
+SAMPLE - None - Simple - false
+Expression raise an error - None - Simple - true
+COUNT 3 - None - Simple - true
+Resourcessp2bq12b4sparql247 - None - Simple - false
+Group3 - None - Simple - false
+Literal with language tag test - None - Simple - false
+Resourcessp2bq66sparql700 - None - Simple - true
+Resourcesbsbmbiquery31853sparql1853 - None - Simple - true
+Resourcesbsbmexplorequery32210sparql2210 - None - Simple - false
+Reuse a project expression variable in select - None - Simple - false
+Resourcessp2bq1sparql21 - None - Simple - true
+Sparqldl04rq bug fixing test - None - Simple - true
+Resourcessp2bq2sparql21 - None - Simple - true
+Resourcessp2bq12b4sparql700 - None - Simple - true
+CLEAR GRAPH - None - Simple - false
+Syntaxsubquery03rq - None - Simple - true
+Resourcessp2bq72sparql1294 - None - Simple - false
+Resourcesbsbmexplorequery12210sparql2210 - None - Simple - false
+COUNT 12 - None - Simple - false
+Group4 - None - Simple - true
+Resourcesbsbmbiquery82210sparql2210 - None - Simple - true
+Resourcesbtc030sparql867 - None - Simple - true
+Sparqldl01rq triple pattern - None - Simple - false
+Resourcessp2bq5asparql247 - None - Simple - false
+Bind11  BIND scoping  Variable in filter in scope - None - Simple - true
+Resourcessp2bq42sparql1640 - None - Simple - false
+MOVE 6 - None - Simple - false
+Resourcessp2bq41sparql700 - None - Simple - true
+Simple DELETE 3 USING - None - Simple - true
+Resourcessp2bq65sparql21 - None - Simple - true
+COUNT 7 - None - Simple - true
+Resourcessp2bq42sparql973 - None - Simple - false
+CEIL - None - Simple - true
+CLEAR ALL - None - Simple - false
+Resourcessp2bq9sparql700 - None - Simple - false
+Resourcessp2bq5asparql1294 - None - Simple - false
+COUNT 11 - None - Simple - true
+Resourcessp2bq1sparql700 - None - Simple - true
+Resourcessp2bq91sparql247 - None - Simple - true
+Bnodes are not existentials - None - Simple - false
+Resourcessp2bq111sparql700 - None - Simple - false
+Syntaxexists02rq - None - Simple - false
+Resourcesmyqueriesubungent07sparql567 - None - Simple - true
+Expression is equality - None - Simple - true
+Resourcessp2bq42sparql1294 - None - Simple - true
+Resourcessp2bq66sparql247 - None - Simple - true
+Resourcessp2bq91sparql973 - None - Simple - true
+Resourcessp2bq41sparql247 - None - Simple - true
+ADD 2 - None - Simple - true
+Resourcessp2bq65sparql247 - None - Simple - true
+Resourcessp2bq12a1sparql1294 - None - Simple - true
+HOURS - None - Simple - false
+Resourcessp2bq3asparql700 - None - Simple - false
+Agg empty group - None - Simple - false
+Resourcesbsbmexplorequery102553sparql2553 - None - Simple - true
+Resourcessp2bq66sparql247 - None - Simple - false
+Resourcessp2bq3asparql973 - None - Simple - true
+Resourcesbsbmbiquery22553sparql2553 - None - Simple - false
+MD5 over Unicode data - None - Simple - false
+ADD 6 - None - Simple - false
+STRDTSTR - None - Simple - true
+Resourcesbtc030sparql867 - None - Simple - false
+Resourcesbsbmbiquery81853sparql1853 - None - Simple - true
+INSERT 01 - None - Simple - false
+Resourcessp2bq12bsparql247 - None - Simple - true
+COUNT 12 - None - Simple - true
+Resourcessp2bq3bsparql21 - None - Simple - true
+Resourcessp2bq111sparql1294 - None - Simple - true
+Resourcessp2bq65sparql21 - None - Simple - false
+Sparqldl07rq two distinguished variables  undist - None - Simple - true
+Resourcessp2bq7sparql700 - None - Simple - false
+AVG with GROUP BY - None - Simple - false
+STRBEFORE - None - Simple - false
+Bind07  BIND - None - Simple - true
+Resourcesbsbmexplorequery12553sparql2553 - None - Simple - false
+Resourcessp2bq67sparql247 - None - Simple - false
+ADD SILENT TO DEFAULT - None - Simple - true
+COPY 1 - None - Simple - true
+Resourcesbsbmbiquery61853sparql1853 - None - Simple - true
+Resourcessp2bq12b3sparql1640 - None - Simple - true
+Resourcessp2bq1sparql973 - None - Simple - true
+Resourcessp2bq12bsparql700 - None - Simple - false
+Simple DELETE 4 USING - None - Simple - true
+Resourcesmyqueriesubungent01sparql764 - None - Simple - true
+Resourcesbsbmbiquery62210sparql2210 - None - Simple - true
+Resourcessp2bq6sparql1294 - None - Simple - false
+Resourcessp2bq10sparql1640 - None - Simple - true
+Resourcesmyqueriesubungent10sparql567 - None - Simple - false
+Resourcessp2bq42sparql21 - None - Simple - false
+LOAD SILENT INTO - None - Simple - true
+STRDT TypeErrors - None - Simple - true
+Resourcessp2bq4sparql21 - None - Simple - true
+Resourcessp2bq12b3sparql247 - None - Simple - true
+STRLANGSTR - None - Simple - false
+Resourcesbsbmbiquery22210sparql2210 - None - Simple - false
+RDF inference test luposDuplicate1 - None - Simple - true
+Resourcessp2bq4sparql1294 - None - Simple - false
+Resourcessp2bq1sparql700 - None - Simple - false
+Postquery VALUES with 2 objvars 1 row - None - Simple - true
+SUM - None - Simple - true
+Resourcessp2bq111sparql247 - None - Simple - true
+Resourcessp2bq62sparql1294 - None - Simple - true
+Resourcessp2bq61sparql700 - None - Simple - false
+Resourcessp2bq3asparql973 - None - Simple - false
+SHA256 on Unicode data - None - Simple - true
+Subsets by exclusion MINUS - None - Simple - true
+Resourcessp2bq12bsparql973 - None - Simple - false
+Resourcessp2bq12csparql247 - None - Simple - true
+Resourcesbsbmbiquery21853sparql1853 - None - Simple - true
+RDFS inference test containers - None - Simple - false
+Jsonres03  JSON Result Format - None - Simple - true
+Postquery VALUES with OPTIONAL objvar 1 row - None - Simple - true
+Tsv01  TSV Result Format - None - Simple - false
+Bind01  BIND fixed data for OWL DL - None - Simple - true
+STRDT - None - Simple - true
+CONCAT - None - Simple - true
+COUNT 8 - None - Simple - false
+Resourcessp2bq12b3sparql973 - None - Simple - false
+Bind02  BIND fixed data for OWL DL - None - Simple - false
+Resourcessp2bq4sparql247 - None - Simple - false
+Resourcessp2bq12bsparql1294 - None - Simple - false
+Postquery VALUES with objvar 1 row - None - Simple - false
+Postquery VALUES with subjobjvars 2 rows with UNDEF - None - Simple - true
+Resourcesbsbmbiquery22210sparql2210 - None - Simple - true
+STRLANGSTR - None - Simple - true
+Jsonres02  JSON Result Format - None - Simple - false
+NOT IN 2 - None - Simple - false
+MIN - None - Simple - false
+Resourcessp2bq3bsparql700 - None - Simple - true
+Protect from error in AVG - None - Simple - false
+Sq11  Subquery limit per resource - None - Simple - true
+Resourcesmyqueriesubungent15sparql567 - None - Simple - true
+Resourcesbsbmbiquery32553sparql2553 - None - Simple - true
+Inline VALUES graph pattern - None - Simple - false
+Bind03  BIND - None - Simple - true
+Resourcessp2bq12a1sparql973 - None - Simple - true
+Resourcessp2bq12b2sparql1294 - None - Simple - true
+ADD 7 - None - Simple - false
+Resourcessp2bq66sparql21 - None - Simple - false
+ADD 8 - None - Simple - true
+INSERT 03 - None - Simple - true
+Sq13  Subqueries dont inject bindings - None - Simple - true
+Resourcessp2bq5asparql973 - None - Simple - true
+COPY 1 - None - Simple - false
+STRENDS - None - Simple - false
+COPY 6 - None - Simple - false
+DROP SILENT GRAPH iri - None - Simple - true
+Resourcessp2bq72sparql700 - None - Simple - false
+PapersparqldlQ5 - None - Simple - false
+Bind06  BIND - None - Simple - true
+Tvs02  TSV Result Format - None - Simple - true
+Resourcessp2bq5bsparql1294 - None - Simple - true
+Resourcessp2bq12bsparql700 - None - Simple - true
+Resourcessp2bq7sparql1640 - None - Simple - false
+MINUTES - None - Simple - false
+Resourcessp2bq5bsparql21 - None - Simple - false
+NOT IN 1 - None - Simple - true
+Resourcessp2bq12b1sparql1294 - None - Simple - true
+Resourcesmyqueriesubungent07sparql567 - None - Simple - false
+Resourcessp2bq5asparql1640 - None - Simple - true
+MAX with GROUP BY - None - Simple - true
+Resourcessp2bq3csparql21 - None - Simple - false
+Resourcesbsbmexplorequery41853sparql1853 - None - Simple - true
+Resourcessp2bq2sparql21 - None - Simple - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - false
+Resourcessp2bq12a1sparql973 - None - Simple - false
+Resourcessp2bq12b2sparql247 - None - Simple - false
+MOVE 3 - None - Simple - false
+STRBEFORE - None - Simple - true
+Resourcesbsbmbiquery71853sparql1853 - None - Simple - true
+Resourcessp2bq63sparql973 - None - Simple - false
+CLEAR NAMED - None - Simple - false
+PrefixName with hexencoded colons - None - Simple - true
+SAMPLE - None - Simple - false
+Expression raise an error - None - Simple - true
+COUNT 3 - None - Simple - true
+Resourcessp2bq12b4sparql247 - None - Simple - false
+Group3 - None - Simple - false
+Literal with language tag test - None - Simple - false
+Resourcessp2bq66sparql700 - None - Simple - true
+Resourcesbsbmbiquery31853sparql1853 - None - Simple - true
+Resourcesbsbmexplorequery32210sparql2210 - None - Simple - false
+Reuse a project expression variable in select - None - Simple - false
+Resourcessp2bq1sparql21 - None - Simple - true
+Sparqldl04rq bug fixing test - None - Simple - true
+Resourcessp2bq2sparql21 - None - Simple - true
+Resourcessp2bq12b4sparql700 - None - Simple - true
+CLEAR GRAPH - None - Simple - false
+Syntaxsubquery03rq - None - Simple - true
+Resourcessp2bq72sparql1294 - None - Simple - false
+Resourcesbsbmexplorequery12210sparql2210 - None - Simple - false
+COUNT 12 - None - Simple - false
+Group4 - None - Simple - true
+Resourcesbsbmbiquery82210sparql2210 - None - Simple - true
+Resourcesbtc030sparql867 - None - Simple - true
+Sparqldl01rq triple pattern - None - Simple - false
+Resourcessp2bq5asparql247 - None - Simple - false
+Bind11  BIND scoping  Variable in filter in scope - None - Simple - true
+Resourcessp2bq42sparql1640 - None - Simple - false
+MOVE 6 - None - Simple - false
+Resourcessp2bq41sparql700 - None - Simple - true
+Simple DELETE 3 USING - None - Simple - true
+Resourcessp2bq65sparql21 - None - Simple - true
+COUNT 7 - None - Simple - true
+Resourcessp2bq42sparql973 - None - Simple - false
+CEIL - None - Simple - true
+CLEAR ALL - None - Simple - false
+Resourcessp2bq9sparql700 - None - Simple - false
+Resourcessp2bq5asparql1294 - None - Simple - false
+COUNT 11 - None - Simple - true
+Resourcessp2bq1sparql700 - None - Simple - true
+Resourcessp2bq91sparql247 - None - Simple - true
+Bnodes are not existentials - None - Simple - false
+Resourcessp2bq111sparql700 - None - Simple - false
+Syntaxexists02rq - None - Simple - false
+Resourcesmyqueriesubungent07sparql567 - None - Simple - true
+Expression is equality - None - Simple - true
+Resourcessp2bq42sparql1294 - None - Simple - true
+Resourcessp2bq66sparql247 - None - Simple - true
+Resourcessp2bq91sparql973 - None - Simple - true
+Resourcessp2bq41sparql247 - None - Simple - true
+ADD 2 - None - Simple - true
+Resourcessp2bq65sparql247 - None - Simple - true
+Resourcessp2bq12a1sparql1294 - None - Simple - true
+HOURS - None - Simple - false
+Resourcessp2bq3asparql700 - None - Simple - false

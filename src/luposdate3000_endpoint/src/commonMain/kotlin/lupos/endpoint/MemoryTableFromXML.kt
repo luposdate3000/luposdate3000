@@ -31,10 +31,10 @@ public class MemoryTableFromXML : MemoryTableParser {
         try {
             fun findChildElements(parent: ASTelement): List<ASTelement> {
                 when (val v = parent.variable2!!) {
-                    is ASTClassOfInterfaceOfListOfelementOrtextAndTAG -> {
+                    is ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG -> {
                         when (val v2 = v.variable0!!) {
-                            is ASTListOfelement -> {
-                                return v2.value!!
+                            is ASTListOfInterfaceOfelementOrcomment -> {
+                                return v2.value!!.filter{it is ASTelement}.map{it as ASTelement}
                             }
                             is ASTtext -> return listOf()
                         }
@@ -64,9 +64,9 @@ public class MemoryTableFromXML : MemoryTableParser {
 
             fun contentOfXMLElement(parent: ASTelement): String {
                 when (val v = parent.variable2!!) {
-                    is ASTClassOfInterfaceOfListOfelementOrtextAndTAG -> {
+                    is ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG -> {
                         when (val v2 = v.variable0!!) {
-                            is ASTListOfelement -> return ""
+                            is ASTListOfInterfaceOfelementOrcomment -> return ""
                             is ASTtext -> return v2.TEXT!!
                         }
                     }
@@ -93,7 +93,7 @@ public class MemoryTableFromXML : MemoryTableParser {
             val parserObject = XMLParser(dataStream)
             parserObject.parserDefinedParse()
             val xml = parserObject.getResult()
-            val xmlSparql = xml.variable1!!
+            val xmlSparql = xml.variable1!! as ASTelement
             if (xmlSparql.TAG != "sparql") {
                 return null
             }

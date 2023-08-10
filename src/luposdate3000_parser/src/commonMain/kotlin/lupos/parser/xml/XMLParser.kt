@@ -1,71 +1,78 @@
 package lupos.parser.xml
 
-public class ASTVERSIONOptional : IASTBase {
+public class ASTVERSIONOptional: IASTBase {
     override var id: Int = 0
     public var VERSION: String? = null
 }
-public class ASTxmldoc : IASTBase {
-    override var id: Int = 1
-    public var variable0: ASTVERSIONOptional? = null
-    public var variable1: ASTelement? = null
+public sealed interface ASTInterfaceOfelementOrcomment {
+    public var id: Int
 }
-public class ASTversion : IASTBase {
-    override var id: Int = 2
-}
-public class ASTListOfattribute : IASTBase {
+public class ASTxmldoc: IASTBase {
     override var id: Int = 3
+    public var variable0: ASTVERSIONOptional? = null
+    public var variable1: ASTInterfaceOfelementOrcomment? = null
+}
+public class ASTversion: IASTBase {
+    override var id: Int = 4
+}
+public class ASTListOfattribute: IASTBase {
+    override var id: Int = 5
     public lateinit var value: MutableList<ASTattribute>
 }
-public class ASTListOfelement : ASTInterfaceOfListOfelementOrtext, IASTBase {
-    override var id: Int = 4
-    public lateinit var value: MutableList<ASTelement>
+public class ASTListOfInterfaceOfelementOrcomment: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext, IASTBase {
+    override var id: Int = 6
+    public lateinit var value: MutableList<ASTInterfaceOfelementOrcomment>
 }
-public sealed interface ASTInterfaceOfListOfelementOrtext {
+public sealed interface ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext {
     public var id: Int
 }
-public class ASTClassOfInterfaceOfListOfelementOrtextAndTAG : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
-    override var id: Int = 6
-    public var variable0: ASTInterfaceOfListOfelementOrtext? = null
+public class ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, IASTBase {
+    override var id: Int = 8
+    public var variable0: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext? = null
     public var TAG: String? = null
 }
-public sealed interface ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG {
+public sealed interface ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG {
     public var id: Int
 }
-public class ASTelement : IASTBase {
-    override var id: Int = 8
+public class ASTelement: ASTInterfaceOfelementOrcomment, IASTBase {
+    override var id: Int = 1
     public var TAG: String? = null
     public var variable1: ASTListOfattribute? = null
-    public var variable2: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG? = null
+    public var variable2: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG? = null
 }
 public sealed interface ASTInterfaceOfvalue1Orvalue2 {
     public var id: Int
 }
-public class ASTattribute : IASTBase {
-    override var id: Int = 11
+public class ASTattribute: IASTBase {
+    override var id: Int = 12
     public var KEY: String? = null
     public var variable1: ASTInterfaceOfvalue1Orvalue2? = null
 }
-public class ASTvalue1 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
-    override var id: Int = 9
+public class ASTvalue1: ASTInterfaceOfvalue1Orvalue2, IASTBase {
+    override var id: Int = 10
     public var VALUE1: String? = null
 }
-public class ASTvalue2 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
-    override var id: Int = 10
+public class ASTvalue2: ASTInterfaceOfvalue1Orvalue2, IASTBase {
+    override var id: Int = 11
     public var VALUE2: String? = null
 }
-public class ASTtext : ASTInterfaceOfListOfelementOrtext, IASTBase {
-    override var id: Int = 5
+public class ASTtext: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext, IASTBase {
+    override var id: Int = 7
     public var TEXT: String? = null
 }
-public class ASTcloseimmediately : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG, IASTBase {
-    override var id: Int = 7
+public class ASTcloseimmediately: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, IASTBase {
+    override var id: Int = 9
+}
+public class ASTcomment: ASTInterfaceOfelementOrcomment, IASTBase {
+    override var id: Int = 2
+    public var COMMENT: String? = null
 }
 public sealed interface IASTBase {
     public var id: Int
 }
 public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 
-    internal var parsererror: String? = null
+internal var parsererror: String? = null
     public val stack: MutableList<Any> = mutableListOf<Any>()
     public var bufferDefinedDataSize: Long = 0
     public var bufferDefinedPosition: Long = 0
@@ -85,11 +92,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
     public var scannerDefinedTokenPendingStart: Long = bufferDefinedPosition
     public var scannerDefinedTokenPendingEnd: Long = bufferDefinedPosition
     public var scannerDefinedCurrentChar: Int = 0
-    public val scannerDefinedEntryPoints: Array<String> = arrayOf<String>("[WS_ANY]", "[]", "[VERSION, generated0]", "[VERSION]", "[generated0]", "[TAG]", "[KEY, generated4, generated5]", "[generated4, generated5]", "[KEY]", "[generated4]", "[generated5]", "[generated1]", "[generated6, generated0, TEXT]", "[generated2, generated3]", "[generated0, generated6]", "[TEXT]", "[VALUE1]", "[VALUE2]", "[generated6]", "[generated2]", "[generated3]")
+    public val scannerDefinedEntryPoints: Array<String> = arrayOf<String>("[WS_ANY]", "[]", "[VERSION, generated0, COMMENT]", "[VERSION]", "[generated0, COMMENT]", "[generated0]", "[COMMENT]", "[TAG]", "[KEY, generated4, generated5]", "[generated0, COMMENT, generated6]", "[generated4, generated5]", "[KEY]", "[generated6]", "[generated4]", "[generated5]", "[generated1]", "[generated6, generated0, COMMENT, TEXT]", "[generated2, generated3]", "[TEXT]", "[VALUE1]", "[VALUE2]", "[generated2]", "[generated3]")
     public val scannerDefinedScannerTokens: Array<String> = arrayOf<String>("")
     public val parserDefinedStackData: IntArray = IntArray(1024)
     public var parserDefinedStackPosition: Int = 0
-    public val parserDefinedScannerTokens: Array<String> = arrayOf<String>("", "VERSION", "generated0", "TAG", "KEY", "generated4", "generated5", "generated1", "generated6", "TEXT", "generated2", "generated3", "VALUE1", "VALUE2")
+    public val parserDefinedScannerTokens: Array<String> = arrayOf<String>("", "VERSION", "generated0", "COMMENT", "TAG", "KEY", "generated4", "generated5", "generated6", "generated1", "TEXT", "generated2", "generated3", "VALUE1", "VALUE2")
     init {
         bufferDefinedInputStream = bufferDefinedInputStreamParam
         if ((bufferDefinedPosition >= bufferDefinedMaxPositionAvailable)) {
@@ -113,13 +120,15 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
+
     }
-    public fun close() {
-        bufferDefinedInputStream.close()
-    }
+public fun close() {
+    bufferDefinedInputStream.close()
+
+}
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 14
+        scannerDefinedTokenPendingType = 15
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
@@ -148,7 +157,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return -2
             }
             60 -> {
-                return 21
+                return 23
             }
             else -> {
                 return -1
@@ -161,7 +170,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return -2
             }
             60 -> {
-                return 22
+                return 24
             }
             else -> {
                 return -1
@@ -174,7 +183,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return -2
             }
             60 -> {
-                return 23
+                return 25
             }
             else -> {
                 return -1
@@ -186,17 +195,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 24
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 25
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+            60 -> {
                 return 26
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 27
             }
             else -> {
                 return -1
@@ -208,23 +208,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 28
-            }
-            47 -> {
-                return 32
-            }
-            62 -> {
-                return 33
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 29
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 30
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 31
+            60 -> {
+                return 27
             }
             else -> {
                 return -1
@@ -236,11 +221,17 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            47 -> {
-                return 32
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 28
             }
-            62 -> {
-                return 33
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 29
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 30
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 31
             }
             else -> {
                 return -1
@@ -253,16 +244,22 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return -2
             }
             0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 28
+                return 32
+            }
+            47 -> {
+                return 36
+            }
+            62 -> {
+                return 37
             }
             192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 29
+                return 33
             }
             224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 30
+                return 34
             }
             240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 31
+                return 35
             }
             else -> {
                 return -1
@@ -274,8 +271,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            47 -> {
-                return 32
+            60 -> {
+                return 38
             }
             else -> {
                 return -1
@@ -287,8 +284,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
+            47 -> {
+                return 36
+            }
             62 -> {
-                return 33
+                return 37
             }
             else -> {
                 return -1
@@ -300,8 +300,17 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            61 -> {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 32
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 33
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
                 return 34
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 35
             }
             else -> {
                 return -1
@@ -313,20 +322,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 39
-            }
             60 -> {
-                return 35
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 36
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 37
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 38
+                return 39
             }
             else -> {
                 return -1
@@ -338,11 +335,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            34 -> {
-                return 40
-            }
-            39 -> {
-                return 41
+            47 -> {
+                return 36
             }
             else -> {
                 return -1
@@ -354,8 +348,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            60 -> {
-                return 35
+            62 -> {
+                return 37
             }
             else -> {
                 return -1
@@ -367,17 +361,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 39
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 36
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 37
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 38
+            61 -> {
+                return 40
             }
             else -> {
                 return -1
@@ -385,26 +370,24 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode16(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 12
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 16
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 44
+            }
+            60 -> {
+                return 38
             }
             192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 42
+                return 41
             }
             224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 43
+                return 42
             }
             240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 44
+                return 43
             }
             else -> {
                 return -1
@@ -412,26 +395,15 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode17(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 13
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 17
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+            34 -> {
                 return 45
             }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+            39 -> {
                 return 46
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 47
             }
             else -> {
                 return -1
@@ -443,8 +415,17 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            60 -> {
-                return 48
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 44
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 41
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 42
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 43
             }
             else -> {
                 return -1
@@ -452,34 +433,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode19(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            34 -> {
-                return 40
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode20(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            39 -> {
-                return 41
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode21(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 2
+        scannerDefinedTokenPendingType = 13
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
@@ -487,8 +442,57 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            63 -> {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 19
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 47
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 48
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
                 return 49
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode20(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 14
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 20
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 50
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 51
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 52
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode21(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            34 -> {
+                return 45
             }
             else -> {
                 return -1
@@ -500,8 +504,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            63 -> {
-                return 49
+            39 -> {
+                return 46
             }
             else -> {
                 return -1
@@ -518,32 +522,24 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
+            33 -> {
+                return 54
+            }
+            63 -> {
+                return 53
+            }
             else -> {
                 return -1
             }
         }
     }
     private fun scannerDefinedNode24(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 3
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 24
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 25
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 26
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 27
+            63 -> {
+                return 53
             }
             else -> {
                 return -1
@@ -551,12 +547,17 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode25(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 2
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 24
+            33 -> {
+                return 54
             }
             else -> {
                 return -1
@@ -564,12 +565,14 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode26(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 2
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 25
             }
             else -> {
                 return -1
@@ -581,8 +584,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 26
+            33 -> {
+                return 54
             }
             else -> {
                 return -1
@@ -656,21 +659,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode32(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            62 -> {
-                return 50
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode33(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 6
+        scannerDefinedTokenPendingType = 5
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
@@ -678,12 +668,76 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 32
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 33
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 34
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 35
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode33(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 32
+            }
             else -> {
                 return -1
             }
         }
     }
     private fun scannerDefinedNode34(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 33
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode35(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 34
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode36(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            62 -> {
+                return 55
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode37(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 7
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
@@ -698,7 +752,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
         }
     }
-    private fun scannerDefinedNode35(): Int {
+    private fun scannerDefinedNode38(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 2
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
@@ -708,47 +762,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
+            33 -> {
+                return 54
+            }
             47 -> {
-                return 51
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode36(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 39
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode37(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 36
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode38(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 37
+                return 56
             }
             else -> {
                 return -1
@@ -756,26 +774,12 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode39(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 9
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 39
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 36
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 37
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 38
+            47 -> {
+                return 56
             }
             else -> {
                 return -1
@@ -784,7 +788,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
     }
     private fun scannerDefinedNode40(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 10
+        scannerDefinedTokenPendingType = 9
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
@@ -798,14 +802,12 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode41(): Int {
-        scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 11
-        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
-        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
-        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 44
             }
             else -> {
                 return -1
@@ -818,7 +820,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return -2
             }
             128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 16
+                return 41
             }
             else -> {
                 return -1
@@ -839,11 +841,25 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode44(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 10
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 44
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 41
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 42
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
                 return 43
             }
             else -> {
@@ -852,73 +868,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode45(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 17
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode46(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 45
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode47(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 46
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode48(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            47 -> {
-                return 51
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode49(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            120 -> {
-                return 52
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode50(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
-        scannerDefinedTokenPendingType = 5
+        scannerDefinedTokenPendingType = 11
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
         scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
         scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
@@ -931,7 +882,141 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
         }
     }
+    private fun scannerDefinedNode46(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 12
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode47(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 19
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode48(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 47
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode49(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 48
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode50(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 20
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
     private fun scannerDefinedNode51(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 50
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode52(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 51
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode53(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            120 -> {
+                return 57
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode54(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            45 -> {
+                return 58
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode55(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 6
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode56(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
@@ -946,90 +1031,13 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             }
         }
     }
-    private fun scannerDefinedNode52(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            109 -> {
-                return 53
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode53(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            108 -> {
-                return 54
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode54(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 54
-            }
-            63 -> {
-                return 58
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 55
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 56
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 57
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode55(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 54
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
-    private fun scannerDefinedNode56(): Int {
-        when (scannerDefinedCurrentChar) {
-            -2 -> {
-                return -2
-            }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 55
-            }
-            else -> {
-                return -1
-            }
-        }
-    }
     private fun scannerDefinedNode57(): Int {
         when (scannerDefinedCurrentChar) {
             -2 -> {
                 return -2
             }
-            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
-                return 56
+            109 -> {
+                return 59
             }
             else -> {
                 return -1
@@ -1041,23 +1049,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             -2 -> {
                 return -2
             }
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 54
-            }
-            62 -> {
-                return 59
-            }
-            63 -> {
-                return 58
-            }
-            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 55
-            }
-            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 56
-            }
-            240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 57
+            45 -> {
+                return 60
             }
             else -> {
                 return -1
@@ -1065,6 +1058,225 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
     }
     private fun scannerDefinedNode59(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            108 -> {
+                return 61
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode60(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 60
+            }
+            45 -> {
+                return 65
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 62
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 63
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 64
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode61(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 61
+            }
+            63 -> {
+                return 69
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 66
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 67
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 68
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode62(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 60
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode63(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 62
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode64(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 63
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode65(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 60
+            }
+            45 -> {
+                return 70
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 62
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 63
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 64
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode66(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 61
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode67(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 66
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode68(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191 -> {
+                return 67
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode69(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 61
+            }
+            62 -> {
+                return 71
+            }
+            63 -> {
+                return 69
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 66
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 67
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 68
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode70(): Int {
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
+                return 60
+            }
+            62 -> {
+                return 72
+            }
+            192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
+                return 62
+            }
+            224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
+                return 63
+            }
+            240, 241, 242, 243, 244, 245, 246, 247 -> {
+                return 64
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNode71(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 1
         scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
@@ -1075,32 +1287,47 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return -2
             }
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124, 125, 126, 127 -> {
-                return 54
+                return 61
             }
             63 -> {
-                return 58
+                return 69
             }
             192, 193, 194, 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223 -> {
-                return 55
+                return 66
             }
             224, 225, 226, 227, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239 -> {
-                return 56
+                return 67
             }
             240, 241, 242, 243, 244, 245, 246, 247 -> {
-                return 57
+                return 68
             }
             else -> {
                 return -1
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int) {
+    private fun scannerDefinedNode72(): Int {
+        scannerDefinedTokenPendingEnd = bufferDefinedPosition
+        scannerDefinedTokenPendingType = 3
+        scannerDefinedTokenFoundStart[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingStart
+        scannerDefinedTokenFoundEnd[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingEnd
+        scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = scannerDefinedTokenPendingType
+        when (scannerDefinedCurrentChar) {
+            -2 -> {
+                return -2
+            }
+            else -> {
+                return -1
+            }
+        }
+    }
+    private fun scannerDefinedNextToken(startNode: Int): Unit {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int) {
+    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -1315,6 +1542,45 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 59 -> {
                     node = scannerDefinedNode59()
                 }
+                60 -> {
+                    node = scannerDefinedNode60()
+                }
+                61 -> {
+                    node = scannerDefinedNode61()
+                }
+                62 -> {
+                    node = scannerDefinedNode62()
+                }
+                63 -> {
+                    node = scannerDefinedNode63()
+                }
+                64 -> {
+                    node = scannerDefinedNode64()
+                }
+                65 -> {
+                    node = scannerDefinedNode65()
+                }
+                66 -> {
+                    node = scannerDefinedNode66()
+                }
+                67 -> {
+                    node = scannerDefinedNode67()
+                }
+                68 -> {
+                    node = scannerDefinedNode68()
+                }
+                69 -> {
+                    node = scannerDefinedNode69()
+                }
+                70 -> {
+                    node = scannerDefinedNode70()
+                }
+                71 -> {
+                    node = scannerDefinedNode71()
+                }
+                72 -> {
+                    node = scannerDefinedNode72()
+                }
             }
         }
         if ((node == -2)) {
@@ -1326,7 +1592,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
+            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
@@ -1348,12 +1614,12 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             1 -> {
                 return 2
             }
-            2 -> {
+            2, 3 -> {
                 userCode4()
                 return 5
             }
             else -> {
-                parsererror = "found token $currentToken1 unexpectedly in node 1, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken1} unexpectedly in node 1, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1373,296 +1639,321 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 return 5
             }
             else -> {
-                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode5(): Int {
-        parserDefinedStackData[parserDefinedStackPosition] = 0
-        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        userCode7()
-        return 7
-    }
-    private fun parserDefinedNode7(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(4)
         }
-        val currentToken7: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken7) {
+        val currentToken5: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken5) {
             2 -> {
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 8
+                return 6
+            }
+            3 -> {
+                return 7
             }
             else -> {
-                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken5} unexpectedly in node 5, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode8(): Int {
-        if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(5)
-        }
-        val currentToken8: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken8) {
-            3 -> {
-                userCode8()
-                userCode9()
-                userCode10()
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 10
-            }
-            else -> {
-                parsererror = "found token $currentToken8 unexpectedly in node 8, at position $bufferDefinedPosition"
-                return -1
-            }
-        }
+    private fun parserDefinedNode6(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 0
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        userCode7()
+        return 10
+    }
+    private fun parserDefinedNode7(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 8
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        userCode34()
+        return 11
     }
     private fun parserDefinedNode10(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(6)
+            scannerDefinedNextToken(5)
         }
         val currentToken10: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken10) {
-            4 -> {
-                return 11
-            }
-            5, 6 -> {
-                userCode12()
-                return 14
+            2 -> {
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 12
             }
             else -> {
-                parsererror = "found token $currentToken10 unexpectedly in node 10, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken10} unexpectedly in node 10, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode11(): Int {
-        parserDefinedStackData[parserDefinedStackPosition] = 1
-        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        userCode20()
-        return 15
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(6)
+        }
+        val currentToken11: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken11) {
+            3 -> {
+                userCode35()
+                userCode36()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 15
+            }
+            else -> {
+                parsererror = "found token ${currentToken11} unexpectedly in node 11, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
     }
-    private fun parserDefinedNode14(): Int {
+    private fun parserDefinedNode12(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(7)
         }
-        val currentToken14: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken14) {
-            5 -> {
+        val currentToken12: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken12) {
+            4 -> {
+                userCode8()
+                userCode9()
+                userCode10()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 16
             }
-            6 -> {
-                userCode13()
-                return 20
-            }
             else -> {
-                parsererror = "found token $currentToken14 unexpectedly in node 14, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken12} unexpectedly in node 12, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode15(): Int {
-        if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(8)
-        }
-        val currentToken15: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken15) {
-            4 -> {
-                userCode21()
-                userCode22()
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+        val currentStack15: Int = (parserDefinedStackData[parserDefinedStackPosition.toInt()])
+        when (currentStack15) {
+            6 -> {
+                userCode15()
                 return 21
             }
+            8 -> {
+                userCode5()
+                return 22
+            }
             else -> {
-                parsererror = "found token $currentToken15 unexpectedly in node 15, at position $bufferDefinedPosition"
+                parsererror = "found stack ${currentStack15} unexpectedly in node 15, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode16(): Int {
-        parserDefinedStackData[parserDefinedStackPosition] = 4
-        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        return 19
-    }
-    private fun parserDefinedNode19(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(9)
+            scannerDefinedNextToken(8)
         }
-        val currentToken19: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken19) {
+        val currentToken16: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken16) {
             5 -> {
-                userCode33()
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 25
+                return 19
             }
-            else -> {
-                parsererror = "found token $currentToken19 unexpectedly in node 19, at position $bufferDefinedPosition"
-                return -1
-            }
-        }
-    }
-    private fun parserDefinedNode20(): Int {
-        if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(10)
-        }
-        val currentToken20: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken20) {
-            6 -> {
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 23
-            }
-            else -> {
-                parsererror = "found token $currentToken20 unexpectedly in node 20, at position $bufferDefinedPosition"
-                return -1
-            }
-        }
-    }
-    private fun parserDefinedNode21(): Int {
-        if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(11)
-        }
-        val currentToken21: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken21) {
-            7 -> {
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+            6, 7 -> {
+                userCode12()
                 return 24
             }
             else -> {
-                parsererror = "found token $currentToken21 unexpectedly in node 21, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken16} unexpectedly in node 16, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode23(): Int {
+    private fun parserDefinedNode19(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 1
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        userCode20()
+        return 29
+    }
+    private fun parserDefinedNode21(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(12)
+            scannerDefinedNextToken(9)
         }
-        val currentToken23: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken23) {
-            8, 2 -> {
-                userCode14()
-                return 31
+        val currentToken21: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken21) {
+            2 -> {
+                return 25
             }
-            9 -> {
-                return 27
+            3 -> {
+                return 26
+            }
+            8 -> {
+                userCode16()
+                return 32
             }
             else -> {
-                parsererror = "found token $currentToken23 unexpectedly in node 23, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken21} unexpectedly in node 21, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
+    }
+    private fun parserDefinedNode22(): Int {
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(1)
+        }
+        val currentToken22: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken22) {
+            -2 -> {
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 28
+            }
+            else -> {
+                parsererror = "found token ${currentToken22} unexpectedly in node 22, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode24(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(13)
+            scannerDefinedNextToken(10)
         }
         val currentToken24: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken24) {
-            10 -> {
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 28
+            6 -> {
+                return 30
             }
-            11 -> {
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 29
+            7 -> {
+                userCode13()
+                return 35
             }
             else -> {
-                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode25(): Int {
-        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
-        userCode19()
-        return 35
+        parserDefinedStackData[parserDefinedStackPosition] = 5
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        userCode7()
+        return 10
     }
-    private fun parserDefinedNode27(): Int {
+    private fun parserDefinedNode26(): Int {
         parserDefinedStackData[parserDefinedStackPosition] = 6
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        userCode30()
-        return 38
+        userCode34()
+        return 11
     }
     private fun parserDefinedNode28(): Int {
-        parserDefinedStackData[parserDefinedStackPosition] = 2
-        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        userCode24()
-        return 39
+        return -2
     }
     private fun parserDefinedNode29(): Int {
-        parserDefinedStackData[parserDefinedStackPosition] = 3
-        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        userCode27()
-        return 40
-    }
-    private fun parserDefinedNode31(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(14)
+            scannerDefinedNextToken(11)
         }
-        val currentToken31: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken31) {
-            2 -> {
-                return 36
-            }
-            8 -> {
-                userCode16()
-                return 43
+        val currentToken29: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken29) {
+            5 -> {
+                userCode21()
+                userCode22()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 37
             }
             else -> {
-                parsererror = "found token $currentToken31 unexpectedly in node 31, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken29} unexpectedly in node 29, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
+    }
+    private fun parserDefinedNode30(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 4
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        return 34
+    }
+    private fun parserDefinedNode32(): Int {
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(12)
+        }
+        val currentToken32: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken32) {
+            8 -> {
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 36
+            }
+            else -> {
+                parsererror = "found token ${currentToken32} unexpectedly in node 32, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
+    }
+    private fun parserDefinedNode34(): Int {
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(13)
+        }
+        val currentToken34: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken34) {
+            6 -> {
+                userCode33()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 42
+            }
+            else -> {
+                parsererror = "found token ${currentToken34} unexpectedly in node 34, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode35(): Int {
-        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
-        val currentStack35: Int = (parserDefinedStackData[parserDefinedStackPosition.toInt()])
-        when (currentStack35) {
-            5 -> {
-                userCode15()
-                return 31
-            }
-            0 -> {
-                userCode5()
-                return 47
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(14)
+        }
+        val currentToken35: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken35) {
+            7 -> {
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 39
             }
             else -> {
-                parsererror = "found stack $currentStack35 unexpectedly in node 35, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken35} unexpectedly in node 35, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
     private fun parserDefinedNode36(): Int {
-        parserDefinedStackData[parserDefinedStackPosition] = 5
-        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
-        userCode7()
-        return 7
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(7)
+        }
+        val currentToken36: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken36) {
+            4 -> {
+                userCode17()
+                userCode18()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 45
+            }
+            else -> {
+                parsererror = "found token ${currentToken36} unexpectedly in node 36, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
     }
-    private fun parserDefinedNode38(): Int {
+    private fun parserDefinedNode37(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(15)
         }
-        val currentToken38: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken38) {
+        val currentToken37: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken37) {
             9 -> {
-                userCode31()
-                userCode32()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 49
+                return 41
             }
             else -> {
-                parsererror = "found token $currentToken38 unexpectedly in node 38, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken37} unexpectedly in node 37, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1673,106 +1964,118 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
         val currentToken39: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken39) {
-            12 -> {
-                userCode25()
-                userCode26()
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 50
+            8, 2, 3 -> {
+                userCode14()
+                return 21
+            }
+            10 -> {
+                return 44
             }
             else -> {
-                parsererror = "found token $currentToken39 unexpectedly in node 39, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken39} unexpectedly in node 39, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode40(): Int {
+    private fun parserDefinedNode41(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
             scannerDefinedNextToken(17)
         }
-        val currentToken40: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken40) {
-            13 -> {
-                userCode28()
-                userCode29()
+        val currentToken41: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken41) {
+            11 -> {
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 51
+                return 46
+            }
+            12 -> {
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 47
             }
             else -> {
-                parsererror = "found token $currentToken40 unexpectedly in node 40, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken41} unexpectedly in node 41, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode43(): Int {
-        if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(18)
-        }
-        val currentToken43: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken43) {
-            8 -> {
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 48
-            }
-            else -> {
-                parsererror = "found token $currentToken43 unexpectedly in node 43, at position $bufferDefinedPosition"
-                return -1
-            }
-        }
+    private fun parserDefinedNode42(): Int {
+        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+        userCode19()
+        return 52
     }
-    private fun parserDefinedNode47(): Int {
+    private fun parserDefinedNode44(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 7
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        userCode30()
+        return 53
+    }
+    private fun parserDefinedNode45(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(1)
+            scannerDefinedNextToken(14)
         }
-        val currentToken47: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken47) {
-            -2 -> {
+        val currentToken45: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken45) {
+            7 -> {
+                userCode19()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
                 return 52
             }
             else -> {
-                parsererror = "found token $currentToken47 unexpectedly in node 47, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken45} unexpectedly in node 45, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode48(): Int {
-        if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(5)
-        }
-        val currentToken48: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken48) {
-            3 -> {
-                userCode17()
-                userCode18()
-                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
-                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 56
-            }
-            else -> {
-                parsererror = "found token $currentToken48 unexpectedly in node 48, at position $bufferDefinedPosition"
-                return -1
-            }
-        }
-    }
-    private fun parserDefinedNode49(): Int {
-        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
-        userCode16()
-        return 43
-    }
-    private fun parserDefinedNode50(): Int {
-        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+    private fun parserDefinedNode46(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 2
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        userCode24()
         return 54
     }
-    private fun parserDefinedNode51(): Int {
-        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+    private fun parserDefinedNode47(): Int {
+        parserDefinedStackData[parserDefinedStackPosition] = 3
+        parserDefinedStackPosition = (parserDefinedStackPosition + 1)
+        userCode27()
         return 55
     }
     private fun parserDefinedNode52(): Int {
-        return -2
+        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+        val currentStack52: Int = (parserDefinedStackData[parserDefinedStackPosition.toInt()])
+        when (currentStack52) {
+            5 -> {
+                userCode15()
+                return 21
+            }
+            0 -> {
+                userCode5()
+                return 22
+            }
+            else -> {
+                parsererror = "found stack ${currentStack52} unexpectedly in node 52, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
+    }
+    private fun parserDefinedNode53(): Int {
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(18)
+        }
+        val currentToken53: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken53) {
+            10 -> {
+                userCode31()
+                userCode32()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 59
+            }
+            else -> {
+                parsererror = "found token ${currentToken53} unexpectedly in node 53, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
     }
     private fun parserDefinedNode54(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
@@ -1780,14 +2083,15 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
         val currentToken54: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken54) {
-            10 -> {
-                userCode23()
+            13 -> {
+                userCode25()
+                userCode26()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 58
+                return 60
             }
             else -> {
-                parsererror = "found token $currentToken54 unexpectedly in node 54, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken54} unexpectedly in node 54, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1798,42 +2102,74 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
         }
         val currentToken55: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
         when (currentToken55) {
+            14 -> {
+                userCode28()
+                userCode29()
+                scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
+                scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
+                return 61
+            }
+            else -> {
+                parsererror = "found token ${currentToken55} unexpectedly in node 55, at position ${bufferDefinedPosition}"
+                return -1
+            }
+        }
+    }
+    private fun parserDefinedNode59(): Int {
+        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+        userCode16()
+        return 32
+    }
+    private fun parserDefinedNode60(): Int {
+        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+        return 62
+    }
+    private fun parserDefinedNode61(): Int {
+        parserDefinedStackPosition = (parserDefinedStackPosition - 1)
+        return 63
+    }
+    private fun parserDefinedNode62(): Int {
+        if ((scannerDefinedTokenFoundAvailable <= 0)) {
+            scannerDefinedNextToken(21)
+        }
+        val currentToken62: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken62) {
             11 -> {
                 userCode23()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 58
+                return 65
             }
             else -> {
-                parsererror = "found token $currentToken55 unexpectedly in node 55, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken62} unexpectedly in node 62, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode56(): Int {
+    private fun parserDefinedNode63(): Int {
         if ((scannerDefinedTokenFoundAvailable <= 0)) {
-            scannerDefinedNextToken(10)
+            scannerDefinedNextToken(22)
         }
-        val currentToken56: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
-        when (currentToken56) {
-            6 -> {
-                userCode19()
+        val currentToken63: Int = (scannerDefinedTokenFoundType[scannerDefinedTokenFoundReadOffset.toInt()])
+        when (currentToken63) {
+            12 -> {
+                userCode23()
                 scannerDefinedTokenFoundReadOffset = ((scannerDefinedTokenFoundReadOffset + 1) % 3)
                 scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable - 1)
-                return 35
+                return 65
             }
             else -> {
-                parsererror = "found token $currentToken56 unexpectedly in node 56, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken63} unexpectedly in node 63, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    private fun parserDefinedNode58(): Int {
+    private fun parserDefinedNode65(): Int {
         parserDefinedStackPosition = (parserDefinedStackPosition - 1)
         userCode11()
-        return 10
+        return 16
     }
-    public fun parserDefinedParse() {
+    public fun parserDefinedParse(): Unit {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -1849,11 +2185,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 5 -> {
                     node = parserDefinedNode5()
                 }
+                6 -> {
+                    node = parserDefinedNode6()
+                }
                 7 -> {
                     node = parserDefinedNode7()
-                }
-                8 -> {
-                    node = parserDefinedNode8()
                 }
                 10 -> {
                     node = parserDefinedNode10()
@@ -1861,8 +2197,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 11 -> {
                     node = parserDefinedNode11()
                 }
-                14 -> {
-                    node = parserDefinedNode14()
+                12 -> {
+                    node = parserDefinedNode12()
                 }
                 15 -> {
                     node = parserDefinedNode15()
@@ -1873,14 +2209,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 19 -> {
                     node = parserDefinedNode19()
                 }
-                20 -> {
-                    node = parserDefinedNode20()
-                }
                 21 -> {
                     node = parserDefinedNode21()
                 }
-                23 -> {
-                    node = parserDefinedNode23()
+                22 -> {
+                    node = parserDefinedNode22()
                 }
                 24 -> {
                     node = parserDefinedNode24()
@@ -1888,8 +2221,8 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 25 -> {
                     node = parserDefinedNode25()
                 }
-                27 -> {
-                    node = parserDefinedNode27()
+                26 -> {
+                    node = parserDefinedNode26()
                 }
                 28 -> {
                     node = parserDefinedNode28()
@@ -1897,8 +2230,14 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 29 -> {
                     node = parserDefinedNode29()
                 }
-                31 -> {
-                    node = parserDefinedNode31()
+                30 -> {
+                    node = parserDefinedNode30()
+                }
+                32 -> {
+                    node = parserDefinedNode32()
+                }
+                34 -> {
+                    node = parserDefinedNode34()
                 }
                 35 -> {
                     node = parserDefinedNode35()
@@ -1906,35 +2245,35 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 36 -> {
                     node = parserDefinedNode36()
                 }
-                38 -> {
-                    node = parserDefinedNode38()
+                37 -> {
+                    node = parserDefinedNode37()
                 }
                 39 -> {
                     node = parserDefinedNode39()
                 }
-                40 -> {
-                    node = parserDefinedNode40()
+                41 -> {
+                    node = parserDefinedNode41()
                 }
-                43 -> {
-                    node = parserDefinedNode43()
+                42 -> {
+                    node = parserDefinedNode42()
+                }
+                44 -> {
+                    node = parserDefinedNode44()
+                }
+                45 -> {
+                    node = parserDefinedNode45()
+                }
+                46 -> {
+                    node = parserDefinedNode46()
                 }
                 47 -> {
                     node = parserDefinedNode47()
                 }
-                48 -> {
-                    node = parserDefinedNode48()
-                }
-                49 -> {
-                    node = parserDefinedNode49()
-                }
-                50 -> {
-                    node = parserDefinedNode50()
-                }
-                51 -> {
-                    node = parserDefinedNode51()
-                }
                 52 -> {
                     node = parserDefinedNode52()
+                }
+                53 -> {
+                    node = parserDefinedNode53()
                 }
                 54 -> {
                     node = parserDefinedNode54()
@@ -1942,11 +2281,23 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                 55 -> {
                     node = parserDefinedNode55()
                 }
-                56 -> {
-                    node = parserDefinedNode56()
+                59 -> {
+                    node = parserDefinedNode59()
                 }
-                58 -> {
-                    node = parserDefinedNode58()
+                60 -> {
+                    node = parserDefinedNode60()
+                }
+                61 -> {
+                    node = parserDefinedNode61()
+                }
+                62 -> {
+                    node = parserDefinedNode62()
+                }
+                63 -> {
+                    node = parserDefinedNode63()
+                }
+                65 -> {
+                    node = parserDefinedNode65()
                 }
             }
         }
@@ -1954,129 +2305,139 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             TODO(parsererror!!)
         }
     }
-    private fun userCode0() {
+    private fun userCode0(): Unit {
         stack.add(allocASTxmldoc())
     }
-    private fun userCode1() {
+    private fun userCode1(): Unit {
         stack.add(allocASTVERSIONOptional())
     }
-    private fun userCode2() {
+    private fun userCode2(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode3() {
-        val tmp15: Any = stack.removeLast()
-        astAssign_ASTVERSIONOptional_0((stack.last() as ASTVERSIONOptional), tmp15)
-    }
-    private fun userCode4() {
+    private fun userCode3(): Unit {
         val tmp16: Any = stack.removeLast()
-        astAssign_ASTxmldoc_0((stack.last() as ASTxmldoc), tmp16)
+        astAssign_ASTVERSIONOptional_0((stack.last() as ASTVERSIONOptional), tmp16)
     }
-    private fun userCode5() {
+    private fun userCode4(): Unit {
         val tmp17: Any = stack.removeLast()
-        astAssign_ASTxmldoc_1((stack.last() as ASTxmldoc), tmp17)
+        astAssign_ASTxmldoc_0((stack.last() as ASTxmldoc), tmp17)
     }
-    private fun userCode6() {
+    private fun userCode5(): Unit {
+        val tmp18: Any = stack.removeLast()
+        astAssign_ASTxmldoc_1((stack.last() as ASTxmldoc), tmp18)
+    }
+    private fun userCode6(): Unit {
         stack.add(allocASTversion())
     }
-    private fun userCode7() {
+    private fun userCode7(): Unit {
         stack.add(allocASTelement())
     }
-    private fun userCode8() {
+    private fun userCode8(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode9() {
-        val tmp22: Any = stack.removeLast()
-        astAssign_ASTelement_0((stack.last() as ASTelement), tmp22)
+    private fun userCode9(): Unit {
+        val tmp23: Any = stack.removeLast()
+        astAssign_ASTelement_0((stack.last() as ASTelement), tmp23)
     }
-    private fun userCode10() {
+    private fun userCode10(): Unit {
         stack.add(allocASTListOfattribute())
     }
-    private fun userCode11() {
-        val tmp18: Any = stack.removeLast()
-        astAssign_ASTListOfattribute_0((stack.last() as ASTListOfattribute), tmp18)
-    }
-    private fun userCode12() {
-        val tmp23: Any = stack.removeLast()
-        astAssign_ASTelement_1((stack.last() as ASTelement), tmp23)
-    }
-    private fun userCode13() {
-        stack.add(allocASTClassOfInterfaceOfListOfelementOrtextAndTAG())
-    }
-    private fun userCode14() {
-        stack.add(allocASTListOfelement())
-    }
-    private fun userCode15() {
+    private fun userCode11(): Unit {
         val tmp19: Any = stack.removeLast()
-        astAssign_ASTListOfelement_0((stack.last() as ASTListOfelement), tmp19)
+        astAssign_ASTListOfattribute_0((stack.last() as ASTListOfattribute), tmp19)
     }
-    private fun userCode16() {
+    private fun userCode12(): Unit {
+        val tmp24: Any = stack.removeLast()
+        astAssign_ASTelement_1((stack.last() as ASTelement), tmp24)
+    }
+    private fun userCode13(): Unit {
+        stack.add(allocASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG())
+    }
+    private fun userCode14(): Unit {
+        stack.add(allocASTListOfInterfaceOfelementOrcomment())
+    }
+    private fun userCode15(): Unit {
         val tmp20: Any = stack.removeLast()
-        astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0((stack.last() as ASTClassOfInterfaceOfListOfelementOrtextAndTAG), tmp20)
+        astAssign_ASTListOfInterfaceOfelementOrcomment_0((stack.last() as ASTListOfInterfaceOfelementOrcomment), tmp20)
     }
-    private fun userCode17() {
+    private fun userCode16(): Unit {
+        val tmp21: Any = stack.removeLast()
+        astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_0((stack.last() as ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG), tmp21)
+    }
+    private fun userCode17(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode18() {
-        val tmp21: Any = stack.removeLast()
-        astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1((stack.last() as ASTClassOfInterfaceOfListOfelementOrtextAndTAG), tmp21)
+    private fun userCode18(): Unit {
+        val tmp22: Any = stack.removeLast()
+        astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_1((stack.last() as ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG), tmp22)
     }
-    private fun userCode19() {
-        val tmp24: Any = stack.removeLast()
-        astAssign_ASTelement_2((stack.last() as ASTelement), tmp24)
+    private fun userCode19(): Unit {
+        val tmp25: Any = stack.removeLast()
+        astAssign_ASTelement_2((stack.last() as ASTelement), tmp25)
     }
-    private fun userCode20() {
+    private fun userCode20(): Unit {
         stack.add(allocASTattribute())
     }
-    private fun userCode21() {
+    private fun userCode21(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode22() {
-        val tmp25: Any = stack.removeLast()
-        astAssign_ASTattribute_0((stack.last() as ASTattribute), tmp25)
-    }
-    private fun userCode23() {
+    private fun userCode22(): Unit {
         val tmp26: Any = stack.removeLast()
-        astAssign_ASTattribute_1((stack.last() as ASTattribute), tmp26)
+        astAssign_ASTattribute_0((stack.last() as ASTattribute), tmp26)
     }
-    private fun userCode24() {
+    private fun userCode23(): Unit {
+        val tmp27: Any = stack.removeLast()
+        astAssign_ASTattribute_1((stack.last() as ASTattribute), tmp27)
+    }
+    private fun userCode24(): Unit {
         stack.add(allocASTvalue1())
     }
-    private fun userCode25() {
+    private fun userCode25(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode26() {
-        val tmp27: Any = stack.removeLast()
-        astAssign_ASTvalue1_0((stack.last() as ASTvalue1), tmp27)
+    private fun userCode26(): Unit {
+        val tmp28: Any = stack.removeLast()
+        astAssign_ASTvalue1_0((stack.last() as ASTvalue1), tmp28)
     }
-    private fun userCode27() {
+    private fun userCode27(): Unit {
         stack.add(allocASTvalue2())
     }
-    private fun userCode28() {
+    private fun userCode28(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode29() {
-        val tmp28: Any = stack.removeLast()
-        astAssign_ASTvalue2_0((stack.last() as ASTvalue2), tmp28)
+    private fun userCode29(): Unit {
+        val tmp29: Any = stack.removeLast()
+        astAssign_ASTvalue2_0((stack.last() as ASTvalue2), tmp29)
     }
-    private fun userCode30() {
+    private fun userCode30(): Unit {
         stack.add(allocASTtext())
     }
-    private fun userCode31() {
+    private fun userCode31(): Unit {
         stack.add(getLastTokenString())
     }
-    private fun userCode32() {
-        val tmp29: Any = stack.removeLast()
-        astAssign_ASTtext_0((stack.last() as ASTtext), tmp29)
+    private fun userCode32(): Unit {
+        val tmp30: Any = stack.removeLast()
+        astAssign_ASTtext_0((stack.last() as ASTtext), tmp30)
     }
-    private fun userCode33() {
+    private fun userCode33(): Unit {
         stack.add(allocASTcloseimmediately())
+    }
+    private fun userCode34(): Unit {
+        stack.add(allocASTcomment())
+    }
+    private fun userCode35(): Unit {
+        stack.add(getLastTokenString())
+    }
+    private fun userCode36(): Unit {
+        val tmp31: Any = stack.removeLast()
+        astAssign_ASTcomment_0((stack.last() as ASTcomment), tmp31)
     }
     private fun allocASTVERSIONOptional(): ASTVERSIONOptional {
         var tmp: ASTVERSIONOptional = ASTVERSIONOptional()
         tmp.id = 0
         return tmp
     }
-    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?) {
+    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2085,19 +2446,45 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?) {
+    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any) {
+    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any): Unit {
         node.VERSION = (value as String)
+    }
+    public fun printASTInterfaceOfelementOrcomment(node: ASTInterfaceOfelementOrcomment?): Unit {
+        if ((node == null)) {
+            print("null")
+        } else {
+            when (node.id) {
+                1 -> {
+                    printASTelement((node as ASTelement))
+                }
+                2 -> {
+                    printASTcomment((node as ASTcomment))
+                }
+            }
+        }
+    }
+    public fun freeASTInterfaceOfelementOrcomment(node: ASTInterfaceOfelementOrcomment?): Unit {
+        if ((node != null)) {
+            when (node.id) {
+                1 -> {
+                    freeASTelement((node as ASTelement))
+                }
+                2 -> {
+                    freeASTcomment((node as ASTcomment))
+                }
+            }
+        }
     }
     private fun allocASTxmldoc(): ASTxmldoc {
         var tmp: ASTxmldoc = ASTxmldoc()
-        tmp.id = 1
+        tmp.id = 3
         return tmp
     }
-    public fun printASTxmldoc(node: ASTxmldoc?) {
+    public fun printASTxmldoc(node: ASTxmldoc?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2105,28 +2492,28 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("\"variable0\":")
             printASTVERSIONOptional(node.variable0)
             print("\"variable1\":")
-            printASTelement(node.variable1)
+            printASTInterfaceOfelementOrcomment(node.variable1)
             print("},")
         }
     }
-    public fun freeASTxmldoc(node: ASTxmldoc?) {
+    public fun freeASTxmldoc(node: ASTxmldoc?): Unit {
         if ((node != null)) {
             freeASTVERSIONOptional(node.variable0)
-            freeASTelement(node.variable1)
+            freeASTInterfaceOfelementOrcomment(node.variable1)
         }
     }
-    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any) {
+    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any): Unit {
         node.variable0 = (value as ASTVERSIONOptional)
     }
-    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any) {
-        node.variable1 = (value as ASTelement)
+    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any): Unit {
+        node.variable1 = (value as ASTInterfaceOfelementOrcomment)
     }
     private fun allocASTversion(): ASTversion {
         var tmp: ASTversion = ASTversion()
-        tmp.id = 2
+        tmp.id = 4
         return tmp
     }
-    public fun printASTversion(node: ASTversion?) {
+    public fun printASTversion(node: ASTversion?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2134,11 +2521,11 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTversion(node: ASTversion?) {
+    public fun freeASTversion(node: ASTversion?): Unit {
         if ((node != null)) {
         }
     }
-    public fun printASTListOfattribute(node: ASTListOfattribute?) {
+    public fun printASTListOfattribute(node: ASTListOfattribute?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2149,7 +2536,7 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("],},")
         }
     }
-    public fun freeASTListOfattribute(node: ASTListOfattribute?) {
+    public fun freeASTListOfattribute(node: ASTListOfattribute?): Unit {
         if ((node != null)) {
             node.value.forEach {
                 freeASTattribute(it)
@@ -2159,124 +2546,124 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
     private fun allocASTListOfattribute(): ASTListOfattribute {
         var tmp: ASTListOfattribute = ASTListOfattribute()
         tmp.value = mutableListOf<ASTattribute>()
-        tmp.id = 3
+        tmp.id = 5
         return tmp
     }
-    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any) {
+    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any): Unit {
         node.value.add((value as ASTattribute))
     }
-    public fun printASTListOfelement(node: ASTListOfelement?) {
+    public fun printASTListOfInterfaceOfelementOrcomment(node: ASTListOfInterfaceOfelementOrcomment?): Unit {
         if ((node == null)) {
             print("null")
         } else {
-            print("{\"type\":\"ASTListOfelement!!\", \"data\":[")
+            print("{\"type\":\"ASTListOfInterfaceOfelementOrcomment!!\", \"data\":[")
             node.value.forEach {
-                printASTelement(it)
+                printASTInterfaceOfelementOrcomment(it)
             }
             print("],},")
         }
     }
-    public fun freeASTListOfelement(node: ASTListOfelement?) {
+    public fun freeASTListOfInterfaceOfelementOrcomment(node: ASTListOfInterfaceOfelementOrcomment?): Unit {
         if ((node != null)) {
             node.value.forEach {
-                freeASTelement(it)
+                freeASTInterfaceOfelementOrcomment(it)
             }
         }
     }
-    private fun allocASTListOfelement(): ASTListOfelement {
-        var tmp: ASTListOfelement = ASTListOfelement()
-        tmp.value = mutableListOf<ASTelement>()
-        tmp.id = 4
+    private fun allocASTListOfInterfaceOfelementOrcomment(): ASTListOfInterfaceOfelementOrcomment {
+        var tmp: ASTListOfInterfaceOfelementOrcomment = ASTListOfInterfaceOfelementOrcomment()
+        tmp.value = mutableListOf<ASTInterfaceOfelementOrcomment>()
+        tmp.id = 6
         return tmp
     }
-    private fun astAssign_ASTListOfelement_0(node: ASTListOfelement, value: Any) {
-        node.value.add((value as ASTelement))
+    private fun astAssign_ASTListOfInterfaceOfelementOrcomment_0(node: ASTListOfInterfaceOfelementOrcomment, value: Any): Unit {
+        node.value.add((value as ASTInterfaceOfelementOrcomment))
     }
-    public fun printASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?) {
+    public fun printASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext?): Unit {
         if ((node == null)) {
             print("null")
         } else {
             when (node.id) {
-                4 -> {
-                    printASTListOfelement((node as ASTListOfelement))
+                6 -> {
+                    printASTListOfInterfaceOfelementOrcomment((node as ASTListOfInterfaceOfelementOrcomment))
                 }
-                5 -> {
+                7 -> {
                     printASTtext((node as ASTtext))
                 }
             }
         }
     }
-    public fun freeASTInterfaceOfListOfelementOrtext(node: ASTInterfaceOfListOfelementOrtext?) {
+    public fun freeASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext?): Unit {
         if ((node != null)) {
             when (node.id) {
-                4 -> {
-                    freeASTListOfelement((node as ASTListOfelement))
+                6 -> {
+                    freeASTListOfInterfaceOfelementOrcomment((node as ASTListOfInterfaceOfelementOrcomment))
                 }
-                5 -> {
+                7 -> {
                     freeASTtext((node as ASTtext))
                 }
             }
         }
     }
-    private fun allocASTClassOfInterfaceOfListOfelementOrtextAndTAG(): ASTClassOfInterfaceOfListOfelementOrtextAndTAG {
-        var tmp: ASTClassOfInterfaceOfListOfelementOrtextAndTAG = ASTClassOfInterfaceOfListOfelementOrtextAndTAG()
-        tmp.id = 6
+    private fun allocASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(): ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG {
+        var tmp: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG = ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG()
+        tmp.id = 8
         return tmp
     }
-    public fun printASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun printASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
         if ((node == null)) {
             print("null")
         } else {
-            print("{\"type\":\"ASTClassOfInterfaceOfListOfelementOrtextAndTAG\",")
+            print("{\"type\":\"ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG\",")
             print("\"variable0\":")
-            printASTInterfaceOfListOfelementOrtext(node.variable0)
+            printASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node.variable0)
             print("\"TAG\":\"${node.TAG}\",")
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun freeASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
         if ((node != null)) {
-            freeASTInterfaceOfListOfelementOrtext(node.variable0)
+            freeASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any) {
-        node.variable0 = (value as ASTInterfaceOfListOfelementOrtext)
+    private fun astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, value: Any): Unit {
+        node.variable0 = (value as ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext)
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfelementOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfelementOrtextAndTAG, value: Any) {
+    private fun astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, value: Any): Unit {
         node.TAG = (value as String)
     }
-    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
         if ((node == null)) {
             print("null")
         } else {
             when (node.id) {
-                7 -> {
+                9 -> {
                     printASTcloseimmediately((node as ASTcloseimmediately))
                 }
-                6 -> {
-                    printASTClassOfInterfaceOfListOfelementOrtextAndTAG((node as ASTClassOfInterfaceOfListOfelementOrtextAndTAG))
+                8 -> {
+                    printASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG((node as ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG))
                 }
             }
         }
     }
-    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG?) {
+    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
         if ((node != null)) {
             when (node.id) {
-                7 -> {
+                9 -> {
                     freeASTcloseimmediately((node as ASTcloseimmediately))
                 }
-                6 -> {
-                    freeASTClassOfInterfaceOfListOfelementOrtextAndTAG((node as ASTClassOfInterfaceOfListOfelementOrtextAndTAG))
+                8 -> {
+                    freeASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG((node as ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG))
                 }
             }
         }
     }
     private fun allocASTelement(): ASTelement {
         var tmp: ASTelement = ASTelement()
-        tmp.id = 8
+        tmp.id = 1
         return tmp
     }
-    public fun printASTelement(node: ASTelement?) {
+    public fun printASTelement(node: ASTelement?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2285,46 +2672,46 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("\"variable1\":")
             printASTListOfattribute(node.variable1)
             print("\"variable2\":")
-            printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node.variable2)
+            printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node.variable2)
             print("},")
         }
     }
-    public fun freeASTelement(node: ASTelement?) {
+    public fun freeASTelement(node: ASTelement?): Unit {
         if ((node != null)) {
             freeASTListOfattribute(node.variable1)
-            freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG(node.variable2)
+            freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node.variable2)
         }
     }
-    private fun astAssign_ASTelement_0(node: ASTelement, value: Any) {
+    private fun astAssign_ASTelement_0(node: ASTelement, value: Any): Unit {
         node.TAG = (value as String)
     }
-    private fun astAssign_ASTelement_1(node: ASTelement, value: Any) {
+    private fun astAssign_ASTelement_1(node: ASTelement, value: Any): Unit {
         node.variable1 = (value as ASTListOfattribute)
     }
-    private fun astAssign_ASTelement_2(node: ASTelement, value: Any) {
-        node.variable2 = (value as ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfelementOrtextAndTAG)
+    private fun astAssign_ASTelement_2(node: ASTelement, value: Any): Unit {
+        node.variable2 = (value as ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG)
     }
-    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
+    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
         if ((node == null)) {
             print("null")
         } else {
             when (node.id) {
-                9 -> {
+                10 -> {
                     printASTvalue1((node as ASTvalue1))
                 }
-                10 -> {
+                11 -> {
                     printASTvalue2((node as ASTvalue2))
                 }
             }
         }
     }
-    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
+    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
         if ((node != null)) {
             when (node.id) {
-                9 -> {
+                10 -> {
                     freeASTvalue1((node as ASTvalue1))
                 }
-                10 -> {
+                11 -> {
                     freeASTvalue2((node as ASTvalue2))
                 }
             }
@@ -2332,10 +2719,10 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
     }
     private fun allocASTattribute(): ASTattribute {
         var tmp: ASTattribute = ASTattribute()
-        tmp.id = 11
+        tmp.id = 12
         return tmp
     }
-    public fun printASTattribute(node: ASTattribute?) {
+    public fun printASTattribute(node: ASTattribute?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2346,23 +2733,23 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTattribute(node: ASTattribute?) {
+    public fun freeASTattribute(node: ASTattribute?): Unit {
         if ((node != null)) {
             freeASTInterfaceOfvalue1Orvalue2(node.variable1)
         }
     }
-    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any) {
+    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any): Unit {
         node.KEY = (value as String)
     }
-    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any) {
+    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any): Unit {
         node.variable1 = (value as ASTInterfaceOfvalue1Orvalue2)
     }
     private fun allocASTvalue1(): ASTvalue1 {
         var tmp: ASTvalue1 = ASTvalue1()
-        tmp.id = 9
+        tmp.id = 10
         return tmp
     }
-    public fun printASTvalue1(node: ASTvalue1?) {
+    public fun printASTvalue1(node: ASTvalue1?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2371,19 +2758,19 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTvalue1(node: ASTvalue1?) {
+    public fun freeASTvalue1(node: ASTvalue1?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any) {
+    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any): Unit {
         node.VALUE1 = (value as String)
     }
     private fun allocASTvalue2(): ASTvalue2 {
         var tmp: ASTvalue2 = ASTvalue2()
-        tmp.id = 10
+        tmp.id = 11
         return tmp
     }
-    public fun printASTvalue2(node: ASTvalue2?) {
+    public fun printASTvalue2(node: ASTvalue2?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2392,19 +2779,19 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTvalue2(node: ASTvalue2?) {
+    public fun freeASTvalue2(node: ASTvalue2?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any) {
+    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any): Unit {
         node.VALUE2 = (value as String)
     }
     private fun allocASTtext(): ASTtext {
         var tmp: ASTtext = ASTtext()
-        tmp.id = 5
+        tmp.id = 7
         return tmp
     }
-    public fun printASTtext(node: ASTtext?) {
+    public fun printASTtext(node: ASTtext?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2413,19 +2800,19 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTtext(node: ASTtext?) {
+    public fun freeASTtext(node: ASTtext?): Unit {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTtext_0(node: ASTtext, value: Any) {
+    private fun astAssign_ASTtext_0(node: ASTtext, value: Any): Unit {
         node.TEXT = (value as String)
     }
     private fun allocASTcloseimmediately(): ASTcloseimmediately {
         var tmp: ASTcloseimmediately = ASTcloseimmediately()
-        tmp.id = 7
+        tmp.id = 9
         return tmp
     }
-    public fun printASTcloseimmediately(node: ASTcloseimmediately?) {
+    public fun printASTcloseimmediately(node: ASTcloseimmediately?): Unit {
         if ((node == null)) {
             print("null")
         } else {
@@ -2433,12 +2820,33 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
             print("},")
         }
     }
-    public fun freeASTcloseimmediately(node: ASTcloseimmediately?) {
+    public fun freeASTcloseimmediately(node: ASTcloseimmediately?): Unit {
         if ((node != null)) {
         }
+    }
+    private fun allocASTcomment(): ASTcomment {
+        var tmp: ASTcomment = ASTcomment()
+        tmp.id = 2
+        return tmp
+    }
+    public fun printASTcomment(node: ASTcomment?): Unit {
+        if ((node == null)) {
+            print("null")
+        } else {
+            print("{\"type\":\"ASTcomment\",")
+            print("\"COMMENT\":\"${node.COMMENT}\",")
+            print("},")
+        }
+    }
+    public fun freeASTcomment(node: ASTcomment?): Unit {
+        if ((node != null)) {
+        }
+    }
+    private fun astAssign_ASTcomment_0(node: ASTcomment, value: Any): Unit {
+        node.COMMENT = (value as String)
     }
     public fun getResult(): ASTxmldoc {
         return (stack.last() as ASTxmldoc)
     }
-    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
-}
+internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
+

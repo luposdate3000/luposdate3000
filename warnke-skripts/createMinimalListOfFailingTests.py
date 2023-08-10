@@ -113,7 +113,8 @@ def loop(filter):
                 if not (x in filter):
                     f.write(x + "\n")
             for x in blacklist:
-             f.write(x + "\n")
+             if not (x in filter):
+              f.write(x + "\n")
     else:
         with open("resources/tests/blacklist", "w") as f:
             if len(allTests) == 0:

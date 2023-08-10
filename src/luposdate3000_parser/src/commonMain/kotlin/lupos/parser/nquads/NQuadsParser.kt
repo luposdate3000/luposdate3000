@@ -1,15 +1,15 @@
 package lupos.parser.nquads
 
 public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
-    internal var currentS: String? = null
-    internal var currentP: String? = null
-    internal var currentO: String? = null
-    internal var currentG: String? = null
-    public var consumeQuad: (String, String, String, String?) -> Unit = { s, p, o, g ->
-        println("consumeQuad($s, $p, $s, $g)")
-    }
+internal var currentS:String?=null
+internal var currentP:String?=null
+internal var currentO:String?=null
+internal var currentG:String?=null
+public var consumeQuad:(String, String, String, String?) -> Unit = {s,p,o,g->
+    println("consumeQuad($s, $p, $s, $g)")
+}
 
-    internal var parsererror: String? = null
+internal var parsererror: String? = null
     public var bufferDefinedDataSize: Long = 0
     public var bufferDefinedPosition: Long = 0
     public var bufferDefinedLastSize: Long = 0
@@ -56,10 +56,12 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
+
     }
-    public fun close() {
-        bufferDefinedInputStream.close()
-    }
+public fun close() {
+    bufferDefinedInputStream.close()
+
+}
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 8
@@ -1350,13 +1352,13 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int) {
+    private fun scannerDefinedNextToken(startNode: Int): Unit {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int) {
+    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -1639,7 +1641,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
+            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
@@ -1663,7 +1665,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 3
             }
             else -> {
-                parsererror = "found token $currentToken0 unexpectedly in node 0, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken0} unexpectedly in node 0, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1685,7 +1687,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 5
             }
             else -> {
-                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1702,7 +1704,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 6
             }
             else -> {
-                parsererror = "found token $currentToken3 unexpectedly in node 3, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken3} unexpectedly in node 3, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1725,7 +1727,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 3
             }
             else -> {
-                parsererror = "found token $currentToken5 unexpectedly in node 5, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken5} unexpectedly in node 5, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1752,7 +1754,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 11
             }
             else -> {
-                parsererror = "found token $currentToken7 unexpectedly in node 7, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken7} unexpectedly in node 7, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1784,7 +1786,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 15
             }
             else -> {
-                parsererror = "found token $currentToken13 unexpectedly in node 13, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken13} unexpectedly in node 13, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1823,7 +1825,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 22
             }
             else -> {
-                parsererror = "found token $currentToken17 unexpectedly in node 17, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken17} unexpectedly in node 17, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1850,7 +1852,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken22 unexpectedly in node 22, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken22} unexpectedly in node 22, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1867,7 +1869,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 28
             }
             else -> {
-                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1885,7 +1887,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken25 unexpectedly in node 25, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken25} unexpectedly in node 25, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1903,7 +1905,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 31
             }
             else -> {
-                parsererror = "found token $currentToken27 unexpectedly in node 27, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken27} unexpectedly in node 27, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1921,7 +1923,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 21
             }
             else -> {
-                parsererror = "found token $currentToken28 unexpectedly in node 28, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken28} unexpectedly in node 28, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1944,7 +1946,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 37
             }
             else -> {
-                parsererror = "found token $currentToken31 unexpectedly in node 31, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken31} unexpectedly in node 31, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1968,7 +1970,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 38
             }
             else -> {
-                parsererror = "found token $currentToken33 unexpectedly in node 33, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken33} unexpectedly in node 33, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -1984,7 +1986,7 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 39
             }
             else -> {
-                parsererror = "found stack $currentStack37 unexpectedly in node 37, at position $bufferDefinedPosition"
+                parsererror = "found stack ${currentStack37} unexpectedly in node 37, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
@@ -2010,12 +2012,12 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
                 return 6
             }
             else -> {
-                parsererror = "found token $currentToken39 unexpectedly in node 39, at position $bufferDefinedPosition"
+                parsererror = "found token ${currentToken39} unexpectedly in node 39, at position ${bufferDefinedPosition}"
                 return -1
             }
         }
     }
-    public fun parserDefinedParse() {
+    public fun parserDefinedParse(): Unit {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -2106,44 +2108,44 @@ public class NQuadsParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputSt
             TODO(parsererror!!)
         }
     }
-    private fun userCode0() {
-        currentG = null
+    private fun userCode0(): Unit {
+        currentG=null
     }
-    private fun userCode1() {
-        consumeQuad(currentS!!, currentP!!, currentO!!, currentG!!)
+    private fun userCode1(): Unit {
+        consumeQuad(currentS!!,currentP!!,currentO!!,currentG!!)
     }
-    private fun userCode2() {
-        currentS = getLastTokenString()
+    private fun userCode2(): Unit {
+        currentS=getLastTokenString()
     }
-    private fun userCode3() {
-        currentS = getLastTokenString()
+    private fun userCode3(): Unit {
+        currentS=getLastTokenString()
     }
-    private fun userCode4() {
-        currentP = getLastTokenString()
+    private fun userCode4(): Unit {
+        currentP=getLastTokenString()
     }
-    private fun userCode5() {
-        currentO = getLastTokenString()
+    private fun userCode5(): Unit {
+        currentO=getLastTokenString()
     }
-    private fun userCode6() {
-        currentO = getLastTokenString()
+    private fun userCode6(): Unit {
+        currentO=getLastTokenString()
     }
-    private fun userCode7() {
-        currentO = getLastTokenString()
+    private fun userCode7(): Unit {
+        currentO=getLastTokenString()
     }
-    private fun userCode8() {
-        currentO += "^^" + getLastTokenString()
+    private fun userCode8(): Unit {
+        currentO+="^^"+getLastTokenString()
     }
-    private fun userCode9() {
-        currentO += getLastTokenString()
+    private fun userCode9(): Unit {
+        currentO+=getLastTokenString()
     }
-    private fun userCode10() {
-        currentO += "^^<http://www.w3.org/2001/XMLSchema#string>"
+    private fun userCode10(): Unit {
+        currentO+="^^<http://www.w3.org/2001/XMLSchema#string>"
     }
-    private fun userCode11() {
-        currentG = getLastTokenString()
+    private fun userCode11(): Unit {
+        currentG=getLastTokenString()
     }
-    private fun userCode12() {
-        currentG = getLastTokenString()
+    private fun userCode12(): Unit {
+        currentG=getLastTokenString()
     }
-    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0
-}
+internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
+
