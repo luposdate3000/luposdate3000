@@ -1,44 +1,177 @@
-path,esourcesmyqueriesubungent22sparql709
-path,p01Simplepath
-path,p02Starpath
-path,p03Simplepathwithloop
-path,p06Pathwithtwographs
-path,p07Pathwithonegraph
-path,p08Reversepath
-path,p09Reversesequencepath
-path,p10Pathwithnegation
-path,p11Simplepathandtwopathstosametargetnode
-path,p12Variablelengthpathandtwopathstosametargetnode
-path,p14Starpathoverfoafknows
-path,p16Duplicatepathsandcyclesthroughfoafknows
-path,p21Diamondp
-path,p23Diamondwithtailp
-path,p25Diamondwithloopp
-path,p28aDiamondwithlooppp
-path,p30Operatorprecedence1
-path,p31Operatorprecedence2
-path,p32Operatorprecedence3
-path,p33Operatorprecedence4
-path,p34NamedGraph1
-path,p35NamedGraph2
-path,p36Arbitrarypathwithboundendpoints
-path,p37Nested
-path,ynppincollection
-path,yntaxpropertyPaths01rq
-filetype,q01Subquerywithingraphpattern
-filetype,q02Subquerywithingraphpatterngraphvariableisbound
-filetype,q03Subquerywithingraphpatterngraphvariableisnotbound
-filetype,q04Subquerywithingraphpatterndefaultgraphdoesnotapply
-filetype,q05Subquerywithingraphpatternfromnamedapplies
-filetype,q06Subquerywithgraphpatternfromnamedapplies
-filetype,q07Subquerywithfrom
-filetype,q08Subquerywithaggregate
-filetype,q09NestedSubqueries
-filetype,q10Subquerywithexists
-exists,estednegativeexistsinpositiveexists
-exists,estedpositiveexists
-exists,ositiveEXISTS1
-exists,ositiveEXISTS2
-exists,xistswithgroundtriple
-exists,xistswithingraphpattern
-exists,xistswithoneconstant
+exists,Exists with ground triple
+exists,Exists with one constant
+exists,Nested negative exists in positive exists
+exists,Nested positive exists
+exists,Positive EXISTS 1
+memory,Calculate proper subset
+memory,Calculate which sets have the same elements
+memory,Graphspecific DELETE 2 USING
+memory,Graphspecific DELETE 2 WITH
+memory,Group4
+memory,Postquery VALUES with 2 objvars 1 row with UNDEF
+memory,Postquery VALUES with 2 objvars 2 rows with UNDEF
+memory,Postquery VALUES with objvar 1 row
+memory,Postquery VALUES with subjobjvars 2 rows with UNDEF
+memory,RDFS inference test subProperty and instances
+memory,Simple DELETE 1 USING
+memory,Simple DELETE 3
+memory,Simple DELETE 3 USING
+memory,Simple DELETE 4 USING
+memory,bind02  BIND fixed data for OWL DL
+memory,bind03  BIND fixed data for OWL DL
+memory,bind07  BIND fixed data for OWL DL
+memory,constructwhere02  CONSTRUCT WHERE
+memory,jsonres02  JSON Result Format
+memory,papersparqldlQ3
+memory,papersparqldlQ4
+memory,parent query with hasChild min 1 Female restriction
+memory,parent query with hasChild min 1 restriction
+memory,plus1
+memory,resourcesbsbmbiquery21853sparql1853
+memory,resourcesbsbmbiquery32210sparql2210
+memory,resourcesbsbmbiquery41853sparql1853
+memory,resourcesbsbmbiquery42210sparql2210
+memory,resourcesbsbmbiquery51853sparql1853
+memory,resourcesbsbmbiquery52210sparql2210
+memory,resourcesbsbmbiquery52553sparql2553
+memory,resourcesbsbmbiquery61853sparql1853
+memory,resourcesbsbmbiquery62553sparql2553
+memory,resourcesbsbmbiquery72210sparql2210
+memory,resourcesbsbmbiquery82210sparql2210
+memory,resourcesbsbmbiquery82553sparql2553
+memory,resourcesbsbmexplorequery101853sparql1853
+memory,resourcesbsbmexplorequery102210sparql2210
+memory,resourcesbsbmexplorequery102553sparql2553
+memory,resourcesbsbmexplorequery81853sparql1853
+memory,resourcesbsbmexplorequery82210sparql2210
+memory,resourcesmyqueriesubungent09sparql567
+memory,resourcessp2bq12a1sparql1640
+memory,resourcessp2bq12a1sparql247
+memory,resourcessp2bq12asparql1294
+memory,resourcessp2bq12asparql1640
+memory,resourcessp2bq12asparql247
+memory,resourcessp2bq12b1sparql1640
+memory,resourcessp2bq12b1sparql247
+memory,resourcessp2bq12b2sparql1294
+memory,resourcessp2bq12b2sparql1640
+memory,resourcessp2bq12b2sparql21
+memory,resourcessp2bq12b2sparql247
+memory,resourcessp2bq12b2sparql700
+memory,resourcessp2bq12b2sparql973
+memory,resourcessp2bq12b3sparql1640
+memory,resourcessp2bq12b4sparql1640
+memory,resourcessp2bq12b4sparql973
+memory,resourcessp2bq2sparql1294
+memory,resourcessp2bq2sparql247
+memory,resourcessp2bq3asparql700
+memory,resourcessp2bq3bsparql21
+memory,resourcessp2bq41sparql1294
+memory,resourcessp2bq41sparql1640
+memory,resourcessp2bq41sparql21
+memory,resourcessp2bq41sparql247
+memory,resourcessp2bq41sparql700
+memory,resourcessp2bq41sparql973
+memory,resourcessp2bq42sparql1640
+memory,resourcessp2bq42sparql21
+memory,resourcessp2bq42sparql247
+memory,resourcessp2bq4sparql1640
+memory,resourcessp2bq4sparql21
+memory,resourcessp2bq4sparql247
+memory,resourcessp2bq4sparql700
+memory,resourcessp2bq4sparql973
+memory,resourcessp2bq5asparql1640
+memory,resourcessp2bq5asparql700
+memory,resourcessp2bq5asparql973
+memory,resourcessp2bq5bsparql1640
+memory,resourcessp2bq5bsparql21
+memory,resourcessp2bq5bsparql247
+memory,resourcessp2bq61sparql1294
+memory,resourcessp2bq61sparql973
+memory,resourcessp2bq62sparql1294
+memory,resourcessp2bq62sparql1640
+memory,resourcessp2bq62sparql21
+memory,resourcessp2bq63sparql1294
+memory,resourcessp2bq63sparql21
+memory,resourcessp2bq63sparql700
+memory,resourcessp2bq63sparql973
+memory,resourcessp2bq65sparql1294
+memory,resourcessp2bq65sparql1640
+memory,resourcessp2bq65sparql21
+memory,resourcessp2bq65sparql700
+memory,resourcessp2bq66sparql21
+memory,resourcessp2bq66sparql700
+memory,resourcessp2bq67sparql1294
+memory,resourcessp2bq67sparql1640
+memory,resourcessp2bq67sparql21
+memory,resourcessp2bq67sparql247
+memory,resourcessp2bq67sparql700
+memory,resourcessp2bq68sparql1294
+memory,resourcessp2bq68sparql1640
+memory,resourcessp2bq68sparql21
+memory,resourcessp2bq68sparql247
+memory,resourcessp2bq6sparql1294
+memory,resourcessp2bq6sparql1640
+memory,resourcessp2bq6sparql700
+memory,resourcessp2bq71sparql1640
+memory,resourcessp2bq72sparql1294
+memory,resourcessp2bq72sparql21
+memory,resourcessp2bq72sparql247
+memory,resourcessp2bq72sparql700
+memory,resourcessp2bq7sparql1294
+memory,resourcessp2bq7sparql1640
+memory,resourcessp2bq7sparql973
+memory,resourcessp2bq8sparql1294
+memory,resourcessp2bq8sparql21
+memory,resourcessp2bq8sparql247
+memory,resourcessp2bq8sparql700
+memory,resourcessp2bq91sparql247
+memory,resourcessp2bq91sparql973
+memory,resourcessp2bq92sparql247
+memory,resourcessp2bq92sparql973
+memory,resourcessp2bq9sparql1640
+memory,resourcessp2bq9sparql247
+memory,resourcessp2bq9sparql973
+memory,simple 1
+memory,simple 2
+memory,simple 3
+memory,simple 5
+memory,simple 6
+memory,simple 7
+memory,sparqldl10rq undist vars test
+operator,ENCODEFORURI
+operator,GROUPCONCAT 1
+operator,GROUPCONCAT 2
+operator,REPLACE
+operator,REPLACE with captured substring
+operator,REPLACE with overlapping pattern
+operator,SHA512
+operator,SUBSTR 3argument
+operator,UUID pattern match
+operator,resourcesbsbmexplorequery62210sparql2210
+operator,resourcesmyqueriesubungent16sparql567
+operator,syntaxaggregate13rq
+operator,syntaxaggregate14rq
+path,pp01 Simple path
+path,pp02 Star path
+path,pp03 Simple path with loop
+path,pp07 Path with one graph
+path,pp08 Reverse path
+path,pp09 Reverse sequence path
+path,pp11 Simple path and two paths to same target node
+path,pp12 Variable length path and two paths to same target node
+path,pp14 Star path over foafknows
+path,pp16 Duplicate paths and cycles through foafknows
+path,pp21 Diamond  p
+path,pp23 Diamond with tail  p
+path,pp25 Diamond with loop  p
+path,pp31 Operator precedence 2
+path,pp32 Operator precedence 3
+path,pp33 Operator precedence 4
+path,pp34 Named Graph 1
+path,pp35 Named Graph 2
+path,pp36 Arbitrary path with bound endpoints
+path,pp37 Nested
+service,SERVICE test 7
+service,syntaxservice02rq
+service,syntaxservice03rq
+simulator,in simulator
