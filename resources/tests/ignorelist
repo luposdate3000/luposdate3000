@@ -26,6 +26,7 @@ manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
 manual no triplepattern with bind,NOW
 manual owl,simple 2
+manual owl,filtered subclass query with hasChild some Thing restriction
 manual owl,simple 4
 manual owl,simple 6
 manual simulator,in simulator
