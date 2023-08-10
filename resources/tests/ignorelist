@@ -79,6 +79,9 @@ path,syntaxpropertyPaths01rq
 service,SERVICE test 7
 service,syntaxservice02rq
 service,syntaxservice03rq
+syntax,DELETE INSERT 8
+syntax,DELETE INSERT 9
+syntax,Group6
 syntax,synbad01rq
 syntax,synbad02rq
 syntax,synbad03rq
@@ -140,6 +143,7 @@ syntax,syntaxbindings05arq with VALUES clause
 syntax,syntaxbindings09rq
 syntax,syntaxconstructwhere01rq
 syntax,syntaxexists01rq
+syntax,syntaxexists02rq
 syntax,syntaxexists03rq
 syntax,syntaxminus01rq
 syntax,syntaxnotexists01rq
@@ -156,6 +160,7 @@ syntax,syntaxselectexpr05rq
 syntax,syntaxservice01rq
 syntax,syntaxsubquery01rq
 syntax,syntaxsubquery02rq
+syntax,syntaxsubquery03rq
 syntax,syntaxupdate01ru
 syntax,syntaxupdate02ru
 syntax,syntaxupdate03ru
