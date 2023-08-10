@@ -66,7 +66,8 @@ public class QueryResultToEmptyStream : IResultFormat {
             query.getInstance().communicationHandler!!.sendData(query.getInstance().LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/register", mapOf("key" to key), query.getTransactionID().toInt())
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
-        for ((columnProjectionOrder, child) in rootNode.nodes) {
+        for (n in rootNode.nodes) {
+val (columnProjectionOrder, child)=n()
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder

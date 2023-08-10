@@ -157,14 +157,15 @@ public abstract class OPBase public constructor(
     }
 
     open override /*suspend*/ fun evaluateRootBundle(): IteratorBundleRoot {
-        return IteratorBundleRoot(query, arrayOf(listOf<String>() to evaluateRoot()))
+        return IteratorBundleRoot(query, arrayOf({listOf<String>() to evaluateRoot()}))
     }
 
     open override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
-        return IteratorBundleRoot(query, arrayOf(listOf<String>() to evaluate(Partition())))
+        return IteratorBundleRoot(query, arrayOf({listOf<String>() to evaluate(Partition())}))
     }
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
+println("OPBase.kt .. $uuid evaluateRoot A")
         val node = query.initialize(this, true, false)
         if (SanityCheck.enabled) {
             val usesDictionary = node.usesDictionary()
@@ -177,6 +178,7 @@ public abstract class OPBase public constructor(
     }
 
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
+println("OPBase.kt .. $uuid evaluateRoot B")
         val node = query.initialize(this, true, false)
         return node.evaluate(partition)
     }
@@ -496,8 +498,8 @@ public abstract class OPBase public constructor(
         } catch (e: Throwable) {
             if (!hadXMLWarning) {
                 hadXMLWarning = true
-                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:498"/*SOURCE_FILE_END*/)
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:499"/*SOURCE_FILE_END*/)
+                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:500"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_base/src/commonMain/kotlin/lupos/operator/base/OPBase.kt:501"/*SOURCE_FILE_END*/)
             }
         }
         return res

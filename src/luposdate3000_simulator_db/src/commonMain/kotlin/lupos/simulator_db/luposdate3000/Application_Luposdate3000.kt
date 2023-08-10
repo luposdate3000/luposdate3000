@@ -1053,7 +1053,7 @@ public class Application_Luposdate3000 public constructor(
                             } else {
                                 val (iteratorBundle, usedInputs, packagesToSent) = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, false)
                                 for (nodes in iteratorBundle.nodes) {
-                                    val iter = nodes.second.rows
+                                    val iter = nodes().second.rows
                                     do {
                                         val res = iter.next()
                                     } while (res != -1)

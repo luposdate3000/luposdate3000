@@ -36,7 +36,8 @@ public object QueryResultToXMLElement {
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
         val res = mutableListOf<XMLElement>()
-        for ((columnProjectionOrder, child) in rootNode.nodes) {
+        for (n in rootNode.nodes) {
+val (columnProjectionOrder, child)=n()
             val nodeSparql = XMLElement("sparql").addAttribute("xmlns", "http://www.w3.org/2005/sparql-results#")
             val nodeHead = XMLElement("head")
             nodeSparql.addContent(nodeHead)

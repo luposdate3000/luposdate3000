@@ -659,7 +659,7 @@ public object RestEndpoint {
 // evaluate
                     val node = BinaryToOPBase.convertToIteratorBundle(query, queryContainer.data, queryContainer.dataID, localOperatorMap, false)
                     for (n in node.nodes) {
-                        n.second.rows.next()
+                        n().second.rows.next()
                     }
 // release
                     query.getDictionary().close()

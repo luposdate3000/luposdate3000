@@ -104,31 +104,33 @@ public class OPBaseCompound public constructor(
     }
 
     override /*suspend*/ fun evaluateRootBundle(): IteratorBundleRoot {
+println("OPBaseCompound.kt .. evaluateRootBundle")
         return IteratorBundleRoot(
             query,
-            Array(children.size) {
+            Array(children.size) {{
                 val k = if (columnProjectionOrder.size > it) {
                     columnProjectionOrder[it]
                 } else {
                     listOf()
                 }
                 val v = children[it].evaluateRoot()
-                k to v
+                k to v}
             },
         )
     }
 
     override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
+println("OPBaseCompound.kt .. evaluateBundle")
         return IteratorBundleRoot(
             query,
-            Array(children.size) {
+            Array(children.size) {{
                 val k = if (columnProjectionOrder.size > it) {
                     columnProjectionOrder[it]
                 } else {
                     listOf()
                 }
                 val v = children[it].evaluate(Partition())
-                k to v
+                k to v}
             },
         )
     }

@@ -76,7 +76,8 @@ public class QueryResultToMemoryTable : IResultFormat {
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
         val resultList = mutableListOf<MemoryTable>()
-        for ((columnProjectionOrder, child) in rootNode.nodes) {
+        for (n in rootNode.nodes) {
+val (columnProjectionOrder, child)=n()
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder

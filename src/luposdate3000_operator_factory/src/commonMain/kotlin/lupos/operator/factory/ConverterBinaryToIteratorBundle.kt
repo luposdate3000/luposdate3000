@@ -90,7 +90,7 @@ public object ConverterBinaryToIteratorBundle {
                     0x1 -> {
                         val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
                         var o = 9
-                        val res = mutableListOf<Pair<List<String>, IteratorBundle>>()
+                        val res = mutableListOf<()->Pair<List<String>, IteratorBundle>>()
                         for (i in 0 until childCount) {
                             val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }), operatorMap)
                             o += 4
@@ -103,17 +103,17 @@ public object ConverterBinaryToIteratorBundle {
                             }
                             if (compoundPartial) {
                                 if (-1 - i == dataID) {
-                                    return IteratorBundleRoot(query, arrayOf(list to child))
+                                    return IteratorBundleRoot(query, arrayOf({list to child}))
                                 }
                             } else {
-                                res.add(list to child)
+                                res.add({list to child})
                             }
                         }
                         return IteratorBundleRoot(query, res.toTypedArray())
                     }
                     0x0 -> {
                         val tmp = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, 5, { "OPBase.children[0]" }), operatorMap)
-                        return IteratorBundleRoot(query, arrayOf(listOf<String>() to tmp))
+                        return IteratorBundleRoot(query, arrayOf({listOf<String>() to tmp}))
                     }
                 }
             } else {
@@ -124,7 +124,7 @@ public object ConverterBinaryToIteratorBundle {
                     val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
                     if (id == dataID) {
                         val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
-                        return IteratorBundleRoot(query, arrayOf(listOf<String>() to decodeHelper(query, data, offset, operatorMap)))
+                        return IteratorBundleRoot(query, arrayOf({listOf<String>() to decodeHelper(query, data, offset, operatorMap)}))
                     }
                     o += 8
                 }
