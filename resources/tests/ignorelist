@@ -10,6 +10,7 @@ exists,Nested negative exists in positive exists
 exists,Nested positive exists
 exists,Positive EXISTS 1
 exists,Positive EXISTS 2
+filetype,sq07  Subquery with from 
 functioncall,syntaxselectexpr04rq
 memory,COALESCE
 memory,COUNT 8b
@@ -305,6 +306,7 @@ memory,sq12  Subquery in CONSTRUCT with builtins
 memory,sq13  Subqueries dont inject bindings
 memory,subclass query with hasChild some Thing restriction
 memory,tvs02  TSV Result Format
+no triplepattern with bind,NOW
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
 operator,GROUPCONCAT 2
@@ -326,6 +328,7 @@ operator,resourcesmyqueriesubungent16sparql567
 operator,syntaxaggregate13rq
 operator,syntaxaggregate14rq
 operator,syntaxaggregate15rq
+owl,simple 4
 path,pp01 Simple path
 path,pp02 Star path
 path,pp03 Simple path with loop
@@ -357,3 +360,124 @@ service,SERVICE test 7
 service,syntaxservice02rq
 service,syntaxservice03rq
 simulator,in simulator
+subClassOf,sparqldl02rq simple combined query
+syntax,Exception in thread "main" java.lang.NullPointerException
+syntax,kotlin.NotImplementedError: An operation is not implemented: ASTFunctionCall http://example/function lupos.parser.sparql.ASTPrefixedNameLN@6e0e048a
+syntax,kotlin.NotImplementedError: An operation is not implemented: expected failure
+syntax,kotlin.NotImplementedError: An operation is not implemented: found token -1 unexpectedly in node 68, at position 31
+syntax,kotlin.NotImplementedError: An operation is not implemented: lupos.parser.sparql.ASTServiceGraphPattern@370736d9
+syntax,synbad01rq
+syntax,synbad02rq
+syntax,synbad03rq
+syntax,synbad05rq
+syntax,synbad06rq
+syntax,synbad07rq
+syntax,synbad08rq
+syntax,synbadpname01
+syntax,synbadpname02
+syntax,synbadpname05
+syntax,synbadpname07
+syntax,synbadpname08
+syntax,synbadpname10
+syntax,synbadpname11
+syntax,synbadpname12
+syntax,synbadpname13
+syntax,synpname01
+syntax,synpname02
+syntax,synpname03
+syntax,synpname04
+syntax,synpname05
+syntax,synpname06
+syntax,synpname07
+syntax,synpname08
+syntax,synpname09
+syntax,syntaxBINDscope1rq
+syntax,syntaxBINDscope2rq
+syntax,syntaxBINDscope3rq
+syntax,syntaxBINDscope4rq
+syntax,syntaxBINDscope5rq
+syntax,syntaxBINDscope6rq
+syntax,syntaxBINDscope7rq
+syntax,syntaxBINDscope8rq
+syntax,syntaxSELECTscope1rq
+syntax,syntaxSELECTscope2
+syntax,syntaxSELECTscope3rq
+syntax,syntaxaggregate01rq
+syntax,syntaxaggregate03rq
+syntax,syntaxaggregate04rq
+syntax,syntaxaggregate05rq
+syntax,syntaxaggregate06rq
+syntax,syntaxaggregate07rq
+syntax,syntaxaggregate08rq
+syntax,syntaxaggregate09rq
+syntax,syntaxaggregate10rq
+syntax,syntaxaggregate11rq
+syntax,syntaxaggregate12rq
+syntax,syntaxbind02rq
+syntax,syntaxbindingBINDscopes01rq
+syntax,syntaxbindings02arq with VALUES clause
+syntax,syntaxbindings05arq with VALUES clause
+syntax,syntaxbindings09rq
+syntax,syntaxconstructwhere01rq
+syntax,syntaxexists01rq
+syntax,syntaxexists03rq
+syntax,syntaxnotexists01rq
+syntax,syntaxnotexists02rq
+syntax,syntaxnotexists03rq
+syntax,syntaxoneof02rq
+syntax,syntaxoneof03rq
+syntax,syntaxselectexpr01rq
+syntax,syntaxselectexpr02rq
+syntax,syntaxselectexpr03rq
+syntax,syntaxselectexpr04rq
+syntax,syntaxselectexpr05rq
+syntax,syntaxservice01rq
+syntax,syntaxsubquery01rq
+syntax,syntaxsubquery02rq
+syntax,syntaxupdate01ru
+syntax,syntaxupdate02ru
+syntax,syntaxupdate03ru
+syntax,syntaxupdate04ru
+syntax,syntaxupdate05ru
+syntax,syntaxupdate06ru
+syntax,syntaxupdate07ru
+syntax,syntaxupdate08ru
+syntax,syntaxupdate09ru
+syntax,syntaxupdate10ru
+syntax,syntaxupdate11ru
+syntax,syntaxupdate12ru
+syntax,syntaxupdate14ru
+syntax,syntaxupdate16ru
+syntax,syntaxupdate18ru
+syntax,syntaxupdate19ru
+syntax,syntaxupdate20ru
+syntax,syntaxupdate21ru
+syntax,syntaxupdate22ru
+syntax,syntaxupdate24ru
+syntax,syntaxupdate25ru
+syntax,syntaxupdate26ru
+syntax,syntaxupdate28ru
+syntax,syntaxupdate29ru
+syntax,syntaxupdate30ru
+syntax,syntaxupdate32ru
+syntax,syntaxupdate33ru
+syntax,syntaxupdate34ru
+syntax,syntaxupdate35ru
+syntax,syntaxupdate36ru
+syntax,syntaxupdate37ru
+syntax,syntaxupdate38ru
+syntax,syntaxupdate39ru
+syntax,syntaxupdate40ru
+syntax,syntaxupdate53ru
+syntax,syntaxupdate54ru
+syntax,syntaxupdatebad01ru
+syntax,syntaxupdatebad02ru
+syntax,syntaxupdatebad03ru
+syntax,syntaxupdatebad04ru
+syntax,syntaxupdatebad05ru
+syntax,syntaxupdatebad06ru
+syntax,syntaxupdatebad07ru
+syntax,syntaxupdatebad08ru
+syntax,syntaxupdatebad09ru
+syntax,syntaxupdatebad11ru
+syntax,syntaxupdatebad12ru

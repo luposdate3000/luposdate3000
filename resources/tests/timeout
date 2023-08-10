@@ -1,0 +1,9 @@
+Simple DELETE 7 - None - Simple - false
+DELETE INSERT 4 - Thread - PartitionByID_1_AllCollations - true
+MOVE 2 - Thread - PartitionByIDTwiceAllCollations - true
+Bind08  BIND - Thread - BenchmarkFig5 - false
+Resourcessp2bq12bsparql1640 - Thread - PartitionByID_O_AllCollations - true
+MOVE 4 - Thread - PartitionByID_2_AllCollations - false
+NOT IN 1 - None - Simple - true
+Subtraction with MINUS from a fully bound minuend - Thread - PartitionByID_1_AllCollations - false
+Subtraction with MINUS from a partially bound minuend - None - Simple - true

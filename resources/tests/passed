@@ -1,2 +1,242 @@
-STRBEFORE - None - Simple - true
-STRLEN - Thread - BenchmarkFig5 - true
+Resourcessp2bq12csparql1640 - None - Simple - false
+Resourcessp2bq10sparql973 - Thread - PartitionByID_S_AllCollations - true
+PrefixName with unescaped colons - Thread - BenchmarkFig5 - false
+Subsets by exclusion NOT EXISTS - Thread - PartitionByID_1_AllCollations - true
+HOURS - Thread - Simple - true
+Synbadpname03 - Thread - PartitionByID_2_AllCollations - false
+DROP SILENT DEFAULT - Thread - PartitionByID_2_AllCollations - false
+Syntaxminus01rq - Thread - BenchmarkFig5 - true
+RDFS inference test containers - Thread - PartitionByID_1_AllCollations - true
+RDFS inference test rdfXMLLiteral - Thread - PartitionByID_1_AllCollations - true
+Syntaxupdate17ru - None - Simple - true
+ABS - Thread - PartitionByID_S_AllCollations - false
+SECONDS - Thread - Simple - true
+Syntaxupdate15ru - Thread - BenchmarkFig5 - true
+DROP SILENT GRAPH iri - Thread - PartitionByKeyAllCollations - true
+MOVE SILENT - Thread - PartitionByID_O_AllCollations - true
+Expression has undefined variable - Thread - Simple - false
+SHA1 on Unicode data - Thread - BenchmarkFig5 - true
+MOVE SILENT - Thread - PartitionByID_S_AllCollations - true
+Subsets by exclusion NOT EXISTS - Thread - PartitionByID_O_AllCollations - true
+SHA1 on Unicode data - None - Simple - false
+YEAR - Thread - BenchmarkFig5 - false
+TIMEZONE - Thread - PartitionByID_S_AllCollations - true
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_2_AllCollations - false
+PrefixName with unescaped colons - Thread - PartitionByID_S_AllCollations - true
+SHA1 - Thread - PartitionByKeyAllCollations - false
+Syntaxupdate17ru - Thread - Simple - true
+CLEAR GRAPH - Thread - PartitionByIDTwiceAllCollations - false
+Bind06  BIND - Thread - PartitionByID_1_AllCollations - true
+ABS - Thread - PartitionByKeyAllCollations - false
+MIN with GROUP BY - Thread - PartitionByID_1_AllCollations - false
+Synbadpname09 - Thread - PartitionByKeyAllCollations - true
+Resourcesbsbmexplorequery41853sparql1853 - Thread - PartitionByID_S_AllCollations - true
+Reuse a project expression variable in order by - Thread - PartitionByIDTwiceAllCollations - false
+MOVE 6 - Thread - PartitionByIDTwiceAllCollations - false
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq2sparql700 - Thread - BenchmarkFig5 - false
+TIMEZONE - Thread - PartitionByID_2_AllCollations - false
+MOVE 1 - None - Simple - false
+MONTH - Thread - PartitionByIDTwiceAllCollations - true
+Group1 - Thread - PartitionByKeyAllCollations - false
+Bind06  BIND - Thread - BenchmarkFig5 - true
+Group1 - Thread - PartitionByIDTwiceAllCollations - true
+CEIL - Thread - Simple - false
+RDFS inference test containers - Thread - PartitionByID_2_AllCollations - false
+RDFS inference test containers - Thread - PartitionByIDTwiceAllCollations - false
+MAX - Thread - BenchmarkFig5 - false
+MINUTES - Thread - PartitionByID_1_AllCollations - false
+Jsonres04  JSON Result Format - Thread - PartitionByKeyAllCollations - false
+Tsv03  TSV Result Format - None - Simple - true
+MIN with GROUP BY - Thread - PartitionByID_2_AllCollations - false
+Syntaxupdate23ru - Thread - PartitionByID_1_AllCollations - true
+Resourcessp2bq111sparql247 - None - Simple - true
+TIMEZONE - Thread - PartitionByID_S_AllCollations - false
+MOVE 7 - Thread - PartitionByKeyAllCollations - true
+MAX - None - Simple - false
+Syntaxupdate31ru - Thread - PartitionByID_O_AllCollations - true
+RDFS inference test rdfXMLLiteral - Thread - PartitionByIDTwiceAllCollations - true
+CLEAR GRAPH - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq3csparql700 - None - Simple - true
+Group5 - Thread - PartitionByKeyAllCollations - false
+MIN - Thread - PartitionByID_S_AllCollations - false
+DROP NAMED - None - Simple - false
+Reuse a project expression variable in order by - Thread - BenchmarkFig5 - false
+DROP ALL - Thread - PartitionByID_2_AllCollations - true
+CLEAR ALL - Thread - PartitionByKeyAllCollations - false
+SECONDS - Thread - PartitionByIDTwiceAllCollations - true
+MOVE 3 - Thread - PartitionByID_2_AllCollations - true
+Jsonres01  JSON Result Format - Thread - PartitionByID_O_AllCollations - false
+RDFS inference test containers - None - Simple - false
+CLEAR SILENT DEFAULT - Thread - PartitionByID_2_AllCollations - true
+SAMPLE - Thread - PartitionByKeyAllCollations - true
+Group1 - Thread - PartitionByID_2_AllCollations - false
+CLEAR NAMED - Thread - BenchmarkFig5 - false
+Csv01  CSV Result Format - Thread - PartitionByKeyAllCollations - false
+Constructwhere01  CONSTRUCT WHERE - Thread - Simple - false
+Group5 - Thread - Simple - true
+Constructwhere01  CONSTRUCT WHERE - Thread - Simple - true
+COPY 3 - Thread - PartitionByID_1_AllCollations - true
+DROP GRAPH - Thread - BenchmarkFig5 - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_1_AllCollations - true
+COPY SILENT TO DEFAULT - Thread - BenchmarkFig5 - true
+Syntaxupdate27ru - Thread - BenchmarkFig5 - false
+Syntaxupdate27ru - Thread - PartitionByID_2_AllCollations - true
+ROUND - Thread - BenchmarkFig5 - true
+Csv01  CSV Result Format - Thread - PartitionByID_S_AllCollations - false
+CLEAR SILENT DEFAULT - Thread - BenchmarkFig5 - false
+CONCAT - Thread - PartitionByID_1_AllCollations - true
+DROP SILENT DEFAULT - Thread - PartitionByID_O_AllCollations - false
+Tsv01  TSV Result Format - Thread - PartitionByID_1_AllCollations - false
+Resourcessp2bq111sparql247 - Thread - PartitionByID_O_AllCollations - false
+MOVE SILENT - Thread - PartitionByID_2_AllCollations - true
+MAX - Thread - PartitionByID_S_AllCollations - false
+Tsv01  TSV Result Format - Thread - PartitionByID_O_AllCollations - false
+HOURS - Thread - PartitionByKeyAllCollations - false
+LOAD SILENT - Thread - PartitionByKeyAllCollations - false
+PrefixName with hexencoded colons - Thread - PartitionByID_O_AllCollations - true
+Jsonres03  JSON Result Format - Thread - PartitionByID_O_AllCollations - true
+MOVE 3 - Thread - Simple - false
+Jsonres04  JSON Result Format - Thread - PartitionByID_2_AllCollations - true
+CONCAT - Thread - BenchmarkFig5 - false
+MOVE 3 - Thread - PartitionByID_S_AllCollations - false
+Syntaxminus01rq - Thread - PartitionByKeyAllCollations - false
+Tsv03  TSV Result Format - Thread - PartitionByIDTwiceAllCollations - false
+MOVE 1 - Thread - PartitionByID_1_AllCollations - true
+Syntaxupdate15ru - Thread - PartitionByIDTwiceAllCollations - false
+Simple insert data 1 - Thread - PartitionByKeyAllCollations - true
+SECONDS - None - Simple - true
+CLEAR NAMED - Thread - PartitionByKeyAllCollations - true
+CLEAR SILENT GRAPH iri - Thread - PartitionByID_2_AllCollations - true
+Constructwhere01  CONSTRUCT WHERE - Thread - PartitionByIDTwiceAllCollations - true
+Expression has undefined variable - Thread - PartitionByKeyAllCollations - false
+Syntaxupdate31ru - Thread - Simple - false
+CLEAR ALL - Thread - Simple - true
+Syntaxupdate13ru - Thread - BenchmarkFig5 - true
+Syntaxupdate13ru - Thread - PartitionByIDTwiceAllCollations - false
+Synbadpname03 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq111sparql247 - Thread - PartitionByIDTwiceAllCollations - true
+Synbad04rq - Thread - PartitionByIDTwiceAllCollations - false
+DROP SILENT DEFAULT - Thread - PartitionByID_S_AllCollations - true
+SHA1 - Thread - PartitionByID_2_AllCollations - false
+COUNT 6 - Thread - PartitionByID_1_AllCollations - false
+Protect from error in AVG - Thread - BenchmarkFig5 - false
+Resourcesbsbmexplorequery41853sparql1853 - Thread - Simple - false
+Resourcessp2bq12csparql1640 - Thread - PartitionByID_S_AllCollations - false
+YEAR - Thread - Simple - true
+Syntaxupdate15ru - None - Simple - true
+MONTH - Thread - Simple - true
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - BenchmarkFig5 - true
+MIN - Thread - Simple - false
+Resourcessp2bq2sparql700 - None - Simple - false
+FLOOR - None - Simple - false
+Resourcessp2bq3csparql700 - None - Simple - false
+Resourcessp2bq10sparql247 - Thread - PartitionByKeyAllCollations - true
+PrefixName with hexencoded colons - Thread - BenchmarkFig5 - false
+YEAR - Thread - PartitionByID_1_AllCollations - true
+CREATE SILENT iri - Thread - PartitionByID_1_AllCollations - false
+CLEAR GRAPH - Thread - BenchmarkFig5 - true
+Syntaxupdate31ru - Thread - PartitionByID_2_AllCollations - false
+CLEAR NAMED - Thread - PartitionByID_2_AllCollations - false
+Resourcessp2bq10sparql247 - Thread - PartitionByIDTwiceAllCollations - true
+Resourcessp2bq10sparql973 - Thread - PartitionByID_1_AllCollations - true
+MOVE 6 - None - Simple - true
+SECONDS - Thread - BenchmarkFig5 - false
+Resourcessp2bq111sparql247 - Thread - PartitionByID_1_AllCollations - true
+Group5 - Thread - PartitionByID_1_AllCollations - false
+MOVE SILENT - None - Simple - false
+RDFS inference test rdfXMLLiteral - Thread - Simple - false
+MAX with GROUP BY - Thread - PartitionByKeyAllCollations - false
+Resourcessp2bq10sparql973 - Thread - PartitionByID_2_AllCollations - true
+DROP NAMED - Thread - Simple - false
+CEIL - None - Simple - false
+MIN with GROUP BY - Thread - PartitionByID_S_AllCollations - false
+Syntaxbindings03arq with VALUES clause - Thread - PartitionByID_S_AllCollations - true
+PrefixName with hexencoded colons - Thread - PartitionByID_2_AllCollations - false
+Expression has undefined variable - Thread - PartitionByID_S_AllCollations - false
+MOVE 7 - Thread - PartitionByID_1_AllCollations - true
+Tsv03  TSV Result Format - Thread - PartitionByKeyAllCollations - false
+Syntaxupdateother01 - Thread - PartitionByID_S_AllCollations - false
+Resourcessp2bq10sparql973 - Thread - PartitionByIDTwiceAllCollations - false
+MONTH - Thread - PartitionByID_O_AllCollations - true
+Reuse a project expression variable in order by - Thread - PartitionByKeyAllCollations - true
+Expression has undefined variable - Thread - PartitionByKeyAllCollations - true
+CLEAR NAMED - None - Simple - false
+Syntaxaggregate02rq - Thread - PartitionByKeyAllCollations - true
+Constructwhere01  CONSTRUCT WHERE - None - Simple - true
+DROP ALL - Thread - PartitionByID_1_AllCollations - false
+SHA1 - Thread - PartitionByID_S_AllCollations - false
+MOVE 3 - Thread - PartitionByID_1_AllCollations - false
+Synbadpname09 - Thread - BenchmarkFig5 - false
+Reuse a project expression variable in order by - Thread - PartitionByID_1_AllCollations - false
+COPY SILENT - Thread - Simple - false
+COPY SILENT - None - Simple - true
+Jsonres03  JSON Result Format - Thread - PartitionByIDTwiceAllCollations - false
+CLEAR NAMED - Thread - BenchmarkFig5 - true
+MOVE SILENT - None - Simple - true
+Constructwhere05  CONSTRUCT WHERE - Thread - PartitionByID_O_AllCollations - true
+COPY SILENT - None - Simple - false
+SHA1 on Unicode data - Thread - Simple - true
+Syntaxupdateother01 - None - Simple - false
+LOAD SILENT INTO - Thread - PartitionByID_O_AllCollations - true
+CLEAR SILENT GRAPH iri - Thread - PartitionByID_S_AllCollations - true
+PrefixName with hexencoded colons - Thread - PartitionByID_O_AllCollations - false
+MIN - Thread - PartitionByID_O_AllCollations - false
+Syntaxupdate27ru - Thread - BenchmarkFig5 - true
+Synbadpname04 - Thread - PartitionByID_S_AllCollations - true
+Syntaxoneof01rq - Thread - PartitionByKeyAllCollations - true
+Syntaxupdate15ru - Thread - PartitionByID_1_AllCollations - false
+Bind06  BIND - Thread - PartitionByID_S_AllCollations - false
+Agg empty group - Thread - PartitionByID_O_AllCollations - true
+Synbadpname04 - Thread - PartitionByID_O_AllCollations - false
+COPY SILENT TO DEFAULT - Thread - PartitionByID_O_AllCollations - true
+Syntaxupdate27ru - None - Simple - true
+MOVE SILENT TO DEFAULT - Thread - PartitionByIDTwiceAllCollations - true
+DROP NAMED - Thread - PartitionByID_1_AllCollations - true
+Syntaxupdate31ru - Thread - PartitionByID_S_AllCollations - true
+DROP NAMED - Thread - PartitionByID_O_AllCollations - true
+MAX with GROUP BY - Thread - PartitionByID_1_AllCollations - false
+Agg empty group - Thread - PartitionByID_S_AllCollations - true
+Synbadpname03 - Thread - BenchmarkFig5 - false
+Syntaxupdate15ru - Thread - PartitionByID_2_AllCollations - true
+MOVE SILENT TO DEFAULT - None - Simple - true
+Syntaxaggregate02rq - None - Simple - false
+Simple insert data 1 - Thread - PartitionByID_1_AllCollations - false
+COUNT 6 - None - Simple - true
+SHA1 - None - Simple - true
+Jsonres03  JSON Result Format - Thread - Simple - true
+DROP DEFAULT - Thread - PartitionByID_S_AllCollations - true
+MAX with GROUP BY - Thread - BenchmarkFig5 - false
+Synbad04rq - Thread - PartitionByID_2_AllCollations - false
+HOURS - Thread - PartitionByID_O_AllCollations - false
+DROP DEFAULT - Thread - PartitionByID_O_AllCollations - false
+Reuse a project expression variable in order by - Thread - PartitionByID_S_AllCollations - false
+Jsonres01  JSON Result Format - Thread - PartitionByID_O_AllCollations - true
+TIMEZONE - Thread - PartitionByID_O_AllCollations - false
+Synbad04rq - Thread - PartitionByID_O_AllCollations - true
+PrefixName with unescaped colons - Thread - PartitionByID_2_AllCollations - true
+Synbad04rq - Thread - PartitionByID_2_AllCollations - true
+ABS - Thread - PartitionByID_O_AllCollations - false
+ROUND - Thread - Simple - false
+MIN with GROUP BY - Thread - PartitionByID_O_AllCollations - false
+HOURS - Thread - PartitionByID_1_AllCollations - false
+MOVE SILENT TO DEFAULT - Thread - PartitionByID_1_AllCollations - false
+MOVE 1 - Thread - Simple - false
+PrefixName with unescaped colons - Thread - BenchmarkFig5 - true
+Resourcessp2bq12csparql1640 - Thread - PartitionByID_S_AllCollations - true
+COPY 7 - Thread - PartitionByKeyAllCollations - false
+ABS - Thread - PartitionByIDTwiceAllCollations - true
+Syntaxupdateother01 - Thread - BenchmarkFig5 - false
+Agg empty group - Thread - PartitionByID_1_AllCollations - false
+ROUND - Thread - PartitionByIDTwiceAllCollations - false
+MOVE 1 - None - Simple - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - BenchmarkFig5 - false
+LOAD SILENT - None - Simple - false
+Bind07  BIND - Thread - PartitionByID_1_AllCollations - true
+ABS - Thread - BenchmarkFig5 - false
+Syntaxupdate31ru - Thread - PartitionByKeyAllCollations - false
+DEntailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - Thread - PartitionByID_O_AllCollations - true
+Syntaxupdate27ru - Thread - PartitionByID_S_AllCollations - true
+Resourcessp2bq111sparql247 - Thread - BenchmarkFig5 - true
+RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - false
+DROP SILENT GRAPH iri - Thread - PartitionByID_1_AllCollations - false
