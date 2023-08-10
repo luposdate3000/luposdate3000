@@ -47,17 +47,12 @@ public class AOPBuildInCallTIMEZONE public constructor(query: IQuery, child0: AO
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_5_typed_content: String = DictionaryHelper.byteArrayToDateTimeAsTyped_Content(tmp_0)
-                    val tmp_5_year: BigInteger = DictionaryHelper.byteArrayToDateTime_Year(tmp_0)
-                    val tmp_5_month: BigInteger = DictionaryHelper.byteArrayToDateTime_Month(tmp_0)
-                    val tmp_5_day: BigInteger = DictionaryHelper.byteArrayToDateTime_Day(tmp_0)
-                    val tmp_5_hours: BigInteger = DictionaryHelper.byteArrayToDateTime_Hours(tmp_0)
-                    val tmp_5_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
-                    val tmp_5_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
-                    val tmp_5_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
-                    val tmp_5_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-                    val tmp_6: String = tmp_5_timezone
-                    DictionaryHelper.stringToByteArray(tmp_2, tmp_6)
+                    val tmp_5_timezone: Pair<String,String>? = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
+if(tmp_5_timezone==null){
+DictionaryHelper.undefToByteArray(tmp_2)
+}else{
+                    DictionaryHelper.typedToByteArray(tmp_2, tmp_5_timezone.first,tmp_5_timezone.second)
+}
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

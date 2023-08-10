@@ -153,6 +153,7 @@ public object DictionaryHelperLarge {
             timezoneMinutes = -99
             hasTimeZone = false
         }
+println("dateTimeToByteArray .. middle "+str+" year:"+year+" month:"+month+" day:"+day+" hours:"+hours+" minutes:"+minutes+" seconds:"+seconds+" timezoneHours:"+timezoneHours+" timezoneMinutes:"+timezoneMinutes+" hasTimeZone:"+hasTimeZone)
         var done = false
         if (timezoneHours == -99 && timezoneMinutes == -99) {
             var shortEncoding = true
@@ -387,7 +388,7 @@ public object DictionaryHelperLarge {
                 }
             }
         } catch (e: Exception) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:389"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:390"/*SOURCE_FILE_END*/)
             DictionaryHelper.stringToByteArray(buffer, content)
         }
     }
@@ -423,7 +424,7 @@ public object DictionaryHelperLarge {
                 DictionaryHelper.integerToByteArray(buffer, i)
                 return
             } catch (e: Exception) {
-                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:425"/*SOURCE_FILE_END*/ ) this is handled correctly
+                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:426"/*SOURCE_FILE_END*/ ) this is handled correctly
             }
         }
         if (!value.contains("e") && !value.contains("E")) {
@@ -432,7 +433,7 @@ public object DictionaryHelperLarge {
                 DictionaryHelper.decimalToByteArray(buffer, d)
                 return
             } catch (e: Exception) {
-                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:434"/*SOURCE_FILE_END*/ ) this is handled correctly
+                // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:435"/*SOURCE_FILE_END*/ ) this is handled correctly
             }
         }
         try {
@@ -440,7 +441,7 @@ public object DictionaryHelperLarge {
             DictionaryHelper.doubleToByteArray(buffer, d)
             return
         } catch (e: Exception) {
-            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:442"/*SOURCE_FILE_END*/ ) this is handled correctly
+            // e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/DictionaryHelperLarge.kt:443"/*SOURCE_FILE_END*/ ) this is handled correctly
         }
         if (!value.endsWith("" + value[0])) {
             val typeIdx = value.lastIndexOf("" + value[0] + "^^<")

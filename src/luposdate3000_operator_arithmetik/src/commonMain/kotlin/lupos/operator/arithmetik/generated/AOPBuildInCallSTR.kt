@@ -61,7 +61,6 @@ public class AOPBuildInCallSTR public constructor(query: IQuery, child0: AOPBase
                     val tmp_7_minutes: BigInteger = DictionaryHelper.byteArrayToDateTime_Minutes(tmp_0)
                     val tmp_7_seconds: BigDecimal = DictionaryHelper.byteArrayToDateTime_Seconds(tmp_0)
                     val tmp_7_tz: String = DictionaryHelper.byteArrayToDateTime_TZ(tmp_0)
-                    val tmp_7_timezone: String = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
                     val tmp_8: String = tmp_7_typed_content
                     DictionaryHelper.stringToByteArray(tmp_2, tmp_8)
                     res = query.getDictionary().createValue(tmp_2)

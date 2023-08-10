@@ -333,9 +333,10 @@ public object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): String {
+    public inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): Pair<String,String>? {
+println("byteArrayToDateTime_TimeZone " + headerDecodeFlag(buffer))
         if (headerDecodeFlag(buffer) == 0x80) {
-            return ""
+            return null
         } else {
             var off = 0
             off += headerSize()
@@ -347,13 +348,14 @@ public object DictionaryHelper {
             val timezoneHours = ByteArrayWrapperExt.readInt4(buffer, off)
             off += 4
             val timezoneMinutes = ByteArrayWrapperExt.readInt4(buffer, off)
+println("byteArrayToDateTime_TimeZone " + timezoneHours+" "+timezoneMinutes)
             if (timezoneHours == 0 && timezoneMinutes == 0) {
-                return "\"PT0S\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
+                return "PT0S" to "http://www.w3.org/2001/XMLSchema#dayTimeDuration"
             }
             if (timezoneHours >= 0 && timezoneMinutes == 0) {
-                return "\"-PT${timezoneHours}H\"^^<http://www.w3.org/2001/XMLSchema#dayTimeDuration>"
+                return "-PT${timezoneHours}H" to "http://www.w3.org/2001/XMLSchema#dayTimeDuration"
             }
-            return ""
+            return null
         }
     }
 

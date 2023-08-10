@@ -400,6 +400,7 @@ public class MyOperator(
 ) {
 
     private fun generate(indention: String, representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>) {
+println("generating operator $name")
         if (representation == EParamRepresentation.INSTANTIATED) {
             throw Exception("there is no need to combine functions here")
         }

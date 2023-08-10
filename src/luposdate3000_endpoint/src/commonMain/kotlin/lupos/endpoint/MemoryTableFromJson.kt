@@ -38,11 +38,21 @@ public class MemoryTableFromJson : MemoryTableParser {
             }
 
             fun iterateMembers(parent: ASTobject): List<ASTmember> {
-                return listOf(parent.variable0!!.variable0!!) + parent.variable0!!.variable1!!.value
+                val a:ASTmembersOptional=parent.variable0!!
+                val b:ASTmembers?=a.variable0
+                if(b==null){
+return listOf()
+}
+                return listOf(b.variable0!!) + b.variable1!!.value
             }
 
             fun iterateElements(parent: ASTarray): List<ASTvalue> {
-                return listOf(parent.variable0!!.variable0!!) + parent.variable0!!.variable1!!.value
+val a:ASTelementsOptional=parent.variable0!!
+val b:ASTelements?=a.variable0
+if(b==null){ 
+return listOf()
+}
+                return listOf(b.variable0!!) + b.variable1!!.value
             }
 
             fun findMemberByName(n: String, parent: ASTobject): ASTvalue {
@@ -68,15 +78,19 @@ public class MemoryTableFromJson : MemoryTableParser {
             parserObject.parserDefinedParse()
             val jsonSparql = parserObject.getResult() as ASTobject
             val jsonHead = findMemberByName("head", jsonSparql) as ASTobject
+            val jsonBoolean = maybeFindMemberByName("boolean", jsonSparql)
+
+            if (jsonBoolean != null) {
+                val res = MemoryTable(arrayOf<String>())
+                res.query = query
+                res.booleanResult = jsonBoolean is ASTtrue
+return res
+            } else {
             val jsonHeadVars = findMemberByName("vars", jsonHead) as ASTarray
             val variables = iterateElements(jsonHeadVars).map { valueToString(it) }
             val res = MemoryTable(variables.toTypedArray())
             res.query = query
             val dictionary = res.query!!.getDictionary()
-            val jsonBoolean = maybeFindMemberByName("boolean", jsonSparql)
-            if (jsonBoolean != null) {
-                res.booleanResult = jsonBoolean is ASTtrue
-            } else {
                 val jsonResults = findMemberByName("results", jsonSparql) as ASTobject
                 val buffer = ByteArrayWrapper()
                 for (jsonResult in iterateElements(findMemberByName("bindings", jsonResults) as ASTarray)) {
@@ -111,13 +125,13 @@ public class MemoryTableFromJson : MemoryTableParser {
                         }
                     }
                 }
-            }
             return res
+            }
         } catch (e: Throwable) {
             try {
                 throw Exception(data, e)
             } catch (e2: Throwable) {
-                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromJson.kt:119"/*SOURCE_FILE_END*/)
+                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromJson.kt:133"/*SOURCE_FILE_END*/)
             }
             return null
         }

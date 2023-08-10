@@ -985,7 +985,6 @@ fun onRun() {
                     env["LUPOS_THREAD_COUNT"] = "${LauncherConfig.getConfigValue("--threadCount")}"
                     env["LUPOS_PARTITION_MODE"] = "${LauncherConfig.getConfigValue("--partitionMode")}"
                     env["LUPOS_DICTIONARY_MODE"] = "${LauncherConfig.getConfigValue("--dictionaryMode")}"
-println(env)
                     p.start()
                 }.forEach {
                     it.waitFor()
