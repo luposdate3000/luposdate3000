@@ -1,0 +1,628 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="article"/>
+ </head>
+ <results>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article9</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article1</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article26</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article9</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article4</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article1</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article16</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article19</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article13</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article16</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article13</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article13</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article26</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article23</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article22</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article27</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article7</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article17</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article4</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article22</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article19</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article11</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article20</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article20</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article21</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article2</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article17</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article29</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article4</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article22</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article24</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article4</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article14</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article28</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article30</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article5</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article25</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article1</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article10</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article9</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article22</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article17</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article14</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article27</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article6</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article12</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article17</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article18</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article10</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article5</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article5</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article18</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article21</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article16</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article29</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article5</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article4</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article3</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article8</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article2</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article6</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article15</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article18</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article20</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article8</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article23</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article19</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article20</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article13</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article7</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article7</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article12</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article15</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article24</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article11</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article6</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article19</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article20</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article13</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article15</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article11</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article12</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article10</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article16</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article28</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article16</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article6</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article11</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article7</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article3</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article7</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article1</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article3</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article12</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article25</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article1</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article2</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article23</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article9</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article11</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article23</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article8</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article2</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article6</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article8</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article21</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article26</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article15</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article10</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article3</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article21</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article32</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article14</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article2</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1940/Article15</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article24</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article10</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1942/Article18</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article3</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article12</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1944/Article25</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article18</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1943/Article14</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="article">
+    <uri>http://localhost/publications/articles/Journal1/1941/Article14</uri>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

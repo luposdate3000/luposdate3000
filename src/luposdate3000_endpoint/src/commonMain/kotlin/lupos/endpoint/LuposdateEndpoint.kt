@@ -437,6 +437,7 @@ public object LuposdateEndpoint {
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
+println(node)
         try {
             val bundle = if (asRoot) {
                 node.evaluateRootBundle()
@@ -451,7 +452,7 @@ public object LuposdateEndpoint {
                 timeoutInMs
             )
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:453"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:454"/*SOURCE_FILE_END*/)
         }
     }
 

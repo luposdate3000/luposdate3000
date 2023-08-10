@@ -1,0 +1,673 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="document"/>
+  <variable name="yr"/>
+  <variable name="author"/>
+  <variable name="name"/>
+  <variable name="class2"/>
+  <variable name="document2"/>
+  <variable name="yr2"/>
+  <variable name="author2"/>
+ </head>
+ <results>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1946/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1946</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b0</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Isamu Cokely</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1949/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1949</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b1</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Karina Eggington</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1956/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1956</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b2</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ingobert Soprych</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1962/Incollection3</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1962</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b3</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lin Montavon</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1955/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1955</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b4</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ingeborg Molden</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1959/Incollection3</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1959</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b5</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Brione Stahnke</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1956/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1956</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b6</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Klementina Kingrey</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1956/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1956</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b7</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Meena Riegel</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1958/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1958</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b8</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Abhigna Furman</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1960/Incollection3</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1960</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b9</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Adham Lukianov</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1957/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1957</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b10</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Chekhina Binkowski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1963/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1963</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b11</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ferrante Astorga</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1950/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1950</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b12</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Cc Arroyos</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1943/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1943</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b13</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Maureo Benedict</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1943/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1943</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b14</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Ofelia Golde</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1962/Incollection4</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1962</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b15</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Biata Picerni</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1945/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1945</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b16</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Radosha Ferioli</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1951/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1951</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b17</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Este Manon</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1951/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1951</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b18</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Bennet Melendes</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1948/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1948</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b19</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Hasnaa Sietsema</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1947/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1947</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b20</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Aristomnis Dauber</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1954/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1954</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b21</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Callista Bernstrom</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1953/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1953</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b22</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Maiya Viars</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1961/Incollection3</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1961</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b23</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Wigfrid Routh</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1953/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1953</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b24</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Rosalinde Leinbach</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1959/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1959</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b25</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Yulya Thammavongsa</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1960/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1960</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b26</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Holdine Schuering</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1963/Incollection4</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1963</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b27</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Dija Crary</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1957/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1957</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b28</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shabaan Voyles</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1942/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1942</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b29</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Shinji Kapler</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1961/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1961</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b30</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Remi Surman</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1961/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1961</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b31</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Baldasarre Puzio</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1954/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1954</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b32</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Aamurie Semonick</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1941/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1941</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b33</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Vasilista Hamic</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1963/Incollection3</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1963</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b34</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Silvia Jilek</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1963/Incollection3</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1963</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b35</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Abira Hemmig</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1952/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1952</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b36</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lowell Kostka</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1962/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1962</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b37</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Haniyya Timberlake</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1962/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1962</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b38</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Aldobrando Pellowski</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1944/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1944</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b39</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Casswallawn Scheiblich</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1959/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1959</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b40</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Francisca Gofton</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1955/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1955</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b41</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Hama Bellusci</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1963/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1963</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b42</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Eurypylus Zacher</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1958/Incollection2</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1958</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b43</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Lasil Legum</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1960/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1960</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b44</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Coletta Holtmeier</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1961/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1961</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b45</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Merbok Kinnett</literal>
+   </binding>
+  </result>
+  <result>
+   <binding name="document">
+    <uri>http://localhost/publications/incolls/1962/Incollection1</uri>
+   </binding>
+   <binding name="yr">
+    <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1962</literal>
+   </binding>
+   <binding name="author">
+    <bnode>b46</bnode>
+   </binding>
+   <binding name="name">
+    <literal>Emrys Rothgeb</literal>
+   </binding>
+  </result>
+ </results>
+</sparql>
+

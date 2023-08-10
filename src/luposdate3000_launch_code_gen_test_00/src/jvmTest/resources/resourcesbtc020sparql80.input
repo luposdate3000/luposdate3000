@@ -1,0 +1,80 @@
+<http://data.openlinksw.com/oplweb/product_family/dca#this> <http://purl.org/dc/elements/1.1/title> "OpenLink Data Spaces (ODS)" .
+<http://data.openlinksw.com/oplweb/product_family/development#this> <http://purl.org/dc/elements/1.1/title> "Development Tools and Frameworks" .
+<http://data.openlinksw.com/oplweb/product_family/uda#this> <http://purl.org/dc/elements/1.1/title> "OpenLink ODBC, JDBC, ADO.NET, and OLE-DB" .
+<http://data.openlinksw.com/oplweb/product_family/utilities#this> <http://purl.org/dc/elements/1.1/title> "Benchmark & Troubleshooting Utilities" .
+<http://dig.csail.mit.edu/breadcrumbs/node/171> <http://purl.org/dc/elements/1.1/title> "Celebrating OWL interoperability and spec\n    quality" .
+<http://id.myopenlink.net/dataspace/person/KingsleyUyiIdehen> <http://purl.org/dc/elements/1.1/title> "Kingsley Uyi Idehen's Profile Document" .
+<http://id.myopenlink.net/dataspace/person/KingsleyUyiIdehen> <http://xmlns.com/foaf/0.1/made> <http://id.myopenlink.net/ods/describe?uri=mailto:kidehen@openlinksw.com> .
+<http://id.myopenlink.net/dataspace/person/KingsleyUyiIdehen> <http://xmlns.com/foaf/0.1/nick> "KingsleyUyiIdehen" .
+<http://kingsley.idehen.net/dataspace/person/kidehen> <http://purl.org/dc/elements/1.1/title> "Kingsley Uyi Idehen's Profile Document" .
+<http://kingsley.idehen.net/dataspace/person/kidehen> <http://xmlns.com/foaf/0.1/made> <http://idehen.net/ods/describe?uri=mailto:kidehen@kingsley.idehen.net> .
+<http://kingsley.idehen.net/dataspace/person/kidehen> <http://xmlns.com/foaf/0.1/made> <http://kingsley.idehen.net/ods/describe?uri=mailto:kidehen@kingsley.idehen.net> .
+<http://kingsley.idehen.net/dataspace/person/kidehen> <http://xmlns.com/foaf/0.1/nick> "kidehen" .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/2000/01/rdf-schema#comment> "A name given to the resource."@en .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/2000/01/rdf-schema#comment> "A name given to the resource."@en-us .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/2000/01/rdf-schema#comment> "The title by which a BusinessObject is known."@en .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://purl.org/dc/elements/1.1/> .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/2000/01/rdf-schema#label> "title" .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/2000/01/rdf-schema#label> "Title"@en .
+<http://purl.org/dc/elements/1.1/title> <http://www.w3.org/2000/01/rdf-schema#label> "Title"@en-us .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/courier/ical2rdf> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/docs/sw/rdfical-a-matic.html> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/info/rss.rdf> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/ns/> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/test/exif2rdf> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/test/rssfr> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/works/2004/imgdsc/tokyo-ls.rdf> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/works/2014/pub/ld-browser> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/made> <http://www.kanzaki.com/works/2016/pub/image-annotator> .
+<http://purl.org/net/who/kanzaki#masahide> <http://xmlns.com/foaf/0.1/nick> "masaka" .
+<http://realify.com/~gary/foaf.rdf> <http://purl.org/dc/elements/1.1/title> "FOAF for Gary Peck" .
+<http://www.kanzaki.com/courier/ical2rdf> <http://purl.org/dc/elements/1.1/title> "Online version of ical2rdf" .
+<http://www.kanzaki.com/docs/sw/rdfical-a-matic.html> <http://purl.org/dc/elements/1.1/title> "RDFical generator" .
+<http://www.kanzaki.com/info/rss.rdf> <http://purl.org/dc/elements/1.1/title> "The Web KANZAKI - Japan, music and computer" .
+<http://www.kanzaki.com/info/rss.rdf> <http://purl.org/dc/elements/1.1/title> "The Web KANZAKI\u6700\u65B0\u60C5\u5831"@ja .
+<http://www.kanzaki.com/info/rss.rdf> <http://purl.org/dc/elements/1.1/title> "The Web KANZAKI updates - RSS" .
+<http://www.kanzaki.com/ns/> <http://purl.org/dc/elements/1.1/title> "Some RDF/OWL vocabularies, including Music Description, Whois and Exif" .
+<http://www.kanzaki.com/test/exif2rdf> <http://purl.org/dc/elements/1.1/title> "Exif to RDF -- metadata extractor" .
+<http://www.kanzaki.com/test/rssfr> <http://purl.org/dc/elements/1.1/title> "Web based RSS Feed Reader" .
+<http://www.kanzaki.com/works/2004/imgdsc/tokyo-ls.rdf> <http://purl.org/dc/elements/1.1/title> "The Web KANZAKI - Tokyo Landscape" .
+<http://www.kanzaki.com/works/2004/imgdsc/tokyo-ls.rdf> <http://purl.org/dc/elements/1.1/title> "Tokyo Landscape with geo metadata" .
+<http://www.kanzaki.com/works/2014/pub/ld-browser> <http://purl.org/dc/elements/1.1/title> "Linked Data Browser" .
+<http://www.kanzaki.com/works/2016/pub/image-annotator> <http://purl.org/dc/elements/1.1/title> "Image Annotator w/ IIIF viewer" .
+<http://www.kanzaki.com/works/2016/pub/image-annotator> <http://purl.org/dc/elements/1.1/title> "Image metadata and description" .
+<http://www.kjetil.kjernsmo.net/foaf#me> <http://xmlns.com/foaf/0.1/made> <http://www.w3.org/TR/2009/WD-sparql-features-20090702/> .
+<http://www.kjetil.kjernsmo.net/foaf#me> <http://xmlns.com/foaf/0.1/nick> "kettle" .
+<http://www.kjetil.kjernsmo.net/foaf#me> <http://xmlns.com/foaf/0.1/nick> "KjetilK" .
+<http://www-mit.w3.org/2000/Talks/www9-larch/all.htm> <http://purl.org/dc/elements/1.1/title> "Specifying Web Architecture with Larch" .
+<http://www.openlinksw.com/dataspace/organization/openlink#this> <http://xmlns.com/foaf/0.1/made> <http://data.openlinksw.com/oplweb/product_family/dca#this> .
+<http://www.openlinksw.com/dataspace/organization/openlink#this> <http://xmlns.com/foaf/0.1/made> <http://data.openlinksw.com/oplweb/product_family/development#this> .
+<http://www.openlinksw.com/dataspace/organization/openlink#this> <http://xmlns.com/foaf/0.1/made> <http://data.openlinksw.com/oplweb/product_family/uda#this> .
+<http://www.openlinksw.com/dataspace/organization/openlink#this> <http://xmlns.com/foaf/0.1/made> <http://data.openlinksw.com/oplweb/product_family/utilities#this> .
+<http://www.openlinksw.com/dataspace/organization/openlink#this> <http://xmlns.com/foaf/0.1/nick> "openlink" .
+<http://www.w3.org/2000/10/swap/doc/> <http://purl.org/dc/elements/1.1/title> "Semantic Web Tutorial Using N3" .
+<http://www.w3.org/2002/12/cal/mash/slides> <http://purl.org/dc/elements/1.1/title> "Semantic Web Data Integration with hCalendar and\n    GRDDL" .
+<http://www.w3.org/People/Connolly/#me> <http://xmlns.com/foaf/0.1/made> <http://dig.csail.mit.edu/breadcrumbs/node/171> .
+<http://www.w3.org/People/Connolly/#me> <http://xmlns.com/foaf/0.1/made> <http://www-mit.w3.org/2000/Talks/www9-larch/all.htm> .
+<http://www.w3.org/People/Connolly/#me> <http://xmlns.com/foaf/0.1/made> <http://www.w3.org/2000/10/swap/doc/> .
+<http://www.w3.org/People/Connolly/#me> <http://xmlns.com/foaf/0.1/made> <http://www.w3.org/2002/12/cal/mash/slides> .
+<http://www.w3.org/People/Connolly/#me> <http://xmlns.com/foaf/0.1/made> <http://www.w3.org/TR/rdfcal/> .
+<http://www.w3.org/People/Connolly/#me> <http://xmlns.com/foaf/0.1/nick> "DanC" .
+<http://www.w3.org/People/Connolly/#me> <http://xmlns.com/foaf/0.1/nick> "DanCon" .
+<http://www.w3.org/TR/2009/WD-sparql-features-20090702/> <http://purl.org/dc/elements/1.1/title> "SPARQL New Features and Rationale" .
+<http://www.w3.org/TR/rdfcal/> <http://purl.org/dc/elements/1.1/title> "RDF Calendar - an application of the Resource\n    Description Framework to iCalendar Data" .
+_:httpx3Ax2Fx2Frealifyx2Ecomx2Fx7Egaryx2Ffoafx2Erdfxxme <http://xmlns.com/foaf/0.1/made> <http://realify.com/~gary/foaf.rdf> .
+_:httpx3Ax2Fx2Frealifyx2Ecomx2Fx7Egaryx2Ffoafx2Erdfxxme <http://xmlns.com/foaf/0.1/nick> "tylix" .
+<http://xmlns.com/foaf/0.1/> <http://purl.org/dc/elements/1.1/title> "Friend of a Friend (FOAF) vocabulary" .
+<http://xmlns.com/foaf/0.1/made> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://xmlns.com/foaf/0.1/made> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#ObjectProperty> .
+<http://xmlns.com/foaf/0.1/made> <http://www.w3.org/2000/01/rdf-schema#comment> "Something that was made by this agent." .
+<http://xmlns.com/foaf/0.1/made> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://xmlns.com/foaf/0.1/> .
+<http://xmlns.com/foaf/0.1/made> <http://www.w3.org/2000/01/rdf-schema#label> "made" .
+<http://xmlns.com/foaf/0.1/nick> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://xmlns.com/foaf/0.1/nick> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#AnnotationProperty> .
+<http://xmlns.com/foaf/0.1/nick> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#DatatypeProperty> .
+<http://xmlns.com/foaf/0.1/nick> <http://www.w3.org/2000/01/rdf-schema#comment> "A short informal nickname characterising an agent (includes login identifiers, IRC and other chat nicknames)." .
+<http://xmlns.com/foaf/0.1/nick> <http://www.w3.org/2000/01/rdf-schema#isDefinedBy> <http://xmlns.com/foaf/0.1/> .
+<http://xmlns.com/foaf/0.1/nick> <http://www.w3.org/2000/01/rdf-schema#label> "nickname" .

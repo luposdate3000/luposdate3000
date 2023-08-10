@@ -31,7 +31,6 @@ import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
-    // this store introduces fixes, if the desired triple store does not participate in any partitioning at all, but it is required to do so
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
@@ -66,7 +65,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                     } else {
                                         res = POPSplitPartitionFromStore(query, pp, key, count, partitionID, res)
                                     }
-// println("PhysicalOptimizerPartitionAssingPartitionsToRemaining a ${res.getUUID()} $count")
                                     query.addPartitionOperator(res.getUUID(), partitionID)
                                 }
                                 for ((key, count) in requiredPartition) {
@@ -92,7 +90,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             } else {
                                 POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariableMax, new_countMax, partitionID, node)
                             }
-// println("PhysicalOptimizerPartitionAssingPartitionsToRemaining b ${res.getUUID()} <- $new_countMax")
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 if (node.projectedVariables.contains(partitionVariableMax)) {
@@ -110,15 +107,26 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             onChange()
                         } else {
 // there is NONE useful partitioning - choose any of then and use it
-                            val variable = "?TripleStoreDummyVariable" // not existing variable name with the prefix "?"
-                            val count = 128 // arbitray number, will be fixed later by PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator
+
+                            var variable = "?TripleStoreDummyVariable" // not existing variable name with the prefix "?"
+                            var count = 128 // arbitray number, will be fixed later by PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator
+println("assign random partitioning ... before "+variable+" "+count)
                             val partitionID = query.getNextPartitionOperatorID()
                             res = if (node.projectedVariables.isNotEmpty()) {
+for(v in node.projectedVariables){
+var ctr=node.changeToIndexWithMaximumPartitions(null,v)
+if(ctr>0){
+variable=v
+count=ctr
+break
+}
+}
+println("assign random partitioning ... fixed "+variable+" "+count)
+
                                 POPSplitPartitionFromStore(query, node.projectedVariables, variable, count, partitionID, node)
                             } else {
                                 POPSplitPartitionFromStoreCount(query, node.projectedVariables, variable, count, partitionID, node)
                             }
-// println("PhysicalOptimizerPartitionAssingPartitionsToRemaining c ${res.getUUID()} <- $count")
                             query.addPartitionOperator(res.getUUID(), partitionID)
                             if (node.projectedVariables.isNotEmpty()) {
                                 if (node.projectedVariables.contains(variable)) {
