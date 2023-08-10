@@ -27,7 +27,7 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
 }
 public fun main(){
     val tests=listOf(
-        "lupos.launch_code_gen_test_00.Tsv03TSVResultFormatKt",
+        "lupos.launch_code_gen_test_00.Simple2Kt",
     )
     tests.parallelStream().forEach{it->
               println(it+" start")

@@ -858,16 +858,16 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     private fun visit158(graph: String, graphVar: Boolean, node: ASTBuiltInCall) = when (node) {
-        is ASTBuiltInCallSameTerm -> TODO("not implemented")
-        is ASTBuiltInCallIsBlanc -> TODO("not implemented")
-        is ASTBuiltInCallSHA384 -> TODO("not implemented")
-        is ASTBuiltInCallSHA512 -> TODO("not implemented")
-        is ASTRegexExpression -> TODO("not implemented")
-        is ASTSubstringExpression -> TODO("not implemented")
-        is ASTStrReplaceExpression -> TODO("not implemented")
-        is ASTBuiltInCallRand -> TODO("not implemented")
-        is ASTBuiltInCallIsUri -> TODO("not implemented")
-        is ASTBuiltInCallEncodeForUri -> TODO("not implemented")
+        is ASTBuiltInCallSameTerm -> TODO("OperatorGraphVisitor not implemented")
+        is ASTBuiltInCallIsBlanc -> TODO("OperatorGraphVisitor not implemented")
+        is ASTBuiltInCallSHA384 -> TODO("OperatorGraphVisitor not implemented")
+        is ASTBuiltInCallSHA512 -> TODO("OperatorGraphVisitor not implemented")
+        is ASTRegexExpression -> TODO("OperatorGraphVisitor not implemented")
+        is ASTSubstringExpression -> TODO("OperatorGraphVisitor not implemented")
+        is ASTStrReplaceExpression -> TODO("OperatorGraphVisitor not implemented")
+        is ASTBuiltInCallRand -> TODO("OperatorGraphVisitor not implemented")
+        is ASTBuiltInCallIsUri -> TODO("OperatorGraphVisitor not implemented")
+        is ASTBuiltInCallEncodeForUri -> TODO("OperatorGraphVisitor not implemented")
         is ASTBuiltInCallYear -> AOPBuildInCallYEAR(query, visit033(graph, graphVar, node.variable0!!))
         is ASTBuiltInCallMonth -> AOPBuildInCallMONTH(query, visit033(graph, graphVar, node.variable0!!))
         is ASTBuiltInCallHours -> AOPBuildInCallHOURS(query, visit033(graph, graphVar, node.variable0!!))
@@ -925,7 +925,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTAggregateMin -> AOPAggregationMIN(query, node.DISTINCT, visit033(graph, graphVar, node.variable1!!))
         is ASTAggregateMax -> AOPAggregationMAX(query, node.DISTINCT, visit033(graph, graphVar, node.variable1!!))
         is ASTAggregateSample -> AOPAggregationSAMPLE(query, node.DISTINCT, visit033(graph, graphVar, node.variable1!!))
-        is ASTAggregateGroupConcat -> TODO("not implemented")
+        is ASTAggregateGroupConcat -> TODO("OperatorGraphVisitor not implemented")
     }
 
     private fun visit156(graph: String, graphVar: Boolean, node: ASTInterfaceOfAggregateCountAllOrExpression) = when (node) {

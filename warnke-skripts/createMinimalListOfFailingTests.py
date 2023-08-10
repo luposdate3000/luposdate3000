@@ -10,6 +10,13 @@ try:
 except:
     pass
 
+ignoreList=[]
+if os.path.exists("resources/tests/ignorelist"):
+        with open("resources/tests/ignorelist") as f:
+            for l in f:
+                ll = l.split(",")[1].strip()
+                ignoreList.append(ll)
+
 
 def setup(minify):
     srcCode = []
@@ -68,7 +75,14 @@ def loop(filter):
     allTests = []
     with open("resources/tests/all") as f:
         for l in f:
-            allTests.append(l.strip())
+            found=False
+            for i in ignoreList:
+             if i in l:
+              found=True
+            if found:
+             blacklist.append(l.strip())
+            else:
+             allTests.append(l.strip())
     if os.path.exists("resources/tests/passed"):
         with open("resources/tests/passed") as f:
             for l in f:
