@@ -109,7 +109,7 @@ public object EvalModify {
                 val store = query.getInstance().tripleStoreManager!!.getGraph(graphName)
                 for (type in 0 until EModifyTypeExt.values_size) {
                     if (iterator[type][0].size > 0) {
-                        val cache = store.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
+                        val cache = store.modify_create_cache(query, type, -1, false)
                         val iterator2 = Array(3) { ColumnIteratorMultiValue(iterator[type][it]) }
                         while (true) {
                             val s = dict.valueToGlobal(iterator2[0].next())

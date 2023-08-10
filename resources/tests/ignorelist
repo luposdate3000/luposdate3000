@@ -21,11 +21,11 @@ filetype,sq08  Subquery with aggregate
 filetype,sq09  Nested Subqueries
 filetype,sq10  Subquery with exists
 functioncall,syntaxselectexpr04rq
-manual thread,- Thread -
 manual no triplepattern with bind,NOW
+manual owl,simple 4
 manual simulator,in simulator
 manual subClassOf,sparqldl02rq simple combined query
-manual owl,simple 4
+manual thread,- Thread -
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
 operator,GROUPCONCAT 2

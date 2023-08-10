@@ -164,8 +164,8 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                             res = OPBaseCompound(
                                                 query,
                                                 arrayOf(
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
                                                     createCopy(TripleStoreManager.DEFAULT_GRAPH_NAME, node.graph2iri!!),
                                                 ),
                                                 listOf(listOf(), listOf(), listOf())
@@ -182,8 +182,8 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                             res = OPBaseCompound(
                                                 query,
                                                 arrayOf(
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
                                                     createCopy(node.graph1iri!!, TripleStoreManager.DEFAULT_GRAPH_NAME),
                                                 ),
                                                 listOf(listOf(), listOf(), listOf())
@@ -194,8 +194,8 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                                 OPBaseCompound(
                                                     query,
                                                     arrayOf(
-                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
-                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                        POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                        POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
                                                         createCopy(node.graph1iri!!, node.graph2iri!!),
                                                     ),
                                                     listOf(listOf(), listOf(), listOf())
@@ -225,10 +225,10 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                             res = OPBaseCompound(
                                                 query,
                                                 arrayOf(
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
                                                     createCopy(TripleStoreManager.DEFAULT_GRAPH_NAME, node.graph2iri!!),
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
                                                 ),
                                                 listOf(listOf(), listOf(), listOf(), listOf())
                                             )
@@ -244,10 +244,10 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                             res = OPBaseCompound(
                                                 query,
                                                 arrayOf(
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
                                                     createCopy(node.graph1iri!!, TripleStoreManager.DEFAULT_GRAPH_NAME),
-                                                    POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
+                                                    POPGraphOperation(query, projectedVariables, true, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
                                                 ),
                                                 listOf(listOf(), listOf(), listOf(), listOf())
                                             )
@@ -257,10 +257,10 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                                                 OPBaseCompound(
                                                     query,
                                                     arrayOf(
-                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
-                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
+                                                        POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CREATE),
+                                                        POPGraphOperation(query, projectedVariables, true, node.graph2type, node.graph2iri, node.graph2type, node.graph2iri, EGraphOperationTypeExt.CLEAR),
                                                         createCopy(node.graph1iri!!, node.graph2iri!!),
-                                                        POPGraphOperation(query, projectedVariables, node.silent, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
+                                                        POPGraphOperation(query, projectedVariables, true, node.graph1type, node.graph1iri, node.graph1type, node.graph1iri, EGraphOperationTypeExt.CLEAR),
                                                     ),
                                                     listOf(listOf(), listOf(), listOf(), listOf())
                                                 )
