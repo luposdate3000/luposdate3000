@@ -1,0 +1,9 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="l"/>
+  <variable name="long"/>
+  <variable name="lat"/>
+ </head>
+ <results/>
+</sparql>
+

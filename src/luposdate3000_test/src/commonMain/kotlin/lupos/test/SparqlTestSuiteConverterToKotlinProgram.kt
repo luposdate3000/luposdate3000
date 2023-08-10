@@ -446,7 +446,7 @@ without minify mode only the passing tests will be added
             fileBufferNormalHelper.println("            flag = true")
             fileBufferNormalHelper.println("        }")
             fileBufferNormalHelper.println("        if (!flag) {")
-            fileBufferNormalHelper.println("            TODO(\"expected failure\")")
+            fileBufferNormalHelper.println("            TODO(\"expected syntax failure\")")
             fileBufferNormalHelper.println("        }")
         }
         for (i in 0 until outputGraphs.size) {

@@ -46,7 +46,14 @@ public class QueryResultToMemoryTable : IResultFormat {
                 rowBuf[variableIndex] = valueID
             }
             lock?.lock()
-            output.data.add(DictionaryValueTypeArray(variables.size) { rowBuf[it] })
+            output.data.add(DictionaryValueTypeArray(variables.size) { 
+val x=rowBuf[it]
+if(x==DictionaryValueHelper.errorValue){
+DictionaryValueHelper.undefValue
+}else{
+x
+}
+ })
             lock?.unlock()
         }
         for (element in columns) {

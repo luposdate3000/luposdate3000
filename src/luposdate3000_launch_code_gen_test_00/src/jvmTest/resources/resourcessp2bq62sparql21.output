@@ -1,0 +1,15 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="class"/>
+  <variable name="document"/>
+  <variable name="yr"/>
+  <variable name="author"/>
+  <variable name="name"/>
+  <variable name="class2"/>
+  <variable name="document2"/>
+  <variable name="yr2"/>
+  <variable name="author2"/>
+ </head>
+ <results/>
+</sparql>
+

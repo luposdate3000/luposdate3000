@@ -21,12 +21,15 @@ filetype,sq08  Subquery with aggregate
 filetype,sq09  Nested Subqueries
 filetype,sq10  Subquery with exists
 functioncall,syntaxselectexpr04rq
+manual variable in graph name,DELETE INSERT 4
+manual bad target,csv03  CSV Result Format
+manual bad target,cvs02  CSV Result Format
 manual no triplepattern with bind,NOW
 manual owl,simple 2
 manual owl,simple 4
 manual owl,simple 6
 manual simulator,in simulator
-manual subClassOf,sparqldl02rq simple combined query
+manual subclassOf,sparqldl02rq simple combined query
 manual thread,- Thread -
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
@@ -79,9 +82,18 @@ path,syntaxpropertyPaths01rq
 service,SERVICE test 7
 service,syntaxservice02rq
 service,syntaxservice03rq
+syntax,COUNT 10
+syntax,COUNT 9
+syntax,DELETE INSERT 3
+syntax,DELETE INSERT 3b
+syntax,DELETE INSERT 5
+syntax,DELETE INSERT 6
+syntax,DELETE INSERT 7
+syntax,DELETE INSERT 7b
 syntax,DELETE INSERT 8
 syntax,DELETE INSERT 9
 syntax,Group6
+syntax,Group7
 syntax,synbad01rq
 syntax,synbad02rq
 syntax,synbad03rq

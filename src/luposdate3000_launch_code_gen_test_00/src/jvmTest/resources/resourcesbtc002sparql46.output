@@ -1,0 +1,9 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="b"/>
+  <variable name="p"/>
+  <variable name="bn"/>
+ </head>
+ <results/>
+</sparql>
+

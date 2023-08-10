@@ -4,7 +4,7 @@ import random
 import sys
 from subprocess import STDOUT, check_output, PIPE
 
-testCount = 1000
+testCount = 2000
 try:
     os.makedirs("resources/tests")
 except:
@@ -52,6 +52,8 @@ def setup(minify):
     if os.system("./gradlew --offline assemble") != 0:
         print("exit")
         sys.exit(-1)
+    with open("resources/tests/blacklist", "w") as f:
+     pass
     if os.system("./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi") != 0:
         print("exit")
         sys.exit(-1)
@@ -106,6 +108,7 @@ def loop(filter):
                 if ll in allTests:
                     allTests.remove(ll)
                 blacklist.append(ll)
+    print("remaining",len(allTests),"tests for execution")
     random.shuffle(allTests)
     if len(filter) > 0:
         with open("resources/tests/blacklist", "w") as f:
@@ -119,8 +122,7 @@ def loop(filter):
         with open("resources/tests/blacklist", "w") as f:
             if len(allTests) == 0:
                 sys.exit(0)
-            start = max(min(testCount, len(allTests) - testCount), 0)
-            for i in range(start, len(allTests)):
+            for i in range(testCount, len(allTests)):
                 f.write(allTests[i] + "\n")
             for x in blacklist:
              f.write(x + "\n")
