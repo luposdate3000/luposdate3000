@@ -27,6 +27,8 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
 }
 public fun main(){
     val tests=listOf(
+    )
+    val tests2=listOf(
         "lupos.launch_code_gen_test_00.INSERT02Kt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesamebnodeKt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnodeKt",
@@ -90,8 +92,6 @@ public fun main(){
         "lupos.launch_code_gen_test_00.Resourcessp2bq68sparql1640Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq68sparql700Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq68sparql973Kt",
-        "lupos.launch_code_gen_test_00.STRAFTERdatatypingKt",
-        "lupos.launch_code_gen_test_00.STRBEFOREdatatypingKt",
         "lupos.launch_code_gen_test_00.Simple1Kt",
         "lupos.launch_code_gen_test_00.Simple3Kt",
         "lupos.launch_code_gen_test_00.Simple5Kt",

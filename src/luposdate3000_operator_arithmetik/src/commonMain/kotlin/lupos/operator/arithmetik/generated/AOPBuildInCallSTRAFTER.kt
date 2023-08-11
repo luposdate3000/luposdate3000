@@ -168,19 +168,7 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 }
                             }
                             ETripleComponentTypeExt.STRING_LANG -> {
-                                val tmp_144: String = DictionaryHelper.byteArrayToString(tmp_0)
-                                val tmp_145_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_1)
-                                val tmp_145_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_1)
-                                val tmp_147_idx: Int = tmp_144.indexOf(tmp_145_content)
-                                res = if (tmp_147_idx >= 0) {
-                                    val tmp_146: String = tmp_144.substring(tmp_147_idx + tmp_145_content.length, tmp_144.length)
-                                    DictionaryHelper.stringToByteArray(tmp_4, tmp_146)
-                                    query.getDictionary().createValue(tmp_4)
-                                } else {
-                                    val tmp_146: String = ""
-                                    DictionaryHelper.stringToByteArray(tmp_4, tmp_146)
-                                    query.getDictionary().createValue(tmp_4)
-                                }
+    res=                            DictionaryValueHelper.undefValue
                             }
                             ETripleComponentTypeExt.STRING_TYPED -> {
                                 val tmp_148: String = DictionaryHelper.byteArrayToString(tmp_0)
@@ -233,12 +221,14 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_168_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_1)
                                 val tmp_170_idx: Int = tmp_167_content.indexOf(tmp_168_content)
                                 val tmp_169_lang: String = tmp_167_lang
-                                res = if (tmp_170_idx >= 0) {
+res=if(tmp_167_lang!=tmp_168_lang){
+DictionaryValueHelper.undefValue
+}                                else if (tmp_170_idx >= 0) {
                                     val tmp_169_content: String = tmp_167_content.substring(tmp_170_idx + tmp_168_content.length, tmp_167_content.length)
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_169_content, tmp_169_lang)
                                     query.getDictionary().createValue(tmp_4)
                                 } else {
- DictionaryHelper.stringToByteArray(tmp_4, "")
+                                    DictionaryHelper.stringToByteArray(tmp_4, "")
                                     query.getDictionary().createValue(tmp_4)
                                 }
                             }
@@ -254,7 +244,7 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_173_content, tmp_173_lang)
                                     query.getDictionary().createValue(tmp_4)
                                 } else {
- DictionaryHelper.stringToByteArray(tmp_4, "")
+                                    DictionaryHelper.stringToByteArray(tmp_4, "")
                                     query.getDictionary().createValue(tmp_4)
                                 }
                             }
@@ -289,21 +279,7 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 }
                             }
                             ETripleComponentTypeExt.STRING_LANG -> {
-                                val tmp_190_content: String = DictionaryHelper.byteArrayToTyped_Content(tmp_0)
-                                val tmp_190_type: String = DictionaryHelper.byteArrayToTyped_Type(tmp_0)
-                                val tmp_191_content: String = DictionaryHelper.byteArrayToLang_Content(tmp_1)
-                                val tmp_191_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_1)
-                                val tmp_193_idx: Int = tmp_190_content.indexOf(tmp_191_content)
-                                val tmp_192_type: String = tmp_190_type
-                                res = if (tmp_193_idx >= 0) {
-                                    val tmp_192_content: String = tmp_190_content.substring(tmp_193_idx + tmp_191_content.length, tmp_190_content.length)
-                                    DictionaryHelper.typedToByteArray(tmp_4, tmp_192_content, tmp_192_type)
-                                    query.getDictionary().createValue(tmp_4)
-                                } else {
-                                    val tmp_192_content: String = ""
-                                    DictionaryHelper.typedToByteArray(tmp_4, tmp_192_content, tmp_192_type)
-                                    query.getDictionary().createValue(tmp_4)
-                                }
+res=DictionaryValueHelper.undefValue
                             }
                             ETripleComponentTypeExt.STRING_TYPED -> {
                                 val action4 = {
