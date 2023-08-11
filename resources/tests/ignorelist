@@ -27,6 +27,21 @@ manual complicated,Calculate proper subset
 manual complicated,Calculate which sets are subsets of others exclude A subsetOf A
 manual complicated,Calculate which sets are subsets of others include A subsetOf A
 manual complicated,Calculate which sets have the same elements
+manual inference,RDF inference test
+manual inference,RDFS inference test combining subPropertyOf and domain
+manual inference,RDFS inference test containers
+manual inference,RDFS inference test domain
+manual inference,RDFS inference test range
+manual inference,RDFS inference test rdfXMLLiteral
+manual inference,RDFS inference test rdfssubPropertyOf
+manual inference,RDFS inference test rdfssubPropertyOf luposDuplicate1
+manual inference,RDFS inference test subClassOf
+manual inference,RDFS inference test subClassOf luposDuplicate1
+manual inference,RDFS inference test subProperty and instances
+manual inference,RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers
+manual inference,RDFS inference test transitivity of subClassOf
+manual inference,RDFS inference test transitivity of subPropertyOf
+manual inference,sparqldl02rq simple combined query
 manual no triplepattern with bind,NOW
 manual owl,filtered subclass query with hasChild some Thing restriction
 manual owl,simple 1
@@ -38,21 +53,6 @@ manual owl,simple 6
 manual owl,simple 7
 manual owl,simple 8
 manual simulator,in simulator
-manual inference,sparqldl02rq simple combined query
-manual inference,RDFS inference test rdfXMLLiteral
-manual inference,RDFS inference test subClassOf luposDuplicate1
-manual inference,RDFS inference test containers
-manual inference,RDFS inference test rdfssubPropertyOf
-manual inference,RDFS inference test domain
-manual inference,RDFS inference test rdfssubPropertyOf luposDuplicate1
-manual inference,RDFS inference test range
-manual inference,RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers
-manual inference,RDFS inference test subClassOf
-manual inference,RDFS inference test transitivity of subPropertyOf
-manual inference,RDFS inference test combining subPropertyOf and domain
-manual inference,RDFS inference test subProperty and instances
-manual inference,RDFS inference test transitivity of subClassOf
-manual inference,RDF inference test
 manual thread,- Thread -
 manual variable in graph name,DELETE INSERT 4
 operator,ENCODEFORURI

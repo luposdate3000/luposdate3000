@@ -173,7 +173,7 @@ public class SimpleDELETE1USING {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-//            "Simple DELETE 1 USING - None - Simple - true" to ::`Simple DELETE 1 USING - None - Simple - true`,
+            "Simple DELETE 1 USING - None - Simple - true" to ::`Simple DELETE 1 USING - None - Simple - true`,
             "Simple DELETE 1 USING - None - Simple - false" to ::`Simple DELETE 1 USING - None - Simple - false`,
         )
     }

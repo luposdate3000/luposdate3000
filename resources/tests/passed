@@ -6,7 +6,6 @@ Resourcesbsbmexplorequery102553sparql2553 - None - Simple - true
 Resourcessp2bq5asparql21 - None - Simple - true
 PrefixName with unescaped colons - None - Simple - true
 Resourcessp2bq66sparql247 - None - Simple - false
-RDF inference test luposDuplicate1 - None - Simple - false
 Resourcessp2bq12csparql1640 - None - Simple - false
 Bind04  BIND - None - Simple - true
 Graphspecific DELETE DATA 1 - None - Simple - true
@@ -21,7 +20,6 @@ Simple insert data named 2 - None - Simple - false
 Resourcessp2bq3asparql973 - None - Simple - true
 Resourcessp2bq6sparql21 - None - Simple - false
 Resourcessp2bq12b3sparql973 - None - Simple - true
-Resourcesbsbmbiquery22553sparql2553 - None - Simple - false
 Resourcessp2bq62sparql247 - None - Simple - true
 IF error propogation - None - Simple - false
 Resourcessp2bq4sparql700 - None - Simple - true
@@ -111,7 +109,6 @@ Resourcessp2bq12csparql700 - None - Simple - true
 Graphspecific DELETE 1 - None - Simple - false
 Resourcessp2bq12bsparql700 - None - Simple - false
 Agg empty group - None - Simple - true
-Resourcesbsbmbiquery32553sparql2553 - None - Simple - false
 Resourcesmyqueriesubungent01sparql764 - None - Simple - true
 ABS - None - Simple - true
 Resourcesbsbmbiquery32210sparql2210 - None - Simple - false
@@ -162,15 +159,17 @@ Resourcessp2bq92sparql973 - None - Simple - true
 STRLANGSTR - None - Simple - false
 Resourcesbsbmbiquery22210sparql2210 - None - Simple - false
 LOAD SILENT INTO - None - Simple - false
-RDF inference test luposDuplicate1 - None - Simple - true
 ADD 4 - None - Simple - true
 Resourcessp2bq10sparql21 - None - Simple - true
+STRBEFORE datatyping - None - Simple - true
 Postquery VALUES with 2 objvars 1 row with UNDEF - None - Simple - false
 MOVE 7 - None - Simple - true
 Simple DELETE DATA 1 - None - Simple - true
 Resourcessp2bq2sparql247 - None - Simple - false
 Resourcessp2bq12asparql1294 - None - Simple - true
 BNODEstr - None - Simple - false
+IRIURI - None - Simple - false
+Resourcessp2bq4sparql1294 - None - Simple - false
 Resourcessp2bq66sparql973 - None - Simple - true
 Resourcessp2bq1sparql700 - None - Simple - false
 Constructwhere05  CONSTRUCT WHERE - None - Simple - false
@@ -207,7 +206,6 @@ Resourcessp2bq10sparql1294 - None - Simple - true
 Resourcesmyqueriesubungent18sparql709 - None - Simple - false
 Resourcessp2bq2sparql1640 - None - Simple - true
 Resourcessp2bq12b3sparql21 - None - Simple - true
-Resourcesbsbmexplorequery42553sparql2553 - None - Simple - false
 Resourcessp2bq71sparql21 - None - Simple - true
 Jsonres04  JSON Result Format - None - Simple - false
 DROP DEFAULT - None - Simple - true
@@ -240,6 +238,7 @@ Graphspecific DELETE 1 USING - None - Simple - false
 SHA256 on Unicode data - None - Simple - true
 Resourcessp2bq10sparql973 - None - Simple - false
 Resourcessp2bq5bsparql973 - None - Simple - true
+Resourcesbsbmexplorequery52553sparql2553 - None - Simple - false
 Subsets by exclusion MINUS - None - Simple - true
 Postquery VALUES with predvar 1 row - None - Simple - false
 Resourcessp2bq4sparql700 - None - Simple - false
@@ -250,8 +249,8 @@ Resourcesbsbmexplorequery51853sparql1853 - None - Simple - true
 Resourcessp2bq63sparql247 - None - Simple - false
 Resourcessp2bq91sparql973 - None - Simple - false
 Resourcessp2bq12b1sparql247 - None - Simple - false
+STRAFTER datatyping - None - Simple - true
 Graphspecific DELETE 2 - None - Simple - false
-Resourcesbsbmbiquery62553sparql2553 - None - Simple - false
 DROP NAMED - None - Simple - false
 Resourcessp2bq1sparql973 - None - Simple - false
 Resourcessp2bq66sparql1294 - None - Simple - true
@@ -260,7 +259,6 @@ Resourcessp2bq12csparql247 - None - Simple - true
 Resourcesbsbmbiquery21853sparql1853 - None - Simple - true
 DROP ALL - None - Simple - true
 Resourcessp2bq61sparql700 - None - Simple - true
-RDFS inference test containers - None - Simple - false
 Bind08  BIND fixed data for OWL DL - None - Simple - true
 Resourcessp2bq11sparql247 - None - Simple - false
 CLEAR ALL - None - Simple - true
@@ -360,7 +358,6 @@ Resourcessp2bq62sparql1640 - None - Simple - true
 Simple DELETE WHERE 1 - None - Simple - false
 Simple triple pattern match - None - Simple - false
 Postquery VALUES with 2 objvars 2 rows with UNDEF - None - Simple - false
-Resourcesbsbmexplorequery102553sparql2553 - None - Simple - false
 Subsets by exclusion MINUS - None - Simple - false
 Resourcessp2bq4sparql973 - None - Simple - true
 Resourcessp2bq12b4sparql21 - None - Simple - true
@@ -372,6 +369,7 @@ Resourcessp2bq12b3sparql700 - None - Simple - false
 CLEAR DEFAULT - None - Simple - true
 MOVE 4 - None - Simple - true
 Resourcessp2bq12a1sparql1640 - None - Simple - true
+IRIURI - None - Simple - true
 Resourcesbsbmexplorequery52210sparql2210 - None - Simple - true
 Resourcesbsbmexplorequery101853sparql1853 - None - Simple - true
 SECONDS - None - Simple - true
@@ -386,7 +384,6 @@ Resourcessp2bq12bsparql247 - None - Simple - false
 Resourcessp2bq6sparql1640 - None - Simple - true
 Resourcessp2bq3bsparql700 - None - Simple - true
 COUNT 8 - None - Simple - true
-Resourcessp2bq41sparql1294 - None - Simple - true
 Bind07  BIND - None - Simple - false
 Sparqldl06rq cycle of undistinguished variables - None - Simple - true
 Resourcessp2bq72sparql973 - None - Simple - true
@@ -448,7 +445,6 @@ Resourcessp2bq111sparql700 - None - Simple - true
 Resourcessp2bq7sparql21 - None - Simple - false
 Constructwhere06  CONSTRUCT WHERE - None - Simple - true
 INSERT 03 - None - Simple - true
-Resourcesbsbmexplorequery122553sparql2553 - None - Simple - false
 Resourcesmyqueriesubungent09sparql567 - None - Simple - true
 Resourcessp2bq92sparql247 - None - Simple - true
 Simple DELETE 2 - None - Simple - false
@@ -483,11 +479,9 @@ Resourcessp2bq63sparql700 - None - Simple - false
 Resourcessp2bq3asparql1294 - None - Simple - true
 DROP SILENT GRAPH iri - None - Simple - true
 Resourcessp2bq12b1sparql973 - None - Simple - true
-RDFS inference test rdfXMLLiteral - None - Simple - true
 Jsonres01  JSON Result Format - None - Simple - true
 Resourcessp2bq12b4sparql700 - None - Simple - false
 Resourcessp2bq72sparql700 - None - Simple - false
-RDFS inference test containers - None - Simple - true
 Simple DELETE DATA 3 - None - Simple - false
 PapersparqldlQ5 - None - Simple - false
 ADD 1 - None - Simple - false
@@ -564,8 +558,6 @@ Resourcessp2bq12a1sparql973 - None - Simple - false
 Postquery VALUES with objvar 1 row - None - Simple - true
 Resourcessp2bq42sparql247 - None - Simple - true
 Resourcessp2bq12b4sparql973 - None - Simple - false
-RDFS inference test rdfXMLLiteral - None - Simple - false
-Resourcesbsbmbiquery72553sparql2553 - None - Simple - false
 Resourcessp2bq9sparql700 - None - Simple - true
 Bind03  BIND fixed data for OWL DL - None - Simple - true
 Resourcessp2bq12b1sparql21 - None - Simple - true
@@ -638,7 +630,6 @@ Resourcessp2bq92sparql700 - None - Simple - false
 Resourcessp2bq12bsparql21 - None - Simple - false
 Resourcessp2bq2sparql700 - None - Simple - true
 Plus2 - None - Simple - false
-RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - true
 Resourcessp2bq12b2sparql700 - None - Simple - false
 Resourcessp2bq66sparql700 - None - Simple - true
 Simple DELETE DATA 4 - None - Simple - true
@@ -792,6 +783,7 @@ MOVE 6 - None - Simple - false
 Resourcessp2bq1sparql247 - None - Simple - false
 Simple DELETE WHERE 3 - None - Simple - true
 MINUTES - None - Simple - true
+Simple DELETE 1 USING - None - Simple - false
 STRLANG - None - Simple - false
 AVG - None - Simple - false
 Simple DELETE 1 - None - Simple - true
@@ -804,6 +796,7 @@ Simple DELETE WHERE 3 - None - Simple - false
 Sparqldl01rq triple pattern - None - Simple - true
 SUM with GROUP BY - None - Simple - true
 Resourcessp2bq12b4sparql247 - None - Simple - true
+STRAFTER datatyping - None - Simple - false
 Resourcessp2bq41sparql700 - None - Simple - true
 Simple DELETE 3 USING - None - Simple - true
 MIN with GROUP BY - None - Simple - true
@@ -869,6 +862,7 @@ Resourcessp2bq10sparql700 - None - Simple - true
 ADD 3 - None - Simple - false
 Resourcessp2bq111sparql700 - None - Simple - false
 Resourcesmyqueriesubungent07sparql567 - None - Simple - true
+STRBEFORE datatyping - None - Simple - false
 Resourcessp2bq8sparql1640 - None - Simple - false
 Resourcessp2bq92sparql973 - None - Simple - false
 MOVE 1 - None - Simple - true
@@ -933,7 +927,6 @@ ADD 4 - None - Simple - false
 Resourcessp2bq1sparql1640 - None - Simple - false
 Tvs02  TSV Result Format - None - Simple - false
 SHA1 on Unicode data - None - Simple - true
-RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - None - Simple - false
 Simple triple pattern match - None - Simple - true
 Tsv01  TSV Result Format - None - Simple - true
 Group5 - None - Simple - true
