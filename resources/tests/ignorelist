@@ -21,17 +21,21 @@ filetype,sq08  Subquery with aggregate
 filetype,sq09  Nested Subqueries
 filetype,sq10  Subquery with exists
 functioncall,syntaxselectexpr04rq
-manual variable in graph name,DELETE INSERT 4
 manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
+manual complicated,Calculate proper subset
+manual complicated,Calculate which sets are subsets of others exclude A subsetOf A
+manual complicated,Calculate which sets are subsets of others include A subsetOf A
+manual complicated,Calculate which sets have the same elements
 manual no triplepattern with bind,NOW
-manual owl,simple 2
 manual owl,filtered subclass query with hasChild some Thing restriction
+manual owl,simple 2
 manual owl,simple 4
 manual owl,simple 6
 manual simulator,in simulator
 manual subclassOf,sparqldl02rq simple combined query
 manual thread,- Thread -
+manual variable in graph name,DELETE INSERT 4
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
 operator,GROUPCONCAT 2

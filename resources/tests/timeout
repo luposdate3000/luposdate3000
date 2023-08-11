@@ -1,0 +1,21 @@
+INSERT same bnode twice - None - Simple - true
+Sparqldl13rq sameAs - None - Simple - true
+Simple insert data named 1 - None - Simple - true
+Resourcesbsbmbiquery52553sparql2553 - None - Simple - true
+Resourcesbsbmexplorequery112553sparql2553 - None - Simple - true
+Resourcesmyqueriesubungent14sparql567 - None - Simple - true
+INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode - None - Simple - true
+Resourcesmyqueriesubungent19sparql709 - None - Simple - true
+Resourcesmyqueriesubungent20sparql709 - None - Simple - true
+Simple DELETE 7 - None - Simple - true
+Subtraction with MINUS from a fully bound minuend - None - Simple - true
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode - None - Simple - true
+INSERT 02 - None - Simple - true
+Resourcesmyqueriesubungent12sparql567 - None - Simple - true
+INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution - None - Simple - true
+Resourcesmyqueriesubungent21sparql709 - None - Simple - true
+Subtraction with MINUS from a partially bound minuend - None - Simple - true
+Resourcesbsbmbiquery52210sparql2210 - None - Simple - true
+Resourcesbsbmexplorequery111853sparql1853 - None - Simple - true
+Resourcesbsbmbiquery51853sparql1853 - None - Simple - true
+Resourcesbsbmexplorequery112210sparql2210 - None - Simple - true

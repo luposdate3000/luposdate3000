@@ -27,7 +27,6 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
 }
 public fun main(){
     val tests=listOf(
-        "lupos.launch_code_gen_test_00.GraphspecificDELETEDATA2Kt",
         "lupos.launch_code_gen_test_00.INSERT02Kt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesamebnodeKt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnodeKt",
@@ -111,12 +110,8 @@ public fun main(){
         "lupos.launch_code_gen_test_00.Simple7Kt",
         "lupos.launch_code_gen_test_00.Simple8Kt",
         "lupos.launch_code_gen_test_00.SimpleDELETE1USINGKt",
-        "lupos.launch_code_gen_test_00.SimpleDELETE2USINGKt",
+        "lupos.launch_code_gen_test_00.SimpleDELETE4USINGKt",
         "lupos.launch_code_gen_test_00.SimpleDELETE7Kt",
-        "lupos.launch_code_gen_test_00.SimpleDELETEDATA1Kt",
-        "lupos.launch_code_gen_test_00.SimpleDELETEDATA2Kt",
-        "lupos.launch_code_gen_test_00.SimpleDELETEDATA3Kt",
-        "lupos.launch_code_gen_test_00.SimpleDELETEDATA4Kt",
         "lupos.launch_code_gen_test_00.Simpleinsertdatanamed1Kt",
         "lupos.launch_code_gen_test_00.Sparqldl03rqcombinedquerywithcomplexclassdescriptionKt",
         "lupos.launch_code_gen_test_00.Sparqldl10rqundistvarstestKt",
