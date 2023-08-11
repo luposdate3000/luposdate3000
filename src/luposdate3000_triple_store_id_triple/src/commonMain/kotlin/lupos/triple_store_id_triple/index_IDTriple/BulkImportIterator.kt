@@ -26,7 +26,8 @@ internal class BulkImportIterator(@JvmField val data: DictionaryValueTypeArray, 
     override fun hasNext(): Boolean {
         return offset < count
     }
-
+override fun close(){ 
+}
     override fun next(component: Int): DictionaryValueType {
         value[0] = data[offset + order[0]]
         value[1] = data[offset + order[1]]

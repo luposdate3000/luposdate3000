@@ -37,7 +37,10 @@ internal class MergeIterator(@JvmField val a: TripleIterator, @JvmField val b: T
             flag = 5
         }
     }
-
+override fun close(){ 
+a.close()
+b.close()
+}
     override fun hasNext(): Boolean {
         return flag != 0
     }

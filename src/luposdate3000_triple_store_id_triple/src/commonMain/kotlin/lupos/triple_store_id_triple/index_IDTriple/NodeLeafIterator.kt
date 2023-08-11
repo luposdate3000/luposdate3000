@@ -46,7 +46,13 @@ internal class NodeLeafIterator(@JvmField var node: BufferManagerPageWrapper, @J
         updateRemaining()
         return value[component]
     }
-
+override fun close(){ 
+remaining=0
+if (nodeid != NodeManager.nodeNullPointer) {
+nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:51"/*SOURCE_FILE_END*/, nodeid)
+nodeid=NodeManager.nodeNullPointer
+}
+}
     @Suppress("NOTHING_TO_INLINE")
     private fun updateRemaining() {
         remaining--
@@ -54,10 +60,10 @@ internal class NodeLeafIterator(@JvmField var node: BufferManagerPageWrapper, @J
             needsReset = true
             offset = NodeLeaf.START_OFFSET
             val nextid = NodeShared.getNextNode(node)
-            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:56"/*SOURCE_FILE_END*/, nodeid)
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:62"/*SOURCE_FILE_END*/, nodeid)
             nodeid = nextid
             if (nodeid != NodeManager.nodeNullPointer) {
-                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:59"/*SOURCE_FILE_END*/, nodeid) {
+                nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:65"/*SOURCE_FILE_END*/, nodeid) {
                     node = it
                     remaining = NodeShared.getTripleCount(node)
                 }

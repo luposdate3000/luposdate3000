@@ -21,4 +21,5 @@ import lupos.shared.SanityCheck
 internal class EmptyIterator : TripleIterator() {
     override fun hasNext() = false
     override fun next(component: Int) = SanityCheck.checkUnreachable()
+override fun close(){}
 }

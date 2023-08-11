@@ -29,9 +29,14 @@ manual complicated,Calculate which sets are subsets of others include A subsetOf
 manual complicated,Calculate which sets have the same elements
 manual no triplepattern with bind,NOW
 manual owl,filtered subclass query with hasChild some Thing restriction
+manual owl,simple 1
 manual owl,simple 2
+manual owl,simple 3
 manual owl,simple 4
+manual owl,simple 5
 manual owl,simple 6
+manual owl,simple 7
+manual owl,simple 8
 manual simulator,in simulator
 manual inference,sparqldl02rq simple combined query
 manual inference,RDFS inference test rdfXMLLiteral
