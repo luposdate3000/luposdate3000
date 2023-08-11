@@ -1,139 +1,296 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
  <head>
-  <variable name="o"/>
-  <variable name="spot"/>
   <variable name="lastObservedAt"/>
+  <variable name="spot"/>
+  <variable name="o"/>
  </head>
- <results distinct="false" ordered="true">
-  <result>
-   <binding name="o"><bnode>nodeID://b10051</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.480</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10023</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.200</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10070</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.670</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10016</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.130</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10060</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.570</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10031</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.280</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10013</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.100</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10040</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.370</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10063</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.600</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10020</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.170</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10074</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.710</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10025</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.220</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10054</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.510</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10010</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.700</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10026</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.230</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10057</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.540</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10014</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.110</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10065</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.620</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10022</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.190</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10042</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.390</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10072</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.690</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10024</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.210</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10052</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">44</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.490</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10018</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">30</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.150</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10061</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.580</literal></binding>
-  </result>
-  <result>
-   <binding name="o"><bnode>nodeID://b10033</bnode></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
-   <binding name="lastObservedAt"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.300</literal></binding>
-  </result>
+ <results>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.10</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_0</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.69</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_1</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.19</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_2</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.39</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_3</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.51</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_4</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.58</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_10</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.28</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_11</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.21</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_13</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.62</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_14</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.71</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_15</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.57</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_16</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.22</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_20</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.60</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_24</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.49</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">44</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_26</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.13</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_34</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.20</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_39</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.30</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_44</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.17</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_46</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.15</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">30</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_48</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.11</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_49</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.48</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_53</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.54</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_56</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.37</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_60</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.7</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_66</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.67</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_71</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="lastObservedAt">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.23</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b246_73</bnode>
+    </binding>
+   </result>
  </results>
 </sparql>

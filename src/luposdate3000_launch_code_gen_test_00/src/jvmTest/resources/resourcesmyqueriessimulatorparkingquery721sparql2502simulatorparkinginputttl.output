@@ -1,610 +1,1411 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
  <head>
-  <variable name="o2"/>
   <variable name="area"/>
-  <variable name="spot"/>
+  <variable name="o2"/>
   <variable name="d"/>
+  <variable name="spot"/>
  </head>
- <results distinct="false" ordered="true">
-  <result>
-   <binding name="o2"><bnode>nodeID://b10013</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.100</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10014</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.110</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10015</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.120</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10016</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.130</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10017</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.140</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10018</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.150</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10019</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.160</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10020</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.170</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10021</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.180</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10022</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.190</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10023</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.200</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10024</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.210</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10025</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.220</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10026</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.230</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10027</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.240</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10028</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.250</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10029</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.260</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10030</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.270</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10031</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.280</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10032</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.290</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10113</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.110</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10114</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.111</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10115</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.112</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10116</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.113</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10117</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.114</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10118</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.115</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10119</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.116</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10120</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.117</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10121</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.118</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10122</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.119</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10123</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.120</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10124</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.121</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10125</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.122</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10126</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.123</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10127</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.124</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10128</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.125</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10129</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.126</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10130</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.127</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10131</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.128</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10132</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.129</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10213</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.210</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10214</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.211</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10215</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.212</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10216</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.213</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10217</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.214</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10218</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.215</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10219</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.216</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10220</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.217</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10221</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.218</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10222</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.219</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10223</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.220</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10224</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.221</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10225</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.222</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10226</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.223</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10227</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.224</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10228</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.225</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10229</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.226</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10230</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.227</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10231</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.228</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10232</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.229</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10313</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.310</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10314</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.311</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10315</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.312</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10316</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.313</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10317</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.314</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10318</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.315</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10319</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.316</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10320</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.317</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10321</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.318</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10322</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.319</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10323</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.320</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10324</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.321</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10325</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.322</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10326</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.323</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10327</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.324</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10328</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.325</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10329</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.326</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10330</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.327</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10331</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.328</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10332</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.329</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10413</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.410</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10414</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.411</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10415</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.412</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10416</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.413</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10417</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.414</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10418</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.415</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10419</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.416</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10420</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.417</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10421</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.418</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10422</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.419</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10423</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.420</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10424</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.421</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10425</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.422</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10426</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.423</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10427</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.424</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10428</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.425</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10429</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.426</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10430</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.427</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10431</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.428</literal></binding>
-  </result>
-  <result>
-   <binding name="o2"><bnode>nodeID://b10432</bnode></binding>
-   <binding name="area"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-   <binding name="spot"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.429</literal></binding>
-  </result>
+ <results>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_1</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.423</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_3</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.113</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_4</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.112</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_12</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.328</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_16</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.15</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_19</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.414</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_23</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.315</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_24</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.26</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_28</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.12</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_32</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.25</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_38</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.413</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_57</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.22</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_58</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.222</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_66</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.428</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_69</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.114</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_70</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.416</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_73</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.318</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_77</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.329</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_100</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.415</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_109</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.412</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_113</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.214</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_118</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.227</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_120</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.422</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_121</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.29</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_128</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.226</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_138</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.17</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_141</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.425</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_174</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.421</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_175</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.424</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_176</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.323</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_177</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.411</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_185</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.324</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_186</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.27</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_192</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.13</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_204</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.128</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_209</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.427</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_213</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.313</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_227</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.20</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_228</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.218</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_239</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.10</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_242</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.126</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_243</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.225</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_247</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.223</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_248</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.224</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_249</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.217</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_250</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.120</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_255</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.116</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_261</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.325</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_262</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.321</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_263</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.122</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_268</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.219</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_270</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.11</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_271</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.23</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_272</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.123</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_273</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.316</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_274</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.322</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_279</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.312</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_280</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.216</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_288</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.213</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_294</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.111</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_298</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.420</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_320</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.426</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_325</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.228</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_327</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.210</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_331</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.320</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_334</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.229</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_342</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.327</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_354</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.215</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_355</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.311</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_366</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.314</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_379</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.110</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_383</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.418</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_389</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.310</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_390</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.28</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">28</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_391</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.326</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">26</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_397</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.115</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">15</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_404</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.410</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_408</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.127</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">27</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_420</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.417</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_421</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.317</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_423</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.117</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_431</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.125</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">25</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_432</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.129</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_434</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.24</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_435</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.14</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_437</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.212</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_442</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.118</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_445</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.19</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_447</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.121</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_448</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.429</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">29</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_458</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.119</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_459</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.220</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_470</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.419</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_472</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.211</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_475</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.18</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">18</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_479</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.21</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_480</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.124</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_488</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.319</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">19</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_491</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.221</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="area">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o2">
+     <bnode>b233_497</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.16</literal>
+    </binding>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">16</literal>
+    </binding>
+   </result>
  </results>
 </sparql>

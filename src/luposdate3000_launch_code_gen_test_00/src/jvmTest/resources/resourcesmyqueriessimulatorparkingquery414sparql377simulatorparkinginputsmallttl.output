@@ -1,52 +1,83 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
  <head>
   <variable name="b"/>
  </head>
- <results distinct="false" ordered="true">
-  <result>
-   <binding name="b"><bnode>nodeID://b10008</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10009</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10010</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10011</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10012</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10033</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10034</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10035</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10036</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10037</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10058</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10059</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10060</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10061</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10062</bnode></binding>
-  </result>
+ <results>
+   <result>
+    <binding name="b">
+     <bnode>b202_3</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_13</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_18</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_25</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_26</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_29</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_34</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_39</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_44</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_46</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_49</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_52</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_69</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_72</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b202_73</bnode>
+    </binding>
+   </result>
  </results>
 </sparql>

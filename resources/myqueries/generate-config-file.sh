@@ -16,16 +16,35 @@
 touch config.csv2
 rm config.csv2
 
+function generateConfig() {
+ctr=$1
+sparql=$2
+input=$3
+output=$4
+
+echo '{"query":' > x
+cat $sparql |jq -Rsa . >> x
+echo ',"rdf":' >> x
+cat $input |jq -Rsa . >> x
+echo ',"formats":["xml","plain"],"inference":"NONE","inferenceGeneration":"GENERATEDOPT","evaluator":"MemoryIndex"}' >> x
+curl 'https://www.ifis.uni-luebeck.de/sparql-endpoint/nonstandard/sparql' \
+-X 'POST' \
+-d @x \
+| jq -rc '.XML[0]' > $output
+
+echo $1,$2,$3,$4 >> config.csv2
+}
+
 for i in $(seq 1 7)
 do
-echo $(wc -l x${i}.ttl | sed "s/ .*//g"),x${i}.sparql,x${i}.ttl,x${i}.srx >> config.csv2
+generateConfig "$(wc -l x${i}.ttl | sed 's/ .*//g')" "x${i}.sparql" "x${i}.ttl" "x${i}.srx"
 done
 
 for i in $(seq 1 64)
 do
 for j in $(seq 1 2)
 do
-echo $(wc -l optional${j}.ttl | sed "s/ .*//g"),optional${i}.sparql,optional${j}.ttl,optional${j}-${i}.srx >> config.csv2
+generateConfig "$(wc -l optional${j}.ttl | sed "s/ .*//g")" "optional${i}.sparql" "optional${j}.ttl" "optional${j}-${i}.srx"
 done
 done
 
@@ -34,8 +53,8 @@ for i in 1 2 3 4 5 6 7 8 \
  2_1_1 2_1_2 2_1_3 3_1_1 3_1_2 3_1_3 3_1_4 3_1_5 3_1_6 3_1_7 4_1_1 4_1_2 4_1_3 4_1_4 4_1_5 4_1_6 4_1_7 5_1_1 5_1_2 5_1_3 5_1_4 6_1_1 6_1_2 6_1_3 6_1_4 6_1_5 6_1_6 6_2_1 7_1_1 7_2_1 7_2_2 8_1_1 8_2_1 \
  8_1_2 8_1_3 8_1_4 8_1_5 8_1_6 8_1_7
 do
-echo $(wc -l simulator_parking_input.ttl),simulator_parking_query$i.sparql,simulator_parking_input.ttl,simulator_parking_result$i.srx >> config.csv2
-echo $(wc -l simulator_parking_input_small.ttl),simulator_parking_query$i.sparql,simulator_parking_input_small.ttl,simulator_parking_result${i}_small.srx >> config.csv2
+generateConfig "$(wc -l simulator_parking_input.ttl)" "simulator_parking_query$i.sparql" "simulator_parking_input.ttl" "simulator_parking_result$i.srx"
+generateConfig "$(wc -l simulator_parking_input_small.ttl)" "simulator_parking_query$i.sparql" "simulator_parking_input_small.ttl" "simulator_parking_result${i}_small.srx"
 done
 
 cat config.csv2 | sort -n | uniq > config.csv

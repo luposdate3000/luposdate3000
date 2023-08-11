@@ -1,16 +1,23 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
  <head>
   <variable name="b"/>
  </head>
- <results distinct="false" ordered="true">
-  <result>
-   <binding name="b"><bnode>nodeID://b10009</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10034</bnode></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10059</bnode></binding>
-  </result>
+ <results>
+   <result>
+    <binding name="b">
+     <bnode>b160_24</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b160_54</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b160_72</bnode>
+    </binding>
+   </result>
  </results>
 </sparql>

@@ -1,8 +1,1 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="s"/>
-  <variable name="o1"/>
- </head>
- <results/>
-</sparql>
 

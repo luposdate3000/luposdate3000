@@ -1,308 +1,609 @@
-<sparql xmlns="http://www.w3.org/2005/sparql-results#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2001/sw/DataAccess/rf1/result2.xsd">
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
  <head>
   <variable name="b"/>
   <variable name="d"/>
  </head>
- <results distinct="false" ordered="true">
-  <result>
-   <binding name="b"><bnode>nodeID://b10003</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10004</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.100</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10005</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.200</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10006</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.300</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10007</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.400</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10008</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.500</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10009</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.600</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10010</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.700</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10011</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.800</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10012</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.900</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10013</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.100</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10014</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.110</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10015</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.120</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10016</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.130</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10017</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.140</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10018</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.150</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10019</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.160</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10020</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.170</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10021</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.180</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10022</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.190</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10023</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.200</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10024</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.210</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10025</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.220</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10026</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.230</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10027</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.240</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10028</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.250</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10029</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.260</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10030</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.270</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10031</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.280</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10032</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.290</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10033</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.300</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10034</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.310</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10035</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.320</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10036</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.330</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10037</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.340</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10038</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.350</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10039</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.360</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10040</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.370</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10041</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.380</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10042</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.390</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10043</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.400</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10044</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.410</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10045</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.420</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10046</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.430</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10047</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.440</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10048</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.450</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10049</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.460</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10050</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.470</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10051</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.480</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10052</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.490</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10053</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.500</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10054</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.510</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10055</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.520</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10056</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.530</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10057</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.540</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10058</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.550</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10059</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.560</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10060</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.570</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10061</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.580</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10062</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.590</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10063</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.600</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10064</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.610</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10065</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.620</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10066</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.630</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10067</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.640</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10068</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.650</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10069</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.660</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10070</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.670</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10071</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.680</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10072</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.690</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10073</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.700</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10074</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.710</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10075</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.720</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10076</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.730</literal></binding>
-  </result>
-  <result>
-   <binding name="b"><bnode>nodeID://b10077</bnode></binding>
-   <binding name="d"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.740</literal></binding>
-  </result>
+ <results>
+   <result>
+    <binding name="b">
+     <bnode>b216_0</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.43</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_1</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.17</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_2</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.4</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_3</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.9</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_4</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.24</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_5</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.46</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_6</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.30</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_7</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.64</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_8</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.6</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_9</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.32</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_10</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.5</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_11</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.69</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_12</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.42</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_13</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.63</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_14</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.12</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_15</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.54</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_16</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.19</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_17</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.60</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_18</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.37</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_19</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.70</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_20</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_21</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.1</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_22</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.23</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_23</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.49</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_24</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.22</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_25</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.7</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_26</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.33</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_27</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.53</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_28</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.58</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_29</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.74</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_30</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.72</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_31</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.52</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_32</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.0</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_33</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.15</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_34</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.40</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_35</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.67</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_36</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.27</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_37</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.71</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_38</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.34</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_39</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.18</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_40</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.25</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_41</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.26</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_42</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.62</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_43</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.10</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_44</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.66</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_45</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.13</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_46</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.45</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_47</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.39</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_48</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.61</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_49</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.44</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_50</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.8</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_51</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.28</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_52</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.50</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_53</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.56</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_54</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.3</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_55</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.14</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_56</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.65</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_57</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.51</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_58</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.36</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_59</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.73</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_60</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.20</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_61</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.35</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_62</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.16</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_63</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.47</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_64</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.38</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_65</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.2</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_66</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.68</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_67</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.29</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_68</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.41</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_69</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.48</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_70</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.31</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_71</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.59</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_72</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.55</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_73</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.57</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b216_74</bnode>
+    </binding>
+    <binding name="d">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.21</literal>
+    </binding>
+   </result>
  </results>
 </sparql>
