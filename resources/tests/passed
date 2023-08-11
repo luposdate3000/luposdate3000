@@ -20,6 +20,7 @@ Simple insert data named 2 - None - Simple - false
 Resourcessp2bq3asparql973 - None - Simple - true
 Resourcessp2bq6sparql21 - None - Simple - false
 Resourcessp2bq12b3sparql973 - None - Simple - true
+Resourcesbsbmbiquery22553sparql2553 - None - Simple - false
 Resourcessp2bq62sparql247 - None - Simple - true
 IF error propogation - None - Simple - false
 Resourcessp2bq4sparql700 - None - Simple - true
@@ -78,7 +79,6 @@ Graphspecific DELETE 2 WITH - None - Simple - true
 Resourcesbsbmexplorequery31853sparql1853 - None - Simple - true
 CLEAR NAMED - None - Simple - true
 STRDT - None - Simple - false
-Resourcesbsbmexplorequery12553sparql2553 - None - Simple - false
 INSERT 04 - None - Simple - true
 Resourcessp2bq68sparql21 - None - Simple - true
 Bind04  BIND fixed data for OWL DL - None - Simple - false
@@ -109,6 +109,7 @@ Resourcessp2bq12csparql700 - None - Simple - true
 Graphspecific DELETE 1 - None - Simple - false
 Resourcessp2bq12bsparql700 - None - Simple - false
 Agg empty group - None - Simple - true
+Resourcesbsbmbiquery32553sparql2553 - None - Simple - false
 Resourcesmyqueriesubungent01sparql764 - None - Simple - true
 ABS - None - Simple - true
 Resourcesbsbmbiquery32210sparql2210 - None - Simple - false
@@ -169,7 +170,6 @@ Resourcessp2bq2sparql247 - None - Simple - false
 Resourcessp2bq12asparql1294 - None - Simple - true
 BNODEstr - None - Simple - false
 IRIURI - None - Simple - false
-Resourcessp2bq4sparql1294 - None - Simple - false
 Resourcessp2bq66sparql973 - None - Simple - true
 Resourcessp2bq1sparql700 - None - Simple - false
 Constructwhere05  CONSTRUCT WHERE - None - Simple - false
@@ -238,7 +238,6 @@ Graphspecific DELETE 1 USING - None - Simple - false
 SHA256 on Unicode data - None - Simple - true
 Resourcessp2bq10sparql973 - None - Simple - false
 Resourcessp2bq5bsparql973 - None - Simple - true
-Resourcesbsbmexplorequery52553sparql2553 - None - Simple - false
 Subsets by exclusion MINUS - None - Simple - true
 Postquery VALUES with predvar 1 row - None - Simple - false
 Resourcessp2bq4sparql700 - None - Simple - false
@@ -251,6 +250,7 @@ Resourcessp2bq91sparql973 - None - Simple - false
 Resourcessp2bq12b1sparql247 - None - Simple - false
 STRAFTER datatyping - None - Simple - true
 Graphspecific DELETE 2 - None - Simple - false
+Resourcesbsbmbiquery62553sparql2553 - None - Simple - false
 DROP NAMED - None - Simple - false
 Resourcessp2bq1sparql973 - None - Simple - false
 Resourcessp2bq66sparql1294 - None - Simple - true
@@ -299,7 +299,6 @@ Resourcessp2bq10sparql247 - None - Simple - false
 Sq12  Subquery in CONSTRUCT with builtins - None - Simple - true
 Resourcesbtc002sparql46 - None - Simple - true
 DROP SILENT GRAPH iri - None - Simple - false
-Resourcesbsbmexplorequery32553sparql2553 - None - Simple - false
 Resourcessp2bq9sparql973 - None - Simple - true
 Resourcessp2bq8sparql700 - None - Simple - false
 Resourcesbsbmbiquery21853sparql1853 - None - Simple - false
@@ -358,6 +357,7 @@ Resourcessp2bq62sparql1640 - None - Simple - true
 Simple DELETE WHERE 1 - None - Simple - false
 Simple triple pattern match - None - Simple - false
 Postquery VALUES with 2 objvars 2 rows with UNDEF - None - Simple - false
+Resourcesbsbmexplorequery102553sparql2553 - None - Simple - false
 Subsets by exclusion MINUS - None - Simple - false
 Resourcessp2bq4sparql973 - None - Simple - true
 Resourcessp2bq12b4sparql21 - None - Simple - true
@@ -558,6 +558,7 @@ Resourcessp2bq12a1sparql973 - None - Simple - false
 Postquery VALUES with objvar 1 row - None - Simple - true
 Resourcessp2bq42sparql247 - None - Simple - true
 Resourcessp2bq12b4sparql973 - None - Simple - false
+Resourcesbsbmbiquery72553sparql2553 - None - Simple - false
 Resourcessp2bq9sparql700 - None - Simple - true
 Bind03  BIND fixed data for OWL DL - None - Simple - true
 Resourcessp2bq12b1sparql21 - None - Simple - true
@@ -806,6 +807,7 @@ COUNT 7 - None - Simple - true
 Resourcessp2bq12bsparql1640 - None - Simple - true
 Group3 - None - Simple - true
 BNODE - None - Simple - false
+Resourcesbtc028sparql3778 - None - Simple - true
 Postquery VALUES with 2 objvars 1 row with UNDEF - None - Simple - true
 Resourcessp2bq5bsparql700 - None - Simple - true
 ADD 5 - None - Simple - false

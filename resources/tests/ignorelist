@@ -1,15 +1,16 @@
 dataset,constructwhere04  CONSTRUCT WHERE
-dataset,syntaxconstructwhere02rq
 describe,resourcesbsbmexplorequery91853sparql1853
 describe,resourcesbsbmexplorequery92210sparql2210
 describe,resourcesbsbmexplorequery92553sparql2553
 exists,Exists with ground triple
 exists,Exists with one constant
 exists,Exists within graph pattern
+exists,Medical temporal proximity by exclusion NOT EXISTS
 exists,Nested negative exists in positive exists
 exists,Nested positive exists
 exists,Positive EXISTS 1
 exists,Positive EXISTS 2
+exists,resourcesmyqueriesubungent20sparql709
 filetype,sq01  Subquery within graph pattern
 filetype,sq02  Subquery within graph pattern graph variable is bound
 filetype,sq03  Subquery within graph pattern graph variable is not bound
@@ -20,38 +21,89 @@ filetype,sq07  Subquery with from
 filetype,sq08  Subquery with aggregate
 filetype,sq09  Nested Subqueries
 filetype,sq10  Subquery with exists
-functioncall,syntaxselectexpr04rq
+inference owl,filtered subclass query with hasChild some Thing restriction
+inference owl,papersparqldlQ2
+inference owl,papersparqldlQ3
+inference owl,parent query with hasChild exactly 1 Female restriction
+inference owl,parent query with hasChild max 1 Female restriction
+inference owl,parent query with hasChild min 1 Female restriction
+inference owl,parent query with hasChild min 1 restriction
+inference owl,parent query with hasChild some Female restriction
+inference owl,parent query with hasChild some Thing restriction
+inference owl,simple 1
+inference owl,simple 2
+inference owl,simple 3
+inference owl,simple 4
+inference owl,simple 5
+inference owl,simple 6
+inference owl,simple 7
+inference owl,simple 8
+inference owl,sparqldl13rq sameAs
+inference owl,subclass query with hasChild some Thing restriction
+inference owl,sparqldl10rq undist vars test
+inference rdfs,sparqldl11rq domain test
+inference rdfs,sparqldl03rq combined query with complex class description
+inference rdfs,RDF inference test
+inference rdfs,RDFS inference test combining subPropertyOf and domain
+inference rdfs,RDFS inference test containers
+inference rdfs,RDFS inference test domain
+inference rdfs,RDFS inference test range
+inference rdfs,RDFS inference test rdfXMLLiteral
+inference rdfs,RDFS inference test rdfssubPropertyOf
+inference rdfs,RDFS inference test rdfssubPropertyOf luposDuplicate1
+inference rdfs,RDFS inference test subClassOf
+inference rdfs,RDFS inference test subClassOf luposDuplicate1
+inference rdfs,RDFS inference test subProperty and instances
+inference rdfs,RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers
+inference rdfs,RDFS inference test transitivity of subClassOf
+inference rdfs,RDFS inference test transitivity of subPropertyOf
+inference rdfs,papersparqldlQ1
+inference rdfs,papersparqldlQ1rdfs
+inference rdfs,papersparqldlQ4
+inference rdfs,sparqldl02rq simple combined query
+inference rdfs,sparqldl12rq range test
 manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
 manual complicated,Calculate proper subset
 manual complicated,Calculate which sets are subsets of others exclude A subsetOf A
 manual complicated,Calculate which sets are subsets of others include A subsetOf A
 manual complicated,Calculate which sets have the same elements
-manual inference,RDF inference test
-manual inference,RDFS inference test combining subPropertyOf and domain
-manual inference,RDFS inference test containers
-manual inference,RDFS inference test domain
-manual inference,RDFS inference test range
-manual inference,RDFS inference test rdfXMLLiteral
-manual inference,RDFS inference test rdfssubPropertyOf
-manual inference,RDFS inference test rdfssubPropertyOf luposDuplicate1
-manual inference,RDFS inference test subClassOf
-manual inference,RDFS inference test subClassOf luposDuplicate1
-manual inference,RDFS inference test subProperty and instances
-manual inference,RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers
-manual inference,RDFS inference test transitivity of subClassOf
-manual inference,RDFS inference test transitivity of subPropertyOf
-manual inference,sparqldl02rq simple combined query
+manual complicated,INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode
+manual complicated,INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode
+manual complicated,INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution
+manual complicated,resourcesbsbmbiquery11853sparql1853
+manual complicated,resourcesbsbmbiquery12210sparql2210
+manual complicated,resourcesbsbmbiquery12553sparql2553
+manual complicated,resourcesbsbmbiquery41853sparql1853
+manual complicated,resourcesbsbmbiquery42210sparql2210
+manual complicated,resourcesbsbmbiquery42553sparql2553
+manual complicated,resourcesbsbmbiquery51853sparql1853
+manual complicated,resourcesbsbmbiquery52210sparql2210
+manual complicated,resourcesbsbmbiquery52553sparql2553
+manual complicated,resourcesbsbmbiquery82553sparql2553
+manual complicated,resourcesbsbmexplorequery21853sparql1853
+manual complicated,resourcesbsbmexplorequery22210sparql2210
+manual complicated,resourcesbsbmexplorequery22553sparql2553
+manual complicated,resourcesbsbmexplorequery71853sparql1853
+manual complicated,resourcesbsbmexplorequery72210sparql2210
+manual complicated,resourcesbsbmexplorequery72553sparql2553
+manual complicated,resourcesbsbmexplorequery81853sparql1853
+manual complicated,resourcesbsbmexplorequery82210sparql2210
+manual complicated,resourcesbsbmexplorequery82553sparql2553
+manual complicated,resourcesmyqueriesubungent19sparql709
+manual complicated,resourcessp2bq65sparql1294
+manual complicated,resourcessp2bq65sparql1640
+manual complicated,resourcessp2bq65sparql700
+manual complicated,resourcessp2bq65sparql973
+manual complicated,resourcessp2bq67sparql1294
+manual complicated,resourcessp2bq67sparql1640
+manual complicated,resourcessp2bq67sparql700
+manual complicated,resourcessp2bq67sparql973
+manual complicated,resourcessp2bq68sparql1294
+manual complicated,resourcessp2bq68sparql1640
+manual complicated,resourcessp2bq68sparql700
+manual complicated,resourcessp2bq68sparql973
 manual no triplepattern with bind,NOW
-manual owl,filtered subclass query with hasChild some Thing restriction
-manual owl,simple 1
-manual owl,simple 2
-manual owl,simple 3
-manual owl,simple 4
-manual owl,simple 5
-manual owl,simple 6
-manual owl,simple 7
-manual owl,simple 8
 manual simulator,in simulator
 manual thread,- Thread -
 manual variable in graph name,DELETE INSERT 4
@@ -73,9 +125,6 @@ operator,resourcesbsbmexplorequery62553sparql2553
 operator,resourcesmyqueriesubungent05sparql66
 operator,resourcesmyqueriesubungent13sparql567
 operator,resourcesmyqueriesubungent16sparql567
-operator,syntaxaggregate13rq
-operator,syntaxaggregate14rq
-operator,syntaxaggregate15rq
 path,pp01 Simple path
 path,pp02 Star path
 path,pp03 Simple path with loop
@@ -101,11 +150,7 @@ path,pp35 Named Graph 2
 path,pp36 Arbitrary path with bound endpoints
 path,pp37 Nested
 path,resourcesmyqueriesubungent22sparql709
-path,synppincollection
-path,syntaxpropertyPaths01rq
 service,SERVICE test 7
-service,syntaxservice02rq
-service,syntaxservice03rq
 syntax,COUNT 10
 syntax,COUNT 9
 syntax,DELETE INSERT 3
@@ -148,6 +193,7 @@ syntax,synpname06
 syntax,synpname07
 syntax,synpname08
 syntax,synpname09
+syntax,synppincollection
 syntax,syntaxBINDscope1rq
 syntax,syntaxBINDscope2rq
 syntax,syntaxBINDscope3rq
@@ -171,6 +217,9 @@ syntax,syntaxaggregate09rq
 syntax,syntaxaggregate10rq
 syntax,syntaxaggregate11rq
 syntax,syntaxaggregate12rq
+syntax,syntaxaggregate13rq
+syntax,syntaxaggregate14rq
+syntax,syntaxaggregate15rq
 syntax,syntaxbind02rq
 syntax,syntaxbindingBINDscopes01rq
 syntax,syntaxbindings02arq with VALUES clause
@@ -178,6 +227,7 @@ syntax,syntaxbindings03arq with VALUES clause
 syntax,syntaxbindings05arq with VALUES clause
 syntax,syntaxbindings09rq
 syntax,syntaxconstructwhere01rq
+syntax,syntaxconstructwhere02rq
 syntax,syntaxexists01rq
 syntax,syntaxexists02rq
 syntax,syntaxexists03rq
@@ -188,12 +238,15 @@ syntax,syntaxnotexists03rq
 syntax,syntaxoneof01rq
 syntax,syntaxoneof02rq
 syntax,syntaxoneof03rq
+syntax,syntaxpropertyPaths01rq
 syntax,syntaxselectexpr01rq
 syntax,syntaxselectexpr02rq
 syntax,syntaxselectexpr03rq
 syntax,syntaxselectexpr04rq
 syntax,syntaxselectexpr05rq
 syntax,syntaxservice01rq
+syntax,syntaxservice02rq
+syntax,syntaxservice03rq
 syntax,syntaxsubquery01rq
 syntax,syntaxsubquery02rq
 syntax,syntaxsubquery03rq

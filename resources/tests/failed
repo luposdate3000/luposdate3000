@@ -1,55 +1,13 @@
-Resourcesbsbmexplorequery22553sparql2553 - None - Simple - true
 Resourcessp2bq11sparql1294 - None - Simple - true
 Sparqldl03rq combined query with complex class description - None - Simple - true
-Resourcesbsbmexplorequery71853sparql1853 - None - Simple - true
-Resourcesbsbmbiquery41853sparql1853 - None - Simple - true
 Resourcessp2bq11sparql1640 - None - Simple - true
 Simple DELETE 4 USING - None - Simple - true
-Resourcessp2bq68sparql700 - None - Simple - true
 Sq14  limit by resource - None - Simple - true
-Parent query with hasChild some Thing restriction - None - Simple - true
-Resourcesbsbmexplorequery82553sparql2553 - None - Simple - true
-PapersparqldlQ1 - None - Simple - true
-Resourcesbsbmbiquery12553sparql2553 - None - Simple - true
-Resourcessp2bq67sparql973 - None - Simple - true
-Resourcesbsbmbiquery42553sparql2553 - None - Simple - true
-Resourcessp2bq65sparql973 - None - Simple - true
 Sparqldl10rq undist vars test - None - Simple - true
-Resourcesbsbmbiquery11853sparql1853 - None - Simple - true
-Resourcessp2bq65sparql1640 - None - Simple - true
-Resourcessp2bq67sparql1294 - None - Simple - true
 TZ - None - Simple - true
-Medical temporal proximity by exclusion NOT EXISTS - None - Simple - true
-Resourcesbsbmbiquery42210sparql2210 - None - Simple - true
-PapersparqldlQ1rdfs - None - Simple - true
-Subclass query with hasChild some Thing restriction - None - Simple - true
-Parent query with hasChild some Female restriction - None - Simple - true
-Resourcesbsbmexplorequery21853sparql1853 - None - Simple - true
 Resourcesbtc020sparql80 - None - Simple - true
 Resourcessp2bq11sparql700 - None - Simple - true
-Resourcesbsbmbiquery82553sparql2553 - None - Simple - true
-Resourcesbsbmexplorequery81853sparql1853 - None - Simple - true
-Resourcesbsbmexplorequery82210sparql2210 - None - Simple - true
-Parent query with hasChild exactly 1 Female restriction - None - Simple - true
-Resourcessp2bq68sparql1294 - None - Simple - true
 Sparqldl11rq domain test - None - Simple - true
-Resourcessp2bq67sparql1640 - None - Simple - true
-PapersparqldlQ4 - None - Simple - true
 Resourcesmyqueriesubungent03sparql764 - None - Simple - true
-PapersparqldlQ3 - None - Simple - true
-Parent query with hasChild max 1 Female restriction - None - Simple - true
-Resourcesbsbmexplorequery72210sparql2210 - None - Simple - true
-Parent query with hasChild min 1 restriction - None - Simple - true
 Resourcessp2bq11sparql973 - None - Simple - true
-Resourcesbsbmexplorequery22210sparql2210 - None - Simple - true
-Parent query with hasChild min 1 Female restriction - None - Simple - true
 Resourcesmyqueriesubungent17sparql709 - None - Simple - true
-Resourcessp2bq68sparql1640 - None - Simple - true
-Resourcessp2bq67sparql700 - None - Simple - true
-Resourcessp2bq65sparql1294 - None - Simple - true
-Resourcessp2bq65sparql700 - None - Simple - true
-Sparqldl12rq range test - None - Simple - true
-Resourcesbsbmexplorequery72553sparql2553 - None - Simple - true
-Resourcessp2bq68sparql973 - None - Simple - true
-Resourcesbsbmbiquery12210sparql2210 - None - Simple - true
-PapersparqldlQ2 - None - Simple - true
