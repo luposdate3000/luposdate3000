@@ -33,7 +33,21 @@ manual owl,simple 2
 manual owl,simple 4
 manual owl,simple 6
 manual simulator,in simulator
-manual subclassOf,sparqldl02rq simple combined query
+manual inference,sparqldl02rq simple combined query
+manual inference,RDFS inference test rdfXMLLiteral
+manual inference,RDFS inference test subClassOf luposDuplicate1
+manual inference,RDFS inference test containers
+manual inference,RDFS inference test rdfssubPropertyOf
+manual inference,RDFS inference test domain
+manual inference,RDFS inference test rdfssubPropertyOf luposDuplicate1
+manual inference,RDFS inference test range
+manual inference,RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers
+manual inference,RDFS inference test subClassOf
+manual inference,RDFS inference test transitivity of subPropertyOf
+manual inference,RDFS inference test combining subPropertyOf and domain
+manual inference,RDFS inference test subProperty and instances
+manual inference,RDFS inference test transitivity of subClassOf
+manual inference,RDF inference test
 manual thread,- Thread -
 manual variable in graph name,DELETE INSERT 4
 operator,ENCODEFORURI

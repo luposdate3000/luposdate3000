@@ -502,7 +502,7 @@ public class OperatorGraphVisitor(public val query: Query) {
             is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit171(node.variable0!!, v1)
             is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit076(node.variable0!!, v1)
         }
-        //      println(res)
+              println(res)
         return res
     }
 
@@ -872,7 +872,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTBuiltInCallMonth -> AOPBuildInCallMONTH(query, visit033(graph, graphVar, graphOverride,node.variable0!!))
         is ASTBuiltInCallHours -> AOPBuildInCallHOURS(query, visit033(graph, graphVar, graphOverride,node.variable0!!))
         is ASTBuiltInCallNow -> AOPConstant(query, queryExecutionStartTime)
-        is ASTBuiltInCallIsIri -> AOPBuildInCallIRI(query, visit033(graph, graphVar,graphOverride,node.variable0!!), "")
+        is ASTBuiltInCallIsIri -> AOPBuildInCallIRI(query, visit033(graph, graphVar,graphOverride,node.variable0!!), prefixMap[""]!!)
         is ASTBuiltInCallIsLiteral -> AOPBuildInCallIsLITERAL(query, visit033(graph, graphVar,graphOverride,node.variable0!!))
         is ASTBuiltInCallMD5 -> AOPBuildInCallMD5(query, visit033(graph, graphVar,graphOverride,node.variable0!!))
         is ASTBuiltInCallUUID -> AOPBuildInCallUUID(query)
@@ -901,8 +901,8 @@ public class OperatorGraphVisitor(public val query: Query) {
         is ASTBuildInCallLangMatches -> AOPBuildInCallLANGMATCHES(query, visit033(graph, graphVar,graphOverride,node.variable0!!), visit033(graph, graphVar,graphOverride,node.variable1!!))
         is ASTBuiltInCallDataType -> AOPBuildInCallDATATYPE(query, visit033(graph, graphVar,graphOverride,node.variable0!!))
         is ASTBuiltInCallBound -> AOPBuildInCallBOUND(query, visit153(node.variable0!!))
-        is ASTBuiltInCallIri -> AOPBuildInCallIRI(query, visit033(graph, graphVar,graphOverride,node.variable0!!), "")
-        is ASTBuiltInCallUri -> AOPBuildInCallURI(query, visit033(graph, graphVar,graphOverride,node.variable0!!), "")
+        is ASTBuiltInCallIri -> AOPBuildInCallIRI(query, visit033(graph, graphVar,graphOverride,node.variable0!!), prefixMap[""]!!)
+        is ASTBuiltInCallUri -> AOPBuildInCallURI(query, visit033(graph, graphVar,graphOverride,node.variable0!!), prefixMap[""]!!)
         is ASTBuiltInCallAbs -> AOPBuildInCallABS(query, visit033(graph, graphVar,graphOverride,node.variable0!!))
         is ASTBuiltInCallCeil -> AOPBuildInCallCEIL(query, visit033(graph, graphVar,graphOverride,node.variable0!!))
         is ASTBuiltInCallLCase -> AOPBuildInCallLCASE(query, visit033(graph, graphVar,graphOverride,node.variable0!!))

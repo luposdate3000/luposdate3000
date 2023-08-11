@@ -27,12 +27,14 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
 }
 public fun main(){
     val tests=listOf(
+        "lupos.launch_code_gen_test_00.IRIURIKt",
+    )
+    val tests2=listOf(
         "lupos.launch_code_gen_test_00.INSERT02Kt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesamebnodeKt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnodeKt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithtwoINSERTWHEREstatementwithinonerequestisNOTthesamebnodeevenifbothWHEREclauseshavetheemptysolutionmappingastheonlysolutionKt",
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
-        "lupos.launch_code_gen_test_00.IRIURIKt",
         "lupos.launch_code_gen_test_00.MedicaltemporalproximitybyexclusionNOTEXISTSKt",
         "lupos.launch_code_gen_test_00.PapersparqldlQ1Kt",
         "lupos.launch_code_gen_test_00.PapersparqldlQ1rdfsKt",
@@ -45,17 +47,6 @@ public fun main(){
         "lupos.launch_code_gen_test_00.ParentquerywithhasChildmin1restrictionKt",
         "lupos.launch_code_gen_test_00.ParentquerywithhasChildsomeFemalerestrictionKt",
         "lupos.launch_code_gen_test_00.ParentquerywithhasChildsomeThingrestrictionKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestcombiningsubPropertyOfanddomainKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestdomainKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestrangeKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestrdfssubPropertyOfKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestrdfssubPropertyOfluposDuplicate1Kt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestsubClassOfKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestsubClassOfluposDuplicate1Kt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetestsubPropertyandinstancesKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetesttransitivityofsubClassOfKt",
-        "lupos.launch_code_gen_test_00.RDFSinferencetesttransitivityofsubPropertyOfKt",
-        "lupos.launch_code_gen_test_00.RDFinferencetestKt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmbiquery11853sparql1853Kt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmbiquery12210sparql2210Kt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmbiquery12553sparql2553Kt",
