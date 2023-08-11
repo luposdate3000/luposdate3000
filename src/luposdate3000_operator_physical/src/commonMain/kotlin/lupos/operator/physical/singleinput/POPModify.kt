@@ -36,6 +36,15 @@ import kotlin.jvm.JvmField
 
 public class POPModify public constructor(query: IQuery, projectedVariables: List<String>, insert: List<LOPTriple>, delete: List<LOPTriple>, child: IOPBase) :
     POPBase(query, projectedVariables, EOperatorIDExt.POPModifyID, "POPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
+    @JvmField
+    public val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
+        if (it < insert.size) {
+            Pair(insert[it], EModifyTypeExt.INSERT)
+        } else {
+            Pair(delete[it - insert.size], EModifyTypeExt.DELETE)
+        }
+    }
+
 
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
@@ -56,15 +65,6 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
     override fun getPartitionCount(variable: String): Int {
         if (SanityCheck.enabled) { if (!(children[0].getPartitionCount(variable) == 1)) { throw Exception("SanityCheck failed") } }
         return 1
-    }
-
-    @JvmField
-    public val modify: Array<Pair<LOPTriple, EModifyType>> = Array(insert.size + delete.size) {
-        if (it < insert.size) {
-            Pair(insert[it], EModifyTypeExt.INSERT)
-        } else {
-            Pair(delete[it - insert.size], EModifyTypeExt.DELETE)
-        }
     }
 
     override fun equals(other: Any?): Boolean = other is POPModify && modify.contentEquals(other.modify) && children[0] == other.children[0]
@@ -129,7 +129,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModify(children[0].evaluate(parent), query, modify)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModify(children[0].evaluate(parent), query, modify,if(projectedVariables.size>0){projectedVariables.first()}else{"?success"})
     override fun usesDictionary(): Boolean {
         return true
     }

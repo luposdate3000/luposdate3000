@@ -67,10 +67,11 @@ public class QueryResultToEmptyStream : IResultFormat {
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
         for (n in rootNode.nodes) {
-val (columnProjectionOrder, child)=n()
+            val (columnProjectionOrder, child) = n()
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
+println("QueryResultToEmptyStream.kt .. ${child.names.toSet()} ${columnNames}")
                 if (SanityCheck.enabled) { if (!(child.names.toSet().containsAll(columnNames))) { throw Exception("SanityCheck failed") } }
             } else {
                 columnNames = child.names.toList()

@@ -620,18 +620,19 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPModify(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, modify: Array<Pair<LOPTriple, EModifyType /* = Int */>>): Int {
+    public fun encodePOPModify(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, modify: Array<Pair<LOPTriple, EModifyType /* = Int */>>,targetName:String): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12 + modify.size * (9 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4), true)
         val child = childf(off + 4)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, child, { "POPModify.child" })
-        ByteArrayWrapperExt.writeInt4(data, off + 8, modify.size, { "POPModify.modify.size" })
+        ByteArrayWrapperExt.writeInt4(data, off + 4, ConverterString.encodeString(targetName, data, mapping), { "POPModify.targetName" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, child, { "POPModify.child" })
+        ByteArrayWrapperExt.writeInt4(data, off + 12, modify.size, { "POPModify.modify.size" })
         val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
         val step = 9 + 3 * steph
         var i = 0
         for ((k, v) in modify) {
-            var o = off + 12 + i * step
+            var o = off + 16 + i * step
             ByteArrayWrapperExt.writeInt4(data, o, v, { "POPModify.modify[$i].v" })
             ByteArrayWrapperExt.writeInt4(data, o + 4, ConverterString.encodeString(k.graph, data, mapping), { "POPModify.modify[$i].graph" })
             var flag = 0

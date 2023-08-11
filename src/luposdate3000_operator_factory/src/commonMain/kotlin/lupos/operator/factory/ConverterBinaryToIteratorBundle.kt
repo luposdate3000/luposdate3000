@@ -556,10 +556,11 @@ public object ConverterBinaryToIteratorBundle {
             EOperatorIDExt.POPModifyID,
             { query, data, off, operatorMap ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" }), operatorMap)
+val targetName=ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModify.targetName" }))
                 val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
                 val step = 9 + 3 * steph
-                val modify = Array<Pair<LOPTriple, EModifyType>>(ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModify.modify.size" })) { it ->
-                    val o = off + 12 + it * step
+                val modify = Array<Pair<LOPTriple, EModifyType>>(ByteArrayWrapperExt.readInt4(data, off + 12, { "POPModify.modify.size" })) { it ->
+                    val o = off + 16 + it * step
                     val v = ByteArrayWrapperExt.readInt4(data, o, { "POPModify.modify[$it].v" })
                     val flag = ByteArrayWrapperExt.readInt1(data, o + 8, { "POPModify.modify[$it].flag" })
                     val graph = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o + 4, { "POPModify.modify[$it].graph" }))
@@ -582,7 +583,7 @@ public object ConverterBinaryToIteratorBundle {
                     val k = LOPTriple(query, s, p, oo, graph, graphVar)
                     k to v
                 }
-                EvalModify(child, query, modify)
+                EvalModify(child, query, modify,targetName)
             },
         )
     }
