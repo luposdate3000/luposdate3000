@@ -88,7 +88,7 @@ public class MemoryTableFromXML : MemoryTableParser {
             fun maybeAttributeOfElement(n: String, parent: ASTelement): String? {
                 return attributesOfElement(n, parent).getOrElse(0, { i -> null })
             }
-
+println("MemoryTableFromXML.kt .. going to parse .. $data")
             val dataStream = MyStringStream(data)
             val parserObject = XMLParser(dataStream)
             parserObject.parserDefinedParse()

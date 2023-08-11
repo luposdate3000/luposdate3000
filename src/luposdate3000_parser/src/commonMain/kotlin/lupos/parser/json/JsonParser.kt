@@ -99,7 +99,7 @@ internal var parsererror: String? = null
                 bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                 bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
             } else {
-                if ((bufferDefinedPosition != 0L)) {
+                if ((bufferDefinedDataSize.toInt() == bufferDefinedAllocatedSize)) {
                     var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                     var data: ByteArray = ByteArray(newSize)
                     bufferDefinedData.copyInto(data, 0.toInt(), 0.toInt(), bufferDefinedDataSize.toInt())
@@ -108,7 +108,7 @@ internal var parsererror: String? = null
                 }
             }
             val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
-            if ((bufferDefinedLen != -1)) {
+            if ((bufferDefinedLen > 0)) {
                 bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
@@ -1016,7 +1016,7 @@ public fun close() {
                         bufferDefinedDataSize = (bufferDefinedDataSize - bufferDefinedEreaseLength)
                         bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
                     } else {
-                        if ((bufferDefinedPosition != 0L)) {
+                        if ((bufferDefinedDataSize.toInt() == bufferDefinedAllocatedSize)) {
                             var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                             var data: ByteArray = ByteArray(newSize)
                             bufferDefinedData.copyInto(data, 0.toInt(), 0.toInt(), bufferDefinedDataSize.toInt())
@@ -1025,7 +1025,7 @@ public fun close() {
                         }
                     }
                     val bufferDefinedLen: Int = bufferDefinedInputStream.read(bufferDefinedData, bufferDefinedDataSize.toInt(), (bufferDefinedAllocatedSize - bufferDefinedDataSize).toInt())
-                    if ((bufferDefinedLen != -1)) {
+                    if ((bufferDefinedLen > 0)) {
                         bufferDefinedDataSize = (bufferDefinedDataSize + bufferDefinedLen)
                     }
                     bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
