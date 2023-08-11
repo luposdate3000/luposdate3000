@@ -675,7 +675,7 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPModifyDataID,
             { op, data, mapping, _, _, _ ->
                 op as POPModifyData
-                ConverterBinaryEncoder.encodePOPModifyData(data, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } })
+                ConverterBinaryEncoder.encodePOPModifyData(data,op.type, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } })
             },
         )
         assignOperatorPhysicalEncode(

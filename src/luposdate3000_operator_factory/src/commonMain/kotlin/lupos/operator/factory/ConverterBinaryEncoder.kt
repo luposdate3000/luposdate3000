@@ -162,12 +162,13 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPModifyData(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, data2: List<Pair<String, DictionaryValueTypeArray>>): Int {
+    public fun encodePOPModifyData(data: ByteArrayWrapper,type:EModifyType, mapping: MutableMap<String, Int>, data2: List<Pair<String, DictionaryValueTypeArray>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
-        ByteArrayWrapperExt.setSize(data, off + 8 + data2.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
+        ByteArrayWrapperExt.setSize(data, off + 12 + data2.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID, { "operatorID" })
-        ByteArrayWrapperExt.writeInt4(data, off + 4, data2.size, { "POPModifyData.data.size" })
-        var o = off + 8
+        ByteArrayWrapperExt.writeInt4(data, off + 4, type, { "POPModifyData.type" })
+        ByteArrayWrapperExt.writeInt4(data, off + 8, data2.size, { "POPModifyData.data.size" })
+        var o = off + 12
         var i = 0
         for (t in data2) {
             ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(t.first, data, mapping), { "POPModifyData.data[$i].graph" })

@@ -220,8 +220,9 @@ public object ConverterBinaryToPOPJson {
             EOperatorIDExt.POPModifyDataID,
             { _, data, off ->
                 val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
-                val l = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.data.size" })
-                var o = off + 8
+            val type = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.type" })
+    val l = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModifyData.data.size" })
+                var o = off + 12
                 for (i in 0 until l) {
                     val arr = DictionaryValueTypeArray(3)
                     for (j in 0 until 3) {

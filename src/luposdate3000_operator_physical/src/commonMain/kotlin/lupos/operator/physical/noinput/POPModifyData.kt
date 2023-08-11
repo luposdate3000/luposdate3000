@@ -86,7 +86,7 @@ public class POPModifyData public constructor(
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData(data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } }, query)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData(type,data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } }, query)
     override fun usesDictionary(): Boolean {
         return true
     }

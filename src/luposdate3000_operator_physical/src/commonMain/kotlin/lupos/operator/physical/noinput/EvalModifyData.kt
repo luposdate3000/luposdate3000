@@ -23,10 +23,12 @@ import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IQuery
+import lupos.shared.EModifyType
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalModifyData {
     public operator fun invoke(
+type: EModifyType,
         data: List<Pair<String, DictionaryValueTypeArray>>,
         query: IQuery,
     ): IteratorBundle {
@@ -44,7 +46,7 @@ public object EvalModifyData {
         }
         for ((graph, iteratorData) in iteratorDataMap) {
             val graphLocal = query.getInstance().tripleStoreManager!!.getGraph(graph)
-            val cache = graphLocal.modify_create_cache(query, EModifyTypeExt.INSERT, -1, false)
+            val cache = graphLocal.modify_create_cache(query, type, -1, false)
             val iterator = Array(3) { ColumnIteratorMultiValue(iteratorData[it]) }
             while (true) {
                 val s = iterator[0].next()

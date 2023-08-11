@@ -27,6 +27,7 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
 }
 public fun main(){
     val tests=listOf(
+        "lupos.launch_code_gen_test_00.GraphspecificDELETEDATA1Kt",
     )
     val tests3=listOf(
         "lupos.launch_code_gen_test_00.CalculatepropersubsetKt", // very complicated sparql
@@ -35,7 +36,6 @@ public fun main(){
         "lupos.launch_code_gen_test_00.CalculatewhichsetshavethesameelementsKt",
     )
     val tests2=listOf(
-        "lupos.launch_code_gen_test_00.GraphspecificDELETEDATA1Kt",
         "lupos.launch_code_gen_test_00.GraphspecificDELETEDATA2Kt",
         "lupos.launch_code_gen_test_00.INSERT02Kt",
         "lupos.launch_code_gen_test_00.INSERTingthesamebnodewithINSERTDATAintotwodifferentGraphsisthesamebnodeKt",

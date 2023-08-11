@@ -166,8 +166,9 @@ public object ConverterBinaryToIteratorBundle {
             EOperatorIDExt.POPModifyDataID,
             { query, data, off, operatorMap ->
                 val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
-                val l = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.data.size" })
-                var o = off + 8
+                val type = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.type" })
+                val l = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModifyData.data.size" })
+                var o = off + 12
                 for (i in 0 until l) {
                     val arr = DictionaryValueTypeArray(3)
                     for (j in 0 until 3) {
@@ -176,7 +177,7 @@ public object ConverterBinaryToIteratorBundle {
                     d.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPModifyData.data[$i].graph" })) to arr)
                     o += DictionaryValueHelper.getSize() * 3 + 4
                 }
-                EvalModifyData(d, query)
+                EvalModifyData(type,d, query)
             },
         )
         assignOperatorPhysicalDecode(
