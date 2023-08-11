@@ -38,11 +38,9 @@ inference owl,simple 5
 inference owl,simple 6
 inference owl,simple 7
 inference owl,simple 8
+inference owl,sparqldl10rq undist vars test
 inference owl,sparqldl13rq sameAs
 inference owl,subclass query with hasChild some Thing restriction
-inference owl,sparqldl10rq undist vars test
-inference rdfs,sparqldl11rq domain test
-inference rdfs,sparqldl03rq combined query with complex class description
 inference rdfs,RDF inference test
 inference rdfs,RDFS inference test combining subPropertyOf and domain
 inference rdfs,RDFS inference test containers
@@ -61,6 +59,8 @@ inference rdfs,papersparqldlQ1
 inference rdfs,papersparqldlQ1rdfs
 inference rdfs,papersparqldlQ4
 inference rdfs,sparqldl02rq simple combined query
+inference rdfs,sparqldl03rq combined query with complex class description
+inference rdfs,sparqldl11rq domain test
 inference rdfs,sparqldl12rq range test
 manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
