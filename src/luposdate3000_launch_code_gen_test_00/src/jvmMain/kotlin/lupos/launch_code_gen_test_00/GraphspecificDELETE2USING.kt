@@ -89,7 +89,7 @@ public class GraphspecificDELETE2USING {
         "USING <http://example.org/g3> \n" +
         "WHERE  \n" +
         "{ \n" +
-        "  GRAPH <http://example.org/g2> { ?s foaf:name \"Chris\" . \n" +
+        "  GRAPH <http://example.org/g2> { ?s foaf:name \"Bob\" . \n" +
         "                                  ?s ?p ?o } \n" +
         "} \n" +
         ""

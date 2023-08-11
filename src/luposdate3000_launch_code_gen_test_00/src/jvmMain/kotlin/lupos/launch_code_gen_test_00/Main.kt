@@ -27,7 +27,6 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
 }
 public fun main(){
     val tests=listOf(
-        "lupos.launch_code_gen_test_00.GraphspecificDELETE2USINGKt",
     )
     val tests3=listOf(
         "lupos.launch_code_gen_test_00.CalculatepropersubsetKt", // very complicated sparql

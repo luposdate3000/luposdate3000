@@ -8,6 +8,6 @@ DELETE
 USING <http://example.org/g3>
 WHERE 
 {
-  GRAPH <http://example.org/g2> { ?s foaf:name "Chris" .
+  GRAPH <http://example.org/g2> { ?s foaf:name "Bob" .
                                   ?s ?p ?o }
 }
