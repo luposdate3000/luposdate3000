@@ -99,7 +99,6 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcessp2bq11sparql700Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq11sparql973Kt",
         "lupos.launch_code_gen_test_00.SimpleDELETE4USINGKt",
-        "lupos.launch_code_gen_test_00.SimpleDELETE7Kt",
         "lupos.launch_code_gen_test_00.Simpleinsertdatanamed1Kt",
         "lupos.launch_code_gen_test_00.Sq14limitbyresourceKt",
         "lupos.launch_code_gen_test_00.SubtractionwithMINUSfromafullyboundminuendKt",

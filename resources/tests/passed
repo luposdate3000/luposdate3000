@@ -25,7 +25,6 @@ Simple insert data named 2 - None - Simple - false
 Resourcessp2bq3asparql973 - None - Simple - true
 Resourcessp2bq6sparql21 - None - Simple - false
 Resourcessp2bq12b3sparql973 - None - Simple - true
-Resourcesbsbmbiquery22553sparql2553 - None - Simple - false
 Resourcessp2bq62sparql247 - None - Simple - true
 IF error propogation - None - Simple - false
 Resourcessp2bq4sparql700 - None - Simple - true
@@ -74,7 +73,6 @@ Resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl
 Bind07  BIND fixed data for OWL DL - None - Simple - false
 Resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - None - Simple - false
 Resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmallttl - None - Simple - false
-Resourcessp2bq4sparql1640 - None - Simple - true
 Sparqldl07rq two distinguished variables  undist - None - Simple - true
 Resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - None - Simple - true
 Resourcessp2bq6sparql700 - None - Simple - false
@@ -142,6 +140,7 @@ Resourcesmyqueriesoptional26sparql4 - None - Simple - false
 Resourcesbsbmbiquery61853sparql1853 - None - Simple - true
 Resourcessp2bq8sparql700 - None - Simple - true
 Resourcessp2bq12b3sparql1640 - None - Simple - true
+Simple DELETE 7 - None - Simple - false
 PrefixName with unescaped colons - None - Simple - false
 Resourcesmyqueriessimulatorparkingquery614sparql377 simulatorparkinginputsmallttl - None - Simple - false
 Resourcesmyqueriesubungent18sparql709 - None - Simple - true
@@ -157,7 +156,6 @@ Resourcessp2bq12bsparql700 - None - Simple - false
 Resourcesmyqueriesoptional48sparql4 - None - Simple - false
 Resourcesmyqueriessimulatorparkingquery212sparql377 simulatorparkinginputsmallttl - None - Simple - false
 Agg empty group - None - Simple - true
-Resourcesbsbmbiquery32553sparql2553 - None - Simple - false
 Resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - None - Simple - false
 Resourcesmyqueriesubungent01sparql764 - None - Simple - true
 ABS - None - Simple - true
@@ -204,6 +202,7 @@ Resourcessp2bq2sparql1640 - None - Simple - false
 CREATE SILENT iri - None - Simple - true
 Resourcessp2bq71sparql247 - None - Simple - false
 Graphspecific DELETE DATA 2 - None - Simple - false
+Simple DELETE 7 - None - Simple - true
 Resourcessp2bq5bsparql247 - None - Simple - true
 Resourcesmyqueriessimulatorparkingquery31sparql377 simulatorparkinginputsmallttl - None - Simple - true
 LOAD SILENT INTO - None - Simple - true
@@ -294,7 +293,6 @@ Resourcesmyqueriessimulatorparkingquery722sparql377 simulatorparkinginputsmalltt
 Resourcessp2bq2sparql1640 - None - Simple - true
 Resourcessp2bq12b3sparql21 - None - Simple - true
 Resourcesmyqueriessimulatorparkingquery411sparql377 simulatorparkinginputsmallttl - None - Simple - true
-Resourcesbsbmexplorequery42553sparql2553 - None - Simple - false
 Resourcessp2bq71sparql21 - None - Simple - true
 Jsonres04  JSON Result Format - None - Simple - false
 DROP DEFAULT - None - Simple - true
@@ -343,7 +341,6 @@ SHA256 on Unicode data - None - Simple - true
 Resourcesmyqueriesoptional64sparql4 - None - Simple - false
 Resourcessp2bq10sparql973 - None - Simple - false
 Resourcessp2bq5bsparql973 - None - Simple - true
-Resourcesbsbmexplorequery52553sparql2553 - None - Simple - false
 Subsets by exclusion MINUS - None - Simple - true
 Postquery VALUES with predvar 1 row - None - Simple - false
 Resourcessp2bq4sparql700 - None - Simple - false
@@ -865,6 +862,7 @@ Resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - 
 Graphspecific DELETE 2 USING - None - Simple - true
 STRLANG - None - Simple - true
 Resourcesmyqueriesoptional19sparql5 - None - Simple - true
+Resourcesbsbmexplorequery102210sparql2210 - None - Simple - false
 CLEAR NAMED - None - Simple - false
 PrefixName with hexencoded colons - None - Simple - true
 SAMPLE - None - Simple - false
@@ -904,7 +902,6 @@ Resourcesmyqueriesoptional27sparql4 - None - Simple - false
 Resourcesmyqueriesoptional21sparql5 - None - Simple - false
 Resourcessp2bq10sparql700 - None - Simple - false
 Resourcessp2bq12b1sparql21 - None - Simple - false
-Resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - None - Simple - false
 FLOOR - None - Simple - true
 Resourcesmyqueriesoptional18sparql5 - None - Simple - false
 Resourcessp2bq12asparql1640 - None - Simple - false

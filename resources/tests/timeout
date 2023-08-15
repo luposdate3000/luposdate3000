@@ -1,5 +1,4 @@
 INSERT same bnode twice - None - Simple - true
 Simple insert data named 1 - None - Simple - true
-Simple DELETE 7 - None - Simple - true
 Subtraction with MINUS from a fully bound minuend - None - Simple - true
 Subtraction with MINUS from a partially bound minuend - None - Simple - true

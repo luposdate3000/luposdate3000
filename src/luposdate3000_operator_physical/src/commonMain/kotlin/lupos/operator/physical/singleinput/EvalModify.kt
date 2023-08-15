@@ -92,7 +92,7 @@ public object EvalModify {
                                     continue@loop2
                                 }
                             }
-                            SanityCheck.checkUnreachable()
+break@loop2 // undefined variables do not act as wildcards
                         }
                     }
                 }
