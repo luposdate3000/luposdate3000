@@ -22,6 +22,6 @@ import lupos.shared.IMyOutputStream
 public class PathMappingHelper(
     public val addPostParams: Boolean/*parse the post-body as additional parameters for the query*/,
     public val params: Map<Pair<String/*name*/, String/*default-value*/>,
-        (String, String) -> String,/*html-string of element*/>,
-    public val action: (Map<String, String>, IMyInputStream, IMyOutputStream) -> Boolean,/*action to perform, when this is the called url, return if the connection should be closed automatically*/
+        (String, String) -> String, /*html-string of element*/>,
+    public val action: (Map<String, String>, IMyInputStream, IMyOutputStream) -> Boolean, /*action to perform, when this is the called url, return if the connection should be closed automatically*/
 )
