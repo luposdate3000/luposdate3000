@@ -431,7 +431,26 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
         return LOPBind(query, name, expression, child)
     }
-
+    private fun createUnion(query: Query, s: IOPBase, t: IOPBase): IOPBase {
+        var s0: IOPBase = s
+        var t0: IOPBase = t
+        val s1 = s.getProvidedVariableNames()
+        val t1 = t.getProvidedVariableNames()
+        val st1 = (s1 + t1).toSet()
+        val s2 = st1 - s1
+        val t2 = st1 - t1
+        for (x in s2) {
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.undefToByteArray(buffer)
+            s0 = createBind(AOPVariable(query, x), AOPConstant(query, buffer), s0)
+        }
+        for (x in t2) {
+            val buffer = ByteArrayWrapper()
+            DictionaryHelper.undefToByteArray(buffer)
+            t0 = createBind(AOPVariable(query, x), AOPConstant(query, buffer), t0)
+        }
+        return LOPUnion(query, s0, t0)
+    }
     private fun visit000(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar): MutableList<Pair<AOPBase?, String>> {
         val names = mutableListOf<Pair<AOPBase?, String>>()
         fun extractName(b: AOPBase?, n: ASTVar) {
@@ -735,7 +754,7 @@ public class OperatorGraphVisitor(public val query: Query) {
                     } else {
                         LOPJoin(query, cc, vv, false)
                     }
-                }.reduce { s, t -> LOPUnion(query, s, t) },
+                }.reduce { s, t -> createUnion(query, s, t) },
             ),
         )
         return returning
@@ -1401,7 +1420,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         val graph = node.variable0!!.variable0?.let { visit131(it) } ?: ""
         val usingClause: ASTListOfUsingClause = node.variable2!!
         val theData: IOPBase = if (usingClause.value.size > 0) {
-            usingClause.value.map { visit026(true, visit131(it.variable0!!), false, true, node.variable3!!) }.reduce { s, t -> LOPUnion(query, s, t) }
+            usingClause.value.map { visit026(true, visit131(it.variable0!!), false, true, node.variable3!!) }.reduce { s, t -> createUnion(query, s, t) }
         } else {
             visit026(true, graph, false, false, node.variable3!!)
         }
@@ -1730,9 +1749,7 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit051(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, subject: AOPBase, node: ASTListOfClassOfVerbAndObjectListOptional): List<LOPTriple> = node.value.map { visit052(blankNodeToVariable, graph, graphVar, graphOverride, subject, it) }.flatten()
     private fun visit050(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, subject: AOPBase, node: ASTPropertyListNotEmpty): List<LOPTriple> = visit112(blankNodeToVariable, graph, graphVar, graphOverride, subject, visit114(node.variable0!!), node.variable1!!) + visit051(blankNodeToVariable, graph, graphVar, graphOverride, subject, node.variable2!!)
     private fun visit049(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTTriplesTemplate): List<LOPTriple> = visit111(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!) + visit080(blankNodeToVariable, graph, graphVar, graphOverride, node.variable1!!)
-
     private fun visit048(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional) = visit110(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!) + node.variable2!!.variable0?.let { visit049(blankNodeToVariable, graph, false, graphOverride, it) }.orEmpty()
-
     private fun visit047(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional): List<LOPTriple> = node.value.map { visit048(blankNodeToVariable, graph, graphVar, graphOverride, it) }.flatten()
     private fun visit046(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTQuads): List<LOPTriple> = visit079(blankNodeToVariable, graph, false, graphOverride, node.variable0!!) + visit047(blankNodeToVariable, graph, graphVar, graphOverride, node.variable1!!)
     private fun visit045(node: ASTQuadData): List<LOPTriple> = visit046(false, "", false, false, node.variable0!!)
@@ -1754,9 +1771,7 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit029(node: ASTPrologue) = node.value.map { visit151(it) }
     private fun visit028(node: ASTBaseDecl) = prefix("", node.IRIREF!!)
     private fun visit027(node: ASTPrefixDecl) = prefix(node.PNAME_NS!!.dropLast(1), node.IRIREF!!)
-
     private fun visit026(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTGroupGraphPattern) = visit103(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!)
-
     private fun visit026b(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTGroupGraphPattern, child: IOPBase) = visit103b(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!, child)
     private fun visit025(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty): List<LOPTriple> = visit022(blankNodeToVariable, graph, graphVar, graphOverride, visit115(blankNodeToVariable, node.variable0!!), node.variable1!!)
     private fun visit024(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTInsertClause) = visit054(graph, graphVar, graphOverride, node.variable0!!)
@@ -1769,10 +1784,8 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit017(node: ASTVerbSimple) = visit153(node.variable0!!)
     private fun visit016(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTObjectPath): Pair<AOPBase, List<LOPTriple>> = visit092(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!)
     private fun visit015(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTOptionalGraphPattern, child: IOPBase) = LOPJoin(query, child, visit026(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!), true)
-    private fun visit014(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTGroupOrUnionGraphPattern, child: IOPBase) = LOPJoin(query, child, (listOf(visit026(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!)) + node.variable1!!.value.map { visit026(blankNodeToVariable, graph, graphVar, graphOverride, it) }).reduce { s, t -> LOPUnion(query, s, t) }, false)
-
-// private fun visit014(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride:Boolean, node: ASTGroupOrUnionGraphPattern, child: IOPBase) =        (            listOf            (visit026b                (                    blankNodeToVariable, graph, graphVar,graphOverride,node.variable0!!,child)            ) + node.variable1!!.value.map            {visit026b                (                    blankNodeToVariable, graph, graphVar,graphOverride, it,child                )            }            ).reduce    {        s, t ->                LOPUnion        (            query, s, t        )    }
-    private fun visit013(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTGroupOrUnionGraphPattern) = (listOf(visit026(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!)) + node.variable1!!.value.map { visit026(blankNodeToVariable, graph, graphVar, graphOverride, it) }).reduce { s, t -> LOPUnion(query, s, t) }
+    private fun visit014(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTGroupOrUnionGraphPattern, child: IOPBase) = LOPJoin(query, child, (listOf(visit026(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!)) + node.variable1!!.value.map { visit026(blankNodeToVariable, graph, graphVar, graphOverride, it) }).reduce { s, t -> createUnion(query, s, t) }, false)
+    private fun visit013(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTGroupOrUnionGraphPattern) = (listOf(visit026(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!)) + node.variable1!!.value.map { visit026(blankNodeToVariable, graph, graphVar, graphOverride, it) }).reduce { s, t -> createUnion(query, s, t) }
     private fun visit012(blankNodeToVariable: Boolean, graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTMinusGraphPattern, child: IOPBase) = LOPMinus(query, child, visit026(blankNodeToVariable, graph, graphVar, graphOverride, node.variable0!!), mutableListOf())
     private fun visit011(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTFilter, child: IOPBase) = listOf(node) to child
     private fun visit010(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTBind, child: IOPBase) = createBind(visit153(node.variable1!!), visit033(graph, graphVar, graphOverride, node.variable0!!), child)
