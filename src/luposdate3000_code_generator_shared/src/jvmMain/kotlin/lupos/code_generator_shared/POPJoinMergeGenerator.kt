@@ -27,7 +27,7 @@ internal fun generatePOPJoinMerge(
     projectedVariables: String,
     buffer: IMyOutputStream,
     imports: MutableSet<String>,
-    containers: MutableList<ClazzContainer>
+    containers: MutableList<ClazzContainer>,
 ) {
     // Imports needed for the generated code
     imports.add("lupos.shared.EOperatorIDExt")
@@ -76,7 +76,7 @@ internal fun generatePOPJoinMerge(
     buffer.println(
         "    val operator${operatorGraph.uuid} = Operator${operatorGraph.uuid}(query," +
             " operator${operatorGraph.children[0].getUUID()}, " +
-            "operator${operatorGraph.children[1].getUUID()} )"
+            "operator${operatorGraph.children[1].getUUID()} )",
     )
 
     // This is the generated class that implements the Merge Join for the annotated query
@@ -90,7 +90,7 @@ internal fun generatePOPJoinMerge(
             " EOperatorIDExt.POPGenerated," +
             " \"Operator${operatorGraph.uuid}\"," +
             " arrayOf(childA,childB)," +
-            " ESortPriorityExt.JOIN) {"
+            " ESortPriorityExt.JOIN) {",
     )
     clazz.header.println(
         """
@@ -114,7 +114,8 @@ internal fun generatePOPJoinMerge(
         |    }
         |    override fun toSparql(): String = children[0].toSparql() + children[1].toSparql()
         |    override fun cloneOP(): IOPBase = Operator${operatorGraph.uuid}(query, children[0].cloneOP(), children[1].cloneOP())
-        |    override fun equals(other: Any?): Boolean = other is Operator${operatorGraph.uuid} && children[0] == other.children[0] && children[1] == other.children[1]""".trimMargin()
+        |    override fun equals(other: Any?): Boolean = other is Operator${operatorGraph.uuid} && children[0] == other.children[0] && children[1] == other.children[1]
+        """.trimMargin(),
     )
     clazz.header.println()
     clazz.header.println("    internal class IteratorBundleImpl(")
@@ -138,7 +139,7 @@ internal fun generatePOPJoinMerge(
             }
             return tmp
         }
-        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private fun _hasNext2Close() {"""
+        @Suppress("NOTHING_TO_INLINE") /*suspend*/ private fun _hasNext2Close() {""",
     )
     for (variablename in children0ProvidedVariable) {
         clazz.header.println("            columnsInJ0$variablename.close()")
@@ -152,7 +153,7 @@ internal fun generatePOPJoinMerge(
         override /*suspend*/ fun hasNext2Close() {
             _hasNext2Close()
         }
-    }"""
+    }""",
     )
     clazz.header.println()
     clazz.header.println()
@@ -244,7 +245,7 @@ internal fun generatePOPJoinMerge(
         """
                 _close()
             }
-        }"""
+        }""",
     )
 
     clazz.iteratorCloseHeader.println("    override /*suspend*/ fun close() {")
@@ -343,7 +344,7 @@ internal fun generatePOPJoinMerge(
         """
         override /*suspend*/ fun next(): DictionaryValueType {
             return ColumnIteratorChildIteratorExt.nextHelper(this,
-                {"""
+                {""",
     )
     clazz.iteratorNextBody.println(
         """
@@ -378,7 +379,7 @@ internal fun generatePOPJoinMerge(
                                         }
                                     }
                                 }
-                                if (skip0 > 0) {"""
+                                if (skip0 > 0) {""",
     )
     for (i in 1 until variablesJoin.size) {
         val variable = variablesJoin[i]

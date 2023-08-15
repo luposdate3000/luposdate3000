@@ -69,7 +69,7 @@ class DatabaseHandleLuposdateRDF3X(val workDir: String, val port: Int) : Databas
             "lupos.endpoint.server.Endpoint",
             "$workDir/luposdateindex",
             "port$port",
-            "RDF3X_PARALLEL"
+            "RDF3X_PARALLEL",
         ).directory(File("."))
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()

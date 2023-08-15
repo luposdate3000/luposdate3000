@@ -111,7 +111,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                 },
                 onNotFound = {
                     SanityCheck.checkUnreachable()
-                }
+                },
             )
         }
     }
@@ -153,7 +153,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                 },
                 onNotFound = {
                     SanityCheck.checkUnreachable()
-                }
+                },
             )
         }
     }
@@ -191,7 +191,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
                     openPagesMapping[openId2] = pageid
                     if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(openPages[openId2]) == -1)) { throw Exception("SanityCheck failed") } }
                     BufferManagerPage.setPageID(openPages[openId2], pageid)
-                }
+                },
             )
             openPagesRefcounters[openId2]++
             if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(openPages[openId2]) == pageid)) { throw Exception("SanityCheck failed") } }
@@ -265,7 +265,7 @@ public actual class BufferManager public actual constructor(instance: Luposdate3
             },
             onNotFound = {
                 SanityCheck.checkUnreachable()
-            }
+            },
         )
     }
 

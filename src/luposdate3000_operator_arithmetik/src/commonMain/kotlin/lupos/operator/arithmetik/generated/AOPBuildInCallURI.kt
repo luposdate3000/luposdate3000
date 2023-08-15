@@ -33,15 +33,15 @@ public class AOPBuildInCallURI public constructor(query: IQuery, child0: AOPBase
     override fun toSparql(): String = "URI(${children[0].toSparql()})"
     override fun equals(other: Any?): Boolean = other is AOPBuildInCallURI && children[0] == other.children[0]
     override fun cloneOP(): IOPBase = AOPBuildInCallURI(query, children[0].cloneOP() as AOPBase, prefix)
-init{
-println("AOPBuildInCallURI .. constructor $prefix")
-}
+    init {
+        println("AOPBuildInCallURI .. constructor $prefix")
+    }
     override fun evaluateID(row: IteratorBundle): () -> DictionaryValueType {
         val tmp_0: ByteArrayWrapper = ByteArrayWrapper()
         val tmp_2: ByteArrayWrapper = ByteArrayWrapper()
         val child0: () -> DictionaryValueType = (children[0] as AOPBase).evaluateID(row)
         return {
-println("AOPBuildInCallURI .. $prefix")
+            println("AOPBuildInCallURI .. $prefix")
             val res: DictionaryValueType
             val childIn0: DictionaryValueType = child0()
             query.getDictionary().getValue(tmp_0, childIn0)

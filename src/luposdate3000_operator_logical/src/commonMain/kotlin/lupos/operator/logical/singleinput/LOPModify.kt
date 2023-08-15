@@ -31,7 +31,7 @@ public class LOPModify public constructor(
     query: IQuery,
     @JvmField public val insert: MutableList<LOPTriple>,
     @JvmField public val delete: MutableList<LOPTriple>,
-    child: IOPBase
+    child: IOPBase,
 ) : LOPBase(query, EOperatorIDExt.LOPModifyID, "LOPModify", arrayOf(child), ESortPriorityExt.PREVENT_ANY) {
     override fun getProvidedVariableNames(): MutableList<String> = mutableListOf("?boolean")
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {

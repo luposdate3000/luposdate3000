@@ -58,7 +58,7 @@ public fun applyInline(f: String, inlineMode: InlineMode) {
                             .replace(regexDisableCrossInline, "\$1crossinline ") //
                             .replace(regexEnableNoInline, "noinline ") //
                             .replace(regexEnableInline, "inline ") //
-                            .replace(regexEnableCrossInline, "crossinline ")
+                            .replace(regexEnableCrossInline, "crossinline "),
                     )
                 }
                 InlineMode.Disable -> {
@@ -69,7 +69,7 @@ public fun applyInline(f: String, inlineMode: InlineMode) {
                             .replace(regexDisableCrossInline, "\$1") //
                             .replace(regexEnableNoInline, "") //
                             .replace(regexEnableInline, "") //
-                            .replace(regexEnableCrossInline, "")
+                            .replace(regexEnableCrossInline, ""),
                     )
                 }
             }

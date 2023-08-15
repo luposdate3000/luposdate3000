@@ -86,7 +86,7 @@ class DatabaseHandleVirtuoso(val workDir: String) : DatabaseHandle() {
                     "1111",
                     "dba",
                     "dba",
-                    "$workDir/init"
+                    "$workDir/init",
                 )
                     .directory(File("."))
                     .redirectOutput(Redirect.INHERIT)

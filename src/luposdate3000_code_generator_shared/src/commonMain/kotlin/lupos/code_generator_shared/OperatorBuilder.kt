@@ -33,7 +33,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.abs()")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -43,7 +43,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.abs()")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -53,7 +53,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = abs(${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)})")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -63,12 +63,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = abs(${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)})")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -89,8 +89,8 @@ public object OperatorBuilder {
                                 globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
-                            }
-                        )
+                            },
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -101,7 +101,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}.roundToDigitPositionAfterDecimalPoint(0, RoundingMode.ROUND_HALF_AWAY_FROM_ZERO)")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -111,7 +111,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${inputNames[0]}.roundToInt().toDouble()")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -121,12 +121,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${inputNames[0]}.roundToInt().toDouble()")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -147,8 +147,8 @@ public object OperatorBuilder {
                                 globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
-                            }
-                        )
+                            },
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -158,7 +158,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}.floor()")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -168,7 +168,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = floor(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -178,12 +178,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = floor(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -204,8 +204,8 @@ public object OperatorBuilder {
                                 globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
-                            }
-                        )
+                            },
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -215,7 +215,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${inputNames[0]}.ceil()")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -225,7 +225,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ceil(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -235,12 +235,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ceil(${inputNames[0]})")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -255,7 +255,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedTrue,
                 generateIDOther = generateIDTrue,
                 generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -270,7 +270,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = BigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.length)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -280,7 +280,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = BigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.length)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -290,12 +290,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = BigInteger(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.length)")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -309,7 +309,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.lowercase()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -319,7 +319,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_type)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -329,12 +329,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_lang)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_lang)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -350,7 +350,7 @@ public object OperatorBuilder {
                             arrayOf(ETripleComponentTypeExt.DOUBLE),
                             arrayOf(ETripleComponentTypeExt.FLOAT),
                             arrayOf(ETripleComponentTypeExt.BOOLEAN),
-                            arrayOf(ETripleComponentTypeExt.DATE_TIME)
+                            arrayOf(ETripleComponentTypeExt.DATE_TIME),
                         ),
                         generateInstantiated = { indention, _, outputName, _, imports, target, _, valPrefix, onResult ->
                             imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
@@ -366,12 +366,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_lang)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -386,7 +386,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -396,7 +396,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Iri)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -406,7 +406,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -416,7 +416,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -426,7 +426,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -436,7 +436,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -446,7 +446,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -456,7 +456,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -466,7 +466,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)}.toString()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -476,12 +476,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_typed_content)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -498,7 +498,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -509,7 +509,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -520,7 +520,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -531,7 +531,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -542,7 +542,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -553,7 +553,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -564,7 +564,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -575,7 +575,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -586,12 +586,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = \"http://www.w3.org/2001/XMLSchema#string\"")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -605,7 +605,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}.toUpperCase()")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -615,7 +615,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_type)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -625,12 +625,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_lang)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_lang)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING_LANG)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -646,7 +646,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -655,7 +655,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -664,7 +664,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -673,7 +673,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -686,7 +686,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                                 onResult(indention, ETripleComponentTypeExt.DOUBLE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -699,7 +699,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -712,7 +712,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -725,12 +725,12 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -746,7 +746,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -755,7 +755,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -764,7 +764,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -773,7 +773,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}.doubleValue()")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -786,7 +786,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                                 onResult(indention, ETripleComponentTypeExt.FLOAT)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -799,7 +799,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -812,7 +812,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -825,12 +825,12 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -845,12 +845,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_day)}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -865,12 +865,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_month)}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -885,12 +885,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_hours)}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -905,12 +905,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_minutes)}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -925,12 +925,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_year)}")
                                 onResult(indention, ETripleComponentTypeExt.INTEGER)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -945,12 +945,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_seconds)}")
                                 onResult(indention, ETripleComponentTypeExt.DECIMAL)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -964,12 +964,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_tz)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -983,12 +983,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_timezone)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1003,12 +1003,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = ${suffixNames(inputNames[1], EVariablePlaceholderExt.Iri)}")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1028,7 +1028,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1047,7 +1047,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         // TODO OPTIMIZE WITH TYPE CONVERSION
         operators.add(
@@ -1068,7 +1068,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1083,7 +1083,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1098,7 +1098,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1114,7 +1114,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1130,7 +1130,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1146,7 +1146,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1162,7 +1162,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1178,7 +1178,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1199,7 +1199,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         // TODO OPTIMIZE WITH TYPE CONVERSION
         operators.add(
@@ -1220,7 +1220,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1235,7 +1235,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1250,7 +1250,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1266,7 +1266,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1282,7 +1282,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1298,7 +1298,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_LANG)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1314,7 +1314,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1330,7 +1330,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING_TYPED)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1351,7 +1351,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         // TODO OPTIMIZE WITH TYPE CONVERSION
         operators.add(
@@ -1366,7 +1366,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}.endsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1375,7 +1375,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.endsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1389,7 +1389,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         // TODO OPTIMIZE WITH TYPE CONVERSION
         operators.add(
@@ -1404,7 +1404,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}.startsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1413,7 +1413,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1422,12 +1422,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.startsWith(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         // TODO OPTIMIZE WITH TYPE CONVERSION
         operators.add(
@@ -1442,7 +1442,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}.contains(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1451,7 +1451,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.contains(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1460,12 +1460,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${inputNames[0]}_content.contains(${inputNames[1]})")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         // TODO OPTIMIZE WITH TYPE CONVERSION
         operators.add(
@@ -1480,7 +1480,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]} + ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1489,7 +1489,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]} + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1498,7 +1498,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1507,7 +1507,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]} + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1516,7 +1516,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1525,7 +1525,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1534,7 +1534,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_content + ${inputNames[1]}_content")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1549,7 +1549,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1564,12 +1564,12 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.STRING)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1583,12 +1583,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = !${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)}")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1602,7 +1602,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)} && ${suffixNames(inputNames[1], EVariablePlaceholderExt.Boolean)}")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1615,7 +1615,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1628,12 +1628,12 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.BOOLEAN)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1647,7 +1647,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = ${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)} || ${suffixNames(inputNames[1], EVariablePlaceholderExt.Boolean)}")
                                 onResult(indention, ETripleComponentTypeExt.BOOLEAN)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1660,7 +1660,7 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1673,12 +1673,12 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1693,7 +1693,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto_MD5.md5(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1703,7 +1703,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto_MD5.md5(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1713,12 +1713,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto_MD5.md5(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1733,7 +1733,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto.sha1(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1743,7 +1743,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto.sha1(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1753,12 +1753,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto.sha1(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1773,7 +1773,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto.sha256(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1783,7 +1783,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto.sha256(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1793,12 +1793,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = Crypto.sha256(${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1810,26 +1810,26 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
                             generateInstantiated = generateInstantiatedError2,
                             generateByteArrayWrapper = generateByteArrayWrapperError2,
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
                             generateInstantiated = generateInstantiatedError2,
                             generateByteArrayWrapper = generateByteArrayWrapperError2,
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
                             generateInstantiated = generateInstantiatedTrue2,
                             generateByteArrayWrapper = generateByteArrayWrapperTrue2,
-                        )
+                        ),
                     ).setOther(generateInstantiatedFalse2, generateByteArrayWrapperFalse2).build(),
                 generateInstantiatedOther = generateInstantiatedFalse,
                 generateIDOther = generateIDFalse,
                 generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1841,33 +1841,33 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
                             generateInstantiated = generateInstantiatedError2,
                             generateByteArrayWrapper = generateByteArrayWrapperError2,
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
                             generateInstantiated = generateInstantiatedError2,
                             generateByteArrayWrapper = generateByteArrayWrapperError2,
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
                             generateInstantiated = generateInstantiatedFalse2,
                             generateByteArrayWrapper = generateByteArrayWrapperFalse2,
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BLANK_NODE),
                             generateInstantiated = generateInstantiatedFalse2,
                             generateByteArrayWrapper = generateByteArrayWrapperFalse2,
-                        )
+                        ),
                     ).setOther(generateInstantiatedTrue2, generateByteArrayWrapperTrue2).build(),
                 generateInstantiatedOther = generateInstantiatedTrue,
                 generateIDOther = generateIDTrue,
                 generateByteArrayWrapperOther = generateByteArrayWrapperTrue,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -1881,7 +1881,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"ERROR_ERROR\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1890,7 +1890,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"UNDEF_UNDEF\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1899,7 +1899,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"BLANK_NODE_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.Blank_Node)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1908,7 +1908,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"BOOLEAN_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1917,7 +1917,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"DECIMAL_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1926,7 +1926,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"DOUBLE_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1935,7 +1935,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"FLOAT_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1944,7 +1944,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"INTEGER_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1953,7 +1953,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"IRI_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.Iri)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1962,7 +1962,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"STRING_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1971,7 +1971,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"STRING_LANG_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.String_lang)}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -1980,12 +1980,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = query.getDictionary().createNewBNode(\"STRING_TYPED_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}_\${${suffixNames(inputNames[0], EVariablePlaceholderExt.String_type)}\")")
                                 onResult(indention, ETripleComponentTypeExt.BLANK_NODE)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2013,7 +2013,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedFalse,
                 generateIDOther = generateIDFalse,
                 generateByteArrayWrapperOther = generateByteArrayWrapperFalse,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2025,56 +2025,56 @@ public object OperatorBuilder {
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#boolean"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#boolean"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#integer"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#integer"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#double"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#double"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#decimal"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#decimal"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#float"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#float"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#string"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#string"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/1999/02/22-rdf-syntax-ns#langString"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
                             generateInstantiated = generateInstantiatedString("http://www.w3.org/2001/XMLSchema#dateTime"),
                             generateByteArrayWrapper = generateByteArrayWrapperString("http://www.w3.org/2001/XMLSchema#dateTime"),
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -2083,12 +2083,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = ${inputNames[0]}_type")
                                 onResult(indention, ETripleComponentTypeExt.STRING)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2111,8 +2111,8 @@ public object OperatorBuilder {
                                 globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${inputNames[0]},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
-                            }
-                        )
+                            },
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -2125,7 +2125,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -2142,12 +2142,12 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2170,8 +2170,8 @@ public object OperatorBuilder {
                                 globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
                                 target.appendLine("${indention}ByteArrayWrapperExt.copyInto(${suffixNames(inputNames[0], EVariablePlaceholderExt.Iri)},$outputName)")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
-                            }
-                        )
+                            },
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -2184,7 +2184,7 @@ public object OperatorBuilder {
                                 target.appendLine("$indention}")
                                 onResult(indention, ETripleComponentTypeExt.IRI)
                             },
-                        )
+                        ),
                     )
                     .add(
                         MyOperatorPart(
@@ -2201,12 +2201,12 @@ public object OperatorBuilder {
                                 onResult("$indention    ", ETripleComponentTypeExt.ERROR)
                                 target.appendLine("$indention}")
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2231,7 +2231,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2251,7 +2251,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2272,7 +2272,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2292,7 +2292,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
 
         operators.add(
@@ -2307,7 +2307,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.stringToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BLANK_NODE),
@@ -2315,7 +2315,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.bnodeToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.Blank_Node)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_LANG),
@@ -2323,7 +2323,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.langToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_lang)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.STRING_TYPED),
@@ -2331,7 +2331,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.typedToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_content)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.String_type)})")
                                 onResult(indention, ETripleComponentTypeExt.STRING_TYPED)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.IRI),
@@ -2339,7 +2339,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.iriToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.Iri)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.FLOAT),
@@ -2347,7 +2347,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.floatToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DOUBLE),
@@ -2355,7 +2355,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.doubleToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.Double)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.INTEGER),
@@ -2363,7 +2363,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.integerToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.Integer)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.UNDEF),
@@ -2371,7 +2371,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.undefToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.ERROR),
@@ -2379,7 +2379,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.errorToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.BOOLEAN),
@@ -2387,7 +2387,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.booleanToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.Boolean)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DECIMAL),
@@ -2395,7 +2395,7 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.decimalToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.Decimal)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).add(
                         MyOperatorPart(
                             childrenTypes = arrayOf(ETripleComponentTypeExt.DATE_TIME),
@@ -2403,12 +2403,12 @@ public object OperatorBuilder {
                                 target.appendLine("${indention}DictionaryHelper.dateTimeToByteArray(${suffixNames(outputName, EVariablePlaceholderExt.ByteArrayWrapper)}, ${suffixNames(inputNames[0], EVariablePlaceholderExt.DateTime_typed_content)})")
                                 onResult(indention, ETripleComponentTypeExt._BYTEARRAYWRAPPER)
                             },
-                        )
+                        ),
                     ).setOther(generateInstantiatedError2, generateByteArrayWrapperError2).build(),
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
         operators.add(
             MyOperator(
@@ -2428,7 +2428,7 @@ public object OperatorBuilder {
                 generateInstantiatedOther = generateInstantiatedError,
                 generateIDOther = generateIDError,
                 generateByteArrayWrapperOther = generateByteArrayWrapperError,
-            )
+            ),
         )
     }
 }

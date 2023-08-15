@@ -102,7 +102,7 @@ public object CodeGeneration {
                 "lupos" + ".shared.inline.ColumnIteratorQueueExt",
                 "lupos" + ".shared.inline.DictionaryHelper",
                 "lupos.shared.dictionary.DictionaryExt",
-                "lupos.shared.dynamicArray.ByteArrayWrapper"
+                "lupos.shared.dynamicArray.ByteArrayWrapper",
             )
             // This list will contain all the written operators
             val createdOperators = mutableListOf<Long>()
@@ -203,7 +203,7 @@ private fun writeOperatorGraph(
                 operatorsBuffer.println(
                     "    val operator${operator.uuid} = POPJoinMerge(query, $projectedVariables," +
                         "operator${operator.children[0].getUUID()}," +
-                        "operator${operator.children[1].getUUID()}, false)"
+                        "operator${operator.children[1].getUUID()}, false)",
                 )
                 imports.add("lupos.operator.physical.multiinput.POPJoinMerge")
             } else {
@@ -217,7 +217,7 @@ private fun writeOperatorGraph(
                 operatorsBuffer.println(
                     "    val operator${operator.uuid} = POPFilter(query, $projectedVariables," +
                         "operator${operator.children[1].getUUID()}," +
-                        "operator${operator.children[0].getUUID()})"
+                        "operator${operator.children[0].getUUID()})",
                 )
                 imports.add("lupos.operator.physical.singleinput.POPFilter")
             } else {
@@ -229,7 +229,7 @@ private fun writeOperatorGraph(
             // Creating a new operator with the AOPVariable constructor
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPVariable(query," +
-                    " \"${operator.name}\")"
+                    " \"${operator.name}\")",
             )
             imports.add("lupos.operator.arithmetik.noinput.AOPVariable")
         }
@@ -250,7 +250,7 @@ private fun writeOperatorGraph(
                     "arrayOf(operator${operator.children[0].getUUID()}," +
                     "operator${operator.children[1].getUUID()}," +
                     "operator${operator.children[2].getUUID()})," +
-                    "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})"
+                    "EIndexPatternExt.${EIndexPatternExt.names[operator.getIndexPattern()]})",
             )
             imports.add("lupos.shared.EIndexPatternExt")
             imports.add("lupos.shared.Partition")
@@ -258,13 +258,13 @@ private fun writeOperatorGraph(
         is POPDebug -> {
             // Creating a new operator with the POPDebug constructor
             operatorsBuffer.println(
-                "    val operator${operator.uuid} = operator${operator.children[0].getUUID()}"
+                "    val operator${operator.uuid} = operator${operator.children[0].getUUID()}",
             )
         }
         is POPVisualisation -> {
             // Creating a new operator with the POPVisualisation constructor
             operatorsBuffer.println(
-                "    val operator${operator.uuid} = operator${operator.children[0].getUUID()}"
+                "    val operator${operator.uuid} = operator${operator.children[0].getUUID()}",
             )
         }
         is AOPGT -> {
@@ -272,7 +272,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPGT(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.multiinput.AOPGT")
         }
@@ -281,7 +281,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPLT(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.multiinput.AOPLT")
         }
@@ -290,7 +290,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = POPProjection(query," +
                     " $projectedVariables," +
-                    "operator${operator.children[0].getUUID()})"
+                    "operator${operator.children[0].getUUID()})",
             )
             imports.add("lupos.operator.physical.singleinput.POPProjection")
         }
@@ -298,16 +298,16 @@ private fun writeOperatorGraph(
         is OPBaseCompound -> {
             val proVars = "arrayOf(${operator.children.joinToString { "operator" + it.getUUID() }})"
             val proVarsOrder = "listOf(${
-            operator.columnProjectionOrder.joinToString {
-                "listOf(${
-                it.joinToString { it2 -> "\"$it2\"" }
-                })"
-            }
+                operator.columnProjectionOrder.joinToString {
+                    "listOf(${
+                        it.joinToString { it2 -> "\"$it2\"" }
+                    })"
+                }
             })"
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = OPBaseCompound(query," +
                     "$proVars," +
-                    "$proVarsOrder)"
+                    "$proVarsOrder)",
             )
             imports.add("lupos.operator.base.OPBaseCompound")
         }
@@ -316,7 +316,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPAnd(query," +
                     " operator${operator.children[0].getUUID()}," +
-                    " operator${operator.children[1].getUUID()})"
+                    " operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.multiinput.AOPAnd")
         }
@@ -326,7 +326,7 @@ private fun writeOperatorGraph(
                 "    val operator${operator.uuid} = POPUnion(query," +
                     " $projectedVariables," +
                     " operator${operator.children[0].getUUID()}," +
-                    " operator${operator.children[1].getUUID()})"
+                    " operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.physical.multiinput.POPUnion")
         }
@@ -335,7 +335,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPEQ(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.multiinput.AOPEQ")
         }
@@ -344,7 +344,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPGEQ(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.multiinput.AOPGEQ")
         }
@@ -353,7 +353,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPLEQ(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.multiinput.AOPLEQ")
         }
@@ -362,7 +362,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPNEQ(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.multiinput.AOPNEQ")
         }
@@ -371,7 +371,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPAddition(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.generated.AOPAddition")
         }
@@ -380,7 +380,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPSubtraction(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.generated.AOPSubtraction")
         }
@@ -389,7 +389,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPMultiplication(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.generated.AOPMultiplication")
         }
@@ -398,7 +398,7 @@ private fun writeOperatorGraph(
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPDivision(query," +
                     "operator${operator.children[0].getUUID()}," +
-                    "operator${operator.children[1].getUUID()})"
+                    "operator${operator.children[1].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.generated.AOPDivision")
         }
@@ -409,14 +409,14 @@ private fun writeOperatorGraph(
         is AOPBuildInCallUCASE -> {
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPBuildInCallUCASE(query," +
-                    "operator${operator.children[0].getUUID()})"
+                    "operator${operator.children[0].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.generated.AOPBuildInCallUCASE")
         }
         is AOPBuildInCallSTR -> {
             operatorsBuffer.println(
                 "    val operator${operator.uuid} = AOPBuildInCallSTR(query," +
-                    "operator${operator.children[0].getUUID()})"
+                    "operator${operator.children[0].getUUID()})",
             )
             imports.add("lupos.operator.arithmetik.generated.AOPBuildInCallSTR")
         }
@@ -453,7 +453,7 @@ internal fun writeMethod(
     child: IOPBase,
     classes: MyPrintWriter,
     variables: MutableSet<String>,
-    imports: MutableSet<String>
+    imports: MutableSet<String>,
 ) {
     val conversion = CodeGenClassHolder("ToDictionaryID", arrayOf(CodeGenClassHolder("ToByteArrayWrapper", arrayOf(convert(child)))))
 

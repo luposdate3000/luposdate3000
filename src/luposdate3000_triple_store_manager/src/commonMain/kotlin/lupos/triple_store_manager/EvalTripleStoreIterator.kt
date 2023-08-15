@@ -34,7 +34,7 @@ public object EvalTripleStoreIterator {
         index: EIndexPattern,
         children: Array<Pair<Boolean, Pair<DictionaryValueType, String>>>,
     ): IteratorBundle {
- println("EvalTripleStoreIterator ${EIndexPatternExt.names[index]} host=${target.first} key=${target.second}")
+        println("EvalTripleStoreIterator ${EIndexPatternExt.names[index]} host=${target.first} key=${target.second}")
         val manager = (query.getInstance().tripleStoreManager) as TripleStoreManagerImpl
         val store = manager.localStoresGet()[target.second]!!
         val filter2 = mutableListOf<DictionaryValueType>()

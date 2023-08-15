@@ -135,7 +135,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, @Suppr
                     values.size - 1
                 },
                 onFound = { _, _ ->
-                }
+                },
             )
         }
     }

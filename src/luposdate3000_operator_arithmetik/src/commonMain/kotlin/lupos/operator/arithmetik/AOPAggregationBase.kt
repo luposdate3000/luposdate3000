@@ -26,7 +26,7 @@ public abstract class AOPAggregationBase public constructor(
     query: IQuery,
     operatorID: EOperatorID,
     classname: String,
-    children: Array<IOPBase>
+    children: Array<IOPBase>,
 ) : AOPBase(query, operatorID, classname, children) {
     public abstract fun createIterator(row: IteratorBundle): ColumnIteratorAggregate
     override fun containsAggregate(): Boolean = true

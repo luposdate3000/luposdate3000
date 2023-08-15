@@ -1,32 +1,32 @@
 package lupos.parser.xml
 
-public class ASTVERSIONOptional: IASTBase {
+public class ASTVERSIONOptional : IASTBase {
     override var id: Int = 0
     public var VERSION: String? = null
 }
 public sealed interface ASTInterfaceOfelementOrcomment {
     public var id: Int
 }
-public class ASTxmldoc: IASTBase {
+public class ASTxmldoc : IASTBase {
     override var id: Int = 3
     public var variable0: ASTVERSIONOptional? = null
     public var variable1: ASTInterfaceOfelementOrcomment? = null
 }
-public class ASTversion: IASTBase {
+public class ASTversion : IASTBase {
     override var id: Int = 4
 }
-public class ASTListOfattribute: IASTBase {
+public class ASTListOfattribute : IASTBase {
     override var id: Int = 5
     public lateinit var value: MutableList<ASTattribute>
 }
-public class ASTListOfInterfaceOfelementOrcomment: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext, IASTBase {
+public class ASTListOfInterfaceOfelementOrcomment : ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext, IASTBase {
     override var id: Int = 6
     public lateinit var value: MutableList<ASTInterfaceOfelementOrcomment>
 }
 public sealed interface ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext {
     public var id: Int
 }
-public class ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, IASTBase {
+public class ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, IASTBase {
     override var id: Int = 8
     public var variable0: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext? = null
     public var TAG: String? = null
@@ -34,7 +34,7 @@ public class ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG:
 public sealed interface ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG {
     public var id: Int
 }
-public class ASTelement: ASTInterfaceOfelementOrcomment, IASTBase {
+public class ASTelement : ASTInterfaceOfelementOrcomment, IASTBase {
     override var id: Int = 1
     public var TAG: String? = null
     public var variable1: ASTListOfattribute? = null
@@ -43,27 +43,27 @@ public class ASTelement: ASTInterfaceOfelementOrcomment, IASTBase {
 public sealed interface ASTInterfaceOfvalue1Orvalue2 {
     public var id: Int
 }
-public class ASTattribute: IASTBase {
+public class ASTattribute : IASTBase {
     override var id: Int = 12
     public var KEY: String? = null
     public var variable1: ASTInterfaceOfvalue1Orvalue2? = null
 }
-public class ASTvalue1: ASTInterfaceOfvalue1Orvalue2, IASTBase {
+public class ASTvalue1 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
     override var id: Int = 10
     public var VALUE1: String? = null
 }
-public class ASTvalue2: ASTInterfaceOfvalue1Orvalue2, IASTBase {
+public class ASTvalue2 : ASTInterfaceOfvalue1Orvalue2, IASTBase {
     override var id: Int = 11
     public var VALUE2: String? = null
 }
-public class ASTtext: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext, IASTBase {
+public class ASTtext : ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext, IASTBase {
     override var id: Int = 7
     public var TEXT: String? = null
 }
-public class ASTcloseimmediately: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, IASTBase {
+public class ASTcloseimmediately : ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, IASTBase {
     override var id: Int = 9
 }
-public class ASTcomment: ASTInterfaceOfelementOrcomment, IASTBase {
+public class ASTcomment : ASTInterfaceOfelementOrcomment, IASTBase {
     override var id: Int = 2
     public var COMMENT: String? = null
 }
@@ -72,7 +72,7 @@ public sealed interface IASTBase {
 }
 public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 
-internal var parsererror: String? = null
+    internal var parsererror: String? = null
     public val stack: MutableList<Any> = mutableListOf<Any>()
     public var bufferDefinedDataSize: Long = 0
     public var bufferDefinedPosition: Long = 0
@@ -120,12 +120,10 @@ internal var parsererror: String? = null
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
-
     }
-public fun close() {
-    bufferDefinedInputStream.close()
-
-}
+    public fun close() {
+        bufferDefinedInputStream.close()
+    }
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 15
@@ -1321,13 +1319,13 @@ public fun close() {
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int): Unit {
+    private fun scannerDefinedNextToken(startNode: Int) {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 3)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
+    private fun scannerDefinedNextTokenInternal(startNode: Int) {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -1347,8 +1345,10 @@ public fun close() {
                         bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
                     } else {
                         if ((bufferDefinedDataSize.toInt() == bufferDefinedAllocatedSize)) {
-println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosition bufferDefinedDataSize=$bufferDefinedDataSize bufferDefinedMaxPositionAvailable=$bufferDefinedMaxPositionAvailable"
-+" bufferDefinedAllocatedSize=$bufferDefinedAllocatedSize bufferDefinedPosition=$bufferDefinedPosition")
+                            println(
+                                "XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosition bufferDefinedDataSize=$bufferDefinedDataSize bufferDefinedMaxPositionAvailable=$bufferDefinedMaxPositionAvailable" +
+                                    " bufferDefinedAllocatedSize=$bufferDefinedAllocatedSize bufferDefinedPosition=$bufferDefinedPosition",
+                            )
                             var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                             var data: ByteArray = ByteArray(newSize)
                             bufferDefinedData.copyInto(data, 0.toInt(), 0.toInt(), bufferDefinedDataSize.toInt())
@@ -1594,7 +1594,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
+            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
@@ -1621,7 +1621,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 5
             }
             else -> {
-                parsererror = "found token ${currentToken1} unexpectedly in node 1, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1 unexpectedly in node 1, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1641,7 +1641,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 5
             }
             else -> {
-                parsererror = "found token ${currentToken2} unexpectedly in node 2, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken2 unexpectedly in node 2, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1659,7 +1659,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 7
             }
             else -> {
-                parsererror = "found token ${currentToken5} unexpectedly in node 5, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken5 unexpectedly in node 5, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1688,7 +1688,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 12
             }
             else -> {
-                parsererror = "found token ${currentToken10} unexpectedly in node 10, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken10 unexpectedly in node 10, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1707,7 +1707,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 15
             }
             else -> {
-                parsererror = "found token ${currentToken11} unexpectedly in node 11, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken11 unexpectedly in node 11, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1727,7 +1727,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 16
             }
             else -> {
-                parsererror = "found token ${currentToken12} unexpectedly in node 12, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken12 unexpectedly in node 12, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1745,7 +1745,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 22
             }
             else -> {
-                parsererror = "found stack ${currentStack15} unexpectedly in node 15, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack15 unexpectedly in node 15, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1764,7 +1764,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 24
             }
             else -> {
-                parsererror = "found token ${currentToken16} unexpectedly in node 16, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken16 unexpectedly in node 16, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1792,7 +1792,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 32
             }
             else -> {
-                parsererror = "found token ${currentToken21} unexpectedly in node 21, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken21 unexpectedly in node 21, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1809,7 +1809,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 28
             }
             else -> {
-                parsererror = "found token ${currentToken22} unexpectedly in node 22, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken22 unexpectedly in node 22, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1828,7 +1828,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 35
             }
             else -> {
-                parsererror = "found token ${currentToken24} unexpectedly in node 24, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken24 unexpectedly in node 24, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1862,7 +1862,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 37
             }
             else -> {
-                parsererror = "found token ${currentToken29} unexpectedly in node 29, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken29 unexpectedly in node 29, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1884,7 +1884,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 36
             }
             else -> {
-                parsererror = "found token ${currentToken32} unexpectedly in node 32, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken32 unexpectedly in node 32, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1902,7 +1902,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 42
             }
             else -> {
-                parsererror = "found token ${currentToken34} unexpectedly in node 34, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken34 unexpectedly in node 34, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1919,7 +1919,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 39
             }
             else -> {
-                parsererror = "found token ${currentToken35} unexpectedly in node 35, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken35 unexpectedly in node 35, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1938,7 +1938,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 45
             }
             else -> {
-                parsererror = "found token ${currentToken36} unexpectedly in node 36, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken36 unexpectedly in node 36, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1955,7 +1955,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 41
             }
             else -> {
-                parsererror = "found token ${currentToken37} unexpectedly in node 37, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken37 unexpectedly in node 37, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1974,7 +1974,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 44
             }
             else -> {
-                parsererror = "found token ${currentToken39} unexpectedly in node 39, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken39 unexpectedly in node 39, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -1996,7 +1996,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 47
             }
             else -> {
-                parsererror = "found token ${currentToken41} unexpectedly in node 41, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken41 unexpectedly in node 41, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2025,7 +2025,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 52
             }
             else -> {
-                parsererror = "found token ${currentToken45} unexpectedly in node 45, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken45 unexpectedly in node 45, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2055,7 +2055,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 22
             }
             else -> {
-                parsererror = "found stack ${currentStack52} unexpectedly in node 52, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack52 unexpectedly in node 52, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2074,7 +2074,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 59
             }
             else -> {
-                parsererror = "found token ${currentToken53} unexpectedly in node 53, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken53 unexpectedly in node 53, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2093,7 +2093,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 60
             }
             else -> {
-                parsererror = "found token ${currentToken54} unexpectedly in node 54, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken54 unexpectedly in node 54, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2112,7 +2112,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 61
             }
             else -> {
-                parsererror = "found token ${currentToken55} unexpectedly in node 55, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken55 unexpectedly in node 55, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2143,7 +2143,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 65
             }
             else -> {
-                parsererror = "found token ${currentToken62} unexpectedly in node 62, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken62 unexpectedly in node 62, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2161,7 +2161,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
                 return 65
             }
             else -> {
-                parsererror = "found token ${currentToken63} unexpectedly in node 63, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken63 unexpectedly in node 63, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -2171,7 +2171,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         userCode11()
         return 16
     }
-    public fun parserDefinedParse(): Unit {
+    public fun parserDefinedParse() {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -2307,130 +2307,130 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             TODO(parsererror!!)
         }
     }
-    private fun userCode0(): Unit {
+    private fun userCode0() {
         stack.add(allocASTxmldoc())
     }
-    private fun userCode1(): Unit {
+    private fun userCode1() {
         stack.add(allocASTVERSIONOptional())
     }
-    private fun userCode2(): Unit {
+    private fun userCode2() {
         stack.add(getLastTokenString())
     }
-    private fun userCode3(): Unit {
+    private fun userCode3() {
         val tmp16: Any = stack.removeLast()
         astAssign_ASTVERSIONOptional_0((stack.last() as ASTVERSIONOptional), tmp16)
     }
-    private fun userCode4(): Unit {
+    private fun userCode4() {
         val tmp17: Any = stack.removeLast()
         astAssign_ASTxmldoc_0((stack.last() as ASTxmldoc), tmp17)
     }
-    private fun userCode5(): Unit {
+    private fun userCode5() {
         val tmp18: Any = stack.removeLast()
         astAssign_ASTxmldoc_1((stack.last() as ASTxmldoc), tmp18)
     }
-    private fun userCode6(): Unit {
+    private fun userCode6() {
         stack.add(allocASTversion())
     }
-    private fun userCode7(): Unit {
+    private fun userCode7() {
         stack.add(allocASTelement())
     }
-    private fun userCode8(): Unit {
+    private fun userCode8() {
         stack.add(getLastTokenString())
     }
-    private fun userCode9(): Unit {
+    private fun userCode9() {
         val tmp23: Any = stack.removeLast()
         astAssign_ASTelement_0((stack.last() as ASTelement), tmp23)
     }
-    private fun userCode10(): Unit {
+    private fun userCode10() {
         stack.add(allocASTListOfattribute())
     }
-    private fun userCode11(): Unit {
+    private fun userCode11() {
         val tmp19: Any = stack.removeLast()
         astAssign_ASTListOfattribute_0((stack.last() as ASTListOfattribute), tmp19)
     }
-    private fun userCode12(): Unit {
+    private fun userCode12() {
         val tmp24: Any = stack.removeLast()
         astAssign_ASTelement_1((stack.last() as ASTelement), tmp24)
     }
-    private fun userCode13(): Unit {
+    private fun userCode13() {
         stack.add(allocASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG())
     }
-    private fun userCode14(): Unit {
+    private fun userCode14() {
         stack.add(allocASTListOfInterfaceOfelementOrcomment())
     }
-    private fun userCode15(): Unit {
+    private fun userCode15() {
         val tmp20: Any = stack.removeLast()
         astAssign_ASTListOfInterfaceOfelementOrcomment_0((stack.last() as ASTListOfInterfaceOfelementOrcomment), tmp20)
     }
-    private fun userCode16(): Unit {
+    private fun userCode16() {
         val tmp21: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_0((stack.last() as ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG), tmp21)
     }
-    private fun userCode17(): Unit {
+    private fun userCode17() {
         stack.add(getLastTokenString())
     }
-    private fun userCode18(): Unit {
+    private fun userCode18() {
         val tmp22: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_1((stack.last() as ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG), tmp22)
     }
-    private fun userCode19(): Unit {
+    private fun userCode19() {
         val tmp25: Any = stack.removeLast()
         astAssign_ASTelement_2((stack.last() as ASTelement), tmp25)
     }
-    private fun userCode20(): Unit {
+    private fun userCode20() {
         stack.add(allocASTattribute())
     }
-    private fun userCode21(): Unit {
+    private fun userCode21() {
         stack.add(getLastTokenString())
     }
-    private fun userCode22(): Unit {
+    private fun userCode22() {
         val tmp26: Any = stack.removeLast()
         astAssign_ASTattribute_0((stack.last() as ASTattribute), tmp26)
     }
-    private fun userCode23(): Unit {
+    private fun userCode23() {
         val tmp27: Any = stack.removeLast()
         astAssign_ASTattribute_1((stack.last() as ASTattribute), tmp27)
     }
-    private fun userCode24(): Unit {
+    private fun userCode24() {
         stack.add(allocASTvalue1())
     }
-    private fun userCode25(): Unit {
+    private fun userCode25() {
         stack.add(getLastTokenString())
     }
-    private fun userCode26(): Unit {
+    private fun userCode26() {
         val tmp28: Any = stack.removeLast()
         astAssign_ASTvalue1_0((stack.last() as ASTvalue1), tmp28)
     }
-    private fun userCode27(): Unit {
+    private fun userCode27() {
         stack.add(allocASTvalue2())
     }
-    private fun userCode28(): Unit {
+    private fun userCode28() {
         stack.add(getLastTokenString())
     }
-    private fun userCode29(): Unit {
+    private fun userCode29() {
         val tmp29: Any = stack.removeLast()
         astAssign_ASTvalue2_0((stack.last() as ASTvalue2), tmp29)
     }
-    private fun userCode30(): Unit {
+    private fun userCode30() {
         stack.add(allocASTtext())
     }
-    private fun userCode31(): Unit {
+    private fun userCode31() {
         stack.add(getLastTokenString())
     }
-    private fun userCode32(): Unit {
+    private fun userCode32() {
         val tmp30: Any = stack.removeLast()
         astAssign_ASTtext_0((stack.last() as ASTtext), tmp30)
     }
-    private fun userCode33(): Unit {
+    private fun userCode33() {
         stack.add(allocASTcloseimmediately())
     }
-    private fun userCode34(): Unit {
+    private fun userCode34() {
         stack.add(allocASTcomment())
     }
-    private fun userCode35(): Unit {
+    private fun userCode35() {
         stack.add(getLastTokenString())
     }
-    private fun userCode36(): Unit {
+    private fun userCode36() {
         val tmp31: Any = stack.removeLast()
         astAssign_ASTcomment_0((stack.last() as ASTcomment), tmp31)
     }
@@ -2439,7 +2439,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 0
         return tmp
     }
-    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
+    public fun printASTVERSIONOptional(node: ASTVERSIONOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2448,14 +2448,14 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?): Unit {
+    public fun freeASTVERSIONOptional(node: ASTVERSIONOptional?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any): Unit {
+    private fun astAssign_ASTVERSIONOptional_0(node: ASTVERSIONOptional, value: Any) {
         node.VERSION = (value as String)
     }
-    public fun printASTInterfaceOfelementOrcomment(node: ASTInterfaceOfelementOrcomment?): Unit {
+    public fun printASTInterfaceOfelementOrcomment(node: ASTInterfaceOfelementOrcomment?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2469,7 +2469,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             }
         }
     }
-    public fun freeASTInterfaceOfelementOrcomment(node: ASTInterfaceOfelementOrcomment?): Unit {
+    public fun freeASTInterfaceOfelementOrcomment(node: ASTInterfaceOfelementOrcomment?) {
         if ((node != null)) {
             when (node.id) {
                 1 -> {
@@ -2486,7 +2486,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 3
         return tmp
     }
-    public fun printASTxmldoc(node: ASTxmldoc?): Unit {
+    public fun printASTxmldoc(node: ASTxmldoc?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2498,16 +2498,16 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTxmldoc(node: ASTxmldoc?): Unit {
+    public fun freeASTxmldoc(node: ASTxmldoc?) {
         if ((node != null)) {
             freeASTVERSIONOptional(node.variable0)
             freeASTInterfaceOfelementOrcomment(node.variable1)
         }
     }
-    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any): Unit {
+    private fun astAssign_ASTxmldoc_0(node: ASTxmldoc, value: Any) {
         node.variable0 = (value as ASTVERSIONOptional)
     }
-    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any): Unit {
+    private fun astAssign_ASTxmldoc_1(node: ASTxmldoc, value: Any) {
         node.variable1 = (value as ASTInterfaceOfelementOrcomment)
     }
     private fun allocASTversion(): ASTversion {
@@ -2515,7 +2515,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 4
         return tmp
     }
-    public fun printASTversion(node: ASTversion?): Unit {
+    public fun printASTversion(node: ASTversion?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2523,11 +2523,11 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTversion(node: ASTversion?): Unit {
+    public fun freeASTversion(node: ASTversion?) {
         if ((node != null)) {
         }
     }
-    public fun printASTListOfattribute(node: ASTListOfattribute?): Unit {
+    public fun printASTListOfattribute(node: ASTListOfattribute?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2538,7 +2538,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("],},")
         }
     }
-    public fun freeASTListOfattribute(node: ASTListOfattribute?): Unit {
+    public fun freeASTListOfattribute(node: ASTListOfattribute?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTattribute(it)
@@ -2551,10 +2551,10 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 5
         return tmp
     }
-    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any): Unit {
+    private fun astAssign_ASTListOfattribute_0(node: ASTListOfattribute, value: Any) {
         node.value.add((value as ASTattribute))
     }
-    public fun printASTListOfInterfaceOfelementOrcomment(node: ASTListOfInterfaceOfelementOrcomment?): Unit {
+    public fun printASTListOfInterfaceOfelementOrcomment(node: ASTListOfInterfaceOfelementOrcomment?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2565,7 +2565,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("],},")
         }
     }
-    public fun freeASTListOfInterfaceOfelementOrcomment(node: ASTListOfInterfaceOfelementOrcomment?): Unit {
+    public fun freeASTListOfInterfaceOfelementOrcomment(node: ASTListOfInterfaceOfelementOrcomment?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTInterfaceOfelementOrcomment(it)
@@ -2578,10 +2578,10 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 6
         return tmp
     }
-    private fun astAssign_ASTListOfInterfaceOfelementOrcomment_0(node: ASTListOfInterfaceOfelementOrcomment, value: Any): Unit {
+    private fun astAssign_ASTListOfInterfaceOfelementOrcomment_0(node: ASTListOfInterfaceOfelementOrcomment, value: Any) {
         node.value.add((value as ASTInterfaceOfelementOrcomment))
     }
-    public fun printASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext?): Unit {
+    public fun printASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2595,7 +2595,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             }
         }
     }
-    public fun freeASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext?): Unit {
+    public fun freeASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node: ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext?) {
         if ((node != null)) {
             when (node.id) {
                 6 -> {
@@ -2612,7 +2612,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 8
         return tmp
     }
-    public fun printASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
+    public fun printASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2623,18 +2623,18 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
+    public fun freeASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?) {
         if ((node != null)) {
             freeASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_0(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, value: Any) {
         node.variable0 = (value as ASTInterfaceOfListOfInterfaceOfelementOrcommentOrtext)
     }
-    private fun astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG_1(node: ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG, value: Any) {
         node.TAG = (value as String)
     }
-    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
+    public fun printASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2648,7 +2648,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             }
         }
     }
-    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?): Unit {
+    public fun freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node: ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG?) {
         if ((node != null)) {
             when (node.id) {
                 9 -> {
@@ -2665,7 +2665,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 1
         return tmp
     }
-    public fun printASTelement(node: ASTelement?): Unit {
+    public fun printASTelement(node: ASTelement?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2678,22 +2678,22 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTelement(node: ASTelement?): Unit {
+    public fun freeASTelement(node: ASTelement?) {
         if ((node != null)) {
             freeASTListOfattribute(node.variable1)
             freeASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG(node.variable2)
         }
     }
-    private fun astAssign_ASTelement_0(node: ASTelement, value: Any): Unit {
+    private fun astAssign_ASTelement_0(node: ASTelement, value: Any) {
         node.TAG = (value as String)
     }
-    private fun astAssign_ASTelement_1(node: ASTelement, value: Any): Unit {
+    private fun astAssign_ASTelement_1(node: ASTelement, value: Any) {
         node.variable1 = (value as ASTListOfattribute)
     }
-    private fun astAssign_ASTelement_2(node: ASTelement, value: Any): Unit {
+    private fun astAssign_ASTelement_2(node: ASTelement, value: Any) {
         node.variable2 = (value as ASTInterfaceOfcloseimmediatelyOrClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG)
     }
-    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
+    public fun printASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2707,7 +2707,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             }
         }
     }
-    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?): Unit {
+    public fun freeASTInterfaceOfvalue1Orvalue2(node: ASTInterfaceOfvalue1Orvalue2?) {
         if ((node != null)) {
             when (node.id) {
                 10 -> {
@@ -2724,7 +2724,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 12
         return tmp
     }
-    public fun printASTattribute(node: ASTattribute?): Unit {
+    public fun printASTattribute(node: ASTattribute?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2735,15 +2735,15 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTattribute(node: ASTattribute?): Unit {
+    public fun freeASTattribute(node: ASTattribute?) {
         if ((node != null)) {
             freeASTInterfaceOfvalue1Orvalue2(node.variable1)
         }
     }
-    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any): Unit {
+    private fun astAssign_ASTattribute_0(node: ASTattribute, value: Any) {
         node.KEY = (value as String)
     }
-    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any): Unit {
+    private fun astAssign_ASTattribute_1(node: ASTattribute, value: Any) {
         node.variable1 = (value as ASTInterfaceOfvalue1Orvalue2)
     }
     private fun allocASTvalue1(): ASTvalue1 {
@@ -2751,7 +2751,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 10
         return tmp
     }
-    public fun printASTvalue1(node: ASTvalue1?): Unit {
+    public fun printASTvalue1(node: ASTvalue1?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2760,11 +2760,11 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTvalue1(node: ASTvalue1?): Unit {
+    public fun freeASTvalue1(node: ASTvalue1?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any): Unit {
+    private fun astAssign_ASTvalue1_0(node: ASTvalue1, value: Any) {
         node.VALUE1 = (value as String)
     }
     private fun allocASTvalue2(): ASTvalue2 {
@@ -2772,7 +2772,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 11
         return tmp
     }
-    public fun printASTvalue2(node: ASTvalue2?): Unit {
+    public fun printASTvalue2(node: ASTvalue2?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2781,11 +2781,11 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTvalue2(node: ASTvalue2?): Unit {
+    public fun freeASTvalue2(node: ASTvalue2?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any): Unit {
+    private fun astAssign_ASTvalue2_0(node: ASTvalue2, value: Any) {
         node.VALUE2 = (value as String)
     }
     private fun allocASTtext(): ASTtext {
@@ -2793,7 +2793,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 7
         return tmp
     }
-    public fun printASTtext(node: ASTtext?): Unit {
+    public fun printASTtext(node: ASTtext?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2802,11 +2802,11 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTtext(node: ASTtext?): Unit {
+    public fun freeASTtext(node: ASTtext?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTtext_0(node: ASTtext, value: Any): Unit {
+    private fun astAssign_ASTtext_0(node: ASTtext, value: Any) {
         node.TEXT = (value as String)
     }
     private fun allocASTcloseimmediately(): ASTcloseimmediately {
@@ -2814,7 +2814,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 9
         return tmp
     }
-    public fun printASTcloseimmediately(node: ASTcloseimmediately?): Unit {
+    public fun printASTcloseimmediately(node: ASTcloseimmediately?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2822,7 +2822,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTcloseimmediately(node: ASTcloseimmediately?): Unit {
+    public fun freeASTcloseimmediately(node: ASTcloseimmediately?) {
         if ((node != null)) {
         }
     }
@@ -2831,7 +2831,7 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
         tmp.id = 2
         return tmp
     }
-    public fun printASTcomment(node: ASTcomment?): Unit {
+    public fun printASTcomment(node: ASTcomment?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -2840,15 +2840,14 @@ println("XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosit
             print("},")
         }
     }
-    public fun freeASTcomment(node: ASTcomment?): Unit {
+    public fun freeASTcomment(node: ASTcomment?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTcomment_0(node: ASTcomment, value: Any): Unit {
+    private fun astAssign_ASTcomment_0(node: ASTcomment, value: Any) {
         node.COMMENT = (value as String)
     }
     public fun getResult(): ASTxmldoc {
         return (stack.last() as ASTxmldoc)
     }
-internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
-
+    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0 }

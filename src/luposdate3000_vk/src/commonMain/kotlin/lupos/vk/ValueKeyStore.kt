@@ -29,7 +29,7 @@ import kotlin.math.min
 public class ValueKeyStore public constructor(
     bufferManager2: IBufferManager,
     @JvmField internal val rootPageID: Int,
-    initFromRootPage: Boolean
+    initFromRootPage: Boolean,
 ) {
     public companion object {
         public const val ID_NULL: Int = -1

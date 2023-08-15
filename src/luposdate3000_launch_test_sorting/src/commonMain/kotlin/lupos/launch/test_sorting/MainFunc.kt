@@ -251,7 +251,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
         ),
   */
         Pair(
-            "mergesort2"
+            "mergesort2",
         ) {
             mergesort2(
                 dataA.size,
@@ -326,7 +326,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                     "n_times_n=${n_times_n.toString().padStart(15, ' ')} " +
                     "comparisons=${comparisons.toString().padStart(10, ' ')} " +
                     "swapped=${swapped.toString().padStart(10, ' ')} " +
-                    "time=${time.toString().padStart(10, ' ')} "
+                    "time=${time.toString().padStart(10, ' ')} ",
             )
         }
     }

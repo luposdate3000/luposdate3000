@@ -25,5 +25,5 @@ public abstract class AOPBinaryOperationFixedName public constructor(
     query: IQuery,
     operatorID: EOperatorID,
     classname: String,
-    children: Array<IOPBase>
+    children: Array<IOPBase>,
 ) : AOPBase(query, operatorID, classname, children)

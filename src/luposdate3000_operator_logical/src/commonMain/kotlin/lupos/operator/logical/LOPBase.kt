@@ -29,7 +29,7 @@ public abstract class LOPBase public constructor(
     operatorID: EOperatorID,
     classname: String,
     children: Array<IOPBase>,
-    sortPriority: ESortPriority
+    sortPriority: ESortPriority,
 ) :
     OPBase(query, operatorID, classname, children, sortPriority), ILOPBase {
     override fun getPartitionCount(variable: String): Int = SanityCheck.checkUnreachable()

@@ -41,7 +41,7 @@ public class LOPTriple public constructor(
     p: IAOPBase,
     o: IAOPBase,
     @JvmField public val graph: String,
-    @JvmField public val graphVar: Boolean
+    @JvmField public val graphVar: Boolean,
 ) : LOPBase(query, EOperatorIDExt.LOPTripleID, "LOPTriple", arrayOf(s, p, o), ESortPriorityExt.ANY_PROVIDED_VARIABLE) {
     override fun toSparql(): String {
         if (graph == TripleStoreManager.DEFAULT_GRAPH_NAME) {

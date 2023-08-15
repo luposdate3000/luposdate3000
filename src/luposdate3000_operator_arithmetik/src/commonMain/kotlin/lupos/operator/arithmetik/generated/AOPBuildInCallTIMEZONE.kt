@@ -16,8 +16,6 @@
  */
 package lupos.operator.arithmetik.generated
 
-import com.ionspin.kotlin.bignum.decimal.BigDecimal
-import com.ionspin.kotlin.bignum.integer.BigInteger
 import lupos.operator.arithmetik.AOPBase
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
@@ -47,12 +45,12 @@ public class AOPBuildInCallTIMEZONE public constructor(query: IQuery, child0: AO
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 ETripleComponentTypeExt.DATE_TIME -> {
-                    val tmp_5_timezone: Pair<String,String>? = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
-if(tmp_5_timezone==null){
-DictionaryHelper.undefToByteArray(tmp_2)
-}else{
-                    DictionaryHelper.typedToByteArray(tmp_2, tmp_5_timezone.first,tmp_5_timezone.second)
-}
+                    val tmp_5_timezone: Pair<String, String>? = DictionaryHelper.byteArrayToDateTime_TimeZone(tmp_0)
+                    if (tmp_5_timezone == null) {
+                        DictionaryHelper.undefToByteArray(tmp_2)
+                    } else {
+                        DictionaryHelper.typedToByteArray(tmp_2, tmp_5_timezone.first, tmp_5_timezone.second)
+                    }
                     res = query.getDictionary().createValue(tmp_2)
                 }
                 else -> {

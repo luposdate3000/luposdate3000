@@ -1,9 +1,9 @@
-import java.util.concurrent.TimeUnit
 import java.lang.ProcessBuilder.Redirect
+import java.util.concurrent.TimeUnit
 internal fun exec(clazz: Class<*>, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
-    return exec(clazz.name,args,jvmArgs)
+    return exec(clazz.name, args, jvmArgs)
 }
-internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
+internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: List<String> = emptyList()): Int {
     val javaHome = System.getProperty("java.home")
     val javaBin = javaHome + "/bin/java"
     val classpath = System.getProperty("java.class.path")
@@ -17,18 +17,19 @@ internal fun exec(className:String, args: List<String> = emptyList(), jvmArgs: L
     val builder = ProcessBuilder(command)
     val env = builder.environment()
     env.putAll(System.getenv())
-    builder.redirectError(Redirect.appendTo(java.io.File(className+".err")))
-    builder.redirectOutput(Redirect.appendTo(java.io.File(className+".log")))
+    builder.redirectError(Redirect.appendTo(java.io.File(className + ".err")))
+    builder.redirectOutput(Redirect.appendTo(java.io.File(className + ".log")))
     val process = builder.start()
     process.waitFor(10, TimeUnit.SECONDS)
     process.destroyForcibly()
     process.waitFor()
     return process.exitValue()
 }
-public fun main(){
-    val tests=listOf(
+public fun main() {
+    val tests = listOf(
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional9sparql5Kt",
     )
-    val tests2=listOf(
+    val tests2 = listOf(
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery111853sparql1853Kt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery112210sparql2210Kt",
@@ -95,7 +96,6 @@ public fun main(){
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional7sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional8sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional8sparql5Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional9sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery5sparql2502simulatorparkinginputttlKt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery5sparql377simulatorparkinginputsmallttlKt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery62sparql2502simulatorparkinginputttlKt",
@@ -125,9 +125,9 @@ public fun main(){
         "lupos.launch_code_gen_test_00.SubtractionwithMINUSfromapartiallyboundminuendKt",
         "lupos.launch_code_gen_test_00.TZKt",
     )
-    tests.parallelStream().forEach{it->
-              println(it+" start")
-              exec(it, jvmArgs = listOf("-Xmx8g"))
-              println(it+" done")
+    tests.parallelStream().forEach { it ->
+        println(it + " start")
+        exec(it, jvmArgs = listOf("-Xmx8g"))
+        println(it + " done")
     }
 }

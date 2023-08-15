@@ -98,7 +98,7 @@ public class TripleStoreDescriptionModifyCache : ITripleStoreDescriptionModifyCa
                             index,
                             { row2, j2, index2 ->
                                 index2.findPartitionFor(query, row2) == j2
-                            }
+                            },
                         )
                         if (host == localH) {
                             allConnLocal.add(TripleStoreDescriptionModifyCacheConnection(null, TripleStoreDescriptionModifyCacheLocalInputStream(key, type, idx, instance, isSorted, j), mutableListOf(filter), true, host2))

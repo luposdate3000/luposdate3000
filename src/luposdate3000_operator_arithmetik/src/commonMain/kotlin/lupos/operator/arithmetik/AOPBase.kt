@@ -35,7 +35,7 @@ public abstract class AOPBase public constructor(
     query: IQuery,
     operatorID: EOperatorID,
     classname: String,
-    children: Array<IOPBase>
+    children: Array<IOPBase>,
 ) :
     OPBase(query, operatorID, classname, children, ESortPriorityExt.PREVENT_ANY), IAOPBase {
     public fun evaluateAsBoolean(row: IteratorBundle): () -> Boolean {

@@ -25,7 +25,7 @@ internal fun generatePOPBind(
     projectedVariables: String,
     buffer: MyPrintWriter,
     imports: MutableSet<String>,
-    containers: MutableList<ClazzContainer>
+    containers: MutableList<ClazzContainer>,
 ) {
     val clazz = ClazzContainer("operator${operatorGraph.uuid}", operatorGraph.uuid)
     var inlineChild: Boolean = false

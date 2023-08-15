@@ -37,7 +37,7 @@ val registeredCodeSegments: List<CodeSegment> = mutableListOf(
                     expDiv({ expRef(a) }, { expRef(b) })
                 }
                 statementEvent(c)
-            }
+            },
         )
     },
 )

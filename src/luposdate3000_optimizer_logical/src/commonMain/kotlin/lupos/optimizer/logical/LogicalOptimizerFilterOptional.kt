@@ -98,16 +98,16 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
                                     query,
                                     AOPVariable(
                                         query,
-                                        optionalIndicator
-                                    )
+                                        optionalIndicator,
+                                    ),
                                 ),
                                 AOPBuildInCallCOALESCE(
                                     query,
                                     listOf(
                                         filterOutside,
-                                        AOPConstant(query, DictionaryValueHelper.booleanFalseValue)
-                                    )
-                                )
+                                        AOPConstant(query, DictionaryValueHelper.booleanFalseValue),
+                                    ),
+                                ),
                             ),
                             AOPNot(
                                 query,
@@ -115,12 +115,12 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
                                     query,
                                     AOPVariable(
                                         query,
-                                        optionalIndicator
-                                    )
-                                )
-                            )
+                                        optionalIndicator,
+                                    ),
+                                ),
+                            ),
                         ),
-                        node
+                        node,
                     )
                     res.dontSplitFilter = 1
                     onChange()

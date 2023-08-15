@@ -25,7 +25,8 @@ class CodeSegment(parentFunction: CodeFunction?, val name: String) : CodeStateme
 
     fun generate(target: CodeFunctionBody, params: CodeParameterContainer, onEvent: CodeFunctionBody.(CodeReturnEvent) -> Unit) {
         copyInto(
-            target, onEvent,
+            target,
+            onEvent,
             { name ->
                 var res = name
                 for (i in 0 until parameterContainer.parameters.size) {
@@ -34,7 +35,7 @@ class CodeSegment(parentFunction: CodeFunction?, val name: String) : CodeStateme
                     }
                 }
                 res
-            }
+            },
         )
     }
 

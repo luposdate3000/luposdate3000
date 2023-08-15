@@ -34,7 +34,7 @@ public class LOPGraphOperation public constructor(
     @JvmField public var graph1type: EGraphRefType,
     @JvmField public var graph1iri: String?,
     @JvmField public var graph2type: EGraphRefType,
-    @JvmField public var graph2iri: String?
+    @JvmField public var graph2iri: String?,
 ) : LOPBase(query, EOperatorIDExt.LOPGraphOperationID, "LOPGraphOperation", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     public constructor(query: IQuery, action: EGraphOperationType, silent: Boolean, graph1: Pair<EGraphRefType, String?>) : this(query, action, silent, graph1.first, graph1.second, EGraphRefTypeExt.DefaultGraphRef, null)
     public constructor(query: IQuery, action: EGraphOperationType, silent: Boolean, graph1type: EGraphRefType, graph1iri: String?) : this(query, action, silent, graph1type, graph1iri, EGraphRefTypeExt.DefaultGraphRef, null)

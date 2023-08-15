@@ -48,7 +48,7 @@ class DatabaseHandleLuposdateMemory(val port: Int) : DatabaseHandle() {
         cmd.add("MEMORY")
         println(cmd)
         val p = ProcessBuilder(
-            cmd
+            cmd,
         ).directory(File("."))
         processInstance = p.start()
         val inputstream = processInstance!!.getInputStream()

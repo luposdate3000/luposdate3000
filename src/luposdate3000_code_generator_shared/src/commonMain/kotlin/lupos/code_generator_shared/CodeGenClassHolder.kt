@@ -24,7 +24,7 @@ public class CodeGenClassHolder(
     private val className: String,
     private val children: Array<CodeGenClassHolder>,
     private val name: String = "",
-    private val value: ByteArrayWrapper = ByteArrayWrapper()
+    private val value: ByteArrayWrapper = ByteArrayWrapper(),
 ) {
     private val uuid = UUID_Counter.getNextUUID()
     public fun getUUID(): Long {

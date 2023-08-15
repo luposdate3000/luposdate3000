@@ -73,7 +73,7 @@ internal fun mainFunc(
         val paramsiaop = arrayOf<IAOPBase>(
             AOPVariable(query, "j"),
             AOPConstant(query, query.getDictionary().createValue(buf)),
-            AOPVariable(query, "a")
+            AOPVariable(query, "a"),
         )
         var op: IOPBase = store.getIterator(query, paramsiaop, EIndexPatternExt.PSO)
         if (partitions > 1) {
@@ -86,7 +86,7 @@ internal fun mainFunc(
             val paramsiaop = arrayOf<IAOPBase>(
                 AOPVariable(query, "j"),
                 AOPConstant(query, query.getDictionary().createValue(buf)),
-                AOPVariable(query, "$cc")
+                AOPVariable(query, "$cc"),
             )
             var op2: IOPBase = store.getIterator(query, paramsiaop, EIndexPatternExt.PSO)
             if (partitions > 1) {

@@ -47,7 +47,7 @@ public class POPTripleStoreIterator(
     EOperatorIDExt.POPTripleStoreIterator,
     "POPTripleStoreIterator",
     children,
-    ESortPriorityExt.ANY_PROVIDED_VARIABLE
+    ESortPriorityExt.ANY_PROVIDED_VARIABLE,
 ) {
     @JvmField
     public var partitionColumn: String? = null
@@ -180,7 +180,7 @@ public class POPTripleStoreIterator(
                 child as IAOPVariable
                 false to (DictionaryValueHelper.nullValue to child.getName())
             }
-        }.toTypedArray()
+        }.toTypedArray(),
     )
 
     override fun usesDictionary(): Boolean {

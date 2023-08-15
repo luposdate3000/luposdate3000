@@ -15,11 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package launcher
-import lupos.shared.myPrintStackTraceAndThrowAgain
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.EOperatingSystemExt
 import lupos.shared.inline.Platform
+import lupos.shared.myPrintStackTrace
+import lupos.shared.myPrintStackTraceAndThrowAgain
 import java.io.File
 import java.io.PrintWriter
 import java.lang.ProcessBuilder.Redirect
@@ -424,7 +423,7 @@ public fun createBuildFileForModule(moduleArgs: CreateModuleArgs) {
                 out.println("    }")
                 out.println("}")
                 val allDep = mutableSetOf<String>()
-commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
+                commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
                 allDep.addAll(commonDependencies)
                 allDep.addAll(jsDependencies)
                 allDep.addAll(jvmDependencies)
@@ -807,7 +806,7 @@ commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
                 if (useKover) {
                     out.println("        extensions.configure(kotlinx.kover.api.KoverTaskExtension::class) {")
                     out.println("            isEnabled = true")
-//out.println("            binaryReportFile.set(file(\"\$buildDir/custom/kover_result.bin\"))")
+// out.println("            binaryReportFile.set(file(\"\$buildDir/custom/kover_result.bin\"))")
                     out.println("            includes = listOf(\"lupos\\\\..*\")")
                     out.println("            excludes = listOf(\"java\\\\..*\")")
                     out.println("        }")
@@ -816,14 +815,14 @@ commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
                 if (useKover) {
                     out.println("    tasks.koverHtmlReport {")
                     out.println("        isEnabled = true                        ")
-//out.println("        htmlReportDir.set(layout.buildDirectory.dir(\"my-reports/html-result\"))")
+// out.println("        htmlReportDir.set(layout.buildDirectory.dir(\"my-reports/html-result\"))")
                     out.println("    }")
                     out.println("    tasks.koverXmlReport {")
                     out.println("        isEnabled = true                        ")
-//out.println("        xmlReportFile.set(layout.buildDirectory.file(\"my-reports/result.xml\"))")
+// out.println("        xmlReportFile.set(layout.buildDirectory.file(\"my-reports/result.xml\"))")
                     out.println("    }")
                     out.println("    tasks.koverCollectReports {")
-//out.println("        outputDir.set(layout.buildDirectory.dir(\"my-reports-dir\"))")
+// out.println("        outputDir.set(layout.buildDirectory.dir(\"my-reports-dir\"))")
                     out.println("    }")
                     out.println("    kover {")
                     out.println("        isEnabled = true                        ")
@@ -898,7 +897,7 @@ commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                     }
                 }
             }
@@ -906,22 +905,22 @@ commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/commonMain"), ("$shared_inline_base_folder/src/commonMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                 }
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/jvmMain"), ("$shared_inline_base_folder/src/jvmMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                 }
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/jsMain"), ("$shared_inline_base_folder/src/jsMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                 }
                 try {
                     copyFilesWithReplacement(("src/luposdate3000_shared_inline/src/nativeMain"), ("$shared_inline_base_folder/src/nativeMain"), replacementsDefault, sharedInlineReferences)
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
                 }
             }
         }
@@ -934,9 +933,9 @@ commonDependencies.remove("luposdate3000:Luposdate3000_Shared_JS_Node:0.0.1")
         File(configFile).printWriter().use { out ->
             out.println("package lupos.shared")
             for (v in typeAliasAll.values) {
-if (moduleArgs.moduleName=="Luposdate3000_Shared"){
-                out.println("public typealias ${v.first} = ${v.second}")
-}
+                if (moduleArgs.moduleName == "Luposdate3000_Shared") {
+                    out.println("public typealias ${v.first} = ${v.second}")
+                }
             }
             for (f in listOf("${moduleArgs.moduleFolder}/configOptions", "src/luposdate3000_shared_inline/configOptions")) {
                 if (File(f).exists()) {
@@ -968,12 +967,12 @@ if (moduleArgs.moduleName=="Luposdate3000_Shared"){
         try {
             File(srcFolder).deleteRecursively()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
         }
         try {
             File(buildFolder).deleteRecursively()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
         }
         for (f in listOf(File(File(srcFolder), "gradle.log"), File(File(srcFolder), "gradle.err"))) {
             if (f.exists()) {
@@ -983,7 +982,7 @@ if (moduleArgs.moduleName=="Luposdate3000_Shared"){
             }
         }
     } catch (e: Throwable) {
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/ )
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/""/*SOURCE_FILE_END*/)
     }
 }
 

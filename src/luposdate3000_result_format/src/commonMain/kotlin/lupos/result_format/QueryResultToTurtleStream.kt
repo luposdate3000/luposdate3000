@@ -87,7 +87,7 @@ public class QueryResultToTurtleStream : IResultFormat {
                     onError = {
                     },
                     onUndefined = {
-                    }
+                    },
                 )
             }
             resultWriter.print("${line[variablesIndices[0]]} ${line[variablesIndices[1]]} ${line[variablesIndices[2]]} .\n")
@@ -123,7 +123,7 @@ public class QueryResultToTurtleStream : IResultFormat {
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
         for (n in rootNode.nodes) {
-val (columnProjectionOrder, child)=n()
+            val (columnProjectionOrder, child) = n()
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder

@@ -50,14 +50,14 @@ public fun applySuspend(f: String, suspendMode: SuspendMode) {
                     out.println(
                         it //
                             .replace(regexDisableSuspend, "\$1suspend ") //
-                            .replace(regexEnableSuspend, "suspend ")
+                            .replace(regexEnableSuspend, "suspend "),
                     )
                 }
                 SuspendMode.Disable -> {
                     out.println(
                         it //
                             .replace(regexDisableSuspend, "\$1") //
-                            .replace(regexEnableSuspend, "")
+                            .replace(regexEnableSuspend, ""),
                     )
                 }
             }

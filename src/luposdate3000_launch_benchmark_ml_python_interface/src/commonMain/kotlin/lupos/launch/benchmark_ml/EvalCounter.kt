@@ -52,7 +52,7 @@ public object EvalCounter {
                             query.machineLearningCounter++
                             local_ctr++
                             query.machineLearningCounterGlobal++
-                            if (local_ctr > the_limit || query.machineLearningCounterGlobal> the_global_limit) {
+                            if (local_ctr > the_limit || query.machineLearningCounterGlobal > the_global_limit) {
                                 query.machineLearningAbort = true
                                 DictionaryValueHelper.nullValue
                             } else {
@@ -88,7 +88,7 @@ public object EvalCounter {
                         return if (label != 0) {
                             query.machineLearningCounterGlobal++
                             local_ctr++
-                            if (local_ctr > the_limit || query.machineLearningCounterGlobal> the_global_limit) {
+                            if (local_ctr > the_limit || query.machineLearningCounterGlobal > the_global_limit) {
                                 query.machineLearningAbort = true
                                 DictionaryValueHelper.nullValue
                             } else {

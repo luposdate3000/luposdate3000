@@ -46,14 +46,16 @@ public class QueryResultToMemoryTable : IResultFormat {
                 rowBuf[variableIndex] = valueID
             }
             lock?.lock()
-            output.data.add(DictionaryValueTypeArray(variables.size) { 
-val x=rowBuf[it]
-if(x==DictionaryValueHelper.errorValue){
-DictionaryValueHelper.undefValue
-}else{
-x
-}
- })
+            output.data.add(
+                DictionaryValueTypeArray(variables.size) {
+                    val x = rowBuf[it]
+                    if (x == DictionaryValueHelper.errorValue) {
+                        DictionaryValueHelper.undefValue
+                    } else {
+                        x
+                    }
+                },
+            )
             lock?.unlock()
         }
         for (element in columns) {
@@ -84,7 +86,7 @@ x
         }
         val resultList = mutableListOf<MemoryTable>()
         for (n in rootNode.nodes) {
-val (columnProjectionOrder, child)=n()
+            val (columnProjectionOrder, child) = n()
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder

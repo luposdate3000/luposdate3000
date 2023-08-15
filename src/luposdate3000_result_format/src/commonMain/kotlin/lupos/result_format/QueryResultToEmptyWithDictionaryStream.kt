@@ -73,7 +73,7 @@ public class QueryResultToEmptyWithDictionaryStream : IResultFormat {
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
         for (n in rootNode.nodes) {
-val (columnProjectionOrder, child)=n()
+            val (columnProjectionOrder, child) = n()
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder

@@ -168,7 +168,7 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 }
                             }
                             ETripleComponentTypeExt.STRING_LANG -> {
-    res=                            DictionaryValueHelper.undefValue
+                                res = DictionaryValueHelper.undefValue
                             }
                             ETripleComponentTypeExt.STRING_TYPED -> {
                                 val tmp_148: String = DictionaryHelper.byteArrayToString(tmp_0)
@@ -221,9 +221,9 @@ public class AOPBuildInCallSTRAFTER public constructor(query: IQuery, child0: AO
                                 val tmp_168_lang: String = DictionaryHelper.byteArrayToLang_Lang(tmp_1)
                                 val tmp_170_idx: Int = tmp_167_content.indexOf(tmp_168_content)
                                 val tmp_169_lang: String = tmp_167_lang
-res=if(tmp_167_lang!=tmp_168_lang){
-DictionaryValueHelper.undefValue
-}                                else if (tmp_170_idx >= 0) {
+                                res = if (tmp_167_lang != tmp_168_lang) {
+                                    DictionaryValueHelper.undefValue
+                                } else if (tmp_170_idx >= 0) {
                                     val tmp_169_content: String = tmp_167_content.substring(tmp_170_idx + tmp_168_content.length, tmp_167_content.length)
                                     DictionaryHelper.langToByteArray(tmp_4, tmp_169_content, tmp_169_lang)
                                     query.getDictionary().createValue(tmp_4)
@@ -279,7 +279,7 @@ DictionaryValueHelper.undefValue
                                 }
                             }
                             ETripleComponentTypeExt.STRING_LANG -> {
-res=DictionaryValueHelper.undefValue
+                                res = DictionaryValueHelper.undefValue
                             }
                             ETripleComponentTypeExt.STRING_TYPED -> {
                                 val action4 = {

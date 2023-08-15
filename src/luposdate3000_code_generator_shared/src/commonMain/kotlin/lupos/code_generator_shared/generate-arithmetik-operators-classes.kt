@@ -243,7 +243,7 @@ public fun generateMethod(
     isChild: Boolean,
     builder: StringBuilder,
     variables: MutableMap<String, String>,
-    toBoolean: Boolean
+    toBoolean: Boolean,
 ) {
     imports.add("lupos.shared.ETripleComponentTypeExt")
     imports.add("lupos.shared.ETripleComponentType")
@@ -400,7 +400,7 @@ public class MyOperator(
 ) {
 
     private fun generate(indention: String, representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>) {
-println("generating operator $name")
+        println("generating operator $name")
         if (representation == EParamRepresentation.INSTANTIATED) {
             throw Exception("there is no need to combine functions here")
         }
@@ -542,7 +542,7 @@ println("generating operator $name")
                         imports,
                         target,
                         globalVariables,
-                        ::prefixVal_no
+                        ::prefixVal_no,
                     ) { indention2, resultType ->
                         outputType.add(resultType)
                         if (representation == EParamRepresentation.ID) {
@@ -571,7 +571,7 @@ println("generating operator $name")
                         imports,
                         target,
                         globalVariables,
-                        ::prefixVal_no
+                        ::prefixVal_no,
                     ) { indention2, resultType ->
                         outputType.add(resultType)
                         if (resultType == ETripleComponentTypeExt.BLANK_NODE) {
@@ -584,7 +584,7 @@ println("generating operator $name")
                                 val converter = getRepresentationConversionFunction(
                                     resultType,
                                     EParamRepresentation.INSTANTIATED,
-                                    EParamRepresentation.BYTEARRAYWRAPPER
+                                    EParamRepresentation.BYTEARRAYWRAPPER,
                                 )
                                 converter.generate(
                                     indention2,
@@ -593,7 +593,7 @@ println("generating operator $name")
                                     imports,
                                     target,
                                     globalVariables,
-                                    ::prefixVal_no
+                                    ::prefixVal_no,
                                 )
                                 if (representation == EParamRepresentation.ID) {
                                     target.appendLine("$indention2$outputName = query.getDictionary().createValue(tmp_$outputName)")
@@ -742,7 +742,7 @@ public class MyRepresentationConversionFunction(
         StringBuilder, // target
         MutableSet<String>, // globalVariables,
         (String, EVariablePlaceholder) -> String, // valPrefix
-    ) -> Unit
+    ) -> Unit,
 )
 
 public class MyOperatorPartFactory {
@@ -768,7 +768,7 @@ public class MyOperatorPartFactory {
                                     childrenTypes = arrayOf(i),
                                     generateInstantiated = generateInstantiatedOther!!,
                                     generateByteArrayWrapper = generateByteArrayWrapperOther,
-                                )
+                                ),
                             )
                         }
                     }
@@ -789,7 +789,7 @@ public class MyOperatorPartFactory {
                                         childrenTypes = arrayOf(i, j),
                                         generateInstantiated = generateInstantiatedOther!!,
                                         generateByteArrayWrapper = generateByteArrayWrapperOther,
-                                    )
+                                    ),
                                 )
                             }
                         }
@@ -812,7 +812,7 @@ public class MyOperatorPartFactory {
                                             childrenTypes = arrayOf(i, j, k),
                                             generateInstantiated = generateInstantiatedOther!!,
                                             generateByteArrayWrapper = generateByteArrayWrapperOther,
-                                        )
+                                        ),
                                     )
                                 }
                             }
@@ -845,7 +845,7 @@ public class MyOperatorPartFactory {
                     childrenTypes = p,
                     generateInstantiated = generateInstantiated,
                     generateByteArrayWrapper = generateByteArrayWrapper,
-                )
+                ),
             )
         }
         return this
@@ -870,7 +870,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -889,7 +889,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -908,7 +908,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -927,7 +927,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -946,7 +946,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DECIMAL)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -965,7 +965,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -984,7 +984,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -1002,7 +1002,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -1020,7 +1020,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
-            )
+            ),
         )
 
         list.add(
@@ -1039,7 +1039,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.FLOAT)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -1057,7 +1057,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -1075,7 +1075,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -1093,7 +1093,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -1111,7 +1111,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
-            )
+            ),
         )
         list.add(
             MyOperatorPart(
@@ -1129,7 +1129,7 @@ public class MyOperatorPartFactory {
                         onResult("$indention    ", ETripleComponentTypeExt.DOUBLE)
                     }
                 },
-            )
+            ),
         )
         return this
     }
@@ -1153,7 +1153,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             imports.add("com.ionspin.kotlin.bignum.integer.BigInteger")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Integer)} = DictionaryHelper.byteArrayToInteger_I($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.INTEGER,
@@ -1164,7 +1164,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.integerToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.DECIMAL,
@@ -1174,7 +1174,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             imports.add("com.ionspin.kotlin.bignum.decimal.BigDecimal")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Decimal)} = DictionaryHelper.byteArrayToDecimal_I($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.DECIMAL,
@@ -1185,7 +1185,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.decimalToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.DOUBLE,
@@ -1194,7 +1194,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = DictionaryHelper.byteArrayToDouble_I($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.DOUBLE,
@@ -1205,7 +1205,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.doubleToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.FLOAT,
@@ -1214,7 +1214,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Double)} = DictionaryHelper.byteArrayToFloat_I($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.STRING_TYPED,
@@ -1224,7 +1224,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)}= DictionaryHelper.byteArrayToTyped_Content($inputName)")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_type)} = DictionaryHelper.byteArrayToTyped_Type($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.STRING_LANG,
@@ -1234,7 +1234,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = DictionaryHelper.byteArrayToLang_Content($inputName)")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_lang)} = DictionaryHelper.byteArrayToLang_Lang($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.IRI,
@@ -1243,7 +1243,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Iri)} = DictionaryHelper.byteArrayToIri($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.STRING,
@@ -1252,7 +1252,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.String_content)} = DictionaryHelper.byteArrayToString($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.BLANK_NODE,
@@ -1261,7 +1261,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Blank_Node)} = DictionaryHelper.byteArrayToBnode_I($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.BOOLEAN,
@@ -1270,7 +1270,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
         generate = { indention, inputName, outputName, imports, target, _, valPrefix ->
             imports.add("lupos.shared.inline.DictionaryHelper")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.Boolean)} = DictionaryHelper.byteArrayToBoolean($inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.BLANK_NODE,
@@ -1281,7 +1281,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.bnodeToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.STRING,
@@ -1292,7 +1292,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.stringToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.STRING_LANG,
@@ -1303,7 +1303,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.langToByteArray($outputName, ${inputName}_content, ${inputName}_lang)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.STRING_TYPED,
@@ -1314,7 +1314,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.typedToByteArray($outputName, ${inputName}_content, ${inputName}_type)")
-        }
+        },
     ),
 
     MyRepresentationConversionFunction(
@@ -1326,7 +1326,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.iriToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.FLOAT,
@@ -1337,21 +1337,21 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.floatToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.ERROR,
         inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { _, _, _, _, _, _, _ ->
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.UNDEF,
         inputRepresentation = EParamRepresentation.BYTEARRAYWRAPPER,
         outputRepresentation = EParamRepresentation.INSTANTIATED,
         generate = { _, _, _, _, _, _, _ ->
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.BOOLEAN,
@@ -1362,7 +1362,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.booleanToByteArray($outputName, $inputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.ERROR,
@@ -1373,7 +1373,7 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             imports.add("lupos.shared.inline.DictionaryHelper")
             globalVariables.add("${valPrefix(outputName, EVariablePlaceholderExt.ByteArrayWrapper)} = ByteArrayWrapper()")
             target.appendLine("${indention}DictionaryHelper.errorToByteArray($outputName)")
-        }
+        },
     ),
     MyRepresentationConversionFunction(
         type = ETripleComponentTypeExt.DATE_TIME,
@@ -1392,6 +1392,6 @@ public val converters: List<MyRepresentationConversionFunction> = listOf(
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_seconds)}= DictionaryHelper.byteArrayToDateTime_Seconds($inputName)")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_tz)} = DictionaryHelper.byteArrayToDateTime_TZ($inputName)")
             target.appendLine("${indention}${valPrefix(outputName, EVariablePlaceholderExt.DateTime_timezone)} = DictionaryHelper.byteArrayToDateTime_TimeZone($inputName)")
-        }
+        },
     ),
 )

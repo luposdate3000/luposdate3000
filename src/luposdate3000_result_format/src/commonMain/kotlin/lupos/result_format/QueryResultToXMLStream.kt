@@ -126,7 +126,7 @@ public class QueryResultToXMLStream : IResultFormat {
                         resultWriter.print(value)
                         resultWriter.print("</uri>\n   </binding>\n")
                     },
-                    {}, {}
+                    {}, {},
                 )
             }
             resultWriter.print("  </result>\n")
@@ -163,7 +163,7 @@ public class QueryResultToXMLStream : IResultFormat {
             query.setDictionaryUrl("${query.getInstance().LUPOS_PROCESS_URLS_ALL[0]}/distributed/query/dictionary?key=$key")
         }
         for (n in rootNode.nodes) {
-val (columnProjectionOrder, child)=n()
+            val (columnProjectionOrder, child) = n()
             output.print("<sparql xmlns=\"http://www.w3.org/2005/sparql-results#\">\n")
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
