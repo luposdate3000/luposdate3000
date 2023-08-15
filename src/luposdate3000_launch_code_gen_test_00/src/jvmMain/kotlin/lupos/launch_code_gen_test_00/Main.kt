@@ -27,9 +27,6 @@ internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: 
 }
 public fun main() {
     val tests = listOf(
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional9sparql5Kt",
-    )
-    val tests2 = listOf(
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery111853sparql1853Kt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery112210sparql2210Kt",
@@ -53,8 +50,6 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional30sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional31sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional31sparql5Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional32sparql4Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional32sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional33sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional34sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional34sparql5Kt",
@@ -78,8 +73,6 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional55sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional56sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional56sparql5Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional57sparql4Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional57sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional5sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional60sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional60sparql5Kt",
@@ -89,15 +82,12 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional62sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional63sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional63sparql5Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional64sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional6sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional6sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional7sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional7sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional8sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional8sparql5Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery5sparql2502simulatorparkinginputttlKt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery5sparql377simulatorparkinginputsmallttlKt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery62sparql2502simulatorparkinginputttlKt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery62sparql377simulatorparkinginputsmallttlKt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriessimulatorparkingquery6sparql2502simulatorparkinginputttlKt",
