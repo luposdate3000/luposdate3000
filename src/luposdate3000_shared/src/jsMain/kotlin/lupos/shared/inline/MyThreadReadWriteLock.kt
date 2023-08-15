@@ -20,81 +20,76 @@ import lupos.shared.SanityCheck
 import lupos.shared.UUID_Counter
 
 public actual class MyThreadReadWriteLock {
-    public val uuid :Long= UUID_Counter.getNextUUID()
+    public val uuid: Long = UUID_Counter.getNextUUID()
 
     @Suppress("NOTHING_TO_INLINE")
-    public actual inline fun getUUID():Long = uuid
+    public actual inline fun getUUID(): Long = uuid
 
-    public var lockedRead :Int= 0
+    public var lockedRead: Int = 0
 
-    public var lockedWrite :Boolean= false
+    public var lockedWrite: Boolean = false
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun downgradeToReadLock() {
-  if(SanityCheck.enabled)            {
-                if (!lockedWrite) {
-                    throw Exception("something went wrong 1")
-                }
-                lockedRead = 1
-                lockedWrite = false
+        if (SanityCheck.enabled) {
+            if (!lockedWrite) {
+                throw Exception("something went wrong 1")
             }
-        
+            lockedRead = 1
+            lockedWrite = false
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun readLock() {
-  if(SanityCheck.enabled)            {
-                if (lockedWrite) {
-                    throw Exception("something went wrong 2")
-                }
-                lockedRead++
+        if (SanityCheck.enabled) {
+            if (lockedWrite) {
+                throw Exception("something went wrong 2")
             }
-        
+            lockedRead++
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun readUnlock() {
-  if(SanityCheck.enabled)            {
-                if (lockedRead <= 0) {
-                    throw Exception("something went wrong 3")
-                }
-                lockedRead--
+        if (SanityCheck.enabled) {
+            if (lockedRead <= 0) {
+                throw Exception("something went wrong 3")
             }
-        
+            lockedRead--
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun writeLock() {
-  if(SanityCheck.enabled)            {
-                if (lockedRead > 0 || lockedWrite) {
-                    throw Exception("something went wrong 4 $lockedRead $lockedWrite")
-                }
-                lockedWrite = true
+        if (SanityCheck.enabled) {
+            if (lockedRead > 0 || lockedWrite) {
+                throw Exception("something went wrong 4 $lockedRead $lockedWrite")
             }
-        
+            lockedWrite = true
+        }
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun tryWriteLock(): Boolean {
-  if(SanityCheck.enabled)            {
-                if (lockedRead > 0 || lockedWrite) {
-                    throw Exception("something went wrong 5 $lockedRead $lockedWrite")
-                }
-                lockedWrite = true
+        if (SanityCheck.enabled) {
+            if (lockedRead > 0 || lockedWrite) {
+                throw Exception("something went wrong 5 $lockedRead $lockedWrite")
             }
-        
+            lockedWrite = true
+        }
+
         return true
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun writeUnlock() {
-  if(SanityCheck.enabled)            {
-                if (!lockedWrite) {
-                    throw Exception("something went wrong 6")
-                }
-                lockedWrite = false
+        if (SanityCheck.enabled) {
+            if (!lockedWrite) {
+                throw Exception("something went wrong 6")
             }
-        
+            lockedWrite = false
+        }
     }
 
     public actual inline fun <T> withReadLock(crossinline action: () -> T): T {

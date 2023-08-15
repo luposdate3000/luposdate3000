@@ -137,7 +137,7 @@ public class DictionaryKV internal constructor(
                     initFromRootPage,
                     instance,
                     0,
-                )
+                ),
             )
         }
     }
@@ -215,7 +215,7 @@ public class DictionaryKV internal constructor(
                 buffer,
                 value = {
                     kv.createValue(buffer)
-                }
+                },
             )
         }
         return DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
@@ -280,7 +280,7 @@ public class DictionaryKV internal constructor(
                 },
                 onFound = { _, id ->
                     mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
-                }
+                },
             )
             if (SanityCheck.enabled) { if (!(!ready)) { throw Exception("SanityCheck failed") } }
 

@@ -153,7 +153,7 @@ public object DictionaryHelperLarge {
             timezoneMinutes = -99
             hasTimeZone = false
         }
-println("dateTimeToByteArray .. middle "+str+" year:"+year+" month:"+month+" day:"+day+" hours:"+hours+" minutes:"+minutes+" seconds:"+seconds+" timezoneHours:"+timezoneHours+" timezoneMinutes:"+timezoneMinutes+" hasTimeZone:"+hasTimeZone)
+        println("dateTimeToByteArray .. middle " + str + " year:" + year + " month:" + month + " day:" + day + " hours:" + hours + " minutes:" + minutes + " seconds:" + seconds + " timezoneHours:" + timezoneHours + " timezoneMinutes:" + timezoneMinutes + " hasTimeZone:" + hasTimeZone)
         var done = false
         if (timezoneHours == -99 && timezoneMinutes == -99) {
             var shortEncoding = true

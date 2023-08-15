@@ -352,8 +352,8 @@ public class PhysicalOptimizerNaive(query: Query) : OptimizerBase(query, EOptimi
                     val g = res2.modify.map { it.first.graph }.toSet().map {
                         POPGraphOperation(query, listOf(), true, EGraphRefTypeExt.IriGraphRef, it, EGraphRefTypeExt.IriGraphRef, it, EGraphOperationTypeExt.CREATE)
                     }
-val x=g.map { listOf<String>() } + listOf(projectedVariables)
-println("PhysicalOptimizerNaive.kt .. ${g.map { listOf<String>() }} ${listOf(projectedVariables)} ${x}")
+                    val x = g.map { listOf<String>() } + listOf(projectedVariables)
+                    println("PhysicalOptimizerNaive.kt .. ${g.map { listOf<String>() }} ${listOf(projectedVariables)} $x")
                     res = OPBaseCompound(
                         query,
                         (g + res2).toTypedArray(),

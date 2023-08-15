@@ -33,7 +33,7 @@ public actual class MyThreadLock {
         TODO()
     }
 
-    public actual fun <T> withLock( action: () -> T): T {
+    public actual fun <T> withLock(action: () -> T): T {
         lock()
         try {
             return action()

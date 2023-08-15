@@ -24,6 +24,6 @@ package lupos.shared
 // AnnotationTarget.EXPRESSION,
 // AnnotationTarget.PROPERTY,
 // AnnotationTarget.LOCAL_VARIABLE,
-    AnnotationTarget.FIELD
+    AnnotationTarget.FIELD,
 )
 public annotation class CodeGenerationAnnotation

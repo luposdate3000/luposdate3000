@@ -139,7 +139,7 @@ public object ConverterBinaryToAOPBase {
                         null
                     } else {
                         childs[0]
-                    }
+                    },
                 )
             },
         )
@@ -364,7 +364,7 @@ public object ConverterBinaryToAOPBase {
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallIF.child[0]" })),
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallIF.child[1]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 12, { "AOPBuildInCallIF.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 12, { "AOPBuildInCallIF.child[1]" })),
                 )
             },
         )
@@ -378,7 +378,7 @@ public object ConverterBinaryToAOPBase {
                 }
                 AOPBuildInCallCOALESCE(
                     query,
-                    childs
+                    childs,
                 )
             },
         )
@@ -388,7 +388,7 @@ public object ConverterBinaryToAOPBase {
                 AOPGEQ(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPGEQ.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGEQ.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGEQ.child[1]" })),
                 )
             },
         )
@@ -398,7 +398,7 @@ public object ConverterBinaryToAOPBase {
                 AOPLEQ(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPLEQ.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLEQ.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLEQ.child[1]" })),
                 )
             },
         )
@@ -408,7 +408,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallCONCAT(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCONCAT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONCAT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONCAT.child[1]" })),
                 )
             },
         )
@@ -418,7 +418,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallSTRSTARTS(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRSTARTS.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRSTARTS.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRSTARTS.child[1]" })),
                 )
             },
         )
@@ -428,7 +428,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallCONTAINS(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCONTAINS.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONTAINS.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONTAINS.child[1]" })),
                 )
             },
         )
@@ -438,7 +438,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallSTRLANG(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLANG.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRLANG.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRLANG.child[1]" })),
                 )
             },
         )
@@ -448,7 +448,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallSTRDT(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRDT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRDT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRDT.child[1]" })),
                 )
             },
         )
@@ -458,7 +458,7 @@ public object ConverterBinaryToAOPBase {
                 AOPAddition(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAddition.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAddition.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAddition.child[1]" })),
                 )
             },
         )
@@ -468,7 +468,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallSTRENDS(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRENDS.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRENDS.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRENDS.child[1]" })),
                 )
             },
         )
@@ -478,7 +478,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallLANGMATCHES(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANGMATCHES.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallLANGMATCHES.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallLANGMATCHES.child[1]" })),
                 )
             },
         )
@@ -488,7 +488,7 @@ public object ConverterBinaryToAOPBase {
                 AOPOr(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPOr.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPOr.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPOr.child[1]" })),
                 )
             },
         )
@@ -498,7 +498,7 @@ public object ConverterBinaryToAOPBase {
                 AOPNEQ(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNEQ.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPNEQ.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPNEQ.child[1]" })),
                 )
             },
         )
@@ -508,7 +508,7 @@ public object ConverterBinaryToAOPBase {
                 AOPLT(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPLT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLT.child[1]" })),
                 )
             },
         )
@@ -518,7 +518,7 @@ public object ConverterBinaryToAOPBase {
                 AOPGT(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPGT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGT.child[1]" })),
                 )
             },
         )
@@ -528,7 +528,7 @@ public object ConverterBinaryToAOPBase {
                 AOPDivision(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPDivision.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPDivision.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPDivision.child[1]" })),
                 )
             },
         )
@@ -538,7 +538,7 @@ public object ConverterBinaryToAOPBase {
                 AOPSubtraction(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPSubtraction.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPSubtraction.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPSubtraction.child[1]" })),
                 )
             },
         )
@@ -548,7 +548,7 @@ public object ConverterBinaryToAOPBase {
                 AOPMultiplication(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPMultiplication.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPMultiplication.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPMultiplication.child[1]" })),
                 )
             },
         )
@@ -558,7 +558,7 @@ public object ConverterBinaryToAOPBase {
                 AOPAnd(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAnd.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAnd.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAnd.child[1]" })),
                 )
             },
         )
@@ -568,7 +568,7 @@ public object ConverterBinaryToAOPBase {
                 AOPEQ(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPEQ.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPEQ.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPEQ.child[1]" })),
                 )
             },
         )
@@ -578,7 +578,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallSTRAFTER(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRAFTER.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRAFTER.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRAFTER.child[1]" })),
                 )
             },
         )
@@ -588,7 +588,7 @@ public object ConverterBinaryToAOPBase {
                 AOPBuildInCallSTRBEFORE(
                     query,
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRBEFORE.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRBEFORE.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRBEFORE.child[1]" })),
                 )
             },
         )

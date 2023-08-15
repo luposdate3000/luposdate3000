@@ -139,7 +139,7 @@ public class Application_DatabaseDummy public constructor(
                 senderAddress = state.ownAddress,
                 operators = query.choosenOperators.map { it.getUUID() }.toIntArray(),
                 queryID = queryID,
-            )
+            ),
         )
 
         // Es kann passieren, dass mehrere Teilbäume auf dem gleichen Knoten landen,
@@ -159,7 +159,7 @@ public class Application_DatabaseDummy public constructor(
                     queryID = queryID,
                     operatorID = op.getUUID(),
                     result = op.evaluate(),
-                )
+                ),
             )
         }
     }
@@ -204,7 +204,7 @@ public class Application_DatabaseDummy public constructor(
                 operatorGraphParts = parts,
                 senderAddress = state.ownAddress,
                 queryID = queryID,
-            )
+            ),
         )
     }
 

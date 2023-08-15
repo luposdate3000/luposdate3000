@@ -41,7 +41,7 @@ public class POPModifyData public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     @JvmField public val type: EModifyType,
-    @JvmField public val data: List<LOPTriple>
+    @JvmField public val data: List<LOPTriple>,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPModifyDataID, "POPModifyData", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun equals(other: Any?): Boolean = other is POPModifyData && type == other.type && data == other.data
@@ -86,7 +86,7 @@ public class POPModifyData public constructor(
         return res
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData(type,data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } }, query)
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModifyData(type, data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } }, query)
     override fun usesDictionary(): Boolean {
         return true
     }

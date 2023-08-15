@@ -30,7 +30,7 @@ public class Visualizer : ILogger {
             val cnt = input.readInt()
             for (i in 0 until cnt) {
                 val len = input.readInt()
-                if (len> 0) {
+                if (len > 0) {
                     val buf = ByteArray(len)
                     input.read(buf, len)
                     val name = buf.decodeToString()
@@ -66,9 +66,9 @@ public class Visualizer : ILogger {
     }
 
     override fun onSendNetworkPackage(src: Int, dest: Int, hop: Int, pck: IPayload, delay: Long) {
-        if (src <hop) {
+        if (src < hop) {
             connections.add(src to hop)
-        } else if (hop <src) {
+        } else if (hop < src) {
             connections.add(hop to src)
         }
     }

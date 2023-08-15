@@ -113,7 +113,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
                 },
                 { n ->
                     node = n
-                }
+                },
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {
@@ -140,7 +140,7 @@ internal class NodeManager(@JvmField internal val bufferManager: IBufferManager)
                 },
                 { n ->
                     node = n
-                }
+                },
             )
             if (node != null) {
                 NodeInner.forEachChild(node!!) {

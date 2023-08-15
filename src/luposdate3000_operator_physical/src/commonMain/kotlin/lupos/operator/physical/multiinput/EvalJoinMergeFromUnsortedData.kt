@@ -30,10 +30,10 @@ public object EvalJoinMergeFromUnsortedData {
         val a = i / bufferArrayLen
         val b = i - a * bufferArrayLen
         for (col in sortOrder) {
-            if (array[col][a.toInt()][b.toInt()] <j[col]) {
+            if (array[col][a.toInt()][b.toInt()] < j[col]) {
                 return -1
             }
-            if (array[col][a.toInt()][b.toInt()]> j[col]) {
+            if (array[col][a.toInt()][b.toInt()] > j[col]) {
                 return 1
             }
         }
@@ -64,8 +64,8 @@ public object EvalJoinMergeFromUnsortedData {
         }
 
         while (left <= right) {
-            while (myComparator(array, left, pivot, sortOrder) <0) left++
-            while (myComparator(array, right, pivot, sortOrder)> 0) right--
+            while (myComparator(array, left, pivot, sortOrder) < 0) left++
+            while (myComparator(array, right, pivot, sortOrder) > 0) right--
             if (left <= right) {
                 swapArray(array, left, right)
                 left++

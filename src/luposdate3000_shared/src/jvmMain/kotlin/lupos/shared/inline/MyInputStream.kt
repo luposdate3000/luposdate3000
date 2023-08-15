@@ -72,28 +72,28 @@ public actual class MyInputStream(@JvmField public val stream: InputStream) : IM
     }
 
     actual override fun readInt(): Int {
-        if (read(buf8, 4) <4) {
+        if (read(buf8, 4) < 4) {
             throw EOFException()
         }
         return ByteArrayHelper.readInt4(buf8, 0)
     }
 
     actual override fun readDictionaryValueType(): DictionaryValueType {
-        if (read(buf8, DictionaryValueHelper.getSize()) <DictionaryValueHelper.getSize()) {
+        if (read(buf8, DictionaryValueHelper.getSize()) < DictionaryValueHelper.getSize()) {
             throw EOFException()
         }
         return DictionaryValueHelper.fromByteArray(buf8Wrapper, 0)
     }
 
     actual override fun readLong(): Long {
-        if (read(buf8, 8) <8) {
+        if (read(buf8, 8) < 8) {
             throw EOFException()
         }
         return ByteArrayHelper.readLong8(buf8, 0)
     }
 
     actual override fun readByte(): Byte {
-        if (read(buf8, 1) <1) {
+        if (read(buf8, 1) < 1) {
             throw EOFException()
         }
         return buf8[0]

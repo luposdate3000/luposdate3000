@@ -44,7 +44,7 @@ public class DictionaryInMemory internal constructor(
                     isLocal,
                     instance,
                     0,
-                )
+                ),
             )
         }
     }

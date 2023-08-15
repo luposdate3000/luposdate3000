@@ -35,7 +35,7 @@ public class ApplicationFactory_DataImport : IApplication_Factory {
                     json.getOrDefault("sendStartClockInSec", 0),
                     json.getOrDefault("fileName", ""),
                     ownAddress,
-                )
+                ),
             )
         }
         return listOf()

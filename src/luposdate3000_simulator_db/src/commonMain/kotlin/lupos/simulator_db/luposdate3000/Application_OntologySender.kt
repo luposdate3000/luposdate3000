@@ -31,7 +31,7 @@ public class Application_OntologySender(
     public constructor(
         startClockInSec: Int,
         ontologyFileName: String,
-        receiver: Int
+        receiver: Int,
     ) : this(startClockInSec, Package_Luposdate3000_Abstract(-1, "/shacl/ontology/import", mapOf("data" to File(ontologyFileName).readAsString())), receiver)
 
     private lateinit var parent: IApplicationStack_Middleware

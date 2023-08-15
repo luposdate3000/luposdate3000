@@ -42,7 +42,7 @@ public class POPGraphOperation public constructor(
     @JvmField public var graph1iri: String?,
     @JvmField public var graph2type: EGraphRefType,
     @JvmField public var graph2iri: String?,
-    @JvmField public val action: EGraphOperationType
+    @JvmField public val action: EGraphOperationType,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPGraphOperationID, "POPGraphOperation", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)

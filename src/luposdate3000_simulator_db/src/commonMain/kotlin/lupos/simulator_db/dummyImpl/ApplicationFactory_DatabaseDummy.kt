@@ -55,7 +55,7 @@ public class ApplicationFactory_DatabaseDummy : IApplication_Factory {
                     dbDeviceAddressesStoreList,
                     dbDeviceAddressesQueryList,
                     featureID,
-                )
+                ),
             )
         }
         return listOf()

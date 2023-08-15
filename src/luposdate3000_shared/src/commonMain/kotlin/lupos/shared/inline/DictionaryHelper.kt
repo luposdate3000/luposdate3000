@@ -333,8 +333,8 @@ public object DictionaryHelper {
     }
 
     @Suppress("NOTHING_TO_INLINE")
-    public inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): Pair<String,String>? {
-println("byteArrayToDateTime_TimeZone " + headerDecodeFlag(buffer))
+    public inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): Pair<String, String>? {
+        println("byteArrayToDateTime_TimeZone " + headerDecodeFlag(buffer))
         if (headerDecodeFlag(buffer) == 0x80) {
             return null
         } else {
@@ -348,13 +348,13 @@ println("byteArrayToDateTime_TimeZone " + headerDecodeFlag(buffer))
             var timezoneHours = ByteArrayWrapperExt.readInt4(buffer, off)
             off += 4
             var timezoneMinutes = ByteArrayWrapperExt.readInt4(buffer, off)
-println("byteArrayToDateTime_TimeZone " + timezoneHours+" "+timezoneMinutes)
+            println("byteArrayToDateTime_TimeZone " + timezoneHours + " " + timezoneMinutes)
             if (timezoneHours == 0 && timezoneMinutes == 0) {
                 return "PT0S" to "http://www.w3.org/2001/XMLSchema#dayTimeDuration"
             }
-if(timezoneHours<0){
-timezoneHours=-timezoneHours
-}
+            if (timezoneHours < 0) {
+                timezoneHours = -timezoneHours
+            }
             if (timezoneHours >= 0 && timezoneMinutes == 0) {
                 return "-PT${timezoneHours}H" to "http://www.w3.org/2001/XMLSchema#dayTimeDuration"
             }
@@ -725,7 +725,7 @@ timezoneHours=-timezoneHours
         crossinline onInteger: (value: String) -> Unit,
         crossinline onIri: (value: String) -> Unit,
         crossinline onError: () -> Unit,
-        crossinline onUndefined: () -> Unit
+        crossinline onUndefined: () -> Unit,
     ) {
         val type = byteArrayToType(buffer)
         when (type) {
@@ -827,12 +827,12 @@ timezoneHours=-timezoneHours
                 } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
                 }
-} else if (typeC == ETripleComponentTypeExt.STRING) {
-if(typeD==ETripleComponentTypeExt.STRING_LANG){
-byteArrayToString(c).compareTo(byteArrayToLang_Content(d))
-}else {
+            } else if (typeC == ETripleComponentTypeExt.STRING) {
+                if (typeD == ETripleComponentTypeExt.STRING_LANG) {
+                    byteArrayToString(c).compareTo(byteArrayToLang_Content(d))
+                } else {
                     TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
-                } 
+                }
             } else {
                 TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeC]} vs ${ETripleComponentTypeExt.names[typeD]}")
             }

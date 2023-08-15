@@ -34,14 +34,14 @@ public class POPJoinHashMap public constructor(
     projectedVariables: List<String>,
     childA: IOPBase,
     childB: IOPBase,
-    @JvmField public val optional: Boolean
+    @JvmField public val optional: Boolean,
 ) : POPBase(
     query,
     projectedVariables,
     EOperatorIDExt.POPJoinHashMapID,
     "POPJoinHashMap",
     arrayOf(childA, childB),
-    ESortPriorityExt.JOIN
+    ESortPriorityExt.JOIN,
 ) {
     override fun getPartitionCount(variable: String): Int {
         return if (children[0].getProvidedVariableNames().contains(variable)) {

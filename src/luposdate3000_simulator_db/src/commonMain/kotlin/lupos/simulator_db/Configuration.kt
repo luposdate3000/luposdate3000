@@ -24,7 +24,7 @@ public fun SimulationRun.addQuerySender(
     sendRateInSec: Int,
     maxNumberOfQueries: Int,
     query: String,
-    receiver: Int = rootRouterAddress
+    receiver: Int = rootRouterAddress,
 ) {
     val sender = Application_QuerySender(getLogger0(), query, receiver, outputDirectory, "")
     val device = getDeviceByAddress(receiver)
@@ -37,7 +37,7 @@ public fun SimulationRun.addQuerySender(
     sendRateInSec: Int,
     maxNumberOfQueries: Int,
     queryPck: IPackage_Database,
-    receiver: Int = rootRouterAddress
+    receiver: Int = rootRouterAddress,
 ) {
     val sender = Application_QuerySender(getLogger0(), queryPck, receiver, outputDirectory, "")
     val device = getDeviceByAddress(receiver)

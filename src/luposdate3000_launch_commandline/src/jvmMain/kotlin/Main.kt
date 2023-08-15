@@ -37,19 +37,19 @@ public fun main() {
             for ((name, command) in commands) {
                 println("$name ${command.params.joinToString(" ")}")
             }
-        }
+        },
     )
     commands["quit"] = MyCommands(
         params = arrayOf(),
         action = { _ ->
             done = true
-        }
+        },
     )
     commands["loadTurtle"] = MyCommands(
         params = arrayOf("<TurtleFileName>"),
         action = { args ->
             LuposdateEndpoint.importTripleFile(instance, args[1])
-        }
+        },
     )
     commands["output"] = MyCommands(
         params = arrayOf("<OutputFileName?>"),
@@ -59,7 +59,7 @@ public fun main() {
             } else {
                 outputFile = null
             }
-        }
+        },
     )
     commands["eval"] = MyCommands(
         params = arrayOf("<QueryFileName>"),
@@ -75,7 +75,7 @@ public fun main() {
                     LuposdateEndpoint.evaluateOperatorgraphToResultB(instance, node, output)
                 }
             }
-        }
+        },
     )
     commands["evalWith"] = MyCommands(
         params = arrayOf("<QueryFileName>", "<" + EQueryResultToStreamExt.names.joinToString("|") + ">"),
@@ -91,7 +91,7 @@ public fun main() {
                     LuposdateEndpoint.evaluateOperatorgraphToResultA(instance, node, output, EQueryResultToStreamExt.names.indexOf(args[2]))
                 }
             }
-        }
+        },
     )
     while (!done) {
         val line = readLine()

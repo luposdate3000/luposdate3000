@@ -183,7 +183,7 @@ internal fun executeTest(nextRandom: () -> Int, hasNextRandom: () -> Int, resetR
                 -rng
             } else {
                 rng
-            }
+            },
         )
         var myS: DictionaryValueType = 0
         var myP: DictionaryValueType = 0

@@ -75,13 +75,13 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     }
 
     override fun releasePage(call_location: String, pageid: Int) {
-println("BufferManager.kt .. releasePage $pageid $call_location")
+        println("BufferManager.kt .. releasePage $pageid $call_location")
         if (SanityCheck.enabled) { if (!(allPagesRefcounters[pageid] > 0)) { throw Exception("SanityCheck failed") } }
         allPagesRefcounters[pageid]--
     }
 
     override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper {
-println("BufferManager.kt .. getPage $pageid $call_location")
+        println("BufferManager.kt .. getPage $pageid $call_location")
         // no locking required, assuming an assignment to 'allPages' is atomic
         if (SanityCheck.enabled) {
             if (SanityCheck.enabled) { if (!(pageid < counter)) { throw Exception("SanityCheck failed") } }
@@ -121,12 +121,12 @@ println("BufferManager.kt .. getPage $pageid $call_location")
             if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(allPages[pageid]) == -1)) { throw Exception("SanityCheck failed") } }
             BufferManagerPage.setPageID(allPages[pageid], pageid)
         }
-println("BufferManager.kt .. allocPage $pageid $call_location")
+        println("BufferManager.kt .. allocPage $pageid $call_location")
         return pageid
     }
 
     /*suspend*/ override fun deletePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
-println("BufferManager.kt .. deletePage $pageid $call_location")
+        println("BufferManager.kt .. deletePage $pageid $call_location")
         if (SanityCheck.enabled) {
             for (i in 0 until freeListSize) {
                 if (SanityCheck.enabled) { if (!(freeList[i] != pageid)) { throw Exception("SanityCheck failed") } }

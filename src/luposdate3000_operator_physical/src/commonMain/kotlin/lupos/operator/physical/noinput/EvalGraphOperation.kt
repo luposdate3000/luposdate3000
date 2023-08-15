@@ -102,7 +102,7 @@ public object EvalGraphOperation {
                     EGraphOperationTypeExt.CREATE -> {
                         when (graph1type) {
                             EGraphRefTypeExt.IriGraphRef -> {
-                                manager.createGraph(query, graph1iri!!,silent)
+                                manager.createGraph(query, graph1iri!!, silent)
                             }
                             else -> {
                                 TODO("EvalGraphOperation b $graph1type")
@@ -169,8 +169,8 @@ public object EvalGraphOperation {
     ): IteratorBundle {
         return IteratorBundle(
             mapOf(
-                "?success" to EvalLocalClass(silent, graph1type, graph1iri, graph2type, graph2iri, action, query)
-            )
+                "?success" to EvalLocalClass(silent, graph1type, graph1iri, graph2type, graph2iri, action, query),
+            ),
         )
     }
 }

@@ -85,12 +85,12 @@ public object ConverterBinaryToIteratorBundle {
 
     public fun decode(query: Query, data: ByteArrayWrapper, dataID: Int, operatorMap: Array<Any?> = defaultOperatorMap, compoundPartial: Boolean): IteratorBundleRoot {
         try {
-            if (dataID <0) {
+            if (dataID < 0) {
                 when (ByteArrayWrapperExt.readInt1(data, 4, { "Root.isOPBaseCompound" })) {
                     0x1 -> {
                         val childCount = ByteArrayWrapperExt.readInt4(data, 5, { "OPBaseCompound.children.size" })
                         var o = 9
-                        val res = mutableListOf<()->Pair<List<String>, IteratorBundle>>()
+                        val res = mutableListOf<() -> Pair<List<String>, IteratorBundle>>()
                         for (i in 0 until childCount) {
                             val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, o, { "OPBaseCompound.children[$i]" }), operatorMap)
                             o += 4
@@ -103,17 +103,17 @@ public object ConverterBinaryToIteratorBundle {
                             }
                             if (compoundPartial) {
                                 if (-1 - i == dataID) {
-                                    return IteratorBundleRoot(query, arrayOf({list to child}))
+                                    return IteratorBundleRoot(query, arrayOf({ list to child }))
                                 }
                             } else {
-                                res.add({list to child})
+                                res.add({ list to child })
                             }
                         }
                         return IteratorBundleRoot(query, res.toTypedArray())
                     }
                     0x0 -> {
                         val tmp = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, 5, { "OPBase.children[0]" }), operatorMap)
-                        return IteratorBundleRoot(query, arrayOf({listOf<String>() to tmp}))
+                        return IteratorBundleRoot(query, arrayOf({ listOf<String>() to tmp }))
                     }
                 }
             } else {
@@ -124,7 +124,7 @@ public object ConverterBinaryToIteratorBundle {
                     val id = ByteArrayWrapperExt.readInt4(data, o, { "OPBase.offsetMap[$i].id" })
                     if (id == dataID) {
                         val offset = ByteArrayWrapperExt.readInt4(data, o + 4, { "OPBase.offsetMap[$i].offset" })
-                        return IteratorBundleRoot(query, arrayOf({listOf<String>() to decodeHelper(query, data, offset, operatorMap)}))
+                        return IteratorBundleRoot(query, arrayOf({ listOf<String>() to decodeHelper(query, data, offset, operatorMap) }))
                     }
                     o += 8
                 }
@@ -177,7 +177,7 @@ public object ConverterBinaryToIteratorBundle {
                     d.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPModifyData.data[$i].graph" })) to arr)
                     o += DictionaryValueHelper.getSize() * 3 + 4
                 }
-                EvalModifyData(type,d, query)
+                EvalModifyData(type, d, query)
             },
         )
         assignOperatorPhysicalDecode(
@@ -556,7 +556,7 @@ public object ConverterBinaryToIteratorBundle {
             EOperatorIDExt.POPModifyID,
             { query, data, off, operatorMap ->
                 val child = decodeHelper(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" }), operatorMap)
-val targetName=ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModify.targetName" }))
+                val targetName = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModify.targetName" }))
                 val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
                 val step = 9 + 3 * steph
                 val modify = Array<Pair<LOPTriple, EModifyType>>(ByteArrayWrapperExt.readInt4(data, off + 12, { "POPModify.modify.size" })) { it ->
@@ -583,7 +583,7 @@ val targetName=ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(d
                     val k = LOPTriple(query, s, p, oo, graph, graphVar)
                     k to v
                 }
-                EvalModify(child, query, modify,targetName)
+                EvalModify(child, query, modify, targetName)
             },
         )
     }

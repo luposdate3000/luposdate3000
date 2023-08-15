@@ -34,7 +34,7 @@ public class MemoryTableFromXML : MemoryTableParser {
                     is ASTClassOfInterfaceOfListOfInterfaceOfelementOrcommentOrtextAndTAG -> {
                         when (val v2 = v.variable0!!) {
                             is ASTListOfInterfaceOfelementOrcomment -> {
-                                return v2.value!!.filter{it is ASTelement}.map{it as ASTelement}
+                                return v2.value!!.filter { it is ASTelement }.map { it as ASTelement }
                             }
                             is ASTtext -> return listOf()
                         }
@@ -88,7 +88,7 @@ public class MemoryTableFromXML : MemoryTableParser {
             fun maybeAttributeOfElement(n: String, parent: ASTelement): String? {
                 return attributesOfElement(n, parent).getOrElse(0, { i -> null })
             }
-println("MemoryTableFromXML.kt .. going to parse .. $data")
+            println("MemoryTableFromXML.kt .. going to parse .. $data")
             val dataStream = MyStringStream(data)
             val parserObject = XMLParser(dataStream)
             parserObject.parserDefinedParse()

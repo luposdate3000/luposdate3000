@@ -22,7 +22,7 @@ import lupos.shared.DictionaryValueTypeArray
 internal abstract class TripleIterator {
     var value = DictionaryValueTypeArray(3)
     abstract fun hasNext(): Boolean
-abstract fun close()
+    abstract fun close()
     abstract fun next(component: Int): DictionaryValueType // write the current triple-data into "value" and update offset
     fun next(): DictionaryValueTypeArray {
         next(0)

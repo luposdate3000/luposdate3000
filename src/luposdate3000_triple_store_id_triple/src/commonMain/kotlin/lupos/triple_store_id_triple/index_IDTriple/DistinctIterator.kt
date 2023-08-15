@@ -29,8 +29,8 @@ internal class DistinctIterator(@JvmField val a: TripleIterator) : TripleIterato
             flag = 1
         }
     }
-override fun close(){ 
-a.close()}
+    override fun close() {
+        a.close() }
     override fun hasNext(): Boolean {
         return flag != 0
     }

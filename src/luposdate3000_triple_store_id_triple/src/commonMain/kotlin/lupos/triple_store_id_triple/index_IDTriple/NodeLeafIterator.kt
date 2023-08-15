@@ -46,13 +46,14 @@ internal class NodeLeafIterator(@JvmField var node: BufferManagerPageWrapper, @J
         updateRemaining()
         return value[component]
     }
-override fun close(){ 
-remaining=0
-if (nodeid != NodeManager.nodeNullPointer) {
-nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:51"/*SOURCE_FILE_END*/, nodeid)
-nodeid=NodeManager.nodeNullPointer
-}
-}
+    override fun close() {
+        remaining = 0
+        if (nodeid != NodeManager.nodeNullPointer) {
+            nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeLeafIterator.kt:51"/*SOURCE_FILE_END*/, nodeid)
+            nodeid = NodeManager.nodeNullPointer
+        }
+    }
+
     @Suppress("NOTHING_TO_INLINE")
     private fun updateRemaining() {
         remaining--

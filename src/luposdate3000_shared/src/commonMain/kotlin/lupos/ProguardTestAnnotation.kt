@@ -30,7 +30,7 @@ package lupos
     AnnotationTarget.TYPE,
     AnnotationTarget.TYPEALIAS,
     AnnotationTarget.TYPE_PARAMETER,
-    AnnotationTarget.VALUE_PARAMETER
+    AnnotationTarget.VALUE_PARAMETER,
 )
 @Retention(AnnotationRetention.BINARY)
 public annotation class ProguardTestAnnotation

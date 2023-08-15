@@ -25,7 +25,7 @@ import lupos.shared.js.ExternalModule_fs
 public actual class File {
     public val filename: String
 
-public    actual constructor(filename: String) {
+    public actual constructor(filename: String) {
         this.filename = filename
     }
 

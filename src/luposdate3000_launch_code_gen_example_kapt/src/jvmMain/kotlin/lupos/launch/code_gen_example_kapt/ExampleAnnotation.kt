@@ -26,7 +26,7 @@ public class ExampleAnnotation(private val instance: Luposdate3000Instance) {
     init {
         LuposdateEndpoint.importTripleFile(
             instance,
-            "resources/code-generation/example.n3"
+            "resources/code-generation/example.n3",
         )
     }
 

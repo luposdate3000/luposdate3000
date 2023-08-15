@@ -48,7 +48,7 @@ public class Crypto_SHA256 {
             0x510e527f,
             -0x64fa9774,
             0x1f83d9ab,
-            0x5be0cd19
+            0x5be0cd19,
         )
 
         private val K = intArrayOf(
@@ -67,7 +67,7 @@ public class Crypto_SHA256 {
             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5,
             0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
             0x748f82ee, 0x78a5636f, -0x7b3787ec, -0x7338fdf8,
-            -0x6f410006, -0x5baf9315, -0x41065c09, -0x398e870e
+            -0x6f410006, -0x5baf9315, -0x41065c09, -0x398e870e,
         )
         private const val K6080: Int = 0xCA62C1D6L.toInt()
     }

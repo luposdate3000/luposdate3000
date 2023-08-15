@@ -28,9 +28,9 @@ internal class DebugPassThroughIterator(@JvmField internal val a: TripleIterator
 
     @JvmField
     internal val queueO = mutableListOf<DictionaryValueType>()
-override fun close(){
-a.close()
-}
+    override fun close() {
+        a.close()
+    }
     override fun hasNext() = a.hasNext()
     override fun next(component: Int): DictionaryValueType {
         a.next()

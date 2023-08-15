@@ -45,7 +45,7 @@ public class Crypto_SHA1 {
             0xEFCDAB89L.toInt(),
             0x98BADCFEL.toInt(),
             0x10325476L.toInt(),
-            0xC3D2E1F0L.toInt()
+            0xC3D2E1F0L.toInt(),
         )
 
         private const val K0020: Int = 0x5A827999L.toInt()

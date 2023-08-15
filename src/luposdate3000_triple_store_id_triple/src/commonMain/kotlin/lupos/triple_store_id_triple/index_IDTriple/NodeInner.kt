@@ -44,7 +44,7 @@ internal object NodeInner {
                 {
                     node = it
                     nextnodeid = getFirstChild(node)
-                }
+                },
             )
             nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:48"/*SOURCE_FILE_END*/, nodeid)
             nodeid = nextnodeid
@@ -86,7 +86,7 @@ internal object NodeInner {
                 },
                 {
                     node = it
-                }
+                },
             )
             if (iterator == null) {
                 nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:91"/*SOURCE_FILE_END*/, nodeid)
@@ -111,7 +111,7 @@ internal object NodeInner {
                 },
                 {
                     node = it
-                }
+                },
             )
             if (iterator == null) {
                 nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:116"/*SOURCE_FILE_END*/, nodeid)
@@ -182,9 +182,9 @@ internal object NodeInner {
                         },
                         {
                             node = it
-                        }
+                        },
                     )
-                }
+                },
             )
             if (iterator == null) {
                 nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:189"/*SOURCE_FILE_END*/, nodeid)
@@ -216,9 +216,9 @@ internal object NodeInner {
                         },
                         {
                             node = it
-                        }
+                        },
                     )
-                }
+                },
             )
             if (iterator == null) {
                 nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:223"/*SOURCE_FILE_END*/, nodeid)
@@ -250,9 +250,9 @@ internal object NodeInner {
                         },
                         {
                             node = it
-                        }
+                        },
                     )
-                }
+                },
             )
             if (iterator == null) {
                 nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:257"/*SOURCE_FILE_END*/, nodeid)
@@ -284,7 +284,7 @@ internal object NodeInner {
                 },
                 {
                     getFirstTriple(it, tripleCurrent, nodeManager)
-                }
+                },
             )
             nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/index_IDTriple/NodeInner.kt:288"/*SOURCE_FILE_END*/, current)
             offset += NodeShared.writeTriple(node, offset, tripleLast, tripleCurrent)

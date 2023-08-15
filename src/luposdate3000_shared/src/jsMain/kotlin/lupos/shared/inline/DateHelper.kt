@@ -17,8 +17,7 @@
 package lupos.shared.inline
 
 public actual class DateHelper {
-public     actual constructor() {}
-
+    public actual constructor() {}
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun year(): Int = js("new Date()").getFullYear()

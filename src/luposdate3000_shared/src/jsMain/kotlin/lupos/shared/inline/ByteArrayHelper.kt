@@ -16,29 +16,29 @@
  */
 package lupos.shared.inline
 public external class ArrayBuffer(size: Int)
-public external class Int64Array(buffer: ArrayBuffer,byteOffset: Int = definedExternally, length: Int = definedExternally) {
+public external class Int64Array(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally) {
     public operator fun get(i: Int): Long
     public operator fun set(i: Int, v: Long)
 }
 
-public external class Float64Array(buffer: ArrayBuffer,byteOffset: Int = definedExternally, length: Int = definedExternally) {
+public external class Float64Array(buffer: ArrayBuffer, byteOffset: Int = definedExternally, length: Int = definedExternally) {
     public operator fun get(i: Int): Double
     public operator fun set(i: Int, v: Double)
 }
-public external fun doubleToByteArray(v:Double,idx:Int):Byte
-public external fun byteArrayToDouble(v:ByteArray):Double
+public external fun doubleToByteArray(v: Double, idx: Int): Byte
+public external fun byteArrayToDouble(v: ByteArray): Double
 
 public actual object ByteArrayHelper {
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun readDouble8(data: ByteArray, offset: Int): Double {
-        val l=byteArrayOf(data[offset],data[offset+1],data[offset+2],data[offset+3],data[offset+4],data[offset+5],data[offset+6],data[offset+7])
+        val l = byteArrayOf(data[offset], data[offset + 1], data[offset + 2], data[offset + 3], data[offset + 4], data[offset + 5], data[offset + 6], data[offset + 7])
         return byteArrayToDouble(l)
     }
 
     @Suppress("NOTHING_TO_INLINE")
     public actual inline fun writeDouble8(data: ByteArray, offset: Int, value: Double) {
-        for (i in 0 until 8){
-            data[offset+i] = doubleToByteArray(value, i)
+        for (i in 0 until 8) {
+            data[offset + i] = doubleToByteArray(value, i)
         }
     }
 

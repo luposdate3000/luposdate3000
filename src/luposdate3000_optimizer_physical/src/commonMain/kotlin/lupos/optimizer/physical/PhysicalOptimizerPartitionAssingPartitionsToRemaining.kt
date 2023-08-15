@@ -115,7 +115,7 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                             res = if (node.projectedVariables.isNotEmpty()) {
                                 for (v in node.projectedVariables) {
                                     var ctr = node.changeToIndexWithMaximumPartitions(null, v)
-                                    if (ctr> 0) {
+                                    if (ctr > 0) {
                                         variable = v
                                         count = ctr
                                         break

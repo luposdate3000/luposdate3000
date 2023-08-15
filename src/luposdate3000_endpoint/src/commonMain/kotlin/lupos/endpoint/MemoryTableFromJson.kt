@@ -38,20 +38,20 @@ public class MemoryTableFromJson : MemoryTableParser {
             }
 
             fun iterateMembers(parent: ASTobject): List<ASTmember> {
-                val a:ASTmembersOptional=parent.variable0!!
-                val b:ASTmembers?=a.variable0
-                if(b==null){
-return listOf()
-}
+                val a: ASTmembersOptional = parent.variable0!!
+                val b: ASTmembers? = a.variable0
+                if (b == null) {
+                    return listOf()
+                }
                 return listOf(b.variable0!!) + b.variable1!!.value
             }
 
             fun iterateElements(parent: ASTarray): List<ASTvalue> {
-val a:ASTelementsOptional=parent.variable0!!
-val b:ASTelements?=a.variable0
-if(b==null){ 
-return listOf()
-}
+                val a: ASTelementsOptional = parent.variable0!!
+                val b: ASTelements? = a.variable0
+                if (b == null) {
+                    return listOf()
+                }
                 return listOf(b.variable0!!) + b.variable1!!.value
             }
 
@@ -84,13 +84,13 @@ return listOf()
                 val res = MemoryTable(arrayOf<String>())
                 res.query = query
                 res.booleanResult = jsonBoolean is ASTtrue
-return res
+                return res
             } else {
-            val jsonHeadVars = findMemberByName("vars", jsonHead) as ASTarray
-            val variables = iterateElements(jsonHeadVars).map { valueToString(it) }
-            val res = MemoryTable(variables.toTypedArray())
-            res.query = query
-            val dictionary = res.query!!.getDictionary()
+                val jsonHeadVars = findMemberByName("vars", jsonHead) as ASTarray
+                val variables = iterateElements(jsonHeadVars).map { valueToString(it) }
+                val res = MemoryTable(variables.toTypedArray())
+                res.query = query
+                val dictionary = res.query!!.getDictionary()
                 val jsonResults = findMemberByName("results", jsonSparql) as ASTobject
                 val buffer = ByteArrayWrapper()
                 for (jsonResult in iterateElements(findMemberByName("bindings", jsonResults) as ASTarray)) {
@@ -125,7 +125,7 @@ return res
                         }
                     }
                 }
-            return res
+                return res
             }
         } catch (e: Throwable) {
             try {

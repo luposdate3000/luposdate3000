@@ -266,7 +266,7 @@ public object EvalJoinHashMap {
                                 }
                             }
                         },
-                        { __close() }
+                        { __close() },
                     )
                 }
             }

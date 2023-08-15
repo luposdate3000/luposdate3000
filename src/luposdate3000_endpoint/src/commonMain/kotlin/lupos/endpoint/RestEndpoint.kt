@@ -258,7 +258,7 @@ public object RestEndpoint {
         }
         paths["/shacl/ontology/import"] = PathMappingHelper(true, mapOf(Pair("data", "") to ::inputElement)) { params, _, _ ->
             if (instance.LUPOS_PROCESS_ID == 0) {
-                instance.tripleStoreManager!!.createGraph(Query(instance), "",false)
+                instance.tripleStoreManager!!.createGraph(Query(instance), "", false)
                 LuposdateEndpoint.loadShaclOntology(instance, params["data"]!!)
             } else {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/shacl/ontology/import", params, -1)
@@ -392,7 +392,7 @@ public object RestEndpoint {
                         v.first()
                     }
                     meta.id2host[k] = mutableSetOf(
-                        vv
+                        vv,
                     )
                 }
                 val handler = instance.communicationHandler!!
@@ -406,9 +406,9 @@ public object RestEndpoint {
                         host,
                         "/distributed/query/register",
                         mapOf(
-                            "dictionaryURL" to query.getDictionaryUrl()!!
+                            "dictionaryURL" to query.getDictionaryUrl()!!,
                         ),
-                        query.getTransactionID().toInt()
+                        query.getTransactionID().toInt(),
                     )
                     val bin = BinaryToOPBase.copyByteArray(query, binary, intArrayOf(id))
                     val deps = mutableMapOf<Int, String>() // key->host

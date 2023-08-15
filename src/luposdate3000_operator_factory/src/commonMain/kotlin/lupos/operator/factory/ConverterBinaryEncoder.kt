@@ -162,7 +162,7 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPModifyData(data: ByteArrayWrapper,type:EModifyType, mapping: MutableMap<String, Int>, data2: List<Pair<String, DictionaryValueTypeArray>>): Int {
+    public fun encodePOPModifyData(data: ByteArrayWrapper, type: EModifyType, mapping: MutableMap<String, Int>, data2: List<Pair<String, DictionaryValueTypeArray>>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12 + data2.size * (4 + 3 * DictionaryValueHelper.getSize()), true)
         ByteArrayWrapperExt.writeInt4(data, off + 0, EOperatorIDExt.POPModifyDataID, { "operatorID" })
@@ -620,7 +620,7 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPModify(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, modify: Array<Pair<LOPTriple, EModifyType /* = Int */>>,targetName:String): Int {
+    public fun encodePOPModify(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, modify: Array<Pair<LOPTriple, EModifyType /* = Int */>>, targetName: String): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 12 + modify.size * (9 + 3 * if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4), true)
         val child = childf(off + 4)

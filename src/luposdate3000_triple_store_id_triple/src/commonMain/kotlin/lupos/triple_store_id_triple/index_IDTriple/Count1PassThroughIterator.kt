@@ -41,9 +41,9 @@ internal class Count1PassThroughIterator(@JvmField val a: TripleIterator) : Trip
     override fun hasNext(): Boolean {
         return flag != 0
     }
-override fun close(){ 
-a.close()
-}
+    override fun close() {
+        a.close()
+    }
     override fun next(component: Int): DictionaryValueType {
         value[0] = a.value[0]
         value[1] = a.value[1]

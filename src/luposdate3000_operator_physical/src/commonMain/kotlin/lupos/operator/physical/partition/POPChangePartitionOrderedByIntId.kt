@@ -45,14 +45,14 @@ public class POPChangePartitionOrderedByIntId public constructor(
     @JvmField public var partitionCountTo: Int,
     @JvmField public var partitionIDFrom: Int,
     @JvmField public var partitionIDTo: Int,
-    child: IOPBase
+    child: IOPBase,
 ) : APOPParallel(
     query,
     projectedVariables,
     EOperatorIDExt.POPChangePartitionOrderedByIntIdID,
     "POPChangePartitionOrderedByIntId",
     arrayOf(child),
-    ESortPriorityExt.PREVENT_ANY
+    ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
         if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }

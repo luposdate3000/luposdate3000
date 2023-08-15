@@ -37,7 +37,7 @@ public object EvalModify {
         private val child: IteratorBundle,
         private val query: IQuery,
         private val modify: Array<Pair<LOPTriple, EModifyType>>,
-private val projectedVariable:String,
+        private val projectedVariable: String,
     ) : ColumnIterator() {
         private var __first = true
         override fun close() {
@@ -133,12 +133,12 @@ private val projectedVariable:String,
         child: IteratorBundle,
         query: IQuery,
         modify: Array<Pair<LOPTriple, EModifyType>>,
-projectedVariable:String,
+        projectedVariable: String,
     ): IteratorBundle {
         return IteratorBundle(
             mapOf(
-                projectedVariable to EvalLocalClass(child, query, modify,projectedVariable)
-            )
+                projectedVariable to EvalLocalClass(child, query, modify, projectedVariable),
+            ),
         )
     }
 }

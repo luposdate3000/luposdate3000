@@ -139,7 +139,7 @@ public object EvalJoinCartesianProduct {
                                             }
                                         }
                                     },
-                                    { __close() }
+                                    { __close() },
                                 )
                             }
                         }
@@ -206,7 +206,7 @@ public object EvalJoinCartesianProduct {
                                         }
                                     }
                                 },
-                                { __close() }
+                                { __close() },
                             )
                         }
                     }

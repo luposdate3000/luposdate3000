@@ -550,7 +550,7 @@ public object XMLElementToOPBase {
                     null
                 } else {
                     childs[0]
-                }
+                },
             )
         }
         operatorMap["AOPAggregationSAMPLE"] = { query, node, mapping, recursionFunc ->
@@ -731,7 +731,7 @@ public object XMLElementToOPBase {
                 createProjectedVariables(node),
                 id,
                 POPNothing(query, createProjectedVariables(node)),
-                hosts.toList().first()
+                hosts.toList().first(),
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -749,7 +749,7 @@ public object XMLElementToOPBase {
                 createProjectedVariables(node),
                 id,
                 POPNothing(query, createProjectedVariables(node)),
-                hosts.toList().first()
+                hosts.toList().first(),
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -767,7 +767,7 @@ public object XMLElementToOPBase {
                 createProjectedVariables(node),
                 id,
                 POPNothing(query, createProjectedVariables(node)),
-                hosts
+                hosts,
             )
             query.addPartitionOperator(res.uuid, id)
             res
@@ -785,7 +785,7 @@ public object XMLElementToOPBase {
                 createProjectedVariables(node),
                 id,
                 POPNothing(query, createProjectedVariables(node)),
-                hosts
+                hosts,
             )
             query.addPartitionOperator(res.uuid, id)
             res

@@ -311,8 +311,8 @@ public object ConverterBinaryToBinary {
             EOperatorIDExt.POPModifyDataID,
             { query, off, data, dataOut, mapping, offPtr ->
                 val d = mutableListOf<Pair<String, DictionaryValueTypeArray>>()
-            val type = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.type" })
-    val l = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModifyData.data.size" })
+                val type = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModifyData.type" })
+                val l = ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModifyData.data.size" })
                 var o = off + 12
                 for (i in 0 until l) {
                     val arr = DictionaryValueTypeArray(3)
@@ -324,8 +324,9 @@ public object ConverterBinaryToBinary {
                 }
                 ConverterBinaryEncoder.encodePOPModifyData(
                     dataOut,
-              type,      mapping,
-                    d
+                    type,
+                    mapping,
+                    d,
                 )
             },
         )
@@ -340,7 +341,7 @@ public object ConverterBinaryToBinary {
                 ConverterBinaryEncoder.encodePOPNothing(
                     dataOut,
                     mapping,
-                    list
+                    list,
                 )
             },
         )
@@ -860,8 +861,8 @@ public object ConverterBinaryToBinary {
             EOperatorIDExt.POPModifyID,
             { query, off, data, dataOut, mapping, offPtr ->
                 val child = ByteArrayWrapperExt.readInt4(data, off + 4, { "POPModify.child" })
-            val targetName=ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModify.targetName" }))
-    val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
+                val targetName = ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, off + 8, { "POPModify.targetName" }))
+                val steph = if (DictionaryValueHelper.getSize() > 4) DictionaryValueHelper.getSize() else 4
                 val step = 9 + 3 * steph
                 val modify = Array<Pair<LOPTriple, EModifyType>>(ByteArrayWrapperExt.readInt4(data, off + 12, { "POPModify.modify.size" })) { it ->
                     val o = off + 16 + it * step
@@ -891,7 +892,8 @@ public object ConverterBinaryToBinary {
                     dataOut,
                     mapping,
                     { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
-                    modify,targetName,
+                    modify,
+                    targetName,
                 )
             },
         )

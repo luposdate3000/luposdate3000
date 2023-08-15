@@ -510,14 +510,14 @@ public object ConverterPOPBaseToBinary {
                         handler,
                         currentID, data, op.partitionVariable,
                         mapping, distributed, op.children[0] as OPBase,
-                        "Count", "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveMultiCountID, op.partitionID, op.uuid, offPtr
+                        "Count", "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveMultiCountID, op.partitionID, op.uuid, offPtr,
                     )
                 } else {
                     mergePartitionEncodeHelper1x1(
                         handler,
                         currentID, data,
                         mapping, distributed, op.children[0] as OPBase,
-                        "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr
+                        "Count", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr,
                     )
                 }
             },
@@ -532,13 +532,13 @@ public object ConverterPOPBaseToBinary {
                         op.partitionCount2,
                         handler, currentID,
                         data, op.partitionVariable, mapping, distributed,
-                        op.children[0] as OPBase, op.partitionID, op.uuid, offPtr, op.mySortPriority.map { it.variableName }, op.projectedVariables
+                        op.children[0] as OPBase, op.partitionID, op.uuid, offPtr, op.mySortPriority.map { it.variableName }, op.projectedVariables,
                     )
                 } else {
                     mergePartitionEncodeHelper1x1(
                         handler, currentID, data,
                         mapping, distributed,
-                        op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                        op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr,
                     )
                 }
             },
@@ -553,13 +553,13 @@ public object ConverterPOPBaseToBinary {
                         op.partitionCount,
                         handler, currentID,
                         data, op.partitionVariable, mapping, distributed,
-                        op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID, op.partitionID, op.uuid, offPtr
+                        op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveMultiID, op.partitionID, op.uuid, offPtr,
                     )
                 } else {
                     mergePartitionEncodeHelper1x1(
                         handler, currentID,
                         data, mapping, distributed,
-                        op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                        op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr,
                     )
                 }
             },
@@ -573,13 +573,13 @@ public object ConverterPOPBaseToBinary {
                     mergePartitionEncodeHelperSplit(
                         op.partitionCount,
                         handler, currentID,
-                        data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendMultiID, EOperatorIDExt.POPDistributedReceiveSingleID, op.partitionID, op.uuid, offPtr, op.partitionVariable!!
+                        data, op.partitionVariable, mapping, distributed, op.children[0] as OPBase, "", "", EOperatorIDExt.POPDistributedSendMultiID, EOperatorIDExt.POPDistributedReceiveSingleID, op.partitionID, op.uuid, offPtr, op.partitionVariable!!,
                     )
                 } else {
                     mergePartitionEncodeHelper1x1(
                         handler, currentID,
                         data, mapping,
-                        distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                        distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr,
                     )
                 }
             },
@@ -592,7 +592,7 @@ public object ConverterPOPBaseToBinary {
                 if (distributed) {
                     mergePartitionEncodeHelper1x1(
                         handler,
-                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr
+                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleCountID, EOperatorIDExt.POPDistributedReceiveSingleCountID, offPtr,
                     )
                 } else {
                     convertToByteArrayHelper(
@@ -601,7 +601,7 @@ public object ConverterPOPBaseToBinary {
                         mapping,
                         distributed,
                         handler,
-                        offPtr
+                        offPtr,
                     )
                 }
             },
@@ -614,7 +614,7 @@ public object ConverterPOPBaseToBinary {
                 if (distributed) {
                     mergePartitionEncodeHelper1x1(
                         handler,
-                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr,
                     )
                 } else {
                     convertToByteArrayHelper(
@@ -623,7 +623,7 @@ public object ConverterPOPBaseToBinary {
                         mapping,
                         distributed,
                         handler,
-                        offPtr
+                        offPtr,
                     )
                 }
             },
@@ -636,7 +636,7 @@ public object ConverterPOPBaseToBinary {
                 if (distributed) {
                     mergePartitionEncodeHelper1x1(
                         handler,
-                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr
+                        currentID, data, mapping, distributed, op.children[0] as OPBase, "", EOperatorIDExt.POPDistributedSendSingleID, EOperatorIDExt.POPDistributedReceiveSingleID, offPtr,
                     )
                 } else {
                     convertToByteArrayHelper(
@@ -645,7 +645,7 @@ public object ConverterPOPBaseToBinary {
                         mapping,
                         distributed,
                         handler,
-                        offPtr
+                        offPtr,
                     )
                 }
             },
@@ -675,7 +675,7 @@ public object ConverterPOPBaseToBinary {
             EOperatorIDExt.POPModifyDataID,
             { op, data, mapping, _, _, _ ->
                 op as POPModifyData
-                ConverterBinaryEncoder.encodePOPModifyData(data,op.type, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } })
+                ConverterBinaryEncoder.encodePOPModifyData(data, op.type, mapping, op.data.map { it.graph to DictionaryValueTypeArray(3) { i -> (it.children[i] as AOPConstant).value } })
             },
         )
         assignOperatorPhysicalEncode(
@@ -1093,7 +1093,7 @@ public object ConverterPOPBaseToBinary {
                     mapping,
                     { parentOffOff -> convertToByteArrayHelper(op.children[0], data, mapping, distributed, handler, parentOffOff) },
                     op.modify,
-if(op.projectedVariables.size>0){op.projectedVariables.first()}else{"?success"}
+                    if (op.projectedVariables.size > 0) { op.projectedVariables.first() } else { "?success" },
                 )
             },
         )

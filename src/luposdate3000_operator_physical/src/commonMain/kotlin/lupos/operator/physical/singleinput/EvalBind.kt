@@ -18,7 +18,6 @@ package lupos.operator.physical.singleinput
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.base.iterator.ColumnIteratorQueueEmpty
-import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.inline.ColumnIteratorQueueExt
@@ -46,26 +45,25 @@ public object EvalBind {
         }
         println("EvalBind .. " + variablesInCount)
         if (variablesInCount == 0) {
-
             outMap[name] = object : ColumnIteratorQueue() {
-var ctr=child.count()
-                    override /*suspend*/ fun close() {
-                        ColumnIteratorQueueExt._close(this)
-                    }
-
-                    override /*suspend*/ fun next(): DictionaryValueType {
-                        return ColumnIteratorQueueExt.nextHelper(
-                            this,
-                            {
-                                if (ctr>0) {
-ctr=ctr-1
-queue.add(expressionWrapper())
-                                }
-                            },
-                            { ColumnIteratorQueueExt._close(this) },
-                        )
-                    }
+                var ctr = child.count()
+                override /*suspend*/ fun close() {
+                    ColumnIteratorQueueExt._close(this)
                 }
+
+                override /*suspend*/ fun next(): DictionaryValueType {
+                    return ColumnIteratorQueueExt.nextHelper(
+                        this,
+                        {
+                            if (ctr > 0) {
+                                ctr = ctr - 1
+                                queue.add(expressionWrapper())
+                            }
+                        },
+                        { ColumnIteratorQueueExt._close(this) },
+                    )
+                }
+            }
         } else {
             println("EvalBind .. with input data")
             val variablesLocal = (child.columns.keys + name).toList()

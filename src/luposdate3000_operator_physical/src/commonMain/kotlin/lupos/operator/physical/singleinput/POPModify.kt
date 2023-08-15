@@ -45,7 +45,6 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         }
     }
 
-
     override /*suspend*/ fun toXMLElement(partial: Boolean, partition: PartitionHelper): XMLElement {
         val res = super.toXMLElement(partial, partition)
         val xmlInsert = XMLElement("insert")
@@ -129,7 +128,7 @@ public class POPModify public constructor(query: IQuery, projectedVariables: Lis
         return POPModify(query, projectedVariables, insert, delete, children[0].cloneOP())
     }
 
-    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModify(children[0].evaluate(parent), query, modify,if(projectedVariables.size>0){projectedVariables.first()}else{"?success"})
+    override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle = EvalModify(children[0].evaluate(parent), query, modify, if (projectedVariables.size > 0) { projectedVariables.first() } else { "?success" })
     override fun usesDictionary(): Boolean {
         return true
     }

@@ -43,14 +43,14 @@ public class POPSplitPartition public constructor(
     @JvmField public val partitionVariable: String?,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    child: IOPBase
+    child: IOPBase,
 ) : APOPParallel(
     query,
     projectedVariables,
     EOperatorIDExt.POPSplitPartitionID,
     "POPSplitPartition",
     arrayOf(child),
-    ESortPriorityExt.PREVENT_ANY
+    ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
         if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }

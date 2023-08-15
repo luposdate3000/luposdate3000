@@ -33,14 +33,14 @@ public class POPSplitMergePartitionFromStore public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     public var partitionID: Int,
-    child: IOPBase
+    child: IOPBase,
 ) : APOPParallel(
     query,
     projectedVariables,
     EOperatorIDExt.POPSplitMergePartitionFromStoreID,
     "POPSplitMergePartitionFromStore",
     arrayOf(child),
-    ESortPriorityExt.PREVENT_ANY
+    ESortPriorityExt.PREVENT_ANY,
 ) {
     init {
         if (SanityCheck.enabled) { if (!(projectedVariables.isNotEmpty())) { throw Exception("SanityCheck failed") } }

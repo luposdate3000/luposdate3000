@@ -228,7 +228,7 @@ public object LuposdateEndpoint {
                 instance.tripleStoreManager!!.dropGraph(query, graphName)
             }
             try {
-                instance.tripleStoreManager!!.createGraph(query, graphName,false)
+                instance.tripleStoreManager!!.createGraph(query, graphName, false)
             } catch (e: Throwable) {
                 e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:232"/*SOURCE_FILE_END*/)
             }
@@ -449,7 +449,7 @@ public object LuposdateEndpoint {
                 bundle,
                 output,
                 evaluator,
-                timeoutInMs
+                timeoutInMs,
             )
         } catch (e: Throwable) {
             e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:454"/*SOURCE_FILE_END*/)
@@ -516,7 +516,7 @@ public object LuposdateEndpoint {
     public fun close(instance: Luposdate3000Instance) {
         try {
             if (instance.initialized) {
-println("LuposdateEndpoint.kt -> closing instance ... ")
+                println("LuposdateEndpoint.kt -> closing instance ... ")
                 instance.initialized = false
                 instance.nodeGlobalDictionary!!.close()
                 instance.nodeGlobalDictionary = null

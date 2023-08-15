@@ -50,7 +50,7 @@ public actual class MyThreadLock {
         return true
     }
 
-    public actual fun <T> withLock( action: () -> T): T {
+    public actual fun <T> withLock(action: () -> T): T {
         lock()
         try {
             return action()

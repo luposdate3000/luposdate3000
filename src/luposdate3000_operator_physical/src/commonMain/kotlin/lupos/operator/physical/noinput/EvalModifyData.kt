@@ -21,14 +21,13 @@ import lupos.operator.base.iterator.ColumnIteratorRepeatValue
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.EModifyTypeExt
-import lupos.shared.IQuery
 import lupos.shared.EModifyType
+import lupos.shared.IQuery
 import lupos.shared.operator.iterator.IteratorBundle
 
 public object EvalModifyData {
     public operator fun invoke(
-type: EModifyType,
+        type: EModifyType,
         data: List<Pair<String, DictionaryValueTypeArray>>,
         query: IQuery,
     ): IteratorBundle {

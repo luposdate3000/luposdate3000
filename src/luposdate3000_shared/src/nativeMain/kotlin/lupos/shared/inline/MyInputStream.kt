@@ -15,9 +15,8 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-import lupos.shared.myPrintStackTrace
-
 import lupos.shared.IMyInputStream
+import lupos.shared.myPrintStackTrace
 
 public actual class MyInputStream : IMyInputStream {
     actual override fun readByte(): Byte = TODO("MyInputStream")
@@ -40,7 +39,7 @@ public actual class MyInputStream : IMyInputStream {
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/nativeMain/kotlin/lupos/shared/inline/MyInputStream.kt:42"/*SOURCE_FILE_END*/ )
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/nativeMain/kotlin/lupos/shared/inline/MyInputStream.kt:42"/*SOURCE_FILE_END*/)
             if (buf.size == 0) {
                 return null
             }

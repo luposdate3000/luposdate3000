@@ -78,16 +78,16 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                         }
                     }
                 }
-                if (possiblePartitions.size> 0) {
+                if (possiblePartitions.size > 0) {
                     var largestC = 0
                     var largestV = "" to 0
                     for ((k, v) in possiblePartitions) {
-                        if (v.size> largestC) {
+                        if (v.size > largestC) {
                             largestC = v.size
                             largestV = k
                         }
                     }
-                    if (largestC> 1) {
+                    if (largestC > 1) {
                         val choosenPartition = possiblePartitions[largestV]!!
 
                         val childInputs = mutableListOf<IOPBase>()
@@ -107,7 +107,7 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                             query.addPartitionOperator(c.getUUID(), partitionID)
                         }
 
-                        val child = if (childInputs2.size> 1) {
+                        val child = if (childInputs2.size > 1) {
                             LOPJoinTopology(node.query, childInputs2.toTypedArray())
                         } else {
                             if (node.projectedVariables != null) {
@@ -120,7 +120,7 @@ public class PhysicalOptimizerPartitionJoinTopology(query: Query) : OptimizerBas
                         query.addPartitionOperator(parentInputs.last().getUUID(), partitionID)
 
                         onChange()
-                        val res = if (parentInputs.size> 1) {
+                        val res = if (parentInputs.size > 1) {
                             val rr = LOPJoinTopology(node.query, parentInputs.toTypedArray())
                             rr.projectedVariables = node.projectedVariables
                             rr

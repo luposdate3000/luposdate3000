@@ -22,7 +22,7 @@ import lupos.shared.IMyInputStream
 import lupos.shared.js.JSInputStream
 
 public actual class MyInputStream : IMyInputStream {
-public    val tmp: JSInputStream
+    public val tmp: JSInputStream
 
     public constructor(filename: String) {
         tmp = JSInputStream(filename)

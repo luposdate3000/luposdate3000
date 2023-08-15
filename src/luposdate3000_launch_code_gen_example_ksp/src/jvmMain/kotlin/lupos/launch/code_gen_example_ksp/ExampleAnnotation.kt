@@ -25,7 +25,7 @@ public class ExampleAnnotation {
     init {
         LuposdateEndpoint.importTripleFiles(
             "resources/code-generation/example.n3",
-            mutableMapOf()
+            mutableMapOf(),
         )
     }
 

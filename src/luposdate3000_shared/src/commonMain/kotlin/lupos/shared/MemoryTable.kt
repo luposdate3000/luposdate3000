@@ -158,11 +158,11 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "expected has ${data[i].map { it }} : ${
-                                data[i].map {
-                                    dict1.getValue(buffer1, it)
-                                    DictionaryHelper.byteArrayToSparql(buffer1)
-                                }
-                                }"
+                                    data[i].map {
+                                        dict1.getValue(buffer1, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer1)
+                                    }
+                                }",
                             )
                         }
                     }
@@ -173,11 +173,11 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "actual has ${other.data[i].map { it }} : ${
-                                other.data[i].map {
-                                    dict2.getValue(buffer2, it)
-                                    DictionaryHelper.byteArrayToSparql(buffer2)
-                                }
-                                }"
+                                    other.data[i].map {
+                                        dict2.getValue(buffer2, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer2)
+                                    }
+                                }",
                             )
                         }
                     }
@@ -193,11 +193,11 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "expected has ${data[i].map { it }} : ${
-                                data[i].map {
-                                    dict1.getValue(buffer1, it)
-                                    DictionaryHelper.byteArrayToSparql(buffer1)
-                                }
-                                }"
+                                    data[i].map {
+                                        dict1.getValue(buffer1, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer1)
+                                    }
+                                }",
                             )
                         }
                     }
@@ -208,11 +208,11 @@ public class MemoryTable public constructor(@JvmField public val columns: Array<
                         if (verbose) {
                             out!!.println(
                                 "actual has ${other.data[i].map { it }} : ${
-                                other.data[i].map {
-                                    dict2.getValue(buffer2, it)
-                                    DictionaryHelper.byteArrayToSparql(buffer2)
-                                }
-                                }"
+                                    other.data[i].map {
+                                        dict2.getValue(buffer2, it)
+                                        DictionaryHelper.byteArrayToSparql(buffer2)
+                                    }
+                                }",
                             )
                         }
                     }

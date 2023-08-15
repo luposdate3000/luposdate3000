@@ -233,7 +233,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                                 buf = b.buf
                                 res = bIdx
                                 flag = 5
-                            }
+                            },
                         )
                     }
                 }
@@ -254,7 +254,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                                 buf = b.buf
                                 res = bIdx
                                 flag = 5
-                            }
+                            },
                         )
                     }
                 }
@@ -287,7 +287,7 @@ public open class RowIteratorMerge(@JvmField public val a: RowIterator, @JvmFiel
                                 buf = b.buf
                                 res = bIdx
                                 flag = 5
-                            }
+                            },
                         )
                     }
                 }

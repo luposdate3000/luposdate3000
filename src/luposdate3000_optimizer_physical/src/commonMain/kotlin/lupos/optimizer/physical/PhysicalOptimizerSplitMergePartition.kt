@@ -32,12 +32,12 @@ public class PhysicalOptimizerSplitMergePartition(query: Query) : OptimizerBase(
         when (node) {
             !is APOPParallel -> {
                 if (node is POPBase && (
-                    parent == null || (
-                        parent !is APOPParallel &&
-                            parent !is OPBaseCompound &&
-                            parent !is POPDebug
+                        parent == null || (
+                            parent !is APOPParallel &&
+                                parent !is OPBaseCompound &&
+                                parent !is POPDebug
+                            )
                         )
-                    )
                 ) {
                     val provided = node.getProvidedVariableNames()
                     if (provided.size > 0) {

@@ -30,7 +30,7 @@ public class POPFilter public constructor(
     query: IQuery,
     projectedVariables: List<String>,
     filter: AOPBase,
-    child: IOPBase
+    child: IOPBase,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPFilterID, "POPFilter", arrayOf(child, filter), ESortPriorityExt.SAME_AS_CHILD) {
     override fun getPartitionCount(variable: String): Int = children[0].getPartitionCount(variable)
     override fun toSparql(): String {

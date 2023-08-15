@@ -21,8 +21,8 @@ import lupos.shared.IMyOutputStream
 import lupos.shared.MyPrintWriterMode
 import lupos.shared.MyPrintWriterModeExt
 
- public actual open class MyPrintWriter : IMyOutputStream {
-    public val buffer :StringBuilder= StringBuilder()
+public actual open class MyPrintWriter : IMyOutputStream {
+    public val buffer: StringBuilder = StringBuilder()
 
     public val bufferMode: MyPrintWriterMode
 

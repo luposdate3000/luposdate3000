@@ -31,7 +31,7 @@ import kotlin.jvm.JvmField
 public class OPBaseCompound public constructor(
     query: IQuery,
     children: Array<IOPBase>,
-    @JvmField public val columnProjectionOrder: List<List<String>>
+    @JvmField public val columnProjectionOrder: List<List<String>>,
 ) : OPBase(query, EOperatorIDExt.OPCompoundID, "OPBaseCompound", children, ESortPriorityExt.PREVENT_ANY) {
 
     override fun toLocalOperatorGraph(parent: Partition, onFoundLimit: (IPOPLimit) -> Unit, onFoundSort: () -> Unit): OPBase? {
@@ -104,33 +104,37 @@ public class OPBaseCompound public constructor(
     }
 
     override /*suspend*/ fun evaluateRootBundle(): IteratorBundleRoot {
-println("OPBaseCompound.kt .. evaluateRootBundle")
+        println("OPBaseCompound.kt .. evaluateRootBundle")
         return IteratorBundleRoot(
             query,
-            Array(children.size) {{
-                val k = if (columnProjectionOrder.size > it) {
-                    columnProjectionOrder[it]
-                } else {
-                    listOf()
+            Array(children.size) {
+                {
+                    val k = if (columnProjectionOrder.size > it) {
+                        columnProjectionOrder[it]
+                    } else {
+                        listOf()
+                    }
+                    val v = children[it].evaluateRoot()
+                    k to v
                 }
-                val v = children[it].evaluateRoot()
-                k to v}
             },
         )
     }
 
     override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
-println("OPBaseCompound.kt .. evaluateBundle")
+        println("OPBaseCompound.kt .. evaluateBundle")
         return IteratorBundleRoot(
             query,
-            Array(children.size) {{
-                val k = if (columnProjectionOrder.size > it) {
-                    columnProjectionOrder[it]
-                } else {
-                    listOf()
+            Array(children.size) {
+                {
+                    val k = if (columnProjectionOrder.size > it) {
+                        columnProjectionOrder[it]
+                    } else {
+                        listOf()
+                    }
+                    val v = children[it].evaluate(Partition())
+                    k to v
                 }
-                val v = children[it].evaluate(Partition())
-                k to v}
             },
         )
     }

@@ -37,7 +37,7 @@ public class POPBind public constructor(
     projectedVariables: List<String>,
     @JvmField public val name: AOPVariable,
     value: AOPBase,
-    child: IOPBase
+    child: IOPBase,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPBindID, "POPBind", arrayOf(child, value), ESortPriorityExt.BIND) {
     override fun getPartitionCount(variable: String): Int {
         return if (variable == name.name) {

@@ -25,7 +25,7 @@ public class Package_Luposdate3000_Abstract(
     public val queryID: Int,
     public val path: String,
     public val params: Map<String, String>,
-    public val data: ByteArrayWrapper = ByteArrayWrapper()
+    public val data: ByteArrayWrapper = ByteArrayWrapper(),
 ) : IPackage_Database {
     private val hops = mutableListOf<Int>()
     override fun addHop(address: Int) {

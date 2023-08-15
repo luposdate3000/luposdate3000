@@ -27,7 +27,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 
 public class POPNothing public constructor(
     query: IQuery,
-    projectedVariables: List<String>
+    projectedVariables: List<String>,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPNothingID, "POPNothing", arrayOf(), ESortPriorityExt.PREVENT_ANY) {
     override fun getPartitionCount(variable: String): Int = 1
     override fun getProvidedVariableNames(): List<String> = projectedVariables

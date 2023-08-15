@@ -120,7 +120,7 @@ public class POPSort public constructor(query: IQuery, projectedVariables: List<
                 query,
                 sortBy.map { it.name }.toTypedArray(),
                 getProvidedVariableNames(),
-                sortOrder
+                sortOrder,
             )
         }
     }

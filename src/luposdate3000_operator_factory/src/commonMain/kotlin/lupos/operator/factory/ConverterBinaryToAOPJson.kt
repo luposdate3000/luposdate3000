@@ -115,7 +115,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSHA256ID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSHA256\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA256.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA256.child" }))
                 }}"
             },
         )
@@ -123,7 +123,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSHA1ID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSHA1\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA1.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSHA1.child" }))
                 }}"
             },
         )
@@ -131,7 +131,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallUCASEID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallUCASE\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallUCASE.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallUCASE.child" }))
                 }}"
             },
         )
@@ -139,7 +139,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallLCASEID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallLCASE\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLCASE.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLCASE.child" }))
                 }}"
             },
         )
@@ -147,7 +147,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallHOURSID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallHOURS\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallHOURS.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallHOURS.child" }))
                 }}"
             },
         )
@@ -155,7 +155,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallMINUTESID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallMINUTES\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMINUTES.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMINUTES.child" }))
                 }}"
             },
         )
@@ -163,7 +163,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSTRID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSTR\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTR.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTR.child" }))
                 }}"
             },
         )
@@ -171,7 +171,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallIsNUMERICID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallIsNUMERIC\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallIsNUMERIC.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallIsNUMERIC.child" }))
                 }}"
             },
         )
@@ -179,7 +179,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallFLOORID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallFLOOR\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallFLOOR.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallFLOOR.child" }))
                 }}"
             },
         )
@@ -187,7 +187,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallABSID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallABS\",\"child\":${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallABS.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallABS.child" }))
                 }"
             },
         )
@@ -195,7 +195,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallYEARID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallYEAR\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallYEAR.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallYEAR.child" }))
                 }}"
             },
         )
@@ -203,7 +203,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallROUNDID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallROUND\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallROUND.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallROUND.child" }))
                 }}"
             },
         )
@@ -211,7 +211,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallTZID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallTZ\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallTZ.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallTZ.child" }))
                 }}"
             },
         )
@@ -219,7 +219,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallDATATYPEID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallDATATYPE\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDATATYPE.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDATATYPE.child" }))
                 }}"
             },
         )
@@ -227,7 +227,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallMD5ID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallMD5\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMD5.child" }))
                 }}"
             },
         )
@@ -235,7 +235,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPFunctionCallFloatID,
             { query, data, off ->
                 "{\"type\":\"AOPFunctionCallFloat\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPFunctionCallFloat.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPFunctionCallFloat.child" }))
                 }}"
             },
         )
@@ -243,7 +243,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPFunctionCallDoubleID,
             { query, data, off ->
                 "{\"type\":\"AOPFunctionCallDouble\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPFunctionCallDouble.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPFunctionCallDouble.child" }))
                 }}"
             },
         )
@@ -251,7 +251,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallTIMEZONEID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallTIMEZONE\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallTIMEZONE.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallTIMEZONE.child" }))
                 }}"
             },
         )
@@ -259,7 +259,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallDAYID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallDAY\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDAY.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallDAY.child" }))
                 }}"
             },
         )
@@ -267,7 +267,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallCEILID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallCEIL\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCEIL.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCEIL.child" }))
                 }}"
             },
         )
@@ -275,7 +275,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSTRLENID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSTRLEN\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLEN.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLEN.child" }))
                 }}"
             },
         )
@@ -283,7 +283,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallSECONDSID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallSECONDS\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSECONDS.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSECONDS.child" }))
                 }}"
             },
         )
@@ -291,7 +291,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallLANGID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallLANG\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANG.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANG.child" }))
                 }}"
             },
         )
@@ -299,7 +299,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallMONTHID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallMONTH\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMONTH.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallMONTH.child" }))
                 }}"
             },
         )
@@ -307,7 +307,7 @@ public object ConverterBinaryToAOPJson {
             EOperatorIDExt.AOPBuildInCallBOUNDID,
             { query, data, off ->
                 "{\"type\":\"AOPBuildInCallBOUND\",\"child\",${
-                decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBOUND.child" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallBOUND.child" }))
                 }}"
             },
         )
@@ -335,7 +335,7 @@ public object ConverterBinaryToAOPJson {
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallIF.child[0]" })),
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallIF.child[1]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 12, { "AOPBuildInCallIF.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 12, { "AOPBuildInCallIF.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallIF\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -356,7 +356,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPGEQ.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGEQ.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGEQ.child[1]" })),
                 )
                 "{\"type\":\"AOPGEQ\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -366,7 +366,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCONCAT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONCAT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONCAT.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallCONCAT\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -376,7 +376,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRSTARTS.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRSTARTS.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRSTARTS.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallSTRSTARTS\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -386,7 +386,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallCONTAINS.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONTAINS.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallCONTAINS.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallCONTAINS\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -396,7 +396,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRLANG.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRLANG.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRLANG.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallSTRLANG\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -406,7 +406,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRDT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRDT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRDT.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallSTRDT\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -416,7 +416,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAddition.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAddition.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAddition.child[1]" })),
                 )
                 "{\"type\":\"AOPAddition\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -426,7 +426,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRENDS.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRENDS.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRENDS.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallSTRENDS\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -436,7 +436,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallLANGMATCHES.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallLANGMATCHES.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallLANGMATCHES.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallLANGMATCHES\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -446,7 +446,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPOr.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPOr.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPOr.child[1]" })),
                 )
                 "{\"type\":\"AOPOr\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -456,7 +456,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPNEQ.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPNEQ.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPNEQ.child[1]" })),
                 )
                 "{\"type\":\"AOPNEQ\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -466,7 +466,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPLT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPLT.child[1]" })),
                 )
                 "{\"type\":\"AOPLT\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -476,7 +476,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPGT.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGT.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPGT.child[1]" })),
                 )
                 "{\"type\":\"AOPGT\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -486,7 +486,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPDivision.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPDivision.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPDivision.child[1]" })),
                 )
                 "{\"type\":\"AOPDivision\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -496,7 +496,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPSubtraction.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPSubtraction.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPSubtraction.child[1]" })),
                 )
                 "{\"type\":\"AOPSubtraction\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -506,7 +506,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPMultiplication.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPMultiplication.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPMultiplication.child[1]" })),
                 )
                 "{\"type\":\"AOPMultiplication\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -516,7 +516,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPAnd.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAnd.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPAnd.child[1]" })),
                 )
                 "{\"type\":\"AOPAnd\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -526,7 +526,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPEQ.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPEQ.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPEQ.child[1]" })),
                 )
                 "{\"type\":\"AOPEQ\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -536,7 +536,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRAFTER.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRAFTER.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRAFTER.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallSTRAFTER\",\"childs\":[${childs.joinToString()}]}"
             },
@@ -546,7 +546,7 @@ public object ConverterBinaryToAOPJson {
             { query, data, off ->
                 val childs = arrayOf(
                     decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 4, { "AOPBuildInCallSTRBEFORE.child[0]" })),
-                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRBEFORE.child[1]" }))
+                    decode(query, data, ByteArrayWrapperExt.readInt4(data, off + 8, { "AOPBuildInCallSTRBEFORE.child[1]" })),
                 )
                 "{\"type\":\"AOPBuildInCallSTRBEFORE\",\"childs\":[${childs.joinToString()}]}"
             },

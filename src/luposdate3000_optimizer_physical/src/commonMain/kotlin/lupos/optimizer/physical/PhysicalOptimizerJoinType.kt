@@ -137,7 +137,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
                                 break
                             }
                         }
-                        if (ii <columns[0].size) {
+                        if (ii < columns[0].size) {
                             flag = false
                         }
                         if (flag) {

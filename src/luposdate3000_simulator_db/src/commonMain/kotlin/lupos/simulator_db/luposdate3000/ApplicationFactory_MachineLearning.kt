@@ -36,7 +36,7 @@ public class ApplicationFactory_MachineLearning : IApplication_Factory {
                     json.getOrDefault("joinOrders", 15),
                     json.getOrDefault("tripleCount", 4),
                     ownAddress,
-                )
+                ),
             )
         }
         return listOf()

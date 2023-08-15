@@ -42,14 +42,14 @@ public class POPMergePartition public constructor(
     @JvmField public val partitionVariable: String?,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    child: IOPBase
+    child: IOPBase,
 ) : APOPParallel(
     query,
     projectedVariables,
     EOperatorIDExt.POPMergePartitionID,
     "POPMergePartition",
     arrayOf(child),
-    ESortPriorityExt.PREVENT_ANY
+    ESortPriorityExt.PREVENT_ANY,
 ) {
     override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo

@@ -336,7 +336,7 @@ internal class POPJoinMerge_Iterator(
                     __close()
                 }
             },
-            { __close() }
+            { __close() },
         )
     }
 }

@@ -130,7 +130,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
                     },
                     {
                         rootNode = it
-                    }
+                    },
                 )
             }
         } else {
@@ -317,7 +317,7 @@ public class TripleStoreIndexIDTriple : TripleStoreIndex {
     }
 
     override fun getIterator(query: IQuery, filter: DictionaryValueTypeArray, projection: List<String>): IteratorBundle {
-println("TripleStoreIndexIDTriple.kt .. getIterator")
+        println("TripleStoreIndexIDTriple.kt .. getIterator")
         var res: IteratorBundle
         val columns = mutableMapOf<String, ColumnIterator>()
         for (s in projection) {
@@ -397,7 +397,7 @@ println("TripleStoreIndexIDTriple.kt .. getIterator")
     private fun importHelper(a: Int, b: Int, combinator: (TripleIterator, TripleIterator) -> TripleIterator): Int {
         var nodeA: BufferManagerPageWrapper? = null
         var nodeB: BufferManagerPageWrapper? = null
-println("TripleStoreIndexIDTriple.kt .. importHelper fetch $a $b")
+        println("TripleStoreIndexIDTriple.kt .. importHelper fetch $a $b")
         nodeManager.getNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:400"/*SOURCE_FILE_END*/, a) {
             nodeA = it
         }
@@ -405,14 +405,14 @@ println("TripleStoreIndexIDTriple.kt .. importHelper fetch $a $b")
             nodeB = it
         }
         val res = importHelper(combinator(NodeLeaf.iterator(nodeA!!, a, nodeManager), NodeLeaf.iterator(nodeB!!, b, nodeManager)))
-println("TripleStoreIndexIDTriple.kt .. free $a $b")
+        println("TripleStoreIndexIDTriple.kt .. free $a $b")
         nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:408"/*SOURCE_FILE_END*/, a)
         nodeManager.freeAllLeaves(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:409"/*SOURCE_FILE_END*/, b)
         return res
     }
 
     private fun importHelper(iterator: TripleIterator): Int {
-println("TripleStoreIndexIDTriple.kt .. importHelper2 .. caching the data ..")
+        println("TripleStoreIndexIDTriple.kt .. importHelper2 .. caching the data ..")
         var res = NodeManager.nodeNullPointer
         var node2: BufferManagerPageWrapper? = null
         nodeManager.allocateNodeLeaf(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:417"/*SOURCE_FILE_END*/) { n, i ->
@@ -434,12 +434,12 @@ println("TripleStoreIndexIDTriple.kt .. importHelper2 .. caching the data ..")
         }
         nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:434"/*SOURCE_FILE_END*/, nodeid)
         nodeManager.releaseNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:435"/*SOURCE_FILE_END*/, nodeid)
-println("TripleStoreIndexIDTriple.kt .. importHelper2 .. caching the data .. done")
+        println("TripleStoreIndexIDTriple.kt .. importHelper2 .. caching the data .. done")
         return res
     }
 
     override fun flush() {
-println("TripleStoreIndexIDTriple.kt .. flush ${pendingImport.size}")
+        println("TripleStoreIndexIDTriple.kt .. flush ${pendingImport.size}")
         if (pendingImport.size > 0) {
             lock.writeLock()
             flushAssumeLocks()
@@ -498,7 +498,7 @@ println("TripleStoreIndexIDTriple.kt .. flush ${pendingImport.size}")
             val firstLeaf2: Int
             firstLeaf2 = if (pendingRemove.size > 0) {
                 val removeID = collapseList(pendingRemove)
-println("going to use minusiterator ... ")
+                println("going to use minusiterator ... ")
                 importHelper(insertID, removeID) { x, y -> MinusIterator(x, y) }
             } else {
                 insertID
@@ -514,7 +514,7 @@ println("going to use minusiterator ... ")
                 },
                 {
                     node = it
-                }
+                },
             )
             rootNode = null
             setRoot(NodeManager.nodeNullPointer)
@@ -529,7 +529,7 @@ println("going to use minusiterator ... ")
     }
 
     private fun rebuildData(_iterator: TripleIterator) {
-println("TripleStoreIndexIDTriple.kt .. rebuildData")
+        println("TripleStoreIndexIDTriple.kt .. rebuildData")
 // assuming to have write-lock
         val iterator = Count1PassThroughIterator(DistinctIterator(_iterator))
         if (iterator.hasNext()) {
@@ -599,7 +599,7 @@ println("TripleStoreIndexIDTriple.kt .. rebuildData")
                     {
                         rootNode = it
                         setRoot(currentLayer[0])
-                    }
+                    },
                 )
                 if (rootNodeIsLeaf) {
                     nodeManager.flushNode(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_id_triple/src/commonMain/kotlin/lupos/triple_store_id_triple/TripleStoreIndexIDTriple.kt:604"/*SOURCE_FILE_END*/, nodeid)
@@ -625,7 +625,7 @@ println("TripleStoreIndexIDTriple.kt .. rebuildData")
     }
 
     override fun insertAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean) {
-println("TripleStoreIndexIDTriple.kt insertAsBulk $isSorted $dataSize")
+        println("TripleStoreIndexIDTriple.kt insertAsBulk $isSorted $dataSize")
         if (isSorted) {
             insertAsBulkSorted(data, order, dataSize)
         } else {
@@ -636,7 +636,7 @@ println("TripleStoreIndexIDTriple.kt insertAsBulk $isSorted $dataSize")
     }
 
     override fun removeAsBulk(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int, isSorted: Boolean) {
-println("TripleStoreIndexIDTriple.kt removeAsBulk $isSorted $dataSize")
+        println("TripleStoreIndexIDTriple.kt removeAsBulk $isSorted $dataSize")
         if (isSorted) {
             removeAsBulkSorted(data, order, dataSize)
         } else {
@@ -647,7 +647,7 @@ println("TripleStoreIndexIDTriple.kt removeAsBulk $isSorted $dataSize")
     }
 
     private fun insertAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
-println("TripleStoreIndexIDTriple.kt insertAsBulkSorted $dataSize")
+        println("TripleStoreIndexIDTriple.kt insertAsBulkSorted $dataSize")
         if (dataSize > 0) {
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {
@@ -665,7 +665,7 @@ println("TripleStoreIndexIDTriple.kt insertAsBulkSorted $dataSize")
     }
 
     private fun removeAsBulkSorted(data: DictionaryValueTypeArray, order: IntArray, dataSize: Int) {
-println("TripleStoreIndexIDTriple.kt removeAsBulkSorted $dataSize")
+        println("TripleStoreIndexIDTriple.kt removeAsBulkSorted $dataSize")
         if (dataSize > 0) {
             lock.writeLock()
             if (firstLeaf_ != NodeManager.nodeNullPointer) {

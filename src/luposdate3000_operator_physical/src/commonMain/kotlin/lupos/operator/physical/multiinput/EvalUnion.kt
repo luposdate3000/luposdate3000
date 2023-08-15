@@ -24,7 +24,7 @@ public object EvalUnion {
     public operator fun invoke(
         childA: IteratorBundle,
         childB: IteratorBundle,
-        variables: List<String>
+        variables: List<String>,
     ): IteratorBundle {
         val outMap = mutableMapOf<String, ColumnIterator>()
         if (variables.isNotEmpty()) {

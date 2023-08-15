@@ -41,7 +41,7 @@ public object ColumnIteratorFromRow {
                                 ColumnIteratorQueueExt._close(this)
                                 iterator.close()
                             }
-                        }
+                        },
                     )
                 }
 

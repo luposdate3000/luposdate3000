@@ -48,7 +48,7 @@ public abstract class OPBase public constructor(
     @JvmField public val operatorID: EOperatorID,
     @JvmField public val classname: String,
     @JvmField public val children: Array<IOPBase>,
-    @JvmField internal val sortPriority: ESortPriority
+    @JvmField internal val sortPriority: ESortPriority,
 ) : IOPBase {
     internal companion object {
         internal var hadXMLWarning = false // show the warning stacktrace only once ... to prevent cluttering the output
@@ -157,15 +157,15 @@ public abstract class OPBase public constructor(
     }
 
     open override /*suspend*/ fun evaluateRootBundle(): IteratorBundleRoot {
-        return IteratorBundleRoot(query, arrayOf({listOf<String>() to evaluateRoot()}))
+        return IteratorBundleRoot(query, arrayOf({ listOf<String>() to evaluateRoot() }))
     }
 
     open override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
-        return IteratorBundleRoot(query, arrayOf({listOf<String>() to evaluate(Partition())}))
+        return IteratorBundleRoot(query, arrayOf({ listOf<String>() to evaluate(Partition()) }))
     }
 
     override /*suspend*/ fun evaluateRoot(): IteratorBundle {
-println("OPBase.kt .. $uuid evaluateRoot A")
+        println("OPBase.kt .. $uuid evaluateRoot A")
         val node = query.initialize(this, true, false)
         if (SanityCheck.enabled) {
             val usesDictionary = node.usesDictionary()
@@ -178,7 +178,7 @@ println("OPBase.kt .. $uuid evaluateRoot A")
     }
 
     override /*suspend*/ fun evaluateRoot(partition: Partition): IteratorBundle {
-println("OPBase.kt .. $uuid evaluateRoot B")
+        println("OPBase.kt .. $uuid evaluateRoot B")
         val node = query.initialize(this, true, false)
         return node.evaluate(partition)
     }
@@ -336,7 +336,7 @@ println("OPBase.kt .. $uuid evaluateRoot B")
             }
         } else if (sortPriority == ESortPriorityExt.SAME_AS_CHILD || sortPriority == ESortPriorityExt.BIND || sortPriority == ESortPriorityExt.MINUS) {
             val provided = getProvidedVariableNames()
-            if (children.size> 0) {
+            if (children.size > 0) {
                 for (x in children[0].getPossibleSortPriorities()) {
                     val tmp = mutableListOf<SortHelper>()
                     for (v in x) {

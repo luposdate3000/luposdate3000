@@ -49,7 +49,7 @@ internal class MinusIterator(@JvmField val a: TripleIterator, @JvmField val b: T
                 a.next()
             } else {
                 flag = 0
-b.close()
+                b.close()
             }
         }
         nextA()
@@ -71,10 +71,10 @@ b.close()
             }
         }
     }
-override fun close(){
-a.close()
-b.close()
-}
+    override fun close() {
+        a.close()
+        b.close()
+    }
     override fun hasNext() = flag != 0
     override fun next(component: Int): DictionaryValueType {
         value[0] = a.value[0]

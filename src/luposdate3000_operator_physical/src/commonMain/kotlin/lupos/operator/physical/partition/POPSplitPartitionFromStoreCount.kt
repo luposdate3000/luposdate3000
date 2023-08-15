@@ -35,14 +35,14 @@ public class POPSplitPartitionFromStoreCount public constructor(
     @JvmField public val partitionVariable: String,
     @JvmField public var partitionCount: Int,
     @JvmField public var partitionID: Int,
-    child: IOPBase
+    child: IOPBase,
 ) : APOPParallel(
     query,
     projectedVariables,
     EOperatorIDExt.POPSplitPartitionFromStoreCountID,
     "POPSplitPartitionFromStoreCount",
     arrayOf(child),
-    ESortPriorityExt.PREVENT_ANY
+    ESortPriorityExt.PREVENT_ANY,
 ) {
     override fun changePartitionID(idFrom: Int, idTo: Int) {
         partitionID = idTo

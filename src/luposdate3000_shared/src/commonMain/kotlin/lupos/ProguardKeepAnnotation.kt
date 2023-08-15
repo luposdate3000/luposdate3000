@@ -30,7 +30,7 @@ package lupos
     AnnotationTarget.TYPE,
     AnnotationTarget.TYPEALIAS,
     AnnotationTarget.TYPE_PARAMETER,
-    AnnotationTarget.VALUE_PARAMETER
+    AnnotationTarget.VALUE_PARAMETER,
 )
 /*
  * this indicates that the target should remain in the shrinked binary

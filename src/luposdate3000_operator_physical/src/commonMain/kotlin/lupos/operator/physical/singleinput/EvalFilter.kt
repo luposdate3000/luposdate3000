@@ -87,7 +87,7 @@ public object EvalFilter {
                                 }
                             }
                         },
-                        { __close() }
+                        { __close() },
                     )
                 }
             })

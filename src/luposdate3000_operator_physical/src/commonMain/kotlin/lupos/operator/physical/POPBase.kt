@@ -34,7 +34,7 @@ public abstract class POPBase public constructor(
     operatorID: EOperatorID,
     classname: String,
     children: Array<IOPBase>,
-    sortPriority: ESortPriority
+    sortPriority: ESortPriority,
 ) :
     OPBase(query, operatorID, classname, children, sortPriority), IPOPBase {
 

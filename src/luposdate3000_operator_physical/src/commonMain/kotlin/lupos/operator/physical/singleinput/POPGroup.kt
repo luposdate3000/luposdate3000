@@ -97,7 +97,7 @@ public class POPGroup : POPBase {
         projectedVariables: List<String>,
         by: List<AOPVariable>,
         bindings: POPBind?,
-        child: IOPBase
+        child: IOPBase,
     ) : super(query, projectedVariables, EOperatorIDExt.POPGroupID, "POPGroup", arrayOf(child), ESortPriorityExt.GROUP) {
         this.by = by
         var tmpBind: IOPBase? = bindings

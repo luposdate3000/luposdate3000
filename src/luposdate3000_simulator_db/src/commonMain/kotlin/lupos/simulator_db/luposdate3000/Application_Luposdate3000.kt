@@ -453,7 +453,7 @@ public class Application_Luposdate3000 public constructor(
                                                         newKey,
                                                         { _ ->
                                                             ConverterBinaryEncoder.encodePOPDistributedReceiveMultiCount(pck.data, mutableMapOf(), keys2.toList())
-                                                        }
+                                                        },
                                                     )
                                                     val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiCount.size" })
                                                     val newKeys = mutableSetOf<Int>(newKey)
@@ -477,7 +477,7 @@ public class Application_Luposdate3000 public constructor(
                                                         newKey,
                                                         { _ ->
                                                             ConverterBinaryEncoder.encodePOPDistributedReceiveMulti(pck.data, mutableMapOf(), keys2.toList())
-                                                        }
+                                                        },
                                                     )
                                                     val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMulti.size" })
                                                     val newKeys = mutableSetOf<Int>(newKey)
@@ -554,9 +554,9 @@ public class Application_Luposdate3000 public constructor(
                                                                 mapping,
                                                                 theNewChildKeys,
                                                                 theNewChildProjectedVariables,
-                                                                theNewChildChildProjectedVariables
+                                                                theNewChildChildProjectedVariables,
                                                             )
-                                                        }
+                                                        },
                                                     )
                                                     val finalEndOff = oldOperatorOff + 4 + 4 + 4 + 4 * theNewParentProjectedVariables.size + 4 * theNewParentKeys.size + 4 * theNewParentKeys.size + 4 * theNewParentChildProjectedVariables.map { it.size }.sum()
                                                     o = oldOperatorOff
@@ -613,7 +613,7 @@ public class Application_Luposdate3000 public constructor(
                                                         newKey,
                                                         { _ ->
                                                             ConverterBinaryEncoder.encodePOPDistributedReceiveMultiOrdered(pck.data, mutableMapOf(), keys2.toList(), orderedBy, variablesOut)
-                                                        }
+                                                        },
                                                     )
                                                     val len = ByteArrayWrapperExt.readInt4(pck.data, oldOperatorOff + 4, { "POPDistributedReceiveMultiOrdered.size" })
                                                     val newKeys = mutableSetOf<Int>(newKey)
@@ -865,7 +865,7 @@ public class Application_Luposdate3000 public constructor(
 // println()
 // println()
             val inputIterators = inputs.map { EvalDistributedReceiveSingle(it, null, instance.timeout) }.toMutableList()
-            while (inputIterators.size> 1) {
+            while (inputIterators.size > 1) {
                 val child0 = inputIterators.removeFirst()
                 val child1 = inputIterators.removeFirst()
                 val projected0 = childProjectedVariables.removeFirst()
@@ -988,7 +988,7 @@ public class Application_Luposdate3000 public constructor(
 // println()
 //                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, ConverterBinaryToBinary.decode(w.query as Query, w.data, intArrayOf(w.dataID))) + "}")
 //                            println("execute json::::: {\"w.queryID\":${w.queryID},\"w.dataID\":${w.dataID},\"data\":" + ConverterBinaryToPOPJson.decode(query as Query, w.data) + "}")
-                            if (w.dataID <0) {
+                            if (w.dataID < 0) {
                                 val iteratorBundle = localConvertToIteratorBundle(query, w.data, w.dataID, w.queryID, w.destinations, true).first
                                 if (w.expectedResult != null) {
                                     val buf = MyPrintWriter(false)

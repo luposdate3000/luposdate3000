@@ -23,5 +23,5 @@ public class IteratorBundleRoot(
     @JvmField
     public val query: IQuery,
     @JvmField
-    public val nodes: Array<()->Pair<List<String>, IteratorBundle>>,
+    public val nodes: Array<() -> Pair<List<String>, IteratorBundle>>,
 )

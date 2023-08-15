@@ -216,7 +216,7 @@ public object EvalGroupSorted {
                                     }
                                 }
                             },
-                            { __close() }
+                            { __close() },
                         )
                     }
                 }

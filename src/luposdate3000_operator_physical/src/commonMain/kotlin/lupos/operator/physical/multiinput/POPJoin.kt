@@ -30,7 +30,7 @@ internal object POPJoin {
     fun crossProduct(dataO0: Array<MutableList<DictionaryValueType>>, dataO1: Array<MutableList<DictionaryValueType>>, dataJ: DictionaryValueTypeArray, outO0: List<ColumnIteratorChildIterator?>, outO1: List<ColumnIteratorChildIterator?>, outJ: List<ColumnIteratorChildIterator?>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
-        if (count <0 || count <countA || count <countB) {
+        if (count < 0 || count < countA || count < countB) {
             throw TooManyIntermediateResultsException()
         }
         if (SanityCheck.enabled) { if (!(count > 0)) { throw Exception("SanityCheck failed") } }
@@ -101,7 +101,7 @@ internal object POPJoin {
     fun crossProduct(dataO0: Array<DictionaryValueTypeArray>, dataO1: Array<DictionaryValueTypeArray>, dataJ: DictionaryValueTypeArray, outO0: List<ColumnIteratorChildIterator?>, outO1: List<ColumnIteratorChildIterator?>, outJ: List<ColumnIteratorChildIterator?>, countA: Int, countB: Int) {
         /*result ordered by first child*/
         val count = countA * countB
-        if (count <0 || count <countA || count <countB) {
+        if (count < 0 || count < countA || count < countB) {
             throw TooManyIntermediateResultsException()
         }
 

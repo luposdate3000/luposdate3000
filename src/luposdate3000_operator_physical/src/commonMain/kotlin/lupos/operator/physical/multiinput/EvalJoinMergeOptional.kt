@@ -190,7 +190,7 @@ public object EvalJoinMergeOptional {
                                 }
                                 POPJoin.crossProduct(data[0], data[1], keyCopy, columnsOUT[0], columnsOUT[1], columnsOUTJ, countA, countB)
                             },
-                            { _close() }
+                            { _close() },
                         )
                     }
                 }

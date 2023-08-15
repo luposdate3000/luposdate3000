@@ -39,7 +39,7 @@ import lupos.shared.operator.iterator.IteratorBundle
 public class POPVisualisation public constructor(
     query: IQuery,
     projectedVariables: List<String>,
-    child: IOPBase
+    child: IOPBase,
 ) : POPBase(query, projectedVariables, EOperatorIDExt.POPDebugID, "POPVisualisation", arrayOf(child), ESortPriorityExt.SAME_AS_CHILD) {
     public var visualTest: MutableList<String>? = null
 
