@@ -29,7 +29,16 @@ public class ValueComparatorDESC(@JvmField public val query: IQuery) : Comparato
     override fun compare(a: DictionaryValueType, b: DictionaryValueType): Int {
         query.getDictionary().getValue(bufferA, a)
         query.getDictionary().getValue(bufferB, b)
-        return -DictionaryHelper.byteArrayCompareAny(bufferA, bufferB)
+
+        try {
+            return -DictionaryHelper.byteArrayCompareAny(bufferA, bufferB)
+        } catch (e: Luposdate3000Exception) {
+            return (a - b).toInt()
+        } catch (e: Throwable) {
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ValueComparatorDESC.kt:37"/*SOURCE_FILE_END*/)
+            return (a - b).toInt()
+        }
+
 /*Coverage Unreachable*/
     }
 }

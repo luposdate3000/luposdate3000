@@ -16,6 +16,7 @@
  */
 package lupos.shared.inline
 
+import lupos.shared.Luposdate3000Exception
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
@@ -755,13 +756,13 @@ public object DictionaryHelper {
             val c = if (reverse) b else a
             val d = if (reverse) a else b
             val res = if (typeC == ETripleComponentTypeExt.UNDEF) {
-                -1
+                TODO("-1")
             } else if (typeD == ETripleComponentTypeExt.UNDEF) {
-                1
+                TODO("1")
             } else if (typeC == ETripleComponentTypeExt.ERROR) {
-                -1
+                TODO("-1")
             } else if (typeD == ETripleComponentTypeExt.ERROR) {
-                1
+                TODO("1")
             } else if (typeC == ETripleComponentTypeExt.BLANK_NODE) {
                 -1
             } else if (typeD == ETripleComponentTypeExt.BLANK_NODE) {

@@ -27,10 +27,8 @@ internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: 
 }
 public fun main() {
     val tests = listOf(
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional16sparql4Kt",
     )
     val tests2 = listOf(
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional16sparql5Kt",
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery111853sparql1853Kt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery112210sparql2210Kt",
@@ -39,6 +37,8 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional10sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional11sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional15sparql4Kt",
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional16sparql4Kt",
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional16sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional17sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional17sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional18sparql4Kt",
