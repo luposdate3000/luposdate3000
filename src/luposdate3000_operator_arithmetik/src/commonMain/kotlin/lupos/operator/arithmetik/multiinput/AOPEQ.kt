@@ -40,9 +40,6 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
             val a1 = childA()
             val b1 = childB()
             if (a1 != b1) {
-                if (query.getDictionary().isBnode(a1) || query.getDictionary().isBnode(b1)) {
-                    res = DictionaryValueHelper.booleanFalseValue
-                } else {
                     query.getDictionary().getValue(bufferA, a1)
                     query.getDictionary().getValue(bufferB, b1)
                     try {
@@ -52,10 +49,9 @@ public class AOPEQ public constructor(query: IQuery, childA: AOPBase, childB: AO
                     } catch (e: Luposdate3000Exception) {
                         res = DictionaryValueHelper.errorValue
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPEQ.kt:54"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/multiinput/AOPEQ.kt:51"/*SOURCE_FILE_END*/)
                         res = DictionaryValueHelper.errorValue
                     }
-                }
             }
             res
         }
