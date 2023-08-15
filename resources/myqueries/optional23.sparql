@@ -1,5 +1,5 @@
 PREFIX : <http://example.org/>
-SELECT ?s ?o1 (COALESCE(BOUND(?o2) && (?o2 != ?o1),!BOUND(?o2)) AS ?t1) (BOUND(?o2) && (?o2 != ?o1) AS ?t2) (?o2 != ?o1 AS ?t3) WHERE {
+SELECT ?s ?o1 ?o2 (COALESCE(BOUND(?o2) && (?o2 != ?o1),!BOUND(?o2)) AS ?t1) (BOUND(?o2) && (?o2 != ?o1) AS ?t2) (?o2 != ?o1 AS ?t3) WHERE {
  ?s :b1 ?o1 .
  OPTIONAL {
   {

@@ -7,39 +7,7 @@
  <results>
    <result>
     <binding name="b">
-     <bnode>b182_1</bnode>
-    </binding>
-    <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b182_2</bnode>
-    </binding>
-    <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b182_6</bnode>
-    </binding>
-    <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b182_22</bnode>
-    </binding>
-    <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b182_33</bnode>
+     <bnode>b436_4</bnode>
     </binding>
     <binding name="x">
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
@@ -47,7 +15,23 @@
    </result>
    <result>
     <binding name="b">
-     <bnode>b182_35</bnode>
+     <bnode>b436_13</bnode>
+    </binding>
+    <binding name="x">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b436_14</bnode>
+    </binding>
+    <binding name="x">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b436_15</bnode>
     </binding>
     <binding name="x">
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
@@ -55,7 +39,7 @@
    </result>
    <result>
     <binding name="b">
-     <bnode>b182_40</bnode>
+     <bnode>b436_19</bnode>
     </binding>
     <binding name="x">
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
@@ -63,7 +47,7 @@
    </result>
    <result>
     <binding name="b">
-     <bnode>b182_42</bnode>
+     <bnode>b436_20</bnode>
     </binding>
     <binding name="x">
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
@@ -71,15 +55,7 @@
    </result>
    <result>
     <binding name="b">
-     <bnode>b182_47</bnode>
-    </binding>
-    <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b182_49</bnode>
+     <bnode>b436_23</bnode>
     </binding>
     <binding name="x">
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
@@ -87,7 +63,47 @@
    </result>
    <result>
     <binding name="b">
-     <bnode>b182_65</bnode>
+     <bnode>b436_27</bnode>
+    </binding>
+    <binding name="x">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b436_38</bnode>
+    </binding>
+    <binding name="x">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b436_39</bnode>
+    </binding>
+    <binding name="x">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b436_41</bnode>
+    </binding>
+    <binding name="x">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b436_50</bnode>
+    </binding>
+    <binding name="x">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b436_56</bnode>
     </binding>
     <binding name="x">
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
@@ -95,15 +111,7 @@
    </result>
    <result>
     <binding name="b">
-     <bnode>b182_66</bnode>
-    </binding>
-    <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b182_67</bnode>
+     <bnode>b436_71</bnode>
     </binding>
     <binding name="x">
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
@@ -111,18 +119,10 @@
    </result>
    <result>
     <binding name="b">
-     <bnode>b182_72</bnode>
+     <bnode>b436_74</bnode>
     </binding>
     <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b182_74</bnode>
-    </binding>
-    <binding name="x">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
     </binding>
    </result>
  </results>

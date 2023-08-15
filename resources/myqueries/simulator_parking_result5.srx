@@ -6,7 +6,7 @@
  <results>
    <result>
     <binding name="latestDate">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.22</literal>
+     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.422</literal>
     </binding>
    </result>
  </results>
