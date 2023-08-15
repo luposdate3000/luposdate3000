@@ -39,7 +39,7 @@ public actual class MyInputStream : IMyInputStream {
                 b = readByte()
             }
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/nativeMain/kotlin/lupos/shared/inline/MyInputStream.kt:42"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/nativeMain/kotlin/lupos/shared/inline/MyInputStream.kt:41"/*SOURCE_FILE_END*/)
             if (buf.size == 0) {
                 return null
             }

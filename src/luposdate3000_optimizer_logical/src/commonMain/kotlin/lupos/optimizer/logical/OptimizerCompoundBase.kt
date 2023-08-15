@@ -122,8 +122,6 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                                 onChange()
                             }
                         }
-                        // println("${o.classname}")
-                        // println("$tmp")
                         nextStep(tmp)
                     }
                 }

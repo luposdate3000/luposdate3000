@@ -88,7 +88,6 @@ public class MemoryTableFromXML : MemoryTableParser {
             fun maybeAttributeOfElement(n: String, parent: ASTelement): String? {
                 return attributesOfElement(n, parent).getOrElse(0, { i -> null })
             }
-            println("MemoryTableFromXML.kt .. going to parse .. $data")
             val dataStream = MyStringStream(data)
             val parserObject = XMLParser(dataStream)
             parserObject.parserDefinedParse()
@@ -161,7 +160,7 @@ public class MemoryTableFromXML : MemoryTableParser {
             try {
                 throw Exception(data, e)
             } catch (e2: Throwable) {
-                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromXML.kt:163"/*SOURCE_FILE_END*/)
+                e2.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/MemoryTableFromXML.kt:162"/*SOURCE_FILE_END*/)
             }
             return null
         }

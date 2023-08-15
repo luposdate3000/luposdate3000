@@ -53,7 +53,6 @@ public object EvalGraphOperation {
             if (!__first) {
                 return DictionaryValueHelper.nullValue
             }
-            // println("EvalGraphOperation $silent $graph1type $graph1iri $graph2type $graph2iri $action .... ${EGraphRefTypeExt.names[graph1type]} ${EGraphRefTypeExt.names[graph2type]} ${EGraphOperationTypeExt.names[action]}")
             __first = false
             try {
                 val manager = query.getInstance().tripleStoreManager!!
@@ -143,15 +142,15 @@ public object EvalGraphOperation {
                 }
             } catch (e: EvaluationException) {
                 if (!silent) {
-                    e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:145"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:144"/*SOURCE_FILE_END*/)
                 } else {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:147"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:146"/*SOURCE_FILE_END*/)
                 }
             } catch (e: Throwable) {
                 if (!silent) {
-                    e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:151"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:150"/*SOURCE_FILE_END*/)
                 } else {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:153"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/noinput/EvalGraphOperation.kt:152"/*SOURCE_FILE_END*/)
                 }
             }
             return DictionaryValueHelper.booleanTrueValue

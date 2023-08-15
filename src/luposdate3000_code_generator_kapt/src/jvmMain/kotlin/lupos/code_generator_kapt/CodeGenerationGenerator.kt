@@ -30,9 +30,6 @@ import javax.lang.model.element.VariableElement
 
 @SupportedOptions("kapt.kotlin.generated")
 public class CodeGenerationGenerator : AbstractProcessor() {
-    init {
-        println("CodeGenerationGenerator init")
-    }
 
     override fun getSupportedSourceVersion(): SourceVersion = SourceVersion.latest()
     override fun getSupportedAnnotationTypes(): MutableSet<String> = mutableSetOf(CodeGenerationAnnotation::class.java.name)
@@ -55,7 +52,7 @@ public class CodeGenerationGenerator : AbstractProcessor() {
                     CodeGeneration.generateSourceCode(out, className, packageName, variableName, variableValue)
                     out.close()
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_kapt/src/jvmMain/kotlin/lupos/code_generator_kapt/CodeGenerationGenerator.kt:57"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_code_generator_kapt/src/jvmMain/kotlin/lupos/code_generator_kapt/CodeGenerationGenerator.kt:54"/*SOURCE_FILE_END*/)
                 }
             }
         return true

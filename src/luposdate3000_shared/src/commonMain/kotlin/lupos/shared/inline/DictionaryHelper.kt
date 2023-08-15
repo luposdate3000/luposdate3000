@@ -334,7 +334,6 @@ public object DictionaryHelper {
 
     @Suppress("NOTHING_TO_INLINE")
     public inline fun byteArrayToDateTime_TimeZone(buffer: ByteArrayWrapper): Pair<String, String>? {
-        println("byteArrayToDateTime_TimeZone " + headerDecodeFlag(buffer))
         if (headerDecodeFlag(buffer) == 0x80) {
             return null
         } else {
@@ -348,7 +347,6 @@ public object DictionaryHelper {
             var timezoneHours = ByteArrayWrapperExt.readInt4(buffer, off)
             off += 4
             var timezoneMinutes = ByteArrayWrapperExt.readInt4(buffer, off)
-            println("byteArrayToDateTime_TimeZone " + timezoneHours + " " + timezoneMinutes)
             if (timezoneHours == 0 && timezoneMinutes == 0) {
                 return "PT0S" to "http://www.w3.org/2001/XMLSchema#dayTimeDuration"
             }
@@ -868,7 +866,6 @@ public object DictionaryHelper {
                 TODO("byteArrayCompareAny UNKNOWN combination ${ETripleComponentTypeExt.names[typeA]} vs ${ETripleComponentTypeExt.names[typeB]}")
             }
         }
-        // println("compare ${byteArrayToSparql(a)} to  ${byteArrayToSparql(b)} -> $result")
         return result
     }
 }

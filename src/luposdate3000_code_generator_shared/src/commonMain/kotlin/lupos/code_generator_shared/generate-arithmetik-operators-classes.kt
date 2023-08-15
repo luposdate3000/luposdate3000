@@ -308,22 +308,17 @@ public fun generateMethod(
             builder.appendLine("var ${outputName2}_type : ETripleComponentType")
             val operatorName = getOperatorName(child.getClassname())
             val operators = mutableListOf<MyOperator>()
-            println("OP NAME $operatorName")
             OperatorBuilder.build(operators)
             val operator = operators.filter { it.name == operatorName }.first()
             val inputNaming = child.getChildren().map { "child${it.getUUID()}" }
             val types = mutableSetOf<ETripleComponentType>()
             // val representation = if(isChild) EParamRepresentation.INSTANTIATED else EParamRepresentation.ID;
             val representation = EParamRepresentation.INSTANTIATED
-            println(representation)
 
             val map = operator.generateMap(indention, representation, inputNaming.toTypedArray(), outputName2, "", imports, target, globalVariables, confirmedTypes, types)
             confType.add(types)
             val maxElement = map.maxByOrNull { it.value.size }
 
-            println(map.size)
-            println(maxElement!!.value.size)
-            // map.map { println("MARKING" +it.key to  it.value.map{it.map { it }}) }
             generateOptimizedWhenStructure(indention, map, builder, map[map.keys.first()]!!.first().size, 0, inputNaming)
         }
     }
@@ -356,7 +351,6 @@ private fun generateOptimizedWhenStructure(indention: String, map: MutableMap<St
             }
         }
         if (newMap.isNotEmpty()) {
-            // newMap.map { println(it.key to  it.value.map{it.map { it }}) }
             val temBuilder = StringBuilder()
             generateOptimizedWhenStructure(indention, newMap, temBuilder, maxDepth, currentDepth + 1, inputNames)
             val tempString = temBuilder.toString()
@@ -400,7 +394,6 @@ public class MyOperator(
 ) {
 
     private fun generate(indention: String, representation: EParamRepresentation, inputNames: Array<String>, outputName: String, prefix: String, imports: MutableSet<String>, target: StringBuilder, globalVariables: MutableSet<String>) {
-        println("generating operator $name")
         if (representation == EParamRepresentation.INSTANTIATED) {
             throw Exception("there is no need to combine functions here")
         }

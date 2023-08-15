@@ -46,12 +46,11 @@ public object EvalDistributedSendSingle {
                 connectionOut.writeDictionaryValueType(buf)
                 debugBuf[j] = buf
             }
-// println("EvalDistributedSendSingle $debugID ${variables.toList()} $debugBuf")
         }
         try {
             connectionOut.close()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedSendSingle.kt:53"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/EvalDistributedSendSingle.kt:52"/*SOURCE_FILE_END*/)
         }
     }
 }

@@ -284,7 +284,6 @@ public class DictionaryKV internal constructor(
             )
             if (SanityCheck.enabled) { if (!(!ready)) { throw Exception("SanityCheck failed") } }
 
-            println("imported $lastid dictionaryItems")
         }
         return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
     }

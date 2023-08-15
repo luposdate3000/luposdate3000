@@ -535,8 +535,5 @@ public class HelperMetadata(internal val data: ByteArrayWrapper, internal val qu
         for (id in id2off.keys) {
             id2host.getOrPut(id, { mutableSetOf() })
         }
-//        for ((k, i) in key_send2id) {
-//            println("key $k query $queryID : $i -> ${key_rec2idGet(k)} ... key : send -> rec")
-//        }
     }
 }

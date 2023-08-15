@@ -115,7 +115,6 @@ public object EvalDistributedReceiveMulti {
                     openConnections--
                 }
             }
-// println("EvalDistributedReceiveMulti $debugID ${variables.toList()} $res ${iterator.buf.toList()}")
             res
         }
         iterator.close = {

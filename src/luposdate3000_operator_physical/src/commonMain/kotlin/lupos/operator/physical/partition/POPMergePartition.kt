@@ -236,7 +236,6 @@ public class POPMergePartition public constructor(
                         e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPMergePartition.kt:235"/*SOURCE_FILE_END*/)
                         error = e
                     }
-                    println("thread $p produced $resultrowDebug rows")
                     writerFinished[p] = 1
                     ringbufferReaderContinuation.signal()
                 }

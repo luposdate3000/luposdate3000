@@ -68,11 +68,9 @@ public class PhysicalOptimizerPartitionExpandPartitionTowardsStore(query: Query)
                                     } else {
                                         POPSplitPartitionFromStoreCount(query, node.projectedVariables, partitionVariable, new_count, node.partitionID, c)
                                     }
-// println("PhysicalOptimizerPartitionExpandPartitionTowardsStore ${res.getUUID()} <- $new_count")
                                     query.removePartitionOperator(node.getUUID(), node.partitionID)
                                     query.addPartitionOperator(res.getUUID(), node.partitionID)
                                     onChange()
-                                    // println("PhysicalOptimizerPartitionExpandPartitionTowardsStore has assigned C ${node.getUUID()} ${c.getUUID()}")
                                 } else {
 //                                    TODO("PhysicalOptimizerPartitionExpandPartitionTowardsStore unable to assign B ${node.getUUID()} ${c.getUUID()}")
 // this should be handled by PhysicalOptimizerPartitionAssingPartitionsToRemaining afterwards

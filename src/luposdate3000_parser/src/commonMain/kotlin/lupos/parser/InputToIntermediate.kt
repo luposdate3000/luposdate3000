@@ -250,9 +250,6 @@ public object InputToIntermediate {
                     row[2] = o
                     outTriples.write(row)
                     cnt++
-                    if (cnt % 10000L == 0L) {
-                        println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
-                    }
                     if (dictSizeEstimated > dictSizeLimit) {
                         val startTime2 = DateHelperRelative.markNow()
                         DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
@@ -290,9 +287,6 @@ public object InputToIntermediate {
                     row[2] = addToDict(o2)
                     outTriples.write(row)
                     cnt++
-                    if (cnt % 10000L == 0L) {
-                        println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
-                    }
                     if (dictSizeEstimated > dictSizeLimit) {
                         val startTime2 = DateHelperRelative.markNow()
                         DictionaryIntermediateWriter("$inputFileName.$chunc").write(dict)
@@ -307,7 +301,6 @@ public object InputToIntermediate {
                 throw Exception("unknown filetype $inputFileName")
             }
         }
-        println("parsing triples=$cnt :: dictionery-entries=$dictCounter :: dictionary-size-estimated=$dictSizeEstimated(Bytes)")
         shouldReturn = shouldReturn || parserBenchmarkOnly
         if (!shouldReturn) {
             val startTime2 = DateHelperRelative.markNow()
@@ -574,7 +567,6 @@ public object InputToIntermediate {
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 val outputTriplesFile = File("$inputFileName.$tripleFileEnding")
                 val outputPartitionsFile = File("$inputFileName.partitions")
-                println("partition-stats :: ")
                 val lowerBoundToAnalyse = 256L
                 val partitionSizes = intArrayOf(2, 4, 8, 16)
                 val tripleBuf = LongArray(3)

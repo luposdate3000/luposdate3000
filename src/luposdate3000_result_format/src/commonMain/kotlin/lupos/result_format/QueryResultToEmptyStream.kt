@@ -71,7 +71,6 @@ public class QueryResultToEmptyStream : IResultFormat {
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
-                println("QueryResultToEmptyStream.kt .. ${child.names.toSet()} $columnNames")
                 if (SanityCheck.enabled) { if (!(child.names.toSet().containsAll(columnNames))) { throw Exception("SanityCheck failed") } }
             } else {
                 columnNames = child.names.toList()

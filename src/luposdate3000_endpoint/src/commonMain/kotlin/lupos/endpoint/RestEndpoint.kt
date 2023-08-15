@@ -529,7 +529,6 @@ public object RestEndpoint {
             true
         }
         paths["/distributed/query/dictionary"] = PathMappingHelper(false, mapOf()) { params, connectionInMy, connectionOutMy ->
-            println("/distributed/query/dictionary $params")
             val dict = dictionaryMapping[params["key"]!!]!!
             dict.connect(connectionInMy, connectionOutMy)
             true
@@ -667,7 +666,7 @@ public object RestEndpoint {
                         try {
                             c!!.close()
                         } catch (e: Throwable) {
-                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:669"/*SOURCE_FILE_END*/)
+                            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/RestEndpoint.kt:668"/*SOURCE_FILE_END*/)
                         }
                     }
                     for (c in queryContainer.inputStreams.values) {

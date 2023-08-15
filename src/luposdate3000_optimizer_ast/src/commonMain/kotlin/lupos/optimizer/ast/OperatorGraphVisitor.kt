@@ -495,14 +495,11 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     public fun visit(node: ASTSparqlDoc): OPBaseCompound {
-//         println("inputAST " + node)
-        lupos.parser.sparql.SparqlParser(lupos.shared.inline.MyStringStream("")).printASTSparqlDoc(node)
-// println()
+//        lupos.parser.sparql.SparqlParser(lupos.shared.inline.MyStringStream("")).printASTSparqlDoc(node)
         val res = when (val v1 = node.variable1!!) {
             is ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional -> visit171(node.variable0!!, v1)
             is ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional -> visit076(node.variable0!!, v1)
         }
-        println(res)
         return res
     }
 
@@ -741,7 +738,6 @@ public class OperatorGraphVisitor(public val query: Query) {
                 }.reduce { s, t -> LOPUnion(query, s, t) },
             ),
         )
-        println("yyy $returning")
         return returning
     }
 

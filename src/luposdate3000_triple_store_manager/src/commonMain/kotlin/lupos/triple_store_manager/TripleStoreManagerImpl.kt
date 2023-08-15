@@ -545,7 +545,6 @@ public class TripleStoreManagerImpl public constructor(
     }
 
     public fun createGraph(query: IQuery, graphName: LuposGraphName, silence: Boolean, action: (ITripleStoreDescriptionFactory) -> Unit) {
-        println("TripleStoreManagerImpl.kt .. createGraph " + graphName + " " + metadata_.keys)
         if (metadata_[graphName] != null) {
             if (silence) {
                 return
@@ -707,7 +706,6 @@ public class TripleStoreManagerImpl public constructor(
             val query = Query(instance)
             createGraph(query, graphName, false)
         }
-        println("TripleStoreManagerImpl.kt .. " + graphName + " " + metadata_.keys)
         val res = metadata_[graphName]
         return res!!
     }

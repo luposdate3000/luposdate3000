@@ -104,7 +104,6 @@ public class OPBaseCompound public constructor(
     }
 
     override /*suspend*/ fun evaluateRootBundle(): IteratorBundleRoot {
-        println("OPBaseCompound.kt .. evaluateRootBundle")
         return IteratorBundleRoot(
             query,
             Array(children.size) {
@@ -122,7 +121,6 @@ public class OPBaseCompound public constructor(
     }
 
     override /*suspend*/ fun evaluateBundle(): IteratorBundleRoot {
-        println("OPBaseCompound.kt .. evaluateBundle")
         return IteratorBundleRoot(
             query,
             Array(children.size) {

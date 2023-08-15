@@ -110,7 +110,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
 
                             var variable = "?TripleStoreDummyVariable" // not existing variable name with the prefix "?"
                             var count = 128 // arbitray number, will be fixed later by PhysicalOptimizerPartitionAssignsSamePartitionCountToAnyRelatedOperator
-                            println("assign random partitioning ... before " + variable + " " + count)
                             val partitionID = query.getNextPartitionOperatorID()
                             res = if (node.projectedVariables.isNotEmpty()) {
                                 for (v in node.projectedVariables) {
@@ -121,8 +120,6 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
                                         break
                                     }
                                 }
-                                println("assign random partitioning ... fixed " + variable + " " + count)
-
                                 POPSplitPartitionFromStore(query, node.projectedVariables, variable, count, partitionID, node)
                             } else {
                                 POPSplitPartitionFromStoreCount(query, node.projectedVariables, variable, count, partitionID, node)

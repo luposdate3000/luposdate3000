@@ -86,9 +86,6 @@ public abstract class ADictionary(
     internal companion object {
         internal fun addEntry(id: DictionaryValueType, i: DictionaryValueType, mymapping2: DictionaryValueTypeArray): DictionaryValueTypeArray {
             var mymapping = mymapping2
-            if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
-                println("imported $id dictionaryItems")
-            }
             if (mymapping.size <= id) {
                 var newSize = 1
                 while (newSize <= id) {
@@ -111,9 +108,6 @@ public abstract class ADictionary(
         DictionaryIntermediateReader(filename).readAll(buffer) { id ->
             if (id > lastid) {
                 lastid = id
-            }
-            if (id % 10000 == DictionaryValueHelper.NULL && id != DictionaryValueHelper.NULL) {
-                println("imported $id dictionaryItems")
             }
             val type = DictionaryHelper.byteArrayToType(buffer)
             val i = when (type) {
@@ -138,7 +132,6 @@ public abstract class ADictionary(
             }
             mymapping = addEntry(id, i, mymapping)
         }
-        println("imported $lastid dictionaryItems")
         return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
     }
 }

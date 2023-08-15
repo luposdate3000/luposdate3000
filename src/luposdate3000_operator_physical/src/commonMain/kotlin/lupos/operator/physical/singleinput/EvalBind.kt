@@ -43,7 +43,6 @@ public object EvalBind {
             }
             return res
         }
-        println("EvalBind .. " + variablesInCount)
         if (variablesInCount == 0) {
             outMap[name] = object : ColumnIteratorQueue() {
                 var ctr = child.count()
@@ -65,7 +64,6 @@ public object EvalBind {
                 }
             }
         } else {
-            println("EvalBind .. with input data")
             val variablesLocal = (child.columns.keys + name).toList()
             val columnsLocal = Array<ColumnIteratorQueue>(variablesLocal.size) { ColumnIteratorQueueEmpty() }
             val columnsOut = Array<ColumnIteratorQueue>(variablesOut.size) { ColumnIteratorQueueEmpty() }
@@ -90,7 +88,6 @@ public object EvalBind {
                                 for (variableIndex2 in variablesLocal.indices) {
                                     if (boundIndex != variableIndex2) {
                                         val value2 = columnsIn[variableIndex2]!!.next()
-                                        println("EvalBind .. next[$variableIndex2] = $value2")
                                         if (value2 == DictionaryValueHelper.nullValue) {
                                             for (variableIndex3 in 0 until variablesLocal.size) {
                                                 ColumnIteratorQueueExt.closeOnEmptyQueue(columnsLocal[variableIndex3])
@@ -110,7 +107,6 @@ public object EvalBind {
                                 if (!done) {
                                     columnsLocal[boundIndex].tmp = expressionWrapper()
                                     for (variableIndex2 in columnsOut.indices) {
-                                        println("EvalBind .. assign[$variableIndex2] = ${columnsOut[variableIndex2].tmp}")
                                         columnsOut[variableIndex2].queue.add(columnsOut[variableIndex2].tmp)
                                     }
                                 }
@@ -131,7 +127,6 @@ public object EvalBind {
             }
         }
         expression = value.evaluateID(IteratorBundle(localMap))
-        println("EvalBind .. " + outMap.keys)
         return IteratorBundle(outMap)
     }
 }

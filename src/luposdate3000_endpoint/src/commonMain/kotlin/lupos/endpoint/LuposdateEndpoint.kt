@@ -248,11 +248,7 @@ public object LuposdateEndpoint {
                 fileTriples.readAll {
                     cache.writeRow(mapping[DictionaryValueHelper.toInt(it[0])], mapping[DictionaryValueHelper.toInt(it[1])], mapping[DictionaryValueHelper.toInt(it[2])], query)
                     counter++
-                    if (counter % 10000 == 0L) {
-                        println("imported $counter triples without sorting")
-                    }
                 }
-                println("imported $counter triples without sorting")
                 cache.close()
             } else {
                 val orderNames = arrayOf("spo", "sop", "pso", "pos", "osp", "ops")
@@ -296,17 +292,12 @@ public object LuposdateEndpoint {
                             oldOriginalC = newOriginalC
                         }
                         counter++
-                        if (counter % 10000 == 0L) {
-                            println("imported $counter triples for index $orderName")
-                        }
                     }
-                    println("imported $counter triples for index $orderName")
                     cache.close()
                 }
             }
             val totalTime = DateHelperRelative.elapsedSeconds(startTime)
             val storeTime = totalTime - dictTime
-            println("imported file $fileName,$counter,$totalTime,$dictTime,$storeTime")
             instance.tripleStoreManager!!.commit(query)
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
@@ -316,7 +307,7 @@ public object LuposdateEndpoint {
             if (instance.LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {
                 instance.communicationHandler!!.sendData(instance.LUPOS_PROCESS_URLS_ALL[0], "/distributed/query/dictionary/remove", mapOf("key" to key), query.getTransactionID().toInt())
             }
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:318"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:309"/*SOURCE_FILE_END*/)
         }
 /*Coverage Unreachable*/
     }
@@ -364,7 +355,7 @@ public object LuposdateEndpoint {
             return popNode
         } catch (e: Throwable) {
             println(query)
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:366"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:357"/*SOURCE_FILE_END*/)
         }
     }
 
@@ -437,7 +428,6 @@ public object LuposdateEndpoint {
 
     @Suppress("NOTHING_TO_INLINE")
     /*suspend*/ private fun evaluateOperatorgraphToResultInternal(instance: Luposdate3000Instance, node: IOPBase, output: IMyOutputStream, evaluator: EQueryResultToStream, timeoutInMs: Long, asRoot: Boolean): Any {
-        println(node)
         try {
             val bundle = if (asRoot) {
                 node.evaluateRootBundle()
@@ -452,7 +442,7 @@ public object LuposdateEndpoint {
                 timeoutInMs,
             )
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:454"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:444"/*SOURCE_FILE_END*/)
         }
     }
 

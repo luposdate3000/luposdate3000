@@ -62,7 +62,6 @@ public object EvalDistributedReceiveSingle {
                 } else {
                     res = 0
                 }
-// println("EvalDistributedReceiveSingle $debugID ${variables} ${iterator.buf.toList()}")
             }
             res
         }

@@ -48,7 +48,6 @@ public object EvalModify {
             if (!__first) {
                 return DictionaryValueHelper.nullValue
             }
-            // println("EvalModify ${modify.map{it.first.toString() + EModifyTypeExt.names[it.second]}}")
             __first = false
             val variables = child.columns.keys.toList()
             val columns = Array(variables.size) { child.columns[variables[it]]!! }
