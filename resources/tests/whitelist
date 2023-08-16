@@ -1,137 +1,165 @@
-error in avg - none - simple - false
-sample - none - simple - true
-resourcessp2bq12bsparql21 - none - simple - true
-resourcesmyqueriesoptional17sparql5 - none - simple - true
-resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - none - simple - true
-resourcessp2bq12bsparql1294 - none - simple - true
-copy silent to default - none - simple - false
-resourcesmyqueriesoptional16sparql5 - none - simple - false
-resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - none - simple - true
-resourcesmyqueriesoptional33sparql5 - none - simple - false
-resourcessp2bq5bsparql21 - none - simple - false
-move silent - none - simple - false
-resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - none - simple - false
-resourcessp2bq8sparql1640 - none - simple - false
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - none - simple - true
-resourcessp2bq42sparql1294 - none - simple - false
-resourcesmyqueriesoptional63sparql5 - none - simple - true
-count 8b - none - simple - false
-resourcesmyqueriesoptional51sparql5 - none - simple - true
-resourcesmyqueriesoptional47sparql4 - none - simple - true
-resourcesbsbmbiquery72210sparql2210 - none - simple - false
-resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - none - simple - true
-sha256 - none - simple - false
-resourcesmyqueriesoptional11sparql4 - none - simple - true
-move 6 - none - simple - false
-resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl - none - simple - false
-strlen - none - simple - true
-resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - none - simple - false
-resourcesbsbmexplorequery42210sparql2210 - none - simple - true
-resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - none - simple - false
-resourcessp2bq61sparql32978 - none - simple - true
-resourcessp2bq12csparql1294 - none - simple - false
-group4 - none - simple - true
-resourcessp2bq4sparql700 - none - simple - false
-copy 7 - none - simple - true
-resourcesmyqueriesoptional39sparql5 - none - simple - true
-tz - none - simple - true
+resourcessp2bq6sparql32978 - none - simple - false
+resourcessp2bq9sparql32978 - none - simple - true
+resourcesmyqueriesoptional53sparql5 - none - simple - false
+resourcessp2bq63sparql32978 - none - simple - false
+resourcesmyqueriesoptional56sparql4 - none - simple - false
+resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcesmyqueriesoptional52sparql5 - none - simple - false
-resourcessp2bq3bsparql32978 - none - simple - false
-resourcessp2bq2sparql973 - none - simple - true
-resourcessp2bq1sparql1640 - none - simple - false
-resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - none - simple - false
-resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - none - simple - false
-resourcesmyqueriesoptional57sparql4 - none - simple - false
-resourcesbsbmexplorequery32210sparql2210 - none - simple - false
-resourcessp2bq12b2sparql1640 - none - simple - false
-sq11  subquery limit per resource - none - simple - false
-postquery values with objvar 1 row - none - simple - true
-resourcessp2bq66sparql32978 - none - simple - false
-resourcessp2bq3bsparql247 - none - simple - true
-resourcessp2bq4sparql21 - none - simple - false
-resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - none - simple - false
-resourcessp2bq9sparql1294 - none - simple - true
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - none - simple - false
-resourcessp2bq12bsparql247 - none - simple - true
-resourcesmyqueriesoptional58sparql5 - none - simple - true
-resourcesmyqueriesubungent12sparql567 - none - simple - true
-resourcesmyqueriesoptional28sparql4 - none - simple - true
-add 7 - none - simple - false
-resourcesmyqueriessimulatorparkingquery415sparql377 simulatorparkinginputsmallttl - none - simple - true
-resourcesmyqueriesoptional59sparql4 - none - simple - true
-resourcessp2bq8sparql700 - none - simple - true
-resourcessp2bq3csparql700 - none - simple - false
-resourcesmyqueriesubungent10sparql567 - none - simple - false
-resourcesmyqueriesoptional61sparql4 - none - simple - false
-resourcesmyqueriesubungent17sparql709 - none - simple - true
-sq11  subquery limit per resource - none - simple - true
-resourcesmyqueriesubungent12sparql567 - none - simple - false
-resourcessp2bq2sparql21 - none - simple - false
-resourcesmyqueriessimulatorparkingquery8sparql377 simulatorparkinginputsmallttl - none - simple - true
-resourcessp2bq12b3sparql700 - none - simple - true
-resourcessp2bq12asparql700 - none - simple - false
-resourcessp2bq92sparql21 - none - simple - true
-count 11 - none - simple - false
-resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - none - simple - false
-resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - none - simple - false
-resourcesmyqueriesoptional14sparql5 - none - simple - true
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - none - simple - true
-resourcesbsbmexplorequery121853sparql1853 - none - simple - true
-resourcesmyqueriesoptional1sparql5 - none - simple - true
-resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - none - simple - true
-subtraction with minus from a partially bound minuend - none - simple - true
-resourcesbtc030sparql867 - none - simple - true
-resourcessp2bq41sparql21 - none - simple - false
-resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmallttl - none - simple - true
-resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - none - simple - true
-resourcesbtc028sparql3778 - none - simple - true
-resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - none - simple - true
-resourcessp2bq92sparql700 - none - simple - false
-copy 1 - none - simple - true
-resourcesmyqueriesoptional7sparql5 - none - simple - false
-bind08  bind fixed data for owl dl - none - simple - true
-resourcesmyqueriesoptional50sparql5 - none - simple - false
-resourcesmyqueriesoptional10sparql4 - none - simple - false
-resourcesmyqueriesoptional43sparql5 - none - simple - false
-resourcesbtc005sparql578 - none - simple - false
-min - none - simple - true
-resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - none - simple - false
-resourcessp2bq41sparql247 - none - simple - true
-resourcesmyqueriessimulatorparkingquery212sparql377 simulatorparkinginputsmallttl - none - simple - true
-resourcesmyqueriesoptional48sparql4 - none - simple - false
-clear silent default - none - simple - false
-resourcesmyqueriesoptional18sparql4 - none - simple - false
-hours - none - simple - false
-resourcesmyqueriesoptional13sparql4 - none - simple - false
-resourcesmyqueriesubungent02sparql764 - none - simple - true
-resourcessp2bq5asparql32978 - none - simple - false
-resourcessp2bq10sparql1294 - none - simple - false
-resourcessp2bq12b3sparql1294 - none - simple - false
-constructwhere01  construct where - none - simple - false
-resourcesmyqueriesoptional51sparql4 - none - simple - false
+resourcessp2bq7sparql32978 - none - simple - false
+resourcesmyqueriesubungent03sparql764 - none - simple - false
+resourcessp2bq6sparql1294 - none - simple - false
+resourcesmyqueriesoptional14sparql4 - none - simple - false
+resourcessp2bq41sparql1640 - none - simple - true
+resourcessp2bq41sparql32978 - none - simple - false
+resourcessp2bq41sparql1294 - none - simple - false
+resourcessp2bq68sparql32978 - none - simple - true
+resourcessp2bq66sparql32978 - none - simple - true
+resourcesmyqueriesoptional29sparql4 - none - simple - false
+resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl - none - simple - false
+resourcessp2bq12asparql32978 - none - simple - false
+resourcessp2bq3asparql32978 - none - simple - false
+resourcesmyqueriesoptional31sparql4 - none - simple - false
+resourcesmyqueriesoptional63sparql5 - none - simple - false
+resourcessp2bq91sparql32978 - none - simple - true
+resourcessp2bq11sparql32978 - none - simple - true
+resourcesmyqueriesoptional63sparql4 - none - simple - false
+resourcessp2bq4sparql32978 - none - simple - true
+resourcesmyqueriesoptional41sparql5 - none - simple - false
 resourcessp2bq6sparql32978 - none - simple - true
-resourcesmyqueriesoptional58sparql4 - none - simple - true
-resourcessp2bq92sparql700 - none - simple - true
-constructwhere05  construct where - none - simple - true
-resourcesmyqueriesoptional3sparql4 - none - simple - true
-resourcesbtc029sparql1198 - none - simple - true
-resourcessp2bq92sparql1640 - none - simple - false
-sparqldl01rq triple pattern - none - simple - false
-resourcessp2bq5bsparql1640 - none - simple - true
-postsubquery values - none - simple - false
-resourcessp2bq6sparql700 - none - simple - false
-prefixname with hexencoded colons - none - simple - false
-resourcesbsbmexplorequery41853sparql1853 - none - simple - true
-resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - none - simple - true
-resourcesmyqueriesoptional42sparql4 - none - simple - false
-protect from error in avg - none - simple - true
-resourcessp2bq12a1sparql1640 - none - simple - false
-resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl - none - simple - true
-resourcessp2bq12asparql1640 - none - simple - true
-count 2 - none - simple - true
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - none - simple - true
-simple delete 1 using - none - simple - true
+resourcesbsbmbiquery22553sparql2553 - none - simple - false
+resourcessp2bq71sparql32978 - none - simple - false
+resourcessp2bq9sparql32978 - none - simple - false
+resourcesmyqueriesoptional62sparql5 - none - simple - false
+resourcesmyqueriesoptional62sparql4 - none - simple - false
+resourcessp2bq92sparql32978 - none - simple - true
+resourcessp2bq4sparql1294 - none - simple - false
+resourcesmyqueriesoptional5sparql4 - none - simple - false
+resourcessp2bq6sparql973 - none - simple - false
+resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - none - simple - false
+resourcessp2bq65sparql32978 - none - simple - false
+resourcessp2bq66sparql32978 - none - simple - false
+resourcessp2bq12b3sparql32978 - none - simple - true
+resourcessp2bq6sparql1640 - none - simple - false
+resourcesmyqueriessimulatorparkingquery82sparql377 simulatorparkinginputsmallttl - none - simple - false
+insert same bnode twice - none - simple - false
+resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - none - simple - false
+resourcessp2bq12b4sparql32978 - none - simple - false
+resourcessp2bq111sparql32978 - none - simple - false
+resourcessp2bq12asparql32978 - none - simple - true
+resourcessp2bq12b4sparql32978 - none - simple - true
+resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - none - simple - false
+resourcessp2bq1sparql32978 - none - simple - true
+resourcesmyqueriesoptional8sparql4 - none - simple - false
+resourcessp2bq10sparql32978 - none - simple - false
+resourcesmyqueriesoptional40sparql5 - none - simple - false
+resourcessp2bq2sparql32978 - none - simple - false
+resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - none - simple - false
+resourcesmyqueriesoptional8sparql5 - none - simple - false
+resourcessp2bq62sparql32978 - none - simple - true
+resourcessp2bq65sparql32978 - none - simple - true
+resourcesmyqueriesoptional40sparql4 - none - simple - false
+resourcesmyqueriesoptional29sparql5 - none - simple - false
+resourcessp2bq12bsparql32978 - none - simple - false
+resourcessp2bq71sparql32978 - none - simple - true
+resourcesmyqueriesoptional61sparql5 - none - simple - false
+resourcesmyqueriesubungent06sparql10467 - none - simple - false
+resourcesmyqueriesoptional60sparql4 - none - simple - false
+resourcesbtc035sparql61664 - none - simple - true
+resourcesmyqueriesoptional55sparql4 - none - simple - false
+resourcesmyqueriesoptional53sparql4 - none - simple - false
+resourcesmyqueriesoptional28sparql4 - none - simple - false
+resourcessp2bq5bsparql32978 - none - simple - true
+resourcessp2bq3bsparql32978 - none - simple - false
 subsets by exclusion not exists - none - simple - false
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - none - simple - false
-add 8 - none - simple - true
-resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - none - simple - true
+resourcesmyqueriesoptional21sparql4 - none - simple - false
+resourcessp2bq12a1sparql32978 - none - simple - true
+resourcessp2bq72sparql32978 - none - simple - true
+resourcessp2bq5asparql32978 - none - simple - true
+resourcessp2bq12bsparql32978 - none - simple - true
+resourcessp2bq12b3sparql32978 - none - simple - false
+resourcessp2bq5bsparql32978 - none - simple - false
+resourcesmyqueriesoptional55sparql5 - none - simple - false
+resourcessp2bq41sparql1640 - none - simple - false
+resourcessp2bq12b1sparql32978 - none - simple - false
+resourcesmyqueriesoptional10sparql5 - none - simple - false
+resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - none - simple - false
+resourcessp2bq42sparql32978 - none - simple - true
+resourcessp2bq12csparql32978 - none - simple - true
+resourcesmyqueriesoptional38sparql4 - none - simple - false
+resourcessp2bq62sparql32978 - none - simple - false
+resourcesmyqueriesoptional34sparql5 - none - simple - false
+resourcessp2bq67sparql32978 - none - simple - false
+resourcessp2bq2sparql32978 - none - simple - true
+resourcesmyqueriesoptional61sparql4 - none - simple - false
+resourcesmyqueriesoptional11sparql4 - none - simple - false
+resourcessp2bq67sparql32978 - none - simple - true
+resourcessp2bq11sparql32978 - none - simple - false
+resourcessp2bq10sparql32978 - none - simple - true
+resourcessp2bq7sparql32978 - none - simple - true
+resourcessp2bq4sparql1640 - none - simple - true
+resourcesmyqueriesoptional46sparql4 - none - simple - false
+resourcesmyqueriesoptional41sparql4 - none - simple - false
+resourcesmyqueriesoptional17sparql5 - none - simple - false
+resourcessp2bq68sparql32978 - none - simple - false
+resourcesmyqueriesubungent06sparql10467 - none - simple - true
+resourcesbsbmexplorequery122553sparql2553 - none - simple - false
+resourcessp2bq12b1sparql32978 - none - simple - true
+resourcessp2bq92sparql32978 - none - simple - false
+resourcessp2bq3csparql32978 - none - simple - true
+resourcesmyqueriesoptional52sparql4 - none - simple - false
+resourcesmyqueriesoptional34sparql4 - none - simple - false
+resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - none - simple - false
+resourcesmyqueriesoptional22sparql4 - none - simple - false
+resourcessp2bq4sparql32978 - none - simple - false
+resourcessp2bq12b2sparql32978 - none - simple - true
+resourcesbsbmbiquery72553sparql2553 - none - simple - false
+resourcessp2bq3csparql32978 - none - simple - false
+resourcesbtc035sparql61664 - none - simple - false
+resourcesmyqueriesoptional56sparql5 - none - simple - false
+resourcesmyqueriesoptional7sparql4 - none - simple - false
+resourcesbsbmbiquery71853sparql1853 - none - simple - false
+resourcessp2bq12a1sparql32978 - none - simple - false
+resourcessp2bq5asparql32978 - none - simple - false
+resourcesbtc028sparql3778 - none - simple - true
+resourcesbsbmexplorequery12553sparql2553 - none - simple - false
+resourcessp2bq8sparql32978 - none - simple - true
+resourcessp2bq42sparql32978 - none - simple - false
+resourcesmyqueriesoptional18sparql4 - none - simple - false
+resourcesmyqueriesoptional60sparql5 - none - simple - false
+resourcessp2bq63sparql32978 - none - simple - true
+resourcesmyqueriesoptional17sparql4 - none - simple - false
+resourcessp2bq72sparql32978 - none - simple - false
+resourcesmyqueriesoptional6sparql4 - none - simple - false
+resourcesmyqueriesoptional31sparql5 - none - simple - false
+resourcesbsbmbiquery62210sparql2210 - none - simple - false
+resourcessp2bq3asparql32978 - none - simple - true
+resourcesmyqueriesoptional7sparql5 - none - simple - false
+resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - none - simple - false
+sq14  limit by resource - none - simple - false
+resourcesmyqueriesoptional30sparql4 - none - simple - false
+resourcesmyqueriesoptional45sparql4 - none - simple - false
+resourcesmyqueriesoptional15sparql4 - none - simple - false
+resourcessp2bq61sparql32978 - none - simple - true
+resourcesmyqueriesoptional33sparql5 - none - simple - false
+resourcesbsbmbiquery72210sparql2210 - none - simple - false
+resourcesmyqueriesubungent17sparql709 - none - simple - false
+resourcessp2bq8sparql32978 - none - simple - false
+resourcesbtc020sparql80 - none - simple - false
+resourcessp2bq41sparql32978 - none - simple - true
+subtraction with minus from a partially bound minuend - none - simple - false
+resourcesmyqueriesoptional37sparql4 - none - simple - false
+resourcesmyqueriesoptional6sparql5 - none - simple - false
+resourcesmyqueriesoptional30sparql5 - none - simple - false
+resourcessp2bq1sparql32978 - none - simple - false
+simple insert data named 1 - none - simple - false
+resourcessp2bq6sparql700 - none - simple - false
+resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - none - simple - false
+resourcessp2bq12b2sparql32978 - none - simple - false
+resourcessp2bq41sparql1294 - none - simple - true
+resourcessp2bq3bsparql32978 - none - simple - true
+resourcessp2bq4sparql1640 - none - simple - false
+resourcessp2bq91sparql32978 - none - simple - false
+resourcesbtc028sparql3778 - none - simple - false
+resourcessp2bq111sparql32978 - none - simple - true
+resourcessp2bq12csparql32978 - none - simple - false
+resourcessp2bq61sparql32978 - none - simple - false

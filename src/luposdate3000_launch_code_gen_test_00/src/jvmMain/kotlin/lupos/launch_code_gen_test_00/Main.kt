@@ -27,16 +27,21 @@ internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: 
 }
 public fun main() {
     val tests = listOf(
-"lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional14sparql5Kt",
     )
     val tests2 = listOf(
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
+        "lupos.launch_code_gen_test_00.Resourcesbsbmbiquery71853sparql1853Kt",
+        "lupos.launch_code_gen_test_00.Resourcesbsbmbiquery72210sparql2210Kt",
+        "lupos.launch_code_gen_test_00.Resourcesbsbmbiquery72553sparql2553Kt",
         "lupos.launch_code_gen_test_00.Resourcesbtc020sparql80Kt",
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional10sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional11sparql4Kt",
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional14sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional15sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional17sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional17sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional18sparql4Kt",
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional21sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional22sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional28sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional29sparql4Kt",
@@ -48,11 +53,13 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional33sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional34sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional34sparql5Kt",
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional37sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional38sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional40sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional40sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional41sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional41sparql5Kt",
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional45sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional46sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional52sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional52sparql5Kt",
@@ -92,12 +99,11 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesubungent17sparql709Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq6sparql1294Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq6sparql1640Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq6sparql21Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq6sparql247Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq6sparql700Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq6sparql973Kt",
         "lupos.launch_code_gen_test_00.Simpleinsertdatanamed1Kt",
         "lupos.launch_code_gen_test_00.Sq14limitbyresourceKt",
+        "lupos.launch_code_gen_test_00.SubsetsbyexclusionNOTEXISTSKt",
         "lupos.launch_code_gen_test_00.SubtractionwithMINUSfromapartiallyboundminuendKt",
     )
     tests.parallelStream().forEach { it ->
