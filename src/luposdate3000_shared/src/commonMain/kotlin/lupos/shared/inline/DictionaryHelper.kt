@@ -320,7 +320,7 @@ public object DictionaryHelper {
             off += 4
             off += 4
             off += 4
-            val timezoneHours = ByteArrayWrapperExt.readInt4(buffer, off)
+            var timezoneHours = ByteArrayWrapperExt.readInt4(buffer, off)
             off += 4
             val timezoneMinutes = ByteArrayWrapperExt.readInt4(buffer, off)
             if (timezoneHours == 0 && timezoneMinutes == 0) {
@@ -329,6 +329,9 @@ public object DictionaryHelper {
             if (timezoneHours == -99 && timezoneMinutes == -99) {
                 return ""
             }
+if(timezoneHours<0){
+timezoneHours=-timezoneHours
+}
             return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"
         }
     }

@@ -965,7 +965,7 @@ public class OperatorGraphVisitor(public val query: Query) {
     }
 
     private fun visit152(node: ASTLimitOffsetClauses, tmp: IOPBase) = when (node) {
-        is ASTClassOfLimitClauseAndOffsetClauseOptional -> visit006(node.variable1!!, visit003(node.variable0!!, tmp))
+        is ASTClassOfLimitClauseAndOffsetClauseOptional -> visit003(node.variable0!!, visit006(node.variable1!!, tmp))
         is ASTClassOfOffsetClauseAndLimitClauseOptional -> visit005(node.variable1!!, visit004(node.variable0!!, tmp))
     }
 
@@ -1420,7 +1420,7 @@ public class OperatorGraphVisitor(public val query: Query) {
         val graph = node.variable0!!.variable0?.let { visit131(it) } ?: ""
         val usingClause: ASTListOfUsingClause = node.variable2!!
         val theData: IOPBase = if (usingClause.value.size > 0) {
-            usingClause.value.map { visit026(true, visit131(it.variable0!!), false, true, node.variable3!!) }.reduce { s, t -> createUnion(query, s, t) }
+            usingClause.value.map { visit026(true, visit131(it.variable0!!), false, false, node.variable3!!) }.reduce { s, t -> createUnion(query, s, t) }
         } else {
             visit026(true, graph, false, false, node.variable3!!)
         }

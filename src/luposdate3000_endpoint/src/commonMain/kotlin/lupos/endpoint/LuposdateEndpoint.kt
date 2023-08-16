@@ -352,10 +352,11 @@ public object LuposdateEndpoint {
                 println("<<<<<<<<<<")
                 println(OperatorGraphToLatex(popNode.toString(), ""))
             }
+println(popNode)
             return popNode
         } catch (e: Throwable) {
             println(query)
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:357"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:358"/*SOURCE_FILE_END*/)
         }
     }
 
@@ -442,7 +443,7 @@ public object LuposdateEndpoint {
                 timeoutInMs,
             )
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:444"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:445"/*SOURCE_FILE_END*/)
         }
     }
 

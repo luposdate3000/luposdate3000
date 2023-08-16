@@ -10,12 +10,12 @@ try:
 except:
     pass
 
-ignoreList=[]
+ignoreList = []
 if os.path.exists("resources/tests/ignorelist"):
-        with open("resources/tests/ignorelist") as f:
-            for l in f:
-                ll = l.split(",")[1].strip()
-                ignoreList.append(ll)
+    with open("resources/tests/ignorelist") as f:
+        for l in f:
+            ll = l.split(",")[1].strip()
+            ignoreList.append(ll)
 
 
 def setup(minify):
@@ -53,13 +53,13 @@ def setup(minify):
         print("exit")
         sys.exit(-1)
     with open("resources/tests/blacklist", "w") as f:
-     pass
+        pass
     if os.system("./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi") != 0:
         print("exit")
         sys.exit(-1)
 
 
-def loop(filter):
+def loop(filterList):
     files = [filename for filename in os.listdir(".") if filename.startswith('lupos.launch_code_gen_test_00') and filename.endswith('stat')]
     with open("resources/tests/passed", "a") as fp:
         with open("resources/tests/failed", "a") as ff:
@@ -67,65 +67,71 @@ def loop(filter):
                 for f in files:
                     with open(f) as file:
                         s = file.read()
+                    ll=f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "").strip().lower()
                     if "passed" in s:
-                        fp.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
+                        fp.write(ll + "\n")
                     elif "failed" in s:
-                        ff.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
+                        ff.write(ll + "\n")
                     elif "started0" in s:  # otherwise the timeout would be "unfair"
-                        ft.write(f.replace("lupos.launch_code_gen_test_00.", "").replace(".stat", "") + "\n")
-    blacklist=[]
+                        ft.write(ll + "\n")
+    blacklist = []
     allTests = []
     with open("resources/tests/all") as f:
         for l in f:
-            found=False
+            found = False
             for i in ignoreList:
-             if i in l:
-              found=True
-              print("removing",l.strip(),"due to",i.strip())
-              break
+                if i in l:
+                    found = True
+                    break
             if found:
-             blacklist.append(l.strip())
+                blacklist.append(l.strip().lower())
             else:
-             allTests.append(l.strip())
+                allTests.append(l.strip().lower())
+    allTests = list(set(allTests))
     if os.path.exists("resources/tests/passed"):
         with open("resources/tests/passed") as f:
             for l in f:
-                ll = l.strip()
+                ll = l.strip().lower()
                 if ll in allTests:
                     allTests.remove(ll)
                 blacklist.append(ll)
     if os.path.exists("resources/tests/failed"):
         with open("resources/tests/failed") as f:
             for l in f:
-                ll = l.strip()
+                ll = l.strip().lower()
                 if ll in allTests:
                     allTests.remove(ll)
                 blacklist.append(ll)
     if os.path.exists("resources/tests/timeout"):
         with open("resources/tests/timeout") as f:
             for l in f:
-                ll = l.strip()
+                ll = l.strip().lower()
                 if ll in allTests:
                     allTests.remove(ll)
                 blacklist.append(ll)
-    print("remaining",len(allTests),"tests for execution")
+    print("remaining", len(allTests), "tests for execution")
     random.shuffle(allTests)
-    if len(filter) > 0:
+    if len(filterList) > 0:
         with open("resources/tests/blacklist", "w") as f:
             for x in allTests:
-                if not (x in filter):
-                    f.write(x + "\n")
-            for x in blacklist:
-             if not (x in filter):
-              f.write(x + "\n")
+                if not (x in filterList):
+                    blacklist.append(x)
+            blacklist=filter(lambda x: x not in filterList, blacklist)
     else:
         with open("resources/tests/blacklist", "w") as f:
             if len(allTests) == 0:
                 sys.exit(0)
             for i in range(testCount, len(allTests)):
-                f.write(allTests[i] + "\n")
-            for x in blacklist:
-             f.write(x + "\n")
+                blacklist.append(allTests[i])
+    blacklist = list(set(blacklist))
+    with open("resources/tests/blacklist", "w") as f:
+     for x in blacklist:
+       f.write(x + "\n")
+    allTests=filter(lambda x: x not in blacklist, allTests)
+    with open("resources/tests/whitelist", "w") as f:
+     for x in allTests:
+       f.write(x + "\n")
+
     if os.system("./launcher.main.kts --run --mainClass=Launch_Generate_Unit_Test_Suite_Multi") != 0:
         print("exit")
         sys.exit(-1)
@@ -153,3 +159,7 @@ else:
     setup(True)
     while True:
         loop([])
+
+#1574 first round
+#1210 second
+#1204 third

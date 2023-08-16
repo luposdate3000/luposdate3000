@@ -13,4 +13,4 @@ head -n1 lupos.launch_code_gen_test_00.Syn* makeIgnoreList.sh | grep -v "^$" | g
 
 sort resources/tests/ignorelist |uniq> xxx
 mv xxx resources/tests/ignorelist
-rm resources/tests/timeout resources/tests/passed resources/tests/blacklist resources/tests/failed
+rm resources/tests/timeout resources/tests/passed resources/tests/blacklist resources/tests/failed resources/tests/whitelist

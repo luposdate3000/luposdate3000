@@ -1,4 +1,4 @@
-INSERT same bnode twice - None - Simple - true
-Simple insert data named 1 - None - Simple - true
-Subtraction with MINUS from a fully bound minuend - None - Simple - true
-Subtraction with MINUS from a partially bound minuend - None - Simple - true
+insert same bnode twice - none - simple - true
+simple insert data named 1 - none - simple - true
+subtraction with minus from a fully bound minuend - none - simple - true
+subtraction with minus from a partially bound minuend - none - simple - true

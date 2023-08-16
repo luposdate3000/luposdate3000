@@ -2,6 +2,8 @@ dataset,constructwhere04  CONSTRUCT WHERE
 describe,resourcesbsbmexplorequery91853sparql1853
 describe,resourcesbsbmexplorequery92210sparql2210
 describe,resourcesbsbmexplorequery92553sparql2553
+error in specification,Graphspecific DELETE 2 USING
+error in specification,Simple DELETE 2 USING
 exists,Exists with ground triple
 exists,Exists with one constant
 exists,Exists within graph pattern
@@ -104,6 +106,7 @@ manual complicated,resourcessp2bq68sparql1640
 manual complicated,resourcessp2bq68sparql700
 manual complicated,resourcessp2bq68sparql973
 manual no triplepattern with bind,NOW
+manual sha256,resourcesmyqueriesx1sparql5
 manual simulator,in simulator
 manual thread,- Thread -
 manual variable in graph name,DELETE INSERT 4

@@ -93,17 +93,10 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesubungent03sparql764Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesubungent17sparql709Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesubungent21sparql709Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesx1sparql5Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq11sparql1294Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq11sparql1640Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq11sparql700Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq11sparql973Kt",
-        "lupos.launch_code_gen_test_00.SimpleDELETE4USINGKt",
         "lupos.launch_code_gen_test_00.Simpleinsertdatanamed1Kt",
         "lupos.launch_code_gen_test_00.Sq14limitbyresourceKt",
         "lupos.launch_code_gen_test_00.SubtractionwithMINUSfromafullyboundminuendKt",
         "lupos.launch_code_gen_test_00.SubtractionwithMINUSfromapartiallyboundminuendKt",
-        "lupos.launch_code_gen_test_00.TZKt",
     )
     tests.parallelStream().forEach { it ->
         println(it + " start")

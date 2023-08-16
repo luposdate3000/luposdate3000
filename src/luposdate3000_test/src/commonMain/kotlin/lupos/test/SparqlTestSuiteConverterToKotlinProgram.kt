@@ -69,7 +69,7 @@ without minify mode only the passing tests will be added
 
     internal fun isIgnored(testName: String): Boolean {
         if (minifyMode) {
-            return listOfRemoved.contains(testName)
+            return listOfRemoved.contains(testName.lowercase())
         } else {
             return !listOfPassed.contains(testName)
         }
@@ -83,22 +83,22 @@ without minify mode only the passing tests will be added
         prefixDirectory = "$resource_folder/"
         if (File("resources/tests/failed").exists()) {
             File("resources/tests/failed").forEachLine {
-                listOfFailed.add(it)
+                listOfFailed.add(it.lowercase())
             }
         }
         if (File("resources/tests/blacklist").exists()) {
             File("resources/tests/blacklist").forEachLine {
-                listOfBlacklist.add(it)
+                listOfBlacklist.add(it.lowercase())
             }
         }
         if (File("resources/tests/passed").exists()) {
             File("resources/tests/passed").forEachLine {
-                listOfPassed.add(it)
+                listOfPassed.add(it.lowercase())
             }
         }
         if (File("resources/tests/timeout").exists()) {
             File("resources/tests/timeout").forEachLine {
-                listOfTimeout.add(it)
+                listOfTimeout.add(it.lowercase())
             }
         }
         listOfRemoved.addAll(listOfBlacklist)
