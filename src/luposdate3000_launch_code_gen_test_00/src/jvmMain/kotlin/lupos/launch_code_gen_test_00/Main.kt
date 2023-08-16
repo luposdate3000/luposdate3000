@@ -27,11 +27,11 @@ internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: 
 }
 public fun main() {
     val tests = listOf(
+"lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional14sparql5Kt",
     )
     val tests2 = listOf(
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
         "lupos.launch_code_gen_test_00.Resourcesbtc020sparql80Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional10sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional11sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional15sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional17sparql4Kt",

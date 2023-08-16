@@ -31,6 +31,7 @@ import lupos.shared.operator.IOPBase
 public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDetectMinusID, "LogicalOptimizerDetectMinus") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
+/*
         if (node is LOPFilter) {
             val node1 = node.getChildren()[1]
             if (node1 is AOPNot) {
@@ -77,7 +78,8 @@ public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EO
                 onChange()
             }
         }
-        return res
+  */
+      return res
     }
 
     private fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {

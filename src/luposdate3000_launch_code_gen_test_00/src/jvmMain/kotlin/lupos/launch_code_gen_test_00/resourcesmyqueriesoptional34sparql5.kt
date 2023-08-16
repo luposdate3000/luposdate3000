@@ -83,21 +83,6 @@ public class resourcesmyqueriesoptional34sparql5 {
         LuposdateEndpoint.close(instance)
       }
     }
-    public fun `resourcesmyqueriesoptional34sparql5 - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesmyqueriesoptional34sparql5.kt:95"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
     internal fun normalHelper(instance:Luposdate3000Instance) {
         val buf = MyPrintWriter(false)
         if (listOf(".n3", ".ttl", ".nt").contains(inputType[0])) {
@@ -126,7 +111,6 @@ public class resourcesmyqueriesoptional34sparql5 {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "resourcesmyqueriesoptional34sparql5 - None - Simple - true" to ::`resourcesmyqueriesoptional34sparql5 - None - Simple - true`,
-            "resourcesmyqueriesoptional34sparql5 - None - Simple - false" to ::`resourcesmyqueriesoptional34sparql5 - None - Simple - false`,
         )
     }
 }
