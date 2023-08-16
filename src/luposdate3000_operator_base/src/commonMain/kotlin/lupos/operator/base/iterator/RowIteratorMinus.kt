@@ -43,18 +43,6 @@ public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmFiel
                 }
             }
         }
-        println("RowIteratorMinus .. ${projection.toList()} $columnsA $columnsB ... shared")
-        for (i in a.columns.indices) {
-            if (!columnsA.contains(a.columns[i])) {
-                columnsA.add(a.columns[i])
-            }
-        }
-        for (j in b.columns.indices) {
-            if (!columnsB.contains(b.columns[j])) {
-                columnsB.add(b.columns[j])
-            }
-        }
-        println("RowIteratorMinus .. ${projection.toList()} $columnsA $columnsB ... including others")
         columns = projection
         val mapping = IntArray(projection.size)
         for (i in projection.indices) {
@@ -64,18 +52,9 @@ public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmFiel
                 }
             }
         }
-        fun myHelper(arr: LongArray, idx: Int): String {
-            if (idx == -1) {
-                return ""
-            } else {
-                return "" + arr[idx]
-            }
-        }
-        println("RowIteratorMinus .. ${projection.toList()} $columnsA $columnsB ... mapping ${mapping.toList()}")
         buf = DictionaryValueTypeArray(mapping.size)
         ParallelThread.runBlocking {
             bIdx = b.next()
-            println("RowIteratorMinus .. b0Idx ${myHelper(b.buf,mapping[0] + bIdx)}")
             if (bIdx < 0) {
                 flag = 1
             }
@@ -93,7 +72,6 @@ public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmFiel
                         }
                         1 -> { // nothing to remove left
                             aIdx = a.next()
-                            println("RowIteratorMinus .. a0Idx ${myHelper(a.buf,mapping[0] + aIdx)}")
                             if (aIdx < 0) {
                                 flag = 0
                                 close()
@@ -107,19 +85,17 @@ public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmFiel
                         }
                         2 -> {
                             aIdx = a.next()
-                            println("RowIteratorMinus .. a1Idx ${myHelper(a.buf,mapping[0] + aIdx)}")
                             if (aIdx >= 0) {
                                 loop2@ while (true) {
                                     for (i in 0 until compCount) {
-                                        if (a.buf[i] < b.buf[i]) {
+                                        if (a.buf[i+aIdx] < b.buf[i+bIdx]) {
                                             res = 0
                                             for (k in mapping.indices) {
                                                 buf[k] = a.buf[mapping[k] + aIdx]
                                             }
                                             break@loop
-                                        } else if (a.buf[i] > b.buf[i]) {
+                                        } else if (a.buf[i+aIdx] > b.buf[i+bIdx]) {
                                             bIdx = b.next()
-                                            println("RowIteratorMinus .. b1Idx ${myHelper(b.buf,mapping[0] + bIdx)}")
                                             if (bIdx < 0) {
                                                 flag = 1
                                                 res = 0

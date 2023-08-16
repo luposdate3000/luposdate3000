@@ -29,15 +29,6 @@ import lupos.shared.operator.IOPBase
 public class LogicalOptimizerMinusAddSort(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerMinusAddSortID, "LogicalOptimizerMinusAddSort") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         val res: IOPBase = node
-        if (node is LOPMinus) {
-            if (!node.hadSortPushDown) {
-                node.hadSortPushDown = true
-                val provided = node.getChildren()[0].getProvidedVariableNames().intersect(node.getChildren()[1].getProvidedVariableNames())
-                node.getChildren()[1] = LOPReduced(query, LOPSortAny(query, provided.map { SortHelper(it, ESortTypeExt.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[1])))
-                node.getChildren()[0] = LOPSortAny(query, provided.map { SortHelper(it, ESortTypeExt.FAST) }, LOPProjection(query, provided.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0]))
-                onChange()
-            }
-        }
         return res
     }
 }

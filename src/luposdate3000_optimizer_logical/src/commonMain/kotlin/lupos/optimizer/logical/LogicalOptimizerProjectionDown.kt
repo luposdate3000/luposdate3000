@@ -91,6 +91,7 @@ public class LogicalOptimizerProjectionDown(query: Query) : OptimizerBase(query,
             val vb = node.getChildren()[1].getProvidedVariableNames()
             var variables = va.intersect(vb).toMutableList()
             variables.addAll(node.tmpFakeVariables)
+variables.addAll(va)
             variables = variables.distinct().toMutableList()
             if (!variables.containsAll(va) || !variables.containsAll(vb)) {
                 node.getChildren()[0] = LOPProjection(query, variables.map { AOPVariable(query, it) }.toMutableList(), node.getChildren()[0])

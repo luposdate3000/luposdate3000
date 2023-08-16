@@ -341,6 +341,7 @@ public object LuposdateEndpoint {
             stream.close()
             val visitor = OperatorGraphVisitor(q)
             val lopNode: IOPBase = visitor.visit(astNode)
+println(lopNode)
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
             val popOptimizer = PhysicalOptimizer(q)
             val popNode = popOptimizer.optimizeCall(lopNode2)
@@ -356,7 +357,7 @@ println(popNode)
             return popNode
         } catch (e: Throwable) {
             println(query)
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:358"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:359"/*SOURCE_FILE_END*/)
         }
     }
 
@@ -443,7 +444,7 @@ println(popNode)
                 timeoutInMs,
             )
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:445"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_endpoint/src/commonMain/kotlin/lupos/endpoint/LuposdateEndpoint.kt:446"/*SOURCE_FILE_END*/)
         }
     }
 
