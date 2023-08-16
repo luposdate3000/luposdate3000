@@ -1345,10 +1345,6 @@ public class XMLParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStrea
                         bufferDefinedRangeStart = (bufferDefinedRangeStart + bufferDefinedEreaseLength)
                     } else {
                         if ((bufferDefinedDataSize.toInt() == bufferDefinedAllocatedSize)) {
-                            println(
-                                "XMLParser.kt .. bufferDefinedCurrentPosition=$bufferDefinedCurrentPosition bufferDefinedDataSize=$bufferDefinedDataSize bufferDefinedMaxPositionAvailable=$bufferDefinedMaxPositionAvailable" +
-                                    " bufferDefinedAllocatedSize=$bufferDefinedAllocatedSize bufferDefinedPosition=$bufferDefinedPosition",
-                            )
                             var newSize: Int = (bufferDefinedAllocatedSize + bufferDefinedAllocatedSize)
                             var data: ByteArray = ByteArray(newSize)
                             bufferDefinedData.copyInto(data, 0.toInt(), 0.toInt(), bufferDefinedDataSize.toInt())

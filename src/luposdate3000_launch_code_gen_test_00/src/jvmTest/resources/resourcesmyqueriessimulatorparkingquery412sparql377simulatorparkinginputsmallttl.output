@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="b"/>
+ </head>
+ <results>
+   <result>
+    <binding name="b">
+     <bnode>b452_6</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b452_13</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="b">
+     <bnode>b452_71</bnode>
+    </binding>
+   </result>
+ </results>
+</sparql>
