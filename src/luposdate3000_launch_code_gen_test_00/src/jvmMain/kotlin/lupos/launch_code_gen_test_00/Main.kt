@@ -27,7 +27,6 @@ internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: 
 }
 public fun main() {
     val tests = listOf(
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesubungent21sparql709Kt",
     )
     val tests2 = listOf(
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
