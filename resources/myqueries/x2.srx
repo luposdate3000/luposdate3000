@@ -77,7 +77,7 @@
      <uri>http://example.org/s6</uri>
     </binding>
     <binding name="o">
-     <bnode>b255_0</bnode>
+     <bnode>b811_0</bnode>
     </binding>
    </result>
  </results>

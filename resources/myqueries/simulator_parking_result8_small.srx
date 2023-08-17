@@ -6,7 +6,7 @@
  <results>
    <result>
     <binding name="numberOfFreeSpaces">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
     </binding>
    </result>
  </results>

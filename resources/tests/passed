@@ -10,6 +10,7 @@ prefixname with unescaped colons - none - simple - true
 resourcessp2bq66sparql247 - none - simple - false
 resourcesmyqueriesoptional59sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery414sparql377 simulatorparkinginputsmallttl - none - simple - true
+resourcesmyqueriesoptional7sparql4 - none - simple - false
 resourcessp2bq12csparql1640 - none - simple - false
 bind04  bind - none - simple - true
 graphspecific delete data 1 - none - simple - true
@@ -25,6 +26,7 @@ simple insert data named 2 - none - simple - false
 resourcessp2bq3asparql973 - none - simple - true
 resourcessp2bq6sparql21 - none - simple - false
 resourcessp2bq12b3sparql973 - none - simple - true
+resourcesbsbmbiquery22553sparql2553 - none - simple - false
 resourcessp2bq62sparql247 - none - simple - true
 if error propogation - none - simple - false
 resourcessp2bq4sparql700 - none - simple - true
@@ -75,7 +77,6 @@ bind07  bind fixed data for owl dl - none - simple - false
 resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmallttl - none - simple - false
 sparqldl07rq two distinguished variables  undist - none - simple - true
-resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - none - simple - true
 insert 01 - none - simple - true
 resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcesmyqueriesoptional2sparql4 - none - simple - true
@@ -107,6 +108,7 @@ resourcesbsbmexplorequery31853sparql1853 - none - simple - true
 clear named - none - simple - true
 strdt - none - simple - false
 resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - none - simple - true
+resourcesbsbmexplorequery12553sparql2553 - none - simple - false
 insert 04 - none - simple - true
 resourcessp2bq68sparql21 - none - simple - true
 bind04  bind fixed data for owl dl - none - simple - false
@@ -121,6 +123,7 @@ delete insert 2 - none - simple - true
 resourcesmyqueriesoptional23sparql4 - none - simple - true
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl - none - simple - false
+resourcesmyqueriesoptional63sparql5 - none - simple - true
 resourcessp2bq71sparql973 - none - simple - true
 resourcessp2bq8sparql1640 - none - simple - true
 resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - none - simple - false
@@ -144,12 +147,14 @@ simple delete 7 - none - simple - false
 prefixname with unescaped colons - none - simple - false
 resourcesmyqueriessimulatorparkingquery614sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcesmyqueriesubungent18sparql709 - none - simple - true
+resourcesmyqueriesoptional46sparql4 - none - simple - true
 resourcesmyqueriesoptional27sparql4 - none - simple - true
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - none - simple - true
 delete insert 1 - none - simple - true
 resourcessp2bq1sparql973 - none - simple - true
 resourcesbsbmexplorequery11853sparql1853 - none - simple - false
 resourcessp2bq11sparql1640 - none - simple - true
+resourcesmyqueriesoptional31sparql5 - none - simple - true
 resourcessp2bq12csparql700 - none - simple - true
 graphspecific delete 1 - none - simple - false
 resourcessp2bq12bsparql700 - none - simple - false
@@ -158,7 +163,6 @@ resourcesmyqueriessimulatorparkingquery212sparql377 simulatorparkinginputsmalltt
 agg empty group - none - simple - true
 simple delete 4 using - none - simple - true
 resourcesbsbmbiquery32553sparql2553 - none - simple - false
-resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcesmyqueriesubungent01sparql764 - none - simple - true
 abs - none - simple - true
 resourcesbsbmbiquery32210sparql2210 - none - simple - false
@@ -174,9 +178,11 @@ resourcesbsbmbiquery62210sparql2210 - none - simple - true
 resourcesmyqueriesoptional9sparql4 - none - simple - false
 resourcessp2bq71sparql1294 - none - simple - true
 resourcessp2bq3csparql973 - none - simple - false
+resourcesmyqueriesoptional62sparql5 - none - simple - false
 resourcesbtc002sparql46 - none - simple - false
 resourcesmyqueriesoptional36sparql5 - none - simple - true
 postquery values with subjvar 1 row - none - simple - false
+resourcesmyqueriesoptional6sparql5 - none - simple - true
 copy 3 - none - simple - false
 resourcessp2bq10sparql1640 - none - simple - true
 jsonres03  json result format - none - simple - false
@@ -191,6 +197,7 @@ resourcesmyqueriesubungent10sparql567 - none - simple - false
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - none - simple - false
 resourcesmyqueriessimulatorparkingquery414sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcessp2bq7sparql247 - none - simple - false
+resourcesmyqueriesoptional53sparql4 - none - simple - false
 resourcesmyqueriesubungent02sparql764 - none - simple - true
 resourcessp2bq42sparql21 - none - simple - false
 resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - none - simple - true
@@ -220,6 +227,7 @@ simple delete where 2 - none - simple - false
 graphspecific delete where 2 - none - simple - false
 bind02  bind fixed data for owl dl - none - simple - true
 resourcesbsbmexplorequery32553sparql2553 - none - simple - true
+resourcesmyqueriesoptional8sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - none - simple - false
 resourcesmyqueriesoptional26sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery316sparql377 simulatorparkinginputsmallttl - none - simple - true
@@ -240,6 +248,7 @@ resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - 
 move 7 - none - simple - true
 simple delete data 1 - none - simple - true
 resourcessp2bq2sparql247 - none - simple - false
+resourcesmyqueriesoptional7sparql5 - none - simple - true
 resourcessp2bq12asparql1294 - none - simple - true
 resourcesmyqueriesoptional5sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - none - simple - true
@@ -297,6 +306,7 @@ resourcesmyqueriessimulatorparkingquery411sparql377 simulatorparkinginputsmalltt
 resourcesbsbmexplorequery42553sparql2553 - none - simple - false
 resourcessp2bq71sparql21 - none - simple - true
 jsonres04  json result format - none - simple - false
+resourcesmyqueriesoptional38sparql4 - none - simple - false
 drop default - none - simple - true
 resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - none - simple - false
 resourcessp2bq4sparql1294 - none - simple - true
@@ -323,6 +333,7 @@ resourcessp2bq10sparql973 - none - simple - true
 max with group by - none - simple - false
 simple delete 1 using - none - simple - true
 timezone - none - simple - true
+resourcesmyqueriesoptional46sparql4 - none - simple - false
 resourcessp2bq61sparql1294 - none - simple - false
 resourcessp2bq66sparql21 - none - simple - true
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - none - simple - false
@@ -364,8 +375,8 @@ drop named - none - simple - false
 resourcessp2bq1sparql973 - none - simple - false
 resourcessp2bq66sparql1294 - none - simple - true
 resourcessp2bq3asparql247 - none - simple - true
+resourcesmyqueriesoptional22sparql4 - none - simple - true
 resourcessp2bq12csparql247 - none - simple - true
-resourcesmyqueriessimulatorparkingquery8sparql377 simulatorparkinginputsmallttl - none - simple - true
 resourcesmyqueriessimulatorparkingquery316sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcesbsbmbiquery21853sparql1853 - none - simple - true
 drop all - none - simple - true
@@ -393,7 +404,6 @@ resourcessp2bq3asparql1640 - none - simple - false
 resourcessp2bq3csparql1640 - none - simple - false
 resourcesmyqueriesoptional32sparql5 - none - simple - false
 graphspecific delete 2 - none - simple - true
-resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - none - simple - true
 subtraction with minus from a fully bound minuend - none - simple - true
 resourcessp2bq3bsparql973 - none - simple - false
 resourcessp2bq92sparql1294 - none - simple - false
@@ -413,6 +423,7 @@ resourcesmyqueriesoptional51sparql4 - none - simple - false
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - none - simple - false
 resourcesmyqueriesubungent08sparql567 - none - simple - false
 tsv01  tsv result format - none - simple - false
+resourcesmyqueriesoptional30sparql5 - none - simple - false
 bind08  bind fixed data for owl dl - none - simple - false
 resourcessp2bq111sparql973 - none - simple - false
 resourcesmyqueriesubungent21sparql709 - none - simple - false
@@ -427,7 +438,9 @@ resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - 
 bind01  bind - none - simple - false
 resourcesmyqueriesoptional4sparql5 - none - simple - true
 resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - none - simple - false
+resourcesmyqueriesoptional61sparql4 - none - simple - false
 resourcessp2bq61sparql247 - none - simple - true
+resourcesmyqueriesoptional55sparql4 - none - simple - true
 resourcessp2bq10sparql247 - none - simple - false
 sq12  subquery in construct with builtins - none - simple - true
 resourcesbtc002sparql46 - none - simple - true
@@ -462,7 +475,9 @@ resourcessp2bq4sparql247 - none - simple - false
 resourcesmyqueriesoptional45sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - none - simple - true
 resourcessp2bq12b1sparql247 - none - simple - true
+resourcesbsbmbiquery72210sparql2210 - none - simple - true
 move 4 - none - simple - false
+resourcesbsbmbiquery62210sparql2210 - none - simple - false
 resourcessp2bq9sparql1640 - none - simple - false
 bind02  bind - none - simple - true
 resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - none - simple - true
@@ -477,6 +492,7 @@ resourcesmyqueriesubungent09sparql567 - none - simple - false
 resourcesmyqueriesoptional11sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - none - simple - false
 resourcessp2bq12bsparql1294 - none - simple - false
+resourcesmyqueriesoptional15sparql4 - none - simple - false
 resourcesmyqueriesx7sparql4 - none - simple - true
 drop silent default - none - simple - false
 delete insert 1b - none - simple - false
@@ -533,6 +549,7 @@ not in 2 - none - simple - false
 resourcesmyqueriesoptional50sparql4 - none - simple - true
 resourcessp2bq12b3sparql700 - none - simple - false
 clear default - none - simple - true
+resourcesmyqueriesoptional62sparql5 - none - simple - true
 move 4 - none - simple - true
 insert 02 - none - simple - true
 resourcesmyqueriessimulatorparkingquery611sparql377 simulatorparkinginputsmallttl - none - simple - true
@@ -550,11 +567,13 @@ plain literals with language tag are not the same as the same literal without - 
 resourcesmyqueriesoptional20sparql4 - none - simple - false
 resourcesmyqueriessimulatorparkingquery814sparql377 simulatorparkinginputsmallttl - none - simple - true
 min - none - simple - false
+resourcesmyqueriesoptional63sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - none - simple - true
 resourcesmyqueriesx2sparql10 - none - simple - false
 bind05  bind - none - simple - true
 isnumeric - none - simple - false
 resourcessp2bq12b2sparql247 - none - simple - true
+resourcesmyqueriesoptional30sparql4 - none - simple - true
 move 2 - none - simple - true
 sha1 - none - simple - false
 resourcessp2bq12bsparql247 - none - simple - false
@@ -574,6 +593,7 @@ protect from error in avg - none - simple - false
 resourcesmyqueriesoptional46sparql5 - none - simple - true
 resourcessp2bq12csparql247 - none - simple - false
 sq11  subquery limit per resource - none - simple - true
+resourcesmyqueriesoptional8sparql5 - none - simple - true
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - none - simple - false
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - none - simple - false
 simple delete 1 with - none - simple - true
@@ -621,6 +641,7 @@ copy 6 - none - simple - true
 resourcesmyqueriessimulatorparkingquery611sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcessp2bq12b2sparql973 - none - simple - true
 resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl - none - simple - false
+resourcesmyqueriesoptional55sparql5 - none - simple - false
 resourcessp2bq12csparql973 - none - simple - true
 simple insert data named 3 - none - simple - false
 add 7 - none - simple - false
@@ -639,6 +660,7 @@ resourcesmyqueriesoptional24sparql4 - none - simple - false
 resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesmyqueriesoptional11sparql5 - none - simple - true
 resourcessp2bq63sparql1640 - none - simple - false
+resourcesmyqueriesoptional7sparql5 - none - simple - false
 resourcessp2bq111sparql700 - none - simple - true
 resourcessp2bq7sparql21 - none - simple - false
 constructwhere06  construct where - none - simple - true
@@ -664,11 +686,13 @@ resourcessp2bq5asparql973 - none - simple - true
 resourcesmyqueriessimulatorparkingquery317sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcesbsbmexplorequery122210sparql2210 - none - simple - true
 resourcessp2bq2sparql700 - none - simple - false
+resourcesmyqueriesoptional53sparql5 - none - simple - false
 copy 1 - none - simple - false
 floor - none - simple - false
 resourcesmyqueriesoptional43sparql5 - none - simple - false
 resourcessp2bq7sparql1294 - none - simple - false
 resourcesmyqueriesoptional51sparql4 - none - simple - true
+resourcesmyqueriesoptional62sparql4 - none - simple - true
 resourcessp2bq3csparql700 - none - simple - false
 resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - none - simple - true
 strdtstr - none - simple - false
@@ -680,11 +704,15 @@ resourcesmyqueriesoptional36sparql5 - none - simple - false
 simple delete 4 with - none - simple - true
 resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - none - simple - false
+resourcesmyqueriesoptional61sparql5 - none - simple - false
 strends - none - simple - false
+resourcesmyqueriesoptional29sparql4 - none - simple - true
 md5 - none - simple - false
 resourcessp2bq12asparql700 - none - simple - false
 resourcessp2bq92sparql700 - none - simple - true
 resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - none - simple - true
+resourcesmyqueriesoptional6sparql5 - none - simple - false
+resourcesmyqueriesoptional7sparql4 - none - simple - true
 resourcessp2bq12asparql700 - none - simple - true
 copy 6 - none - simple - false
 resourcesmyqueriesoptional35sparql5 - none - simple - false
@@ -704,6 +732,7 @@ add 1 - none - simple - false
 resourcessp2bq12asparql973 - none - simple - false
 simple delete 2 with - none - simple - true
 resourcesmyqueriesoptional3sparql4 - none - simple - true
+resourcesmyqueriesoptional29sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery816sparql377 simulatorparkinginputsmallttl - none - simple - true
 resourcessp2bq11sparql1640 - none - simple - false
 resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - none - simple - false
@@ -727,15 +756,18 @@ contains - none - simple - true
 resourcesmyqueriesoptional54sparql4 - none - simple - true
 resourcessp2bq5bsparql1294 - none - simple - true
 resourcesmyqueriesoptional22sparql5 - none - simple - false
+resourcesmyqueriesoptional55sparql5 - none - simple - true
 resourcesmyqueriesoptional47sparql5 - none - simple - true
 resourcessp2bq12b4sparql1640 - none - simple - false
 resourcessp2bq5asparql1294 - none - simple - true
+resourcesmyqueriesoptional15sparql4 - none - simple - true
 resourcesmyqueriessimulatorparkingquery211sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcessp2bq8sparql21 - none - simple - false
 seconds - none - simple - false
 resourcesmyqueriesoptional48sparql5 - none - simple - true
 strlang typeerrors - none - simple - false
 concat - none - simple - false
+resourcesmyqueriesoptional55sparql4 - none - simple - false
 resourcessp2bq12bsparql700 - none - simple - true
 resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesmyqueriesoptional24sparql4 - none - simple - true
@@ -751,6 +783,7 @@ insert 04 - none - simple - false
 resourcessp2bq7sparql1640 - none - simple - false
 resourcessp2bq12b3sparql247 - none - simple - false
 minutes - none - simple - false
+resourcesmyqueriesoptional61sparql5 - none - simple - true
 strends - none - simple - true
 resourcessp2bq5bsparql21 - none - simple - false
 resourcessp2bq63sparql1294 - none - simple - false
@@ -788,6 +821,7 @@ resourcesmyqueriesoptional42sparql4 - none - simple - true
 resourcessp2bq12a1sparql21 - none - simple - true
 in 2 - none - simple - true
 resourcesbsbmbiquery81853sparql1853 - none - simple - false
+resourcesbsbmbiquery72210sparql2210 - none - simple - false
 resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - none - simple - true
 move 2 - none - simple - false
@@ -804,12 +838,14 @@ resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmalltt
 resourcessp2bq71sparql973 - none - simple - false
 strafter - none - simple - true
 dentailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - none - simple - false
+resourcesmyqueriesoptional30sparql4 - none - simple - false
 resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - none - simple - false
 resourcessp2bq12a1sparql973 - none - simple - false
 resourcesmyqueriessimulatorparkingquery514sparql377 simulatorparkinginputsmallttl - none - simple - true
 postquery values with objvar 1 row - none - simple - true
 resourcessp2bq42sparql247 - none - simple - true
 resourcessp2bq12b4sparql973 - none - simple - false
+resourcesbsbmbiquery72553sparql2553 - none - simple - false
 resourcessp2bq9sparql700 - none - simple - true
 resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - none - simple - false
 bind03  bind fixed data for owl dl - none - simple - true
@@ -845,7 +881,6 @@ resourcesmyqueriesoptional24sparql5 - none - simple - false
 count 1 - none - simple - true
 resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - none - simple - true
 delete insert 1c - none - simple - false
-resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - none - simple - false
 resourcessp2bq6sparql247 - none - simple - true
 resourcessp2bq9sparql1294 - none - simple - true
 resourcessp2bq3asparql21 - none - simple - true
@@ -853,6 +888,7 @@ resourcesbsbmexplorequery32210sparql2210 - none - simple - true
 resourcesmyqueriesoptional25sparql4 - none - simple - false
 resourcessp2bq5bsparql1294 - none - simple - false
 move 3 - none - simple - true
+resourcesbsbmbiquery71853sparql1853 - none - simple - true
 resourcesmyqueriesx5sparql4 - none - simple - true
 simple delete 4 - none - simple - false
 resourcessp2bq63sparql973 - none - simple - false
@@ -886,6 +922,7 @@ resourcessp2bq12b4sparql247 - none - simple - false
 graphspecific delete 1 with - none - simple - false
 copy silent - none - simple - true
 resourcessp2bq1sparql21 - none - simple - false
+resourcesmyqueriesoptional6sparql4 - none - simple - false
 simple insert data named 2 - none - simple - true
 resourcesmyqueriesubungent21sparql709 - none - simple - true
 resourcessp2bq12b1sparql973 - none - simple - false
@@ -900,7 +937,6 @@ resourcesmyqueriesoptional27sparql4 - none - simple - false
 resourcesmyqueriesoptional21sparql5 - none - simple - false
 resourcessp2bq10sparql700 - none - simple - false
 resourcessp2bq12b1sparql21 - none - simple - false
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - none - simple - false
 floor - none - simple - true
 resourcesmyqueriesoptional18sparql5 - none - simple - false
 resourcessp2bq12asparql1640 - none - simple - false
@@ -935,9 +971,9 @@ reuse a project expression variable in select - none - simple - false
 resourcessp2bq9sparql973 - none - simple - false
 bind10  bind scoping  variable in filter not in scope - none - simple - true
 resourcessp2bq71sparql1640 - none - simple - false
-resourcessp2bq41sparql973 - none - simple - false
 resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcessp2bq12b4sparql1294 - none - simple - false
+resourcesmyqueriesoptional53sparql5 - none - simple - true
 papersparqldlq5 - none - simple - true
 resourcesmyqueriesoptional20sparql5 - none - simple - true
 clear default - none - simple - false
@@ -976,6 +1012,7 @@ bind01  bind fixed data for owl dl - none - simple - false
 delete insert 1b - none - simple - true
 resourcesmyqueriesoptional23sparql5 - none - simple - true
 resourcesmyqueriessimulatorparkingquery41sparql377 simulatorparkinginputsmallttl - none - simple - false
+resourcesmyqueriesoptional6sparql4 - none - simple - true
 if - none - simple - false
 resourcesbsbmexplorequery112553sparql2553 - none - simple - false
 group5 - none - simple - false
@@ -1000,6 +1037,7 @@ resourcessp2bq12csparql1640 - none - simple - true
 strstarts - none - simple - false
 month - none - simple - true
 resourcesmyqueriesoptional2sparql5 - none - simple - false
+resourcesmyqueriesoptional30sparql5 - none - simple - true
 resourcessp2bq91sparql1294 - none - simple - false
 prefixname with hexencoded colons - none - simple - false
 plus1 - none - simple - true
@@ -1012,10 +1050,12 @@ parent query with distinguished variable - none - simple - true
 resourcesmyqueriesoptional27sparql5 - none - simple - true
 resourcessp2bq11sparql973 - none - simple - true
 resourcesmyqueriesoptional64sparql5 - none - simple - true
+subsets by exclusion not exists - none - simple - true
 resourcessp2bq61sparql1640 - none - simple - false
 bind01  bind - none - simple - true
 sparqldl05rq simple undistinguished variable test - none - simple - false
 resourcessp2bq71sparql21 - none - simple - false
+resourcesmyqueriesoptional56sparql5 - none - simple - false
 resourcesmyqueriesoptional46sparql5 - none - simple - false
 resourcessp2bq62sparql21 - none - simple - true
 resourcesmyqueriessimulatorparkingquery812sparql377 simulatorparkinginputsmallttl - none - simple - false
@@ -1032,6 +1072,7 @@ resourcessp2bq4sparql21 - none - simple - false
 resourcesmyqueriesoptional16sparql5 - none - simple - true
 resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmallttl - none - simple - true
 delete insert 2 - none - simple - false
+subsets by exclusion not exists - none - simple - false
 strdt typeerrors - none - simple - false
 resourcessp2bq66sparql1640 - none - simple - false
 sha256 - none - simple - false
@@ -1067,7 +1108,6 @@ sparqldl01rq triple pattern - none - simple - false
 count 3 - none - simple - false
 resourcesmyqueriessimulatorparkingquery511sparql377 simulatorparkinginputsmallttl - none - simple - true
 resourcessp2bq12bsparql973 - none - simple - true
-resourcesmyqueriessimulatorparkingquery8sparql377 simulatorparkinginputsmallttl - none - simple - false
 graphspecific delete where 1 - none - simple - false
 resourcesbsbmbiquery22553sparql2553 - none - simple - true
 resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - none - simple - true
@@ -1080,6 +1120,7 @@ resourcesmyqueriesoptional47sparql4 - none - simple - false
 md5 - none - simple - true
 move silent to default - none - simple - true
 bind10  bind scoping  variable in filter not in scope - none - simple - false
+resourcesmyqueriesoptional29sparql5 - none - simple - true
 resourcessp2bq3bsparql973 - none - simple - true
 bind08  bind - none - simple - false
 resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - none - simple - true
@@ -1125,6 +1166,7 @@ move 6 - none - simple - false
 resourcessp2bq1sparql247 - none - simple - false
 simple delete where 3 - none - simple - true
 resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - none - simple - true
+resourcesmyqueriesoptional62sparql4 - none - simple - false
 minutes - none - simple - true
 simple delete 1 using - none - simple - false
 strlang - none - simple - false
@@ -1142,6 +1184,7 @@ simple delete where 3 - none - simple - false
 sparqldl01rq triple pattern - none - simple - true
 sum with group by - none - simple - true
 resourcessp2bq12b4sparql247 - none - simple - true
+resourcesmyqueriesoptional56sparql5 - none - simple - true
 strafter datatyping - none - simple - false
 resourcessp2bq41sparql700 - none - simple - true
 resourcesmyqueriesoptional13sparql5 - none - simple - true
@@ -1158,6 +1201,7 @@ resourcessp2bq12bsparql1640 - none - simple - true
 group3 - none - simple - true
 resourcesmyqueriessimulatorparkingquery21sparql377 simulatorparkinginputsmallttl - none - simple - true
 bnode - none - simple - false
+resourcesbtc028sparql3778 - none - simple - true
 resourcesmyqueriesoptional35sparql5 - none - simple - true
 postquery values with 2 objvars 1 row with undef - none - simple - true
 resourcessp2bq5bsparql700 - none - simple - true
@@ -1180,6 +1224,7 @@ resourcessp2bq12b3sparql700 - none - simple - true
 clear silent graph iri - none - simple - true
 resourcesbsbmexplorequery121853sparql1853 - none - simple - true
 resourcesmyqueriesoptional26sparql5 - none - simple - true
+resourcesmyqueriesoptional38sparql4 - none - simple - true
 resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - none - simple - true
 resourcessp2bq1sparql1294 - none - simple - false
@@ -1211,6 +1256,7 @@ resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - n
 resourcesmyqueriesoptional58sparql5 - none - simple - false
 resourcessp2bq91sparql1640 - none - simple - true
 strstarts - none - simple - true
+resourcesbsbmbiquery71853sparql1853 - none - simple - false
 graphspecific delete where 1 - none - simple - true
 resourcessp2bq61sparql1640 - none - simple - true
 resourcessp2bq1sparql700 - none - simple - true
@@ -1224,10 +1270,12 @@ resourcessp2bq12a1sparql700 - none - simple - true
 resourcesmyqueriesoptional57sparql4 - none - simple - true
 resourcesbsbmbiquery31853sparql1853 - none - simple - false
 bnodes are not existentials - none - simple - false
+resourcesmyqueriesoptional31sparql5 - none - simple - false
 resourcesmyqueriessimulatorparkingquery613sparql377 simulatorparkinginputsmallttl - none - simple - false
 bind07  bind fixed data for owl dl - none - simple - true
 resourcessp2bq41sparql247 - none - simple - false
 copy 2 - none - simple - true
+resourcesmyqueriesoptional61sparql4 - none - simple - true
 resourcessp2bq10sparql700 - none - simple - true
 resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - none - simple - false
 add 3 - none - simple - false
@@ -1245,6 +1293,7 @@ resourcesbsbmexplorequery52210sparql2210 - none - simple - false
 expression is equality - none - simple - true
 resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - none - simple - true
+resourcesmyqueriesoptional29sparql4 - none - simple - false
 if error propogation - none - simple - true
 resourcesmyqueriesoptional1sparql5 - none - simple - true
 resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - none - simple - true
@@ -1257,6 +1306,7 @@ resourcesmyqueriessimulatorparkingquery21sparql377 simulatorparkinginputsmallttl
 resourcessp2bq61sparql21 - none - simple - false
 resourcessp2bq66sparql247 - none - simple - true
 resourcessp2bq5bsparql700 - none - simple - false
+resourcesmyqueriesoptional22sparql4 - none - simple - false
 resourcessp2bq5asparql21 - none - simple - false
 resourcessp2bq91sparql973 - none - simple - true
 resourcessp2bq92sparql247 - none - simple - false
@@ -1268,9 +1318,11 @@ resourcesmyqueriesoptional35sparql4 - none - simple - false
 resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmallttl - none - simple - false
 resourcessp2bq12csparql21 - none - simple - true
 ucase - none - simple - true
+resourcesbsbmbiquery72553sparql2553 - none - simple - true
 resourcessp2bq1sparql247 - none - simple - true
 resourcessp2bq62sparql700 - none - simple - false
 resourcessp2bq72sparql247 - none - simple - false
+resourcesmyqueriesoptional53sparql4 - none - simple - true
 resourcessp2bq65sparql247 - none - simple - true
 resourcesmyqueriesubungent12sparql567 - none - simple - false
 bind06  bind fixed data for owl dl - none - simple - true

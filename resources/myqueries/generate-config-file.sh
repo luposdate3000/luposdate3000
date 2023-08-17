@@ -15,7 +15,7 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 touch config.csv2
 rm config.csv2
-
+mkdir xxx
 function generateConfig() {
 ctr=$1
 sparql=$2
@@ -31,6 +31,14 @@ curl 'https://www.ifis.uni-luebeck.de/sparql-endpoint/nonstandard/sparql' \
 -X 'POST' \
 -d @x \
 | jq -rc '.XML[0]' > $output
+
+q=$(realpath $sparql)
+d=$(realpath $input)
+o=$(realpath xxx/${output})
+(
+cd /src/apache-jena-4.9.0
+./bin/sparql --data=$d --query=$q --results=xml > $o
+)
 
 echo $1,$2,$3,$4 >> config.csv2
 }

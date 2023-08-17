@@ -10,7 +10,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_0</bnode>
+     <bnode>b1036_0</bnode>
     </binding>
    </result>
    <result>
@@ -18,7 +18,15 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_1</bnode>
+     <bnode>b1036_1</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_2</bnode>
     </binding>
    </result>
    <result>
@@ -26,7 +34,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_2</bnode>
+     <bnode>b1036_3</bnode>
     </binding>
    </result>
    <result>
@@ -34,7 +42,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_3</bnode>
+     <bnode>b1036_4</bnode>
     </binding>
    </result>
    <result>
@@ -42,31 +50,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_4</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_5</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_6</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_7</bnode>
+     <bnode>b1036_5</bnode>
     </binding>
    </result>
    <result>
@@ -74,7 +58,47 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_8</bnode>
+     <bnode>b1036_6</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_7</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_8</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_9</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_10</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_11</bnode>
     </binding>
    </result>
    <result>
@@ -82,39 +106,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_9</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_10</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_11</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_12</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_13</bnode>
+     <bnode>b1036_12</bnode>
     </binding>
    </result>
    <result>
@@ -122,23 +114,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_14</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_15</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_16</bnode>
+     <bnode>b1036_13</bnode>
     </binding>
    </result>
    <result>
@@ -146,7 +122,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_17</bnode>
+     <bnode>b1036_14</bnode>
     </binding>
    </result>
    <result>
@@ -154,7 +130,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_18</bnode>
+     <bnode>b1036_15</bnode>
     </binding>
    </result>
    <result>
@@ -162,31 +138,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_19</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_20</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_21</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_22</bnode>
+     <bnode>b1036_16</bnode>
     </binding>
    </result>
    <result>
@@ -194,7 +146,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_23</bnode>
+     <bnode>b1036_17</bnode>
     </binding>
    </result>
    <result>
@@ -202,23 +154,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_24</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_25</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_26</bnode>
+     <bnode>b1036_18</bnode>
     </binding>
    </result>
    <result>
@@ -226,7 +162,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_27</bnode>
+     <bnode>b1036_19</bnode>
     </binding>
    </result>
    <result>
@@ -234,23 +170,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_28</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_29</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_30</bnode>
+     <bnode>b1036_20</bnode>
     </binding>
    </result>
    <result>
@@ -258,7 +178,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_31</bnode>
+     <bnode>b1036_21</bnode>
     </binding>
    </result>
    <result>
@@ -266,7 +186,31 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_32</bnode>
+     <bnode>b1036_22</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_23</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_24</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_25</bnode>
     </binding>
    </result>
    <result>
@@ -274,7 +218,23 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_33</bnode>
+     <bnode>b1036_26</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_27</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_28</bnode>
     </binding>
    </result>
    <result>
@@ -282,7 +242,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_34</bnode>
+     <bnode>b1036_29</bnode>
     </binding>
    </result>
    <result>
@@ -290,7 +250,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_35</bnode>
+     <bnode>b1036_30</bnode>
     </binding>
    </result>
    <result>
@@ -298,7 +258,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_36</bnode>
+     <bnode>b1036_31</bnode>
     </binding>
    </result>
    <result>
@@ -306,7 +266,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_37</bnode>
+     <bnode>b1036_32</bnode>
     </binding>
    </result>
    <result>
@@ -314,7 +274,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_38</bnode>
+     <bnode>b1036_33</bnode>
     </binding>
    </result>
    <result>
@@ -322,7 +282,15 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_39</bnode>
+     <bnode>b1036_34</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_35</bnode>
     </binding>
    </result>
    <result>
@@ -330,7 +298,23 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_40</bnode>
+     <bnode>b1036_36</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_37</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_38</bnode>
     </binding>
    </result>
    <result>
@@ -338,15 +322,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_41</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_42</bnode>
+     <bnode>b1036_39</bnode>
     </binding>
    </result>
    <result>
@@ -354,7 +330,47 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_43</bnode>
+     <bnode>b1036_40</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_41</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_42</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_43</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_44</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_45</bnode>
     </binding>
    </result>
    <result>
@@ -362,23 +378,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_44</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_45</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_46</bnode>
+     <bnode>b1036_46</bnode>
     </binding>
    </result>
    <result>
@@ -386,7 +386,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_47</bnode>
+     <bnode>b1036_47</bnode>
     </binding>
    </result>
    <result>
@@ -394,7 +394,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_48</bnode>
+     <bnode>b1036_48</bnode>
     </binding>
    </result>
    <result>
@@ -402,7 +402,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_49</bnode>
+     <bnode>b1036_49</bnode>
     </binding>
    </result>
    <result>
@@ -410,7 +410,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_50</bnode>
+     <bnode>b1036_50</bnode>
     </binding>
    </result>
    <result>
@@ -418,15 +418,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_51</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_52</bnode>
+     <bnode>b1036_51</bnode>
     </binding>
    </result>
    <result>
@@ -434,7 +426,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_53</bnode>
+     <bnode>b1036_52</bnode>
     </binding>
    </result>
    <result>
@@ -442,23 +434,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_54</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_55</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_56</bnode>
+     <bnode>b1036_53</bnode>
     </binding>
    </result>
    <result>
@@ -466,7 +442,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_57</bnode>
+     <bnode>b1036_54</bnode>
     </binding>
    </result>
    <result>
@@ -474,23 +450,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_58</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_59</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_60</bnode>
+     <bnode>b1036_55</bnode>
     </binding>
    </result>
    <result>
@@ -498,7 +458,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_61</bnode>
+     <bnode>b1036_56</bnode>
     </binding>
    </result>
    <result>
@@ -506,7 +466,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_62</bnode>
+     <bnode>b1036_57</bnode>
     </binding>
    </result>
    <result>
@@ -514,7 +474,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_63</bnode>
+     <bnode>b1036_58</bnode>
     </binding>
    </result>
    <result>
@@ -522,7 +482,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_64</bnode>
+     <bnode>b1036_59</bnode>
     </binding>
    </result>
    <result>
@@ -530,15 +490,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_65</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_66</bnode>
+     <bnode>b1036_60</bnode>
     </binding>
    </result>
    <result>
@@ -546,7 +498,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_67</bnode>
+     <bnode>b1036_61</bnode>
     </binding>
    </result>
    <result>
@@ -554,7 +506,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_68</bnode>
+     <bnode>b1036_62</bnode>
     </binding>
    </result>
    <result>
@@ -562,7 +514,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_69</bnode>
+     <bnode>b1036_63</bnode>
     </binding>
    </result>
    <result>
@@ -570,7 +522,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_70</bnode>
+     <bnode>b1036_64</bnode>
     </binding>
    </result>
    <result>
@@ -578,7 +530,63 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_71</bnode>
+     <bnode>b1036_65</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_66</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_67</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_68</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_69</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_70</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_71</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="isOccupied">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1036_72</bnode>
     </binding>
    </result>
    <result>
@@ -586,7 +594,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_72</bnode>
+     <bnode>b1036_73</bnode>
     </binding>
    </result>
    <result>
@@ -594,15 +602,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
     </binding>
     <binding name="o">
-     <bnode>b480_73</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="isOccupied">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b480_74</bnode>
+     <bnode>b1036_74</bnode>
     </binding>
    </result>
  </results>

@@ -6,17 +6,17 @@
  <results>
    <result>
     <binding name="b">
-     <bnode>b450_2</bnode>
+     <bnode>b1006_15</bnode>
     </binding>
    </result>
    <result>
     <binding name="b">
-     <bnode>b450_51</bnode>
+     <bnode>b1006_19</bnode>
     </binding>
    </result>
    <result>
     <binding name="b">
-     <bnode>b450_64</bnode>
+     <bnode>b1006_61</bnode>
     </binding>
    </result>
  </results>

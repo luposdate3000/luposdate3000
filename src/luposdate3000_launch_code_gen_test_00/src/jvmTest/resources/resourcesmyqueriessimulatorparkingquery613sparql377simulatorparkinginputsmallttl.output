@@ -7,58 +7,10 @@
  <results>
    <result>
     <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">30</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_0</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_1</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_2</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_3</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_4</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_5</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_6</bnode>
+     <bnode>b1032_0</bnode>
     </binding>
    </result>
    <result>
@@ -66,15 +18,23 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_7</bnode>
+     <bnode>b1032_1</bnode>
     </binding>
    </result>
    <result>
     <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_8</bnode>
+     <bnode>b1032_2</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_3</bnode>
     </binding>
    </result>
    <result>
@@ -82,39 +42,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_9</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_10</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_11</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_12</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_13</bnode>
+     <bnode>b1032_4</bnode>
     </binding>
    </result>
    <result>
@@ -122,55 +50,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_14</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">44</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_15</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_16</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_17</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_18</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_19</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_20</bnode>
+     <bnode>b1032_5</bnode>
     </binding>
    </result>
    <result>
@@ -178,95 +58,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_21</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_22</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_23</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_24</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">31</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_25</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_26</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_27</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_28</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">44</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_29</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_30</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_31</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_32</bnode>
+     <bnode>b1032_6</bnode>
     </binding>
    </result>
    <result>
@@ -274,151 +66,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_33</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_34</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_35</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_36</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_37</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_38</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_39</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_40</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_41</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">31</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_42</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_43</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_44</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_45</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_46</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_47</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_48</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_49</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_50</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_51</bnode>
+     <bnode>b1032_7</bnode>
     </binding>
    </result>
    <result>
@@ -426,31 +74,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_52</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_53</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_54</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">31</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_55</bnode>
+     <bnode>b1032_8</bnode>
     </binding>
    </result>
    <result>
@@ -458,135 +82,7 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">30</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_56</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_57</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_58</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_59</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_60</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_61</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_62</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_63</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_64</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">30</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_65</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_66</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_67</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_68</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_69</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">30</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_70</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_71</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="spot">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
-    </binding>
-    <binding name="o">
-     <bnode>b476_72</bnode>
+     <bnode>b1032_9</bnode>
     </binding>
    </result>
    <result>
@@ -594,7 +90,263 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">44</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_73</bnode>
+     <bnode>b1032_10</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_11</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_12</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_13</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_14</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_15</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_16</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_17</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">31</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_18</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">30</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_19</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_20</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_21</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_22</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_23</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_24</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">44</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_25</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">44</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_26</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">31</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_27</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_28</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_29</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">24</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_30</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_31</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_32</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_33</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_34</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_35</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_36</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_37</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_38</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_39</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">42</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_40</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_41</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">0</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_42</bnode>
     </binding>
    </result>
    <result>
@@ -602,7 +354,255 @@
      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
     </binding>
     <binding name="o">
-     <bnode>b476_74</bnode>
+     <bnode>b1032_43</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_44</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_45</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_46</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_47</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_48</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_49</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">32</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_50</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_51</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_52</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_53</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_54</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_55</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_56</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">31</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_57</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">40</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_58</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">13</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_59</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">11</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_60</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">21</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_61</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">43</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_62</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_63</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_64</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">41</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_65</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">34</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_66</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_67</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">20</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_68</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_69</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_70</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">14</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_71</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">33</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_72</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">22</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_73</bnode>
+    </binding>
+   </result>
+   <result>
+    <binding name="spot">
+     <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+    </binding>
+    <binding name="o">
+     <bnode>b1032_74</bnode>
     </binding>
    </result>
  </results>

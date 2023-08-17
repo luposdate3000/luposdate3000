@@ -6,22 +6,22 @@
  <results>
    <result>
     <binding name="o">
-     <bnode>b496_13</bnode>
+     <bnode>b1052_4</bnode>
     </binding>
    </result>
    <result>
     <binding name="o">
-     <bnode>b496_24</bnode>
+     <bnode>b1052_65</bnode>
     </binding>
    </result>
    <result>
     <binding name="o">
-     <bnode>b496_44</bnode>
+     <bnode>b1052_66</bnode>
     </binding>
    </result>
    <result>
     <binding name="o">
-     <bnode>b496_69</bnode>
+     <bnode>b1052_69</bnode>
     </binding>
    </result>
  </results>

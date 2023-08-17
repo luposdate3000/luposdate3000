@@ -16,80 +16,66 @@
  */
 package lupos.optimizer.logical
 
+import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPNot
+import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
-import lupos.operator.logical.multiinput.LOPMinus
+import lupos.operator.logical.singleinput.LOPBind
 import lupos.operator.logical.singleinput.LOPFilter
-import lupos.operator.logical.singleinput.LOPSubGroup
-import lupos.shared.SanityCheck
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.logical.singleinput.modifiers.LOPDistinct
+import lupos.shared.dynamicArray.ByteArrayWrapper
+import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerDetectMinusID, "LogicalOptimizerDetectMinus") {
+    internal companion object {
+        internal var ctr = 0
+        internal fun getNextVariableName(): String {
+            ctr += 1
+            return "_LogicalOptimizerDetectMinus$ctr"
+        }
+    }
+    private fun hasNotExists(node: IOPBase, parent: IOPBase, idx: Int): Triple<IOPBase, IOPBase, Int>? {
+        if (node is AOPBuildInCallNotExists) {
+            return Triple(node.getChildren()[0], parent, idx)
+        } else {
+            var i = 0
+            for (n in node.getChildren()) {
+                val res = hasNotExists(n, node, i)
+                if (res != null) {
+                    return res
+                }
+            }
+        }
+        return null
+    }
+
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
-/*
         if (node is LOPFilter) {
-            val node1 = node.getChildren()[1]
-            if (node1 is AOPNot) {
-                val node10 = node1.getChildren()[0]
-                if (node10 is AOPBuildInCallBOUND) {
-                    // there exists a filter, such that the variable is NOT bound.
-                    // now search for_ an optional join, where this variable is bound only in the optional part
-                    val variableName = (node10.getChildren()[0] as AOPVariable).name
-                    searchForOptionalJoin(node, variableName) { p, i ->
-                        val a = p.getChildren()[i].getChildren()[0]
-                        val b = p.getChildren()[i].getChildren()[1]
-                        var c = b
-                        while (c is LOPSubGroup) {
-                            c = c.getChildren()[0]
-                        }
-                        if (c is LOPFilter && !c.getProvidedVariableNames().containsAll(c.getChildren()[1].getRequiredVariableNamesRecoursive())) {
-                            // only use minus if there is another filter which requires variables from the other operand
-                            val tmpFakeVariables = b.getProvidedVariableNames().toMutableList()
-                            tmpFakeVariables.removeAll(a.getProvidedVariableNames())
-                            if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
-                                p.getChildren()[i] = LOPMinus(query, a, b, tmpFakeVariables)
-                            } else {
-                                c = b
-                                while (c.getChildren()[0] is LOPSubGroup || c.getChildren()[0] is LOPFilter) {
-                                    c = c.getChildren()[0]
-                                }
-                                if (SanityCheck.enabled) { if (!(c is LOPSubGroup || c is LOPFilter)) { throw Exception("SanityCheck failed") } }
-                                c.getChildren()[0] = LOPJoin(query, a.cloneOP(), c.getChildren()[0], false) // put a below all the filters - to prevent these filters from missing variables
-                                p.getChildren()[i] = LOPMinus(query, a, b, tmpFakeVariables) // put all the variables into the subtracting child too - to be able to process the filters
-                            }
-                            res = node.getChildren()[0] // remove the !bound part
-                            onChange()
-                        }
-                    }
-                }
-            } else if (node1 is AOPBuildInCallNotExists) {
-                val a = node.getChildren()[0]
-                val b = node1.getChildren()[0]
-                res = if (b.getProvidedVariableNames().containsAll(a.getProvidedVariableNames())) {
-                    LOPMinus(query, a, b, listOf())
-                } else {
-                    LOPMinus(query, a, LOPJoin(query, a.cloneOP(), b, false), listOf())
-                }
+            val existsClause = hasNotExists(node.children[1], node, 1)
+            if (existsClause != null) {
+                val indicatorName = getNextVariableName()
+                val l = node.children[0]
+                val r1 = existsClause.first
+                val buffer = ByteArrayWrapper()
+                DictionaryHelper.booleanToByteArray(buffer, true)
+                val r2 = LOPBind(query, AOPVariable(query, indicatorName), AOPConstant(query, buffer), r1)
+                val r3 = LOPProjection(query, (l.getProvidedVariableNames() + listOf(indicatorName)).map { AOPVariable(query, it) }.toMutableList(), r2)
+                val r4 = LOPDistinct(query, r3)
+                val r5 = LOPJoin(query, l, r4, true)
+                val cc = existsClause.second.getChildren()
+                cc[existsClause.third] = AOPNot(query, AOPBuildInCallBOUND(query, AOPVariable(query, indicatorName)))
+                val r6 = LOPFilter(query, node.children[1] as AOPBase, r5)
+                res = LOPProjection(query, l.getProvidedVariableNames().map { AOPVariable(query, it) }.toMutableList(), r6)
                 onChange()
             }
         }
-  */
-      return res
-    }
-
-    private fun searchForOptionalJoin(node: IOPBase, variableName: String, action: (IOPBase, Int) -> Unit) {
-        for (c in node.getChildren().indices) {
-            val child = node.getChildren()[c]
-            if (child is LOPJoin && child.optional && !child.getChildren()[0].getProvidedVariableNames().contains(variableName) && child.getChildren()[1].getProvidedVariableNames().contains(variableName)) {
-                action(node, c)
-            } else {
-                searchForOptionalJoin(child, variableName, action)
-            }
-        }
+        return res
     }
 }
