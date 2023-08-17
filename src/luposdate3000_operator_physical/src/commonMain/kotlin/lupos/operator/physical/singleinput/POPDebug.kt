@@ -45,25 +45,26 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-        val child = getChildren()[0].evaluate(parent)
+val child0=getChildren()[0] as POPBase
+        val child = child0.evaluate(parent)
         when (ITERATOR_DEBUG_MODE) {
             EPOPDebugModeExt.NONE -> {
                 return child
             }
             EPOPDebugModeExt.DEBUG1 -> {
-                val target = getChildren()[0].getProvidedVariableNames()
+                val target = child0.projectedVariables
                 if (child.hasColumnMode()) {
                     try {
                         child.columns
                     } catch (e: Throwable) {
-                        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:58"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:59"/*SOURCE_FILE_END*/)
                     }
                     val columnMode = mutableListOf<String>()
                     for (k in child.columns.keys) {
                         columnMode.add(k)
                     }
-                    if (SanityCheck.enabled) { if (!(columnMode.containsAll(target))) { throw Exception("SanityCheck failed") } }
-                    if (SanityCheck.enabled) { if (!(target.containsAll(columnMode))) { throw Exception("SanityCheck failed") } }
+                    if (SanityCheck.enabled) { if (!(columnMode.containsAll(target))) { TODO("POPDebug.kt $uuid providing $columnMode, but should be $target") } }
+                    if (SanityCheck.enabled) { if (!(target.containsAll(columnMode))) { TODO("POPDebug.kt $uuid providing $columnMode, but should be $target") } }
                     val outMap = mutableMapOf<String, ColumnIterator>()
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
@@ -96,13 +97,13 @@ return res
                 return child
             }
             EPOPDebugModeExt.DEBUG2 -> {
-                val target = getChildren()[0].getProvidedVariableNames()
+                val target = child0.projectedVariables
                 when {
                     child.hasColumnMode() -> {
                         try {
                             child.columns
                         } catch (e: Throwable) {
-                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:104"/*SOURCE_FILE_END*/)
+                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:105"/*SOURCE_FILE_END*/)
                         }
                         val outMap = mutableMapOf<String, ColumnIterator>()
                         val columnMode = mutableListOf<String>()

@@ -46,6 +46,7 @@ public object EvalGroup {
         child: IteratorBundle,
         bindings: MutableList<Pair<String, AOPBase>>,
         keyColumnNames: Array<String>,
+projection:Array<String>,
     ): IteratorBundle {
         val localVariables = child.names
         val outMap = mutableMapOf<String, ColumnIterator>()
@@ -108,7 +109,9 @@ public object EvalGroup {
         }
         if (map.isEmpty()) {
             for (v in keyColumnNames) {
+if(v in projection){
                 outMap[v] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
+}
             }
             for ((first) in bindings) {
                 outMap[first] = ColumnIteratorRepeatValue(1, DictionaryValueHelper.undefValue)
@@ -125,7 +128,9 @@ public object EvalGroup {
                 }
             }
             for (columnIndex in keyColumnNames.indices) {
+if(keyColumnNames[columnIndex] in projection){
                 outMap[keyColumnNames[columnIndex]] = ColumnIteratorMultiValue(outKeys[columnIndex])
+}
             }
             for (columnIndex in 0 until bindings.size) {
                 outMap[bindings[columnIndex].first] = ColumnIteratorMultiValue(outValues[columnIndex])

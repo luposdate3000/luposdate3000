@@ -384,7 +384,7 @@ public object ConverterBinaryEncoder {
         return off
     }
 
-    public fun encodePOPGroup(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, keyColumnNames: List<String>, bindings: List<Pair<String, Int>>): Int {
+    public fun encodePOPGroup(data: ByteArrayWrapper, mapping: MutableMap<String, Int>, childf: (Int) -> Int, keyColumnNames: List<String>, bindings: List<Pair<String, Int>>,projectedVariables:List<String>): Int {
         val off = ByteArrayWrapperExt.getSize(data)
         ByteArrayWrapperExt.setSize(data, off + 16 + 4 * (keyColumnNames.size + bindings.size * 2), true)
         val child = childf(off + 4)
@@ -407,6 +407,12 @@ public object ConverterBinaryEncoder {
             o += 4
             i++
         }
+ByteArrayWrapperExt.writeInt4(data, o, projectedVariables.size,{ "POPGroup.projection.size" })
+o+=4
+for(i in 0 until projectedVariables.size){ 
+ByteArrayWrapperExt.writeInt4(data, o, ConverterString.encodeString(projectedVariables[i], data, mapping),{ "POPGroup.projection[$i].name" })
+o += 4
+}
         return off
     }
 

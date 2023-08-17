@@ -526,7 +526,14 @@ public object ConverterBinaryToIteratorBundle {
                     o += 4
                     bindings.add(k to v)
                 }
-                EvalGroup(child, bindings, keyColumnNames)
+val projection=mutableListOf<String>()
+val proLen=ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection.size" })
+o+=4
+for(i in 0 until proLen){
+projection.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection[$i].name" })))
+o += 4
+}
+                EvalGroup(child, bindings, keyColumnNames,projection.toTypedArray())
             },
         )
         assignOperatorPhysicalDecode(
