@@ -18,20 +18,14 @@ package lupos.optimizer.logical
 
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAnd
-import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
-import lupos.operator.arithmetik.generated.AOPNot
-import lupos.operator.arithmetik.generated.AOPOr
-import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
-import lupos.operator.arithmetik.noinput.AOPConstant
-import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPSubGroup
-import lupos.shared.DictionaryValueHelper
-import lupos.shared.InvalidInputException
 import lupos.shared.operator.IOPBase
-
+import lupos.operator.logical.singleinput.modifiers.LOPDistinct
+import lupos.operator.logical.singleinput.LOPProjection
+import lupos.operator.arithmetik.noinput.AOPVariable
 public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterOptionalID, "LogicalOptimizerFilterOptional") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
@@ -57,79 +51,23 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
             }
             if (changed) {
                 val childProvided = child.getProvidedVariableNames()
-                var filterInside: AOPBase? = null
-                var filterOutside: AOPBase? = null
+                var needsOutsideVariables = false
                 for (filter in filters) {
-                    val req = filter.getRequiredVariableNamesRecoursive()
-                    if (childProvided.containsAll(req)) {
-                        filterInside = if (filterInside == null) {
-                            filter
-                        } else {
-                            AOPAnd(query, filterInside, filter)
-                        }
-                    } else {
-                        filterOutside = if (filterOutside == null) {
-                            filter
-                        } else {
-                            AOPAnd(query, filterOutside, filter)
-                        }
+                    if (!childProvided.containsAll(filter.getRequiredVariableNamesRecoursive())) {
+                        needsOutsideVariables = true
                     }
                 }
-                if (filterOutside != null) {
-                    if (filterInside != null) {
-                        node.getChildren()[1] = LOPFilter(query, filterInside, child)
-                    } else {
-                        node.getChildren()[1] = child
-                    }
-                    val optionalIndicatorList = childProvided.toMutableSet()
-                    optionalIndicatorList.removeAll(node.getChildren()[0].getProvidedVariableNames())
-                    val t = optionalIndicatorList.toList()
-                    if (t.isEmpty()) {
-                        throw InvalidInputException("optional clause must add at least 1 new variable")
-                    }
-                    val optionalIndicator = t[0]
-                    res = LOPFilter(
-                        query,
-                        AOPOr(
-                            query,
-                            AOPAnd(
-                                query,
-                                AOPBuildInCallBOUND(
-                                    query,
-                                    AOPVariable(
-                                        query,
-                                        optionalIndicator,
-                                    ),
-                                ),
-                                AOPBuildInCallCOALESCE(
-                                    query,
-                                    listOf(
-                                        filterOutside,
-                                        AOPConstant(query, DictionaryValueHelper.booleanFalseValue),
-                                    ),
-                                ),
-                            ),
-                            AOPNot(
-                                query,
-                                AOPBuildInCallBOUND(
-                                    query,
-                                    AOPVariable(
-                                        query,
-                                        optionalIndicator,
-                                    ),
-                                ),
-                            ),
-                        ),
-                        node,
-                    )
-                    res.dontSplitFilter = 1
+                if (needsOutsideVariables) {
+val r1= LOPDistinct(query,node.getChildren()[0].cloneOP())
+val r2=LOPJoin(query, child, r1, false)
+val r3= LOPFilter(query, filters.reduce { s, t -> AOPAnd(query, s, t) }, r2)
+                    res = LOPJoin(query, node.getChildren()[0],r3, true)
                     onChange()
                 }
             }
         }
         return res
     }
-
     private fun addFilters(filters: MutableList<AOPBase>, filter: AOPBase) {
         if (filter is AOPAnd) {
             addFilters(filters, filter.getChildren()[0] as AOPBase)
