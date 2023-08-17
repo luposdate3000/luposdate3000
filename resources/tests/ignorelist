@@ -4,15 +4,6 @@ describe,resourcesbsbmexplorequery92210sparql2210
 describe,resourcesbsbmexplorequery92553sparql2553
 error in specification,Graphspecific DELETE 2 USING
 error in specification,Simple DELETE 2 USING
-exists,Exists with ground triple
-exists,Exists with one constant
-exists,Exists within graph pattern
-exists,Medical temporal proximity by exclusion NOT EXISTS
-exists,Nested negative exists in positive exists
-exists,Nested positive exists
-exists,Positive EXISTS 1
-exists,Positive EXISTS 2
-exists,resourcesmyqueriesubungent20sparql709
 filetype,sq01  Subquery within graph pattern
 filetype,sq02  Subquery within graph pattern graph variable is bound
 filetype,sq03  Subquery within graph pattern graph variable is not bound

@@ -1,5 +1,4 @@
 
-head -n1 $(grep -rl "AOPBuildInCallExists" *log) makeIgnoreList.sh | grep -v "^$" | grep -v "==>" | sed "s/ - .*//g" | sed "s/^/exists,/g" >> resources/tests/ignorelist
 head -n1 $(grep -rl "path not implemented" *log) makeIgnoreList.sh | grep -v "^$" | grep -v "==>" | sed "s/ - .*//g" | sed "s/^/path,/g" >> resources/tests/ignorelist
 head -n1 $(grep -rl "service not implemented" *log) makeIgnoreList.sh | grep -v "^$" | grep -v "==>" | sed "s/ - .*//g" | sed "s/^/service,/g" >> resources/tests/ignorelist
 head -n1 $(grep -rl "OperatorGraphVisitor not implemented" *log) makeIgnoreList.sh | grep -v "^$" | grep -v "==>" | sed "s/ - .*//g" | sed "s/^/operator,/g" >> resources/tests/ignorelist

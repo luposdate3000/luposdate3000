@@ -29,7 +29,10 @@ public fun main() {
     val tests = listOf(
     )
     val tests2 = listOf(
+        "lupos.launch_code_gen_test_00.ExistswithingraphpatternKt",
+        "lupos.launch_code_gen_test_00.ExistswithoneconstantKt",
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
+        "lupos.launch_code_gen_test_00.NestedpositiveexistsKt",
         "lupos.launch_code_gen_test_00.Resourcesbtc020sparql80Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional10sparql5Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional11sparql4Kt",

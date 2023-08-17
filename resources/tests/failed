@@ -26,9 +26,12 @@ resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl 
 resourcesmyqueriesoptional8sparql4 - none - simple - true
 resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - none - simple - true
 resourcesbtc020sparql80 - none - simple - true
+exists with one constant - none - simple - true
 resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - none - simple - true
 resourcessp2bq6sparql973 - none - simple - true
 resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - none - simple - true
+nested positive exists - none - simple - true
+exists within graph pattern - none - simple - true
 resourcesmyqueriesoptional40sparql5 - none - simple - true
 resourcesmyqueriesoptional34sparql4 - none - simple - true
 resourcesmyqueriesoptional10sparql5 - none - simple - true

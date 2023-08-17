@@ -21,6 +21,7 @@ import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
 import lupos.operator.arithmetik.generated.AOPNot
 import lupos.operator.arithmetik.noinput.AOPConstant
 import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.operator.arithmetik.singleinput.AOPBuildInCallExists
 import lupos.operator.arithmetik.singleinput.AOPBuildInCallNotExists
 import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
@@ -54,26 +55,58 @@ public class LogicalOptimizerDetectMinus(query: Query) : OptimizerBase(query, EO
         }
         return null
     }
+    private fun hasExists(node: IOPBase, parent: IOPBase, idx: Int): Triple<IOPBase, IOPBase, Int>? {
+        if (node is AOPBuildInCallExists) {
+            return Triple(node.getChildren()[0], parent, idx)
+        } else {
+            var i = 0
+            for (n in node.getChildren()) {
+                val res = hasExists(n, node, i)
+                if (res != null) {
+                    return res
+                }
+            }
+        }
+        return null
+    }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
         if (node is LOPFilter) {
-            val existsClause = hasNotExists(node.children[1], node, 1)
-            if (existsClause != null) {
+            val existsNotClause = hasNotExists(node.children[1], node, 1)
+            if (existsNotClause != null) {
                 val indicatorName = getNextVariableName()
                 val l = node.children[0]
-                val r1 = existsClause.first
+                val r1 = existsNotClause.first
                 val buffer = ByteArrayWrapper()
                 DictionaryHelper.booleanToByteArray(buffer, true)
                 val r2 = LOPBind(query, AOPVariable(query, indicatorName), AOPConstant(query, buffer), r1)
                 val r3 = LOPProjection(query, (l.getProvidedVariableNames() + listOf(indicatorName)).map { AOPVariable(query, it) }.toMutableList(), r2)
                 val r4 = LOPDistinct(query, r3)
                 val r5 = LOPJoin(query, l, r4, true)
-                val cc = existsClause.second.getChildren()
-                cc[existsClause.third] = AOPNot(query, AOPBuildInCallBOUND(query, AOPVariable(query, indicatorName)))
+                val cc = existsNotClause.second.getChildren()
+                cc[existsNotClause.third] = AOPNot(query, AOPBuildInCallBOUND(query, AOPVariable(query, indicatorName)))
                 val r6 = LOPFilter(query, node.children[1] as AOPBase, r5)
                 res = LOPProjection(query, l.getProvidedVariableNames().map { AOPVariable(query, it) }.toMutableList(), r6)
                 onChange()
+            } else {
+                val existsClause = hasExists(node.children[1], node, 1)
+                if (existsClause != null) {
+                    val indicatorName = getNextVariableName()
+                    val l = node.children[0]
+                    val r1 = existsClause.first
+                    val buffer = ByteArrayWrapper()
+                    DictionaryHelper.booleanToByteArray(buffer, true)
+                    val r2 = LOPBind(query, AOPVariable(query, indicatorName), AOPConstant(query, buffer), r1)
+                    val r3 = LOPProjection(query, (l.getProvidedVariableNames() + listOf(indicatorName)).map { AOPVariable(query, it) }.toMutableList(), r2)
+                    val r4 = LOPDistinct(query, r3)
+                    val r5 = LOPJoin(query, l, r4, true)
+                    val cc = existsClause.second.getChildren()
+                    cc[existsClause.third] = AOPBuildInCallBOUND(query, AOPVariable(query, indicatorName))
+                    val r6 = LOPFilter(query, node.children[1] as AOPBase, r5)
+                    res = LOPProjection(query, l.getProvidedVariableNames().map { AOPVariable(query, it) }.toMutableList(), r6)
+                    onChange()
+                }
             }
         }
         return res
