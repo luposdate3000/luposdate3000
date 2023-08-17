@@ -178,6 +178,7 @@ import lupos.parser.sparql.ASTBuiltInCallStr
 import lupos.parser.sparql.ASTBuiltInCallStrAfter
 import lupos.parser.sparql.ASTBuiltInCallStrBefore
 import lupos.parser.sparql.ASTBuiltInCallStrDt
+import lupos.parser.sparql.ASTVarOptional
 import lupos.parser.sparql.ASTBuiltInCallStrEnds
 import lupos.parser.sparql.ASTBuiltInCallStrLang
 import lupos.parser.sparql.ASTBuiltInCallStrLen
@@ -1724,10 +1725,19 @@ public class OperatorGraphVisitor(public val query: Query) {
     private fun visit074(node: ASTConstructTriplesOptional): List<LOPTriple> = node.variable0?.let { visit002(it) }
         ?: listOf()
 
+private fun visit070b(node: ASTVarOptional):AOPVariable{
+val v=node.variable0
+return if(v!=null){
+visit153(v)
+}else{
+AOPVariable(query,"_VarOptional#${counter++}")
+}
+}
+    private fun visit070(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTClassOfExpressionAndVarOptional): Pair<AOPBase, AOPVariable> = visit033(graph, graphVar, graphOverride, node.variable0!!) to visit070b(node.variable1!!)
+
     private fun visit073(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTHavingCondition) = visit155(graph, graphVar, graphOverride, node.variable0!!)
     private fun visit072(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTListOfHavingCondition) = node.value.map { visit073(graph, graphVar, graphOverride, it) }
     private fun visit071(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTHavingClause) = visit072(graph, graphVar, graphOverride, node.variable0!!)
-    private fun visit070(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTClassOfExpressionAndVarOptional): Pair<AOPBase, AOPVariable> = visit033(graph, graphVar, graphOverride, node.variable0!!) to visit153(node.variable1!!.variable0!!)
     private fun visit069(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTListOfGroupCondition): List<Pair<AOPBase?, AOPVariable>> = node.value.map { visit168(graph, graphVar, graphOverride, it) }
     private fun visit068(node: ASTListOfVar): List<AOPVariable> = node.value.map { visit153(it) }
     private fun visit067(node: ASTListOfDataBlockValue): List<AOPConstant> = node.value.map { visit107(it) }

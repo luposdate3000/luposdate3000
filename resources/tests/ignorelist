@@ -107,6 +107,9 @@ path,pp37 Nested
 path,resourcesmyqueriesubungent22sparql709
 service,SERVICE test 7
 syntax,COUNT 10
+syntax,COUNT 11
+syntax,COUNT 12
+syntax,COUNT 8
 syntax,COUNT 9
 syntax,DELETE INSERT 3
 syntax,DELETE INSERT 3b
