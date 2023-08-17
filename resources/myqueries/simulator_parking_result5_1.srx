@@ -1,49 +1,49 @@
 <?xml version="1.0"?>
-<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="b"/>
-  <variable name="d"/>
- </head>
- <results>
-   <result>
-    <binding name="b">
-     <bnode>b971_104</bnode>
-    </binding>
-    <binding name="d">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.211</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b971_296</bnode>
-    </binding>
-    <binding name="d">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.411</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b971_305</bnode>
-    </binding>
-    <binding name="d">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.311</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b971_354</bnode>
-    </binding>
-    <binding name="d">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.11</literal>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b971_431</bnode>
-    </binding>
-    <binding name="d">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.111</literal>
-    </binding>
-   </result>
- </results>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="b"/>
+    <variable name="d"/>
+  </head>
+  <results>
+    <result>
+      <binding name="b">
+        <bnode>b0</bnode>
+      </binding>
+      <binding name="d">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.211</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b1</bnode>
+      </binding>
+      <binding name="d">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.11</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b2</bnode>
+      </binding>
+      <binding name="d">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.411</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b3</bnode>
+      </binding>
+      <binding name="d">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.311</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b4</bnode>
+      </binding>
+      <binding name="d">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2021-09-07T06:22:27.111</literal>
+      </binding>
+    </result>
+  </results>
 </sparql>

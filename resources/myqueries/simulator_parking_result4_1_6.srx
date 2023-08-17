@@ -1,258 +1,258 @@
 <?xml version="1.0"?>
-<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="b"/>
- </head>
- <results>
-   <result>
-    <binding name="b">
-     <bnode>b1015_6</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_41</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_45</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_47</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_49</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_51</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_58</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_70</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_106</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_113</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_146</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_152</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_162</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_169</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_175</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_177</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_188</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_191</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_200</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_224</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_229</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_237</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_278</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_280</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_321</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_343</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_347</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_352</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_359</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_364</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_366</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_370</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_377</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_393</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_409</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_413</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_420</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_423</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_428</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_447</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_448</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_449</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_456</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_458</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_464</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_474</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_477</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_479</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_482</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="b">
-     <bnode>b1015_483</bnode>
-    </binding>
-   </result>
- </results>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="b"/>
+  </head>
+  <results>
+    <result>
+      <binding name="b">
+        <bnode>b0</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b1</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b2</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b3</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b4</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b5</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b6</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b7</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b8</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b9</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b10</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b11</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b12</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b13</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b14</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b15</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b16</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b17</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b18</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b19</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b20</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b21</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b22</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b23</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b24</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b25</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b26</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b27</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b28</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b29</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b30</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b31</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b32</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b33</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b34</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b35</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b36</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b37</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b38</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b39</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b40</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b41</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b42</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b43</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b44</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b45</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b46</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b47</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b48</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="b">
+        <bnode>b49</bnode>
+      </binding>
+    </result>
+  </results>
 </sparql>

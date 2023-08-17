@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
-<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="hash"/>
- </head>
- <results>
-   <result>
-    <binding name="hash">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#string">8a8de823d5ed3e12746a62ef169bcf372be0ca44f0a1236abc35df05d96928e1</literal>
-    </binding>
-   </result>
- </results>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="hash"/>
+  </head>
+  <results>
+    <result>
+      <binding name="hash">
+        <literal>0fbe868d1df356ca9df7ebff346da3a56280e059a7ea81186ef885b140d254ee</literal>
+      </binding>
+    </result>
+  </results>
 </sparql>

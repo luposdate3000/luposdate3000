@@ -1,138 +1,138 @@
 <?xml version="1.0"?>
-<sparql xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xs="http://www.w3.org/2001/XMLSchema#" xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="o"/>
- </head>
- <results>
-   <result>
-    <binding name="o">
-     <bnode>b1062_1</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_4</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_7</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_11</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_12</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_17</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_22</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_24</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_27</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_29</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_31</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_34</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_35</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_38</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_40</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_45</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_51</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_54</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_57</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_59</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_60</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_63</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_67</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_68</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_71</bnode>
-    </binding>
-   </result>
-   <result>
-    <binding name="o">
-     <bnode>b1062_74</bnode>
-    </binding>
-   </result>
- </results>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="o"/>
+  </head>
+  <results>
+    <result>
+      <binding name="o">
+        <bnode>b0</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b1</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b2</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b3</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b4</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b5</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b6</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b7</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b8</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b9</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b10</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b11</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b12</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b13</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b14</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b15</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b16</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b17</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b18</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b19</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b20</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b21</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b22</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b23</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b24</bnode>
+      </binding>
+    </result>
+    <result>
+      <binding name="o">
+        <bnode>b25</bnode>
+      </binding>
+    </result>
+  </results>
 </sparql>
