@@ -27,10 +27,11 @@ internal fun exec(className: String, args: List<String> = emptyList(), jvmArgs: 
 }
 public fun main() {
     val tests = listOf(
+        "lupos.launch_code_gen_test_00.ExistswithoneconstantKt",
     )
     val tests2 = listOf(
+        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional5sparql4Kt",
         "lupos.launch_code_gen_test_00.ExistswithingraphpatternKt",
-        "lupos.launch_code_gen_test_00.ExistswithoneconstantKt",
         "lupos.launch_code_gen_test_00.INSERTsamebnodetwiceKt",
         "lupos.launch_code_gen_test_00.NestedpositiveexistsKt",
         "lupos.launch_code_gen_test_00.Resourcesbtc020sparql80Kt",
@@ -46,7 +47,6 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional45sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional52sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional56sparql4Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional5sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional60sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional63sparql4Kt",
         "lupos.launch_code_gen_test_00.Resourcesmyqueriesoptional8sparql4Kt",

@@ -68,7 +68,9 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
                             override /*suspend*/ fun next(): DictionaryValueType {
-                                return childIter.next()
+                                var res= childIter.next()
+println("POPDebug.kt .. $uuid $columnName $res")
+return res
                             }
 
                             override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
@@ -100,7 +102,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         try {
                             child.columns
                         } catch (e: Throwable) {
-                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:102"/*SOURCE_FILE_END*/)
+                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:104"/*SOURCE_FILE_END*/)
                         }
                         val outMap = mutableMapOf<String, ColumnIterator>()
                         val columnMode = mutableListOf<String>()
