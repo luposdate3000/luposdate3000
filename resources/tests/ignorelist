@@ -57,45 +57,6 @@ inference rdfs,sparqldl11rq domain test
 inference rdfs,sparqldl12rq range test
 manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
-manual complicated,Calculate proper subset
-manual complicated,Calculate which sets are subsets of others exclude A subsetOf A
-manual complicated,Calculate which sets are subsets of others include A subsetOf A
-manual complicated,Calculate which sets have the same elements
-manual complicated,INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode
-manual complicated,INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode
-manual complicated,INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution
-manual complicated,resourcesbsbmbiquery11853sparql1853
-manual complicated,resourcesbsbmbiquery12210sparql2210
-manual complicated,resourcesbsbmbiquery12553sparql2553
-manual complicated,resourcesbsbmbiquery41853sparql1853
-manual complicated,resourcesbsbmbiquery42210sparql2210
-manual complicated,resourcesbsbmbiquery42553sparql2553
-manual complicated,resourcesbsbmbiquery51853sparql1853
-manual complicated,resourcesbsbmbiquery52210sparql2210
-manual complicated,resourcesbsbmbiquery52553sparql2553
-manual complicated,resourcesbsbmbiquery82553sparql2553
-manual complicated,resourcesbsbmexplorequery21853sparql1853
-manual complicated,resourcesbsbmexplorequery22210sparql2210
-manual complicated,resourcesbsbmexplorequery22553sparql2553
-manual complicated,resourcesbsbmexplorequery71853sparql1853
-manual complicated,resourcesbsbmexplorequery72210sparql2210
-manual complicated,resourcesbsbmexplorequery72553sparql2553
-manual complicated,resourcesbsbmexplorequery81853sparql1853
-manual complicated,resourcesbsbmexplorequery82210sparql2210
-manual complicated,resourcesbsbmexplorequery82553sparql2553
-manual complicated,resourcesmyqueriesubungent19sparql709
-manual complicated,resourcessp2bq65sparql1294
-manual complicated,resourcessp2bq65sparql1640
-manual complicated,resourcessp2bq65sparql700
-manual complicated,resourcessp2bq65sparql973
-manual complicated,resourcessp2bq67sparql1294
-manual complicated,resourcessp2bq67sparql1640
-manual complicated,resourcessp2bq67sparql700
-manual complicated,resourcessp2bq67sparql973
-manual complicated,resourcessp2bq68sparql1294
-manual complicated,resourcessp2bq68sparql1640
-manual complicated,resourcessp2bq68sparql700
-manual complicated,resourcessp2bq68sparql973
 manual no triplepattern with bind,NOW
 manual sha256,resourcesmyqueriesx1sparql5
 manual simulator,in simulator

@@ -69,7 +69,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
                         val iterator = object : ColumnIterator() {
                             override /*suspend*/ fun next(): DictionaryValueType {
                                 var res= childIter.next()
-println("POPDebug.kt .. $uuid $columnName $res")
+//println("POPDebug.kt .. $uuid $columnName $res")
 return res
                             }
 

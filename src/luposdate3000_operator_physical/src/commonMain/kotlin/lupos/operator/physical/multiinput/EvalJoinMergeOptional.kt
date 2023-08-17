@@ -16,98 +16,218 @@
  */
 package lupos.operator.physical.multiinput
 
+import lupos.operator.base.iterator.ColumnIteratorChildIteratorEmpty
 import lupos.shared.ColumnIteratorChildIterator
+import lupos.shared.DictionaryValueHelper
+import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.IQuery
+import lupos.shared.inline.ColumnIteratorChildIteratorExt
 import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
+
 public object EvalJoinMergeOptional {
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal fun sameElements(key: DictionaryValueTypeArray, keyCopy: DictionaryValueTypeArray, columnsINJ: MutableList<ColumnIterator>, columnsINO: MutableList<ColumnIterator>, data: Array<MutableList<DictionaryValueType>>): Int {
+        for (i in 0 until columnsINJ.size) {
+            if (key[i] != keyCopy[i]) {
+                /* this is an optional element without a match */
+                for (j in 0 until columnsINO.size) {
+                    data[j].add(DictionaryValueHelper.undefValue)
+                }
+                return 1
+            }
+        }
+        var count = 0
+        /* at least 1 matching row */
+        loop@ while (true) {
+            count++
+            for (i in 0 until columnsINO.size) {
+                data[i].add(columnsINO[i].next())
+            }
+            for (i in 0 until columnsINJ.size) {
+                key[i] = columnsINJ[i].next()
+            }
+            for (i in 0 until columnsINJ.size) {
+                if (key[i] != keyCopy[i]) {
+                    break@loop
+                }
+            }
+        }
+        return count
+    }
+
+    @Suppress("NOTHING_TO_INLINE")
+    /*suspend*/ internal fun findNextKey(key: Array<DictionaryValueTypeArray>, columnsINJ: Array<MutableList<ColumnIterator>>, columnsINO: Array<MutableList<ColumnIterator>>): Boolean {
+        if (key[0][0] != DictionaryValueHelper.nullValue && key[1][0] != DictionaryValueHelper.nullValue) {
+            loop@ while (true) {
+                for (i in 0 until columnsINJ[0].size) {
+                    val a = key[0][i]
+                    val b = key[1][i]
+                    if (a > b) {
+                        for (j in 0 until columnsINO[1].size) {
+                            columnsINO[1][j].next()
+                        }
+                        for (j in 0 until columnsINJ[1].size) {
+                            key[1][j] = columnsINJ[1][j].next()
+                            if (key[1][j] == DictionaryValueHelper.nullValue) {
+                                break@loop
+                            }
+                        }
+                        continue@loop
+                    }
+                }
+                break@loop
+            }
+        }
+        return key[0][0] == DictionaryValueHelper.nullValue
+    }
+
     public operator fun invoke(
         query: IQuery,
-        child0: IteratorBundle,
-        child1: IteratorBundle,
+        child: Array<IteratorBundle>,
         projectedVariables: List<String>,
-        joinVariableOrder: List<String>,
     ): IteratorBundle {
-        // setup columns
-
-        for (v in child0.columns.keys) {
-            if (v in child1.columns.keys) {
-                if (v !in joinVariableOrder) {
-                    TODO("missing join sort column order")
-                }
-            }
-        }
-
-        val columnsJSize = joinVariableOrder.size
-        val columnsO0Size = child0.columns.keys.size - columnsJSize
-        val columnsO1Size = child1.columns.keys.size - columnsJSize
-
-        val columnsINO0 = mutableListOf<ColumnIterator>()
-        val columnsINO1 = mutableListOf<ColumnIterator>()
-        val columnsINJ0 = mutableListOf<ColumnIterator>()
-        val columnsINJ1 = mutableListOf<ColumnIterator>()
-        val columnsOUT0 = mutableListOf<ColumnIteratorChildIterator?>()
-        val columnsOUT1 = mutableListOf<ColumnIteratorChildIterator?>()
-        val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator?>()
-
+        val columnsINO = Array(2) { mutableListOf<ColumnIterator>() }
+        val columnsINJ = Array(2) { mutableListOf<ColumnIterator>() }
+        val columnsOUT = Array(2) { mutableListOf<ColumnIteratorChildIterator>() }
+        val columnsOUTJ = mutableListOf<ColumnIteratorChildIterator>()
+        val outIterators = mutableListOf<Pair<String, Int>>() // J,O0,O1,J-ohne-Map
+        val outIteratorsAllocated = mutableListOf<ColumnIteratorChildIterator>()
         val outMap = mutableMapOf<String, ColumnIterator>()
-
-        val key0 = DictionaryValueTypeArray(columnsJSize)
-        val key1 = DictionaryValueTypeArray(columnsJSize)
-
-        for (name in joinVariableOrder) {
-            var iterator: POPJoinMerge_IteratorOptional? = null
-            if (projectedVariables.contains(name)) {
-                iterator = POPJoinMerge_IteratorOptional(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
-                outMap[name] = iterator
-            }
-            columnsINJ0.add(child0.columns[name]!!)
-            columnsINJ1.add(child1.columns[name]!!)
-            columnsOUTJ.add(iterator)
-        }
-        for (name in child0.columns.keys) {
-            if (!joinVariableOrder.contains(name)) {
-                var iterator: POPJoinMerge_IteratorOptional? = null
+        val tmp = mutableListOf<String>()
+        tmp.addAll(child[1].columns.keys.toList())
+        for (name in child[0].columns.keys.toList()) {
+            if (tmp.contains(name)) {
                 if (projectedVariables.contains(name)) {
-                    iterator = POPJoinMerge_IteratorOptional(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
-                    outMap[name] = iterator
+                    outIterators.add(Pair(name, 0))
                 }
-                columnsINO0.add(child0.columns[name]!!)
-                columnsOUT0.add(iterator)
+                for (i in 0 until 2) {
+                    columnsINJ[i].add(child[i].columns[name]!!)
+                }
+                tmp.remove(name)
+            } else {
+                outIterators.add(Pair(name, 1))
+                columnsINO[0].add(child[0].columns[name]!!)
             }
         }
-        for (name in child1.columns.keys) {
-            if (!joinVariableOrder.contains(name)) {
-                var iterator: POPJoinMerge_IteratorOptional? = null
-                if (projectedVariables.contains(name)) {
-                    iterator = POPJoinMerge_IteratorOptional(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
-                    outMap[name] = iterator
-                }
-                columnsINO1.add(child1.columns[name]!!)
-                columnsOUT1.add(iterator)
-            }
+        for (name in tmp) {
+            outIterators.add(Pair(name, 2))
+            columnsINO[1].add(child[1].columns[name]!!)
         }
-
-        val res: IteratorBundle
-        if (projectedVariables.size == 0) {
-            val x = POPJoinMerge_IteratorOptional(query, columnsINJ0, columnsINJ1, columnsINO0, columnsINO1, columnsOUT0, columnsOUT1, columnsOUTJ, key0, key1, columnsJSize, columnsO0Size, columnsO1Size)
-            columnsOUTJ.add(0, x)
-            res = POPJoinMerge_Bundle(columnsINJ0, columnsINJ1, x)
-            for (it in columnsINO0) {
-                it.close()
+        val emptyColumnsWithJoin = outIterators.size == 0
+        if (emptyColumnsWithJoin) {
+            outIterators.add(Pair("", 3))
+        }
+        val key = Array(2) { i -> DictionaryValueTypeArray(columnsINJ[i].size) { columnsINJ[i][it].next() } }
+        var done = findNextKey(key, columnsINJ, columnsINO)
+        if (done) {
+            for (closeIndex2 in 0 until 2) {
+                for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                    columnsINJ[closeIndex2][closeIndex].close()
+                }
+                for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                    columnsINO[closeIndex2][closeIndex].close()
+                }
             }
-            for (it in columnsINO1) {
-                it.close()
+            for ((first, second) in outIterators) {
+                val iterator = ColumnIteratorChildIteratorEmpty(query)
+                outIteratorsAllocated.add(iterator)
+                when (second) {
+                    0 -> {
+                        columnsOUTJ.add(iterator)
+                        outMap[first] = iterator
+                    }
+                    1 -> {
+                        columnsOUT[0].add(iterator)
+                        outMap[first] = iterator
+                    }
+                    2 -> {
+                        columnsOUT[1].add(iterator)
+                        outMap[first] = iterator
+                    }
+                    3 -> {
+                        columnsOUTJ.add(iterator)
+                    }
+                }
             }
         } else {
-            res = IteratorBundle(outMap)
+            val keyCopy = DictionaryValueTypeArray(columnsINJ[0].size) { key[0][it] }
+            for ((first, second) in outIterators) {
+                val iterator = object : ColumnIteratorChildIterator(query) {
+                    override /*suspend*/ fun close() {
+                        _close()
+                    }
+
+                    override /*suspend*/ fun next(): DictionaryValueType {
+                        return ColumnIteratorChildIteratorExt.nextHelper(
+                            query,
+                            this,
+                            {
+                                for (i in 0 until columnsINJ[0].size) {
+                                    keyCopy[i] = key[0][i]
+                                }
+                                val data = Array(2) { Array(columnsINO[it].size) { mutableListOf<DictionaryValueType>() } }
+                                val countA = sameElements(key[0], keyCopy, columnsINJ[0], columnsINO[0], data[0])
+                                val countB = sameElements(key[1], keyCopy, columnsINJ[1], columnsINO[1], data[1])
+                                done = findNextKey(key, columnsINJ, columnsINO)
+                                if (done) {
+                                    for (iterator2 in outIteratorsAllocated) {
+                                        iterator2.closeOnNoMoreElements()
+                                    }
+                                    for (closeIndex2 in 0 until 2) {
+                                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                                            columnsINJ[closeIndex2][closeIndex].close()
+                                        }
+                                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                                            columnsINO[closeIndex2][closeIndex].close()
+                                        }
+                                    }
+                                }
+                                POPJoin.crossProduct(data[0], data[1], keyCopy, columnsOUT[0], columnsOUT[1], columnsOUTJ, countA, countB)
+                            },
+                            { _close() },
+                        )
+                    }
+                }
+                outIteratorsAllocated.add(iterator)
+                when (second) {
+                    0 -> {
+                        columnsOUTJ.add(iterator)
+                        outMap[first] = iterator
+                    }
+                    1 -> {
+                        columnsOUT[0].add(iterator)
+                        outMap[first] = iterator
+                    }
+                    2 -> {
+                        columnsOUT[1].add(iterator)
+                        outMap[first] = iterator
+                    }
+                    3 -> {
+                        columnsOUTJ.add(iterator)
+                    }
+                }
+            }
         }
-        for (i in 0 until columnsJSize) {
-            key0[i] = columnsINJ0[i].next()
-        }
-        for (i in 0 until columnsJSize) {
-            key1[i] = columnsINJ1[i].next()
+        var res = IteratorBundle(outMap)
+        if (emptyColumnsWithJoin) {
+            res = object : IteratorBundle(0) {
+                override /*suspend*/ fun hasNext2(): Boolean {
+                    return columnsOUTJ[0].next() != DictionaryValueHelper.nullValue
+                }
+
+                override /*suspend*/ fun hasNext2Close() {
+                    for (closeIndex2 in 0 until 2) {
+                        for (closeIndex in 0 until columnsINJ[closeIndex2].size) {
+                            columnsINJ[closeIndex2][closeIndex].close()
+                        }
+                        for (closeIndex in 0 until columnsINO[closeIndex2].size) {
+                            columnsINO[closeIndex2][closeIndex].close()
+                        }
+                    }
+                }
+            }
         }
         return res
     }
