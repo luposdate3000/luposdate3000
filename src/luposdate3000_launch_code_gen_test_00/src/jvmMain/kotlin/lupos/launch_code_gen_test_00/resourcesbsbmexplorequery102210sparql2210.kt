@@ -75,7 +75,7 @@ public class resourcesbsbmexplorequery102210sparql2210 {
         " FILTER (?deliveryDays <= 3) \n" +
         " ?offer bsbm:price ?price . \n" +
         "    ?offer bsbm:validTo ?date . \n" +
-        "    FILTER (?date > \"2008-02-03\"^^xsd:date ) \n" +
+        "    FILTER (?date > \"2008-01-16\"^^xsd:date ) \n" +
         "} \n" +
         "ORDER BY xsd:double(str(?price)) \n" +
         "LIMIT 10 \n" +

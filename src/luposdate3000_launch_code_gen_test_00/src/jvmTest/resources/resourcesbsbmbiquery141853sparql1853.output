@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="productType"/>
+    <variable name="product"/>
+    <variable name="producer"/>
+    <variable name="review"/>
+    <variable name="reviewer"/>
+  </head>
+  <results>
+  </results>
+</sparql>

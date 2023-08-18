@@ -69,13 +69,13 @@ public class resourcesbsbmexplorequery32553sparql2553 {
         "WHERE { \n" +
         "    ?product rdfs:label ?label . \n" +
         "    ?product a bsbm-inst:ProductType5 . \n" +
-        " ?product bsbm:productFeature bsbm-inst:ProductFeature187 . \n" +
+        " ?product bsbm:productFeature bsbm-inst:ProductFeature123 . \n" +
         " ?product bsbm:productPropertyNumeric1 ?p1 . \n" +
         " FILTER ( ?p1 > \"831\"^^xsd:integer )  \n" +
         " ?product bsbm:productPropertyNumeric3 ?p3 . \n" +
-        " FILTER (?p3 < \"1731\"^^xsd:integer ) \n" +
+        " FILTER (?p3 < \"735\"^^xsd:integer ) \n" +
         "    OPTIONAL {  \n" +
-        "        ?product bsbm:productFeature bsbm-inst:ProductFeature122 . \n" +
+        "        ?product bsbm:productFeature bsbm-inst:ProductFeature165 . \n" +
         "        ?product rdfs:label ?testVar } \n" +
         "    FILTER (!bound(?testVar))  \n" +
         "} \n" +

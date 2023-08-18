@@ -77,7 +77,7 @@ public class resourcesbsbmexplorequery72210sparql2210 {
         "        ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> . \n" +
         "        ?offer dc:publisher ?vendor .  \n" +
         "        ?offer bsbm:validTo ?date . \n" +
-        "        FILTER (?date > \"2008-02-03\"^^xsd:date ) \n" +
+        "        FILTER (?date > \"2008-01-16\"^^xsd:date ) \n" +
         "    } \n" +
         "    OPTIONAL { \n" +
         " ?review bsbm:reviewFor dataFromProducer1:Product1 . \n" +

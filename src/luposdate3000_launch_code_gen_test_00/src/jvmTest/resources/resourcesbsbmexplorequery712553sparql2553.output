@@ -1,0 +1,172 @@
+<?xml version="1.0"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="productLabel"/>
+    <variable name="offer"/>
+    <variable name="price"/>
+    <variable name="vendor"/>
+    <variable name="vendorTitle"/>
+    <variable name="review"/>
+    <variable name="revTitle"/>
+    <variable name="reviewer"/>
+    <variable name="revName"/>
+    <variable name="rating1"/>
+    <variable name="rating2"/>
+  </head>
+  <results>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review13</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>valetudinarians inquirer comforting speleologists foretoken prepossessing iambuses</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="rating1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review7</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>inquisitional rebecs mouthwash deaconing metastasis weans adjectivally troths apperceptive nonprotectively beckoning commiseration guttersnipes doctoring</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="rating1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review4</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>rickettsiae clubmen reinduction chilblains intertribal balsamic exotism reintroduced charade cubage oarless humanoids observingly mudcaps ubiquities</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Ruggiero-Delane</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review30</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>attackingly nets serologically supinates reallocate ridable deemphasizes lovers thole accoutring</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer3</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Danijela-Adalbrand</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review22</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>remorsefully radiocast gallbladders quatrains lionize daintily biggings prechill pulpwood weaners</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Eyana-Aurelianus</literal>
+      </binding>
+      <binding name="rating1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review5</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>mitigative defamers naturalist accustoms reclean valiancies pilled bearcats tents demultiplexes</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="rating1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review24</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>macrames obeisances sociologist uncomfortableness disputants waterloos shoos jesters failed thumper corruptions circularness plotters niggarded jerkers</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Eyana-Aurelianus</literal>
+      </binding>
+      <binding name="rating1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>ahchoo</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review21</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>jeeringly perforates fishlines midden nuggety overwhelm washrooms reframed uncannily beechiest solderer</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Eyana-Aurelianus</literal>
+      </binding>
+      <binding name="rating1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
+      </binding>
+    </result>
+  </results>
+</sparql>

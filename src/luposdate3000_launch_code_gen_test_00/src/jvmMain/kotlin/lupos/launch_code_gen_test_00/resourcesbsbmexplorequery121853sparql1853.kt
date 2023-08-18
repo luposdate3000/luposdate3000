@@ -53,7 +53,7 @@ public class resourcesbsbmexplorequery121853sparql1853 {
         ".n3",
     )
     internal val targetData = File("src/luposdate3000_launch_code_gen_test_00/src/jvmTest/resources/resourcesbsbmexplorequery121853sparql1853.output").readAsString()
-    internal val targetType = ".srx"
+    internal val targetType = ".n3"
     internal val query = "PREFIX bsbm-export: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/export/> \n" +
         "PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> \n" +
         "PREFIX rev: <http://purl.org/stuff/rev#> \n" +
@@ -66,23 +66,23 @@ public class resourcesbsbmexplorequery121853sparql1853 {
         "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
         "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
-        "CONSTRUCT {  dataFromVendor1:Offer14 bsbm-export:product ?productURI . \n" +
-        "             dataFromVendor1:Offer14 bsbm-export:productlabel ?productlabel . \n" +
-        "             dataFromVendor1:Offer14 bsbm-export:vendor ?vendorname . \n" +
-        "             dataFromVendor1:Offer14 bsbm-export:vendorhomepage ?vendorhomepage .  \n" +
-        "             dataFromVendor1:Offer14 bsbm-export:offerURL ?offerURL . \n" +
-        "             dataFromVendor1:Offer14 bsbm-export:price ?price . \n" +
-        "             dataFromVendor1:Offer14 bsbm-export:deliveryDays ?deliveryDays . \n" +
-        "             dataFromVendor1:Offer14 bsbm-export:validuntil ?validTo }  \n" +
-        "WHERE { dataFromVendor1:Offer14 bsbm:product ?productURI . \n" +
+        "CONSTRUCT {  dataFromVendor1:Offer4 bsbm-export:product ?productURI . \n" +
+        "             dataFromVendor1:Offer4 bsbm-export:productlabel ?productlabel . \n" +
+        "             dataFromVendor1:Offer4 bsbm-export:vendor ?vendorname . \n" +
+        "             dataFromVendor1:Offer4 bsbm-export:vendorhomepage ?vendorhomepage .  \n" +
+        "             dataFromVendor1:Offer4 bsbm-export:offerURL ?offerURL . \n" +
+        "             dataFromVendor1:Offer4 bsbm-export:price ?price . \n" +
+        "             dataFromVendor1:Offer4 bsbm-export:deliveryDays ?deliveryDays . \n" +
+        "             dataFromVendor1:Offer4 bsbm-export:validuntil ?validTo }  \n" +
+        "WHERE { dataFromVendor1:Offer4 bsbm:product ?productURI . \n" +
         "        ?productURI rdfs:label ?productlabel . \n" +
-        "        dataFromVendor1:Offer14 bsbm:vendor ?vendorURI . \n" +
+        "        dataFromVendor1:Offer4 bsbm:vendor ?vendorURI . \n" +
         "        ?vendorURI rdfs:label ?vendorname . \n" +
         "        ?vendorURI foaf:homepage ?vendorhomepage . \n" +
-        "        dataFromVendor1:Offer14 bsbm:offerWebpage ?offerURL . \n" +
-        "        dataFromVendor1:Offer14 bsbm:price ?price . \n" +
-        "        dataFromVendor1:Offer14 bsbm:deliveryDays ?deliveryDays . \n" +
-        "        dataFromVendor1:Offer14 bsbm:validTo ?validTo } \n" +
+        "        dataFromVendor1:Offer4 bsbm:offerWebpage ?offerURL . \n" +
+        "        dataFromVendor1:Offer4 bsbm:price ?price . \n" +
+        "        dataFromVendor1:Offer4 bsbm:deliveryDays ?deliveryDays . \n" +
+        "        dataFromVendor1:Offer4 bsbm:validTo ?validTo } \n" +
         ""
 
     public fun `resourcesbsbmexplorequery121853sparql1853 - None - Simple - true`() {

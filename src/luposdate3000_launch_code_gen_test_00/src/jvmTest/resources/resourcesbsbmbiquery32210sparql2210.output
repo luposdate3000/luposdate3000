@@ -1,25 +1,9 @@
+<?xml version="1.0"?>
 <sparql xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="product"/>
-  <variable name="ratio"/>
- </head>
- <results>
-  <result>
-   <binding name="product">
-    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product1</uri>
-   </binding>
-   <binding name="ratio">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#float">2.0</literal>
-   </binding>
-  </result>
-  <result>
-   <binding name="product">
-    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product2</uri>
-   </binding>
-   <binding name="ratio">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#float">0.5</literal>
-   </binding>
-  </result>
- </results>
+  <head>
+    <variable name="product"/>
+    <variable name="ratio"/>
+  </head>
+  <results>
+  </results>
 </sparql>
-

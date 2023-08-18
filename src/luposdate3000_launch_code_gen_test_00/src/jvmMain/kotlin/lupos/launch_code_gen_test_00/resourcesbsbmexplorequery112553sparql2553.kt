@@ -67,9 +67,9 @@ public class resourcesbsbmexplorequery112553sparql2553 {
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
         "SELECT ?property ?hasValue ?isValueOf \n" +
         "WHERE { \n" +
-        "  { dataFromVendor1:Offer47 ?property ?hasValue } \n" +
+        "  { dataFromVendor1:Offer33 ?property ?hasValue } \n" +
         "  UNION \n" +
-        "  { ?isValueOf ?property dataFromVendor1:Offer47 } \n" +
+        "  { ?isValueOf ?property dataFromVendor1:Offer33 } \n" +
         "} \n" +
         ""
 

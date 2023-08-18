@@ -85,7 +85,7 @@ public class resourcesbsbmbiquery71853sparql1853 {
         "      ?offer bsbm:product ?product . \n" +
         "      ?offer bsbm:vendor ?vendor . \n" +
         "      ?vendor bsbm:country ?country . \n" +
-        "      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#US>) \n" +
+        "      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#DE>) \n" +
         "    } \n" +
         "  } \n" +
         ""

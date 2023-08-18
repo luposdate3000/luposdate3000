@@ -70,16 +70,16 @@ public class resourcesbsbmexplorequery41853sparql1853 {
         "    {  \n" +
         "       ?product rdfs:label ?label . \n" +
         "       ?product rdf:type bsbm-inst:ProductType5 . \n" +
-        "       ?product bsbm:productFeature bsbm-inst:ProductFeature82 . \n" +
-        "    ?product bsbm:productFeature bsbm-inst:ProductFeature218 . \n" +
+        "       ?product bsbm:productFeature bsbm-inst:ProductFeature118 . \n" +
+        "    ?product bsbm:productFeature bsbm-inst:ProductFeature261 . \n" +
         "       ?product bsbm:productPropertyTextual1 ?propertyTextual . \n" +
         "    ?product bsbm:productPropertyNumeric1 ?p1 . \n" +
         "    FILTER ( ?p1 > \"831\"^^xsd:integer ) \n" +
         "    } UNION { \n" +
         "       ?product rdfs:label ?label . \n" +
         "       ?product rdf:type bsbm-inst:ProductType5 . \n" +
-        "       ?product bsbm:productFeature bsbm-inst:ProductFeature82 . \n" +
-        "    ?product bsbm:productFeature bsbm-inst:ProductFeature176 . \n" +
+        "       ?product bsbm:productFeature bsbm-inst:ProductFeature118 . \n" +
+        "    ?product bsbm:productFeature bsbm-inst:ProductFeature145 . \n" +
         "       ?product bsbm:productPropertyTextual1 ?propertyTextual . \n" +
         "    ?product bsbm:productPropertyNumeric2 ?p2 . \n" +
         "    FILTER ( ?p2> \"312\"^^xsd:integer )  \n" +

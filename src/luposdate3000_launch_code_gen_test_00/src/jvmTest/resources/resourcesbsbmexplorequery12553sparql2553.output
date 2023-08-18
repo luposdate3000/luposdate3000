@@ -1,8 +1,9 @@
+<?xml version="1.0"?>
 <sparql xmlns="http://www.w3.org/2005/sparql-results#">
- <head>
-  <variable name="product"/>
-  <variable name="label"/>
- </head>
- <results/>
+  <head>
+    <variable name="product"/>
+    <variable name="label"/>
+  </head>
+  <results>
+  </results>
 </sparql>
-
