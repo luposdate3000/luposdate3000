@@ -21,7 +21,7 @@ WHERE {
 	FILTER (?deliveryDays <= 3)
 	?offer bsbm:price ?price .
     ?offer bsbm:validTo ?date .
-    FILTER (?date > "2000-07-09"^^xsd:date )
+    FILTER (?date > "2000-07-07"^^xsd:date )
 }
 ORDER BY xsd:double(str(?price))
 LIMIT 10

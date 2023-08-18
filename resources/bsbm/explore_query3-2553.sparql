@@ -14,13 +14,13 @@ SELECT ?product ?label
 WHERE {
     ?product rdfs:label ?label .
     ?product a bsbm-inst:ProductType5 .
-	?product bsbm:productFeature bsbm-inst:ProductFeature187 .
+	?product bsbm:productFeature bsbm-inst:ProductFeature123 .
 	?product bsbm:productPropertyNumeric1 ?p1 .
 	FILTER ( ?p1 > "831"^^xsd:integer ) 
 	?product bsbm:productPropertyNumeric3 ?p3 .
-	FILTER (?p3 < "1731"^^xsd:integer )
+	FILTER (?p3 < "735"^^xsd:integer )
     OPTIONAL { 
-        ?product bsbm:productFeature bsbm-inst:ProductFeature122 .
+        ?product bsbm:productFeature bsbm-inst:ProductFeature165 .
         ?product rdfs:label ?testVar }
     FILTER (!bound(?testVar)) 
 }

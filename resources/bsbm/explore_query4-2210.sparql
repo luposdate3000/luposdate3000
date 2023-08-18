@@ -15,16 +15,16 @@ WHERE {
     { 
        ?product rdfs:label ?label .
        ?product rdf:type bsbm-inst:ProductType5 .
-       ?product bsbm:productFeature bsbm-inst:ProductFeature192 .
-	   ?product bsbm:productFeature bsbm-inst:ProductFeature284 .
+       ?product bsbm:productFeature bsbm-inst:ProductFeature65 .
+	   ?product bsbm:productFeature bsbm-inst:ProductFeature257 .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric1 ?p1 .
 	   FILTER ( ?p1 > "831"^^xsd:integer )
     } UNION {
        ?product rdfs:label ?label .
        ?product rdf:type bsbm-inst:ProductType5 .
-       ?product bsbm:productFeature bsbm-inst:ProductFeature192 .
-	   ?product bsbm:productFeature bsbm-inst:ProductFeature228 .
+       ?product bsbm:productFeature bsbm-inst:ProductFeature65 .
+	   ?product bsbm:productFeature bsbm-inst:ProductFeature50 .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric2 ?p2 .
 	   FILTER ( ?p2> "1040"^^xsd:integer ) 

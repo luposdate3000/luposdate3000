@@ -1,0 +1,683 @@
+<?xml version="1.0"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="label"/>
+    <variable name="comment"/>
+    <variable name="p"/>
+    <variable name="producer"/>
+    <variable name="f"/>
+    <variable name="productFeature"/>
+    <variable name="propertyTextual1"/>
+    <variable name="propertyTextual2"/>
+    <variable name="propertyTextual3"/>
+    <variable name="propertyNumeric1"/>
+    <variable name="propertyNumeric2"/>
+  </head>
+  <results>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature158</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>daunter</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature159</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>amu egos</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature171</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>coppering uraniums transplanted</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature34</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>tops</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature22</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>courtrooms skyjacked</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature180</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>penknives reabandoned vitalities</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature16</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>feeblemindedness</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature156</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>nonparliamentary</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature35</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>memorability</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature177</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>kneading</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature178</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>hellholes</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature25</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>overambitiously asphyxiates bounds</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature4</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>linguini</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature3</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>zeals sheeny playacted</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature28</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>obduction</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature144</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>antepast</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature142</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>warbles missal ophthalmoscopes</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature175</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>cypriote</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="label">
+        <literal>manner gatemen</literal>
+      </binding>
+      <binding name="comment">
+        <literal>lordlings dialyzed hoardings palmitate resisters redesigned trowing fledging disinters occasionally refry objective comedown senders attendance calculous redux zed bidets subacute swinks berhymed pumping overassured outrush corteges chitters civilest chiffonniers kimonos protects epizootic centimos dismast boomage issues aggrieves sociably ammoniacs polliwogs labyrinths infatuates whiteout dissentients newmown flunkey titillated caduceus rediscovered breaststrokes schillings endorsement cheerleaders nonconcurrent intoned outpaces inkle superpowers habaneras subsoils paramours laughed</literal>
+      </binding>
+      <binding name="p">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+      <binding name="producer">
+        <literal>enzymologist neb falsehoods</literal>
+      </binding>
+      <binding name="f">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature154</uri>
+      </binding>
+      <binding name="productFeature">
+        <literal>overachiever entoiling</literal>
+      </binding>
+      <binding name="propertyTextual1">
+        <literal>guzzling jillion psychotherapists substantiation nonuple deluded snowmelt interlards overrefinement annoyed stuntedness calcimining stereophonically</literal>
+      </binding>
+      <binding name="propertyTextual2">
+        <literal>recommendation embezzler reconviction misproportions discountenances callings defacers crummiest triglyceride</literal>
+      </binding>
+      <binding name="propertyTextual3">
+        <literal>decentralizations impacting promulgations bibliotherapy murexes professorships locomotes durning lyncher spoonier abhorrence assize goglets</literal>
+      </binding>
+      <binding name="propertyNumeric1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">831</literal>
+      </binding>
+      <binding name="propertyNumeric2">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">312</literal>
+      </binding>
+    </result>
+  </results>
+</sparql>

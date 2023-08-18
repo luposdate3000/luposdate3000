@@ -17,18 +17,18 @@
 touch config.csv2
 rm config.csv2 *.srx *.sparql
 
-for triples2 in 1 2 3
+for triples2 in 1853 2210 2553
 do
-	(
-		cd /opt/bsbmtools-0.2
-		./generate -s ttl -pc $triples2 > /dev/null 2>&1
-	)
-	mkdir tmpdata
-	cat /opt/bsbmtools-0.2/dataset.ttl | ./../../exec-compress-chunked-n3.main.kts tmpdata false
-	mv tmpdata/data0.n3 bsbm-$triples2.n3
-	rm -rf tmpdata
+#	(
+#		cd /opt/bsbmtools-0.2
+#		./generate -s ttl -pc $triples2 > /dev/null 2>&1
+#	)
+#	mkdir tmpdata
+#	cat /opt/bsbmtools-0.2/dataset.ttl | ./../../exec-compress-chunked-n3.main.kts tmpdata false
+#	mv tmpdata/data0.n3 bsbm-$triples2.n3
+#	rm -rf tmpdata
 	triples=$(wc -l bsbm-$triples2.n3 | sed "s/ .*//g")
-	mv bsbm-$triples2.n3 bsbm-$triples.n3
+#	mv bsbm-$triples2.n3 bsbm-$triples.n3
 #productPropertyNumeric1
 	grep "bsbm:productPropertyNumeric1" bsbm-$triples.n3 | sed "s/.*bsbm:productPropertyNumeric1 //g" | sed "s/ .$//g" | sort -u | shuf > bsbm-helper-$triples-productPropertyNumeric1.txt
 #productPropertyNumeric2
@@ -89,11 +89,20 @@ do
 		| sed "s/%ConsecutiveMonth_2%/$month2/g" \
 		> $q-$triples.sparql
 		echo $triples,$q-$triples.sparql,bsbm-$triples.n3,$q-$triples.srx >> config.csv2
+		q1=$(realpath $q-$triples.sparql)
+		d1=$(realpath bsbm-$triples.n3)
+		o1=$(realpath $q-$triples.srx)
+		(
+echo "evaluating " ./bin/sparql --data=$d1 --query=$q1 --results=xml " into " $o1
+		cd /src/apache-jena-4.9.0
+		./bin/sparql --data=$d1 --query=$q1 --results=xml > $o1
+echo "done evaluating"
+		)
 	done
-	mkdir tmpdata
-        cat bsbm-$triples.n3 | ./../../exec-compress-chunked-n3.main.kts tmpdata
-        mv tmpdata/data0.n3 bsbm-$triples.n3
-        rm -rf tmpdata
+#	mkdir tmpdata
+#        cat bsbm-$triples.n3 | ./../../exec-compress-chunked-n3.main.kts tmpdata
+#        mv tmpdata/data0.n3 bsbm-$triples.n3
+#        rm -rf tmpdata
 	rm bsbm-helper-*
 done
 

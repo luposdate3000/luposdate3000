@@ -1,0 +1,19 @@
+@prefix bsbm:                <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/> .
+@prefix bsbm-inst:           <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/> .
+@prefix dataFromProducer1:   <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/> .
+@prefix dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/> .
+@prefix dataFromVendor1:     <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/> .
+@prefix dc:                  <http://purl.org/dc/elements/1.1/> .
+@prefix foaf:                <http://xmlns.com/foaf/0.1/> .
+@prefix rdf:                 <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:                <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rev:                 <http://purl.org/stuff/rev#> .
+@prefix xsd:                 <http://www.w3.org/2001/XMLSchema#> .
+
+dataFromRatingSite1:Reviewer2
+        rdf:type           foaf:Person;
+        dc:date            "2008-08-07"^^xsd:date;
+        dc:publisher       dataFromRatingSite1:RatingSite1;
+        bsbm:country       <http://downlode.org/rdf/iso-3166/countries#JP>;
+        foaf:mbox_sha1sum  "df1cf8e68d49e5b65f1507dbecec6b61e9dc98";
+        foaf:name          "Eyana-Aurelianus" .

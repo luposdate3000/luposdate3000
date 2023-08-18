@@ -11,4 +11,4 @@ PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instance
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
 
 DESCRIBE ?x
-WHERE { dataFromRatingSite1:Review3 rev:reviewer ?x }
+WHERE { dataFromRatingSite1:Review4 rev:reviewer ?x }

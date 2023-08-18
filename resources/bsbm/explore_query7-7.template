@@ -1,0 +1,29 @@
+PREFIX bsbm: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/>
+PREFIX rev: <http://purl.org/stuff/rev#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>  
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>  
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>  
+PREFIX dc: <http://purl.org/dc/elements/1.1/>  
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>  
+PREFIX bsbm-inst: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/>  
+PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>  
+PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
+PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
+
+SELECT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle 
+       ?reviewer ?revName ?rating1 ?rating2
+WHERE { 
+	%Product1% rdfs:label ?productLabel .
+        ?offer bsbm:product %Product1% .
+		?offer bsbm:price ?price .
+		?offer bsbm:vendor ?vendor .
+		?vendor rdfs:label ?vendorTitle .
+        ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> .
+        ?offer dc:publisher ?vendor . 
+        ?offer bsbm:validTo ?date .
+        FILTER (?date > %currentDate% )
+	?review bsbm:reviewFor %Product1% .
+	?review rev:reviewer ?reviewer .
+	?reviewer foaf:name ?revName .
+	?review dc:title ?revTitle .
+}

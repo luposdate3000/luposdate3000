@@ -14,8 +14,8 @@ SELECT DISTINCT ?product ?label
 WHERE { 
     ?product rdfs:label ?label .
     ?product a bsbm-inst:ProductType5 .
-    ?product bsbm:productFeature bsbm-inst:ProductFeature187 . 
-    ?product bsbm:productFeature bsbm-inst:ProductFeature122 . 
+    ?product bsbm:productFeature bsbm-inst:ProductFeature123 . 
+    ?product bsbm:productFeature bsbm-inst:ProductFeature165 . 
     ?product bsbm:productPropertyNumeric1 ?value1 . 
 	FILTER (?value1 > "831"^^xsd:integer) 
 	}

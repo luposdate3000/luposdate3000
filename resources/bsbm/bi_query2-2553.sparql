@@ -13,11 +13,11 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
   SELECT ?otherProduct ?sameFeatures
   {
     ?otherProduct a bsbm:Product .
-    FILTER(?otherProduct != dataFromProducer1:Product1)
+    FILTER(?otherProduct != dataFromProducer1:Product2)
     {
       SELECT ?otherProduct (count(?otherFeature) As ?sameFeatures)
       {
-        dataFromProducer1:Product1 bsbm:productFeature ?feature .
+        dataFromProducer1:Product2 bsbm:productFeature ?feature .
         ?otherProduct bsbm:productFeature ?otherFeature .
         FILTER(?feature=?otherFeature)
       }

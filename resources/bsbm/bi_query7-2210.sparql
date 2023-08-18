@@ -30,6 +30,6 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
       ?offer bsbm:product ?product .
       ?offer bsbm:vendor ?vendor .
       ?vendor bsbm:country ?country .
-      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#JP>)
+      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#GB>)
     }
   }

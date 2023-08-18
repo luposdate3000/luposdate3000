@@ -12,7 +12,7 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
 
 SELECT ?property ?hasValue ?isValueOf
 WHERE {
-  { dataFromVendor1:Offer16 ?property ?hasValue }
+  { dataFromVendor1:Offer37 ?property ?hasValue }
   UNION
-  { ?isValueOf ?property dataFromVendor1:Offer16 }
+  { ?isValueOf ?property dataFromVendor1:Offer37 }
 }

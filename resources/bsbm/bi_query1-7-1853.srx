@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+  <head>
+    <variable name="productType"/>
+    <variable name="product"/>
+    <variable name="producer"/>
+  </head>
+  <results>
+    <result>
+      <binding name="productType">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductType5</uri>
+      </binding>
+      <binding name="product">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product1</uri>
+      </binding>
+      <binding name="producer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Producer1</uri>
+      </binding>
+    </result>
+  </results>
+</sparql>

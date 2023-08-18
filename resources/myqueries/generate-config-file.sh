@@ -22,19 +22,19 @@ sparql=$2
 input=$3
 output=$4
 
-echo '{"query":' > x
-cat $sparql |jq -Rsa . >> x
-echo ',"rdf":' >> x
-cat $input |jq -Rsa . >> x
-echo ',"formats":["xml","plain"],"inference":"NONE","inferenceGeneration":"GENERATEDOPT","evaluator":"MemoryIndex"}' >> x
-curl 'https://www.ifis.uni-luebeck.de/sparql-endpoint/nonstandard/sparql' \
--X 'POST' \
--d @x \
-| jq -rc '.XML[0]' > $output
+#echo '{"query":' > x
+#cat $sparql |jq -Rsa . >> x
+#echo ',"rdf":' >> x
+#cat $input |jq -Rsa . >> x
+#echo ',"formats":["xml","plain"],"inference":"NONE","inferenceGeneration":"GENERATEDOPT","evaluator":"MemoryIndex"}' >> x
+#curl 'https://www.ifis.uni-luebeck.de/sparql-endpoint/nonstandard/sparql' \
+#-X 'POST' \
+#-d @x \
+#| jq -rc '.XML[0]' > $output
 
 q=$(realpath $sparql)
 d=$(realpath $input)
-o=$(realpath xxx/${output})
+o=$(realpath $output)
 (
 cd /src/apache-jena-4.9.0
 ./bin/sparql --data=$d --query=$q --results=xml > $o
