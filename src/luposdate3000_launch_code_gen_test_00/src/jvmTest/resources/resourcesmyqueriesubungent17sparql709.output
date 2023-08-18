@@ -6,7 +6,7 @@
  <results>
    <result>
     <binding name="averagePages">
-     <literal datatype="http://www.w3.org/2001/XMLSchema#decimal">110.95455</literal>
+     <literal datatype="http://www.w3.org/2001/XMLSchema#decimal">110.95454545454545455</literal>
     </binding>
    </result>
  </results>

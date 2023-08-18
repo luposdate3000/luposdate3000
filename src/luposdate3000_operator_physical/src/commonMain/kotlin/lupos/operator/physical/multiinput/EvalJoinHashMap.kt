@@ -54,11 +54,9 @@ public object EvalJoinHashMap {
         tmp.addAll(childB.columns.keys)
         for (name in childA.columns.keys) {
             if (tmp.contains(name)) {
-                columnsINAJ.add(0, childA.columns[name]!!)
-                columnsINBJ.add(0, childB.columns[name]!!)
-                if (projectedVariables.contains(name)) {
-                    outIterators.add(0, Pair(name, 0))
-                }
+                columnsINAJ.add(childA.columns[name]!!)
+                columnsINBJ.add( childB.columns[name]!!)
+                outIterators.add( Pair(name, 0))
                 tmp.remove(name)
             } else {
                 outIterators.add(Pair(name, 1))
@@ -273,15 +271,21 @@ public object EvalJoinHashMap {
             outIteratorsAllocated.add(iterator)
             when (second) {
                 0 -> {
+if(projectedVariables.contains(first)){
                     outMap[first] = iterator
+}
                     outJ.add(iterator)
                 }
                 1 -> {
+if(projectedVariables.contains(first)){
                     outMap[first] = iterator
+}
                     outO[0].add(iterator)
                 }
                 2 -> {
+if(projectedVariables.contains(first)){
                     outMap[first] = iterator
+}
                     outO[1].add(iterator)
                 }
                 3 -> {

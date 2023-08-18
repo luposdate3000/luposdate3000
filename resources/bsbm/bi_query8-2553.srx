@@ -9,7 +9,7 @@
     <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Vendor1</uri>
    </binding>
    <binding name="cheapExpensiveRatio">
-    <literal datatype="http://www.w3.org/2001/XMLSchema#float">0.55172414</literal>
+    <literal datatype="http://www.w3.org/2001/XMLSchema#float">0.5517241379310345</literal>
    </binding>
   </result>
  </results>
