@@ -12,7 +12,7 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
 
 SELECT ?title ?text ?reviewDate ?reviewer ?reviewerName ?rating1 ?rating2 ?rating3 ?rating4 
 WHERE { 
-	?review bsbm:reviewFor dataFromProducer1:Product1 .
+	?review bsbm:reviewFor dataFromProducer1:Product2 .
 	?review dc:title ?title .
 	?review rev:text ?text .
 	FILTER langMatches( lang(?text), "EN" ) 

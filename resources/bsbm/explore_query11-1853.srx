@@ -11,7 +11,7 @@
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/validFrom</uri>
       </binding>
       <binding name="hasValue">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-03-26T00:00:00</literal>
+        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-04-20T00:00:00</literal>
       </binding>
     </result>
     <result>
@@ -19,7 +19,7 @@
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/validTo</uri>
       </binding>
       <binding name="hasValue">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-08-08T00:00:00</literal>
+        <literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2008-07-24T00:00:00</literal>
       </binding>
     </result>
     <result>
@@ -35,7 +35,7 @@
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/price</uri>
       </binding>
       <binding name="hasValue">
-        <literal datatype="http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/USD">9904.47</literal>
+        <literal datatype="http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/USD">6679.49</literal>
       </binding>
     </result>
     <result>
@@ -51,7 +51,7 @@
         <uri>http://purl.org/dc/elements/1.1/date</uri>
       </binding>
       <binding name="hasValue">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#date">2008-06-07</literal>
+        <literal datatype="http://www.w3.org/2001/XMLSchema#date">2008-05-21</literal>
       </binding>
     </result>
     <result>
@@ -83,7 +83,7 @@
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/vocabulary/offerWebpage</uri>
       </binding>
       <binding name="hasValue">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer4/</uri>
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer10/</uri>
       </binding>
     </result>
   </results>

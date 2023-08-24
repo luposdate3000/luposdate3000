@@ -10,10 +10,10 @@
 @prefix rev:                 <http://purl.org/stuff/rev#> .
 @prefix xsd:                 <http://www.w3.org/2001/XMLSchema#> .
 
-dataFromRatingSite1:Reviewer2
+dataFromRatingSite1:Reviewer1
         rdf:type           foaf:Person;
-        dc:date            "2008-08-07"^^xsd:date;
+        dc:date            "2008-09-05"^^xsd:date;
         dc:publisher       dataFromRatingSite1:RatingSite1;
-        bsbm:country       <http://downlode.org/rdf/iso-3166/countries#JP>;
-        foaf:mbox_sha1sum  "df1cf8e68d49e5b65f1507dbecec6b61e9dc98";
-        foaf:name          "Eyana-Aurelianus" .
+        bsbm:country       <http://downlode.org/rdf/iso-3166/countries#US>;
+        foaf:mbox_sha1sum  "fb3efd92e3c7a8d775a895ba476e11a3e8f3fac";
+        foaf:name          "Ruggiero-Delane" .

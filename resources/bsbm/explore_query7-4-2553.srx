@@ -6,17 +6,12 @@
     <variable name="price"/>
     <variable name="vendor"/>
     <variable name="vendorTitle"/>
-    <variable name="review"/>
-    <variable name="revTitle"/>
-    <variable name="reviewer"/>
-    <variable name="revName"/>
-    <variable name="rating1"/>
-    <variable name="rating2"/>
+    <variable name="date"/>
   </head>
   <results>
     <result>
       <binding name="productLabel">
-        <literal>ahchoo</literal>
+        <literal>coterie</literal>
       </binding>
     </result>
   </results>

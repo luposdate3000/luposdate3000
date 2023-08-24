@@ -10,8 +10,7 @@ PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instan
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
 
-SELECT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle 
-       ?reviewer ?revName ?rating1 ?rating2
+SELECT *
 WHERE { 
 	dataFromProducer1:Product1 rdfs:label ?productLabel .
     OPTIONAL {
@@ -22,7 +21,7 @@ WHERE {
         ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> .
         ?offer dc:publisher ?vendor . 
         ?offer bsbm:validTo ?date .
-        FILTER (?date > "2000-07-07"^^xsd:date )
+        FILTER (?date > "2008-02-03"^^xsd:date )
     }
     OPTIONAL { ?review bsbm:rating1 ?rating1 . }
     OPTIONAL { ?review bsbm:rating2 ?rating2 . } 

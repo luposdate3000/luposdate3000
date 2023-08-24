@@ -13,14 +13,14 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
 SELECT ?product ?label
 WHERE {
     ?product rdfs:label ?label .
-    ?product a bsbm-inst:ProductType5 .
-	?product bsbm:productFeature bsbm-inst:ProductFeature123 .
+    ?product a bsbm-inst:ProductType6 .
+	?product bsbm:productFeature bsbm-inst:ProductFeature78 .
 	?product bsbm:productPropertyNumeric1 ?p1 .
-	FILTER ( ?p1 > "831"^^xsd:integer ) 
+	FILTER ( ?p1 > "594"^^xsd:integer ) 
 	?product bsbm:productPropertyNumeric3 ?p3 .
-	FILTER (?p3 < "735"^^xsd:integer )
+	FILTER (?p3 < "227"^^xsd:integer )
     OPTIONAL { 
-        ?product bsbm:productFeature bsbm-inst:ProductFeature165 .
+        ?product bsbm:productFeature bsbm-inst:ProductFeature260 .
         ?product rdfs:label ?testVar }
     FILTER (!bound(?testVar)) 
 }

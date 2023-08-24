@@ -22,7 +22,7 @@ WHERE {
         ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> .
         ?offer dc:publisher ?vendor . 
         ?offer bsbm:validTo ?date .
-        FILTER (?date > "2000-07-07"^^xsd:date )
+        FILTER (?date > "2008-02-03"^^xsd:date )
     }
     OPTIONAL {
 	?review bsbm:reviewFor dataFromProducer1:Product1 .

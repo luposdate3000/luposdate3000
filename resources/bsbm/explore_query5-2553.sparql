@@ -13,13 +13,13 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
 SELECT DISTINCT ?product ?productLabel
 WHERE { 
 	?product rdfs:label ?productLabel .
-    FILTER (dataFromProducer1:Product3 != ?product)
-	dataFromProducer1:Product3 bsbm:productFeature ?prodFeature .
+    FILTER (dataFromProducer1:Product2 != ?product)
+	dataFromProducer1:Product2 bsbm:productFeature ?prodFeature .
 	?product bsbm:productFeature ?prodFeature .
-	dataFromProducer1:Product3 bsbm:productPropertyNumeric1 ?origProperty1 .
+	dataFromProducer1:Product2 bsbm:productPropertyNumeric1 ?origProperty1 .
 	?product bsbm:productPropertyNumeric1 ?simProperty1 .
 	FILTER (?simProperty1 < (?origProperty1 + 120) && ?simProperty1 > (?origProperty1 - 120))
-	dataFromProducer1:Product3 bsbm:productPropertyNumeric2 ?origProperty2 .
+	dataFromProducer1:Product2 bsbm:productPropertyNumeric2 ?origProperty2 .
 	?product bsbm:productPropertyNumeric2 ?simProperty2 .
 	FILTER (?simProperty2 < (?origProperty2 + 170) && ?simProperty2 > (?origProperty2 - 170))
 }

@@ -13,11 +13,11 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
 SELECT DISTINCT ?product ?label
 WHERE { 
     ?product rdfs:label ?label .
-    ?product a bsbm-inst:ProductType5 .
-    ?product bsbm:productFeature bsbm-inst:ProductFeature123 . 
-    ?product bsbm:productFeature bsbm-inst:ProductFeature165 . 
+    ?product a bsbm-inst:ProductType6 .
+    ?product bsbm:productFeature bsbm-inst:ProductFeature78 . 
+    ?product bsbm:productFeature bsbm-inst:ProductFeature260 . 
     ?product bsbm:productPropertyNumeric1 ?value1 . 
-	FILTER (?value1 > "831"^^xsd:integer) 
+	FILTER (?value1 > "594"^^xsd:integer) 
 	}
 ORDER BY ?label
 LIMIT 10

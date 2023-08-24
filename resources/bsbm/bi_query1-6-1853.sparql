@@ -15,5 +15,5 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
    ?productType a bsbm:ProductType .
    ?product a ?productType .
    ?product bsbm:producer ?producer .
-   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> .
+   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> .
   }

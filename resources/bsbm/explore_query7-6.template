@@ -10,8 +10,7 @@ PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instan
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
 
-SELECT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle 
-       ?reviewer ?revName ?rating1 ?rating2
+SELECT *
 WHERE { 
 	%Product1% rdfs:label ?productLabel .
         ?offer bsbm:product %Product1% .

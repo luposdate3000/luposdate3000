@@ -11,20 +11,20 @@ PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instan
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>  
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>  
 
-CONSTRUCT {  dataFromVendor1:Offer37 bsbm-export:product ?productURI .
-             dataFromVendor1:Offer37 bsbm-export:productlabel ?productlabel .
-             dataFromVendor1:Offer37 bsbm-export:vendor ?vendorname .
-             dataFromVendor1:Offer37 bsbm-export:vendorhomepage ?vendorhomepage . 
-             dataFromVendor1:Offer37 bsbm-export:offerURL ?offerURL .
-             dataFromVendor1:Offer37 bsbm-export:price ?price .
-             dataFromVendor1:Offer37 bsbm-export:deliveryDays ?deliveryDays .
-             dataFromVendor1:Offer37 bsbm-export:validuntil ?validTo } 
-WHERE { dataFromVendor1:Offer37 bsbm:product ?productURI .
+CONSTRUCT {  dataFromVendor1:Offer33 bsbm-export:product ?productURI .
+             dataFromVendor1:Offer33 bsbm-export:productlabel ?productlabel .
+             dataFromVendor1:Offer33 bsbm-export:vendor ?vendorname .
+             dataFromVendor1:Offer33 bsbm-export:vendorhomepage ?vendorhomepage . 
+             dataFromVendor1:Offer33 bsbm-export:offerURL ?offerURL .
+             dataFromVendor1:Offer33 bsbm-export:price ?price .
+             dataFromVendor1:Offer33 bsbm-export:deliveryDays ?deliveryDays .
+             dataFromVendor1:Offer33 bsbm-export:validuntil ?validTo } 
+WHERE { dataFromVendor1:Offer33 bsbm:product ?productURI .
         ?productURI rdfs:label ?productlabel .
-        dataFromVendor1:Offer37 bsbm:vendor ?vendorURI .
+        dataFromVendor1:Offer33 bsbm:vendor ?vendorURI .
         ?vendorURI rdfs:label ?vendorname .
         ?vendorURI foaf:homepage ?vendorhomepage .
-        dataFromVendor1:Offer37 bsbm:offerWebpage ?offerURL .
-        dataFromVendor1:Offer37 bsbm:price ?price .
-        dataFromVendor1:Offer37 bsbm:deliveryDays ?deliveryDays .
-        dataFromVendor1:Offer37 bsbm:validTo ?validTo }
+        dataFromVendor1:Offer33 bsbm:offerWebpage ?offerURL .
+        dataFromVendor1:Offer33 bsbm:price ?price .
+        dataFromVendor1:Offer33 bsbm:deliveryDays ?deliveryDays .
+        dataFromVendor1:Offer33 bsbm:validTo ?validTo }

@@ -10,17 +10,17 @@ PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instan
 PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>
 PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>
 
-Select ?productType ?reviewCount
+Select *
 {
  { Select ?productType (count(?review) As ?reviewCount)
   {
    ?productType a bsbm:ProductType .
    ?product a ?productType .
    ?product bsbm:producer ?producer .
-   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> .
+   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#JP> .
    ?review bsbm:reviewFor ?product .
    ?review rev:reviewer ?reviewer .
-   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> .
+   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> .
   }
   Group By ?productType
  }

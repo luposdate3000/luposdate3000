@@ -14,20 +14,20 @@ SELECT DISTINCT ?product ?label ?propertyTextual
 WHERE {
     { 
        ?product rdfs:label ?label .
-       ?product rdf:type bsbm-inst:ProductType5 .
-       ?product bsbm:productFeature bsbm-inst:ProductFeature123 .
-	   ?product bsbm:productFeature bsbm-inst:ProductFeature165 .
+       ?product rdf:type bsbm-inst:ProductType6 .
+       ?product bsbm:productFeature bsbm-inst:ProductFeature78 .
+	   ?product bsbm:productFeature bsbm-inst:ProductFeature260 .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric1 ?p1 .
-	   FILTER ( ?p1 > "831"^^xsd:integer )
+	   FILTER ( ?p1 > "594"^^xsd:integer )
     } UNION {
        ?product rdfs:label ?label .
-       ?product rdf:type bsbm-inst:ProductType5 .
-       ?product bsbm:productFeature bsbm-inst:ProductFeature123 .
-	   ?product bsbm:productFeature bsbm-inst:ProductFeature27 .
+       ?product rdf:type bsbm-inst:ProductType6 .
+       ?product bsbm:productFeature bsbm-inst:ProductFeature78 .
+	   ?product bsbm:productFeature bsbm-inst:ProductFeature152 .
        ?product bsbm:productPropertyTextual1 ?propertyTextual .
 	   ?product bsbm:productPropertyNumeric2 ?p2 .
-	   FILTER ( ?p2> "312"^^xsd:integer ) 
+	   FILTER ( ?p2> "1040"^^xsd:integer ) 
     } 
 }
 ORDER BY ?label

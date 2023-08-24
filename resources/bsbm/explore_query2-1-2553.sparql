@@ -12,19 +12,19 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
 
 SELECT *
 WHERE {
-    dataFromProducer1:Product3 rdfs:label ?label .
-    dataFromProducer1:Product3 rdfs:comment ?comment .
-    dataFromProducer1:Product3 bsbm:producer ?p .
+    dataFromProducer1:Product2 rdfs:label ?label .
+    dataFromProducer1:Product2 rdfs:comment ?comment .
+    dataFromProducer1:Product2 bsbm:producer ?p .
     ?p rdfs:label ?producer .
-    dataFromProducer1:Product3 dc:publisher ?p . 
-    dataFromProducer1:Product3 bsbm:productFeature ?f .
+    dataFromProducer1:Product2 dc:publisher ?p . 
+    dataFromProducer1:Product2 bsbm:productFeature ?f .
     ?f rdfs:label ?productFeature .
-    dataFromProducer1:Product3 bsbm:productPropertyTextual1 ?propertyTextual1 .
-    dataFromProducer1:Product3 bsbm:productPropertyTextual2 ?propertyTextual2 .
-    dataFromProducer1:Product3 bsbm:productPropertyTextual3 ?propertyTextual3 .
-    dataFromProducer1:Product3 bsbm:productPropertyNumeric1 ?propertyNumeric1 .
-    dataFromProducer1:Product3 bsbm:productPropertyNumeric2 ?propertyNumeric2 .
-    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyTextual4 ?propertyTextual4 }
-    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyTextual5 ?propertyTextual5 }
-    OPTIONAL { dataFromProducer1:Product3 bsbm:productPropertyNumeric4 ?propertyNumeric4 }
+    dataFromProducer1:Product2 bsbm:productPropertyTextual1 ?propertyTextual1 .
+    dataFromProducer1:Product2 bsbm:productPropertyTextual2 ?propertyTextual2 .
+    dataFromProducer1:Product2 bsbm:productPropertyTextual3 ?propertyTextual3 .
+    dataFromProducer1:Product2 bsbm:productPropertyNumeric1 ?propertyNumeric1 .
+    dataFromProducer1:Product2 bsbm:productPropertyNumeric2 ?propertyNumeric2 .
+    OPTIONAL { dataFromProducer1:Product2 bsbm:productPropertyTextual4 ?propertyTextual4 }
+    OPTIONAL { dataFromProducer1:Product2 bsbm:productPropertyTextual5 ?propertyTextual5 }
+    OPTIONAL { dataFromProducer1:Product2 bsbm:productPropertyNumeric4 ?propertyNumeric4 }
 }

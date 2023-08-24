@@ -15,7 +15,7 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
   {
     { Select ?feature (avg(xsd:float(xsd:string(?price))) As ?withFeaturePrice)
       {
-        ?product a bsbm-inst:ProductType5 ;
+        ?product a bsbm-inst:ProductType6 ;
                  bsbm:productFeature ?feature .
         ?offer bsbm:product ?product ;
                bsbm:price ?price .
@@ -25,10 +25,10 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
     { Select ?feature (avg(xsd:float(xsd:string(?price))) As ?withoutFeaturePrice)
       {
         { Select distinct ?feature { 
-          ?p a bsbm-inst:ProductType5 ;
+          ?p a bsbm-inst:ProductType6 ;
              bsbm:productFeature ?feature .
         } }
-        ?product a bsbm-inst:ProductType5 .
+        ?product a bsbm-inst:ProductType6 .
         ?offer bsbm:product ?product ;
                bsbm:price ?price .
         FILTER NOT EXISTS { ?product bsbm:productFeature ?feature }

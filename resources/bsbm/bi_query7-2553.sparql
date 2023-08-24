@@ -16,7 +16,7 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
       { 
         { Select ?product (count(?offer) As ?offerCount)
           { 
-            ?product a bsbm-inst:ProductType5 .
+            ?product a bsbm-inst:ProductType6 .
             ?offer bsbm:product ?product .
           }
           Group By ?product
@@ -30,6 +30,6 @@ PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/inst
       ?offer bsbm:product ?product .
       ?offer bsbm:vendor ?vendor .
       ?vendor bsbm:country ?country .
-      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#US>)
+      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#DE>)
     }
   }
