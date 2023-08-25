@@ -11,12 +11,12 @@
 @prefix rev:                 <http://purl.org/stuff/rev#> .
 @prefix xsd:                 <http://www.w3.org/2001/XMLSchema#> .
 
-dataFromVendor1:Offer33
-        bsbm-export:deliveryDays    2;
-        bsbm-export:offerURL        <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer33/>;
-        bsbm-export:price           "5777.23"^^bsbm:USD;
+dataFromVendor1:Offer16
+        bsbm-export:deliveryDays    4;
+        bsbm-export:offerURL        <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/Offer16/>;
+        bsbm-export:price           "9334.06"^^bsbm:USD;
         bsbm-export:product         dataFromProducer1:Product3;
         bsbm-export:productlabel    "ahchoo";
-        bsbm-export:validuntil      "2008-07-11T00:00:00"^^xsd:dateTime;
+        bsbm-export:validuntil      "2008-03-26T00:00:00"^^xsd:dateTime;
         bsbm-export:vendor          "reexhibit";
         bsbm-export:vendorhomepage  <http://www.vendor1.com/> .

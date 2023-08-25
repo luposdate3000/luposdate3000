@@ -68,19 +68,19 @@ public class resourcesbsbmexplorequery72210sparql2210 {
         "SELECT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle  \n" +
         "       ?reviewer ?revName ?rating1 ?rating2 \n" +
         "WHERE {  \n" +
-        " dataFromProducer1:Product1 rdfs:label ?productLabel . \n" +
+        " dataFromProducer1:Product2 rdfs:label ?productLabel . \n" +
         "    OPTIONAL { \n" +
-        "        ?offer bsbm:product dataFromProducer1:Product1 . \n" +
+        "        ?offer bsbm:product dataFromProducer1:Product2 . \n" +
         "  ?offer bsbm:price ?price . \n" +
         "  ?offer bsbm:vendor ?vendor . \n" +
         "  ?vendor rdfs:label ?vendorTitle . \n" +
         "        ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#DE> . \n" +
         "        ?offer dc:publisher ?vendor .  \n" +
         "        ?offer bsbm:validTo ?date . \n" +
-        "        FILTER (?date > \"2008-01-16\"^^xsd:date ) \n" +
+        "        FILTER (?date > \"2008-04-04\"^^xsd:date ) \n" +
         "    } \n" +
         "    OPTIONAL { \n" +
-        " ?review bsbm:reviewFor dataFromProducer1:Product1 . \n" +
+        " ?review bsbm:reviewFor dataFromProducer1:Product2 . \n" +
         " ?review rev:reviewer ?reviewer . \n" +
         " ?reviewer foaf:name ?revName . \n" +
         " ?review dc:title ?revTitle . \n" +

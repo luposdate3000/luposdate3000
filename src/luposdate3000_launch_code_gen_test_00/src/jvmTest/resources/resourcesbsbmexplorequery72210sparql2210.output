@@ -16,13 +16,13 @@
   <results>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review1</uri>
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review10</uri>
       </binding>
       <binding name="revTitle">
-        <literal>hopes launchings deluder overemotional unfolder bioflavonoid snorter thawed instinctively halidome classed towages unctions</literal>
+        <literal>knitwear inflammability degreasing sufficing prerecording sheriffdom boyfriends hedonics saucerized pendulums</literal>
       </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
@@ -30,42 +30,22 @@
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
       </binding>
-      <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review16</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>sirs labium denotes lummoxes platting</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Eyana-Aurelianus</literal>
-      </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
       </binding>
       <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal>
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
       </binding>
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review2</uri>
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review13</uri>
       </binding>
       <binding name="revTitle">
-        <literal>laundries selenography unpin findings mistrusts porgy discontentedly</literal>
+        <literal>thornier feeblemindedness numerously kilovolt godliest mendicant tremens</literal>
       </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
@@ -77,193 +57,18 @@
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>
       </binding>
       <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review18</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>foothills intermitting interlocutors yrs gracilis hoariness fortuned goth burblers manager ablations agamic ejaculators</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Eyana-Aurelianus</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-      </binding>
-      <binding name="rating2">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
       </binding>
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review6</uri>
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review7</uri>
       </binding>
       <binding name="revTitle">
-        <literal>repairers surfy antedating chunter cancelers photoflash</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Ruggiero-Delane</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review9</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>tinfuls foolhardier downloading stuccos interpersonal doggish mislabel lowered solubility beguiler aboil slavey strolling prorating dimming</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Ruggiero-Delane</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
-      </binding>
-      <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review19</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>upbraided bureaus reglazed amnionic vociferations acrylics</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Eyana-Aurelianus</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
-      </binding>
-      <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review20</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>subdistinction articulating nastiest decadence spangliest sploshes misplacing caddied rcpt anathematize crafted hinting</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Eyana-Aurelianus</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review12</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>enzymologies expressionist diverters unclasps cabining treatabilities unsent unpeg occultism nonclerically anywise patly galls</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Ruggiero-Delane</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal>
-      </binding>
-      <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review15</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>prehardened depreciatory belaboring exalted retaliation prefixes ovolo muddiness churlishness</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Ruggiero-Delane</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
-      </binding>
-      <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review8</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>temporized bloodstreams housemaids sharks bannock resuscitative motets gruels choosier apologizes anticyclonic equalities struggled crappiness reuniter</literal>
-      </binding>
-      <binding name="reviewer">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
-      </binding>
-      <binding name="revName">
-        <literal>Ruggiero-Delane</literal>
-      </binding>
-      <binding name="rating1">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="productLabel">
-        <literal>manner gatemen</literal>
-      </binding>
-      <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review3</uri>
-      </binding>
-      <binding name="revTitle">
-        <literal>updatable unzip bayonets bruins abstemiousness advocates destitutely increasing workaholics situating repartees mobilizers anorak magdalen</literal>
+        <literal>vises puffers trainful bordellos wayfarings cumquats jilter strewed imputing sibilantly venosities nosiness wharfs comediennes</literal>
       </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
@@ -275,18 +80,52 @@
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
       </binding>
       <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
       </binding>
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review14</uri>
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review4</uri>
       </binding>
       <binding name="revTitle">
-        <literal>doping pygmyism glosses reappeared tines cuts tautologous downtowns tremens runny overtones batholiths socketed</literal>
+        <literal>cortically upshifts dinette footfalls untaxed personification subdirectors fleabanes greases paradoxical discusses nondiscriminating heaped aroused machining</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Ruggiero-Delane</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>coterie</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review11</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>waterfowl interlocution unevener rancours boggier finis helots spooning frolickers darkeners entombing hairbands lachrymatory enouncing</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Ruggiero-Delane</literal>
+      </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>coterie</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review5</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>subscript resubmit grandstander pellagras cunts paleographer obsessiveness windlasses songfest inartistically</literal>
       </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
@@ -297,8 +136,28 @@
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
       </binding>
+    </result>
+    <result>
+      <binding name="productLabel">
+        <literal>coterie</literal>
+      </binding>
+      <binding name="review">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review17</uri>
+      </binding>
+      <binding name="revTitle">
+        <literal>oratorios hypocrites cooks foldaway impossibilities hornets anesthesiologies cliquiest preshapes cogitators establishments ditchers gappy</literal>
+      </binding>
+      <binding name="reviewer">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer2</uri>
+      </binding>
+      <binding name="revName">
+        <literal>Eyana-Aurelianus</literal>
+      </binding>
+      <binding name="rating1">
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal>
+      </binding>
       <binding name="rating2">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
       </binding>
     </result>
   </results>

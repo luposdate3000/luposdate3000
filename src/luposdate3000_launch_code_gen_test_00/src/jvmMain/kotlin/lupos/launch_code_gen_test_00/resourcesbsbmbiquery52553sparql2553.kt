@@ -71,7 +71,7 @@ public class resourcesbsbmbiquery52553sparql2553 {
         "      { \n" +
         "        { Select ?country ?product (count(?review) As ?nrOfReviews) \n" +
         "          { \n" +
-        "            ?product a bsbm-inst:ProductType5 . \n" +
+        "            ?product a bsbm-inst:ProductType6 . \n" +
         "            ?review bsbm:reviewFor ?product ; \n" +
         "                    rev:reviewer ?reviewer . \n" +
         "            ?reviewer bsbm:country ?country . \n" +
@@ -83,7 +83,7 @@ public class resourcesbsbmbiquery52553sparql2553 {
         "    } \n" +
         "    { Select ?country ?product (avg(xsd:float(xsd:string(?price))) As ?avgPrice) \n" +
         "      { \n" +
-        "        ?product a bsbm-inst:ProductType5 . \n" +
+        "        ?product a bsbm-inst:ProductType6 . \n" +
         "        ?offer bsbm:product ?product . \n" +
         "        ?offer bsbm:price ?price . \n" +
         "        ?product bsbm:producer ?producer . \n" +
@@ -93,7 +93,7 @@ public class resourcesbsbmbiquery52553sparql2553 {
         "    } \n" +
         "    { Select ?country ?product (count(?review) As ?nrOfReviews) \n" +
         "      { \n" +
-        "        ?product a bsbm-inst:ProductType5 . \n" +
+        "        ?product a bsbm-inst:ProductType6 . \n" +
         "        ?review bsbm:reviewFor ?product . \n" +
         "        ?review rev:reviewer ?reviewer . \n" +
         "        ?reviewer bsbm:country ?country . \n" +

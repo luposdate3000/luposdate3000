@@ -68,13 +68,13 @@ public class resourcesbsbmexplorequery52553sparql2553 {
         "SELECT DISTINCT ?product ?productLabel \n" +
         "WHERE {  \n" +
         " ?product rdfs:label ?productLabel . \n" +
-        "    FILTER (dataFromProducer1:Product3 != ?product) \n" +
-        " dataFromProducer1:Product3 bsbm:productFeature ?prodFeature . \n" +
+        "    FILTER (dataFromProducer1:Product2 != ?product) \n" +
+        " dataFromProducer1:Product2 bsbm:productFeature ?prodFeature . \n" +
         " ?product bsbm:productFeature ?prodFeature . \n" +
-        " dataFromProducer1:Product3 bsbm:productPropertyNumeric1 ?origProperty1 . \n" +
+        " dataFromProducer1:Product2 bsbm:productPropertyNumeric1 ?origProperty1 . \n" +
         " ?product bsbm:productPropertyNumeric1 ?simProperty1 . \n" +
         " FILTER (?simProperty1 < (?origProperty1 + 120) && ?simProperty1 > (?origProperty1 - 120)) \n" +
-        " dataFromProducer1:Product3 bsbm:productPropertyNumeric2 ?origProperty2 . \n" +
+        " dataFromProducer1:Product2 bsbm:productPropertyNumeric2 ?origProperty2 . \n" +
         " ?product bsbm:productPropertyNumeric2 ?simProperty2 . \n" +
         " FILTER (?simProperty2 < (?origProperty2 + 170) && ?simProperty2 > (?origProperty2 - 170)) \n" +
         "} \n" +

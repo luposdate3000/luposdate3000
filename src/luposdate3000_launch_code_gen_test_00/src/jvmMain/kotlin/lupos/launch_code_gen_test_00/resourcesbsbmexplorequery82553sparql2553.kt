@@ -67,7 +67,7 @@ public class resourcesbsbmexplorequery82553sparql2553 {
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
         "SELECT ?title ?text ?reviewDate ?reviewer ?reviewerName ?rating1 ?rating2 ?rating3 ?rating4  \n" +
         "WHERE {  \n" +
-        " ?review bsbm:reviewFor dataFromProducer1:Product3 . \n" +
+        " ?review bsbm:reviewFor dataFromProducer1:Product2 . \n" +
         " ?review dc:title ?title . \n" +
         " ?review rev:text ?text . \n" +
         " FILTER langMatches( lang(?text), \"EN\" )  \n" +

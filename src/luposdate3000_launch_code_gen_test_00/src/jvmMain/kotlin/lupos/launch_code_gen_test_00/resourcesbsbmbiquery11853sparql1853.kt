@@ -72,10 +72,10 @@ public class resourcesbsbmbiquery11853sparql1853 {
         "   ?productType a bsbm:ProductType . \n" +
         "   ?product a ?productType . \n" +
         "   ?product bsbm:producer ?producer . \n" +
-        "   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> . \n" +
+        "   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> . \n" +
         "   ?review bsbm:reviewFor ?product . \n" +
         "   ?review rev:reviewer ?reviewer . \n" +
-        "   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> . \n" +
+        "   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> . \n" +
         "  } \n" +
         "  Group By ?productType \n" +
         " } \n" +

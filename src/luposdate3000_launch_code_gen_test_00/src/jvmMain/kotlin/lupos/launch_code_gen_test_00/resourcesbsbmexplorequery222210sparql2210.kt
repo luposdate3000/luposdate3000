@@ -67,21 +67,21 @@ public class resourcesbsbmexplorequery222210sparql2210 {
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
         "SELECT * \n" +
         "WHERE { \n" +
-        "    dataFromProducer1:Product1 rdfs:label ?label . \n" +
-        "    dataFromProducer1:Product1 rdfs:comment ?comment . \n" +
-        "    dataFromProducer1:Product1 bsbm:producer ?p . \n" +
+        "    dataFromProducer1:Product2 rdfs:label ?label . \n" +
+        "    dataFromProducer1:Product2 rdfs:comment ?comment . \n" +
+        "    dataFromProducer1:Product2 bsbm:producer ?p . \n" +
         "    ?p rdfs:label ?producer . \n" +
-        "    dataFromProducer1:Product1 dc:publisher ?p .  \n" +
-        "    dataFromProducer1:Product1 bsbm:productFeature ?f . \n" +
+        "    dataFromProducer1:Product2 dc:publisher ?p .  \n" +
+        "    dataFromProducer1:Product2 bsbm:productFeature ?f . \n" +
         "    ?f rdfs:label ?productFeature . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyTextual1 ?propertyTextual1 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyTextual2 ?propertyTextual2 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyTextual3 ?propertyTextual3 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyNumeric1 ?propertyNumeric1 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyNumeric2 ?propertyNumeric2 . \n" +
-        "     dataFromProducer1:Product1 bsbm:productPropertyTextual4 ?propertyTextual4 . \n" +
-        "     dataFromProducer1:Product1 bsbm:productPropertyTextual5 ?propertyTextual5 . \n" +
-        "     dataFromProducer1:Product1 bsbm:productPropertyNumeric4 ?propertyNumeric4 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyTextual1 ?propertyTextual1 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyTextual2 ?propertyTextual2 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyTextual3 ?propertyTextual3 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyNumeric1 ?propertyNumeric1 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyNumeric2 ?propertyNumeric2 . \n" +
+        "     dataFromProducer1:Product2 bsbm:productPropertyTextual4 ?propertyTextual4 . \n" +
+        "     dataFromProducer1:Product2 bsbm:productPropertyTextual5 ?propertyTextual5 . \n" +
+        "     dataFromProducer1:Product2 bsbm:productPropertyNumeric4 ?propertyNumeric4 . \n" +
         "} \n" +
         ""
 

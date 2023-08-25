@@ -83,6 +83,7 @@ return res
                             }
 
                             override /*suspend*/ fun close() {
+println("POPDebug.kt .. close $uuid $columnName")
                                 childIter.close()
                             }
                         }
@@ -103,7 +104,7 @@ return res
                         try {
                             child.columns
                         } catch (e: Throwable) {
-                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:105"/*SOURCE_FILE_END*/)
+                            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/singleinput/POPDebug.kt:106"/*SOURCE_FILE_END*/)
                         }
                         val outMap = mutableMapOf<String, ColumnIterator>()
                         val columnMode = mutableListOf<String>()

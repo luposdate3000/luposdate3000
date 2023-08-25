@@ -296,6 +296,12 @@ if(projectedVariables.contains(first)){
         res = if (outMap.isNotEmpty()) {
             IteratorBundle(outMap)
         } else {
+for (closeIndex in 0 until columnsINAJ.size) {
+                        columnsINAJ[closeIndex].close()
+                    }
+                    for (closeIndex in 0 until columnsINAO.size) {
+                        columnsINAO[closeIndex].close()
+                    }
             IteratorBundle(0)
         }
         if (emptyColumnsWithJoin) {

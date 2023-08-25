@@ -69,7 +69,7 @@ public class resourcesbsbmbiquery752553sparql2553 {
         "      { \n" +
         "        { Select ?product (count(?offer) As ?offerCount) \n" +
         "          { \n" +
-        "            ?product a bsbm-inst:ProductType5 . \n" +
+        "            ?product a bsbm-inst:ProductType6 . \n" +
         "            ?offer bsbm:product ?product . \n" +
         "          } \n" +
         "          Group By ?product \n" +

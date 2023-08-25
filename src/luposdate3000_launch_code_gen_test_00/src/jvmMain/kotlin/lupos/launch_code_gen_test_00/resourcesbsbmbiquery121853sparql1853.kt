@@ -65,17 +65,17 @@ public class resourcesbsbmbiquery121853sparql1853 {
         "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/> \n" +
         "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/> \n" +
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/> \n" +
-        "Select ?productType ?reviewCount \n" +
+        "Select * \n" +
         "{ \n" +
         " { Select ?productType (count(?review) As ?reviewCount) \n" +
         "  { \n" +
         "   ?productType a bsbm:ProductType . \n" +
         "   ?product a ?productType . \n" +
         "   ?product bsbm:producer ?producer . \n" +
-        "   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> . \n" +
+        "   ?producer bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> . \n" +
         "   ?review bsbm:reviewFor ?product . \n" +
         "   ?review rev:reviewer ?reviewer . \n" +
-        "   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#GB> . \n" +
+        "   ?reviewer bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> . \n" +
         "  } \n" +
         "  Group By ?productType \n" +
         " } \n" +

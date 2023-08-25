@@ -67,7 +67,7 @@ public class resourcesbsbmexplorequery102553sparql2553 {
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
         "SELECT DISTINCT ?offer ?price \n" +
         "WHERE { \n" +
-        " ?offer bsbm:product dataFromProducer1:Product3 . \n" +
+        " ?offer bsbm:product dataFromProducer1:Product2 . \n" +
         " ?offer bsbm:vendor ?vendor . \n" +
         "    ?offer dc:publisher ?vendor . \n" +
         " ?vendor bsbm:country <http://downlode.org/rdf/iso-3166/countries#US> . \n" +
@@ -75,7 +75,7 @@ public class resourcesbsbmexplorequery102553sparql2553 {
         " FILTER (?deliveryDays <= 3) \n" +
         " ?offer bsbm:price ?price . \n" +
         "    ?offer bsbm:validTo ?date . \n" +
-        "    FILTER (?date > \"2008-06-10\"^^xsd:date ) \n" +
+        "    FILTER (?date > \"2008-05-22\"^^xsd:date ) \n" +
         "} \n" +
         "ORDER BY xsd:double(str(?price)) \n" +
         "LIMIT 10 \n" +

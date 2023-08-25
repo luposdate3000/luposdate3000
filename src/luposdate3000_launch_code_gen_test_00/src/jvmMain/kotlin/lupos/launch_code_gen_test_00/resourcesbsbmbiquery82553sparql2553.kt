@@ -69,13 +69,13 @@ public class resourcesbsbmbiquery82553sparql2553 {
         "  { \n" +
         "    { Select ?vendor (count(?offer) As ?belowAvg) \n" +
         "      { \n" +
-        "        { ?product a bsbm-inst:ProductType5 . \n" +
+        "        { ?product a bsbm-inst:ProductType6 . \n" +
         "          ?offer bsbm:product ?product . \n" +
         "          ?offer bsbm:vendor ?vendor . \n" +
         "          ?offer bsbm:price ?price . \n" +
         "          { Select ?product (avg(xsd:float(xsd:string(?price))) As ?avgPrice) \n" +
         "            { \n" +
-        "              ?product a bsbm-inst:ProductType5 . \n" +
+        "              ?product a bsbm-inst:ProductType6 . \n" +
         "              ?offer bsbm:product ?product . \n" +
         "              ?offer bsbm:vendor ?vendor . \n" +
         "              ?offer bsbm:price ?price . \n" +
@@ -89,7 +89,7 @@ public class resourcesbsbmbiquery82553sparql2553 {
         "    } \n" +
         "    { Select ?vendor (count(?offer) As ?offerCount) \n" +
         "      { \n" +
-        "        ?product a bsbm-inst:ProductType5 . \n" +
+        "        ?product a bsbm-inst:ProductType6 . \n" +
         "        ?offer bsbm:product ?product . \n" +
         "        ?offer bsbm:vendor ?vendor . \n" +
         "      } \n" +

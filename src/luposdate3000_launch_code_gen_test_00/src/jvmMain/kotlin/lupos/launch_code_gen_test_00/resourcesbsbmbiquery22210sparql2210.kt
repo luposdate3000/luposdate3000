@@ -68,11 +68,11 @@ public class resourcesbsbmbiquery22210sparql2210 {
         "  SELECT ?otherProduct ?sameFeatures \n" +
         "  { \n" +
         "    ?otherProduct a bsbm:Product . \n" +
-        "    FILTER(?otherProduct != dataFromProducer1:Product2) \n" +
+        "    FILTER(?otherProduct != dataFromProducer1:Product1) \n" +
         "    { \n" +
         "      SELECT ?otherProduct (count(?otherFeature) As ?sameFeatures) \n" +
         "      { \n" +
-        "        dataFromProducer1:Product2 bsbm:productFeature ?feature . \n" +
+        "        dataFromProducer1:Product1 bsbm:productFeature ?feature . \n" +
         "        ?otherProduct bsbm:productFeature ?otherFeature . \n" +
         "        FILTER(?feature=?otherFeature) \n" +
         "      } \n" +

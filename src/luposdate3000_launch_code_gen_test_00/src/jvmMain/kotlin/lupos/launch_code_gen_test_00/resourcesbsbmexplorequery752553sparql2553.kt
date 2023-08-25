@@ -65,12 +65,11 @@ public class resourcesbsbmexplorequery752553sparql2553 {
         "PREFIX dataFromProducer1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/>   \n" +
         "PREFIX dataFromVendor1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromVendor1/>   \n" +
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
-        "SELECT ?productLabel ?offer ?price ?vendor ?vendorTitle ?review ?revTitle  \n" +
-        "       ?reviewer ?revName ?rating1 ?rating2 \n" +
+        "SELECT * \n" +
         "WHERE {  \n" +
-        " dataFromProducer1:Product3 rdfs:label ?productLabel . \n" +
+        " dataFromProducer1:Product2 rdfs:label ?productLabel . \n" +
         "    OPTIONAL { \n" +
-        " ?review bsbm:reviewFor dataFromProducer1:Product3 . \n" +
+        " ?review bsbm:reviewFor dataFromProducer1:Product2 . \n" +
         " ?review rev:reviewer ?reviewer . \n" +
         " ?reviewer foaf:name ?revName . \n" +
         " ?review dc:title ?revTitle . \n" +
@@ -90,7 +89,7 @@ public class resourcesbsbmexplorequery752553sparql2553 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesbsbmexplorequery752553sparql2553.kt:92"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesbsbmexplorequery752553sparql2553.kt:91"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -105,7 +104,7 @@ public class resourcesbsbmexplorequery752553sparql2553 {
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesbsbmexplorequery752553sparql2553.kt:107"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesbsbmexplorequery752553sparql2553.kt:106"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }

@@ -152,7 +152,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
                     allErrors[i] = allPagesRefcounters[i]
                 }
             }
-            if (SanityCheck.enabled) { if (!(allErrors.isEmpty())) { throw Exception("SanityCheck failed") } }
+            if (SanityCheck.enabled) { if (!(allErrors.isEmpty())) { throw Exception("SanityCheck failed $allErrors") } }
         }
     }
 }

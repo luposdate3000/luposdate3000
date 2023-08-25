@@ -6,10 +6,8 @@
     <variable name="price"/>
     <variable name="vendor"/>
     <variable name="vendorTitle"/>
+    <variable name="date"/>
     <variable name="review"/>
-    <variable name="revTitle"/>
-    <variable name="reviewer"/>
-    <variable name="revName"/>
     <variable name="rating1"/>
     <variable name="rating2"/>
   </head>

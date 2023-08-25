@@ -7,18 +7,10 @@
   <results>
     <result>
       <binding name="product">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product3</uri>
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product2</uri>
       </binding>
       <binding name="offerCount">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">17</literal>
-      </binding>
-    </result>
-    <result>
-      <binding name="product">
-        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product1</uri>
-      </binding>
-      <binding name="offerCount">
-        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal>
+        <literal datatype="http://www.w3.org/2001/XMLSchema#integer">31</literal>
       </binding>
     </result>
   </results>

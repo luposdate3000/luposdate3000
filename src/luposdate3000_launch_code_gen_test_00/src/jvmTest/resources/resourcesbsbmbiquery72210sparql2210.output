@@ -4,5 +4,10 @@
     <variable name="product"/>
   </head>
   <results>
+    <result>
+      <binding name="product">
+        <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromProducer1/Product1</uri>
+      </binding>
+    </result>
   </results>
 </sparql>

@@ -71,7 +71,7 @@ public class resourcesbsbmbiquery72553sparql2553 {
         "      {  \n" +
         "        { Select ?product (count(?offer) As ?offerCount) \n" +
         "          {  \n" +
-        "            ?product a bsbm-inst:ProductType5 . \n" +
+        "            ?product a bsbm-inst:ProductType6 . \n" +
         "            ?offer bsbm:product ?product . \n" +
         "          } \n" +
         "          Group By ?product \n" +
@@ -85,7 +85,7 @@ public class resourcesbsbmbiquery72553sparql2553 {
         "      ?offer bsbm:product ?product . \n" +
         "      ?offer bsbm:vendor ?vendor . \n" +
         "      ?vendor bsbm:country ?country . \n" +
-        "      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#US>) \n" +
+        "      FILTER(?country=<http://downlode.org/rdf/iso-3166/countries#DE>) \n" +
         "    } \n" +
         "  } \n" +
         ""

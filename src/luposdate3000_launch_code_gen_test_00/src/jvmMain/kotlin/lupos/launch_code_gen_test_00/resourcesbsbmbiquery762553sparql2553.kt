@@ -67,7 +67,7 @@ public class resourcesbsbmbiquery762553sparql2553 {
         "PREFIX dataFromRatingSite1: <http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/>   \n" +
         "        Select ?product (count(?offer) As ?offerCount) \n" +
         "          { \n" +
-        "            ?product a bsbm-inst:ProductType5 . \n" +
+        "            ?product a bsbm-inst:ProductType6 . \n" +
         "            ?offer bsbm:product ?product . \n" +
         "          } \n" +
         "          Group By ?product \n" +

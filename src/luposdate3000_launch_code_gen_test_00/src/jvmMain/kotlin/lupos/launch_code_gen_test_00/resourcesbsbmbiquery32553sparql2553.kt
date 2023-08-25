@@ -71,7 +71,7 @@ public class resourcesbsbmbiquery32553sparql2553 {
         "      { \n" +
         "        ?review bsbm:reviewFor ?product . \n" +
         "        ?review dc:date ?date . \n" +
-        "        Filter(?date >= \"2008-02-01\"^^<http://www.w3.org/2001/XMLSchema#date> && ?date < \"2008-03-01\"^^<http://www.w3.org/2001/XMLSchema#date>)  \n" +
+        "        Filter(?date >= \"2005-04-01\"^^<http://www.w3.org/2001/XMLSchema#date> && ?date < \"2005-05-01\"^^<http://www.w3.org/2001/XMLSchema#date>)  \n" +
         "      } \n" +
         "      Group By ?product \n" +
         "    }  { \n" +
@@ -79,7 +79,7 @@ public class resourcesbsbmbiquery32553sparql2553 {
         "      { \n" +
         "        ?review bsbm:reviewFor ?product . \n" +
         "        ?review dc:date ?date . \n" +
-        "        Filter(?date >= \"2008-01-01\"^^<http://www.w3.org/2001/XMLSchema#date> && ?date < \"2008-02-01\"^^<http://www.w3.org/2001/XMLSchema#date>) # \n" +
+        "        Filter(?date >= \"2005-03-01\"^^<http://www.w3.org/2001/XMLSchema#date> && ?date < \"2005-04-01\"^^<http://www.w3.org/2001/XMLSchema#date>) # \n" +
         "      } \n" +
         "      Group By ?product \n" +
         "      Having (count(?review)>0) \n" +

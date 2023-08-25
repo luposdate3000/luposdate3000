@@ -68,21 +68,21 @@ public class resourcesbsbmexplorequery22210sparql2210 {
         "SELECT ?label ?comment ?producer ?productFeature ?propertyTextual1 ?propertyTextual2 ?propertyTextual3 \n" +
         " ?propertyNumeric1 ?propertyNumeric2 ?propertyTextual4 ?propertyTextual5 ?propertyNumeric4  \n" +
         "WHERE { \n" +
-        "    dataFromProducer1:Product1 rdfs:label ?label . \n" +
-        "    dataFromProducer1:Product1 rdfs:comment ?comment . \n" +
-        "    dataFromProducer1:Product1 bsbm:producer ?p . \n" +
+        "    dataFromProducer1:Product2 rdfs:label ?label . \n" +
+        "    dataFromProducer1:Product2 rdfs:comment ?comment . \n" +
+        "    dataFromProducer1:Product2 bsbm:producer ?p . \n" +
         "    ?p rdfs:label ?producer . \n" +
-        "    dataFromProducer1:Product1 dc:publisher ?p .  \n" +
-        "    dataFromProducer1:Product1 bsbm:productFeature ?f . \n" +
+        "    dataFromProducer1:Product2 dc:publisher ?p .  \n" +
+        "    dataFromProducer1:Product2 bsbm:productFeature ?f . \n" +
         "    ?f rdfs:label ?productFeature . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyTextual1 ?propertyTextual1 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyTextual2 ?propertyTextual2 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyTextual3 ?propertyTextual3 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyNumeric1 ?propertyNumeric1 . \n" +
-        "    dataFromProducer1:Product1 bsbm:productPropertyNumeric2 ?propertyNumeric2 . \n" +
-        "    OPTIONAL { dataFromProducer1:Product1 bsbm:productPropertyTextual4 ?propertyTextual4 } \n" +
-        "    OPTIONAL { dataFromProducer1:Product1 bsbm:productPropertyTextual5 ?propertyTextual5 } \n" +
-        "    OPTIONAL { dataFromProducer1:Product1 bsbm:productPropertyNumeric4 ?propertyNumeric4 } \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyTextual1 ?propertyTextual1 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyTextual2 ?propertyTextual2 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyTextual3 ?propertyTextual3 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyNumeric1 ?propertyNumeric1 . \n" +
+        "    dataFromProducer1:Product2 bsbm:productPropertyNumeric2 ?propertyNumeric2 . \n" +
+        "    OPTIONAL { dataFromProducer1:Product2 bsbm:productPropertyTextual4 ?propertyTextual4 } \n" +
+        "    OPTIONAL { dataFromProducer1:Product2 bsbm:productPropertyTextual5 ?propertyTextual5 } \n" +
+        "    OPTIONAL { dataFromProducer1:Product2 bsbm:productPropertyNumeric4 ?propertyNumeric4 } \n" +
         "} \n" +
         ""
 

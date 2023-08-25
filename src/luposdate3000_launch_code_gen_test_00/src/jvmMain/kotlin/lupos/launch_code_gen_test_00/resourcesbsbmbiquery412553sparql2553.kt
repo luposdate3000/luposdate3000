@@ -69,7 +69,7 @@ public class resourcesbsbmbiquery412553sparql2553 {
         "  { \n" +
         "    { Select ?feature (avg(xsd:float(xsd:string(?price))) As ?withFeaturePrice) \n" +
         "      { \n" +
-        "        ?product a bsbm-inst:ProductType5 ; \n" +
+        "        ?product a bsbm-inst:ProductType6 ; \n" +
         "                 bsbm:productFeature ?feature . \n" +
         "        ?offer bsbm:product ?product ; \n" +
         "               bsbm:price ?price . \n" +
@@ -79,10 +79,10 @@ public class resourcesbsbmbiquery412553sparql2553 {
         "    { Select ?feature (avg(xsd:float(xsd:string(?price))) As ?withoutFeaturePrice) \n" +
         "      { \n" +
         "        { Select distinct ?feature {  \n" +
-        "          ?p a bsbm-inst:ProductType5 ; \n" +
+        "          ?p a bsbm-inst:ProductType6 ; \n" +
         "             bsbm:productFeature ?feature . \n" +
         "        } } \n" +
-        "        ?product a bsbm-inst:ProductType5 . \n" +
+        "        ?product a bsbm-inst:ProductType6 . \n" +
         "        ?offer bsbm:product ?product ; \n" +
         "               bsbm:price ?price . \n" +
         "        FILTER NOT EXISTS { ?product bsbm:productFeature ?feature } \n" +

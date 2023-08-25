@@ -6,17 +6,15 @@
     <variable name="price"/>
     <variable name="vendor"/>
     <variable name="vendorTitle"/>
+    <variable name="date"/>
     <variable name="review"/>
-    <variable name="revTitle"/>
-    <variable name="reviewer"/>
-    <variable name="revName"/>
     <variable name="rating1"/>
     <variable name="rating2"/>
   </head>
   <results>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review9</uri>
@@ -30,7 +28,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review7</uri>
@@ -44,7 +42,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review18</uri>
@@ -58,7 +56,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review6</uri>
@@ -69,7 +67,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review3</uri>
@@ -83,7 +81,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review15</uri>
@@ -97,7 +95,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review8</uri>
@@ -108,7 +106,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review10</uri>
@@ -122,7 +120,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review16</uri>
@@ -136,7 +134,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review5</uri>
@@ -147,7 +145,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review19</uri>
@@ -161,7 +159,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review14</uri>
@@ -175,7 +173,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review13</uri>
@@ -189,7 +187,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review2</uri>
@@ -203,7 +201,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review17</uri>
@@ -217,7 +215,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review12</uri>
@@ -231,7 +229,7 @@
     </result>
     <result>
       <binding name="productLabel">
-        <literal>manner gatemen</literal>
+        <literal>coterie</literal>
       </binding>
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review20</uri>

@@ -6,12 +6,12 @@
     <variable name="price"/>
     <variable name="vendor"/>
     <variable name="vendorTitle"/>
+    <variable name="date"/>
     <variable name="review"/>
-    <variable name="revTitle"/>
     <variable name="reviewer"/>
     <variable name="revName"/>
+    <variable name="revTitle"/>
     <variable name="rating1"/>
-    <variable name="rating2"/>
   </head>
   <results>
     <result>
@@ -21,14 +21,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review10</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>aboil slavey strolling prorating dimming descents benthos viced bruising hetero</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>aboil slavey strolling prorating dimming descents benthos viced bruising hetero</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
@@ -41,14 +41,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review1</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>causable compassed decertified transubstantiation automatize boxful befouling tragedienne visiting alliums triangulates hounders compressively</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>causable compassed decertified transubstantiation automatize boxful befouling tragedienne visiting alliums triangulates hounders compressively</literal>
       </binding>
     </result>
     <result>
@@ -58,14 +58,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review7</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>nearsightedly buskin recompensable capacitances bootee lockets enticement disservices strategists licensors kennelled barding autocrats lathworks</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>nearsightedly buskin recompensable capacitances bootee lockets enticement disservices strategists licensors kennelled barding autocrats lathworks</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
@@ -78,14 +78,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review4</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>egomaniacal undercook roadstead reascend dekaliter grinning retakers paintbrushes cichlid ashlars conventual smoothen gombos appurtenance botchy</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>egomaniacal undercook roadstead reascend dekaliter grinning retakers paintbrushes cichlid ashlars conventual smoothen gombos appurtenance botchy</literal>
       </binding>
     </result>
     <result>
@@ -95,14 +95,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review2</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>gunnel hopes launchings deluder overemotional unfolder bioflavonoid</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>gunnel hopes launchings deluder overemotional unfolder bioflavonoid</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal>
@@ -115,14 +115,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review6</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>squishiest ethicists bedraggling shivering crimsoned bondable</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>squishiest ethicists bedraggling shivering crimsoned bondable</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
@@ -135,14 +135,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review5</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>disinformation muffled granulator basketries warthogs childbeds empowers pantomimist riverbanks loosens</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>disinformation muffled granulator basketries warthogs childbeds empowers pantomimist riverbanks loosens</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal>
@@ -155,14 +155,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review9</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>buggered dewclaw loners hydrozoon zinging reequips saddlebags exorcises laudability topside novelle chemoreceptor temporized bloodstreams housemaids</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>buggered dewclaw loners hydrozoon zinging reequips saddlebags exorcises laudability topside novelle chemoreceptor temporized bloodstreams housemaids</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal>
@@ -175,14 +175,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review8</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>overexcited habitability reaching ethers gratias biers wretchedly warps poetess forthrightness kinaesthetically lukewarmly decorators viselike ionized</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>overexcited habitability reaching ethers gratias biers wretchedly warps poetess forthrightness kinaesthetically lukewarmly decorators viselike ionized</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal>
@@ -195,14 +195,14 @@
       <binding name="review">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Review3</uri>
       </binding>
-      <binding name="revTitle">
-        <literal>hyperbolas knouted eulogists bihourly prosiest matrixes jaggedest violinists dins archipelagos heighths limber azons acceptee</literal>
-      </binding>
       <binding name="reviewer">
         <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/dataFromRatingSite1/Reviewer1</uri>
       </binding>
       <binding name="revName">
         <literal>Ruggiero-Delane</literal>
+      </binding>
+      <binding name="revTitle">
+        <literal>hyperbolas knouted eulogists bihourly prosiest matrixes jaggedest violinists dins archipelagos heighths limber azons acceptee</literal>
       </binding>
       <binding name="rating1">
         <literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal>
