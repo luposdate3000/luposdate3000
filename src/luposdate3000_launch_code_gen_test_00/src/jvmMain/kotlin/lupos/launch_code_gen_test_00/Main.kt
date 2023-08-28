@@ -40,7 +40,6 @@ public fun main() {
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery81853sparql1853Kt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery82210sparql2210Kt",
         "lupos.launch_code_gen_test_00.Resourcesbsbmexplorequery82553sparql2553Kt",
-        "lupos.launch_code_gen_test_00.Resourcesmyqueriesubungent03sparql764Kt",
         "lupos.launch_code_gen_test_00.Simpleinsertdatanamed1Kt",
         "lupos.launch_code_gen_test_00.SubtractionwithMINUSfromapartiallyboundminuendKt",
     )
