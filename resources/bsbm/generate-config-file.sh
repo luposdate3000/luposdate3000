@@ -93,9 +93,9 @@ do
 		d1=$(realpath bsbm-$triples.n3)
 		o1=$(realpath $q-$triples.srx)
 		(
-echo "evaluating " ./bin/sparql --data=$d1 --query=$q1 --results=xml " into " $o1
+echo "evaluating " ./bin/sparql --data=$d1 --query=$q1 --results=xml " > " $o1
 		cd /src/apache-jena-4.9.0
-		./bin/sparql --data=$d1 --query=$q1 --results=xml > $o1
+#		./bin/sparql --data=$d1 --query=$q1 --results=xml > $o1
 echo "done evaluating"
 		)
 	done
