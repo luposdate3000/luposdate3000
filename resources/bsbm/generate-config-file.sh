@@ -109,3 +109,28 @@ done
 cat config.csv2 | sort -n | uniq > config.csv
 rm config.csv2
 
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/bi_query1-1-1853.sparql /src/luposdate3000/resources/bsbm/bi_query1-1-1853.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/bi_query4-1853.sparql /src/luposdate3000/resources/bsbm/bi_query4-1853.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/bi_query1-1853.sparql /src/luposdate3000/resources/bsbm/bi_query1-1853.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/bi_query1-3-1853.sparql /src/luposdate3000/resources/bsbm/bi_query1-3-1853.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/bi_query4-1-1853.sparql /src/luposdate3000/resources/bsbm/bi_query4-1-1853.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/bi_query1-2-1853.sparql /src/luposdate3000/resources/bsbm/bi_query1-2-1853.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/bi_query1-1-2210.sparql /src/luposdate3000/resources/bsbm/bi_query1-1-2210.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/bi_query4-2210.sparql /src/luposdate3000/resources/bsbm/bi_query4-2210.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/bi_query1-2210.sparql /src/luposdate3000/resources/bsbm/bi_query1-2210.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/bi_query1-3-2210.sparql /src/luposdate3000/resources/bsbm/bi_query1-3-2210.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/bi_query4-1-2210.sparql /src/luposdate3000/resources/bsbm/bi_query4-1-2210.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/bi_query1-2-2210.sparql /src/luposdate3000/resources/bsbm/bi_query1-2-2210.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/bi_query1-1-2553.sparql /src/luposdate3000/resources/bsbm/bi_query1-1-2553.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/bi_query4-2553.sparql /src/luposdate3000/resources/bsbm/bi_query4-2553.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/bi_query1-2553.sparql /src/luposdate3000/resources/bsbm/bi_query1-2553.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/bi_query1-3-2553.sparql /src/luposdate3000/resources/bsbm/bi_query1-3-2553.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/bi_query4-1-2553.sparql /src/luposdate3000/resources/bsbm/bi_query4-1-2553.srx
+./luposdate3000-2.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/bi_query1-2-2553.sparql /src/luposdate3000/resources/bsbm/bi_query1-2-2553.srx
+
+./jena.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/explore_query9-1853.sparql  >  /src/luposdate3000/resources/bsbm/explore_query9-1853.n3
+./jena.sh /src/luposdate3000/resources/bsbm/bsbm-1853.n3 /src/luposdate3000/resources/bsbm/explore_query12-1853.sparql  >  /src/luposdate3000/resources/bsbm/explore_query12-1853.n3
+./jena.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/explore_query9-2210.sparql  >  /src/luposdate3000/resources/bsbm/explore_query9-2210.n3
+./jena.sh /src/luposdate3000/resources/bsbm/bsbm-2210.n3 /src/luposdate3000/resources/bsbm/explore_query12-2210.sparql  >  /src/luposdate3000/resources/bsbm/explore_query12-2210.n3
+./jena.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/explore_query9-2553.sparql  >  /src/luposdate3000/resources/bsbm/explore_query9-2553.n3
+./jena.sh /src/luposdate3000/resources/bsbm/bsbm-2553.n3 /src/luposdate3000/resources/bsbm/explore_query12-2553.sparql  >  /src/luposdate3000/resources/bsbm/explore_query12-2553.n3

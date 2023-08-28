@@ -1,0 +1,276 @@
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query9-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query9-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-1-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-1-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-7-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-7-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-5-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-5-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query2-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query2-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query11-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query11-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-4-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-4-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-4-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-4-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query12-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query12-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-2-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-2-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query5-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query5-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-5-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-5-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-7-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-7-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-1-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-1-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query4-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query4-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query1-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query1-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-6-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-6-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query6-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query6-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-3-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-3-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-6-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-6-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-5-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-5-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query10-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query10-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query8-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query8-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-2-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-2-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-5-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-5-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query6-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query6-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-3-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-3-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-4-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-4-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-3-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-3-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-1-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-1-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-1-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-1-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query4-1-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query4-1-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query3-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query3-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-4-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-4-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query4-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query4-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query5-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query5-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query8-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query8-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-2-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-2-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-2-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-2-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query3-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query3-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-6-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-6-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-1853.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-3-1853.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-3-1853.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query9-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query9-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-1-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-1-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-7-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-7-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-5-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-5-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query2-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query2-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query11-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query11-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-4-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-4-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-4-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-4-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query12-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query12-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-2-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-2-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query5-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query5-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-5-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-5-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-7-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-7-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-1-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-1-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query4-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query4-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query1-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query1-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-6-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-6-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query6-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query6-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-3-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-3-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-6-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-6-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-5-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-5-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query10-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query10-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query8-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query8-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-2-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-2-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-5-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-5-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query6-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query6-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-3-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-3-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-4-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-4-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-3-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-3-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-1-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-1-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-1-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-1-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query4-1-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query4-1-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query3-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query3-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-4-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-4-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query4-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query4-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query5-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query5-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query8-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query8-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-2-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-2-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-2-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-2-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query3-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query3-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-6-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-6-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2210.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-3-2210.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-3-2210.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query9-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query9-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-1-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-1-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-7-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-7-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-5-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-5-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query2-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query2-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query11-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query11-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-4-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-4-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-4-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-4-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query12-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query12-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-2-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-2-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query5-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query5-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-5-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-5-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-7-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-7-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-1-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-1-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query4-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query4-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query1-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query1-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-6-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-6-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query6-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query6-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-3-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-3-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-6-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-6-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-5-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-5-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query10-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query10-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query8-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query8-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-2-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-2-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-5-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-5-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query6-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query6-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-3-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-3-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-4-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-4-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-3-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-3-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-1-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-1-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query2-1-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query2-1-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query4-1-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query4-1-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query3-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query3-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-4-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-4-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query4-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query4-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query5-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query5-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query8-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query8-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query7-2-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query7-2-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/bi_query1-2-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/bi_query1-2-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query3-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query3-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-6-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-6-2553.srx
+done evaluating
+evaluating  ./bin/sparql --data=/src/luposdate3000/resources/bsbm/bsbm-2553.n3 --query=/src/luposdate3000/resources/bsbm/explore_query7-3-2553.sparql --results=xml  >  /src/luposdate3000/resources/bsbm/explore_query7-3-2553.srx
+done evaluating
