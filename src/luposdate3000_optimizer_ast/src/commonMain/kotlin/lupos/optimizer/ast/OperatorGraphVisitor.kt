@@ -715,6 +715,14 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
         val returning = LOPDistinct(
             query,
+LOPFilter(query,
+AOPAnd(query,
+AOPAnd(query, 
+AOPBuildInCallBOUND(query,AOPVariable(query,"s")),
+AOPBuildInCallBOUND(query,AOPVariable(query,"p")),
+),
+AOPBuildInCallBOUND(query,AOPVariable(query,"o")),
+),
             LOPProjection(
                 query,
                 labels.map { AOPVariable(query, it) }.toMutableList(),
@@ -756,7 +764,8 @@ public class OperatorGraphVisitor(public val query: Query) {
                         LOPJoin(query, cc, vv, false)
                     }
                 }.reduce { s, t -> createUnion(query, s, t) },
-            ),
+            )
+),
         )
         return returning
     }
