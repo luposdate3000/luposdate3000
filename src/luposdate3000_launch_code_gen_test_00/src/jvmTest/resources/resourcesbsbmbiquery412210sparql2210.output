@@ -1,0 +1,103 @@
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+ <head>
+  <variable name="feature"/>
+  <variable name="priceRatio"/>
+ </head>
+ <results>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature142</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature144</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature154</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature156</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature158</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature159</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature16</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature171</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature175</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature177</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature178</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature180</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature22</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature25</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature28</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature3</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature34</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature35</uri>
+   </binding>
+  </result>
+  <result>
+   <binding name="feature">
+    <uri>http://www4.wiwiss.fu-berlin.de/bizer/bsbm/v01/instances/ProductFeature4</uri>
+   </binding>
+  </result>
+ </results>
+</sparql>
