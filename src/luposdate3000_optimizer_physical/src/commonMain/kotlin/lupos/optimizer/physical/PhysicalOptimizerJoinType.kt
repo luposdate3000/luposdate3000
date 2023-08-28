@@ -107,7 +107,7 @@ public class PhysicalOptimizerJoinType(query: Query) : OptimizerBase(query, EOpt
             val childB = node.children[1]
             val columns = LOPJoin_Helper.getColumns(childA.getProvidedVariableNames(), childB.getProvidedVariableNames())
             if (columns[0].size == 0) {
-                res = POPJoinCartesianProduct(query, projectedVariables, childA, childB, false)
+                res = POPJoinCartesianProduct(query, projectedVariables, childA, childB, node.optional)
             } else {
                 if (node.getMySortPriority().size >= columns[0].size) {
                     if (projectedVariables.size == 1 && childA.getProvidedVariableNames().size == 1 && childB.getProvidedVariableNames().size == 1 && childA.getProvidedVariableNames()[0] == projectedVariables[0] && childB.getProvidedVariableNames()[0] == projectedVariables[0]) {
