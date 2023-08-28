@@ -481,7 +481,7 @@ without minify mode only the passing tests will be added
                     fileBufferTest.println("    public fun `$finalTestName`() {")
                     fileBufferTest.println("      var instance = Luposdate3000Instance()")
                     fileBufferTest.println("      try{")
-                    fileBufferTest.println("        instance.LUPOS_BUFFER_SIZE = 128")
+                    fileBufferTest.println("        instance.LUPOS_BUFFER_SIZE = 512")
                     fileBufferTest.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
                     fileBufferTest.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
                     fileBufferTest.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")

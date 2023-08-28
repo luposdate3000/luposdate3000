@@ -83,7 +83,7 @@ return res
                             }
 
                             override /*suspend*/ fun close() {
-println("POPDebug.kt .. close $uuid $columnName")
+//println("POPDebug.kt .. close $uuid $columnName")
                                 childIter.close()
                             }
                         }

@@ -341,9 +341,9 @@ public object LuposdateEndpoint {
             stream.close()
             val visitor = OperatorGraphVisitor(q)
             val lopNode: IOPBase = visitor.visit(astNode)
-println(lopNode)
+//println("LuposdateEndpoint.kt "+lopNode)
             val lopNode2 = LogicalOptimizer(q).optimizeCall(lopNode)
-println(lopNode2)
+//println("LuposdateEndpoint.kt "+lopNode2)
             val popOptimizer = PhysicalOptimizer(q)
             val popNode = popOptimizer.optimizeCall(lopNode2)
             if (logOperatorGraph) {
@@ -354,7 +354,7 @@ println(lopNode2)
                 println("<<<<<<<<<<")
                 println(OperatorGraphToLatex(popNode.toString(), ""))
             }
-println(popNode)
+//println("LuposdateEndpoint.kt "+popNode)
             return popNode
         } catch (e: Throwable) {
             println(query)

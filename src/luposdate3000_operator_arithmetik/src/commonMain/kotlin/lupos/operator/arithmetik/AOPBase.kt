@@ -50,10 +50,9 @@ public abstract class AOPBase public constructor(
                 var res: Boolean = try {
                     DictionaryHelper.byteArrayAsBoolean(tmp())
                 } catch (e: EvaluationException) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/AOPBase.kt:52"/*SOURCE_FILE_END*/)
                     false
                 } catch (e: Throwable) {
-                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/AOPBase.kt:55"/*SOURCE_FILE_END*/)
+                    e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_arithmetik/src/commonMain/kotlin/lupos/operator/arithmetik/AOPBase.kt:54"/*SOURCE_FILE_END*/)
                     false
                 }
                 res

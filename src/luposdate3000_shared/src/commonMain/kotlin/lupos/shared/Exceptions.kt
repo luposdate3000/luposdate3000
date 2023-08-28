@@ -28,7 +28,6 @@ public class GroupByDuplicateColumnException public constructor() : SyntaxExcept
 public class XMLNotParseableException public constructor() : SyntaxException("XMLNotParseableException", "Xml is not parseable.")
 public class UnableToOutputResultException public constructor() : SyntaxException("UnableToOutputResultException", "Unable to output the desired result format.")
 public class IncompatibleInputException public constructor() : SyntaxException("IncompatibleInputException", "incompatible input.")
-public class InvalidInputException public constructor(input: String? = null) : SyntaxException("InvalidInputException", "Invalid input '$input'.")
 
 // evaluation exceptions --->>>
 public abstract class EvaluationException public constructor(classname: String, msg: String) : Luposdate3000Exception(classname, msg)
@@ -44,6 +43,8 @@ public class ConnectionFailedException public constructor(status: Int?) : Evalua
 public class NoMorePagesException public constructor() : EvaluationException("NoMorePagesException", "No more pages available.")
 public class OperationCanNotBeLocalException public constructor() : EvaluationException("OperationCanNotBeLocalException", "Operation can not be local.")
 public class EOFException public constructor(avail: Any? = null) : EvaluationException("EOFException", "eof (available=$avail)")
+public class IncompatibleTypesDuringCompareException public constructor() : EvaluationException("IncompatibleTypesDuringCompareException","provided types can not be compared")
+public class InvalidInputException public constructor(input: String? = null) : EvaluationException("InvalidInputException", "Invalid input '$input'.")
 
 // known bugs --->>>
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")

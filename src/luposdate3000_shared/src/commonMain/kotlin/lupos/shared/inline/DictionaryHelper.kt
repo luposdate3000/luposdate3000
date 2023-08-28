@@ -15,7 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-
+import lupos.shared.IncompatibleTypesDuringCompareException
 import lupos.shared.Luposdate3000Exception
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
@@ -759,13 +759,13 @@ timezoneHours=-timezoneHours
             val c = if (reverse) b else a
             val d = if (reverse) a else b
             val res = if (typeC == ETripleComponentTypeExt.UNDEF) {
-                TODO("-1")
+throw               IncompatibleTypesDuringCompareException()
             } else if (typeD == ETripleComponentTypeExt.UNDEF) {
-                TODO("1")
+     throw          IncompatibleTypesDuringCompareException()
             } else if (typeC == ETripleComponentTypeExt.ERROR) {
-                TODO("-1")
+          throw     IncompatibleTypesDuringCompareException()
             } else if (typeD == ETripleComponentTypeExt.ERROR) {
-                TODO("1")
+             throw  IncompatibleTypesDuringCompareException()
             } else if (typeC == ETripleComponentTypeExt.BLANK_NODE) {
                 -1
             } else if (typeD == ETripleComponentTypeExt.BLANK_NODE) {
