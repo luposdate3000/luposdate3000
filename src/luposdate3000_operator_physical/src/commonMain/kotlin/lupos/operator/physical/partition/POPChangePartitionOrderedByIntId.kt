@@ -163,7 +163,7 @@ public class POPChangePartitionOrderedByIntId public constructor(
         val ringbufferReaderContinuation: ParallelThreadCondition = ParallelThread.createCondition()
         val writerFinished = IntArray(partitionCountSrc) { 0 } // writer changes to 1 if finished
         var readerFinished = 0
-        for (p1 in 0 until partitionCountSrc) {
+val threads=List(partitionCountSrc){p1->
             val pChild = p1 * partitionCountTo + parent.data[partitionVariable]!!
             ParallelThread.launch {
                 try {
@@ -343,6 +343,9 @@ public class POPChangePartitionOrderedByIntId public constructor(
             for (p in 0 until partitionCountSrc) {
                 ringbufferWriterContinuation[p].signal()
             }
+for(t in threads){
+t.join()
+}
         }
         return IteratorBundle(iterator)
     }

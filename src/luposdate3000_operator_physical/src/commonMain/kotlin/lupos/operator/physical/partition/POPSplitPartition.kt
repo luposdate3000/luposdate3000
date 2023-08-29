@@ -129,13 +129,11 @@ public class POPSplitPartition public constructor(
                 var queue_size = query.getInstance().queue_size
                 var elementsPerRing = queue_size * variables.size
                 var buffersize = elementsPerRing * partitionCount
-println("POPSplitPartition.kt prealloc $buffersize ... $queue_size ${variables.size} $partitionCount")
                 while (buffersize <= 0 || elementsPerRing <= 0) {
                     queue_size = queue_size / 2
                     elementsPerRing = queue_size * variables.size
                     buffersize = elementsPerRing * partitionCount
                 }
-println("POPSplitPartition.kt allocating $buffersize ... $queue_size ${variables.size} $partitionCount")
                 val ringbuffer = DictionaryValueTypeArray(buffersize) // only modified by writer, reader just modifies its pointer
                 val ringbufferStart = IntArray(partitionCount) { it * elementsPerRing } // constant
                 val ringbufferReadHead = IntArray(partitionCount) { 0 } // owned by read-thread - no locking required
@@ -210,7 +208,7 @@ println("POPSplitPartition.kt allocating $buffersize ... $queue_size ${variables
                             }
                         }
                     } catch (e: Throwable) {
-                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:212"/*SOURCE_FILE_END*/)
+                        e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_physical/src/commonMain/kotlin/lupos/operator/physical/partition/POPSplitPartition.kt:210"/*SOURCE_FILE_END*/)
                         error = e
                     }
                     child2?.close?.invoke()
@@ -249,6 +247,7 @@ println("POPSplitPartition.kt allocating $buffersize ... $queue_size ${variables
                     iterator.close = {
                         readerFinished[p] = 1
                         ringbufferWriterContinuation.signal()
+job.join()
                     }
                     iterators[p] = IteratorBundle(iterator)
                 }

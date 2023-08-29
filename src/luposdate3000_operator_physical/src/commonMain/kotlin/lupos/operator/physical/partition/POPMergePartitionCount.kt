@@ -106,7 +106,7 @@ public class POPMergePartitionCount public constructor(
             val ringbufferWriteHead = IntArray(partitionCount) { 0 } // owned by write thread - no locking required
             val writerFinished = IntArray(partitionCount) { 0 } // writer changes to 1 if finished
             var readerFinished = 0
-            for (p in 0 until partitionCount) {
+val threads=List(partitionCount){p->
                 ParallelThread.launch {
                     val child = children[0].evaluate(Partition(parent, partitionVariable, p, partitionCount))
                     loop@ while (readerFinished == 0) {
@@ -147,6 +147,9 @@ public class POPMergePartitionCount public constructor(
 
                 override /*suspend*/ fun hasNext2Close() {
                     readerFinished = 1
+for(t in threads){
+t.join()
+}
                 }
             }
         }
