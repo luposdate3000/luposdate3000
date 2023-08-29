@@ -45,7 +45,7 @@ public class OperationCanNotBeLocalException public constructor() : EvaluationEx
 public class EOFException public constructor(avail: Any? = null) : EvaluationException("EOFException", "eof (available=$avail)")
 public class IncompatibleTypesDuringCompareException public constructor() : EvaluationException("IncompatibleTypesDuringCompareException","provided types can not be compared")
 public class InvalidInputException public constructor(input: String? = null) : EvaluationException("InvalidInputException", "Invalid input '$input'.")
-
+public class CrashInputStreamException public constructor() : EvaluationException("CrashInputStreamException", "Not implemented network transmission.")
 // known bugs --->>>
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")
 

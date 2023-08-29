@@ -80,7 +80,7 @@ manual ignore testtype,- Thread - PartitionByID_S_AllCollations - true
 manual ignore testtype,- Thread - PartitionByKeyAllCollations - false
 manual ignore testtype,- Thread - PartitionByKeyAllCollations - true
 manual ignore testtype,- Thread - Simple - false
-manual ignore testtype,- Thread - Simple - true#,TODO
+manual ignore testtype,- Thread - Simple - true,success
 manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
 manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
 manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
@@ -150,7 +150,7 @@ manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Centrali
 manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath
 manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL
 manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
-manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath#,TODO
 manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
 manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
 manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath

@@ -15,6 +15,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
+import lupos.shared.CrashInputStreamException
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.singleinput.POPSort
 import lupos.shared.BugException
@@ -207,11 +208,13 @@ public class TripleStoreDescription(
                             second += conn.first.readInt()
                             conn.first.close()
                             conn.second.close()
+                        } catch (e: CrashInputStreamException) {
+ //be quiet here
                         } catch (e: Throwable) {
                             if (!hadShownHistogramStacktrace) {
                                 hadShownHistogramStacktrace = true
-                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:212"/*SOURCE_FILE_END*/)
-                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:213"/*SOURCE_FILE_END*/)
+                                println("showing only first error at" + /*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:215"/*SOURCE_FILE_END*/)
+                                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_triple_store_manager/src/commonMain/kotlin/lupos/triple_store_manager/TripleStoreDescription.kt:216"/*SOURCE_FILE_END*/)
                             }
                             first += 100
                             second += 100
