@@ -1,846 +1,846 @@
-contains - thread - simple - true
-resourcesmyqueriesoptional50sparql5 - thread - simple - true
-resourcesbsbmbiquery52553sparql2553 - thread - simple - true
-bind04  bind - thread - simple - true
-resourcesmyqueriesoptional36sparql4 - thread - simple - true
-resourcesmyqueriesoptional44sparql5 - thread - simple - true
-resourcessp2bq8sparql700 - thread - simple - true
-resourcessp2bq3bsparql973 - thread - simple - true
-resourcessp2bq12bsparql973 - thread - simple - true
-resourcesbsbmbiquery741853sparql1853 - thread - simple - true
-strafter datatyping - thread - simple - true
-resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional10sparql5 - thread - simple - true
-bind07  bind fixed data for owl dl - thread - simple - true
-resourcessp2bq3csparql973 - thread - simple - true
-resourcessp2bq91sparql1294 - thread - simple - true
-resourcessp2bq2sparql247 - thread - simple - true
-drop graph - thread - simple - true
-move 4 - thread - simple - true
-resourcesbsbmexplorequery222210sparql2210 - thread - simple - true
-resourcesmyqueriesoptional25sparql4 - thread - simple - true
-add 8 - thread - simple - true
-resourcessp2bq12b4sparql247 - thread - simple - true
-resourcesmyqueriesoptional58sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery815sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery761853sparql1853 - thread - simple - true
+graphspecific delete where 1 - thread - simple - true
+resourcessp2bq41sparql700 - thread - simple - true
 resourcessp2bq3csparql1294 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery514sparql377 simulatorparkinginputsmallttl - thread - simple - true
-create silent iri - thread - simple - true
-postquery values with predvar 1 row - thread - simple - true
-protect from error in avg - thread - simple - true
-resourcessp2bq12b2sparql21 - thread - simple - true
-sha256 on unicode data - thread - simple - true
-count 7 - thread - simple - true
-resourcesbtc030sparql867 - thread - simple - true
-resourcessp2bq5asparql247 - thread - simple - true
-resourcessp2bq12csparql1294 - thread - simple - true
-resourcesbsbmexplorequery772210sparql2210 - thread - simple - true
-resourcessp2bq42sparql973 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - thread - simple - true
-postsubquery values - thread - simple - true
-resourcesbsbmbiquery172210sparql2210 - thread - simple - true
-group1 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional13sparql5 - thread - simple - true
-sq11  subquery limit per resource - thread - simple - true
-insert 02 - thread - simple - true
-resourcesbsbmexplorequery721853sparql1853 - thread - simple - true
-resourcessp2bq4sparql1294 - thread - simple - true
-resourcesmyqueriesoptional19sparql5 - thread - simple - true
-resourcessp2bq12b4sparql21 - thread - simple - true
-clear all - thread - simple - true
-nested negative exists in positive exists - thread - simple - true
-inline values graph pattern - thread - simple - true
-resourcesbsbmexplorequery252553sparql2553 - thread - simple - true
-resourcesmyqueriesoptional45sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesubungent19sparql709 - thread - simple - true
-bnodes are not existentials - thread - simple - true
-resourcesmyqueriesoptional28sparql4 - thread - simple - true
-resourcesmyqueriesx6sparql4 - thread - simple - true
-resourcesbsbmbiquery152210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq12b3sparql21 - thread - simple - true
-resourcessp2bq111sparql21 - thread - simple - true
-resourcesbsbmbiquery82210sparql2210 - thread - simple - true
-resourcesmyqueriesoptional12sparql5 - thread - simple - true
-bind03  bind - thread - simple - true
-avg with group by - thread - simple - true
-resourcessp2bq12b2sparql247 - thread - simple - true
-resourcessp2bq65sparql973 - thread - simple - true
-subsets by exclusion minus - thread - simple - true
-clear named - thread - simple - true
-strafter - thread - simple - true
-resourcesmyqueriesoptional14sparql4 - thread - simple - true
-max with group by - thread - simple - true
-move 3 - thread - simple - true
-simple delete 3 - thread - simple - true
-resourcesbsbmbiquery131853sparql1853 - thread - simple - true
-resourcesmyqueriesoptional2sparql5 - thread - simple - true
-resourcessp2bq3csparql700 - thread - simple - true
-prefixname with unescaped colons - thread - simple - true
-resourcessp2bq8sparql247 - thread - simple - true
-resourcesbsbmexplorequery711853sparql1853 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery314sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesubungent09sparql567 - thread - simple - true
-resourcesmyqueriesoptional38sparql4 - thread - simple - true
-resourcessp2bq10sparql700 - thread - simple - true
-strlang typeerrors - thread - simple - true
-resourcesmyqueriesx2sparql10 - thread - simple - true
-resourcesbsbmbiquery42210sparql2210 - thread - simple - true
-resourcessp2bq72sparql247 - thread - simple - true
-resourcessp2bq12asparql700 - thread - simple - true
-resourcesbsbmbiquery712210sparql2210 - thread - simple - true
-resourcesbsbmbiquery721853sparql1853 - thread - simple - true
-resourcesmyqueriesubungent11sparql567 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery32553sparql2553 - thread - simple - true
-concat 2 - thread - simple - true
-resourcesmyqueriesoptional34sparql4 - thread - simple - true
-resourcesmyqueriesoptional36sparql5 - thread - simple - true
-resourcessp2bq91sparql1640 - thread - simple - true
-resourcesmyqueriesubungent14sparql567 - thread - simple - true
-resourcesmyqueriesoptional57sparql4 - thread - simple - true
-resourcesbsbmexplorequery12210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional64sparql4 - thread - simple - true
-resourcesbsbmexplorequery212210sparql2210 - thread - simple - true
-sum - thread - simple - true
-resourcessp2bq4sparql973 - thread - simple - true
-count 4 - thread - simple - true
-reuse a project expression variable in order by - thread - simple - true
-resourcessp2bq66sparql973 - thread - simple - true
-resourcesmyqueriesoptional30sparql5 - thread - simple - true
-graphspecific delete data 2 - thread - simple - true
-resourcesbsbmexplorequery752210sparql2210 - thread - simple - true
-resourcesmyqueriesoptional42sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery611sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery42sparql377 simulatorparkinginputsmallttl - thread - simple - true
-if - thread - simple - true
-resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq5asparql973 - thread - simple - true
-resourcessp2bq12b2sparql1640 - thread - simple - true
-resourcessp2bq3bsparql700 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - thread - simple - true
-sparqldl09rq undist vars test - thread - simple - true
-resourcesbsbmbiquery12553sparql2553 - thread - simple - true
-resourcessp2bq12asparql973 - thread - simple - true
-simple delete 1 using - thread - simple - true
-resourcessp2bq12b1sparql1640 - thread - simple - true
-resourcessp2bq66sparql700 - thread - simple - true
-strbefore datatyping - thread - simple - true
-resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmallttl - thread - simple - true
-group4 - thread - simple - true
-resourcesmyqueriesoptional46sparql4 - thread - simple - true
-resourcesmyqueriesoptional31sparql4 - thread - simple - true
-resourcesmyqueriesoptional15sparql5 - thread - simple - true
-resourcessp2bq5asparql21 - thread - simple - true
-resourcesbsbmbiquery11853sparql1853 - thread - simple - true
-resourcessp2bq65sparql700 - thread - simple - true
-resourcesbsbmexplorequery122553sparql2553 - thread - simple - true
-error in avg - thread - simple - true
-medical temporal proximity by exclusion not exists - thread - simple - true
-resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional27sparql5 - thread - simple - true
-resourcesbsbmbiquery41853sparql1853 - thread - simple - true
-resourcesbsbmbiquery112553sparql2553 - thread - simple - true
-resourcessp2bq3asparql1294 - thread - simple - true
-resourcesmyqueriesubungent03sparql764 - thread - simple - true
-copy 3 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery212553sparql2553 - thread - simple - true
-resourcesmyqueriesoptional62sparql5 - thread - simple - true
-resourcessp2bq5asparql1294 - thread - simple - true
-resourcessp2bq7sparql1640 - thread - simple - true
-resourcesmyqueriesoptional11sparql4 - thread - simple - true
-resourcesbsbmbiquery151853sparql1853 - thread - simple - true
-resourcessp2bq72sparql1640 - thread - simple - true
-graphspecific delete 1 using - thread - simple - true
-resourcesmyqueriesoptional21sparql5 - thread - simple - true
-positive exists 2 - thread - simple - true
-sparqldl08rq two distinguished variables  undist - thread - simple - true
-delete insert 1b - thread - simple - true
-resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq3bsparql1640 - thread - simple - true
-resourcessp2bq67sparql973 - thread - simple - true
-resourcesbsbmexplorequery22553sparql2553 - thread - simple - true
-resourcesbsbmbiquery32210sparql2210 - thread - simple - true
-copy 7 - thread - simple - true
-resourcessp2bq5bsparql700 - thread - simple - true
-resourcessp2bq66sparql21 - thread - simple - true
-resourcesmyqueriesx5sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmbiquery32553sparql2553 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery752553sparql2553 - thread - simple - true
-strlangstr - thread - simple - true
-tsv01  tsv result format - thread - simple - true
-resourcessp2bq61sparql1294 - thread - simple - true
-resourcesbsbmexplorequery41853sparql1853 - thread - simple - true
-resourcesbsbmbiquery752553sparql2553 - thread - simple - true
-resourcessp2bq65sparql1294 - thread - simple - true
-resourcesbsbmbiquery132210sparql2210 - thread - simple - true
-sparqldl04rq bug fixing test - thread - simple - true
-resourcessp2bq12b3sparql973 - thread - simple - true
-subtraction with minus from a fully bound minuend - thread - simple - true
-resourcesmyqueriesubungent17sparql709 - thread - simple - true
-sparqldl06rq cycle of undistinguished variables - thread - simple - true
-resourcessp2bq12b1sparql1294 - thread - simple - true
-simple delete 3 with - thread - simple - true
-resourcesmyqueriessimulatorparkingquery316sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional49sparql5 - thread - simple - true
-simple delete where 3 - thread - simple - true
-simple delete 4 using - thread - simple - true
-resourcesbsbmbiquery142553sparql2553 - thread - simple - true
-resourcesbsbmbiquery411853sparql1853 - thread - simple - true
+resourcessp2bq62sparql1294 - thread - simple - true
+add 4 - thread - simple - true
 resourcesmyqueriessimulatorparkingquery4sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq92sparql1640 - thread - simple - true
-resourcessp2bq3asparql973 - thread - simple - true
-parent query with distinguished variable - thread - simple - true
-strends - thread - simple - true
-constructwhere02  construct where - thread - simple - true
-resourcesbsbmexplorequery742553sparql2553 - thread - simple - true
-expression is equality - thread - simple - true
-resourcesbsbmbiquery31853sparql1853 - thread - simple - true
-resourcesmyqueriesoptional63sparql5 - thread - simple - true
-resourcessp2bq61sparql247 - thread - simple - true
-add 6 - thread - simple - true
-resourcesbsbmexplorequery22210sparql2210 - thread - simple - true
-load silent - thread - simple - true
-resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - thread - simple - true
-move 6 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery42553sparql2553 - thread - simple - true
-resourcesbsbmbiquery722553sparql2553 - thread - simple - true
-timezone - thread - simple - true
-resourcessp2bq1sparql21 - thread - simple - true
-max - thread - simple - true
-drop all - thread - simple - true
-resourcesmyqueriessimulatorparkingquery41sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional47sparql5 - thread - simple - true
-resourcesmyqueriesoptional33sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq10sparql247 - thread - simple - true
-simple delete 2 with - thread - simple - true
-resourcessp2bq12csparql973 - thread - simple - true
-resourcesmyqueriesoptional30sparql4 - thread - simple - true
-resourcessp2bq12bsparql247 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - thread - simple - true
-strdtstr - thread - simple - true
-simple insert data named 3 - thread - simple - true
-resourcesmyqueriesoptional25sparql5 - thread - simple - true
-resourcessp2bq5bsparql973 - thread - simple - true
-resourcesbsbmexplorequery71853sparql1853 - thread - simple - true
-literal with language tag test - thread - simple - true
-resourcessp2bq12b1sparql247 - thread - simple - true
-md5 - thread - simple - true
-resourcessp2bq65sparql21 - thread - simple - true
-resourcesbsbmexplorequery112210sparql2210 - thread - simple - true
-resourcessp2bq12b3sparql1640 - thread - simple - true
-postquery values with subjvar 1 row - thread - simple - true
-resourcesmyqueriesoptional57sparql5 - thread - simple - true
-resourcessp2bq91sparql973 - thread - simple - true
-resourcesbsbmexplorequery771853sparql1853 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmbiquery12210sparql2210 - thread - simple - true
-hours - thread - simple - true
-resourcesmyqueriessimulatorparkingquery82sparql377 simulatorparkinginputsmallttl - thread - simple - true
-strstarts - thread - simple - true
-resourcesbtc005sparql578 - thread - simple - true
-resourcessp2bq6sparql700 - thread - simple - true
-insert 01 - thread - simple - true
-copy silent - thread - simple - true
-resourcessp2bq3asparql700 - thread - simple - true
-resourcesmyqueriesoptional42sparql4 - thread - simple - true
-resourcesbsbmexplorequery222553sparql2553 - thread - simple - true
-delete insert 2 - thread - simple - true
-resourcesmyqueriesubungent12sparql567 - thread - simple - true
-resourcesbsbmexplorequery722210sparql2210 - thread - simple - true
-resourcesmyqueriesoptional54sparql5 - thread - simple - true
-resourcessp2bq63sparql21 - thread - simple - true
-resourcessp2bq63sparql1294 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq8sparql21 - thread - simple - true
-resourcesmyqueriesoptional7sparql4 - thread - simple - true
-resourcesbtc002sparql46 - thread - simple - true
-resourcessp2bq7sparql1294 - thread - simple - true
-jsonres01  json result format - thread - simple - true
-resourcessp2bq7sparql247 - thread - simple - true
-resourcesbsbmexplorequery52553sparql2553 - thread - simple - true
-sparqldl07rq two distinguished variables  undist - thread - simple - true
+bnodes are not existentials - thread - simple - true
+tsv01  tsv result format - thread - simple - true
+resourcesmyqueriesoptional20sparql5 - thread - simple - true
+resourcesmyqueriesoptional15sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesoptional45sparql5 - thread - simple - true
+protect from error in avg - thread - simple - true
+resourcesbsbmexplorequery21853sparql1853 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmexplorequery72553sparql2553 - thread - simple - true
+resourcessp2bq91sparql700 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery6sparql377 simulatorparkinginputsmallttl - thread - simple - true
 resourcessp2bq3bsparql247 - thread - simple - true
-resourcessp2bq3asparql247 - thread - simple - true
-bind01  bind fixed data for owl dl - thread - simple - true
-resourcessp2bq3asparql1640 - thread - simple - true
-constructwhere01  construct where - thread - simple - true
-resourcessp2bq41sparql247 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery511sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery32210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - thread - simple - true
-simple triple pattern match - thread - simple - true
-add 5 - thread - simple - true
-resourcessp2bq9sparql21 - thread - simple - true
-resourcesbtc028sparql3778 - thread - simple - true
-resourcessp2bq2sparql1640 - thread - simple - true
-count 3 - thread - simple - true
-resourcesmyqueriesoptional18sparql5 - thread - simple - true
+resourcessp2bq3asparql700 - thread - simple - true
+resourcessp2bq66sparql247 - thread - simple - true
+sparqldl08rq two distinguished variables  undist - thread - simple - true
+resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesoptional7sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq7sparql700 - thread - simple - true
+copy silent - thread - simple - true
+resourcessp2bq62sparql700 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq63sparql21 - thread - simple - true
+delete insert 1b - thread - simple - true
+resourcesmyqueriesoptional48sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery32553sparql2553 - thread - simple - true
+subsets by exclusion minus - thread - simple - true
+move 6 - thread - simple - true
+resourcesbsbmbiquery71853sparql1853 - thread - simple - true
+resourcessp2bq61sparql973 - thread - simple - true
+resourcesbsbmbiquery22553sparql2553 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesx5sparql4 - thread - simple - true
+resourcesbsbmexplorequery122553sparql2553 - thread - simple - true
+resourcesbsbmexplorequery231853sparql1853 - thread - simple - true
+parent query with distinguished variable - thread - simple - true
+resourcessp2bq42sparql973 - thread - simple - true
+resourcessp2bq7sparql1640 - thread - simple - true
+simple delete 1 using - thread - simple - true
+resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - thread - simple - true
+sparqldl04rq bug fixing test - thread - simple - true
+max - thread - simple - true
+insert using 01 - thread - simple - true
+resourcesmyqueriesoptional36sparql5 - thread - simple - true
+strdt typeerrors - thread - simple - true
+resourcessp2bq9sparql700 - thread - simple - true
+resourcesbsbmbiquery81853sparql1853 - thread - simple - true
+resourcesmyqueriesoptional47sparql5 - thread - simple - true
+resourcessp2bq62sparql21 - thread - simple - true
 resourcesbsbmexplorequery121853sparql1853 - thread - simple - true
-resourcesmyqueriesoptional52sparql5 - thread - simple - true
-sha256 - thread - simple - true
-resourcessp2bq12asparql247 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional23sparql5 - thread - simple - true
-insert 03 - thread - simple - true
-drop silent graph iri - thread - simple - true
-bind06  bind fixed data for owl dl - thread - simple - true
-rdf test for blank node cardinalities - thread - simple - true
-resourcesmyqueriesoptional47sparql4 - thread - simple - true
-resourcesmyqueriesoptional43sparql5 - thread - simple - true
-resourcessp2bq8sparql973 - thread - simple - true
+postsubquery values - thread - simple - true
+resourcessp2bq12b4sparql21 - thread - simple - true
+resourcessp2bq42sparql700 - thread - simple - true
+resourcesbsbmexplorequery12553sparql2553 - thread - simple - true
+resourcessp2bq5bsparql1294 - thread - simple - true
+resourcessp2bq3csparql1640 - thread - simple - true
+resourcesbsbmbiquery752210sparql2210 - thread - simple - true
+resourcessp2bq65sparql1294 - thread - simple - true
+sq12  subquery in construct with builtins - thread - simple - true
+resourcesbsbmexplorequery72210sparql2210 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery612sparql2502 simulatorparkinginputttl - thread - simple - true
+strbefore datatyping - thread - simple - true
+bind01  bind fixed data for owl dl - thread - simple - true
+resourcesbsbmbiquery52553sparql2553 - thread - simple - true
+resourcesmyqueriesubungent19sparql709 - thread - simple - true
+resourcessp2bq4sparql21 - thread - simple - true
+resourcesmyqueriesoptional45sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery613sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesbsbmbiquery62553sparql2553 - thread - simple - true
+bind03  bind - thread - simple - true
+resourcesbsbmbiquery62210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional29sparql4 - thread - simple - true
+resourcessp2bq68sparql247 - thread - simple - true
+bind07  bind - thread - simple - true
+resourcesmyqueriesoptional5sparql4 - thread - simple - true
+resourcesmyqueriesoptional19sparql4 - thread - simple - true
+strbefore - thread - simple - true
+count 6 - thread - simple - true
+resourcessp2bq3asparql247 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery812sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional49sparql5 - thread - simple - true
+resourcesmyqueriesoptional51sparql4 - thread - simple - true
+jsonres01  json result format - thread - simple - true
+resourcessp2bq67sparql1294 - thread - simple - true
+resourcessp2bq72sparql1294 - thread - simple - true
+resourcessp2bq63sparql1294 - thread - simple - true
+resourcessp2bq68sparql700 - thread - simple - true
+abs - thread - simple - true
+resourcesmyqueriesoptional53sparql5 - thread - simple - true
+simple delete data 3 - thread - simple - true
+resourcessp2bq5bsparql700 - thread - simple - true
+strafter datatyping - thread - simple - true
+max with group by - thread - simple - true
+resourcesbtc002sparql46 - thread - simple - true
+resourcesmyqueriesoptional19sparql5 - thread - simple - true
+resourcessp2bq12a1sparql973 - thread - simple - true
+resourcesmyqueriesoptional38sparql5 - thread - simple - true
+resourcesbsbmbiquery22210sparql2210 - thread - simple - true
+concat 2 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesubungent02sparql764 - thread - simple - true
+coalesce - thread - simple - true
+resourcesmyqueriesoptional1sparql4 - thread - simple - true
+min - thread - simple - true
+resourcesmyqueriesubungent08sparql567 - thread - simple - true
+resourcessp2bq12bsparql973 - thread - simple - true
 resourcesmyqueriessimulatorparkingquery621sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional59sparql5 - thread - simple - true
+resourcesbsbmbiquery722553sparql2553 - thread - simple - true
+rdf test for blank node cardinalities - thread - simple - true
+tsv03  tsv result format - thread - simple - true
+resourcesmyqueriessimulatorparkingquery31sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery3sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesbsbmexplorequery222210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional40sparql4 - thread - simple - true
+resourcesmyqueriesubungent09sparql567 - thread - simple - true
+if - thread - simple - true
+drop all - thread - simple - true
+resourcesmyqueriesoptional25sparql5 - thread - simple - true
+resourcesmyqueriesoptional54sparql4 - thread - simple - true
 resourcessp2bq92sparql700 - thread - simple - true
-resourcessp2bq71sparql247 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - thread - simple - true
+md5 over unicode data - thread - simple - true
+resourcesmyqueriesoptional10sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery212sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq3csparql700 - thread - simple - true
+resourcesmyqueriesoptional23sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery815sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesbsbmbiquery161853sparql1853 - thread - simple - true
+resourcesmyqueriesoptional8sparql5 - thread - simple - true
+bind05  bind - thread - simple - true
+resourcesmyqueriesoptional22sparql4 - thread - simple - true
+resourcessp2bq3bsparql700 - thread - simple - true
+count 2 - thread - simple - true
+resourcesmyqueriesoptional44sparql5 - thread - simple - true
+resourcesmyqueriesoptional8sparql4 - thread - simple - true
+simple insert data named 3 - thread - simple - true
+resourcessp2bq71sparql1294 - thread - simple - true
+resourcessp2bq111sparql21 - thread - simple - true
+resourcessp2bq65sparql21 - thread - simple - true
+csv01  csv result format - thread - simple - true
+resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq1sparql700 - thread - simple - true
+add 1 - thread - simple - true
+in 2 - thread - simple - true
+resourcessp2bq10sparql21 - thread - simple - true
+resourcessp2bq5asparql21 - thread - simple - true
+resourcessp2bq4sparql700 - thread - simple - true
+drop default - thread - simple - true
+avg with group by - thread - simple - true
+resourcessp2bq12bsparql247 - thread - simple - true
+resourcesbsbmexplorequery31853sparql1853 - thread - simple - true
+resourcessp2bq10sparql1640 - thread - simple - true
+resourcessp2bq72sparql973 - thread - simple - true
+resourcessp2bq12b3sparql973 - thread - simple - true
+resourcessp2bq61sparql247 - thread - simple - true
+resourcesmyqueriesoptional6sparql5 - thread - simple - true
+resourcessp2bq3bsparql973 - thread - simple - true
+resourcesbsbmbiquery82210sparql2210 - thread - simple - true
+postquery values with predvar 1 row - thread - simple - true
+postquery values with 2 objvars 2 rows with undef - thread - simple - true
+resourcesbsbmexplorequery711853sparql1853 - thread - simple - true
+resourcessp2bq12b2sparql973 - thread - simple - true
+resourcessp2bq72sparql1640 - thread - simple - true
+jsonres04  json result format - thread - simple - true
+year - thread - simple - true
+resourcesbsbmexplorequery241853sparql1853 - thread - simple - true
+resourcessp2bq1sparql21 - thread - simple - true
+resourcessp2bq5asparql700 - thread - simple - true
+resourcesmyqueriesoptional60sparql5 - thread - simple - true
 plain literals with language tag are not the same as the same literal without - thread - simple - true
 resourcesmyqueriesoptional61sparql5 - thread - simple - true
-resourcesmyqueriesoptional7sparql5 - thread - simple - true
-resourcesbsbmexplorequery242553sparql2553 - thread - simple - true
-resourcesbsbmbiquery122553sparql2553 - thread - simple - true
-agg empty group - thread - simple - true
-add 2 - thread - simple - true
-resourcessp2bq12a1sparql700 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq9sparql1294 - thread - simple - true
-resourcessp2bq42sparql247 - thread - simple - true
-subsets by exclusion not exists - thread - simple - true
-resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmexplorequery772553sparql2553 - thread - simple - true
-resourcessp2bq11sparql21 - thread - simple - true
-resourcesbsbmbiquery72553sparql2553 - thread - simple - true
-resourcessp2bq10sparql973 - thread - simple - true
-resourcesmyqueriesoptional22sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq92sparql973 - thread - simple - true
-resourcessp2bq67sparql1640 - thread - simple - true
-clear graph - thread - simple - true
-abs - thread - simple - true
-simple delete where 4 - thread - simple - true
-resourcesbsbmbiquery761853sparql1853 - thread - simple - true
-postquery values with subjobjvars 2 rows with undef - thread - simple - true
-resourcessp2bq5bsparql247 - thread - simple - true
-graphspecific delete 2 - thread - simple - true
-simple delete 1 with - thread - simple - true
-resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq66sparql247 - thread - simple - true
-resourcesbsbmexplorequery72210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery317sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq91sparql247 - thread - simple - true
-simple delete data 3 - thread - simple - true
-resourcesbsbmbiquery82553sparql2553 - thread - simple - true
-resourcessp2bq92sparql21 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq9sparql700 - thread - simple - true
-if error propogation - thread - simple - true
-resourcesmyqueriessimulatorparkingquery211sparql377 simulatorparkinginputsmallttl - thread - simple - true
-not in 1 - thread - simple - true
-resourcesmyqueriesoptional60sparql4 - thread - simple - true
-delete insert 1c - thread - simple - true
-simple delete 2 - thread - simple - true
-resourcessp2bq111sparql700 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery511sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesubungent18sparql709 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional27sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - thread - simple - true
-simple delete data 2 - thread - simple - true
-resourcesbsbmbiquery731853sparql1853 - thread - simple - true
-insert using 01 - thread - simple - true
-resourcesmyqueriesubungent10sparql567 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq71sparql700 - thread - simple - true
-resourcessp2bq11sparql700 - thread - simple - true
-resourcesmyqueriesoptional14sparql5 - thread - simple - true
-positive exists 1 - thread - simple - true
-resourcessp2bq5bsparql1640 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery513sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq4sparql247 - thread - simple - true
-resourcesmyqueriesoptional20sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery614sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq1sparql700 - thread - simple - true
-resourcesbsbmbiquery412210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery62sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq42sparql700 - thread - simple - true
-min with group by - thread - simple - true
-jsonres02  json result format - thread - simple - true
-tvs02  tsv result format - thread - simple - true
-add silent to default - thread - simple - true
-sha1 on unicode data - thread - simple - true
-simple delete 4 - thread - simple - true
-day - thread - simple - true
-clear silent default - thread - simple - true
-resourcessp2bq3csparql21 - thread - simple - true
-resourcesmyqueriesoptional16sparql4 - thread - simple - true
-copy 4 - thread - simple - true
-resourcesbsbmexplorequery51853sparql1853 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery415sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq12csparql700 - thread - simple - true
-resourcesmyqueriesubungent08sparql567 - thread - simple - true
-resourcesmyqueriesoptional35sparql4 - thread - simple - true
-resourcessp2bq71sparql973 - thread - simple - true
-resourcesbsbmexplorequery762553sparql2553 - thread - simple - true
-expression has undefined variable - thread - simple - true
-strlang - thread - simple - true
-resourcesmyqueriesoptional61sparql4 - thread - simple - true
-resourcesbsbmexplorequery251853sparql1853 - thread - simple - true
-resourcesmyqueriesoptional34sparql5 - thread - simple - true
-resourcesbsbmbiquery112210sparql2210 - thread - simple - true
-resourcesbsbmbiquery71853sparql1853 - thread - simple - true
-md5 over unicode data - thread - simple - true
-resourcessp2bq5bsparql1294 - thread - simple - true
-resourcesbsbmexplorequery242210sparql2210 - thread - simple - true
-resourcessp2bq63sparql1640 - thread - simple - true
-strbefore - thread - simple - true
-resourcesbsbmexplorequery111853sparql1853 - thread - simple - true
-bnode - thread - simple - true
-resourcesmyqueriessimulatorparkingquery415sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery232210sparql2210 - thread - simple - true
-tsv03  tsv result format - thread - simple - true
-resourcesmyqueriessimulatorparkingquery816sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq12b3sparql1294 - thread - simple - true
-resourcesbsbmbiquery722210sparql2210 - thread - simple - true
-resourcessp2bq12csparql21 - thread - simple - true
-expression may return no value - thread - simple - true
-resourcesbsbmbiquery141853sparql1853 - thread - simple - true
-resourcessp2bq3csparql247 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery616sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional45sparql4 - thread - simple - true
-expression has variable that may be unbound - thread - simple - true
-resourcessp2bq92sparql1294 - thread - simple - true
-sq13  subqueries dont inject bindings - thread - simple - true
-resourcesmyqueriessimulatorparkingquery212sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq62sparql973 - thread - simple - true
-resourcesmyqueriesoptional11sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery21sparql2502 simulatorparkinginputttl - thread - simple - true
-count 1 - thread - simple - true
-resourcesmyqueriesoptional55sparql5 - thread - simple - true
-bind02  bind - thread - simple - true
-resourcessp2bq12bsparql1640 - thread - simple - true
-resourcessp2bq68sparql700 - thread - simple - true
-resourcessp2bq72sparql1294 - thread - simple - true
-resourcessp2bq12b1sparql700 - thread - simple - true
-resourcessp2bq2sparql21 - thread - simple - true
-count 6 - thread - simple - true
-sparqldl05rq simple undistinguished variable test - thread - simple - true
-resourcesbsbmbiquery42553sparql2553 - thread - simple - true
-postquery values with 2 objvars 2 rows with undef - thread - simple - true
-resourcesbsbmbiquery711853sparql1853 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbtc029sparql1198 - thread - simple - true
-resourcesbsbmbiquery152553sparql2553 - thread - simple - true
-resourcesmyqueriesoptional1sparql4 - thread - simple - true
-resourcesmyqueriesoptional54sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery2sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional33sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery615sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq41sparql700 - thread - simple - true
-resourcesmyqueriesoptional15sparql4 - thread - simple - true
-resourcessp2bq3asparql21 - thread - simple - true
-resourcessp2bq12asparql1640 - thread - simple - true
-sq12  subquery in construct with builtins - thread - simple - true
-resourcessp2bq41sparql973 - thread - simple - true
-resourcessp2bq7sparql21 - thread - simple - true
-simple delete 7 - thread - simple - true
-add silent - thread - simple - true
-resourcessp2bq68sparql1640 - thread - simple - true
-bind01  bind - thread - simple - true
-graphspecific delete where 2 - thread - simple - true
-resourcessp2bq62sparql247 - thread - simple - true
-add 4 - thread - simple - true
-resourcesbsbmbiquery762553sparql2553 - thread - simple - true
-resourcesmyqueriesoptional20sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmbiquery122210sparql2210 - thread - simple - true
-exists within graph pattern - thread - simple - true
-resourcesmyqueriesoptional48sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery241853sparql1853 - thread - simple - true
-resourcesmyqueriesoptional19sparql4 - thread - simple - true
-sq14  limit by resource - thread - simple - true
-resourcesmyqueriesoptional9sparql4 - thread - simple - true
-resourcesmyqueriesoptional40sparql4 - thread - simple - true
-resourcessp2bq63sparql700 - thread - simple - true
-ceil - thread - simple - true
-sparqldl01rq triple pattern - thread - simple - true
-simple delete 4 with - thread - simple - true
-resourcesbsbmexplorequery751853sparql1853 - thread - simple - true
-not in 2 - thread - simple - true
-resourcessp2bq111sparql1294 - thread - simple - true
-resourcessp2bq63sparql973 - thread - simple - true
-resourcessp2bq12a1sparql1294 - thread - simple - true
-resourcesmyqueriesoptional6sparql4 - thread - simple - true
-resourcesbtc020sparql80 - thread - simple - true
-resourcesbsbmbiquery62553sparql2553 - thread - simple - true
-resourcessp2bq2sparql973 - thread - simple - true
-resourcessp2bq7sparql700 - thread - simple - true
-graphspecific delete where 1 - thread - simple - true
-resourcessp2bq12a1sparql1640 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - thread - simple - true
-papersparqldlq5 - thread - simple - true
-resourcesmyqueriesoptional37sparql4 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery8sparql377 simulatorparkinginputsmallttl - thread - simple - true
-reuse a project expression variable in select - thread - simple - true
-resourcesmyqueriesoptional4sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery514sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmbiquery162210sparql2210 - thread - simple - true
-clear silent graph iri - thread - simple - true
-resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - thread - simple - true
-min - thread - simple - true
-drop silent default - thread - simple - true
-resourcesmyqueriessimulatorparkingquery411sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery31853sparql1853 - thread - simple - true
-csv01  csv result format - thread - simple - true
-resourcesbsbmexplorequery252210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - thread - simple - true
-in 1 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery722sparql377 simulatorparkinginputsmallttl - thread - simple - true
-move silent to default - thread - simple - true
-resourcesbsbmexplorequery12553sparql2553 - thread - simple - true
-resourcesmyqueriesoptional26sparql4 - thread - simple - true
-resourcesmyqueriesoptional32sparql5 - thread - simple - true
-resourcesbsbmexplorequery112553sparql2553 - thread - simple - true
-resourcesmyqueriesoptional23sparql4 - thread - simple - true
-resourcesmyqueriesoptional51sparql4 - thread - simple - true
-resourcesmyqueriesoptional5sparql4 - thread - simple - true
-simple insert data 1 - thread - simple - true
-resourcesbsbmexplorequery101853sparql1853 - thread - simple - true
-resourcesbsbmbiquery52210sparql2210 - thread - simple - true
-resourcessp2bq4sparql21 - thread - simple - true
-resourcesbsbmbiquery171853sparql1853 - thread - simple - true
-resourcessp2bq68sparql247 - thread - simple - true
-resourcesmyqueriesoptional26sparql5 - thread - simple - true
-resourcessp2bq12csparql1640 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery817sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq12asparql21 - thread - simple - true
-resourcesbsbmexplorequery221853sparql1853 - thread - simple - true
-lcase - thread - simple - true
-resourcesmyqueriesoptional13sparql4 - thread - simple - true
-bind08  bind - thread - simple - true
 resourcessp2bq65sparql247 - thread - simple - true
-dentailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - thread - simple - true
-resourcesmyqueriessimulatorparkingquery414sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional29sparql4 - thread - simple - true
-avg - thread - simple - true
-resourcesmyqueriesoptional35sparql5 - thread - simple - true
-resourcesmyqueriesoptional17sparql4 - thread - simple - true
-resourcessp2bq3csparql1640 - thread - simple - true
-minutes - thread - simple - true
-resourcesmyqueriesoptional41sparql5 - thread - simple - true
-resourcessp2bq12b2sparql973 - thread - simple - true
-plus2 - thread - simple - true
-resourcessp2bq1sparql973 - thread - simple - true
-resourcesbsbmexplorequery231853sparql1853 - thread - simple - true
-resourcessp2bq7sparql973 - thread - simple - true
-resourcesbsbmbiquery142210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq72sparql21 - thread - simple - true
-resourcesmyqueriesoptional8sparql4 - thread - simple - true
-bind05  bind fixed data for owl dl - thread - simple - true
-resourcesbsbmbiquery62210sparql2210 - thread - simple - true
-resourcesbsbmexplorequery232553sparql2553 - thread - simple - true
-add 1 - thread - simple - true
-resourcesbsbmbiquery51853sparql1853 - thread - simple - true
-resourcesbsbmexplorequery52210sparql2210 - thread - simple - true
-copy silent to default - thread - simple - true
-add 7 - thread - simple - true
-resourcesbsbmbiquery21853sparql1853 - thread - simple - true
-resourcessp2bq61sparql700 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery414sparql377 simulatorparkinginputsmallttl - thread - simple - true
-bind07  bind - thread - simple - true
-resourcesmyqueriesoptional41sparql4 - thread - simple - true
-sha1 - thread - simple - true
-resourcesmyqueriesubungent04sparql764 - thread - simple - true
-exists with ground triple - thread - simple - true
-resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmexplorequery732210sparql2210 - thread - simple - true
-resourcesmyqueriesoptional64sparql5 - thread - simple - true
-resourcesmyqueriesoptional28sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional17sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery71sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq2sparql1294 - thread - simple - true
-isnumeric - thread - simple - true
-resourcesmyqueriesoptional56sparql4 - thread - simple - true
-iriuri - thread - simple - true
-resourcesbsbmbiquery742553sparql2553 - thread - simple - true
-resourcesbsbmbiquery412553sparql2553 - thread - simple - true
-resourcessp2bq111sparql247 - thread - simple - true
-resourcesbsbmbiquery162553sparql2553 - thread - simple - true
-resourcesbsbmexplorequery21853sparql1853 - thread - simple - true
-resourcesbsbmbiquery22210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery811sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional46sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery417sparql2502 simulatorparkinginputttl - thread - simple - true
-count 2 - thread - simple - true
-resourcessp2bq12bsparql1294 - thread - simple - true
-resourcessp2bq91sparql21 - thread - simple - true
-resourcessp2bq6sparql1640 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq12bsparql700 - thread - simple - true
-simple delete data 4 - thread - simple - true
-resourcesmyqueriesoptional31sparql5 - thread - simple - true
-resourcessp2bq42sparql1640 - thread - simple - true
-insert 04 - thread - simple - true
-drop default - thread - simple - true
-add 3 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq12b1sparql973 - thread - simple - true
-resourcesmyqueriesoptional2sparql4 - thread - simple - true
-resourcessp2bq61sparql21 - thread - simple - true
-resourcesbsbmbiquery762210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery615sparql2502 simulatorparkinginputttl - thread - simple - true
-concat - thread - simple - true
-resourcessp2bq62sparql1294 - thread - simple - true
-resourcesmyqueriesoptional3sparql5 - thread - simple - true
-resourcesmyqueriesoptional3sparql4 - thread - simple - true
-resourcesmyqueriesoptional53sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - thread - simple - true
-graphspecific delete 1 - thread - simple - true
-graphspecific delete 2 with - thread - simple - true
-resourcesmyqueriesoptional8sparql5 - thread - simple - true
-resourcesbsbmbiquery742210sparql2210 - thread - simple - true
-resourcesbsbmexplorequery712553sparql2553 - thread - simple - true
-resourcessp2bq1sparql1640 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery711sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional52sparql4 - thread - simple - true
-move silent - thread - simple - true
-bind03  bind fixed data for owl dl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery612sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq5bsparql21 - thread - simple - true
-resourcesmyqueriesoptional50sparql4 - thread - simple - true
-resourcesbsbmexplorequery712210sparql2210 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - thread - simple - true
-plus1 - thread - simple - true
-resourcesmyqueriesoptional63sparql4 - thread - simple - true
-resourcesmyqueriesoptional16sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery613sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq12b4sparql1640 - thread - simple - true
-drop named - thread - simple - true
-resourcessp2bq2sparql700 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmexplorequery731853sparql1853 - thread - simple - true
-resourcesbsbmexplorequery72553sparql2553 - thread - simple - true
-resourcesmyqueriesoptional56sparql5 - thread - simple - true
-resourcessp2bq62sparql1640 - thread - simple - true
-resourcessp2bq111sparql973 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - thread - simple - true
-sum with group by - thread - simple - true
-prefixname with hexencoded colons - thread - simple - true
-resourcesmyqueriesoptional39sparql4 - thread - simple - true
-resourcessp2bq1sparql1294 - thread - simple - true
-resourcesbsbmbiquery61853sparql1853 - thread - simple - true
-simple delete where 1 - thread - simple - true
-bind05  bind - thread - simple - true
-postquery values with optional objvar 1 row - thread - simple - true
-resourcessp2bq5asparql700 - thread - simple - true
-resourcessp2bq12b3sparql247 - thread - simple - true
-tz - thread - simple - true
-month - thread - simple - true
-resourcessp2bq11sparql1294 - thread - simple - true
-resourcessp2bq9sparql247 - thread - simple - true
-group3 - thread - simple - true
-resourcesbsbmbiquery732553sparql2553 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesx3sparql4 - thread - simple - true
-resourcesmyqueriesoptional51sparql5 - thread - simple - true
-resourcessp2bq63sparql247 - thread - simple - true
-resourcessp2bq5asparql1640 - thread - simple - true
-jsonres03  json result format - thread - simple - true
-resourcesmyqueriesoptional10sparql4 - thread - simple - true
-resourcesmyqueriesoptional60sparql5 - thread - simple - true
-move 2 - thread - simple - true
-bind06  bind - thread - simple - true
-resourcesmyqueriesx4sparql4 - thread - simple - true
-bnodes are not existentials with answer - thread - simple - true
-resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesoptional32sparql4 - thread - simple - true
-simple delete where 2 - thread - simple - true
-resourcesmyqueriesoptional40sparql5 - thread - simple - true
-clear default - thread - simple - true
-resourcesbsbmbiquery172553sparql2553 - thread - simple - true
-resourcessp2bq12bsparql21 - thread - simple - true
-resourcesmyqueriesoptional55sparql4 - thread - simple - true
-resourcessp2bq3bsparql21 - thread - simple - true
-bnodestr - thread - simple - true
-resourcessp2bq12csparql247 - thread - simple - true
-bind08  bind fixed data for owl dl - thread - simple - true
-in 2 - thread - simple - true
-resourcesmyqueriesoptional38sparql5 - thread - simple - true
-delete insert 1 - thread - simple - true
-resourcessp2bq41sparql21 - thread - simple - true
-resourcesbsbmbiquery161853sparql1853 - thread - simple - true
-resourcessp2bq67sparql700 - thread - simple - true
-resourcesmyqueriesubungent02sparql764 - thread - simple - true
-resourcesbsbmexplorequery762210sparql2210 - thread - simple - true
-resourcessp2bq11sparql247 - thread - simple - true
-resourcessp2bq6sparql21 - thread - simple - true
-resourcessp2bq6sparql1294 - thread - simple - true
-resourcesbsbmbiquery752210sparql2210 - thread - simple - true
-resourcessp2bq10sparql21 - thread - simple - true
 strdt - thread - simple - true
-resourcessp2bq6sparql973 - thread - simple - true
-resourcesmyqueriesoptional1sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery32sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmbiquery72210sparql2210 - thread - simple - true
-resourcesbsbmbiquery121853sparql1853 - thread - simple - true
-resourcessp2bq68sparql1294 - thread - simple - true
-resourcessp2bq71sparql1294 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmexplorequery102210sparql2210 - thread - simple - true
-resourcessp2bq12b4sparql1294 - thread - simple - true
-resourcesmyqueriesoptional39sparql5 - thread - simple - true
-resourcesmyqueriesx7sparql4 - thread - simple - true
-move 1 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmbiquery732210sparql2210 - thread - simple - true
-resourcessp2bq68sparql973 - thread - simple - true
-graphspecific delete 1 with - thread - simple - true
-resourcessp2bq10sparql1294 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriesubungent07sparql567 - thread - simple - true
-simple insert data named 2 - thread - simple - true
-resourcessp2bq111sparql1640 - thread - simple - true
-resourcesmyqueriesoptional24sparql4 - thread - simple - true
-resourcesbsbmexplorequery741853sparql1853 - thread - simple - true
-resourcessp2bq10sparql1640 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriesoptional37sparql5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - thread - simple - true
-group5 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery814sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq65sparql1640 - thread - simple - true
-resourcesmyqueriesoptional43sparql4 - thread - simple - true
-resourcesmyqueriesubungent01sparql764 - thread - simple - true
-strdt typeerrors - thread - simple - true
-resourcesmyqueriesoptional18sparql4 - thread - simple - true
-resourcesbsbmbiquery132553sparql2553 - thread - simple - true
-resourcessp2bq72sparql973 - thread - simple - true
-exists with one constant - thread - simple - true
-resourcesmyqueriesoptional12sparql4 - thread - simple - true
-resourcesbsbmexplorequery742210sparql2210 - thread - simple - true
-resourcessp2bq12b4sparql700 - thread - simple - true
-resourcesmyqueriesoptional29sparql5 - thread - simple - true
-resourcesmyqueriesoptional24sparql5 - thread - simple - true
-round - thread - simple - true
-resourcessp2bq12b2sparql700 - thread - simple - true
-expression raise an error - thread - simple - true
-resourcesmyqueriesoptional49sparql4 - thread - simple - true
-simple delete 3 using - thread - simple - true
-resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq67sparql247 - thread - simple - true
-resourcesmyqueriesoptional62sparql4 - thread - simple - true
-resourcessp2bq12a1sparql973 - thread - simple - true
-resourcesbsbmexplorequery732553sparql2553 - thread - simple - true
-resourcessp2bq12b2sparql1294 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery62sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmbiquery22553sparql2553 - thread - simple - true
-resourcessp2bq66sparql1294 - thread - simple - true
-resourcesmyqueriesoptional59sparql5 - thread - simple - true
-resourcesmyqueriesoptional22sparql5 - thread - simple - true
-resourcessp2bq61sparql973 - thread - simple - true
-bind02  bind fixed data for owl dl - thread - simple - true
-resourcesbsbmexplorequery761853sparql1853 - thread - simple - true
-resourcesmyqueriesoptional44sparql4 - thread - simple - true
-resourcessp2bq9sparql973 - thread - simple - true
-resourcesmyqueriesubungent20sparql709 - thread - simple - true
-resourcessp2bq1sparql247 - thread - simple - true
-resourcessp2bq12b3sparql700 - thread - simple - true
-simple delete data 1 - thread - simple - true
-bind10  bind scoping  variable in filter not in scope - thread - simple - true
-resourcesmyqueriesubungent15sparql567 - thread - simple - true
-simple delete 1 - thread - simple - true
-resourcesmyqueriesoptional58sparql4 - thread - simple - true
-resourcessp2bq92sparql247 - thread - simple - true
-resourcessp2bq3bsparql1294 - thread - simple - true
-resourcessp2bq4sparql700 - thread - simple - true
-resourcessp2bq42sparql1294 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery61sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery213sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcesbsbmbiquery712553sparql2553 - thread - simple - true
-resourcesmyqueriesubungent21sparql709 - thread - simple - true
-seconds - thread - simple - true
-resourcessp2bq67sparql1294 - thread - simple - true
-ucase - thread - simple - true
-resourcessp2bq8sparql1640 - thread - simple - true
-resourcesbsbmexplorequery211853sparql1853 - thread - simple - true
-copy 6 - thread - simple - true
-resourcesbsbmexplorequery102553sparql2553 - thread - simple - true
-resourcessp2bq9sparql1640 - thread - simple - true
-postquery values with objvar 1 row - thread - simple - true
-resourcessp2bq71sparql21 - thread - simple - true
-resourcesbsbmexplorequery42210sparql2210 - thread - simple - true
-resourcesmyqueriesoptional21sparql4 - thread - simple - true
-resourcessp2bq11sparql1640 - thread - simple - true
-resourcessp2bq66sparql1640 - thread - simple - true
-bind11  bind scoping  variable in filter in scope - thread - simple - true
-copy 2 - thread - simple - true
-postquery values with 2 objvars 1 row with undef - thread - simple - true
-floor - thread - simple - true
-resourcesmyqueriessimulatorparkingquery31sparql377 simulatorparkinginputsmallttl - thread - simple - true
-year - thread - simple - true
-resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - thread - simple - true
-strlen - thread - simple - true
-resourcesmyqueriesoptional59sparql4 - thread - simple - true
-count 5 - thread - simple - true
-jsonres04  json result format - thread - simple - true
-resourcesmyqueriesoptional4sparql4 - thread - simple - true
-resourcesmyqueriesoptional48sparql5 - thread - simple - true
-nested positive exists - thread - simple - true
-resourcesbsbmbiquery751853sparql1853 - thread - simple - true
-resourcesmyqueriesoptional53sparql4 - thread - simple - true
-resourcesmyqueriesoptional6sparql5 - thread - simple - true
-resourcesmyqueriesoptional9sparql5 - thread - simple - true
-constructwhere03  construct where - thread - simple - true
-resourcessp2bq6sparql247 - thread - simple - true
-resourcesbsbmexplorequery11853sparql1853 - thread - simple - true
-postquery values with 2 objvars 1 row - thread - simple - true
+resourcessp2bq67sparql1640 - thread - simple - true
+resourcesbsbmexplorequery722210sparql2210 - thread - simple - true
+reuse a project expression variable in select - thread - simple - true
 resourcessp2bq8sparql1294 - thread - simple - true
-resourcessp2bq12asparql1294 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - thread - simple - true
+group4 - thread - simple - true
+resourcesbsbmexplorequery102553sparql2553 - thread - simple - true
+resourcesbsbmexplorequery52553sparql2553 - thread - simple - true
+resourcessp2bq111sparql1640 - thread - simple - true
+resourcesmyqueriesoptional51sparql5 - thread - simple - true
+resourcesmyqueriesx2sparql10 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery31sparql377 simulatorparkinginputsmallttl - thread - simple - true
+bnodes are not existentials with answer - thread - simple - true
+resourcesbsbmbiquery122210sparql2210 - thread - simple - true
+resourcessp2bq91sparql1640 - thread - simple - true
+resourcessp2bq12b3sparql1640 - thread - simple - true
+resourcesbsbmbiquery711853sparql1853 - thread - simple - true
+resourcesbsbmexplorequery222553sparql2553 - thread - simple - true
+positive exists 1 - thread - simple - true
+sparqldl01rq triple pattern - thread - simple - true
+resourcesmyqueriessimulatorparkingquery316sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmexplorequery41853sparql1853 - thread - simple - true
+resourcessp2bq11sparql973 - thread - simple - true
 resourcesbsbmexplorequery122210sparql2210 - thread - simple - true
 resourcessp2bq12b4sparql973 - thread - simple - true
-move 7 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcessp2bq62sparql21 - thread - simple - true
-copy 1 - thread - simple - true
-resourcesmyqueriessimulatorparkingquery812sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq71sparql1640 - thread - simple - true
-resourcessp2bq12a1sparql247 - thread - simple - true
-resourcessp2bq11sparql973 - thread - simple - true
-resourcessp2bq72sparql700 - thread - simple - true
+resourcessp2bq3bsparql1294 - thread - simple - true
+resourcesmyqueriesoptional36sparql4 - thread - simple - true
+resourcesmyqueriesoptional43sparql5 - thread - simple - true
+constructwhere02  construct where - thread - simple - true
+resourcessp2bq62sparql1640 - thread - simple - true
+resourcesbsbmbiquery142553sparql2553 - thread - simple - true
+plus1 - thread - simple - true
+resourcessp2bq6sparql973 - thread - simple - true
+resourcessp2bq7sparql21 - thread - simple - true
+strlang - thread - simple - true
+resourcesmyqueriessimulatorparkingquery413sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq3csparql21 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery514sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq65sparql973 - thread - simple - true
+resourcessp2bq12b4sparql1294 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery51sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesubungent21sparql709 - thread - simple - true
+resourcesmyqueriesoptional13sparql4 - thread - simple - true
+resourcesmyqueriesubungent10sparql567 - thread - simple - true
+resourcessp2bq71sparql21 - thread - simple - true
+resourcesmyqueriesubungent14sparql567 - thread - simple - true
+resourcessp2bq111sparql1294 - thread - simple - true
+simple delete 7 - thread - simple - true
+clear silent graph iri - thread - simple - true
+resourcesmyqueriesoptional11sparql4 - thread - simple - true
+resourcessp2bq4sparql247 - thread - simple - true
 resourcesmyqueriessimulatorparkingquery212sparql2502 simulatorparkinginputttl - thread - simple - true
-resourcesbsbmbiquery81853sparql1853 - thread - simple - true
-resourcessp2bq62sparql700 - thread - simple - true
-resourcesbsbmexplorequery722553sparql2553 - thread - simple - true
-coalesce - thread - simple - true
-resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - thread - simple - true
-load silent into - thread - simple - true
-bind04  bind fixed data for owl dl - thread - simple - true
-resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesbsbmbiquery141853sparql1853 - thread - simple - true
+expression is equality - thread - simple - true
+strends - thread - simple - true
+simple triple pattern match - thread - simple - true
+jsonres02  json result format - thread - simple - true
+resourcesmyqueriessimulatorparkingquery3sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery7sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesubungent12sparql567 - thread - simple - true
+resourcesbsbmexplorequery42210sparql2210 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery411sparql377 simulatorparkinginputsmallttl - thread - simple - true
+strlen - thread - simple - true
+resourcesmyqueriessimulatorparkingquery513sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq62sparql973 - thread - simple - true
+move 4 - thread - simple - true
+resourcesmyqueriesoptional61sparql4 - thread - simple - true
+insert 04 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery412sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesoptional14sparql4 - thread - simple - true
+resourcesmyqueriesx3sparql4 - thread - simple - true
+sha1 on unicode data - thread - simple - true
+resourcesmyqueriessimulatorparkingquery411sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq61sparql1294 - thread - simple - true
+resourcessp2bq12bsparql1294 - thread - simple - true
+resourcesmyqueriesoptional34sparql5 - thread - simple - true
+resourcessp2bq11sparql247 - thread - simple - true
+resourcesbsbmexplorequery52210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional17sparql4 - thread - simple - true
+bind04  bind - thread - simple - true
+resourcesbsbmexplorequery211853sparql1853 - thread - simple - true
+add 2 - thread - simple - true
+resourcessp2bq2sparql21 - thread - simple - true
 resourcesmyqueriessimulatorparkingquery21sparql377 simulatorparkinginputsmallttl - thread - simple - true
-resourcessp2bq91sparql700 - thread - simple - true
-sample - thread - simple - true
-graphspecific delete data 1 - thread - simple - true
-resourcessp2bq61sparql1640 - thread - simple - true
-resourcessp2bq42sparql21 - thread - simple - true
+resourcesbsbmexplorequery252553sparql2553 - thread - simple - true
+resourcessp2bq61sparql700 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery211sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery5sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesoptional44sparql4 - thread - simple - true
+resourcessp2bq71sparql700 - thread - simple - true
+clear named - thread - simple - true
+resourcessp2bq12b2sparql1640 - thread - simple - true
+resourcesbsbmexplorequery11853sparql1853 - thread - simple - true
+resourcesbsbmexplorequery102210sparql2210 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery82sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional33sparql4 - thread - simple - true
+resourcessp2bq3bsparql21 - thread - simple - true
+resourcesbsbmbiquery412210sparql2210 - thread - simple - true
+resourcessp2bq5bsparql1640 - thread - simple - true
+resourcesbsbmbiquery722210sparql2210 - thread - simple - true
+copy 4 - thread - simple - true
+resourcesbsbmexplorequery42553sparql2553 - thread - simple - true
+resourcessp2bq12csparql700 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery213sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq8sparql700 - thread - simple - true
+resourcessp2bq5asparql247 - thread - simple - true
+resourcessp2bq66sparql21 - thread - simple - true
+sq11  subquery limit per resource - thread - simple - true
+resourcesmyqueriesoptional54sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery512sparql2502 simulatorparkinginputttl - thread - simple - true
+jsonres03  json result format - thread - simple - true
+clear all - thread - simple - true
+resourcesmyqueriesx6sparql4 - thread - simple - true
+resourcessp2bq11sparql1294 - thread - simple - true
+resourcessp2bq111sparql700 - thread - simple - true
+resourcessp2bq12b2sparql247 - thread - simple - true
+prefixname with unescaped colons - thread - simple - true
+resourcesbsbmbiquery41853sparql1853 - thread - simple - true
+resourcesmyqueriesoptional63sparql4 - thread - simple - true
+move 2 - thread - simple - true
+ucase - thread - simple - true
+resourcessp2bq11sparql21 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery721sparql2502 simulatorparkinginputttl - thread - simple - true
+simple delete data 4 - thread - simple - true
+resourcesbsbmexplorequery771853sparql1853 - thread - simple - true
+strdtstr - thread - simple - true
+resourcesmyqueriessimulatorparkingquery211sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional57sparql5 - thread - simple - true
+bind06  bind fixed data for owl dl - thread - simple - true
+resourcessp2bq68sparql1294 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery611sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery413sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional20sparql4 - thread - simple - true
+insert 01 - thread - simple - true
+resourcessp2bq41sparql973 - thread - simple - true
+resourcesbsbmexplorequery12210sparql2210 - thread - simple - true
+constructwhere01  construct where - thread - simple - true
+resourcessp2bq92sparql21 - thread - simple - true
+sum - thread - simple - true
+resourcessp2bq9sparql21 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery317sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional50sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery82sparql2502 simulatorparkinginputttl - thread - simple - true
+count 5 - thread - simple - true
+graphspecific delete 2 with - thread - simple - true
+resourcessp2bq2sparql1640 - thread - simple - true
+resourcesmyqueriesoptional21sparql4 - thread - simple - true
+group1 - thread - simple - true
+resourcesmyqueriesoptional38sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery5sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery711sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmexplorequery111853sparql1853 - thread - simple - true
+resourcessp2bq12a1sparql1640 - thread - simple - true
+resourcessp2bq11sparql1640 - thread - simple - true
+resourcesmyqueriesoptional46sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery514sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmexplorequery731853sparql1853 - thread - simple - true
+clear default - thread - simple - true
+resourcesmyqueriessimulatorparkingquery2sparql2502 simulatorparkinginputttl - thread - simple - true
+bind06  bind - thread - simple - true
+resourcessp2bq42sparql1294 - thread - simple - true
+day - thread - simple - true
+resourcesmyqueriesoptional26sparql4 - thread - simple - true
+resourcesmyqueriesoptional7sparql5 - thread - simple - true
+resourcesmyqueriesoptional50sparql4 - thread - simple - true
+resourcesbsbmexplorequery722553sparql2553 - thread - simple - true
+resourcessp2bq12bsparql700 - thread - simple - true
+resourcessp2bq5bsparql973 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery81sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery615sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq3asparql21 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery314sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq4sparql1294 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery311sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery6sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq7sparql1294 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery814sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery813sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesoptional4sparql5 - thread - simple - true
+resourcesmyqueriesoptional48sparql4 - thread - simple - true
+hours - thread - simple - true
+resourcessp2bq9sparql1640 - thread - simple - true
+resourcesbsbmbiquery412553sparql2553 - thread - simple - true
+simple delete 2 - thread - simple - true
+resourcesmyqueriesoptional62sparql5 - thread - simple - true
+not in 2 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery417sparql377 simulatorparkinginputsmallttl - thread - simple - true
+seconds - thread - simple - true
+simple delete where 3 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery2sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesbsbmexplorequery112210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional57sparql4 - thread - simple - true
+resourcessp2bq12asparql700 - thread - simple - true
+count 3 - thread - simple - true
+plus2 - thread - simple - true
+nested negative exists in positive exists - thread - simple - true
+resourcessp2bq8sparql247 - thread - simple - true
+resourcesmyqueriesoptional28sparql4 - thread - simple - true
+simple delete 1 - thread - simple - true
+strlang typeerrors - thread - simple - true
+resourcesmyqueriesoptional26sparql5 - thread - simple - true
+resourcesbsbmexplorequery732210sparql2210 - thread - simple - true
+resourcessp2bq9sparql247 - thread - simple - true
+resourcesmyqueriesoptional31sparql5 - thread - simple - true
+resourcesmyqueriesoptional2sparql4 - thread - simple - true
+expression may return no value - thread - simple - true
+resourcessp2bq72sparql247 - thread - simple - true
+resourcesbsbmbiquery132210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional30sparql5 - thread - simple - true
+resourcesmyqueriesoptional46sparql4 - thread - simple - true
+bind04  bind fixed data for owl dl - thread - simple - true
+resourcessp2bq61sparql21 - thread - simple - true
+resourcesbsbmbiquery122553sparql2553 - thread - simple - true
+resourcessp2bq42sparql247 - thread - simple - true
+resourcesmyqueriesoptional52sparql4 - thread - simple - true
+sum with group by - thread - simple - true
+simple delete where 4 - thread - simple - true
+avg - thread - simple - true
+resourcesbsbmexplorequery252210sparql2210 - thread - simple - true
+add 6 - thread - simple - true
+resourcessp2bq5asparql1294 - thread - simple - true
+resourcesbsbmexplorequery742210sparql2210 - thread - simple - true
+resourcesbsbmexplorequery232210sparql2210 - thread - simple - true
+expression has variable that may be unbound - thread - simple - true
+resourcessp2bq92sparql973 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery315sparql377 simulatorparkinginputsmallttl - thread - simple - true
+iriuri - thread - simple - true
+resourcesbsbmbiquery112553sparql2553 - thread - simple - true
+move 3 - thread - simple - true
+sha256 on unicode data - thread - simple - true
+resourcesmyqueriesoptional9sparql5 - thread - simple - true
+simple delete 4 using - thread - simple - true
+resourcesmyqueriessimulatorparkingquery72sparql377 simulatorparkinginputsmallttl - thread - simple - true
+lcase - thread - simple - true
+resourcessp2bq91sparql973 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery722sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesoptional1sparql5 - thread - simple - true
+resourcesmyqueriesoptional49sparql4 - thread - simple - true
 resourcesmyqueriessimulatorparkingquery821sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional17sparql5 - thread - simple - true
+resourcesbsbmexplorequery762553sparql2553 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery721sparql377 simulatorparkinginputsmallttl - thread - simple - true
+create silent iri - thread - simple - true
+simple delete 2 with - thread - simple - true
+resourcessp2bq12b3sparql700 - thread - simple - true
+resourcessp2bq12asparql247 - thread - simple - true
+resourcessp2bq9sparql973 - thread - simple - true
+resourcessp2bq7sparql247 - thread - simple - true
+positive exists 2 - thread - simple - true
+resourcesbsbmbiquery171853sparql1853 - thread - simple - true
+resourcessp2bq41sparql21 - thread - simple - true
+resourcessp2bq2sparql1294 - thread - simple - true
+resourcesmyqueriesoptional41sparql5 - thread - simple - true
+sq13  subqueries dont inject bindings - thread - simple - true
+resourcesmyqueriessimulatorparkingquery811sparql377 simulatorparkinginputsmallttl - thread - simple - true
+sha1 - thread - simple - true
+resourcesmyqueriesoptional6sparql4 - thread - simple - true
+move 7 - thread - simple - true
+resourcesmyqueriesoptional47sparql4 - thread - simple - true
+resourcesmyqueriesoptional29sparql5 - thread - simple - true
+resourcesmyqueriesoptional18sparql5 - thread - simple - true
+sparqldl07rq two distinguished variables  undist - thread - simple - true
+resourcesbsbmbiquery61853sparql1853 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery1sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery72553sparql2553 - thread - simple - true
+resourcessp2bq67sparql700 - thread - simple - true
+resourcessp2bq12b3sparql247 - thread - simple - true
+group5 - thread - simple - true
+resourcessp2bq92sparql247 - thread - simple - true
+resourcesbsbmexplorequery752553sparql2553 - thread - simple - true
+resourcessp2bq42sparql21 - thread - simple - true
+resourcessp2bq12b1sparql247 - thread - simple - true
+resourcesbsbmbiquery152553sparql2553 - thread - simple - true
+resourcesmyqueriesoptional52sparql5 - thread - simple - true
+resourcesmyqueriesoptional12sparql5 - thread - simple - true
+resourcessp2bq66sparql1640 - thread - simple - true
+resourcessp2bq12csparql1294 - thread - simple - true
+copy 1 - thread - simple - true
+resourcesmyqueriesoptional11sparql5 - thread - simple - true
+resourcessp2bq1sparql973 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery821sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq12asparql973 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery814sparql2502 simulatorparkinginputttl - thread - simple - true
+simple delete 3 using - thread - simple - true
+resourcesmyqueriesoptional41sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery815sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq12b1sparql973 - thread - simple - true
+bind11  bind scoping  variable in filter in scope - thread - simple - true
+resourcesmyqueriessimulatorparkingquery8sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional56sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery51sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq8sparql973 - thread - simple - true
+resourcesmyqueriesoptional63sparql5 - thread - simple - true
+resourcessp2bq6sparql700 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery313sparql377 simulatorparkinginputsmallttl - thread - simple - true
+inline values graph pattern - thread - simple - true
+resourcesmyqueriessimulatorparkingquery614sparql377 simulatorparkinginputsmallttl - thread - simple - true
+clear silent default - thread - simple - true
+resourcesbsbmexplorequery242210sparql2210 - thread - simple - true
+agg empty group - thread - simple - true
+resourcessp2bq91sparql247 - thread - simple - true
+simple delete 1 with - thread - simple - true
+resourcesmyqueriesoptional35sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery416sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq3csparql247 - thread - simple - true
+dentailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - thread - simple - true
+resourcesmyqueriessimulatorparkingquery213sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq12a1sparql247 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery32sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesbsbmexplorequery751853sparql1853 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery4sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesoptional23sparql4 - thread - simple - true
+resourcesbsbmexplorequery32553sparql2553 - thread - simple - true
+resourcesmyqueriesx7sparql4 - thread - simple - true
+graphspecific delete 2 - thread - simple - true
+graphspecific delete 1 with - thread - simple - true
+resourcesbsbmbiquery121853sparql1853 - thread - simple - true
+resourcesbsbmbiquery131853sparql1853 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery817sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq67sparql973 - thread - simple - true
+resourcesmyqueriesoptional37sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery8sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery722sparql377 simulatorparkinginputsmallttl - thread - simple - true
+expression has undefined variable - thread - simple - true
+resourcesbsbmbiquery712210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional33sparql5 - thread - simple - true
+resourcesbsbmexplorequery752210sparql2210 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery42sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery313sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery311sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq72sparql21 - thread - simple - true
+resourcessp2bq1sparql1294 - thread - simple - true
+resourcessp2bq12bsparql21 - thread - simple - true
+resourcessp2bq61sparql1640 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery816sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq63sparql1640 - thread - simple - true
+resourcesmyqueriesoptional59sparql4 - thread - simple - true
+resourcesmyqueriesubungent01sparql764 - thread - simple - true
+resourcessp2bq72sparql700 - thread - simple - true
+resourcesmyqueriesoptional12sparql4 - thread - simple - true
+move 1 - thread - simple - true
+resourcessp2bq65sparql700 - thread - simple - true
+resourcesbsbmexplorequery242553sparql2553 - thread - simple - true
+move silent - thread - simple - true
+resourcesbsbmbiquery51853sparql1853 - thread - simple - true
+resourcessp2bq9sparql1294 - thread - simple - true
+resourcessp2bq12bsparql1640 - thread - simple - true
+graphspecific delete where 2 - thread - simple - true
+resourcesmyqueriesoptional64sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery616sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq71sparql973 - thread - simple - true
+md5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery813sparql377 simulatorparkinginputsmallttl - thread - simple - true
+bind03  bind fixed data for owl dl - thread - simple - true
+count 4 - thread - simple - true
+copy 6 - thread - simple - true
+resourcessp2bq5asparql1640 - thread - simple - true
+resourcessp2bq3bsparql1640 - thread - simple - true
+simple insert data named 2 - thread - simple - true
+resourcessp2bq12csparql247 - thread - simple - true
+simple delete 4 with - thread - simple - true
+resourcessp2bq6sparql1294 - thread - simple - true
+resourcesbsbmbiquery42210sparql2210 - thread - simple - true
+resourcesbsbmbiquery31853sparql1853 - thread - simple - true
+resourcesbtc028sparql3778 - thread - simple - true
+resourcesmyqueriesoptional14sparql5 - thread - simple - true
+resourcessp2bq11sparql700 - thread - simple - true
+resourcesbsbmexplorequery772210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional53sparql4 - thread - simple - true
+postquery values with subjvar 1 row - thread - simple - true
+resourcesmyqueriessimulatorparkingquery614sparql2502 simulatorparkinginputttl - thread - simple - true
+delete insert 1c - thread - simple - true
+resourcesmyqueriesubungent07sparql567 - thread - simple - true
+resourcessp2bq62sparql247 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery81sparql377 simulatorparkinginputsmallttl - thread - simple - true
+simple delete where 1 - thread - simple - true
+resourcessp2bq12csparql21 - thread - simple - true
+resourcesmyqueriesoptional64sparql4 - thread - simple - true
+resourcesmyqueriesoptional27sparql4 - thread - simple - true
+resourcessp2bq6sparql1640 - thread - simple - true
+resourcesmyqueriesoptional55sparql4 - thread - simple - true
+add silent - thread - simple - true
+drop silent graph iri - thread - simple - true
+resourcesmyqueriesoptional18sparql4 - thread - simple - true
 resourcesbsbmbiquery111853sparql1853 - thread - simple - true
+resourcesbsbmbiquery721853sparql1853 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery41sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional22sparql5 - thread - simple - true
+literal with language tag test - thread - simple - true
+resourcesbsbmbiquery742553sparql2553 - thread - simple - true
+copy silent to default - thread - simple - true
+resourcesmyqueriesoptional32sparql4 - thread - simple - true
+exists within graph pattern - thread - simple - true
+resourcesmyqueriessimulatorparkingquery613sparql2502 simulatorparkinginputttl - thread - simple - true
+simple delete where 2 - thread - simple - true
+add 3 - thread - simple - true
+resourcessp2bq12a1sparql700 - thread - simple - true
+resourcesmyqueriesoptional42sparql5 - thread - simple - true
+resourcessp2bq4sparql973 - thread - simple - true
+resourcesmyqueriesoptional62sparql4 - thread - simple - true
+resourcesbsbmexplorequery232553sparql2553 - thread - simple - true
+resourcesbsbmbiquery72210sparql2210 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery415sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional3sparql4 - thread - simple - true
+simple delete 4 - thread - simple - true
+resourcesmyqueriesoptional3sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery511sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional28sparql5 - thread - simple - true
+resourcesmyqueriesubungent18sparql709 - thread - simple - true
+delete insert 1 - thread - simple - true
+resourcesbsbmexplorequery221853sparql1853 - thread - simple - true
+resourcesmyqueriesoptional16sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery41sparql2502 simulatorparkinginputttl - thread - simple - true
+load silent into - thread - simple - true
+tz - thread - simple - true
+postquery values with objvar 1 row - thread - simple - true
+resourcesmyqueriesoptional39sparql5 - thread - simple - true
+exists with ground triple - thread - simple - true
+resourcessp2bq8sparql21 - thread - simple - true
+simple insert data 1 - thread - simple - true
+resourcessp2bq71sparql247 - thread - simple - true
+resourcessp2bq1sparql247 - thread - simple - true
+resourcessp2bq3asparql1294 - thread - simple - true
+add 7 - thread - simple - true
+contains - thread - simple - true
+resourcesbsbmbiquery172553sparql2553 - thread - simple - true
+round - thread - simple - true
+sparqldl06rq cycle of undistinguished variables - thread - simple - true
+resourcesmyqueriessimulatorparkingquery414sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional43sparql4 - thread - simple - true
+resourcesbsbmexplorequery732553sparql2553 - thread - simple - true
+resourcesbsbmbiquery42553sparql2553 - thread - simple - true
+timezone - thread - simple - true
+resourcesbsbmbiquery142210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional39sparql4 - thread - simple - true
+resourcesbsbmexplorequery101853sparql1853 - thread - simple - true
+resourcessp2bq71sparql1640 - thread - simple - true
+resourcesbsbmexplorequery721853sparql1853 - thread - simple - true
+bind07  bind fixed data for owl dl - thread - simple - true
+graphspecific delete data 1 - thread - simple - true
+resourcessp2bq3csparql973 - thread - simple - true
+sq14  limit by resource - thread - simple - true
+bind01  bind - thread - simple - true
+resourcessp2bq65sparql1640 - thread - simple - true
+resourcesbtc020sparql80 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery711sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional24sparql5 - thread - simple - true
+resourcessp2bq63sparql247 - thread - simple - true
+resourcessp2bq12b1sparql1640 - thread - simple - true
+nested positive exists - thread - simple - true
+resourcesmyqueriessimulatorparkingquery61sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq12b2sparql700 - thread - simple - true
+copy 3 - thread - simple - true
+resourcesbsbmexplorequery742553sparql2553 - thread - simple - true
+resourcesbsbmexplorequery22210sparql2210 - thread - simple - true
+add 8 - thread - simple - true
+resourcesmyqueriesoptional2sparql5 - thread - simple - true
+subsets by exclusion not exists - thread - simple - true
+resourcesbsbmbiquery732210sparql2210 - thread - simple - true
+resourcessp2bq91sparql21 - thread - simple - true
+resourcesbsbmexplorequery212553sparql2553 - thread - simple - true
+resourcessp2bq12b2sparql21 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery816sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmexplorequery251853sparql1853 - thread - simple - true
+isnumeric - thread - simple - true
+resourcesmyqueriesoptional30sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery312sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery316sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq8sparql1640 - thread - simple - true
+constructwhere03  construct where - thread - simple - true
+resourcesmyqueriesoptional25sparql4 - thread - simple - true
+resourcessp2bq41sparql247 - thread - simple - true
+resourcesmyqueriesoptional35sparql4 - thread - simple - true
+resourcessp2bq42sparql1640 - thread - simple - true
+resourcesmyqueriesoptional56sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery812sparql2502 simulatorparkinginputttl - thread - simple - true
+expression raise an error - thread - simple - true
+bnodestr - thread - simple - true
+resourcessp2bq1sparql1640 - thread - simple - true
+resourcesbsbmbiquery12210sparql2210 - thread - simple - true
+sparqldl09rq undist vars test - thread - simple - true
+resourcessp2bq5bsparql21 - thread - simple - true
+load silent - thread - simple - true
+resourcessp2bq12b3sparql21 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery314sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesmyqueriesubungent20sparql709 - thread - simple - true
+copy 2 - thread - simple - true
+resourcesbsbmexplorequery71853sparql1853 - thread - simple - true
+postquery values with subjobjvars 2 rows with undef - thread - simple - true
+resourcesbsbmbiquery762210sparql2210 - thread - simple - true
+resourcessp2bq5asparql973 - thread - simple - true
+bind08  bind fixed data for owl dl - thread - simple - true
+sparqldl05rq simple undistinguished variable test - thread - simple - true
+resourcesmyqueriessimulatorparkingquery71sparql377 simulatorparkinginputsmallttl - thread - simple - true
+strlangstr - thread - simple - true
+resourcesbsbmexplorequery712553sparql2553 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery315sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq68sparql973 - thread - simple - true
+resourcesmyqueriesoptional13sparql5 - thread - simple - true
+floor - thread - simple - true
+resourcesbsbmexplorequery712210sparql2210 - thread - simple - true
+resourcesbsbmexplorequery212210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional4sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery612sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriesoptional32sparql5 - thread - simple - true
+resourcessp2bq3asparql973 - thread - simple - true
+resourcesmyqueriesoptional37sparql4 - thread - simple - true
+resourcesbsbmbiquery162210sparql2210 - thread - simple - true
+group3 - thread - simple - true
+resourcessp2bq12b4sparql700 - thread - simple - true
+resourcessp2bq111sparql247 - thread - simple - true
+simple delete data 2 - thread - simple - true
+month - thread - simple - true
+resourcesbsbmexplorequery741853sparql1853 - thread - simple - true
+ceil - thread - simple - true
+resourcessp2bq12asparql1640 - thread - simple - true
+resourcessp2bq2sparql700 - thread - simple - true
+resourcesbsbmexplorequery32210sparql2210 - thread - simple - true
+bnode - thread - simple - true
+bind02  bind fixed data for owl dl - thread - simple - true
+resourcesbsbmbiquery11853sparql1853 - thread - simple - true
+count 1 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery416sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmexplorequery762210sparql2210 - thread - simple - true
+resourcesbsbmbiquery162553sparql2553 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery512sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcesmyqueriessimulatorparkingquery621sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery732553sparql2553 - thread - simple - true
+resourcesmyqueriesoptional27sparql5 - thread - simple - true
+resourcessp2bq2sparql973 - thread - simple - true
+insert 03 - thread - simple - true
+concat - thread - simple - true
+resourcesbtc030sparql867 - thread - simple - true
+resourcesbsbmbiquery762553sparql2553 - thread - simple - true
+resourcesmyqueriesubungent15sparql567 - thread - simple - true
+drop named - thread - simple - true
+resourcesbsbmexplorequery51853sparql1853 - thread - simple - true
+resourcesbsbmexplorequery112553sparql2553 - thread - simple - true
+resourcesbsbmexplorequery772553sparql2553 - thread - simple - true
+resourcesbsbmbiquery112210sparql2210 - thread - simple - true
+resourcessp2bq63sparql973 - thread - simple - true
+graphspecific delete 1 - thread - simple - true
+delete insert 2 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery61sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq10sparql1294 - thread - simple - true
+resourcessp2bq6sparql21 - thread - simple - true
+resourcessp2bq68sparql1640 - thread - simple - true
+resourcessp2bq12asparql21 - thread - simple - true
+resourcesmyqueriesoptional24sparql4 - thread - simple - true
+exists with one constant - thread - simple - true
+add 5 - thread - simple - true
+resourcesbsbmbiquery151853sparql1853 - thread - simple - true
+resourcessp2bq111sparql973 - thread - simple - true
+resourcesbsbmbiquery32210sparql2210 - thread - simple - true
+resourcessp2bq6sparql247 - thread - simple - true
+resourcesmyqueriesubungent03sparql764 - thread - simple - true
+resourcesbsbmbiquery751853sparql1853 - thread - simple - true
+drop silent default - thread - simple - true
+resourcessp2bq12b1sparql1294 - thread - simple - true
+resourcessp2bq12asparql1294 - thread - simple - true
+error in avg - thread - simple - true
+resourcesbsbmbiquery132553sparql2553 - thread - simple - true
 resourcesmyqueriesoptional5sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery817sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery152210sparql2210 - thread - simple - true
+resourcesmyqueriesoptional34sparql4 - thread - simple - true
+resourcesmyqueriesoptional21sparql5 - thread - simple - true
+resourcesbsbmbiquery741853sparql1853 - thread - simple - true
+resourcesbsbmbiquery731853sparql1853 - thread - simple - true
+resourcesmyqueriesubungent04sparql764 - thread - simple - true
+bind02  bind - thread - simple - true
+resourcesmyqueriesoptional58sparql4 - thread - simple - true
+resourcessp2bq10sparql700 - thread - simple - true
+resourcesbsbmbiquery82553sparql2553 - thread - simple - true
+minutes - thread - simple - true
+resourcesmyqueriesx4sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery42sparql377 simulatorparkinginputsmallttl - thread - simple - true
+strafter - thread - simple - true
+resourcessp2bq12csparql973 - thread - simple - true
+resourcesbsbmbiquery12553sparql2553 - thread - simple - true
+if error propogation - thread - simple - true
+resourcesmyqueriessimulatorparkingquery317sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbtc005sparql578 - thread - simple - true
+resourcessp2bq12b2sparql1294 - thread - simple - true
+resourcessp2bq10sparql973 - thread - simple - true
+move silent to default - thread - simple - true
+resourcesmyqueriesoptional40sparql5 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery32sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery752553sparql2553 - thread - simple - true
+resourcesmyqueriesoptional10sparql4 - thread - simple - true
+resourcessp2bq12a1sparql1294 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery415sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcessp2bq3asparql1640 - thread - simple - true
+simple delete 3 - thread - simple - true
+resourcesbsbmbiquery411853sparql1853 - thread - simple - true
+clear graph - thread - simple - true
+resourcessp2bq66sparql1294 - thread - simple - true
+resourcessp2bq67sparql247 - thread - simple - true
+bind08  bind - thread - simple - true
+resourcessp2bq66sparql700 - thread - simple - true
+resourcessp2bq12b1sparql700 - thread - simple - true
+prefixname with hexencoded colons - thread - simple - true
+resourcesmyqueriesoptional15sparql5 - thread - simple - true
+resourcesbsbmbiquery742210sparql2210 - thread - simple - true
+min with group by - thread - simple - true
+postquery values with optional objvar 1 row - thread - simple - true
+resourcessp2bq91sparql1294 - thread - simple - true
+reuse a project expression variable in order by - thread - simple - true
+copy 7 - thread - simple - true
+postquery values with 2 objvars 1 row - thread - simple - true
+resourcesmyqueriesoptional60sparql4 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery412sparql377 simulatorparkinginputsmallttl - thread - simple - true
+resourcessp2bq12b4sparql247 - thread - simple - true
+resourcesmyqueriesoptional16sparql5 - thread - simple - true
+resourcesmyqueriesoptional9sparql4 - thread - simple - true
+resourcessp2bq12csparql1640 - thread - simple - true
+add silent to default - thread - simple - true
+subtraction with minus from a fully bound minuend - thread - simple - true
+resourcesmyqueriesoptional31sparql4 - thread - simple - true
+in 1 - thread - simple - true
+resourcesmyqueriesoptional58sparql5 - thread - simple - true
+resourcessp2bq2sparql247 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery611sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery21853sparql1853 - thread - simple - true
+papersparqldlq5 - thread - simple - true
+resourcessp2bq5bsparql247 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery312sparql377 simulatorparkinginputsmallttl - thread - simple - true
+bind05  bind fixed data for owl dl - thread - simple - true
+postquery values with 2 objvars 1 row with undef - thread - simple - true
+resourcesmyqueriessimulatorparkingquery7sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmbiquery712553sparql2553 - thread - simple - true
+not in 1 - thread - simple - true
+resourcessp2bq63sparql700 - thread - simple - true
+resourcesmyqueriesoptional42sparql4 - thread - simple - true
+resourcessp2bq12b4sparql1640 - thread - simple - true
+tvs02  tsv result format - thread - simple - true
+simple delete data 1 - thread - simple - true
+count 7 - thread - simple - true
+resourcessp2bq7sparql973 - thread - simple - true
+resourcesbsbmexplorequery22553sparql2553 - thread - simple - true
+resourcessp2bq92sparql1294 - thread - simple - true
+resourcessp2bq66sparql973 - thread - simple - true
+resourcesbsbmbiquery52210sparql2210 - thread - simple - true
+resourcesmyqueriesubungent17sparql709 - thread - simple - true
+graphspecific delete data 2 - thread - simple - true
+resourcesmyqueriesoptional55sparql5 - thread - simple - true
+strstarts - thread - simple - true
+insert 02 - thread - simple - true
+medical temporal proximity by exclusion not exists - thread - simple - true
+graphspecific delete 1 using - thread - simple - true
+sha256 - thread - simple - true
+drop graph - thread - simple - true
+resourcesbtc029sparql1198 - thread - simple - true
+resourcesmyqueriessimulatorparkingquery72sparql2502 simulatorparkinginputttl - thread - simple - true
+resourcesbsbmexplorequery761853sparql1853 - thread - simple - true
+bind10  bind scoping  variable in filter not in scope - thread - simple - true
+simple delete 3 with - thread - simple - true
+resourcessp2bq12b3sparql1294 - thread - simple - true
+resourcessp2bq92sparql1640 - thread - simple - true
+resourcesmyqueriesubungent11sparql567 - thread - simple - true
+resourcessp2bq10sparql247 - thread - simple - true
+sample - thread - simple - true
+resourcesbsbmbiquery172210sparql2210 - thread - simple - true
