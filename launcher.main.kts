@@ -939,6 +939,7 @@ fun onRun() {
                 cmd.add("java")
                 cmd.add("-Xmx${Platform.getAvailableRam()}g")
             }
+                cmd.add("-Djava.util.concurrent.ForkJoinPool.common.parallelism=8")
             val a1 = LauncherConfig.getConfigValue("--processUrlsStore")
             val a2 = LauncherConfig.getConfigValue("--processUrlsQuery")
             val a3 = (a1.split(",").toList() + a2.split(",").toList()).toSet()

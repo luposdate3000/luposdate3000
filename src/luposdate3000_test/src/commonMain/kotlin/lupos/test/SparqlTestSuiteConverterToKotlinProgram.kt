@@ -160,7 +160,7 @@ without minify mode only the passing tests will be added
             out.println("    )")
             out.println("    tests.parallelStream().forEach{it->")
             out.println("              println(it+\" start\")")
-            out.println("              exec(it, jvmArgs = listOf(\"-Xmx8g\"))")
+            out.println("              exec(it, jvmArgs = listOf(\"-Xmx16g\"))")
             out.println("              println(it+\" done\")")
             out.println("    }")
             out.println("}")
@@ -485,6 +485,17 @@ without minify mode only the passing tests will be added
                     fileBufferTest.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
                     fileBufferTest.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
                     fileBufferTest.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
+when(LUPOS_PARTITION_MODE){
+EPartitionModeExt.names[EPartitionModeExt.Thread],EPartitionModeExt.names[EPartitionModeExt.None]->{
+fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_STORE=arrayOf(\"localhost:80\")")
+fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf(\"localhost:80\")")
+fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_ALL=arrayOf(\"localhost:80\")")
+fileBufferTest.println("        instance.LUPOS_PROCESS_ID=0")
+}
+else->{
+
+}
+}
                     fileBufferTest.println("        instance = LuposdateEndpoint.initializeB(instance)")
                     fileBufferTest.println("        normalHelper(instance)")
                     fileBufferTest.println("      }catch(e:Throwable){")

@@ -57,17 +57,21 @@ public class constructwhere03CONSTRUCTWHERE {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "CONSTRUCT WHERE { :s2 :p ?o1, ?o2 }"
 
-    public fun `constructwhere03  CONSTRUCT WHERE - None - Simple - true`() {
+    public fun `constructwhere03  CONSTRUCT WHERE - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 512
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PROCESS_URLS_STORE=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_ALL=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_ID=0
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/constructwhere03CONSTRUCTWHERE.kt:69"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/constructwhere03CONSTRUCTWHERE.kt:73"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -99,7 +103,7 @@ public class constructwhere03CONSTRUCTWHERE {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "constructwhere03  CONSTRUCT WHERE - None - Simple - true" to ::`constructwhere03  CONSTRUCT WHERE - None - Simple - true`,
+            "constructwhere03  CONSTRUCT WHERE - Thread - Simple - true" to ::`constructwhere03  CONSTRUCT WHERE - Thread - Simple - true`,
         )
     }
 }

@@ -94,17 +94,21 @@ public class SimpleDELETE4USING {
         "} \n" +
         ""
 
-    public fun `Simple DELETE 4 USING - None - Simple - true`() {
+    public fun `Simple DELETE 4 USING - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 512
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PROCESS_URLS_STORE=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_ALL=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_ID=0
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SimpleDELETE4USING.kt:106"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/SimpleDELETE4USING.kt:110"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -191,7 +195,7 @@ public class SimpleDELETE4USING {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Simple DELETE 4 USING - None - Simple - true" to ::`Simple DELETE 4 USING - None - Simple - true`,
+            "Simple DELETE 4 USING - Thread - Simple - true" to ::`Simple DELETE 4 USING - Thread - Simple - true`,
         )
     }
 }

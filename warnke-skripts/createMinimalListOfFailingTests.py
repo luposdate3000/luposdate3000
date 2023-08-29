@@ -142,7 +142,7 @@ def loop(filterList):
         print("exit")
         sys.exit(-1)
     os.system("rm build.config lupos.launch_code_gen_test_00.*stat")
-    os.system("./launcher.main.kts --run --mainClass=Launch_Code_Gen_Test_00 --processCount=1 --threadCount=1")
+    os.system("./launcher.main.kts --run --mainClass=Launch_Code_Gen_Test_00 --threadCount=4")
 
 
 if len(sys.argv) > 1:

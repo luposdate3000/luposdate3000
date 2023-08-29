@@ -62,17 +62,21 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
         "{_:a rdf:type :Person .} \n" +
         ""
 
-    public fun `sparqldl05rq simple undistinguished variable test - None - Simple - true`() {
+    public fun `sparqldl05rq simple undistinguished variable test - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 512
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PROCESS_URLS_STORE=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_ALL=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_ID=0
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sparqldl05rqsimpleundistinguishedvariabletest.kt:74"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/sparqldl05rqsimpleundistinguishedvariabletest.kt:78"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -104,7 +108,7 @@ public class sparqldl05rqsimpleundistinguishedvariabletest {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "sparqldl05rq simple undistinguished variable test - None - Simple - true" to ::`sparqldl05rq simple undistinguished variable test - None - Simple - true`,
+            "sparqldl05rq simple undistinguished variable test - Thread - Simple - true" to ::`sparqldl05rq simple undistinguished variable test - Thread - Simple - true`,
         )
     }
 }

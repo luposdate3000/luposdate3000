@@ -667,9 +667,7 @@ public fun main(){
         "lupos.launch_code_gen_test_00.Resourcessp2bq10sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq111sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq11sparql21Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq12a1sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq12asparql21Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq12b1sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq12b2sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq12b3sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq12b4sparql21Kt",
@@ -690,8 +688,6 @@ public fun main(){
         "lupos.launch_code_gen_test_00.Resourcessp2bq63sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq65sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq66sparql21Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq67sparql21Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq68sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq6sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq71sparql21Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq72sparql21Kt",
@@ -860,7 +856,6 @@ public fun main(){
         "lupos.launch_code_gen_test_00.Resourcessp2bq3bsparql1640Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq3csparql1640Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq42sparql1640Kt",
-        "lupos.launch_code_gen_test_00.Resourcessp2bq4sparql1640Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq5asparql1640Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq5bsparql1640Kt",
         "lupos.launch_code_gen_test_00.Resourcessp2bq61sparql1640Kt",
@@ -881,7 +876,7 @@ public fun main(){
     )
     tests.parallelStream().forEach{it->
               println(it+" start")
-              exec(it, jvmArgs = listOf("-Xmx8g"))
+              exec(it, jvmArgs = listOf("-Xmx16g"))
               println(it+" done")
     }
 }

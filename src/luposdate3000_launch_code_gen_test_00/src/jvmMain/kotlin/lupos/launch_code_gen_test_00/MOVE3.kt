@@ -79,17 +79,21 @@ public class MOVE3 {
     internal val query = "PREFIX : <http://example.org/> \n" +
         "MOVE :g1 TO :g2"
 
-    public fun `MOVE 3 - None - Simple - true`() {
+    public fun `MOVE 3 - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 512
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PROCESS_URLS_STORE=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_ALL=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_ID=0
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MOVE3.kt:91"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MOVE3.kt:95"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -166,7 +170,7 @@ public class MOVE3 {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "MOVE 3 - None - Simple - true" to ::`MOVE 3 - None - Simple - true`,
+            "MOVE 3 - Thread - Simple - true" to ::`MOVE 3 - Thread - Simple - true`,
         )
     }
 }

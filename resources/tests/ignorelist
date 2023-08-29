@@ -59,8 +59,8 @@ inference rdfs,sparqldl11rq domain test
 inference rdfs,sparqldl12rq range test
 manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
-manual ignore testtype,- None - Simple - false
-manual ignore testtype,- None - Simple - true#
+manual ignore testtype,- None - Simple - false,success
+manual ignore testtype,- None - Simple - true,success
 manual ignore testtype,- Thread - BenchmarkFig5 - false
 manual ignore testtype,- Thread - BenchmarkFig5 - true
 manual ignore testtype,- Thread - PartitionByIDTwiceAllCollations - false
@@ -76,7 +76,7 @@ manual ignore testtype,- Thread - PartitionByID_S_AllCollations - true
 manual ignore testtype,- Thread - PartitionByKeyAllCollations - false
 manual ignore testtype,- Thread - PartitionByKeyAllCollations - true
 manual ignore testtype,- Thread - Simple - false
-manual ignore testtype,- Thread - Simple - true
+manual ignore testtype,- Thread - Simple - true#,TODO
 manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
 manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
 manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
@@ -189,6 +189,7 @@ manual ignore timeout,resourcessp2bq41sparql1294
 manual ignore timeout,resourcessp2bq41sparql1640
 manual ignore timeout,resourcessp2bq41sparql32978
 manual ignore timeout,resourcessp2bq42sparql32978
+manual ignore timeout,resourcessp2bq4sparql1640
 manual ignore timeout,resourcessp2bq4sparql32978
 manual ignore timeout,resourcessp2bq5asparql32978
 manual ignore timeout,resourcessp2bq5bsparql32978
@@ -210,6 +211,10 @@ manual ignore timeout,resourcessp2bq9sparql32978
 manual no triplepattern with bind,NOW
 manual sha256,resourcesmyqueriesx1sparql5
 manual variable in graph name,DELETE INSERT 4
+memory,resourcessp2bq12a1sparql21
+memory,resourcessp2bq12b1sparql21
+memory,resourcessp2bq67sparql21
+memory,resourcessp2bq68sparql21
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
 operator,GROUPCONCAT 2

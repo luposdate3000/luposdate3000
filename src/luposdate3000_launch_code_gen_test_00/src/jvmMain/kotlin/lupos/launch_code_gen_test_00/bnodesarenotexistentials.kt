@@ -66,17 +66,21 @@ public class bnodesarenotexistentials {
         "} \n" +
         ""
 
-    public fun `bnodes are not existentials - None - Simple - true`() {
+    public fun `bnodes are not existentials - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 512
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PROCESS_URLS_STORE=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_ALL=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_ID=0
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/bnodesarenotexistentials.kt:78"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/bnodesarenotexistentials.kt:82"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -108,7 +112,7 @@ public class bnodesarenotexistentials {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "bnodes are not existentials - None - Simple - true" to ::`bnodes are not existentials - None - Simple - true`,
+            "bnodes are not existentials - Thread - Simple - true" to ::`bnodes are not existentials - Thread - Simple - true`,
         )
     }
 }

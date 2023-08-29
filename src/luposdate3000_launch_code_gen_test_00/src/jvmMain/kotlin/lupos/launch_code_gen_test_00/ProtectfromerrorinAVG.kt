@@ -64,17 +64,21 @@ public class ProtectfromerrorinAVG {
         "GROUP BY ?g \n" +
         ""
 
-    public fun `Protect from error in AVG - None - Simple - true`() {
+    public fun `Protect from error in AVG - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 512
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PROCESS_URLS_STORE=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_ALL=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_ID=0
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/ProtectfromerrorinAVG.kt:76"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/ProtectfromerrorinAVG.kt:80"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -106,7 +110,7 @@ public class ProtectfromerrorinAVG {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Protect from error in AVG - None - Simple - true" to ::`Protect from error in AVG - None - Simple - true`,
+            "Protect from error in AVG - Thread - Simple - true" to ::`Protect from error in AVG - Thread - Simple - true`,
         )
     }
 }

@@ -94,17 +94,21 @@ public class GraphspecificDELETE1WITH {
         "} \n" +
         ""
 
-    public fun `Graphspecific DELETE 1 WITH - None - Simple - true`() {
+    public fun `Graphspecific DELETE 1 WITH - Thread - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
         instance.LUPOS_BUFFER_SIZE = 512
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
+        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.Thread
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
+        instance.LUPOS_PROCESS_URLS_STORE=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_URLS_ALL=arrayOf("localhost:80")
+        instance.LUPOS_PROCESS_ID=0
         instance = LuposdateEndpoint.initializeB(instance)
         normalHelper(instance)
       }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/GraphspecificDELETE1WITH.kt:106"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
+        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/GraphspecificDELETE1WITH.kt:110"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -191,7 +195,7 @@ public class GraphspecificDELETE1WITH {
     }
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
-            "Graphspecific DELETE 1 WITH - None - Simple - true" to ::`Graphspecific DELETE 1 WITH - None - Simple - true`,
+            "Graphspecific DELETE 1 WITH - Thread - Simple - true" to ::`Graphspecific DELETE 1 WITH - Thread - Simple - true`,
         )
     }
 }
