@@ -130,11 +130,11 @@ public abstract class OptimizerCompoundBase public constructor(query: Query, opt
                     verifyPartitionOperators(tmp, allPartitionOperators, mutableMapOf(), tmp)
                     for ((k, v1) in allPartitionOperators) {
                         val v2 = query.partitionOperators[k]
-                        if (SanityCheck.enabled) { if (!(v1 == v2)) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(v1 == v2)) { throw Exception("SanityCheck failed $k $v1 $v2 $tmp") } }
                     }
                     for ((k, v1) in query.partitionOperators) {
                         val v2 = allPartitionOperators[k]
-                        if (SanityCheck.enabled) { if (!(v1 == v2)) { throw Exception("SanityCheck failed") } }
+                        if (SanityCheck.enabled) { if (!(v1 == v2)) { throw Exception("SanityCheck failed $k $v1 $v2 $tmp") } }
                     }
                     if (query.filtersMovedUpFromOptionals) {
                         tmp.syntaxVerifyAllVariableExists(listOf(), false)

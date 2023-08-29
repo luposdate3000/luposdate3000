@@ -482,18 +482,16 @@ without minify mode only the passing tests will be added
                     fileBufferTest.println("      var instance = Luposdate3000Instance()")
                     fileBufferTest.println("      try{")
                     fileBufferTest.println("        instance.LUPOS_BUFFER_SIZE = 512")
-                    fileBufferTest.println("        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.$LUPOS_PARTITION_MODE")
-                    fileBufferTest.println("        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
-                    fileBufferTest.println("        instance.useDictionaryInlineEncoding=$useDictionaryInlineEncoding")
+                    fileBufferTest.println("        instance.queue_size = 128")
+                    fileBufferTest.println("        instance.LUPOS_PARTITION_MODE = EPartitionModeExt.$LUPOS_PARTITION_MODE")
+                    fileBufferTest.println("        instance.predefinedPartitionScheme = EPredefinedPartitionSchemesExt.$predefinedPartitionScheme")
+                    fileBufferTest.println("        instance.useDictionaryInlineEncoding = $useDictionaryInlineEncoding")
 when(LUPOS_PARTITION_MODE){
 EPartitionModeExt.names[EPartitionModeExt.Thread],EPartitionModeExt.names[EPartitionModeExt.None]->{
-fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_STORE=arrayOf(\"localhost:80\")")
-fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_QUERY=arrayOf(\"localhost:80\")")
-fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_ALL=arrayOf(\"localhost:80\")")
-fileBufferTest.println("        instance.LUPOS_PROCESS_ID=0")
-}
-else->{
-
+fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_STORE = arrayOf(\"localhost:80\")")
+fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_QUERY = arrayOf(\"localhost:80\")")
+fileBufferTest.println("        instance.LUPOS_PROCESS_URLS_ALL = arrayOf(\"localhost:80\")")
+fileBufferTest.println("        instance.LUPOS_PROCESS_ID = 0")
 }
 }
                     fileBufferTest.println("        instance = LuposdateEndpoint.initializeB(instance)")

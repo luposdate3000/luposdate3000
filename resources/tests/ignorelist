@@ -59,6 +59,10 @@ inference rdfs,sparqldl11rq domain test
 inference rdfs,sparqldl12rq range test
 manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
+manual ignore out of memory 8g,resourcessp2bq12a1sparql21
+manual ignore out of memory 8g,resourcessp2bq12b1sparql21
+manual ignore out of memory 8g,resourcessp2bq67sparql21
+manual ignore out of memory 8g,resourcessp2bq68sparql21
 manual ignore testtype,- None - Simple - false,success
 manual ignore testtype,- None - Simple - true,success
 manual ignore testtype,- Thread - BenchmarkFig5 - false
@@ -211,10 +215,6 @@ manual ignore timeout,resourcessp2bq9sparql32978
 manual no triplepattern with bind,NOW
 manual sha256,resourcesmyqueriesx1sparql5
 manual variable in graph name,DELETE INSERT 4
-memory,resourcessp2bq12a1sparql21
-memory,resourcessp2bq12b1sparql21
-memory,resourcessp2bq67sparql21
-memory,resourcessp2bq68sparql21
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
 operator,GROUPCONCAT 2

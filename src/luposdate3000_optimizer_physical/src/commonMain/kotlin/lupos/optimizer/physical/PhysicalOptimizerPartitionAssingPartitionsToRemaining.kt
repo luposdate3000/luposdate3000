@@ -17,7 +17,6 @@
 package lupos.optimizer.physical
 
 import lupos.operator.arithmetik.noinput.AOPVariable
-import lupos.shared.IQuery
 import lupos.operator.base.Query
 import lupos.operator.physical.partition.POPMergePartition
 import lupos.operator.physical.partition.POPMergePartitionCount
@@ -28,26 +27,36 @@ import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IQuery
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionAssingPartitionsToRemainingID, "PhysicalOptimizerPartitionAssingPartitionsToRemaining") {
-private fun createPOPSplitMergePartitionFromStore(
- query: IQuery,
-    projectedVariables: List<String>,
-    partitionID: Int,
-    child: IOPBase,
-):IOPBase{
-return if(projectedVariables.isEmpty()){
-
-POPMergePartitionCount(query,
-projectedVariables,"?undefinedVariable",1,partitionID,
-POPSplitPartitionFromStoreCount(query,projectedVariables,"?undefinedVariable",1,partitionID,child)
-)
-}else{
-POPSplitMergePartitionFromStore(query,projectedVariables,partitionID,child)
-}
-}
+    private fun createPOPSplitMergePartitionFromStore(
+        query: IQuery,
+        projectedVariables: List<String>,
+        partitionID: Int,
+        child: IOPBase,
+    ): IOPBase {
+        val res: IOPBase
+        if (projectedVariables.isEmpty()) {
+val res1=                POPSplitPartitionFromStoreCount(query, projectedVariables, "?undefinedVariable", 1, partitionID, child)
+            res = POPMergePartitionCount(
+                query,
+                projectedVariables,
+                "?undefinedVariable",
+                1,
+                partitionID,
+res1,
+            )
+query as Query
+            query.addPartitionOperator(res1.getUUID(), partitionID)
+            query.addPartitionOperator(res.getUUID(), partitionID)
+        } else {
+            res = POPSplitMergePartitionFromStore(query, projectedVariables, partitionID, child)
+        }
+        return res
+    }
 
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
