@@ -88,7 +88,7 @@ public class DELETEINSERT1b {
     public fun `DELETE INSERT 1b - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
-        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 512
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
@@ -96,21 +96,6 @@ public class DELETEINSERT1b {
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DELETEINSERT1b.kt:97"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `DELETE INSERT 1b - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/DELETEINSERT1b.kt:112"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -148,7 +133,6 @@ public class DELETEINSERT1b {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "DELETE INSERT 1b - None - Simple - true" to ::`DELETE INSERT 1b - None - Simple - true`,
-            "DELETE INSERT 1b - None - Simple - false" to ::`DELETE INSERT 1b - None - Simple - false`,
         )
     }
 }

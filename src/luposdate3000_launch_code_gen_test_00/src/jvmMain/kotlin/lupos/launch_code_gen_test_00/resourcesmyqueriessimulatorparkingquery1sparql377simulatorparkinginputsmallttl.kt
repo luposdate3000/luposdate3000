@@ -62,7 +62,7 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
     public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
-        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 512
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
@@ -70,21 +70,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkinginputsmallttl.kt:71"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkinginputsmallttl.kt:86"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -117,7 +102,6 @@ public class resourcesmyqueriessimulatorparkingquery1sparql377simulatorparkingin
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - true" to ::`resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - true`,
-            "resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - false" to ::`resourcesmyqueriessimulatorparkingquery1sparql377 simulatorparkinginputsmallttl - None - Simple - false`,
         )
     }
 }

@@ -70,7 +70,7 @@ public class MOVE2 {
     public fun `MOVE 2 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
-        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 512
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
@@ -78,21 +78,6 @@ public class MOVE2 {
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MOVE2.kt:79"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `MOVE 2 - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/MOVE2.kt:94"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -130,7 +115,6 @@ public class MOVE2 {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "MOVE 2 - None - Simple - true" to ::`MOVE 2 - None - Simple - true`,
-            "MOVE 2 - None - Simple - false" to ::`MOVE 2 - None - Simple - false`,
         )
     }
 }

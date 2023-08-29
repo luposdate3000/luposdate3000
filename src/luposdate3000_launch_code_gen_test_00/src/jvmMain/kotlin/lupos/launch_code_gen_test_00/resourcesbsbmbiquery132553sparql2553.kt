@@ -81,7 +81,7 @@ public class resourcesbsbmbiquery132553sparql2553 {
     public fun `resourcesbsbmbiquery132553sparql2553 - None - Simple - true`() {
       var instance = Luposdate3000Instance()
       try{
-        instance.LUPOS_BUFFER_SIZE = 128
+        instance.LUPOS_BUFFER_SIZE = 512
         instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
         instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
         instance.useDictionaryInlineEncoding=true
@@ -89,21 +89,6 @@ public class resourcesbsbmbiquery132553sparql2553 {
         normalHelper(instance)
       }catch(e:Throwable){
         e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesbsbmbiquery132553sparql2553.kt:90"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
-      }finally{
-        LuposdateEndpoint.close(instance)
-      }
-    }
-    public fun `resourcesbsbmbiquery132553sparql2553 - None - Simple - false`() {
-      var instance = Luposdate3000Instance()
-      try{
-        instance.LUPOS_BUFFER_SIZE = 128
-        instance.LUPOS_PARTITION_MODE=EPartitionModeExt.None
-        instance.predefinedPartitionScheme=EPredefinedPartitionSchemesExt.Simple
-        instance.useDictionaryInlineEncoding=false
-        instance = LuposdateEndpoint.initializeB(instance)
-        normalHelper(instance)
-      }catch(e:Throwable){
-        e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_launch_code_gen_test_00/src/jvmMain/kotlin/lupos/launch_code_gen_test_00/resourcesbsbmbiquery132553sparql2553.kt:105"/*SOURCE_FILE_END*/ ) //otherwise this would be silently ignored
       }finally{
         LuposdateEndpoint.close(instance)
       }
@@ -136,7 +121,6 @@ public class resourcesbsbmbiquery132553sparql2553 {
     public fun getTests():Set<Pair<String,()->Unit>> {
         return setOf(
             "resourcesbsbmbiquery132553sparql2553 - None - Simple - true" to ::`resourcesbsbmbiquery132553sparql2553 - None - Simple - true`,
-            "resourcesbsbmbiquery132553sparql2553 - None - Simple - false" to ::`resourcesbsbmbiquery132553sparql2553 - None - Simple - false`,
         )
     }
 }

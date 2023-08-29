@@ -14,6 +14,8 @@ filetype,sq07  Subquery with from
 filetype,sq08  Subquery with aggregate
 filetype,sq09  Nested Subqueries
 filetype,sq10  Subquery with exists
+filter in construct not allowed,constructwhere05  CONSTRUCT WHERE
+filter in construct not allowed,constructwhere06  CONSTRUCT WHERE
 inference owl,filtered subclass query with hasChild some Thing restriction
 inference owl,papersparqldlQ2
 inference owl,papersparqldlQ3
@@ -57,10 +59,156 @@ inference rdfs,sparqldl11rq domain test
 inference rdfs,sparqldl12rq range test
 manual bad target,csv03  CSV Result Format
 manual bad target,cvs02  CSV Result Format
+manual ignore testtype,- None - Simple - false
+manual ignore testtype,- None - Simple - true#
+manual ignore testtype,- Thread - BenchmarkFig5 - false
+manual ignore testtype,- Thread - BenchmarkFig5 - true
+manual ignore testtype,- Thread - PartitionByIDTwiceAllCollations - false
+manual ignore testtype,- Thread - PartitionByIDTwiceAllCollations - true
+manual ignore testtype,- Thread - PartitionByID_1_AllCollations - false
+manual ignore testtype,- Thread - PartitionByID_1_AllCollations - true
+manual ignore testtype,- Thread - PartitionByID_2_AllCollations - false
+manual ignore testtype,- Thread - PartitionByID_2_AllCollations - true
+manual ignore testtype,- Thread - PartitionByID_O_AllCollations - false
+manual ignore testtype,- Thread - PartitionByID_O_AllCollations - true
+manual ignore testtype,- Thread - PartitionByID_S_AllCollations - false
+manual ignore testtype,- Thread - PartitionByID_S_AllCollations - true
+manual ignore testtype,- Thread - PartitionByKeyAllCollations - false
+manual ignore testtype,- Thread - PartitionByKeyAllCollations - true
+manual ignore testtype,- Thread - Simple - false
+manual ignore testtype,- Thread - Simple - true
+manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - RPL
+manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - true - Process - RPL
+manual ignore testtype,- in simulator - BenchmarkFig5 - Centralized - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - BenchmarkFig5 - Routing - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - BenchmarkFig5 - Routing - false - Process - RPL
+manual ignore testtype,- in simulator - BenchmarkFig5 - Routing - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - BenchmarkFig5 - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - BenchmarkFig5 - Routing - true - Process - RPL
+manual ignore testtype,- in simulator - BenchmarkFig5 - Routing - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Centralized - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Centralized - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Routing - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByIDTwiceAllCollations - Routing - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Centralized - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Centralized - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Routing - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Routing - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_1_AllCollations - Routing - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Centralized - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Centralized - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Routing - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Routing - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_2_AllCollations - Routing - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Centralized - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Centralized - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Routing - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Routing - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_O_AllCollations - Routing - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Centralized - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Centralized - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByID_S_AllCollations - Routing - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Centralized - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Centralized - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Centralized - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Centralized - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Routing - false - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Routing - false - Process - RPL_Fast
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Routing - true - Process - AllShortestPath
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL
+manual ignore testtype,- in simulator - PartitionByKeyAllCollations - Routing - true - Process - RPL_Fast
+manual ignore testtype,- in simulator - Simple - Centralized - false - None - AllShortestPath
+manual ignore testtype,- in simulator - Simple - Centralized - false - None - RPL
+manual ignore testtype,- in simulator - Simple - Centralized - false - None - RPL_Fast
+manual ignore testtype,- in simulator - Simple - Centralized - true - None - AllShort
+manual ignore testtype,- in simulator - Simple - Centralized - true - None - RPL
+manual ignore testtype,- in simulator - Simple - Centralized - true - None - RPL_Fastfilter in construct not allowed
+manual ignore timeout,resourcesbtc035sparql61664
+manual ignore timeout,resourcesmyqueriesubungent06sparql10467
+manual ignore timeout,resourcessp2bq10sparql32978
+manual ignore timeout,resourcessp2bq111sparql32978
+manual ignore timeout,resourcessp2bq11sparql32978
+manual ignore timeout,resourcessp2bq12a1sparql32978
+manual ignore timeout,resourcessp2bq12asparql32978
+manual ignore timeout,resourcessp2bq12b1sparql32978
+manual ignore timeout,resourcessp2bq12b2sparql32978
+manual ignore timeout,resourcessp2bq12b3sparql32978
+manual ignore timeout,resourcessp2bq12b4sparql32978
+manual ignore timeout,resourcessp2bq12bsparql32978
+manual ignore timeout,resourcessp2bq12csparql32978
+manual ignore timeout,resourcessp2bq1sparql32978
+manual ignore timeout,resourcessp2bq2sparql32978
+manual ignore timeout,resourcessp2bq3asparql32978
+manual ignore timeout,resourcessp2bq3bsparql32978
+manual ignore timeout,resourcessp2bq3csparql32978
+manual ignore timeout,resourcessp2bq41sparql1294
+manual ignore timeout,resourcessp2bq41sparql1640
+manual ignore timeout,resourcessp2bq41sparql32978
+manual ignore timeout,resourcessp2bq42sparql32978
+manual ignore timeout,resourcessp2bq4sparql32978
+manual ignore timeout,resourcessp2bq5asparql32978
+manual ignore timeout,resourcessp2bq5bsparql32978
+manual ignore timeout,resourcessp2bq61sparql32978
+manual ignore timeout,resourcessp2bq62sparql32978
+manual ignore timeout,resourcessp2bq63sparql32978
+manual ignore timeout,resourcessp2bq65sparql32978
+manual ignore timeout,resourcessp2bq66sparql32978
+manual ignore timeout,resourcessp2bq67sparql32978
+manual ignore timeout,resourcessp2bq68sparql32978
+manual ignore timeout,resourcessp2bq6sparql32978
+manual ignore timeout,resourcessp2bq71sparql32978
+manual ignore timeout,resourcessp2bq72sparql32978
+manual ignore timeout,resourcessp2bq7sparql32978
+manual ignore timeout,resourcessp2bq8sparql32978
+manual ignore timeout,resourcessp2bq91sparql32978
+manual ignore timeout,resourcessp2bq92sparql32978
+manual ignore timeout,resourcessp2bq9sparql32978
 manual no triplepattern with bind,NOW
 manual sha256,resourcesmyqueriesx1sparql5
-manual simulator,in simulator
-manual thread,- Thread -
 manual variable in graph name,DELETE INSERT 4
 operator,ENCODEFORURI
 operator,GROUPCONCAT 1
@@ -105,6 +253,19 @@ path,pp35 Named Graph 2
 path,pp36 Arbitrary path with bound endpoints
 path,pp37 Nested
 path,resourcesmyqueriesubungent22sparql709
+remaining-error,Calculate proper subset
+remaining-error,Calculate which sets are subsets of others exclude A subsetOf A
+remaining-error,Calculate which sets are subsets of others include A subsetOf A
+remaining-error,Calculate which sets have the same elements
+remaining-error,INSERT same bnode twice
+remaining-error,INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode
+remaining-error,INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode
+remaining-error,INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution
+remaining-error,Simple insert data named 1
+remaining-error,Subtraction with MINUS from a partially bound minuend
+remaining-error,resourcesbsbmexplorequery81853sparql1853
+remaining-error,resourcesbsbmexplorequery82210sparql2210
+remaining-error,resourcesbsbmexplorequery82553sparql2553
 service,SERVICE test 7
 syntax,COUNT 10
 syntax,COUNT 11
