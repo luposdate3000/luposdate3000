@@ -128,6 +128,8 @@ function playTone(audio) {
     if (instrumentsLoaded) {
         audioPanner.pan.value = audio.Spatialization
         instruments[audio.Instrument].triggerAttackRelease(audio.Pitch + audio.Octave, audio.Duration, "+0", audio.Loudness);
+    } else {
+        loadInstruments()
     }
 }
 
@@ -212,4 +214,3 @@ jquery("#result-sonification-btn-stop").on("click", function() {
     playBackPause()
     setStep(0)
 });
-loadInstruments()
