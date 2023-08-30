@@ -1,2 +1,0 @@
-./launcher.main.kts --setup --target=JS --releaseMode=Enable --dictionaryMode=InMemory
-./gradlew assemble
