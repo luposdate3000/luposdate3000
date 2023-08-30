@@ -1,6 +1,0 @@
-# Required licences of licence :CE
-# Result should contain :C and :B
-PREFIX : <http://www.ifis.uni-luebeck.de/ontologies/europeanDrivingLicences#>
-SELECT * WHERE {
- :CE :requiresLicence ?requiredLicences.
-}

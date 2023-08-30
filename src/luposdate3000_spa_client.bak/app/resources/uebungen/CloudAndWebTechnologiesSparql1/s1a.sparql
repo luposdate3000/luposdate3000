@@ -1,7 +1,0 @@
-PREFIX dbpprop:	<http://dbpedia.org/property/>
-PREFIX dbpedia:	<http://dbpedia.org/resource/>
-
-SELECT * 
-WHERE {
- ?person dbpprop:placeOfBirth dbpedia:L%C3%BCbeck .
-}

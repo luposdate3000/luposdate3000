@@ -1,8 +1,0 @@
-PREFIX dbpprop:	<http://dbpedia.org/property/>
-PREFIX dbpedia:	<http://dbpedia.org/resource/>
-
-SELECT * 
-WHERE {
- ?s ?p ?o .
- FILTER(REGEX(?o, "Focus"))
-}
