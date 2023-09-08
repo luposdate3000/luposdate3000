@@ -159,8 +159,4 @@ else:
     setup(True)
     while True:
         loop([])
-        break # TODO remove this
-
-#1574 first round
-#1210 second
-#1204 third
+#        break # TODO remove this

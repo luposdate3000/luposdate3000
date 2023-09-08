@@ -26,7 +26,6 @@ import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EModifyType
 import lupos.shared.EModifyTypeExt
 import lupos.shared.IQuery
-import lupos.shared.SanityCheck
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.operator.iterator.ColumnIterator
@@ -92,7 +91,7 @@ public object EvalModify {
                                     continue@loop2
                                 }
                             }
-break@loop2 // undefined variables do not act as wildcards
+                            break@loop2 // undefined variables do not act as wildcards
                         }
                     }
                 }

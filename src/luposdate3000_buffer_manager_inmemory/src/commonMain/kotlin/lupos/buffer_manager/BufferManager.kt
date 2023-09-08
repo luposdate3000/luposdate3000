@@ -38,8 +38,9 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
      */
     @JvmField
     internal var allPages = Array(128) { BufferManagerPage.create() }
-@JvmField
-    internal val allowReuseOfPages=false
+
+    @JvmField
+    internal val allowReuseOfPages = false
 
     @JvmField
     internal var allPagesRefcounters = IntArray(128)
@@ -60,7 +61,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     override fun getNumberOfAllocatedPages(): Int = counter - freeListSize
 
     @ProguardTestAnnotation
-    override fun getNumberOfReferencedPages(): Int =lock.withReadLock{
+    override fun getNumberOfReferencedPages(): Int = lock.withReadLock {
         val res = allPagesRefcounters.sum()
         if (SanityCheck.enabled) {
             val tmp = mutableMapOf<Int, Int>()
@@ -76,12 +77,12 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     override fun flushPage(call_location: String, pageid: Int) {
     }
 
-    override fun releasePage(call_location: String, pageid: Int) :Unit=lock.withWriteLock{
+    override fun releasePage(call_location: String, pageid: Int): Unit = lock.withWriteLock {
         if (SanityCheck.enabled) { if (!(allPagesRefcounters[pageid] > 0)) { throw Exception("SanityCheck failed, page $pageid not referenced") } }
         allPagesRefcounters[pageid]--
     }
 
-    override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper =lock.withWriteLock{
+    override fun getPage(call_location: String, pageid: Int): BufferManagerPageWrapper = lock.withWriteLock {
         // no locking required, assuming an assignment to 'allPages' is atomic
         if (SanityCheck.enabled) {
             if (SanityCheck.enabled) { if (!(pageid < counter)) { throw Exception("SanityCheck failed") } }
@@ -95,30 +96,30 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
         return@withWriteLock allPages[pageid]
     }
 
-    /*suspend*/ override fun allocPage(call_location: String): Int =lock.withWriteLock{
+    /*suspend*/ override fun allocPage(call_location: String): Int = lock.withWriteLock {
         var pageid = 0
-            if (freeListSize > 0&&allowReuseOfPages) {
-                pageid = freeList[--freeListSize]
-            } else {
-                if (counter == allPages.size) {
-                    var size = counter * 2
-                    val tmp = Array(size) {
-                        val res: BufferManagerPageWrapper = if (it < counter) {
-                            allPages[it]
-                        } else {
-                            BufferManagerPage.create()
-                        }
-                        res
+        if (freeListSize > 0 && allowReuseOfPages) {
+            pageid = freeList[--freeListSize]
+        } else {
+            if (counter == allPages.size) {
+                var size = counter * 2
+                val tmp = Array(size) {
+                    val res: BufferManagerPageWrapper = if (it < counter) {
+                        allPages[it]
+                    } else {
+                        BufferManagerPage.create()
                     }
-                    val tmp2 = IntArray(size)
-                    allPagesRefcounters.copyInto(tmp2)
-                    allPages = tmp
-                    allPagesRefcounters = tmp2
+                    res
                 }
-                pageid = counter++
+                val tmp2 = IntArray(size)
+                allPagesRefcounters.copyInto(tmp2)
+                allPages = tmp
+                allPagesRefcounters = tmp2
             }
-            if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(allPages[pageid]) == -1)) { throw Exception("SanityCheck failed") } }
-            BufferManagerPage.setPageID(allPages[pageid], pageid)
+            pageid = counter++
+        }
+        if (SanityCheck.enabled) { if (!(BufferManagerPage.getPageID(allPages[pageid]) == -1)) { throw Exception("SanityCheck failed") } }
+        BufferManagerPage.setPageID(allPages[pageid], pageid)
         return@withWriteLock pageid
     }
 
@@ -144,7 +145,7 @@ public class BufferManager public constructor(@Suppress("UNUSED_PARAMETER") inst
     }
 
     @ProguardTestAnnotation
-    override fun close() :Unit=lock.withWriteLock{
+    override fun close(): Unit = lock.withWriteLock {
         if (SanityCheck.enabled) {
             val allErrors = mutableMapOf<Int, Int>()
             for (i in 0 until counter) {

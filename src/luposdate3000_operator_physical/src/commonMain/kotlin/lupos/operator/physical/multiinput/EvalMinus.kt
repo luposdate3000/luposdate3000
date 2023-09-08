@@ -67,21 +67,21 @@ public object EvalMinus {
             }
             subtrahends[target].addAll(tmp)
         }
-        val comparator  = ValueComparatorNothing()
+        val comparator = ValueComparatorNothing()
         var x = rowA
         for (i in 1 until subtrahends.size) {
             val namesOut2 = projectedVariables.toTypedArray()
-            val namesTmp =idx2columns(i,minusColumns).toTypedArray()
-            val namesOut=namesTmp.toMutableList()
-            for (y in namesOut2){
-if(!namesOut.contains(y)){
-namesOut.add(y)
-}
-}
+            val namesTmp = idx2columns(i, minusColumns).toTypedArray()
+            val namesOut = namesTmp.toMutableList()
+            for (y in namesOut2) {
+                if (!namesOut.contains(y)) {
+                    namesOut.add(y)
+                }
+            }
             val a = DictionaryValueTypeArray(subtrahends[i].size) { subtrahends[i][it] }
             val b = RowIteratorBuf(a, namesTmp, subtrahends[i].size)
-            val c = RowIteratorMerge( b,  comparator,  namesTmp.size,  namesTmp)
-            val d = RowIteratorMerge(x,  comparator,  namesTmp.size,  namesOut.toTypedArray())
+            val c = RowIteratorMerge(b, comparator, namesTmp.size, namesTmp)
+            val d = RowIteratorMerge(x, comparator, namesTmp.size, namesOut.toTypedArray())
             val x2 = RowIteratorMinus(d, c, namesOut.toTypedArray())
             x2._init()
             x = x2
@@ -92,13 +92,13 @@ namesOut.add(y)
 
 public class ValueComparatorNothing() : Comparator<DictionaryValueType> {
     override fun compare(a: DictionaryValueType, b: DictionaryValueType): Int {
-        val x=a-b
-if(x<0){
-return -1
-}else if(x>0){
-return 1
-}else{
-return 0
-}
+        val x = a - b
+        if (x < 0) {
+            return -1
+        } else if (x > 0) {
+            return 1
+        } else {
+            return 0
+        }
     }
 }

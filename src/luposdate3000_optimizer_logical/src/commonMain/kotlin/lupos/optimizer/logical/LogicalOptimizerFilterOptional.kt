@@ -22,10 +22,8 @@ import lupos.operator.base.Query
 import lupos.operator.logical.multiinput.LOPJoin
 import lupos.operator.logical.singleinput.LOPFilter
 import lupos.operator.logical.singleinput.LOPSubGroup
-import lupos.shared.operator.IOPBase
 import lupos.operator.logical.singleinput.modifiers.LOPDistinct
-import lupos.operator.logical.singleinput.LOPProjection
-import lupos.operator.arithmetik.noinput.AOPVariable
+import lupos.shared.operator.IOPBase
 public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterOptionalID, "LogicalOptimizerFilterOptional") {
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res: IOPBase = node
@@ -58,10 +56,10 @@ public class LogicalOptimizerFilterOptional(query: Query) : OptimizerBase(query,
                     }
                 }
                 if (needsOutsideVariables) {
-val r1= LOPDistinct(query,node.getChildren()[0].cloneOP())
-val r2=LOPJoin(query, child, r1, false)
-val r3= LOPFilter(query, filters.reduce { s, t -> AOPAnd(query, s, t) }, r2)
-                    res = LOPJoin(query, node.getChildren()[0],r3, true)
+                    val r1 = LOPDistinct(query, node.getChildren()[0].cloneOP())
+                    val r2 = LOPJoin(query, child, r1, false)
+                    val r3 = LOPFilter(query, filters.reduce { s, t -> AOPAnd(query, s, t) }, r2)
+                    res = LOPJoin(query, node.getChildren()[0], r3, true)
                     onChange()
                 }
             }

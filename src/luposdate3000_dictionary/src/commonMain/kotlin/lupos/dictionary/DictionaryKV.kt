@@ -21,7 +21,6 @@ import lupos.shared.BufferManagerPage
 import lupos.shared.BufferManagerPageWrapper
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
-import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.IBufferManager
 import lupos.shared.Luposdate3000Instance
@@ -31,7 +30,6 @@ import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.File
 import lupos.shared.inline.MyThreadReadWriteLock
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
-import lupos.shared.inline.fileformat.DictionaryIntermediateReader
 import lupos.vk.ValueKeyStore
 import kotlin.jvm.JvmField
 
@@ -218,74 +216,8 @@ public class DictionaryKV internal constructor(
                 },
             )
         }
-        return DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
-    override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        var mymapping = DictionaryValueTypeArray(0)
-        var lastid = DictionaryValueHelper.NULL
-        lock.withWriteLock {
-            val buffer = ByteArrayWrapper()
-            val reader = DictionaryIntermediateReader(filename)
-            var ready = false
-            var originalID: DictionaryValueType = 0
-            vk.createValues(
-                hasNext = {
-                    loop@ while (!ready && reader.hasNext()) {
-                        reader.next(buffer) { id ->
-                            if (id > lastid) {
-                                lastid = id
-                            }
-                            originalID = id
-                            ready = true
-                            val type = DictionaryHelper.byteArrayToType(buffer)
-                            when (type) {
-                                ETripleComponentTypeExt.BOOLEAN -> {
-                                    val b = DictionaryHelper.byteArrayToBoolean(buffer)
-                                    val id2 = if (b) {
-                                        DictionaryValueHelper.booleanTrueValue
-                                    } else {
-                                        DictionaryValueHelper.booleanFalseValue
-                                    }
-                                    mymapping = addEntry(originalID, id2, mymapping)
-                                    ready = false
-                                }
-                                ETripleComponentTypeExt.BLANK_NODE -> {
-                                    val id2 = createNewBNode()
-                                    mymapping = addEntry(originalID, id2, mymapping)
-                                    ready = false
-                                }
-                            }
-                        }
-                        if (ready && instance.useDictionaryInlineEncoding) {
-                            val res = DictionaryInlineValues.getValueByContent(buffer)
-                            if (res != DictionaryValueHelper.nullValue) {
-                                mymapping = addEntry(originalID, res, mymapping)
-                                ready = false
-                            }
-                        }
-                    }
-                    ready
-                },
-                next = {
-                    if (SanityCheck.enabled) { if (!(ready)) { throw Exception("SanityCheck failed") } }
-                    ready = false
-                    buffer
-                },
-                onNotFound = {
-                    val id = kv.createValue(it)
-                    mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
-                    id
-                },
-                onFound = { _, id ->
-                    mymapping = addEntry(originalID, DictionaryValueHelper.fromInt(id) or DictionaryValueHelper.flagNoBNode, mymapping)
-                },
-            )
-            if (SanityCheck.enabled) { if (!(!ready)) { throw Exception("SanityCheck failed") } }
-
-        }
-        return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
+        val result = DictionaryValueHelper.fromInt(res) or DictionaryValueHelper.flagNoBNode
+        return result
     }
 
     override fun hasValue(buffer: ByteArrayWrapper): DictionaryValueType {

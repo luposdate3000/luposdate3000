@@ -16,9 +16,9 @@
  */
 package lupos.simulator_db.luposdate3000
 
+import lupos.shared.CrashInputStreamException
 import lupos.shared.DictionaryValueType
 import lupos.shared.IMyInputStream
-import lupos.shared.CrashInputStreamException
 
 internal class InputStreamCrashAll(val target: Int, val path: String, val params: Map<String, String>) : IMyInputStream {
     override fun close() {}

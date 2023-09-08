@@ -40,16 +40,16 @@ public class PhysicalOptimizerPartitionAssingPartitionsToRemaining(query: Query)
     ): IOPBase {
         val res: IOPBase
         if (projectedVariables.isEmpty()) {
-val res1=                POPSplitPartitionFromStoreCount(query, projectedVariables, "?undefinedVariable", 1, partitionID, child)
+            val res1 = POPSplitPartitionFromStoreCount(query, projectedVariables, "?undefinedVariable", 1, partitionID, child)
             res = POPMergePartitionCount(
                 query,
                 projectedVariables,
                 "?undefinedVariable",
                 1,
                 partitionID,
-res1,
+                res1,
             )
-query as Query
+            query as Query
             query.addPartitionOperator(res1.getUUID(), partitionID)
             query.addPartitionOperator(res.getUUID(), partitionID)
         } else {

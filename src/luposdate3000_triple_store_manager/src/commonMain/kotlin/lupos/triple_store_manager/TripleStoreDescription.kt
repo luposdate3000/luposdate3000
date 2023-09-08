@@ -15,10 +15,10 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.triple_store_manager
-import lupos.shared.CrashInputStreamException
 import lupos.operator.arithmetik.noinput.AOPVariable
 import lupos.operator.physical.singleinput.POPSort
 import lupos.shared.BugException
+import lupos.shared.CrashInputStreamException
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
 import lupos.shared.EIndexPattern
@@ -209,7 +209,7 @@ public class TripleStoreDescription(
                             conn.first.close()
                             conn.second.close()
                         } catch (e: CrashInputStreamException) {
- //be quiet here
+                            // be quiet here
                         } catch (e: Throwable) {
                             if (!hadShownHistogramStacktrace) {
                                 hadShownHistogramStacktrace = true

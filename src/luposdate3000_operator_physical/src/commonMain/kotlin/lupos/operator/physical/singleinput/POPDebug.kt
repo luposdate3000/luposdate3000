@@ -45,7 +45,7 @@ public class POPDebug public constructor(query: IQuery, projectedVariables: List
     override fun getProvidedVariableNamesInternal(): List<String> = (getChildren()[0] as POPBase).getProvidedVariableNamesInternal()
     override fun toSparql(): String = getChildren()[0].toSparql()
     override /*suspend*/ fun evaluate(parent: Partition): IteratorBundle {
-val child0=getChildren()[0] as POPBase
+        val child0 = getChildren()[0] as POPBase
         val child = child0.evaluate(parent)
         when (ITERATOR_DEBUG_MODE) {
             EPOPDebugModeExt.NONE -> {
@@ -69,9 +69,9 @@ val child0=getChildren()[0] as POPBase
                     for ((columnName, childIter) in child.columns) {
                         val iterator = object : ColumnIterator() {
                             override /*suspend*/ fun next(): DictionaryValueType {
-                                var res= childIter.next()
-//println("POPDebug.kt .. $uuid $columnName $res")
-return res
+                                var res = childIter.next()
+// println("POPDebug.kt .. $uuid $columnName $res $parent")
+                                return res
                             }
 
                             override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
@@ -83,7 +83,7 @@ return res
                             }
 
                             override /*suspend*/ fun close() {
-//println("POPDebug.kt .. close $uuid $columnName")
+// println("POPDebug.kt .. close $uuid $columnName")
                                 childIter.close()
                             }
                         }

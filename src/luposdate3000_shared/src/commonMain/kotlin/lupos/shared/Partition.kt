@@ -64,4 +64,5 @@ public class Partition {
 
     override fun equals(other: Any?): Boolean = other is Partition && data == other.data && limit == other.limit
     override fun hashCode(): Int = data.hashCode()
+    override fun toString(): String = "Partition(data=$data,limit=$limit)"
 }

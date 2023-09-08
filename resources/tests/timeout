@@ -1,0 +1,139 @@
+resourcessp2bq71sparql973 - thread - partitionbyidtwiceallcollations - true
+simple delete 2 - thread - benchmarkfig5 - true
+simple delete 1 - thread - benchmarkfig5 - true
+resourcessp2bq92sparql1640 - thread - partitionbyidtwiceallcollations - true
+graphspecific delete data 1 - thread - partitionbyidtwiceallcollations - true
+graphspecific delete 1 - thread - benchmarkfig5 - true
+resourcessp2bq91sparql700 - thread - partitionbyidtwiceallcollations - true
+resourcessp2bq9sparql1294 - thread - partitionbyidtwiceallcollations - true
+resourcessp2bq7sparql1640 - thread - partitionbyidtwiceallcollations - true
+graphspecific delete 1 with - thread - partitionbyid_1_allcollations - true
+simple delete 2 with - thread - partitionbyid_2_allcollations - true
+simple delete 1 using - thread - benchmarkfig5 - true
+simple delete 1 with - thread - benchmarkfig5 - true
+resourcessp2bq92sparql1294 - thread - partitionbyidtwiceallcollations - true
+medical temporal proximity by exclusion not exists - thread - benchmarkfig5 - true
+simple delete where 2 - thread - partitionbyidtwiceallcollations - true
+graphspecific delete 1 - thread - partitionbyidtwiceallcollations - true
+delete insert 1 - thread - partitionbyidtwiceallcollations - true
+simple delete 1 with - thread - partitionbyidtwiceallcollations - true
+simple delete 1 - thread - partitionbyidtwiceallcollations - true
+resourcessp2bq71sparql1640 - thread - partitionbyidtwiceallcollations - true
+simple delete where 1 - thread - partitionbyidtwiceallcollations - true
+simple delete data 2 - thread - partitionbyidtwiceallcollations - true
+simple delete data 1 - thread - partitionbyidtwiceallcollations - true
+delete insert 1c - thread - partitionbyidtwiceallcollations - true
+delete insert 1b - thread - partitionbyidtwiceallcollations - true
+graphspecific delete where 1 - thread - partitionbyidtwiceallcollations - true
+simple delete 2 - thread - partitionbyidtwiceallcollations - true
+resourcessp2bq7sparql247 - thread - partitionbyidtwiceallcollations - true
+resourcessp2bq72sparql1294 - thread - partitionbyidtwiceallcollations - true
+graphspecific delete 1 using - thread - partitionbyidtwiceallcollations - true
+simple delete 2 with - thread - benchmarkfig5 - true
+resourcesbsbmexplorequery222210sparql2210 - thread - partitionbyid_2_allcollations - true
+simple delete 1 using - thread - partitionbyidtwiceallcollations - true
+simple delete 1 using - thread - partitionbyid_1_allcollations - true
+simple delete 2 - thread - partitionbyid_1_allcollations - true
+resourcessp2bq7sparql700 - thread - partitionbykeyallcollations - true
+graphspecific delete 1 with - thread - partitionbyidtwiceallcollations - true
+resourcesbsbmexplorequery212210sparql2210 - thread - partitionbyid_o_allcollations - true
+resourcesbsbmexplorequery252210sparql2210 - thread - partitionbyid_o_allcollations - true
+delete insert 1c - thread - partitionbyid_1_allcollations - true
+delete insert 1b - thread - partitionbyid_1_allcollations - true
+graphspecific delete data 1 - thread - partitionbyid_1_allcollations - true
+graphspecific delete where 1 - thread - partitionbyid_1_allcollations - true
+resourcessp2bq91sparql1640 - thread - partitionbyid_1_allcollations - true
+resourcessp2bq92sparql1294 - thread - partitionbyid_1_allcollations - true
+resourcessp2bq71sparql973 - thread - partitionbyid_1_allcollations - true
+simple delete 1 with - thread - partitionbyid_1_allcollations - true
+resourcessp2bq91sparql973 - thread - partitionbyidtwiceallcollations - true
+resourcessp2bq7sparql1640 - thread - partitionbyid_1_allcollations - true
+delete insert 1 - thread - partitionbyid_1_allcollations - true
+simple delete where 2 - thread - partitionbyid_1_allcollations - true
+simple delete where 1 - thread - partitionbyid_1_allcollations - true
+resourcessp2bq9sparql1294 - thread - partitionbyid_1_allcollations - true
+simple delete data 1 - thread - partitionbyid_1_allcollations - true
+resourcessp2bq7sparql21 - thread - partitionbykeyallcollations - true
+graphspecific delete 1 using - thread - partitionbyid_1_allcollations - true
+graphspecific delete data 2 - thread - partitionbykeyallcollations - true
+graphspecific delete 1 - thread - partitionbyid_1_allcollations - true
+graphspecific delete 2 with - thread - partitionbykeyallcollations - true
+graphspecific delete where 2 - thread - partitionbykeyallcollations - true
+simple delete data 2 - thread - partitionbyid_1_allcollations - true
+simple delete 1 - thread - partitionbyid_1_allcollations - true
+simple delete 2 with - thread - partitionbyidtwiceallcollations - true
+resourcessp2bq92sparql973 - thread - partitionbyid_2_allcollations - true
+resourcessp2bq7sparql247 - thread - partitionbykeyallcollations - true
+graphspecific delete 1 - thread - partitionbyid_2_allcollations - true
+simple delete data 2 - thread - partitionbyid_2_allcollations - true
+delete insert 1c - thread - partitionbyid_2_allcollations - true
+simple delete 2 with - thread - partitionbyid_1_allcollations - true
+graphspecific delete 2 - thread - partitionbykeyallcollations - true
+resourcessp2bq92sparql1294 - thread - partitionbyid_2_allcollations - true
+graphspecific delete data 1 - thread - partitionbyid_2_allcollations - true
+resourcessp2bq72sparql1294 - thread - partitionbyid_s_allcollations - true
+delete insert 1b - thread - partitionbyid_2_allcollations - true
+resourcessp2bq9sparql1294 - thread - partitionbyid_2_allcollations - true
+resourcesbsbmexplorequery242553sparql2553 - thread - partitionbyid_s_allcollations - true
+graphspecific delete 1 with - thread - partitionbyid_2_allcollations - true
+resourcessp2bq92sparql1640 - thread - partitionbyid_2_allcollations - true
+simple delete data 1 - thread - partitionbyid_2_allcollations - true
+resourcessp2bq9sparql1640 - thread - partitionbyid_2_allcollations - true
+simple delete where 1 - thread - partitionbyid_2_allcollations - true
+simple delete 2 - thread - partitionbyid_2_allcollations - true
+simple delete 1 - thread - partitionbyid_2_allcollations - true
+resourcessp2bq71sparql1294 - thread - partitionbykeyallcollations - true
+simple delete where 2 - thread - partitionbyid_2_allcollations - true
+simple delete 1 using - thread - partitionbyid_2_allcollations - true
+resourcessp2bq92sparql700 - thread - partitionbyid_2_allcollations - true
+graphspecific delete 1 using - thread - partitionbyid_2_allcollations - true
+graphspecific delete where 1 - thread - partitionbyid_2_allcollations - true
+delete insert 1 - thread - partitionbyid_2_allcollations - true
+simple delete 1 with - thread - partitionbyid_2_allcollations - true
+resourcessp2bq7sparql973 - thread - partitionbyid_o_allcollations - true
+resourcessp2bq91sparql700 - thread - partitionbyid_2_allcollations - true
+simple delete 2 with - thread - partitionbyid_o_allcollations - true
+delete insert 1 - thread - partitionbyid_o_allcollations - true
+simple delete 1 with - thread - partitionbyid_o_allcollations - true
+resourcessp2bq92sparql1640 - thread - partitionbyid_o_allcollations - true
+graphspecific delete 1 - thread - partitionbyid_o_allcollations - true
+graphspecific delete 1 using - thread - partitionbyid_o_allcollations - true
+resourcessp2bq7sparql1640 - thread - partitionbyid_o_allcollations - true
+resourcessp2bq9sparql1640 - thread - partitionbyid_o_allcollations - true
+delete insert 1c - thread - partitionbyid_o_allcollations - true
+resourcessp2bq7sparql1294 - thread - partitionbykeyallcollations - true
+delete insert 1b - thread - partitionbyid_o_allcollations - true
+simple delete 2 - thread - partitionbyid_o_allcollations - true
+resourcessp2bq9sparql700 - thread - partitionbyid_o_allcollations - true
+simple delete 1 - thread - partitionbyid_o_allcollations - true
+simple delete 1 using - thread - partitionbyid_o_allcollations - true
+graphspecific delete 1 with - thread - partitionbyid_o_allcollations - true
+simple delete data 2 - thread - partitionbykeyallcollations - true
+graphspecific delete where 1 - thread - partitionbykeyallcollations - true
+simple delete 2 with - thread - partitionbyid_s_allcollations - true
+resourcessp2bq9sparql1640 - thread - partitionbyid_s_allcollations - true
+simple delete 1 using - thread - partitionbyid_s_allcollations - true
+graphspecific delete 1 - thread - partitionbyid_s_allcollations - true
+graphspecific delete data 1 - thread - partitionbykeyallcollations - true
+simple delete where 2 - thread - partitionbykeyallcollations - true
+resourcessp2bq91sparql973 - thread - partitionbyid_s_allcollations - true
+simple delete where 1 - thread - partitionbykeyallcollations - true
+simple delete 1 with - thread - partitionbyid_s_allcollations - true
+simple delete data 1 - thread - partitionbykeyallcollations - true
+graphspecific delete 1 using - thread - partitionbyid_s_allcollations - true
+graphspecific delete 1 with - thread - partitionbyid_s_allcollations - true
+simple delete 2 - thread - partitionbyid_s_allcollations - true
+simple delete 1 - thread - partitionbyid_s_allcollations - true
+simple delete 2 with - thread - partitionbykeyallcollations - true
+simple delete 1 with - thread - partitionbykeyallcollations - true
+simple delete 1 - thread - partitionbykeyallcollations - true
+delete insert 1b - thread - partitionbykeyallcollations - true
+resourcessp2bq7sparql1640 - thread - partitionbykeyallcollations - true
+delete insert 1 - thread - partitionbykeyallcollations - true
+delete insert 1c - thread - partitionbykeyallcollations - true
+graphspecific delete 1 - thread - partitionbykeyallcollations - true
+graphspecific delete 1 using - thread - partitionbykeyallcollations - true
+graphspecific delete 1 with - thread - partitionbykeyallcollations - true
+simple delete 2 - thread - partitionbykeyallcollations - true
+simple delete 1 using - thread - partitionbykeyallcollations - true
+resourcesbsbmexplorequery232553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl

@@ -16,7 +16,6 @@
  */
 package lupos.shared
 
-import lupos.shared.Luposdate3000Exception
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import kotlin.jvm.JvmField

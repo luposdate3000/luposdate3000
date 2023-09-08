@@ -43,9 +43,10 @@ public class ConnectionFailedException public constructor(status: Int?) : Evalua
 public class NoMorePagesException public constructor() : EvaluationException("NoMorePagesException", "No more pages available.")
 public class OperationCanNotBeLocalException public constructor() : EvaluationException("OperationCanNotBeLocalException", "Operation can not be local.")
 public class EOFException public constructor(avail: Any? = null) : EvaluationException("EOFException", "eof (available=$avail)")
-public class IncompatibleTypesDuringCompareException public constructor() : EvaluationException("IncompatibleTypesDuringCompareException","provided types can not be compared")
+public class IncompatibleTypesDuringCompareException public constructor() : EvaluationException("IncompatibleTypesDuringCompareException", "provided types can not be compared")
 public class InvalidInputException public constructor(input: String? = null) : EvaluationException("InvalidInputException", "Invalid input '$input'.")
 public class CrashInputStreamException public constructor() : EvaluationException("CrashInputStreamException", "Not implemented network transmission.")
+
 // known bugs --->>>
 public class BugException public constructor(classname: String, bugname: String) : Luposdate3000Exception("BugException", "class '$classname' has bug '$bugname'.")
 

@@ -818,19 +818,20 @@ public object ConverterBinaryToBinary {
                     val vv = ConverterAOPBaseToBinary.encodeAOP(v, dataOut, mapping)
                     bindings.add(k to vv)
                 }
-val projection=mutableListOf<String>()
-val proLen=ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection.size" })
-o+=4
-for(i in 0 until proLen){ 
-projection.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection[$i].name" })))
-o += 4
-}
+                val projection = mutableListOf<String>()
+                val proLen = ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection.size" })
+                o += 4
+                for (i in 0 until proLen) {
+                    projection.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection[$i].name" })))
+                    o += 4
+                }
                 ConverterBinaryEncoder.encodePOPGroup(
                     dataOut,
                     mapping,
                     { parentOffOff -> recodeHelper(query, child, data, dataOut, mapping, parentOffOff) },
                     keyColumnNames.toList(),
-                    bindings,projection
+                    bindings,
+                    projection,
                 )
             },
         )

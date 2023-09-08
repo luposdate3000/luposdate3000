@@ -247,7 +247,7 @@ public class POPSplitPartition public constructor(
                     iterator.close = {
                         readerFinished[p] = 1
                         ringbufferWriterContinuation.signal()
-job.join()
+                        job.join()
                     }
                     iterators[p] = IteratorBundle(iterator)
                 }

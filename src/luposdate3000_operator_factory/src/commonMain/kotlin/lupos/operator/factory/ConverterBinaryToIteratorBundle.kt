@@ -52,6 +52,7 @@ import lupos.shared.EOperatorIDExt
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.dynamicArray.ByteArrayWrapperExt
 import lupos.shared.myPrintStackTraceAndThrowAgain
+import lupos.shared.operator.iterator.ColumnIterator
 import lupos.shared.operator.iterator.IteratorBundle
 import lupos.shared.operator.iterator.IteratorBundleRoot
 import lupos.triple_store_manager.EvalTripleStoreIterator
@@ -131,7 +132,7 @@ public object ConverterBinaryToIteratorBundle {
             }
             TODO("dataID $dataID not found")
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:133"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:135"/*SOURCE_FILE_END*/)
         }
         TODO("unreachable")
     }
@@ -146,7 +147,43 @@ public object ConverterBinaryToIteratorBundle {
             TODO("decodeHelper $type -> ${EOperatorIDExt.names[type]}")
         }
         decoder as BinaryToOPBaseMap
-        return decoder(query, data, off, operatorMap)
+        val child = decoder(query, data, off, operatorMap)
+        if (false) { // Debug.kt
+            if (child.hasColumnMode()) {
+                try {
+                    child.columns
+                } catch (e: Throwable) {
+                    e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_operator_factory/src/commonMain/kotlin/lupos/operator/factory/ConverterBinaryToIteratorBundle.kt:156"/*SOURCE_FILE_END*/)
+                }
+                val outMap = mutableMapOf<String, ColumnIterator>()
+                for ((columnName, childIter) in child.columns) {
+                    val iterator = object : ColumnIterator() {
+                        override /*suspend*/ fun next(): DictionaryValueType {
+                            var res = childIter.next()
+                            println("ConverterBinaryToIteratorBundle.kt .. $off $columnName $res")
+                            return res
+                        }
+
+                        override /*suspend*/ fun nextSIP(minValue: DictionaryValueType, resultValue: DictionaryValueTypeArray, resultSkip: IntArray) {
+                            childIter.nextSIP(minValue, resultValue, resultSkip)
+                        }
+
+                        override /*suspend*/ fun skipSIP(skipCount: Int): DictionaryValueType {
+                            return childIter.skipSIP(skipCount)
+                        }
+
+                        override /*suspend*/ fun close() {
+                            childIter.close()
+                        }
+                    }
+                    outMap[columnName] = iterator
+                }
+                return IteratorBundle(outMap)
+            } else {
+                println("ConverterBinaryToIteratorBundle.kt .. $off is not columnMode")
+            }
+        }
+        return child
     }
 
     init {
@@ -526,14 +563,14 @@ public object ConverterBinaryToIteratorBundle {
                     o += 4
                     bindings.add(k to v)
                 }
-val projection=mutableListOf<String>()
-val proLen=ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection.size" })
-o+=4
-for(i in 0 until proLen){
-projection.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection[$i].name" })))
-o += 4
-}
-                EvalGroup(child, bindings, keyColumnNames,projection.toTypedArray())
+                val projection = mutableListOf<String>()
+                val proLen = ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection.size" })
+                o += 4
+                for (i in 0 until proLen) {
+                    projection.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection[$i].name" })))
+                    o += 4
+                }
+                EvalGroup(child, bindings, keyColumnNames, projection.toTypedArray())
             },
         )
         assignOperatorPhysicalDecode(

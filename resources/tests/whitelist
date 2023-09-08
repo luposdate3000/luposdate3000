@@ -1,0 +1,107 @@
+resourcesbsbmbiquery752553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery42553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery732553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery62553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery42553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery762553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery132553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery72553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery22553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery712553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery222553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery62553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery72553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery102553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery52553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery12553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery122210sparql2210 - thread - partitionbyid_s_allcollations - true
+resourcesbsbmexplorequery252553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery742553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery752553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery712553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbtc028sparql3778 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery22553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery112553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery82553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery32553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery122553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbtc028sparql3778 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery742553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+dentailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery121853sparql1853 - thread - partitionbykeyallcollations - true
+resourcesbsbmexplorequery742553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery102553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery712553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery112553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery152553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery52553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+constructwhere03  construct where - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery762553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery122553sparql2553 - thread - partitionbyid_2_allcollations - true
+resourcesbsbmbiquery722553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery121853sparql1853 - thread - partitionbyid_s_allcollations - true
+resourcesbsbmexplorequery112553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery252553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery762553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery122553sparql2553 - thread - partitionbyid_o_allcollations - true
+resourcesbsbmexplorequery121853sparql1853 - thread - partitionbyid_2_allcollations - true
+resourcesbsbmbiquery22553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery122553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery121853sparql1853 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery122210sparql2210 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery732553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery122210sparql2210 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery122553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery772553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery122553sparql2553 - thread - partitionbykeyallcollations - true
+resourcesbsbmexplorequery242553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery152553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery732553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery121853sparql1853 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery222553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery12553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery752553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery52553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery82553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery762553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery72553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+dentailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery172553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery212553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery22553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery722553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery412553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery122553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery112553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery232553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery142553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery772553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery722553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery142553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery121853sparql1853 - thread - partitionbyid_o_allcollations - true
+resourcesbsbmexplorequery732553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery12553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery122210sparql2210 - thread - partitionbykeyallcollations - true
+resourcesbsbmexplorequery232553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery132553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery242553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery32553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery122210sparql2210 - thread - partitionbyid_2_allcollations - true
+resourcesbsbmbiquery12553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery52553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery412553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery42553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery42553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery32553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+constructwhere03  construct where - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery172553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery212553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery742553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery722553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery32553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery752553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmbiquery162553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl_fast
+resourcesbsbmexplorequery122210sparql2210 - thread - partitionbyid_o_allcollations - true
+resourcesbsbmbiquery72553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmbiquery162553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl
+resourcesbsbmexplorequery712553sparql2553 - in simulator - partitionbyid_s_allcollations - routing - true - process - rpl

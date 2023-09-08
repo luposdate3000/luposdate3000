@@ -55,8 +55,8 @@ public object EvalJoinHashMap {
         for (name in childA.columns.keys) {
             if (tmp.contains(name)) {
                 columnsINAJ.add(childA.columns[name]!!)
-                columnsINBJ.add( childB.columns[name]!!)
-                outIterators.add( Pair(name, 0))
+                columnsINBJ.add(childB.columns[name]!!)
+                outIterators.add(Pair(name, 0))
                 tmp.remove(name)
             } else {
                 outIterators.add(Pair(name, 1))
@@ -271,21 +271,21 @@ public object EvalJoinHashMap {
             outIteratorsAllocated.add(iterator)
             when (second) {
                 0 -> {
-if(projectedVariables.contains(first)){
-                    outMap[first] = iterator
-}
+                    if (projectedVariables.contains(first)) {
+                        outMap[first] = iterator
+                    }
                     outJ.add(iterator)
                 }
                 1 -> {
-if(projectedVariables.contains(first)){
-                    outMap[first] = iterator
-}
+                    if (projectedVariables.contains(first)) {
+                        outMap[first] = iterator
+                    }
                     outO[0].add(iterator)
                 }
                 2 -> {
-if(projectedVariables.contains(first)){
-                    outMap[first] = iterator
-}
+                    if (projectedVariables.contains(first)) {
+                        outMap[first] = iterator
+                    }
                     outO[1].add(iterator)
                 }
                 3 -> {
@@ -296,12 +296,12 @@ if(projectedVariables.contains(first)){
         res = if (outMap.isNotEmpty()) {
             IteratorBundle(outMap)
         } else {
-for (closeIndex in 0 until columnsINAJ.size) {
-                        columnsINAJ[closeIndex].close()
-                    }
-                    for (closeIndex in 0 until columnsINAO.size) {
-                        columnsINAO[closeIndex].close()
-                    }
+            for (closeIndex in 0 until columnsINAJ.size) {
+                columnsINAJ[closeIndex].close()
+            }
+            for (closeIndex in 0 until columnsINAO.size) {
+                columnsINAO[closeIndex].close()
+            }
             IteratorBundle(0)
         }
         if (emptyColumnsWithJoin) {

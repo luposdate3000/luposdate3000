@@ -36,7 +36,7 @@ import lupos.operator.factory.ConverterBinaryToPOPJson
 import lupos.operator.factory.ConverterString
 import lupos.operator.factory.HelperMetadata
 import lupos.operator.physical.multiinput.EvalJoinCartesianProduct
-import lupos.operator.physical.multiinput.EvalJoinMerge
+import lupos.operator.physical.multiinput.EvalJoinHashMap
 import lupos.operator.physical.partition.EvalDistributedReceiveMulti
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiCount
 import lupos.operator.physical.partition.EvalDistributedReceiveMultiOrdered
@@ -46,7 +46,6 @@ import lupos.operator.physical.partition.EvalDistributedSendMulti
 import lupos.operator.physical.partition.EvalDistributedSendSingle
 import lupos.operator.physical.partition.EvalDistributedSendSingleCount
 import lupos.operator.physical.partition.EvalDistributedSendWrapper
-import lupos.operator.physical.singleinput.EvalSort
 import lupos.optimizer.physical.PhysicalOptimizer
 import lupos.result_format.EQueryResultToStreamExt
 import lupos.result_format.ResultFormatManager
@@ -303,7 +302,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: OperationCanNotBeLocalException) {
             } catch (e: Throwable) {
-                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:305"/*SOURCE_FILE_END*/)
+                e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:306"/*SOURCE_FILE_END*/)
             }
         } else {
             // println("can not use local execution due to instance.tryLocalExecution")
@@ -885,11 +884,11 @@ public class Application_Luposdate3000 public constructor(
                     EvalJoinCartesianProduct(query, child0, child1, false)
                 } else {
                     val sortOrder = projected0.intersect(projected1).toList()
-                    val child0s = EvalSort(child0, sortOrder, query, arrayOf(), projected0, true)
-                    val child1s = EvalSort(child1, sortOrder, query, arrayOf(), projected1, true)
-                    EvalJoinMerge(query, child0s, child1s, finalSet.toList(), sortOrder)
+//                    val child0s = EvalSort(child0, sortOrder, query, arrayOf(), projected0, true)
+//                    val child1s = EvalSort(child1, sortOrder, query, arrayOf(), projected1, true)
+// EvalJoinMerge(query, child0s, child1s, finalSet.toList(), sortOrder)
 //                    EvalJoinMergeFromUnsortedData(query, child0, child1, finalSet.toList())
-// EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
+                    EvalJoinHashMap(query, child0, child1, false, finalSet.toList(), query.getInstance().timeout)
                 }
 
                 inputIterators.add(x)
@@ -1105,7 +1104,7 @@ public class Application_Luposdate3000 public constructor(
                 }
             } catch (e: Throwable) {
                 doWorkFlag = false
-                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1107"/*SOURCE_FILE_END*/)
+                e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1108"/*SOURCE_FILE_END*/)
             }
             doWorkFlag = false
         }
@@ -1131,7 +1130,7 @@ public class Application_Luposdate3000 public constructor(
                 else -> return pck
             }
         } catch (e: Throwable) {
-            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1133"/*SOURCE_FILE_END*/)
+            e.myPrintStackTraceAndThrowAgain(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_simulator_db/src/commonMain/kotlin/lupos/simulator_db/luposdate3000/Application_Luposdate3000.kt:1134"/*SOURCE_FILE_END*/)
         }
         doWork()
         return null

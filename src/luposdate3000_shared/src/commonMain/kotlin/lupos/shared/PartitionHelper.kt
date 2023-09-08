@@ -111,13 +111,11 @@ public class PartitionHelper() {
         val p = partition[partitionid]
         if (p == null) {
             if (res.size == 1) {
-
                 return res[0]
             } else {
                 TODO("error here")
             }
         } else {
-
             return res[p]
         }
     }

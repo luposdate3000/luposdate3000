@@ -621,13 +621,13 @@ internal class ConverterBinaryToPOPDot(internal val deviceAddress: Int) {
                     o += 4
                     o += 4
                 }
-val projection=mutableListOf<String>()
-val proLen=ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection.size" })
-o+=4
-for(i in 0 until proLen){ 
-projection.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection[$i].name" })))
-o += 4
-}
+                val projection = mutableListOf<String>()
+                val proLen = ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection.size" })
+                o += 4
+                for (i in 0 until proLen) {
+                    projection.add(ConverterString.decodeString(data, ByteArrayWrapperExt.readInt4(data, o, { "POPGroup.projection[$i].name" })))
+                    o += 4
+                }
                 val res = graph.addNode("Group#${nextID()}")
                 graph.addEdge(child, res)
                 res

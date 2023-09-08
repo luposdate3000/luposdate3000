@@ -27,13 +27,29 @@ import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
 import lupos.shared.inline.DictionaryHelper
 import lupos.shared.inline.MyThreadReadWriteLock
+import lupos.shared.inline.fileformat.DictionaryIntermediateReader
 
 public class DictionaryCacheLayer(
     private val instance: Luposdate3000Instance,
     public val dictionary: IDictionary,
     private val isLocal: Boolean,
 ) : IDictionary {
-
+    internal companion object {
+        internal fun addEntry(id: DictionaryValueType, i: DictionaryValueType, mymapping2: DictionaryValueTypeArray): DictionaryValueTypeArray {
+            var mymapping = mymapping2
+            if (mymapping.size <= id) {
+                var newSize = 1
+                while (newSize <= id) {
+                    newSize *= 2
+                }
+                val tmp = mymapping
+                mymapping = DictionaryValueTypeArray(newSize)
+                tmp.copyInto(mymapping)
+            }
+            mymapping[DictionaryValueHelper.toInt(id)] = i
+            return mymapping
+        }
+    }
     public constructor(
         instance: Luposdate3000Instance,
         dictionary: ADictionary,
@@ -70,7 +86,34 @@ public class DictionaryCacheLayer(
     }
 
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        return dictionary.importFromDictionaryFile(filename)
+        var mymapping = DictionaryValueTypeArray(0)
+        var lastid = DictionaryValueHelper.NULL
+        val buffer = ByteArrayWrapper()
+        DictionaryIntermediateReader(filename).readAll(buffer) { id ->
+            if (id > lastid) {
+                lastid = id
+            }
+            val type = DictionaryHelper.byteArrayToType(buffer)
+            val i = when (type) {
+                ETripleComponentTypeExt.BOOLEAN -> {
+                    val b = DictionaryHelper.byteArrayToBoolean(buffer)
+                    if (b) {
+                        DictionaryValueHelper.booleanTrueValue
+                    } else {
+                        DictionaryValueHelper.booleanFalseValue
+                    }
+                }
+                ETripleComponentTypeExt.BLANK_NODE -> {
+                    createNewBNode()
+                }
+                else -> {
+                    var res = createValue(buffer)
+                    res
+                }
+            }
+            mymapping = addEntry(id, i, mymapping)
+        }
+        return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
     }
 
     override fun isBnode(value: DictionaryValueType): Boolean {

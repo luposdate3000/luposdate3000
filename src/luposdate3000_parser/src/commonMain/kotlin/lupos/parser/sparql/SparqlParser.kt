@@ -3,73 +3,73 @@ package lupos.parser.sparql
 public sealed interface ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery {
     public var id: Int
 }
-public class ASTValuesClauseOptional: IASTBase {
+public class ASTValuesClauseOptional : IASTBase {
     override var id: Int = 4
     public var variable0: ASTValuesClause? = null
 }
-public class ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
+public class ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional : ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
     override var id: Int = 5
     public var variable0: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery? = null
     public var variable1: ASTValuesClauseOptional? = null
 }
-public class ASTClassOfPrologueAndUpdate: IASTBase {
+public class ASTClassOfPrologueAndUpdate : IASTBase {
     override var id: Int = 6
     public var variable0: ASTPrologue? = null
     public var variable1: ASTUpdate? = null
 }
-public class ASTClassOfPrologueAndUpdateOptional: IASTBase {
+public class ASTClassOfPrologueAndUpdateOptional : IASTBase {
     override var id: Int = 7
     public var variable0: ASTClassOfPrologueAndUpdate? = null
 }
-public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional: IASTBase {
+public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional : IASTBase {
     override var id: Int = 8
     public var variable0: ASTUpdate1? = null
     public var variable1: ASTClassOfPrologueAndUpdateOptional? = null
 }
-public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
+public class ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional : ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, IASTBase {
     override var id: Int = 9
     public var variable0: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional? = null
 }
 public sealed interface ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional {
     public var id: Int
 }
-public class ASTSparqlDoc: IASTBase {
+public class ASTSparqlDoc : IASTBase {
     override var id: Int = 10
     public var variable0: ASTPrologue? = null
     public var variable1: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional? = null
 }
-public class ASTUpdate: IASTBase {
+public class ASTUpdate : IASTBase {
     override var id: Int = 11
     public var variable0: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional? = null
 }
 public sealed interface ASTInterfaceOfBaseDeclOrPrefixDecl {
     public var id: Int
 }
-public class ASTPrologue: IASTBase {
+public class ASTPrologue : IASTBase {
     override var id: Int = 14
     public lateinit var value: MutableList<ASTInterfaceOfBaseDeclOrPrefixDecl>
 }
-public class ASTBaseDecl: ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
+public class ASTBaseDecl : ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
     override var id: Int = 12
     public var IRIREF: String? = null
 }
-public class ASTPrefixDecl: ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
+public class ASTPrefixDecl : ASTInterfaceOfBaseDeclOrPrefixDecl, IASTBase {
     override var id: Int = 13
     public var PNAME_NS: String? = null
     public var IRIREF: String? = null
 }
-public class ASTListOfDatasetClause: IASTBase {
+public class ASTListOfDatasetClause : IASTBase {
     override var id: Int = 15
     public lateinit var value: MutableList<ASTDatasetClause>
 }
-public class ASTSelectQuery: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+public class ASTSelectQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
     override var id: Int = 0
     public var variable0: ASTSelectClause? = null
     public var variable1: ASTListOfDatasetClause? = null
     public var variable2: ASTWhereClause? = null
     public var variable3: ASTSolutionModifier? = null
 }
-public class ASTSubSelect: ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
+public class ASTSubSelect : ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
     override var id: Int = 16
     public var variable0: ASTSelectClause? = null
     public var variable1: ASTWhereClause? = null
@@ -83,7 +83,7 @@ public object ASTEnumOfDISTINCTAndREDUCED {
     public const val _COUNT: Int = 2
     public val values: Array<String> = arrayOf("DISTINCT", "REDUCED")
 }
-public class ASTClassOfExpressionAndVar: ASTInterfaceOfVarOrClassOfExpressionAndVar, IASTBase {
+public class ASTClassOfExpressionAndVar : ASTInterfaceOfVarOrClassOfExpressionAndVar, IASTBase {
     override var id: Int = 17
     public var variable0: ASTExpression? = null
     public var variable1: ASTVar? = null
@@ -91,29 +91,29 @@ public class ASTClassOfExpressionAndVar: ASTInterfaceOfVarOrClassOfExpressionAnd
 public sealed interface ASTInterfaceOfVarOrClassOfExpressionAndVar {
     public var id: Int
 }
-public class ASTListOfInterfaceOfVarOrClassOfExpressionAndVar: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
+public class ASTListOfInterfaceOfVarOrClassOfExpressionAndVar : ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
     override var id: Int = 20
     public lateinit var value: MutableList<ASTInterfaceOfVarOrClassOfExpressionAndVar>
 }
 public sealed interface ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll {
     public var id: Int
 }
-public class ASTSelectClause: IASTBase {
+public class ASTSelectClause : IASTBase {
     override var id: Int = 22
     public var variable0: Int? = null
     public var variable1: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll? = null
 }
-public class ASTSelectClauseAll: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
+public class ASTSelectClauseAll : ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll, IASTBase {
     override var id: Int = 21
 }
-public class ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
+public class ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier : ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
     override var id: Int = 23
     public var variable0: ASTConstructTemplate? = null
     public var variable1: ASTListOfDatasetClause? = null
     public var variable2: ASTWhereClause? = null
     public var variable3: ASTSolutionModifier? = null
 }
-public class ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
+public class ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier : ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, IASTBase {
     override var id: Int = 24
     public var variable0: ASTListOfDatasetClause? = null
     public var variable1: ASTGroupGraphPattern? = null
@@ -122,32 +122,32 @@ public class ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifie
 public sealed interface ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier {
     public var id: Int
 }
-public class ASTConstructQuery: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+public class ASTConstructQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
     override var id: Int = 1
     public var variable0: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier? = null
 }
-public class ASTListOfVarOrIri: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
+public class ASTListOfVarOrIri : ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
     override var id: Int = 25
     public lateinit var value: MutableList<ASTVarOrIri>
 }
 public sealed interface ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll {
     public var id: Int
 }
-public class ASTWhereClauseOptional: IASTBase {
+public class ASTWhereClauseOptional : IASTBase {
     override var id: Int = 27
     public var variable0: ASTWhereClause? = null
 }
-public class ASTDescribeQuery: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+public class ASTDescribeQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
     override var id: Int = 2
     public var variable0: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll? = null
     public var variable1: ASTListOfDatasetClause? = null
     public var variable2: ASTWhereClauseOptional? = null
     public var variable3: ASTSolutionModifier? = null
 }
-public class ASTDescribeQueryAll: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
+public class ASTDescribeQueryAll : ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll, IASTBase {
     override var id: Int = 26
 }
-public class ASTAskQuery: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
+public class ASTAskQuery : ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery, IASTBase {
     override var id: Int = 3
     public var variable0: ASTListOfDatasetClause? = null
     public var variable1: ASTWhereClause? = null
@@ -156,85 +156,85 @@ public class ASTAskQuery: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQue
 public sealed interface ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause {
     public var id: Int
 }
-public class ASTDatasetClause: IASTBase {
+public class ASTDatasetClause : IASTBase {
     override var id: Int = 30
     public var variable0: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause? = null
 }
-public class ASTDefaultGraphClause: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
+public class ASTDefaultGraphClause : ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
     override var id: Int = 28
     public var variable0: ASTSourceSelector? = null
 }
-public class ASTNamedGraphClause: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
+public class ASTNamedGraphClause : ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause, IASTBase {
     override var id: Int = 29
     public var variable0: ASTSourceSelector? = null
 }
-public class ASTSourceSelector: IASTBase {
+public class ASTSourceSelector : IASTBase {
     override var id: Int = 31
     public var variable0: ASTiri? = null
 }
-public class ASTWhereClause: IASTBase {
+public class ASTWhereClause : IASTBase {
     override var id: Int = 32
     public var WHERE: Boolean = false
     public var variable1: ASTGroupGraphPattern? = null
 }
-public class ASTGroupClauseOptional: IASTBase {
+public class ASTGroupClauseOptional : IASTBase {
     override var id: Int = 33
     public var variable0: ASTGroupClause? = null
 }
-public class ASTHavingClauseOptional: IASTBase {
+public class ASTHavingClauseOptional : IASTBase {
     override var id: Int = 34
     public var variable0: ASTHavingClause? = null
 }
-public class ASTOrderClauseOptional: IASTBase {
+public class ASTOrderClauseOptional : IASTBase {
     override var id: Int = 35
     public var variable0: ASTOrderClause? = null
 }
-public class ASTLimitOffsetClausesOptional: IASTBase {
+public class ASTLimitOffsetClausesOptional : IASTBase {
     override var id: Int = 36
     public var variable0: ASTLimitOffsetClauses? = null
 }
-public class ASTSolutionModifier: IASTBase {
+public class ASTSolutionModifier : IASTBase {
     override var id: Int = 37
     public var variable0: ASTGroupClauseOptional? = null
     public var variable1: ASTHavingClauseOptional? = null
     public var variable2: ASTOrderClauseOptional? = null
     public var variable3: ASTLimitOffsetClausesOptional? = null
 }
-public class ASTListOfGroupCondition: IASTBase {
+public class ASTListOfGroupCondition : IASTBase {
     override var id: Int = 38
     public lateinit var value: MutableList<ASTGroupCondition>
 }
-public class ASTGroupClause: IASTBase {
+public class ASTGroupClause : IASTBase {
     override var id: Int = 39
     public var variable0: ASTListOfGroupCondition? = null
 }
-public class ASTVarOptional: IASTBase {
+public class ASTVarOptional : IASTBase {
     override var id: Int = 40
     public var variable0: ASTVar? = null
 }
-public class ASTClassOfExpressionAndVarOptional: ASTGroupCondition, IASTBase {
+public class ASTClassOfExpressionAndVarOptional : ASTGroupCondition, IASTBase {
     override var id: Int = 41
     public var variable0: ASTExpression? = null
     public var variable1: ASTVarOptional? = null
 }
-public sealed interface ASTGroupCondition: IASTBase
-public class ASTListOfHavingCondition: IASTBase {
+public sealed interface ASTGroupCondition : IASTBase
+public class ASTListOfHavingCondition : IASTBase {
     override var id: Int = 104
     public lateinit var value: MutableList<ASTHavingCondition>
 }
-public class ASTHavingClause: IASTBase {
+public class ASTHavingClause : IASTBase {
     override var id: Int = 105
     public var variable0: ASTListOfHavingCondition? = null
 }
-public class ASTHavingCondition: IASTBase {
+public class ASTHavingCondition : IASTBase {
     override var id: Int = 106
     public var variable0: ASTConstraint? = null
 }
-public class ASTListOfOrderCondition: IASTBase {
+public class ASTListOfOrderCondition : IASTBase {
     override var id: Int = 107
     public lateinit var value: MutableList<ASTOrderCondition>
 }
-public class ASTOrderClause: IASTBase {
+public class ASTOrderClause : IASTBase {
     override var id: Int = 108
     public var variable0: ASTListOfOrderCondition? = null
 }
@@ -248,103 +248,103 @@ public object ASTEnumOfASCAndDESC {
 public sealed interface ASTInterfaceOfConstraintOrVar {
     public var id: Int
 }
-public class ASTOrderCondition: IASTBase {
+public class ASTOrderCondition : IASTBase {
     override var id: Int = 110
     public var variable0: Int? = null
     public var variable1: ASTInterfaceOfConstraintOrVar? = null
 }
-public class ASTOffsetClauseOptional: IASTBase {
+public class ASTOffsetClauseOptional : IASTBase {
     override var id: Int = 111
     public var variable0: ASTOffsetClause? = null
 }
-public class ASTClassOfLimitClauseAndOffsetClauseOptional: ASTLimitOffsetClauses, IASTBase {
+public class ASTClassOfLimitClauseAndOffsetClauseOptional : ASTLimitOffsetClauses, IASTBase {
     override var id: Int = 112
     public var variable0: ASTLimitClause? = null
     public var variable1: ASTOffsetClauseOptional? = null
 }
-public class ASTLimitClauseOptional: IASTBase {
+public class ASTLimitClauseOptional : IASTBase {
     override var id: Int = 113
     public var variable0: ASTLimitClause? = null
 }
-public class ASTClassOfOffsetClauseAndLimitClauseOptional: ASTLimitOffsetClauses, IASTBase {
+public class ASTClassOfOffsetClauseAndLimitClauseOptional : ASTLimitOffsetClauses, IASTBase {
     override var id: Int = 114
     public var variable0: ASTOffsetClause? = null
     public var variable1: ASTLimitClauseOptional? = null
 }
-public sealed interface ASTLimitOffsetClauses: IASTBase
-public class ASTLimitClause: IASTBase {
+public sealed interface ASTLimitOffsetClauses : IASTBase
+public class ASTLimitClause : IASTBase {
     override var id: Int = 115
     public var INTEGER: String? = null
 }
-public class ASTOffsetClause: IASTBase {
+public class ASTOffsetClause : IASTBase {
     override var id: Int = 116
     public var INTEGER: String? = null
 }
-public sealed interface ASTUpdate1: IASTBase
-public class ASTGraphRefOptional: IASTBase {
+public sealed interface ASTUpdate1 : IASTBase
+public class ASTGraphRefOptional : IASTBase {
     override var id: Int = 128
     public var variable0: ASTGraphRef? = null
 }
-public class ASTLoad: ASTUpdate1, IASTBase {
+public class ASTLoad : ASTUpdate1, IASTBase {
     override var id: Int = 117
     public var SILENT: Boolean = false
     public var variable1: ASTiri? = null
     public var variable2: ASTGraphRefOptional? = null
 }
-public class ASTClear: ASTUpdate1, IASTBase {
+public class ASTClear : ASTUpdate1, IASTBase {
     override var id: Int = 118
     public var SILENT: Boolean = false
     public var variable1: ASTGraphRefAll? = null
 }
-public class ASTDrop: ASTUpdate1, IASTBase {
+public class ASTDrop : ASTUpdate1, IASTBase {
     override var id: Int = 119
     public var SILENT: Boolean = false
     public var variable1: ASTGraphRefAll? = null
 }
-public class ASTCreate: ASTUpdate1, IASTBase {
+public class ASTCreate : ASTUpdate1, IASTBase {
     override var id: Int = 123
     public var SILENT: Boolean = false
     public var variable1: ASTGraphRef? = null
 }
-public class ASTAdd: ASTUpdate1, IASTBase {
+public class ASTAdd : ASTUpdate1, IASTBase {
     override var id: Int = 120
     public var SILENT: Boolean = false
     public var variable1: ASTGraphOrDefault? = null
     public var variable2: ASTGraphOrDefault? = null
 }
-public class ASTMove: ASTUpdate1, IASTBase {
+public class ASTMove : ASTUpdate1, IASTBase {
     override var id: Int = 121
     public var SILENT: Boolean = false
     public var variable1: ASTGraphOrDefault? = null
     public var variable2: ASTGraphOrDefault? = null
 }
-public class ASTCopy: ASTUpdate1, IASTBase {
+public class ASTCopy : ASTUpdate1, IASTBase {
     override var id: Int = 122
     public var SILENT: Boolean = false
     public var variable1: ASTGraphOrDefault? = null
     public var variable2: ASTGraphOrDefault? = null
 }
-public class ASTInsertData: ASTUpdate1, IASTBase {
+public class ASTInsertData : ASTUpdate1, IASTBase {
     override var id: Int = 124
     public var variable0: ASTQuadData? = null
 }
-public class ASTDeleteData: ASTUpdate1, IASTBase {
+public class ASTDeleteData : ASTUpdate1, IASTBase {
     override var id: Int = 125
     public var variable0: ASTQuadData? = null
 }
-public class ASTDeleteWhere: ASTUpdate1, IASTBase {
+public class ASTDeleteWhere : ASTUpdate1, IASTBase {
     override var id: Int = 126
     public var variable0: ASTQuadPattern? = null
 }
-public class ASTiriOptional: IASTBase {
+public class ASTiriOptional : IASTBase {
     override var id: Int = 129
     public var variable0: ASTiri? = null
 }
-public class ASTInsertClauseOptional: IASTBase {
+public class ASTInsertClauseOptional : IASTBase {
     override var id: Int = 130
     public var variable0: ASTInsertClause? = null
 }
-public class ASTClassOfDeleteClauseAndInsertClauseOptional: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
+public class ASTClassOfDeleteClauseAndInsertClauseOptional : ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
     override var id: Int = 131
     public var variable0: ASTDeleteClause? = null
     public var variable1: ASTInsertClauseOptional? = null
@@ -352,86 +352,86 @@ public class ASTClassOfDeleteClauseAndInsertClauseOptional: ASTInterfaceOfClassO
 public sealed interface ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause {
     public var id: Int
 }
-public class ASTListOfUsingClause: IASTBase {
+public class ASTListOfUsingClause : IASTBase {
     override var id: Int = 133
     public lateinit var value: MutableList<ASTUsingClause>
 }
-public class ASTModify: ASTUpdate1, IASTBase {
+public class ASTModify : ASTUpdate1, IASTBase {
     override var id: Int = 127
     public var variable0: ASTiriOptional? = null
     public var variable1: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause? = null
     public var variable2: ASTListOfUsingClause? = null
     public var variable3: ASTGroupGraphPattern? = null
 }
-public class ASTDeleteClause: IASTBase {
+public class ASTDeleteClause : IASTBase {
     override var id: Int = 134
     public var variable0: ASTQuadPattern? = null
 }
-public class ASTInsertClause: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
+public class ASTInsertClause : ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause, IASTBase {
     override var id: Int = 132
     public var variable0: ASTQuadPattern? = null
 }
-public class ASTUsingClause: IASTBase {
+public class ASTUsingClause : IASTBase {
     override var id: Int = 135
     public var variable0: ASTiri? = null
 }
-public class ASTClassOfGRAPHAndiri: ASTGraphOrDefault, IASTBase {
+public class ASTClassOfGRAPHAndiri : ASTGraphOrDefault, IASTBase {
     override var id: Int = 136
     public var GRAPH: Boolean = false
     public var variable1: ASTiri? = null
 }
-public sealed interface ASTGraphOrDefault: IASTBase
-public class ASTGraphRef: ASTGraphRefAll, IASTBase {
+public sealed interface ASTGraphOrDefault : IASTBase
+public class ASTGraphRef : ASTGraphRefAll, IASTBase {
     override var id: Int = 138
     public var variable0: ASTiri? = null
 }
-public sealed interface ASTGraphRefAll: IASTBase
-public class ASTGraphRefDefault: ASTGraphOrDefault, ASTGraphRefAll, IASTBase {
+public sealed interface ASTGraphRefAll : IASTBase
+public class ASTGraphRefDefault : ASTGraphOrDefault, ASTGraphRefAll, IASTBase {
     override var id: Int = 137
 }
-public class ASTGraphRefNamed: ASTGraphRefAll, IASTBase {
+public class ASTGraphRefNamed : ASTGraphRefAll, IASTBase {
     override var id: Int = 139
 }
-public class ASTGraphRefAll2: ASTGraphRefAll, IASTBase {
+public class ASTGraphRefAll2 : ASTGraphRefAll, IASTBase {
     override var id: Int = 140
 }
-public class ASTQuadPattern: IASTBase {
+public class ASTQuadPattern : IASTBase {
     override var id: Int = 141
     public var variable0: ASTQuads? = null
 }
-public class ASTQuadData: IASTBase {
+public class ASTQuadData : IASTBase {
     override var id: Int = 142
     public var variable0: ASTQuads? = null
 }
-public class ASTTriplesTemplateOptional: IASTBase {
+public class ASTTriplesTemplateOptional : IASTBase {
     override var id: Int = 143
     public var variable0: ASTTriplesTemplate? = null
 }
-public class ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional: IASTBase {
+public class ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional : IASTBase {
     override var id: Int = 144
     public var variable0: ASTQuadsNotTriples? = null
     public var point: Boolean = false
     public var variable2: ASTTriplesTemplateOptional? = null
 }
-public class ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional: IASTBase {
+public class ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional : IASTBase {
     override var id: Int = 145
     public lateinit var value: MutableList<ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional>
 }
-public class ASTQuads: IASTBase {
+public class ASTQuads : IASTBase {
     override var id: Int = 146
     public var variable0: ASTTriplesTemplateOptional? = null
     public var variable1: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional? = null
 }
-public class ASTQuadsNotTriples: IASTBase {
+public class ASTQuadsNotTriples : IASTBase {
     override var id: Int = 147
     public var variable0: ASTVarOrIri? = null
     public var variable1: ASTTriplesTemplateOptional? = null
 }
-public class ASTTriplesTemplateOptionalOptional: IASTBase {
+public class ASTTriplesTemplateOptionalOptional : IASTBase {
     override var id: Int = 148
     public var variable0: ASTTriplesTemplateOptional? = null
 }
-public class ASTTriplesTemplate: IASTBase {
+public class ASTTriplesTemplate : IASTBase {
     override var id: Int = 149
     public var variable0: ASTTriplesSameSubject? = null
     public var variable1: ASTTriplesTemplateOptionalOptional? = null
@@ -439,74 +439,74 @@ public class ASTTriplesTemplate: IASTBase {
 public sealed interface ASTInterfaceOfSubSelectOrGroupGraphPatternSub {
     public var id: Int
 }
-public class ASTGroupGraphPattern: IASTBase {
+public class ASTGroupGraphPattern : IASTBase {
     override var id: Int = 151
     public var variable0: ASTInterfaceOfSubSelectOrGroupGraphPatternSub? = null
 }
-public class ASTTriplesBlockOptional: IASTBase {
+public class ASTTriplesBlockOptional : IASTBase {
     override var id: Int = 152
     public var variable0: ASTTriplesBlock? = null
 }
-public class ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional: IASTBase {
+public class ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional : IASTBase {
     override var id: Int = 153
     public var variable0: ASTGraphPatternNotTriples? = null
     public var point: Boolean = false
     public var variable2: ASTTriplesBlockOptional? = null
 }
-public class ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional: IASTBase {
+public class ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional : IASTBase {
     override var id: Int = 154
     public lateinit var value: MutableList<ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional>
 }
-public class ASTGroupGraphPatternSub: ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
+public class ASTGroupGraphPatternSub : ASTInterfaceOfSubSelectOrGroupGraphPatternSub, IASTBase {
     override var id: Int = 150
     public var variable0: ASTTriplesBlockOptional? = null
     public var variable1: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional? = null
 }
-public class ASTTriplesBlockOptionalOptional: IASTBase {
+public class ASTTriplesBlockOptionalOptional : IASTBase {
     override var id: Int = 155
     public var variable0: ASTTriplesBlockOptional? = null
 }
-public class ASTTriplesBlock: IASTBase {
+public class ASTTriplesBlock : IASTBase {
     override var id: Int = 156
     public var variable0: ASTTriplesSameSubjectPath? = null
     public var variable1: ASTTriplesBlockOptionalOptional? = null
 }
-public sealed interface ASTGraphPatternNotTriples: IASTBase
-public class ASTOptionalGraphPattern: ASTGraphPatternNotTriples, IASTBase {
+public sealed interface ASTGraphPatternNotTriples : IASTBase
+public class ASTOptionalGraphPattern : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 158
     public var variable0: ASTGroupGraphPattern? = null
 }
-public class ASTGraphGraphPattern: ASTGraphPatternNotTriples, IASTBase {
+public class ASTGraphGraphPattern : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 160
     public var variable0: ASTVarOrIri? = null
     public var variable1: ASTGroupGraphPattern? = null
 }
-public class ASTServiceGraphPattern: ASTGraphPatternNotTriples, IASTBase {
+public class ASTServiceGraphPattern : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 161
     public var SILENT: Boolean = false
     public var variable1: ASTVarOrIri? = null
     public var variable2: ASTGroupGraphPattern? = null
 }
-public class ASTBind: ASTGraphPatternNotTriples, IASTBase {
+public class ASTBind : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 163
     public var variable0: ASTExpression? = null
     public var variable1: ASTVar? = null
 }
-public class ASTValuesClause: ASTGraphPatternNotTriples, IASTBase {
+public class ASTValuesClause : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 164
     public var variable0: ASTDataBlock? = null
 }
-public sealed interface ASTDataBlock: IASTBase
-public class ASTListOfDataBlockValue: ASTInterfaceOfListOfDataBlockValueOrNILParam, IASTBase {
+public sealed interface ASTDataBlock : IASTBase
+public class ASTListOfDataBlockValue : ASTInterfaceOfListOfDataBlockValueOrNILParam, IASTBase {
     override var id: Int = 167
     public lateinit var value: MutableList<ASTDataBlockValue>
 }
-public class ASTInlineDataOneVar: ASTDataBlock, IASTBase {
+public class ASTInlineDataOneVar : ASTDataBlock, IASTBase {
     override var id: Int = 165
     public var variable0: ASTVar? = null
     public var variable1: ASTListOfDataBlockValue? = null
 }
-public class ASTListOfVar: ASTInterfaceOfNILParamOrListOfVar, IASTBase {
+public class ASTListOfVar : ASTInterfaceOfNILParamOrListOfVar, IASTBase {
     override var id: Int = 168
     public lateinit var value: MutableList<ASTVar>
 }
@@ -516,211 +516,211 @@ public sealed interface ASTInterfaceOfNILParamOrListOfVar {
 public sealed interface ASTInterfaceOfListOfDataBlockValueOrNILParam {
     public var id: Int
 }
-public class ASTListOfInterfaceOfListOfDataBlockValueOrNILParam: IASTBase {
+public class ASTListOfInterfaceOfListOfDataBlockValueOrNILParam : IASTBase {
     override var id: Int = 170
     public lateinit var value: MutableList<ASTInterfaceOfListOfDataBlockValueOrNILParam>
 }
-public class ASTInlineDataFull: ASTDataBlock, IASTBase {
+public class ASTInlineDataFull : ASTDataBlock, IASTBase {
     override var id: Int = 166
     public var variable0: ASTInterfaceOfNILParamOrListOfVar? = null
     public var variable1: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam? = null
 }
-public sealed interface ASTDataBlockValue: IASTBase
-public class ASTUNDEF: ASTDataBlockValue, IASTBase {
+public sealed interface ASTDataBlockValue : IASTBase
+public class ASTUNDEF : ASTDataBlockValue, IASTBase {
     override var id: Int = 186
 }
-public class ASTMinusGraphPattern: ASTGraphPatternNotTriples, IASTBase {
+public class ASTMinusGraphPattern : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 159
     public var variable0: ASTGroupGraphPattern? = null
 }
-public class ASTListOfGroupGraphPattern: IASTBase {
+public class ASTListOfGroupGraphPattern : IASTBase {
     override var id: Int = 187
     public lateinit var value: MutableList<ASTGroupGraphPattern>
 }
-public class ASTGroupOrUnionGraphPattern: ASTGraphPatternNotTriples, IASTBase {
+public class ASTGroupOrUnionGraphPattern : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 157
     public var variable0: ASTGroupGraphPattern? = null
     public var variable1: ASTListOfGroupGraphPattern? = null
 }
-public class ASTFilter: ASTGraphPatternNotTriples, IASTBase {
+public class ASTFilter : ASTGraphPatternNotTriples, IASTBase {
     override var id: Int = 162
     public var variable0: ASTConstraint? = null
 }
-public sealed interface ASTConstraint: ASTInterfaceOfConstraintOrVar, IASTBase
-public class ASTFunctionCall: ASTGroupCondition, ASTConstraint, IASTBase {
+public sealed interface ASTConstraint : ASTInterfaceOfConstraintOrVar, IASTBase
+public class ASTFunctionCall : ASTGroupCondition, ASTConstraint, IASTBase {
     override var id: Int = 103
     public var variable0: ASTiri? = null
     public var variable1: ASTArgList? = null
 }
-public class ASTListOfExpression: IASTBase {
+public class ASTListOfExpression : IASTBase {
     override var id: Int = 188
     public lateinit var value: MutableList<ASTExpression>
 }
-public class ASTClassOfDISTINCTAndExpressionAndListOfExpression: ASTArgList, IASTBase {
+public class ASTClassOfDISTINCTAndExpressionAndListOfExpression : ASTArgList, IASTBase {
     override var id: Int = 189
     public var DISTINCT: Boolean = false
     public var variable1: ASTExpression? = null
     public var variable2: ASTListOfExpression? = null
 }
-public sealed interface ASTArgList: IASTBase
-public class ASTClassOfExpressionAndListOfExpression: ASTExpressionList, IASTBase {
+public sealed interface ASTArgList : IASTBase
+public class ASTClassOfExpressionAndListOfExpression : ASTExpressionList, IASTBase {
     override var id: Int = 190
     public var variable0: ASTExpression? = null
     public var variable1: ASTListOfExpression? = null
 }
-public sealed interface ASTExpressionList: IASTBase
-public class ASTConstructTriplesOptional: IASTBase {
+public sealed interface ASTExpressionList : IASTBase
+public class ASTConstructTriplesOptional : IASTBase {
     override var id: Int = 191
     public var variable0: ASTConstructTriples? = null
 }
-public class ASTConstructTemplate: IASTBase {
+public class ASTConstructTemplate : IASTBase {
     override var id: Int = 192
     public var variable0: ASTConstructTriplesOptional? = null
 }
-public class ASTConstructTriplesOptionalOptional: IASTBase {
+public class ASTConstructTriplesOptionalOptional : IASTBase {
     override var id: Int = 193
     public var variable0: ASTConstructTriplesOptional? = null
 }
-public class ASTConstructTriples: IASTBase {
+public class ASTConstructTriples : IASTBase {
     override var id: Int = 194
     public var variable0: ASTTriplesSameSubject? = null
     public var variable1: ASTConstructTriplesOptionalOptional? = null
 }
-public class ASTClassOfVarOrTermAndPropertyListNotEmpty: ASTTriplesSameSubject, IASTBase {
+public class ASTClassOfVarOrTermAndPropertyListNotEmpty : ASTTriplesSameSubject, IASTBase {
     override var id: Int = 195
     public var variable0: ASTVarOrTerm? = null
     public var variable1: ASTPropertyListNotEmpty? = null
 }
-public class ASTPropertyListOptional: IASTBase {
+public class ASTPropertyListOptional : IASTBase {
     override var id: Int = 196
     public var variable0: ASTPropertyList? = null
 }
-public class ASTClassOfTriplesNodeAndPropertyListOptional: ASTTriplesSameSubject, IASTBase {
+public class ASTClassOfTriplesNodeAndPropertyListOptional : ASTTriplesSameSubject, IASTBase {
     override var id: Int = 197
     public var variable0: ASTTriplesNode? = null
     public var variable1: ASTPropertyListOptional? = null
 }
-public sealed interface ASTTriplesSameSubject: IASTBase
-public class ASTPropertyList: IASTBase {
+public sealed interface ASTTriplesSameSubject : IASTBase
+public class ASTPropertyList : IASTBase {
     override var id: Int = 198
     public var variable0: ASTPropertyListNotEmpty? = null
 }
-public class ASTClassOfVerbAndObjectList: IASTBase {
+public class ASTClassOfVerbAndObjectList : IASTBase {
     override var id: Int = 199
     public var variable0: ASTVerb? = null
     public var variable1: ASTObjectList? = null
 }
-public class ASTClassOfVerbAndObjectListOptional: IASTBase {
+public class ASTClassOfVerbAndObjectListOptional : IASTBase {
     override var id: Int = 200
     public var variable0: ASTClassOfVerbAndObjectList? = null
 }
-public class ASTListOfClassOfVerbAndObjectListOptional: IASTBase {
+public class ASTListOfClassOfVerbAndObjectListOptional : IASTBase {
     override var id: Int = 201
     public lateinit var value: MutableList<ASTClassOfVerbAndObjectListOptional>
 }
-public class ASTPropertyListNotEmpty: IASTBase {
+public class ASTPropertyListNotEmpty : IASTBase {
     override var id: Int = 202
     public var variable0: ASTVerb? = null
     public var variable1: ASTObjectList? = null
     public var variable2: ASTListOfClassOfVerbAndObjectListOptional? = null
 }
-public sealed interface ASTVerb: IASTBase
-public class ASTRDFType: ASTVerb, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, IASTBase {
+public sealed interface ASTVerb : IASTBase
+public class ASTRDFType : ASTVerb, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, IASTBase {
     override var id: Int = 203
 }
-public class ASTListOfObject: IASTBase {
+public class ASTListOfObject : IASTBase {
     override var id: Int = 204
     public lateinit var value: MutableList<ASTObject>
 }
-public class ASTObjectList: IASTBase {
+public class ASTObjectList : IASTBase {
     override var id: Int = 205
     public var variable0: ASTObject? = null
     public var variable1: ASTListOfObject? = null
 }
-public class ASTObject: IASTBase {
+public class ASTObject : IASTBase {
     override var id: Int = 206
     public var variable0: ASTGraphNode? = null
 }
-public class ASTClassOfVarOrTermAndPropertyListPathNotEmpty: ASTTriplesSameSubjectPath, IASTBase {
+public class ASTClassOfVarOrTermAndPropertyListPathNotEmpty : ASTTriplesSameSubjectPath, IASTBase {
     override var id: Int = 207
     public var variable0: ASTVarOrTerm? = null
     public var variable1: ASTPropertyListPathNotEmpty? = null
 }
-public class ASTPropertyListPathOptional: IASTBase {
+public class ASTPropertyListPathOptional : IASTBase {
     override var id: Int = 208
     public var variable0: ASTPropertyListPath? = null
 }
-public class ASTClassOfTriplesNodePathAndPropertyListPathOptional: ASTTriplesSameSubjectPath, IASTBase {
+public class ASTClassOfTriplesNodePathAndPropertyListPathOptional : ASTTriplesSameSubjectPath, IASTBase {
     override var id: Int = 209
     public var variable0: ASTTriplesNodePath? = null
     public var variable1: ASTPropertyListPathOptional? = null
 }
-public sealed interface ASTTriplesSameSubjectPath: IASTBase
-public class ASTPropertyListPath: IASTBase {
+public sealed interface ASTTriplesSameSubjectPath : IASTBase
+public class ASTPropertyListPath : IASTBase {
     override var id: Int = 210
     public var variable0: ASTPropertyListPathNotEmpty? = null
 }
 public sealed interface ASTInterfaceOfVerbPathOrVerbSimple {
     public var id: Int
 }
-public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList: IASTBase {
+public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList : IASTBase {
     override var id: Int = 213
     public var variable0: ASTInterfaceOfVerbPathOrVerbSimple? = null
     public var variable1: ASTObjectList? = null
 }
-public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional: IASTBase {
+public class ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional : IASTBase {
     override var id: Int = 214
     public var variable0: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList? = null
 }
-public class ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional: IASTBase {
+public class ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional : IASTBase {
     override var id: Int = 215
     public lateinit var value: MutableList<ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional>
 }
-public class ASTPropertyListPathNotEmpty: IASTBase {
+public class ASTPropertyListPathNotEmpty : IASTBase {
     override var id: Int = 216
     public var variable0: ASTInterfaceOfVerbPathOrVerbSimple? = null
     public var variable1: ASTObjectListPath? = null
     public var variable2: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional? = null
 }
-public class ASTVerbPath: ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
+public class ASTVerbPath : ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
     override var id: Int = 211
     public var variable0: ASTPath? = null
 }
-public class ASTVerbSimple: ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
+public class ASTVerbSimple : ASTInterfaceOfVerbPathOrVerbSimple, IASTBase {
     override var id: Int = 212
     public var variable0: ASTVar? = null
 }
-public class ASTListOfObjectPath: IASTBase {
+public class ASTListOfObjectPath : IASTBase {
     override var id: Int = 217
     public lateinit var value: MutableList<ASTObjectPath>
 }
-public class ASTObjectListPath: IASTBase {
+public class ASTObjectListPath : IASTBase {
     override var id: Int = 218
     public var variable0: ASTObjectPath? = null
     public var variable1: ASTListOfObjectPath? = null
 }
-public class ASTObjectPath: IASTBase {
+public class ASTObjectPath : IASTBase {
     override var id: Int = 219
     public var variable0: ASTGraphNodePath? = null
 }
-public class ASTPath: ASTPathPrimary, IASTBase {
+public class ASTPath : ASTPathPrimary, IASTBase {
     override var id: Int = 220
     public var variable0: ASTPathAlternative? = null
 }
-public class ASTListOfPathSequence: IASTBase {
+public class ASTListOfPathSequence : IASTBase {
     override var id: Int = 221
     public lateinit var value: MutableList<ASTPathSequence>
 }
-public class ASTPathAlternative: IASTBase {
+public class ASTPathAlternative : IASTBase {
     override var id: Int = 222
     public var variable0: ASTPathSequence? = null
     public var variable1: ASTListOfPathSequence? = null
 }
-public class ASTListOfPathEltOrInverse: IASTBase {
+public class ASTListOfPathEltOrInverse : IASTBase {
     override var id: Int = 223
     public lateinit var value: MutableList<ASTPathEltOrInverse>
 }
-public class ASTPathSequence: IASTBase {
+public class ASTPathSequence : IASTBase {
     override var id: Int = 224
     public var variable0: ASTPathEltOrInverse? = null
     public var variable1: ASTListOfPathEltOrInverse? = null
@@ -733,154 +733,154 @@ public object ASTEnumOfoptionalAndanyAndatLeastOne {
     public const val _COUNT: Int = 3
     public val values: Array<String> = arrayOf("optional", "any", "atLeastOne")
 }
-public class ASTPathElt: IASTBase {
+public class ASTPathElt : IASTBase {
     override var id: Int = 225
     public var variable0: ASTPathPrimary? = null
     public var variable1: Int? = null
 }
-public class ASTPathEltOrInverse: IASTBase {
+public class ASTPathEltOrInverse : IASTBase {
     override var id: Int = 226
     public var negated: Boolean = false
     public var variable1: ASTPathElt? = null
 }
-public sealed interface ASTPathPrimary: IASTBase
-public class ASTListOfPathOneInPropertySet: IASTBase {
+public sealed interface ASTPathPrimary : IASTBase
+public class ASTListOfPathOneInPropertySet : IASTBase {
     override var id: Int = 229
     public lateinit var value: MutableList<ASTPathOneInPropertySet>
 }
-public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet: IASTBase {
+public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet : IASTBase {
     override var id: Int = 230
     public var variable0: ASTPathOneInPropertySet? = null
     public var variable1: ASTListOfPathOneInPropertySet? = null
 }
-public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional: ASTPathNegatedPropertySet, IASTBase {
+public class ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional : ASTPathNegatedPropertySet, IASTBase {
     override var id: Int = 228
     public var variable0: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet? = null
 }
-public sealed interface ASTPathNegatedPropertySet: ASTPathPrimary, IASTBase
+public sealed interface ASTPathNegatedPropertySet : ASTPathPrimary, IASTBase
 public sealed interface ASTInterfaceOfiriOrRDFType {
     public var id: Int
 }
-public class ASTPathOneInPropertySet: ASTPathNegatedPropertySet, IASTBase {
+public class ASTPathOneInPropertySet : ASTPathNegatedPropertySet, IASTBase {
     override var id: Int = 227
     public var negated: Boolean = false
     public var variable1: ASTInterfaceOfiriOrRDFType? = null
 }
-public class ASTInteger: IASTBase {
+public class ASTInteger : IASTBase {
     override var id: Int = 231
     public var INTEGER: String? = null
 }
-public sealed interface ASTTriplesNode: ASTGraphNode, IASTBase
-public class ASTBlankNodePropertyList: ASTTriplesNode, IASTBase {
+public sealed interface ASTTriplesNode : ASTGraphNode, IASTBase
+public class ASTBlankNodePropertyList : ASTTriplesNode, IASTBase {
     override var id: Int = 233
     public var variable0: ASTPropertyListNotEmpty? = null
 }
-public sealed interface ASTTriplesNodePath: ASTGraphNodePath, IASTBase
-public class ASTBlankNodePropertyListPath: ASTTriplesNodePath, IASTBase {
+public sealed interface ASTTriplesNodePath : ASTGraphNodePath, IASTBase
+public class ASTBlankNodePropertyListPath : ASTTriplesNodePath, IASTBase {
     override var id: Int = 235
     public var variable0: ASTPropertyListPathNotEmpty? = null
 }
-public class ASTListOfGraphNode: IASTBase {
+public class ASTListOfGraphNode : IASTBase {
     override var id: Int = 236
     public lateinit var value: MutableList<ASTGraphNode>
 }
-public class ASTCollection: ASTTriplesNode, IASTBase {
+public class ASTCollection : ASTTriplesNode, IASTBase {
     override var id: Int = 232
     public var variable0: ASTListOfGraphNode? = null
 }
-public class ASTListOfGraphNodePath: IASTBase {
+public class ASTListOfGraphNodePath : IASTBase {
     override var id: Int = 237
     public lateinit var value: MutableList<ASTGraphNodePath>
 }
-public class ASTCollectionPath: ASTTriplesNodePath, IASTBase {
+public class ASTCollectionPath : ASTTriplesNodePath, IASTBase {
     override var id: Int = 234
     public var variable0: ASTListOfGraphNodePath? = null
 }
-public sealed interface ASTGraphNode: IASTBase
-public sealed interface ASTGraphNodePath: IASTBase
-public sealed interface ASTVarOrTerm: ASTGraphNode, ASTGraphNodePath, IASTBase
-public sealed interface ASTVarOrIri: ASTVerb, IASTBase
-public sealed interface ASTVar: ASTInterfaceOfVarOrClassOfExpressionAndVar, ASTGroupCondition, ASTInterfaceOfConstraintOrVar, ASTVarOrTerm, ASTVarOrIri, ASTPrimaryExpression, IASTBase
-public class ASTVar1: ASTVar, IASTBase {
+public sealed interface ASTGraphNode : IASTBase
+public sealed interface ASTGraphNodePath : IASTBase
+public sealed interface ASTVarOrTerm : ASTGraphNode, ASTGraphNodePath, IASTBase
+public sealed interface ASTVarOrIri : ASTVerb, IASTBase
+public sealed interface ASTVar : ASTInterfaceOfVarOrClassOfExpressionAndVar, ASTGroupCondition, ASTInterfaceOfConstraintOrVar, ASTVarOrTerm, ASTVarOrIri, ASTPrimaryExpression, IASTBase
+public class ASTVar1 : ASTVar, IASTBase {
     override var id: Int = 18
     public var VAR1: String? = null
 }
-public class ASTVar2: ASTVar, IASTBase {
+public class ASTVar2 : ASTVar, IASTBase {
     override var id: Int = 19
     public var VAR2: String? = null
 }
-public sealed interface ASTGraphTerm: ASTVarOrTerm, IASTBase
-public class ASTExpression: ASTInterfaceOfExpressionOrNILParam, ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
+public sealed interface ASTGraphTerm : ASTVarOrTerm, IASTBase
+public class ASTExpression : ASTInterfaceOfExpressionOrNILParam, ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
     override var id: Int = 240
     public var variable0: ASTConditionalOrExpression? = null
 }
-public class ASTListOfConditionalAndExpression: IASTBase {
+public class ASTListOfConditionalAndExpression : IASTBase {
     override var id: Int = 241
     public lateinit var value: MutableList<ASTConditionalAndExpression>
 }
-public class ASTConditionalOrExpression: IASTBase {
+public class ASTConditionalOrExpression : IASTBase {
     override var id: Int = 242
     public var variable0: ASTConditionalAndExpression? = null
     public var variable1: ASTListOfConditionalAndExpression? = null
 }
-public class ASTListOfValueLogical: IASTBase {
+public class ASTListOfValueLogical : IASTBase {
     override var id: Int = 243
     public lateinit var value: MutableList<ASTValueLogical>
 }
-public class ASTConditionalAndExpression: IASTBase {
+public class ASTConditionalAndExpression : IASTBase {
     override var id: Int = 244
     public var variable0: ASTValueLogical? = null
     public var variable1: ASTListOfValueLogical? = null
 }
-public class ASTValueLogical: IASTBase {
+public class ASTValueLogical : IASTBase {
     override var id: Int = 245
     public var variable0: ASTRelationalExpression? = null
 }
 public sealed interface ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN {
     public var id: Int
 }
-public class ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional: IASTBase {
+public class ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional : IASTBase {
     override var id: Int = 254
     public var variable0: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN? = null
 }
-public class ASTRelationalExpression: IASTBase {
+public class ASTRelationalExpression : IASTBase {
     override var id: Int = 255
     public var variable0: ASTNumericExpression? = null
     public var variable1: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional? = null
 }
-public class ASTRelationalExpressionEQ: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 246
     public var variable0: ASTNumericExpression? = null
 }
-public class ASTRelationalExpressionNEQ: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionNEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 247
     public var variable0: ASTNumericExpression? = null
 }
-public class ASTRelationalExpressionLT: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionLT : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 248
     public var variable0: ASTNumericExpression? = null
 }
-public class ASTRelationalExpressionGT: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionGT : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 249
     public var variable0: ASTNumericExpression? = null
 }
-public class ASTRelationalExpressionLEQ: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionLEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 250
     public var variable0: ASTNumericExpression? = null
 }
-public class ASTRelationalExpressionGEQ: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionGEQ : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 251
     public var variable0: ASTNumericExpression? = null
 }
-public class ASTRelationalExpressionIN: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionIN : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 252
     public var variable0: ASTExpressionList? = null
 }
-public class ASTRelationalExpressionNOTIN: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
+public class ASTRelationalExpressionNOTIN : ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN, IASTBase {
     override var id: Int = 253
     public var variable0: ASTExpressionList? = null
 }
-public class ASTNumericExpression: IASTBase {
+public class ASTNumericExpression : IASTBase {
     override var id: Int = 256
     public var variable0: ASTAdditiveExpression? = null
 }
@@ -890,11 +890,11 @@ public sealed interface ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNega
 public sealed interface ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE {
     public var id: Int
 }
-public class ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE: IASTBase {
+public class ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : IASTBase {
     override var id: Int = 259
     public lateinit var value: MutableList<ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE>
 }
-public class ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE: ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+public class ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
     override var id: Int = 260
     public var variable0: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative? = null
     public var variable1: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE? = null
@@ -902,313 +902,313 @@ public class ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative
 public sealed interface ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE {
     public var id: Int
 }
-public class ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE: IASTBase {
+public class ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE : IASTBase {
     override var id: Int = 263
     public lateinit var value: MutableList<ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE>
 }
-public class ASTAdditiveExpression: IASTBase {
+public class ASTAdditiveExpression : IASTBase {
     override var id: Int = 264
     public var variable0: ASTMultiplicativeExpression? = null
     public var variable1: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE? = null
 }
-public class ASTAdditiveExpressionPLUS: ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+public class ASTAdditiveExpressionPLUS : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
     override var id: Int = 261
     public var variable0: ASTMultiplicativeExpression? = null
 }
-public class ASTAdditiveExpressionMINUS: ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+public class ASTAdditiveExpressionMINUS : ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
     override var id: Int = 262
     public var variable0: ASTMultiplicativeExpression? = null
 }
-public class ASTAdditiveExpressionMULTIPLY: ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+public class ASTAdditiveExpressionMULTIPLY : ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
     override var id: Int = 257
     public var variable0: ASTUnaryExpression? = null
 }
-public class ASTAdditiveExpressionDIVIDE: ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
+public class ASTAdditiveExpressionDIVIDE : ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, IASTBase {
     override var id: Int = 258
     public var variable0: ASTUnaryExpression? = null
 }
 public sealed interface ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE {
     public var id: Int
 }
-public class ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE: IASTBase {
+public class ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE : IASTBase {
     override var id: Int = 267
     public lateinit var value: MutableList<ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE>
 }
-public class ASTMultiplicativeExpression: IASTBase {
+public class ASTMultiplicativeExpression : IASTBase {
     override var id: Int = 268
     public var variable0: ASTUnaryExpression? = null
     public var variable1: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE? = null
 }
-public class ASTMultiplicativeExpressionMULTIPLY: ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
+public class ASTMultiplicativeExpressionMULTIPLY : ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
     override var id: Int = 265
     public var variable0: ASTUnaryExpression? = null
 }
-public class ASTMultiplicativeExpressionDIVIDE: ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
+public class ASTMultiplicativeExpressionDIVIDE : ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, IASTBase {
     override var id: Int = 266
     public var variable0: ASTUnaryExpression? = null
 }
-public sealed interface ASTUnaryExpression: IASTBase
-public class ASTUnaryExpressionNOT: ASTUnaryExpression, IASTBase {
+public sealed interface ASTUnaryExpression : IASTBase
+public class ASTUnaryExpressionNOT : ASTUnaryExpression, IASTBase {
     override var id: Int = 269
     public var variable0: ASTPrimaryExpression? = null
 }
-public class ASTUnaryExpressionPLUS: ASTUnaryExpression, IASTBase {
+public class ASTUnaryExpressionPLUS : ASTUnaryExpression, IASTBase {
     override var id: Int = 270
     public var variable0: ASTPrimaryExpression? = null
 }
-public class ASTUnaryExpressionMINUS: ASTUnaryExpression, IASTBase {
+public class ASTUnaryExpressionMINUS : ASTUnaryExpression, IASTBase {
     override var id: Int = 271
     public var variable0: ASTPrimaryExpression? = null
 }
-public sealed interface ASTPrimaryExpression: ASTUnaryExpression, IASTBase
-public class ASTBrackettedExpression: ASTConstraint, ASTPrimaryExpression, IASTBase {
+public sealed interface ASTPrimaryExpression : ASTUnaryExpression, IASTBase
+public class ASTBrackettedExpression : ASTConstraint, ASTPrimaryExpression, IASTBase {
     override var id: Int = 109
     public var variable0: ASTExpression? = null
 }
-public sealed interface ASTBuiltInCall: ASTGroupCondition, ASTConstraint, ASTPrimaryExpression, IASTBase
-public class ASTBuiltInCallYear: ASTBuiltInCall, IASTBase {
+public sealed interface ASTBuiltInCall : ASTGroupCondition, ASTConstraint, ASTPrimaryExpression, IASTBase
+public class ASTBuiltInCallYear : ASTBuiltInCall, IASTBase {
     override var id: Int = 74
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallMonth: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallMonth : ASTBuiltInCall, IASTBase {
     override var id: Int = 75
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallHours: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallHours : ASTBuiltInCall, IASTBase {
     override var id: Int = 77
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallNow: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallNow : ASTBuiltInCall, IASTBase {
     override var id: Int = 82
     public var variable0: ASTNILParam? = null
 }
-public class ASTBuiltInCallSameTerm: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallSameTerm : ASTBuiltInCall, IASTBase {
     override var id: Int = 94
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallIsIri: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallIsIri : ASTBuiltInCall, IASTBase {
     override var id: Int = 95
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallIsBlanc: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallIsBlanc : ASTBuiltInCall, IASTBase {
     override var id: Int = 97
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallIsLiteral: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallIsLiteral : ASTBuiltInCall, IASTBase {
     override var id: Int = 98
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallMD5: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallMD5 : ASTBuiltInCall, IASTBase {
     override var id: Int = 85
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallUUID: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallUUID : ASTBuiltInCall, IASTBase {
     override var id: Int = 83
     public var variable0: ASTNILParam? = null
 }
-public class ASTBuiltInCallSTRUUID: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallSTRUUID : ASTBuiltInCall, IASTBase {
     override var id: Int = 84
     public var variable0: ASTNILParam? = null
 }
-public class ASTBuiltInCallSHA1: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallSHA1 : ASTBuiltInCall, IASTBase {
     override var id: Int = 86
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallSHA384: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallSHA384 : ASTBuiltInCall, IASTBase {
     override var id: Int = 88
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallSHA512: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallSHA512 : ASTBuiltInCall, IASTBase {
     override var id: Int = 89
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallCoalesce: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallCoalesce : ASTBuiltInCall, IASTBase {
     override var id: Int = 90
     public var variable0: ASTExpressionList? = null
 }
-public class ASTBuiltInCallIf: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallIf : ASTBuiltInCall, IASTBase {
     override var id: Int = 91
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
     public var variable2: ASTExpression? = null
 }
-public class ASTBuiltInCallStrLang: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStrLang : ASTBuiltInCall, IASTBase {
     override var id: Int = 92
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallIsUri: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallIsUri : ASTBuiltInCall, IASTBase {
     override var id: Int = 96
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallMinutes: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallMinutes : ASTBuiltInCall, IASTBase {
     override var id: Int = 78
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallSHA256: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallSHA256 : ASTBuiltInCall, IASTBase {
     override var id: Int = 87
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallStrDt: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStrDt : ASTBuiltInCall, IASTBase {
     override var id: Int = 93
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallIsNumeric: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallIsNumeric : ASTBuiltInCall, IASTBase {
     override var id: Int = 99
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallSeconds: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallSeconds : ASTBuiltInCall, IASTBase {
     override var id: Int = 79
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallTimezone: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallTimezone : ASTBuiltInCall, IASTBase {
     override var id: Int = 80
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallTz: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallTz : ASTBuiltInCall, IASTBase {
     override var id: Int = 81
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallConcat: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallConcat : ASTBuiltInCall, IASTBase {
     override var id: Int = 62
     public var variable0: ASTExpressionList? = null
 }
-public class ASTBuiltInCallStrLen: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStrLen : ASTBuiltInCall, IASTBase {
     override var id: Int = 64
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallUCase: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallUCase : ASTBuiltInCall, IASTBase {
     override var id: Int = 66
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallStrBefore: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStrBefore : ASTBuiltInCall, IASTBase {
     override var id: Int = 72
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallStrAfter: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStrAfter : ASTBuiltInCall, IASTBase {
     override var id: Int = 73
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallEncodeForUri: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallEncodeForUri : ASTBuiltInCall, IASTBase {
     override var id: Int = 68
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallContains: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallContains : ASTBuiltInCall, IASTBase {
     override var id: Int = 69
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallStrStarts: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStrStarts : ASTBuiltInCall, IASTBase {
     override var id: Int = 70
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallStrEnds: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStrEnds : ASTBuiltInCall, IASTBase {
     override var id: Int = 71
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallDay: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallDay : ASTBuiltInCall, IASTBase {
     override var id: Int = 76
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallStr: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallStr : ASTBuiltInCall, IASTBase {
     override var id: Int = 49
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallLang: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallLang : ASTBuiltInCall, IASTBase {
     override var id: Int = 50
     public var variable0: ASTExpression? = null
 }
-public class ASTBuildInCallLangMatches: ASTBuiltInCall, IASTBase {
+public class ASTBuildInCallLangMatches : ASTBuiltInCall, IASTBase {
     override var id: Int = 51
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
 }
-public class ASTBuiltInCallDataType: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallDataType : ASTBuiltInCall, IASTBase {
     override var id: Int = 52
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallBound: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallBound : ASTBuiltInCall, IASTBase {
     override var id: Int = 53
     public var variable0: ASTVar? = null
 }
-public class ASTBuiltInCallIri: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallIri : ASTBuiltInCall, IASTBase {
     override var id: Int = 54
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallUri: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallUri : ASTBuiltInCall, IASTBase {
     override var id: Int = 55
     public var variable0: ASTExpression? = null
 }
 public sealed interface ASTInterfaceOfExpressionOrNILParam {
     public var id: Int
 }
-public class ASTBuiltInCallBNode: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallBNode : ASTBuiltInCall, IASTBase {
     override var id: Int = 56
     public var variable0: ASTInterfaceOfExpressionOrNILParam? = null
 }
-public class ASTBuiltInCallRand: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallRand : ASTBuiltInCall, IASTBase {
     override var id: Int = 57
     public var variable0: ASTNILParam? = null
 }
-public class ASTBuiltInCallAbs: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallAbs : ASTBuiltInCall, IASTBase {
     override var id: Int = 58
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallCeil: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallCeil : ASTBuiltInCall, IASTBase {
     override var id: Int = 59
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallLCase: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallLCase : ASTBuiltInCall, IASTBase {
     override var id: Int = 67
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallFloor: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallFloor : ASTBuiltInCall, IASTBase {
     override var id: Int = 60
     public var variable0: ASTExpression? = null
 }
-public class ASTBuiltInCallRound: ASTBuiltInCall, IASTBase {
+public class ASTBuiltInCallRound : ASTBuiltInCall, IASTBase {
     override var id: Int = 61
     public var variable0: ASTExpression? = null
 }
-public class ASTExpressionOptional: IASTBase {
+public class ASTExpressionOptional : IASTBase {
     override var id: Int = 273
     public var variable0: ASTExpression? = null
 }
-public class ASTRegexExpression: ASTBuiltInCall, IASTBase {
+public class ASTRegexExpression : ASTBuiltInCall, IASTBase {
     override var id: Int = 100
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
     public var variable2: ASTExpressionOptional? = null
 }
-public class ASTSubstringExpression: ASTBuiltInCall, IASTBase {
+public class ASTSubstringExpression : ASTBuiltInCall, IASTBase {
     override var id: Int = 63
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
     public var variable2: ASTExpressionOptional? = null
 }
-public class ASTStrReplaceExpression: ASTBuiltInCall, IASTBase {
+public class ASTStrReplaceExpression : ASTBuiltInCall, IASTBase {
     override var id: Int = 65
     public var variable0: ASTExpression? = null
     public var variable1: ASTExpression? = null
     public var variable2: ASTExpression? = null
     public var variable3: ASTExpressionOptional? = null
 }
-public class ASTExistsFunc: ASTBuiltInCall, IASTBase {
+public class ASTExistsFunc : ASTBuiltInCall, IASTBase {
     override var id: Int = 101
     public var variable0: ASTGroupGraphPattern? = null
 }
-public class ASTNotExistsFunc: ASTBuiltInCall, IASTBase {
+public class ASTNotExistsFunc : ASTBuiltInCall, IASTBase {
     override var id: Int = 102
     public var variable0: ASTGroupGraphPattern? = null
 }
-public sealed interface ASTAggregate: ASTBuiltInCall, IASTBase
-public class ASTAggregateAvg: ASTAggregate, IASTBase {
+public sealed interface ASTAggregate : ASTBuiltInCall, IASTBase
+public class ASTAggregateAvg : ASTAggregate, IASTBase {
     override var id: Int = 46
     public var DISTINCT: Boolean = false
     public var variable1: ASTExpression? = null
@@ -1216,49 +1216,49 @@ public class ASTAggregateAvg: ASTAggregate, IASTBase {
 public sealed interface ASTInterfaceOfAggregateCountAllOrExpression {
     public var id: Int
 }
-public class ASTAggregateCount: ASTAggregate, IASTBase {
+public class ASTAggregateCount : ASTAggregate, IASTBase {
     override var id: Int = 42
     public var DISTINCT: Boolean = false
     public var variable1: ASTInterfaceOfAggregateCountAllOrExpression? = null
 }
-public class ASTAggregateCountAll: ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
+public class ASTAggregateCountAll : ASTInterfaceOfAggregateCountAllOrExpression, IASTBase {
     override var id: Int = 274
 }
-public class ASTAggregateSum: ASTAggregate, IASTBase {
+public class ASTAggregateSum : ASTAggregate, IASTBase {
     override var id: Int = 43
     public var DISTINCT: Boolean = false
     public var variable1: ASTExpression? = null
 }
-public class ASTAggregateMin: ASTAggregate, IASTBase {
+public class ASTAggregateMin : ASTAggregate, IASTBase {
     override var id: Int = 44
     public var DISTINCT: Boolean = false
     public var variable1: ASTExpression? = null
 }
-public class ASTAggregateMax: ASTAggregate, IASTBase {
+public class ASTAggregateMax : ASTAggregate, IASTBase {
     override var id: Int = 45
     public var DISTINCT: Boolean = false
     public var variable1: ASTExpression? = null
 }
-public class ASTAggregateSample: ASTAggregate, IASTBase {
+public class ASTAggregateSample : ASTAggregate, IASTBase {
     override var id: Int = 47
     public var DISTINCT: Boolean = false
     public var variable1: ASTExpression? = null
 }
-public class ASTStringOptional: IASTBase {
+public class ASTStringOptional : IASTBase {
     override var id: Int = 275
     public var variable0: ASTString? = null
 }
-public class ASTAggregateGroupConcat: ASTAggregate, IASTBase {
+public class ASTAggregateGroupConcat : ASTAggregate, IASTBase {
     override var id: Int = 48
     public var DISTINCT: Boolean = false
     public var variable1: ASTExpression? = null
     public var variable2: ASTStringOptional? = null
 }
-public class ASTArgListOptional: IASTBase {
+public class ASTArgListOptional : IASTBase {
     override var id: Int = 276
     public var variable0: ASTArgList? = null
 }
-public class ASTiriOrFunction: ASTPrimaryExpression, IASTBase {
+public class ASTiriOrFunction : ASTPrimaryExpression, IASTBase {
     override var id: Int = 272
     public var variable0: ASTiri? = null
     public var variable1: ASTArgListOptional? = null
@@ -1266,107 +1266,107 @@ public class ASTiriOrFunction: ASTPrimaryExpression, IASTBase {
 public sealed interface ASTInterfaceOfRDFLiteralLangOriri {
     public var id: Int
 }
-public class ASTInterfaceOfRDFLiteralLangOririOptional: IASTBase {
+public class ASTInterfaceOfRDFLiteralLangOririOptional : IASTBase {
     override var id: Int = 278
     public var variable0: ASTInterfaceOfRDFLiteralLangOriri? = null
 }
-public class ASTRDFLiteral: ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase {
+public class ASTRDFLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase {
     override var id: Int = 174
     public var variable0: ASTString? = null
     public var variable1: ASTInterfaceOfRDFLiteralLangOririOptional? = null
 }
-public class ASTRDFLiteralLang: ASTInterfaceOfRDFLiteralLangOriri, IASTBase {
+public class ASTRDFLiteralLang : ASTInterfaceOfRDFLiteralLangOriri, IASTBase {
     override var id: Int = 277
     public var LANGTAG: String? = null
 }
-public sealed interface ASTNumericLiteral: ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase
-public sealed interface ASTNumericLiteralUnsigned: ASTNumericLiteral, IASTBase
-public class ASTNumericLiteralUnsignedInteger: ASTNumericLiteralUnsigned, IASTBase {
+public sealed interface ASTNumericLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase
+public sealed interface ASTNumericLiteralUnsigned : ASTNumericLiteral, IASTBase
+public class ASTNumericLiteralUnsignedInteger : ASTNumericLiteralUnsigned, IASTBase {
     override var id: Int = 175
     public var INTEGER: String? = null
 }
-public class ASTNumericLiteralUnsignedDecimal: ASTNumericLiteralUnsigned, IASTBase {
+public class ASTNumericLiteralUnsignedDecimal : ASTNumericLiteralUnsigned, IASTBase {
     override var id: Int = 176
     public var DECIMAL: String? = null
 }
-public class ASTNumericLiteralUnsignedDouble: ASTNumericLiteralUnsigned, IASTBase {
+public class ASTNumericLiteralUnsignedDouble : ASTNumericLiteralUnsigned, IASTBase {
     override var id: Int = 177
     public var DOUBLE: String? = null
 }
-public sealed interface ASTNumericLiteralPositive: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase
-public class ASTNumericLiteralPositiveInteger: ASTNumericLiteralPositive, IASTBase {
+public sealed interface ASTNumericLiteralPositive : ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase
+public class ASTNumericLiteralPositiveInteger : ASTNumericLiteralPositive, IASTBase {
     override var id: Int = 178
     public var INTEGER_POSITIVE: String? = null
 }
-public class ASTNumericLiteralPositiveDecimal: ASTNumericLiteralPositive, IASTBase {
+public class ASTNumericLiteralPositiveDecimal : ASTNumericLiteralPositive, IASTBase {
     override var id: Int = 179
     public var DECIMAL_POSITIVE: String? = null
 }
-public class ASTNumericLiteralPositiveDouble: ASTNumericLiteralPositive, IASTBase {
+public class ASTNumericLiteralPositiveDouble : ASTNumericLiteralPositive, IASTBase {
     override var id: Int = 180
     public var DOUBLE_POSITIVE: String? = null
 }
-public sealed interface ASTNumericLiteralNegative: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase
-public class ASTNumericLiteralNegativeInteger: ASTNumericLiteralNegative, IASTBase {
+public sealed interface ASTNumericLiteralNegative : ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative, ASTNumericLiteral, IASTBase
+public class ASTNumericLiteralNegativeInteger : ASTNumericLiteralNegative, IASTBase {
     override var id: Int = 181
     public var INTEGER_NEGATIVE: String? = null
 }
-public class ASTNumericLiteralNegativeDecimal: ASTNumericLiteralNegative, IASTBase {
+public class ASTNumericLiteralNegativeDecimal : ASTNumericLiteralNegative, IASTBase {
     override var id: Int = 182
     public var DECIMAL_NEGATIVE: String? = null
 }
-public class ASTNumericLiteralNegativeDouble: ASTNumericLiteralNegative, IASTBase {
+public class ASTNumericLiteralNegativeDouble : ASTNumericLiteralNegative, IASTBase {
     override var id: Int = 183
     public var DOUBLE_NEGATIVE: String? = null
 }
-public sealed interface ASTBooleanLiteral: ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase
-public class ASTBooleanLiteralTrue: ASTBooleanLiteral, IASTBase {
+public sealed interface ASTBooleanLiteral : ASTDataBlockValue, ASTGraphTerm, ASTPrimaryExpression, IASTBase
+public class ASTBooleanLiteralTrue : ASTBooleanLiteral, IASTBase {
     override var id: Int = 184
 }
-public class ASTBooleanLiteralFalse: ASTBooleanLiteral, IASTBase {
+public class ASTBooleanLiteralFalse : ASTBooleanLiteral, IASTBase {
     override var id: Int = 185
 }
-public sealed interface ASTString: IASTBase
-public class ASTString1: ASTString, IASTBase {
+public sealed interface ASTString : IASTBase
+public class ASTString1 : ASTString, IASTBase {
     override var id: Int = 279
     public var STRING_LITERAL1: String? = null
 }
-public class ASTString2: ASTString, IASTBase {
+public class ASTString2 : ASTString, IASTBase {
     override var id: Int = 280
     public var STRING_LITERAL2: String? = null
 }
-public class ASTString1long: ASTString, IASTBase {
+public class ASTString1long : ASTString, IASTBase {
     override var id: Int = 281
     public var STRING_LITERAL_LONG1: String? = null
 }
-public class ASTString2long: ASTString, IASTBase {
+public class ASTString2long : ASTString, IASTBase {
     override var id: Int = 282
     public var STRING_LITERAL_LONG2: String? = null
 }
-public sealed interface ASTiri: ASTDataBlockValue, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, ASTVarOrIri, ASTGraphTerm, ASTInterfaceOfRDFLiteralLangOriri, IASTBase
-public class ASTiriRef: ASTiri, IASTBase {
+public sealed interface ASTiri : ASTDataBlockValue, ASTPathPrimary, ASTInterfaceOfiriOrRDFType, ASTVarOrIri, ASTGraphTerm, ASTInterfaceOfRDFLiteralLangOriri, IASTBase
+public class ASTiriRef : ASTiri, IASTBase {
     override var id: Int = 171
     public var IRIREF: String? = null
 }
-public sealed interface ASTPrefixedName: ASTiri, IASTBase
-public class ASTPrefixedNameLN: ASTPrefixedName, IASTBase {
+public sealed interface ASTPrefixedName : ASTiri, IASTBase
+public class ASTPrefixedNameLN : ASTPrefixedName, IASTBase {
     override var id: Int = 172
     public var PNAME_LN: String? = null
 }
-public class ASTPrefixedNameNS: ASTPrefixedName, IASTBase {
+public class ASTPrefixedNameNS : ASTPrefixedName, IASTBase {
     override var id: Int = 173
     public var PNAME_NS: String? = null
 }
-public sealed interface ASTBlankNode: ASTGraphTerm, IASTBase
-public class ASTBlankNodeLabel: ASTBlankNode, IASTBase {
+public sealed interface ASTBlankNode : ASTGraphTerm, IASTBase
+public class ASTBlankNodeLabel : ASTBlankNode, IASTBase {
     override var id: Int = 238
     public var BLANK_NODE_LABEL: String? = null
 }
-public class ASTBlankNodeANON: ASTBlankNode, IASTBase {
+public class ASTBlankNodeANON : ASTBlankNode, IASTBase {
     override var id: Int = 239
     public var ANON: String? = null
 }
-public class ASTNILParam: ASTInterfaceOfNILParamOrListOfVar, ASTInterfaceOfListOfDataBlockValueOrNILParam, ASTArgList, ASTExpressionList, ASTGraphTerm, ASTInterfaceOfExpressionOrNILParam, IASTBase {
+public class ASTNILParam : ASTInterfaceOfNILParamOrListOfVar, ASTInterfaceOfListOfDataBlockValueOrNILParam, ASTArgList, ASTExpressionList, ASTGraphTerm, ASTInterfaceOfExpressionOrNILParam, IASTBase {
     override var id: Int = 169
     public var NIL: String? = null
 }
@@ -1375,7 +1375,7 @@ public sealed interface IASTBase {
 }
 public class SparqlParser(bufferDefinedInputStreamParam: lupos.shared.IMyInputStream) {
 
-internal var parsererror: String? = null
+    internal var parsererror: String? = null
     public val stack: MutableList<Any> = mutableListOf<Any>()
     public var bufferDefinedDataSize: Long = 0
     public var bufferDefinedPosition: Long = 0
@@ -1423,12 +1423,10 @@ internal var parsererror: String? = null
             }
             bufferDefinedMaxPositionAvailable = ((bufferDefinedDataSize + bufferDefinedRangeStart) - 8)
         }
-
     }
-public fun close() {
-    bufferDefinedInputStream.close()
-
-}
+    public fun close() {
+        bufferDefinedInputStream.close()
+    }
     private fun scannerDefinedNode0(): Int {
         scannerDefinedTokenPendingEnd = bufferDefinedPosition
         scannerDefinedTokenPendingType = 162
@@ -48820,13 +48818,13 @@ public fun close() {
             }
         }
     }
-    private fun scannerDefinedNextToken(startNode: Int): Unit {
+    private fun scannerDefinedNextToken(startNode: Int) {
         scannerDefinedNextTokenInternal(0)
         scannerDefinedNextTokenInternal(startNode)
         scannerDefinedTokenFoundWriteOffset = ((scannerDefinedTokenFoundWriteOffset + 1) % 4)
         scannerDefinedTokenFoundAvailable = (scannerDefinedTokenFoundAvailable + 1)
     }
-    private fun scannerDefinedNextTokenInternal(startNode: Int): Unit {
+    private fun scannerDefinedNextTokenInternal(startNode: Int) {
         scannerDefinedTokenPendingStart = bufferDefinedPosition
         scannerDefinedTokenPendingType = -1
         var node: Int = startNode
@@ -53918,7 +53916,7 @@ public fun close() {
         }
         if ((scannerDefinedTokenPendingType == -1)) {
             scannerDefinedTokenFoundType[scannerDefinedTokenFoundWriteOffset] = -1
-            parsererror = "Unexpected char at ${bufferDefinedPosition}. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
+            parsererror = "Unexpected char at $bufferDefinedPosition. Expected one of ${(scannerDefinedEntryPoints[startNode.toInt()])}"
         }
         bufferDefinedPosition = scannerDefinedTokenPendingEnd
         bufferDefinedLastSize = 0
@@ -53955,7 +53953,7 @@ public fun close() {
                 return 7
             }
             else -> {
-                parsererror = "found token ${currentToken3} unexpectedly in node 3, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken3 unexpectedly in node 3, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -53989,7 +53987,7 @@ public fun close() {
                 return 17
             }
             else -> {
-                parsererror = "found stack ${currentStack6} unexpectedly in node 6, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack6 unexpectedly in node 6, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54011,7 +54009,7 @@ public fun close() {
                 return 18
             }
             else -> {
-                parsererror = "found token ${currentToken13} unexpectedly in node 13, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken13 unexpectedly in node 13, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54028,7 +54026,7 @@ public fun close() {
                 return 19
             }
             else -> {
-                parsererror = "found token ${currentToken14} unexpectedly in node 14, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken14 unexpectedly in node 14, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54048,7 +54046,7 @@ public fun close() {
                 return 26
             }
             else -> {
-                parsererror = "found token ${currentToken15} unexpectedly in node 15, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken15 unexpectedly in node 15, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54079,7 +54077,7 @@ public fun close() {
                 return 28
             }
             else -> {
-                parsererror = "found token ${currentToken18} unexpectedly in node 18, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken18 unexpectedly in node 18, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54098,7 +54096,7 @@ public fun close() {
                 return 29
             }
             else -> {
-                parsererror = "found token ${currentToken19} unexpectedly in node 19, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken19 unexpectedly in node 19, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54122,7 +54120,7 @@ public fun close() {
                 return 33
             }
             else -> {
-                parsererror = "found token ${currentToken25} unexpectedly in node 25, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken25 unexpectedly in node 25, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54142,7 +54140,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found token ${currentToken26} unexpectedly in node 26, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken26 unexpectedly in node 26, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54161,7 +54159,7 @@ public fun close() {
                 return 37
             }
             else -> {
-                parsererror = "found token ${currentToken27} unexpectedly in node 27, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken27 unexpectedly in node 27, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54185,7 +54183,7 @@ public fun close() {
                 return 49
             }
             else -> {
-                parsererror = "found token ${currentToken29} unexpectedly in node 29, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken29 unexpectedly in node 29, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54234,7 +54232,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found stack ${currentStack37} unexpectedly in node 37, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack37 unexpectedly in node 37, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54256,7 +54254,7 @@ public fun close() {
                 return 55
             }
             else -> {
-                parsererror = "found token ${currentToken45} unexpectedly in node 45, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken45 unexpectedly in node 45, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54289,7 +54287,7 @@ public fun close() {
                 return 57
             }
             else -> {
-                parsererror = "found token ${currentToken51} unexpectedly in node 51, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken51 unexpectedly in node 51, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54306,7 +54304,7 @@ public fun close() {
                 return 58
             }
             else -> {
-                parsererror = "found token ${currentToken52} unexpectedly in node 52, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken52 unexpectedly in node 52, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54324,7 +54322,7 @@ public fun close() {
                 return 76
             }
             else -> {
-                parsererror = "found token ${currentToken53} unexpectedly in node 53, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken53 unexpectedly in node 53, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54369,7 +54367,7 @@ public fun close() {
                 return 70
             }
             else -> {
-                parsererror = "found token ${currentToken54} unexpectedly in node 54, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken54 unexpectedly in node 54, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54393,7 +54391,7 @@ public fun close() {
                 return 90
             }
             else -> {
-                parsererror = "found token ${currentToken57} unexpectedly in node 57, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken57 unexpectedly in node 57, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54412,7 +54410,7 @@ public fun close() {
                 return 75
             }
             else -> {
-                parsererror = "found token ${currentToken58} unexpectedly in node 58, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken58 unexpectedly in node 58, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54476,7 +54474,7 @@ public fun close() {
                 return 70
             }
             else -> {
-                parsererror = "found token ${currentToken67} unexpectedly in node 67, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken67 unexpectedly in node 67, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54498,7 +54496,7 @@ public fun close() {
                 return 70
             }
             else -> {
-                parsererror = "found token ${currentToken68} unexpectedly in node 68, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken68 unexpectedly in node 68, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54528,7 +54526,7 @@ public fun close() {
                 return 88
             }
             else -> {
-                parsererror = "found token ${currentToken71} unexpectedly in node 71, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken71 unexpectedly in node 71, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54552,7 +54550,7 @@ public fun close() {
                 return 116
             }
             else -> {
-                parsererror = "found token ${currentToken76} unexpectedly in node 76, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken76 unexpectedly in node 76, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54589,7 +54587,7 @@ public fun close() {
                 return 109
             }
             else -> {
-                parsererror = "found token ${currentToken88} unexpectedly in node 88, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken88 unexpectedly in node 88, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54614,7 +54612,7 @@ public fun close() {
                 return 134
             }
             else -> {
-                parsererror = "found token ${currentToken90} unexpectedly in node 90, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken90 unexpectedly in node 90, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54637,7 +54635,7 @@ public fun close() {
                 return 137
             }
             else -> {
-                parsererror = "found token ${currentToken92} unexpectedly in node 92, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken92 unexpectedly in node 92, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54660,7 +54658,7 @@ public fun close() {
                 return 117
             }
             else -> {
-                parsererror = "found token ${currentToken95} unexpectedly in node 95, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken95 unexpectedly in node 95, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54677,7 +54675,7 @@ public fun close() {
                 return 118
             }
             else -> {
-                parsererror = "found token ${currentToken96} unexpectedly in node 96, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken96 unexpectedly in node 96, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54694,7 +54692,7 @@ public fun close() {
                 return 119
             }
             else -> {
-                parsererror = "found token ${currentToken97} unexpectedly in node 97, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken97 unexpectedly in node 97, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54711,7 +54709,7 @@ public fun close() {
                 return 120
             }
             else -> {
-                parsererror = "found token ${currentToken98} unexpectedly in node 98, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken98 unexpectedly in node 98, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54728,7 +54726,7 @@ public fun close() {
                 return 121
             }
             else -> {
-                parsererror = "found token ${currentToken99} unexpectedly in node 99, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken99 unexpectedly in node 99, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54745,7 +54743,7 @@ public fun close() {
                 return 122
             }
             else -> {
-                parsererror = "found token ${currentToken100} unexpectedly in node 100, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken100 unexpectedly in node 100, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54762,7 +54760,7 @@ public fun close() {
                 return 123
             }
             else -> {
-                parsererror = "found token ${currentToken101} unexpectedly in node 101, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken101 unexpectedly in node 101, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54779,7 +54777,7 @@ public fun close() {
                 return 126
             }
             else -> {
-                parsererror = "found token ${currentToken104} unexpectedly in node 104, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken104 unexpectedly in node 104, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54798,7 +54796,7 @@ public fun close() {
                 return 158
             }
             else -> {
-                parsererror = "found token ${currentToken105} unexpectedly in node 105, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken105 unexpectedly in node 105, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54817,7 +54815,7 @@ public fun close() {
                 return 159
             }
             else -> {
-                parsererror = "found token ${currentToken106} unexpectedly in node 106, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken106 unexpectedly in node 106, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54836,7 +54834,7 @@ public fun close() {
                 return 159
             }
             else -> {
-                parsererror = "found token ${currentToken107} unexpectedly in node 107, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken107 unexpectedly in node 107, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54865,7 +54863,7 @@ public fun close() {
                 return 136
             }
             else -> {
-                parsererror = "found token ${currentToken113} unexpectedly in node 113, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken113 unexpectedly in node 113, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54889,7 +54887,7 @@ public fun close() {
                 return 141
             }
             else -> {
-                parsererror = "found token ${currentToken117} unexpectedly in node 117, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken117 unexpectedly in node 117, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54907,7 +54905,7 @@ public fun close() {
                 return 143
             }
             else -> {
-                parsererror = "found token ${currentToken118} unexpectedly in node 118, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken118 unexpectedly in node 118, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54925,7 +54923,7 @@ public fun close() {
                 return 145
             }
             else -> {
-                parsererror = "found token ${currentToken119} unexpectedly in node 119, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken119 unexpectedly in node 119, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54943,7 +54941,7 @@ public fun close() {
                 return 147
             }
             else -> {
-                parsererror = "found token ${currentToken120} unexpectedly in node 120, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken120 unexpectedly in node 120, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54961,7 +54959,7 @@ public fun close() {
                 return 149
             }
             else -> {
-                parsererror = "found token ${currentToken121} unexpectedly in node 121, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken121 unexpectedly in node 121, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54979,7 +54977,7 @@ public fun close() {
                 return 151
             }
             else -> {
-                parsererror = "found token ${currentToken122} unexpectedly in node 122, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken122 unexpectedly in node 122, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -54997,7 +54995,7 @@ public fun close() {
                 return 153
             }
             else -> {
-                parsererror = "found token ${currentToken123} unexpectedly in node 123, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken123 unexpectedly in node 123, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55014,7 +55012,7 @@ public fun close() {
                 return 154
             }
             else -> {
-                parsererror = "found token ${currentToken124} unexpectedly in node 124, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken124 unexpectedly in node 124, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55031,7 +55029,7 @@ public fun close() {
                 return 155
             }
             else -> {
-                parsererror = "found token ${currentToken125} unexpectedly in node 125, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken125 unexpectedly in node 125, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55054,7 +55052,7 @@ public fun close() {
                 return 157
             }
             else -> {
-                parsererror = "found token ${currentToken127} unexpectedly in node 127, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken127 unexpectedly in node 127, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55073,7 +55071,7 @@ public fun close() {
                 return 185
             }
             else -> {
-                parsererror = "found token ${currentToken131} unexpectedly in node 131, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken131 unexpectedly in node 131, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55091,7 +55089,7 @@ public fun close() {
                 return 186
             }
             else -> {
-                parsererror = "found token ${currentToken132} unexpectedly in node 132, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken132 unexpectedly in node 132, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55109,7 +55107,7 @@ public fun close() {
                 return 187
             }
             else -> {
-                parsererror = "found token ${currentToken133} unexpectedly in node 133, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken133 unexpectedly in node 133, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55126,7 +55124,7 @@ public fun close() {
                 return 164
             }
             else -> {
-                parsererror = "found token ${currentToken134} unexpectedly in node 134, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken134 unexpectedly in node 134, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55159,7 +55157,7 @@ public fun close() {
                 return 168
             }
             else -> {
-                parsererror = "found token ${currentToken138} unexpectedly in node 138, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken138 unexpectedly in node 138, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55178,7 +55176,7 @@ public fun close() {
                 return 141
             }
             else -> {
-                parsererror = "found token ${currentToken140} unexpectedly in node 140, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken140 unexpectedly in node 140, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55202,7 +55200,7 @@ public fun close() {
                 return 143
             }
             else -> {
-                parsererror = "found token ${currentToken142} unexpectedly in node 142, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken142 unexpectedly in node 142, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55226,7 +55224,7 @@ public fun close() {
                 return 145
             }
             else -> {
-                parsererror = "found token ${currentToken144} unexpectedly in node 144, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken144 unexpectedly in node 144, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55250,7 +55248,7 @@ public fun close() {
                 return 147
             }
             else -> {
-                parsererror = "found token ${currentToken146} unexpectedly in node 146, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken146 unexpectedly in node 146, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55274,7 +55272,7 @@ public fun close() {
                 return 149
             }
             else -> {
-                parsererror = "found token ${currentToken148} unexpectedly in node 148, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken148 unexpectedly in node 148, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55298,7 +55296,7 @@ public fun close() {
                 return 151
             }
             else -> {
-                parsererror = "found token ${currentToken150} unexpectedly in node 150, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken150 unexpectedly in node 150, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55322,7 +55320,7 @@ public fun close() {
                 return 153
             }
             else -> {
-                parsererror = "found token ${currentToken152} unexpectedly in node 152, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken152 unexpectedly in node 152, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55345,7 +55343,7 @@ public fun close() {
                 return 180
             }
             else -> {
-                parsererror = "found token ${currentToken154} unexpectedly in node 154, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken154 unexpectedly in node 154, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55362,7 +55360,7 @@ public fun close() {
                 return 181
             }
             else -> {
-                parsererror = "found token ${currentToken155} unexpectedly in node 155, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken155 unexpectedly in node 155, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55386,7 +55384,7 @@ public fun close() {
                 return 184
             }
             else -> {
-                parsererror = "found token ${currentToken158} unexpectedly in node 158, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken158 unexpectedly in node 158, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55405,7 +55403,7 @@ public fun close() {
                 return 109
             }
             else -> {
-                parsererror = "found token ${currentToken159} unexpectedly in node 159, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken159 unexpectedly in node 159, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55434,7 +55432,7 @@ public fun close() {
                 return 190
             }
             else -> {
-                parsererror = "found token ${currentToken165} unexpectedly in node 165, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken165 unexpectedly in node 165, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55452,7 +55450,7 @@ public fun close() {
                 return 192
             }
             else -> {
-                parsererror = "found token ${currentToken166} unexpectedly in node 166, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken166 unexpectedly in node 166, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55470,7 +55468,7 @@ public fun close() {
                 return 195
             }
             else -> {
-                parsererror = "found token ${currentToken168} unexpectedly in node 168, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken168 unexpectedly in node 168, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55488,7 +55486,7 @@ public fun close() {
                 return 197
             }
             else -> {
-                parsererror = "found token ${currentToken169} unexpectedly in node 169, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken169 unexpectedly in node 169, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55512,7 +55510,7 @@ public fun close() {
                 return 201
             }
             else -> {
-                parsererror = "found token ${currentToken172} unexpectedly in node 172, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken172 unexpectedly in node 172, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55531,7 +55529,7 @@ public fun close() {
                 return 226
             }
             else -> {
-                parsererror = "found token ${currentToken175} unexpectedly in node 175, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken175 unexpectedly in node 175, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55560,7 +55558,7 @@ public fun close() {
                 return 206
             }
             else -> {
-                parsererror = "found token ${currentToken182} unexpectedly in node 182, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken182 unexpectedly in node 182, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55583,7 +55581,7 @@ public fun close() {
                 return 209
             }
             else -> {
-                parsererror = "found token ${currentToken185} unexpectedly in node 185, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken185 unexpectedly in node 185, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55607,7 +55605,7 @@ public fun close() {
                 return 235
             }
             else -> {
-                parsererror = "found token ${currentToken187} unexpectedly in node 187, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken187 unexpectedly in node 187, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55650,7 +55648,7 @@ public fun close() {
                 return 242
             }
             else -> {
-                parsererror = "found token ${currentToken193} unexpectedly in node 193, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken193 unexpectedly in node 193, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55681,7 +55679,7 @@ public fun close() {
                 return 197
             }
             else -> {
-                parsererror = "found token ${currentToken196} unexpectedly in node 196, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken196 unexpectedly in node 196, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55730,7 +55728,7 @@ public fun close() {
                 return 227
             }
             else -> {
-                parsererror = "found token ${currentToken204} unexpectedly in node 204, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken204 unexpectedly in node 204, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55772,7 +55770,7 @@ public fun close() {
                 return 236
             }
             else -> {
-                parsererror = "found token ${currentToken213} unexpectedly in node 213, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken213 unexpectedly in node 213, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55790,7 +55788,7 @@ public fun close() {
                 return 241
             }
             else -> {
-                parsererror = "found token ${currentToken217} unexpectedly in node 217, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken217 unexpectedly in node 217, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55814,7 +55812,7 @@ public fun close() {
                 return 270
             }
             else -> {
-                parsererror = "found token ${currentToken223} unexpectedly in node 223, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken223 unexpectedly in node 223, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55832,7 +55830,7 @@ public fun close() {
                 return 271
             }
             else -> {
-                parsererror = "found token ${currentToken224} unexpectedly in node 224, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken224 unexpectedly in node 224, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55850,7 +55848,7 @@ public fun close() {
                 return 272
             }
             else -> {
-                parsererror = "found token ${currentToken225} unexpectedly in node 225, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken225 unexpectedly in node 225, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55868,7 +55866,7 @@ public fun close() {
                 return 249
             }
             else -> {
-                parsererror = "found token ${currentToken226} unexpectedly in node 226, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken226 unexpectedly in node 226, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55890,7 +55888,7 @@ public fun close() {
                 return 250
             }
             else -> {
-                parsererror = "found token ${currentToken228} unexpectedly in node 228, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken228 unexpectedly in node 228, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55907,7 +55905,7 @@ public fun close() {
                 return 253
             }
             else -> {
-                parsererror = "found token ${currentToken231} unexpectedly in node 231, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken231 unexpectedly in node 231, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55926,7 +55924,7 @@ public fun close() {
                 return 279
             }
             else -> {
-                parsererror = "found stack ${currentStack233} unexpectedly in node 233, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack233 unexpectedly in node 233, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55943,7 +55941,7 @@ public fun close() {
                 return 258
             }
             else -> {
-                parsererror = "found token ${currentToken235} unexpectedly in node 235, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken235 unexpectedly in node 235, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55961,7 +55959,7 @@ public fun close() {
                 return 260
             }
             else -> {
-                parsererror = "found token ${currentToken236} unexpectedly in node 236, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken236 unexpectedly in node 236, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55980,7 +55978,7 @@ public fun close() {
                 return 284
             }
             else -> {
-                parsererror = "found token ${currentToken237} unexpectedly in node 237, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken237 unexpectedly in node 237, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -55999,7 +55997,7 @@ public fun close() {
                 return 285
             }
             else -> {
-                parsererror = "found token ${currentToken238} unexpectedly in node 238, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken238 unexpectedly in node 238, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56018,7 +56016,7 @@ public fun close() {
                 return 286
             }
             else -> {
-                parsererror = "found token ${currentToken239} unexpectedly in node 239, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken239 unexpectedly in node 239, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56049,7 +56047,7 @@ public fun close() {
                 return 289
             }
             else -> {
-                parsererror = "found token ${currentToken242} unexpectedly in node 242, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken242 unexpectedly in node 242, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56072,7 +56070,7 @@ public fun close() {
                 return 269
             }
             else -> {
-                parsererror = "found token ${currentToken244} unexpectedly in node 244, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken244 unexpectedly in node 244, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56091,7 +56089,7 @@ public fun close() {
                 return 249
             }
             else -> {
-                parsererror = "found token ${currentToken248} unexpectedly in node 248, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken248 unexpectedly in node 248, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56123,7 +56121,7 @@ public fun close() {
                 return 294
             }
             else -> {
-                parsererror = "found token ${currentToken251} unexpectedly in node 251, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken251 unexpectedly in node 251, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56140,7 +56138,7 @@ public fun close() {
                 return 276
             }
             else -> {
-                parsererror = "found token ${currentToken252} unexpectedly in node 252, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken252 unexpectedly in node 252, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56204,7 +56202,7 @@ public fun close() {
                 return 292
             }
             else -> {
-                parsererror = "found stack ${currentStack270} unexpectedly in node 270, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack270 unexpectedly in node 270, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56249,7 +56247,7 @@ public fun close() {
                 return 320
             }
             else -> {
-                parsererror = "found token ${currentToken279} unexpectedly in node 279, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken279 unexpectedly in node 279, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56269,7 +56267,7 @@ public fun close() {
                 return 322
             }
             else -> {
-                parsererror = "found token ${currentToken280} unexpectedly in node 280, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken280 unexpectedly in node 280, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56300,7 +56298,7 @@ public fun close() {
                 return 353
             }
             else -> {
-                parsererror = "found token ${currentToken287} unexpectedly in node 287, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken287 unexpectedly in node 287, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56319,7 +56317,7 @@ public fun close() {
                 return 354
             }
             else -> {
-                parsererror = "found token ${currentToken288} unexpectedly in node 288, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken288 unexpectedly in node 288, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56349,7 +56347,7 @@ public fun close() {
                 return 357
             }
             else -> {
-                parsererror = "found stack ${currentStack291} unexpectedly in node 291, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack291 unexpectedly in node 291, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56383,7 +56381,7 @@ public fun close() {
                 return 363
             }
             else -> {
-                parsererror = "found stack ${currentStack292} unexpectedly in node 292, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack292 unexpectedly in node 292, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56403,7 +56401,7 @@ public fun close() {
                 return 365
             }
             else -> {
-                parsererror = "found token ${currentToken294} unexpectedly in node 294, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken294 unexpectedly in node 294, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56434,7 +56432,7 @@ public fun close() {
                 return 369
             }
             else -> {
-                parsererror = "found token ${currentToken300} unexpectedly in node 300, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken300 unexpectedly in node 300, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56460,7 +56458,7 @@ public fun close() {
                 return 371
             }
             else -> {
-                parsererror = "found token ${currentToken302} unexpectedly in node 302, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken302 unexpectedly in node 302, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56527,7 +56525,7 @@ public fun close() {
                 return 394
             }
             else -> {
-                parsererror = "found stack ${currentStack303} unexpectedly in node 303, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack303 unexpectedly in node 303, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56597,7 +56595,7 @@ public fun close() {
                 return 405
             }
             else -> {
-                parsererror = "found stack ${currentStack304} unexpectedly in node 304, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack304 unexpectedly in node 304, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56648,7 +56646,7 @@ public fun close() {
                 return 427
             }
             else -> {
-                parsererror = "found stack ${currentStack330} unexpectedly in node 330, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack330 unexpectedly in node 330, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56672,7 +56670,7 @@ public fun close() {
                 return 437
             }
             else -> {
-                parsererror = "found stack ${currentStack334} unexpectedly in node 334, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack334 unexpectedly in node 334, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56705,7 +56703,7 @@ public fun close() {
                 return 445
             }
             else -> {
-                parsererror = "found stack ${currentStack336} unexpectedly in node 336, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack336 unexpectedly in node 336, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56730,7 +56728,7 @@ public fun close() {
                 return 393
             }
             else -> {
-                parsererror = "found stack ${currentStack338} unexpectedly in node 338, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack338 unexpectedly in node 338, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56748,7 +56746,7 @@ public fun close() {
                 return 457
             }
             else -> {
-                parsererror = "found stack ${currentStack341} unexpectedly in node 341, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack341 unexpectedly in node 341, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56785,7 +56783,7 @@ public fun close() {
                 return 472
             }
             else -> {
-                parsererror = "found token ${currentToken355} unexpectedly in node 355, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken355 unexpectedly in node 355, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56810,7 +56808,7 @@ public fun close() {
                 return 410
             }
             else -> {
-                parsererror = "found token ${currentToken358} unexpectedly in node 358, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken358 unexpectedly in node 358, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56831,7 +56829,7 @@ public fun close() {
                 return 411
             }
             else -> {
-                parsererror = "found token ${currentToken360} unexpectedly in node 360, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken360 unexpectedly in node 360, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56852,7 +56850,7 @@ public fun close() {
                 return 412
             }
             else -> {
-                parsererror = "found token ${currentToken362} unexpectedly in node 362, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken362 unexpectedly in node 362, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56880,7 +56878,7 @@ public fun close() {
                 return 477
             }
             else -> {
-                parsererror = "found stack ${currentStack365} unexpectedly in node 365, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack365 unexpectedly in node 365, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56904,7 +56902,7 @@ public fun close() {
                 return 418
             }
             else -> {
-                parsererror = "found token ${currentToken367} unexpectedly in node 367, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken367 unexpectedly in node 367, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56922,7 +56920,7 @@ public fun close() {
                 return 420
             }
             else -> {
-                parsererror = "found token ${currentToken368} unexpectedly in node 368, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken368 unexpectedly in node 368, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56948,7 +56946,7 @@ public fun close() {
                 return 484
             }
             else -> {
-                parsererror = "found token ${currentToken371} unexpectedly in node 371, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken371 unexpectedly in node 371, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56971,7 +56969,7 @@ public fun close() {
                 return 233
             }
             else -> {
-                parsererror = "found token ${currentToken372} unexpectedly in node 372, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken372 unexpectedly in node 372, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -56988,7 +56986,7 @@ public fun close() {
                 return 426
             }
             else -> {
-                parsererror = "found token ${currentToken373} unexpectedly in node 373, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken373 unexpectedly in node 373, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57005,7 +57003,7 @@ public fun close() {
                 return 330
             }
             else -> {
-                parsererror = "found token ${currentToken374} unexpectedly in node 374, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken374 unexpectedly in node 374, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57023,7 +57021,7 @@ public fun close() {
                 return 489
             }
             else -> {
-                parsererror = "found stack ${currentStack376} unexpectedly in node 376, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack376 unexpectedly in node 376, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57041,7 +57039,7 @@ public fun close() {
                 return 456
             }
             else -> {
-                parsererror = "found token ${currentToken377} unexpectedly in node 377, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken377 unexpectedly in node 377, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57059,7 +57057,7 @@ public fun close() {
                 return 431
             }
             else -> {
-                parsererror = "found token ${currentToken378} unexpectedly in node 378, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken378 unexpectedly in node 378, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57081,7 +57079,7 @@ public fun close() {
                 return 493
             }
             else -> {
-                parsererror = "found stack ${currentStack380} unexpectedly in node 380, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack380 unexpectedly in node 380, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57103,7 +57101,7 @@ public fun close() {
                 return 495
             }
             else -> {
-                parsererror = "found stack ${currentStack381} unexpectedly in node 381, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack381 unexpectedly in node 381, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57121,7 +57119,7 @@ public fun close() {
                 return 498
             }
             else -> {
-                parsererror = "found stack ${currentStack383} unexpectedly in node 383, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack383 unexpectedly in node 383, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57139,7 +57137,7 @@ public fun close() {
                 return 500
             }
             else -> {
-                parsererror = "found stack ${currentStack384} unexpectedly in node 384, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack384 unexpectedly in node 384, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57156,7 +57154,7 @@ public fun close() {
                 return 446
             }
             else -> {
-                parsererror = "found token ${currentToken389} unexpectedly in node 389, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken389 unexpectedly in node 389, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57187,7 +57185,7 @@ public fun close() {
                 return 508
             }
             else -> {
-                parsererror = "found stack ${currentStack393} unexpectedly in node 393, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack393 unexpectedly in node 393, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57205,7 +57203,7 @@ public fun close() {
                 return 372
             }
             else -> {
-                parsererror = "found token ${currentToken394} unexpectedly in node 394, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken394 unexpectedly in node 394, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57229,7 +57227,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${currentStack398} unexpectedly in node 398, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack398 unexpectedly in node 398, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57251,7 +57249,7 @@ public fun close() {
                 return 519
             }
             else -> {
-                parsererror = "found stack ${currentStack400} unexpectedly in node 400, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack400 unexpectedly in node 400, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57270,7 +57268,7 @@ public fun close() {
                 return 520
             }
             else -> {
-                parsererror = "found token ${currentToken401} unexpectedly in node 401, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken401 unexpectedly in node 401, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57288,7 +57286,7 @@ public fun close() {
                 return 522
             }
             else -> {
-                parsererror = "found stack ${currentStack402} unexpectedly in node 402, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack402 unexpectedly in node 402, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57307,7 +57305,7 @@ public fun close() {
                 return 524
             }
             else -> {
-                parsererror = "found token ${currentToken403} unexpectedly in node 403, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken403 unexpectedly in node 403, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57329,7 +57327,7 @@ public fun close() {
                 return 525
             }
             else -> {
-                parsererror = "found stack ${currentStack404} unexpectedly in node 404, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack404 unexpectedly in node 404, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57364,7 +57362,7 @@ public fun close() {
                 return 531
             }
             else -> {
-                parsererror = "found stack ${currentStack409} unexpectedly in node 409, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack409 unexpectedly in node 409, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57434,7 +57432,7 @@ public fun close() {
                 return 551
             }
             else -> {
-                parsererror = "found token ${currentToken427} unexpectedly in node 427, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken427 unexpectedly in node 427, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57457,7 +57455,7 @@ public fun close() {
                 return 554
             }
             else -> {
-                parsererror = "found token ${currentToken431} unexpectedly in node 431, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken431 unexpectedly in node 431, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57501,7 +57499,7 @@ public fun close() {
                 return 193
             }
             else -> {
-                parsererror = "found token ${currentToken444} unexpectedly in node 444, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken444 unexpectedly in node 444, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57519,7 +57517,7 @@ public fun close() {
                 return 567
             }
             else -> {
-                parsererror = "found token ${currentToken445} unexpectedly in node 445, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken445 unexpectedly in node 445, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57554,7 +57552,7 @@ public fun close() {
                 return 575
             }
             else -> {
-                parsererror = "found token ${currentToken455} unexpectedly in node 455, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken455 unexpectedly in node 455, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57573,7 +57571,7 @@ public fun close() {
                 return 577
             }
             else -> {
-                parsererror = "found token ${currentToken456} unexpectedly in node 456, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken456 unexpectedly in node 456, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57591,7 +57589,7 @@ public fun close() {
                 return 514
             }
             else -> {
-                parsererror = "found token ${currentToken457} unexpectedly in node 457, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken457 unexpectedly in node 457, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57615,7 +57613,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken458} unexpectedly in node 458, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken458 unexpectedly in node 458, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57641,7 +57639,7 @@ public fun close() {
                 return 523
             }
             else -> {
-                parsererror = "found token ${currentToken466} unexpectedly in node 466, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken466 unexpectedly in node 466, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57661,7 +57659,7 @@ public fun close() {
                 return 590
             }
             else -> {
-                parsererror = "found token ${currentToken472} unexpectedly in node 472, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken472 unexpectedly in node 472, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57678,7 +57676,7 @@ public fun close() {
                 return 532
             }
             else -> {
-                parsererror = "found token ${currentToken475} unexpectedly in node 475, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken475 unexpectedly in node 475, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57695,7 +57693,7 @@ public fun close() {
                 return 533
             }
             else -> {
-                parsererror = "found token ${currentToken476} unexpectedly in node 476, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken476 unexpectedly in node 476, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57712,7 +57710,7 @@ public fun close() {
                 return 534
             }
             else -> {
-                parsererror = "found token ${currentToken477} unexpectedly in node 477, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken477 unexpectedly in node 477, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57748,7 +57746,7 @@ public fun close() {
                 return 541
             }
             else -> {
-                parsererror = "found token ${currentToken479} unexpectedly in node 479, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken479 unexpectedly in node 479, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57768,7 +57766,7 @@ public fun close() {
                 return 608
             }
             else -> {
-                parsererror = "found token ${currentToken482} unexpectedly in node 482, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken482 unexpectedly in node 482, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57795,7 +57793,7 @@ public fun close() {
                 return 548
             }
             else -> {
-                parsererror = "found token ${currentToken485} unexpectedly in node 485, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken485 unexpectedly in node 485, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57814,7 +57812,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${currentStack486} unexpectedly in node 486, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack486 unexpectedly in node 486, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57838,7 +57836,7 @@ public fun close() {
                 return 626
             }
             else -> {
-                parsererror = "found token ${currentToken489} unexpectedly in node 489, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken489 unexpectedly in node 489, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57857,7 +57855,7 @@ public fun close() {
                 return 631
             }
             else -> {
-                parsererror = "found token ${currentToken492} unexpectedly in node 492, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken492 unexpectedly in node 492, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57876,7 +57874,7 @@ public fun close() {
                 return 632
             }
             else -> {
-                parsererror = "found stack ${currentStack493} unexpectedly in node 493, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack493 unexpectedly in node 493, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57895,7 +57893,7 @@ public fun close() {
                 return 634
             }
             else -> {
-                parsererror = "found token ${currentToken494} unexpectedly in node 494, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken494 unexpectedly in node 494, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57914,7 +57912,7 @@ public fun close() {
                 return 635
             }
             else -> {
-                parsererror = "found stack ${currentStack495} unexpectedly in node 495, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack495 unexpectedly in node 495, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -57970,7 +57968,7 @@ public fun close() {
                 return 644
             }
             else -> {
-                parsererror = "found token ${currentToken504} unexpectedly in node 504, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken504 unexpectedly in node 504, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58024,7 +58022,7 @@ public fun close() {
                 return 654
             }
             else -> {
-                parsererror = "found token ${currentToken514} unexpectedly in node 514, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken514 unexpectedly in node 514, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58043,7 +58041,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken515} unexpectedly in node 515, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken515 unexpectedly in node 515, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58062,7 +58060,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken516} unexpectedly in node 516, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken516 unexpectedly in node 516, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58081,7 +58079,7 @@ public fun close() {
                 return 518
             }
             else -> {
-                parsererror = "found token ${currentToken517} unexpectedly in node 517, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken517 unexpectedly in node 517, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58106,7 +58104,7 @@ public fun close() {
                 return 657
             }
             else -> {
-                parsererror = "found token ${currentToken519} unexpectedly in node 519, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken519 unexpectedly in node 519, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58153,7 +58151,7 @@ public fun close() {
                 return 660
             }
             else -> {
-                parsererror = "found token ${currentToken526} unexpectedly in node 526, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken526 unexpectedly in node 526, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58170,7 +58168,7 @@ public fun close() {
                 return 588
             }
             else -> {
-                parsererror = "found token ${currentToken527} unexpectedly in node 527, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken527 unexpectedly in node 527, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58198,7 +58196,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found token ${currentToken530} unexpectedly in node 530, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken530 unexpectedly in node 530, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58219,7 +58217,7 @@ public fun close() {
                 return 37
             }
             else -> {
-                parsererror = "found token ${currentToken531} unexpectedly in node 531, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken531 unexpectedly in node 531, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58242,7 +58240,7 @@ public fun close() {
                 return 668
             }
             else -> {
-                parsererror = "found stack ${currentStack533} unexpectedly in node 533, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack533 unexpectedly in node 533, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58264,7 +58262,7 @@ public fun close() {
                 return 671
             }
             else -> {
-                parsererror = "found stack ${currentStack534} unexpectedly in node 534, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack534 unexpectedly in node 534, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58314,7 +58312,7 @@ public fun close() {
                 return 681
             }
             else -> {
-                parsererror = "found token ${currentToken542} unexpectedly in node 542, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken542 unexpectedly in node 542, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58331,7 +58329,7 @@ public fun close() {
                 return 606
             }
             else -> {
-                parsererror = "found token ${currentToken543} unexpectedly in node 543, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken543 unexpectedly in node 543, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58367,7 +58365,7 @@ public fun close() {
                 return 616
             }
             else -> {
-                parsererror = "found token ${currentToken546} unexpectedly in node 546, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken546 unexpectedly in node 546, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58395,7 +58393,7 @@ public fun close() {
                 return 693
             }
             else -> {
-                parsererror = "found stack ${currentStack549} unexpectedly in node 549, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack549 unexpectedly in node 549, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58420,7 +58418,7 @@ public fun close() {
                 return 623
             }
             else -> {
-                parsererror = "found token ${currentToken550} unexpectedly in node 550, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken550 unexpectedly in node 550, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58451,7 +58449,7 @@ public fun close() {
                 return 654
             }
             else -> {
-                parsererror = "found token ${currentToken554} unexpectedly in node 554, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken554 unexpectedly in node 554, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58469,7 +58467,7 @@ public fun close() {
                 return 629
             }
             else -> {
-                parsererror = "found token ${currentToken555} unexpectedly in node 555, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken555 unexpectedly in node 555, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58503,7 +58501,7 @@ public fun close() {
                 return 715
             }
             else -> {
-                parsererror = "found token ${currentToken567} unexpectedly in node 567, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken567 unexpectedly in node 567, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58532,7 +58530,7 @@ public fun close() {
                 return 647
             }
             else -> {
-                parsererror = "found token ${currentToken575} unexpectedly in node 575, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken575 unexpectedly in node 575, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58559,7 +58557,7 @@ public fun close() {
                 return 652
             }
             else -> {
-                parsererror = "found token ${currentToken576} unexpectedly in node 576, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken576 unexpectedly in node 576, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58576,7 +58574,7 @@ public fun close() {
                 return 653
             }
             else -> {
-                parsererror = "found token ${currentToken577} unexpectedly in node 577, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken577 unexpectedly in node 577, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58593,7 +58591,7 @@ public fun close() {
                 return 656
             }
             else -> {
-                parsererror = "found token ${currentToken583} unexpectedly in node 583, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken583 unexpectedly in node 583, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58617,7 +58615,7 @@ public fun close() {
                 return 744
             }
             else -> {
-                parsererror = "found token ${currentToken588} unexpectedly in node 588, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken588 unexpectedly in node 588, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58637,7 +58635,7 @@ public fun close() {
                 return 747
             }
             else -> {
-                parsererror = "found token ${currentToken590} unexpectedly in node 590, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken590 unexpectedly in node 590, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58664,7 +58662,7 @@ public fun close() {
                 return 676
             }
             else -> {
-                parsererror = "found token ${currentToken602} unexpectedly in node 602, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken602 unexpectedly in node 602, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58682,7 +58680,7 @@ public fun close() {
                 return 678
             }
             else -> {
-                parsererror = "found token ${currentToken603} unexpectedly in node 603, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken603 unexpectedly in node 603, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58700,7 +58698,7 @@ public fun close() {
                 return 680
             }
             else -> {
-                parsererror = "found token ${currentToken604} unexpectedly in node 604, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken604 unexpectedly in node 604, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58781,7 +58779,7 @@ public fun close() {
                 return 691
             }
             else -> {
-                parsererror = "found token ${currentToken617} unexpectedly in node 617, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken617 unexpectedly in node 617, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58834,7 +58832,7 @@ public fun close() {
                 return 702
             }
             else -> {
-                parsererror = "found token ${currentToken630} unexpectedly in node 630, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken630 unexpectedly in node 630, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58851,7 +58849,7 @@ public fun close() {
                 return 703
             }
             else -> {
-                parsererror = "found token ${currentToken631} unexpectedly in node 631, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken631 unexpectedly in node 631, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58870,7 +58868,7 @@ public fun close() {
                 return 849
             }
             else -> {
-                parsererror = "found token ${currentToken632} unexpectedly in node 632, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken632 unexpectedly in node 632, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58888,7 +58886,7 @@ public fun close() {
                 return 707
             }
             else -> {
-                parsererror = "found token ${currentToken633} unexpectedly in node 633, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken633 unexpectedly in node 633, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58905,7 +58903,7 @@ public fun close() {
                 return 708
             }
             else -> {
-                parsererror = "found token ${currentToken634} unexpectedly in node 634, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken634 unexpectedly in node 634, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58924,7 +58922,7 @@ public fun close() {
                 return 852
             }
             else -> {
-                parsererror = "found token ${currentToken635} unexpectedly in node 635, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken635 unexpectedly in node 635, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58942,7 +58940,7 @@ public fun close() {
                 return 712
             }
             else -> {
-                parsererror = "found token ${currentToken636} unexpectedly in node 636, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken636 unexpectedly in node 636, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -58979,7 +58977,7 @@ public fun close() {
                 return 858
             }
             else -> {
-                parsererror = "found token ${currentToken641} unexpectedly in node 641, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken641 unexpectedly in node 641, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59002,7 +59000,7 @@ public fun close() {
                 return 863
             }
             else -> {
-                parsererror = "found stack ${currentStack644} unexpectedly in node 644, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack644 unexpectedly in node 644, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59025,7 +59023,7 @@ public fun close() {
                 return 861
             }
             else -> {
-                parsererror = "found token ${currentToken645} unexpectedly in node 645, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken645 unexpectedly in node 645, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59044,7 +59042,7 @@ public fun close() {
                 return 866
             }
             else -> {
-                parsererror = "found token ${currentToken646} unexpectedly in node 646, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken646 unexpectedly in node 646, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59062,7 +59060,7 @@ public fun close() {
                 return 728
             }
             else -> {
-                parsererror = "found token ${currentToken647} unexpectedly in node 647, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken647 unexpectedly in node 647, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59114,7 +59112,7 @@ public fun close() {
                 return 871
             }
             else -> {
-                parsererror = "found token ${currentToken654} unexpectedly in node 654, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken654 unexpectedly in node 654, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59133,7 +59131,7 @@ public fun close() {
                 return 872
             }
             else -> {
-                parsererror = "found stack ${currentStack655} unexpectedly in node 655, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack655 unexpectedly in node 655, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59156,7 +59154,7 @@ public fun close() {
                 return 459
             }
             else -> {
-                parsererror = "found token ${currentToken657} unexpectedly in node 657, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken657 unexpectedly in node 657, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59186,7 +59184,7 @@ public fun close() {
                 return 76
             }
             else -> {
-                parsererror = "found stack ${currentStack658} unexpectedly in node 658, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack658 unexpectedly in node 658, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59203,7 +59201,7 @@ public fun close() {
                 return 743
             }
             else -> {
-                parsererror = "found token ${currentToken660} unexpectedly in node 660, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken660 unexpectedly in node 660, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59221,7 +59219,7 @@ public fun close() {
                 return 875
             }
             else -> {
-                parsererror = "found token ${currentToken662} unexpectedly in node 662, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken662 unexpectedly in node 662, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59244,7 +59242,7 @@ public fun close() {
                 return 748
             }
             else -> {
-                parsererror = "found token ${currentToken665} unexpectedly in node 665, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken665 unexpectedly in node 665, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59261,7 +59259,7 @@ public fun close() {
                 return 749
             }
             else -> {
-                parsererror = "found token ${currentToken666} unexpectedly in node 666, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken666 unexpectedly in node 666, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59301,7 +59299,7 @@ public fun close() {
                 return 526
             }
             else -> {
-                parsererror = "found stack ${currentStack671} unexpectedly in node 671, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack671 unexpectedly in node 671, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59366,7 +59364,7 @@ public fun close() {
                 return 763
             }
             else -> {
-                parsererror = "found token ${currentToken682} unexpectedly in node 682, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken682 unexpectedly in node 682, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59421,7 +59419,7 @@ public fun close() {
                 return 916
             }
             else -> {
-                parsererror = "found stack ${currentStack691} unexpectedly in node 691, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack691 unexpectedly in node 691, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59439,7 +59437,7 @@ public fun close() {
                 return 917
             }
             else -> {
-                parsererror = "found stack ${currentStack692} unexpectedly in node 692, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack692 unexpectedly in node 692, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59620,7 +59618,7 @@ public fun close() {
                 return 838
             }
             else -> {
-                parsererror = "found token ${currentToken694} unexpectedly in node 694, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken694 unexpectedly in node 694, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59637,7 +59635,7 @@ public fun close() {
                 return 840
             }
             else -> {
-                parsererror = "found token ${currentToken696} unexpectedly in node 696, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken696 unexpectedly in node 696, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59661,7 +59659,7 @@ public fun close() {
                 return 844
             }
             else -> {
-                parsererror = "found token ${currentToken697} unexpectedly in node 697, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken697 unexpectedly in node 697, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59692,7 +59690,7 @@ public fun close() {
                 return 848
             }
             else -> {
-                parsererror = "found token ${currentToken704} unexpectedly in node 704, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken704 unexpectedly in node 704, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59723,7 +59721,7 @@ public fun close() {
                 return 851
             }
             else -> {
-                parsererror = "found token ${currentToken709} unexpectedly in node 709, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken709 unexpectedly in node 709, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59750,7 +59748,7 @@ public fun close() {
                 return 856
             }
             else -> {
-                parsererror = "found token ${currentToken715} unexpectedly in node 715, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken715 unexpectedly in node 715, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59770,7 +59768,7 @@ public fun close() {
                 return 858
             }
             else -> {
-                parsererror = "found token ${currentToken716} unexpectedly in node 716, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken716 unexpectedly in node 716, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59787,7 +59785,7 @@ public fun close() {
                 return 859
             }
             else -> {
-                parsererror = "found token ${currentToken718} unexpectedly in node 718, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken718 unexpectedly in node 718, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59804,7 +59802,7 @@ public fun close() {
                 return 860
             }
             else -> {
-                parsererror = "found token ${currentToken719} unexpectedly in node 719, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken719 unexpectedly in node 719, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59835,7 +59833,7 @@ public fun close() {
                 return 728
             }
             else -> {
-                parsererror = "found token ${currentToken727} unexpectedly in node 727, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken727 unexpectedly in node 727, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59859,7 +59857,7 @@ public fun close() {
                 return 1002
             }
             else -> {
-                parsererror = "found token ${currentToken729} unexpectedly in node 729, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken729 unexpectedly in node 729, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59882,7 +59880,7 @@ public fun close() {
                 return 457
             }
             else -> {
-                parsererror = "found token ${currentToken731} unexpectedly in node 731, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken731 unexpectedly in node 731, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59905,7 +59903,7 @@ public fun close() {
                 return 874
             }
             else -> {
-                parsererror = "found token ${currentToken742} unexpectedly in node 742, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken742 unexpectedly in node 742, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59935,7 +59933,7 @@ public fun close() {
                 return 1015
             }
             else -> {
-                parsererror = "found token ${currentToken747} unexpectedly in node 747, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken747 unexpectedly in node 747, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59977,7 +59975,7 @@ public fun close() {
                 return 884
             }
             else -> {
-                parsererror = "found token ${currentToken754} unexpectedly in node 754, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken754 unexpectedly in node 754, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -59998,7 +59996,7 @@ public fun close() {
                 return 887
             }
             else -> {
-                parsererror = "found token ${currentToken755} unexpectedly in node 755, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken755 unexpectedly in node 755, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60019,7 +60017,7 @@ public fun close() {
                 return 890
             }
             else -> {
-                parsererror = "found token ${currentToken756} unexpectedly in node 756, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken756 unexpectedly in node 756, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60040,7 +60038,7 @@ public fun close() {
                 return 893
             }
             else -> {
-                parsererror = "found token ${currentToken757} unexpectedly in node 757, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken757 unexpectedly in node 757, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60058,7 +60056,7 @@ public fun close() {
                 return 1032
             }
             else -> {
-                parsererror = "found token ${currentToken758} unexpectedly in node 758, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken758 unexpectedly in node 758, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60076,7 +60074,7 @@ public fun close() {
                 return 1033
             }
             else -> {
-                parsererror = "found token ${currentToken759} unexpectedly in node 759, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken759 unexpectedly in node 759, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60111,7 +60109,7 @@ public fun close() {
                 return 900
             }
             else -> {
-                parsererror = "found token ${currentToken765} unexpectedly in node 765, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken765 unexpectedly in node 765, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60128,7 +60126,7 @@ public fun close() {
                 return 901
             }
             else -> {
-                parsererror = "found token ${currentToken766} unexpectedly in node 766, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken766 unexpectedly in node 766, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60145,7 +60143,7 @@ public fun close() {
                 return 902
             }
             else -> {
-                parsererror = "found token ${currentToken767} unexpectedly in node 767, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken767 unexpectedly in node 767, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60162,7 +60160,7 @@ public fun close() {
                 return 903
             }
             else -> {
-                parsererror = "found token ${currentToken768} unexpectedly in node 768, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken768 unexpectedly in node 768, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60179,7 +60177,7 @@ public fun close() {
                 return 904
             }
             else -> {
-                parsererror = "found token ${currentToken769} unexpectedly in node 769, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken769 unexpectedly in node 769, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60196,7 +60194,7 @@ public fun close() {
                 return 905
             }
             else -> {
-                parsererror = "found token ${currentToken770} unexpectedly in node 770, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken770 unexpectedly in node 770, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60213,7 +60211,7 @@ public fun close() {
                 return 906
             }
             else -> {
-                parsererror = "found token ${currentToken771} unexpectedly in node 771, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken771 unexpectedly in node 771, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60572,7 +60570,7 @@ public fun close() {
                 return 1112
             }
             else -> {
-                parsererror = "found token ${currentToken841} unexpectedly in node 841, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken841 unexpectedly in node 841, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60591,7 +60589,7 @@ public fun close() {
                 return 1112
             }
             else -> {
-                parsererror = "found token ${currentToken842} unexpectedly in node 842, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken842 unexpectedly in node 842, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60630,7 +60628,7 @@ public fun close() {
                 return 1117
             }
             else -> {
-                parsererror = "found stack ${currentStack847} unexpectedly in node 847, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack847 unexpectedly in node 847, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60660,7 +60658,7 @@ public fun close() {
                 return 1119
             }
             else -> {
-                parsererror = "found stack ${currentStack850} unexpectedly in node 850, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack850 unexpectedly in node 850, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60693,7 +60691,7 @@ public fun close() {
                 return 1118
             }
             else -> {
-                parsererror = "found stack ${currentStack852} unexpectedly in node 852, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack852 unexpectedly in node 852, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60711,7 +60709,7 @@ public fun close() {
                 return 1121
             }
             else -> {
-                parsererror = "found token ${currentToken853} unexpectedly in node 853, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken853 unexpectedly in node 853, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60746,7 +60744,7 @@ public fun close() {
                 return 371
             }
             else -> {
-                parsererror = "found token ${currentToken858} unexpectedly in node 858, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken858 unexpectedly in node 858, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60782,7 +60780,7 @@ public fun close() {
                 return 1130
             }
             else -> {
-                parsererror = "found token ${currentToken861} unexpectedly in node 861, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken861 unexpectedly in node 861, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60839,7 +60837,7 @@ public fun close() {
                 return 343
             }
             else -> {
-                parsererror = "found stack ${currentStack866} unexpectedly in node 866, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack866 unexpectedly in node 866, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60856,7 +60854,7 @@ public fun close() {
                 return 1004
             }
             else -> {
-                parsererror = "found token ${currentToken871} unexpectedly in node 871, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken871 unexpectedly in node 871, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60875,7 +60873,7 @@ public fun close() {
                 return 1147
             }
             else -> {
-                parsererror = "found token ${currentToken872} unexpectedly in node 872, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken872 unexpectedly in node 872, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60896,7 +60894,7 @@ public fun close() {
                 return 1009
             }
             else -> {
-                parsererror = "found token ${currentToken873} unexpectedly in node 873, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken873 unexpectedly in node 873, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60914,7 +60912,7 @@ public fun close() {
                 return 1011
             }
             else -> {
-                parsererror = "found token ${currentToken874} unexpectedly in node 874, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken874 unexpectedly in node 874, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60937,7 +60935,7 @@ public fun close() {
                 return 1013
             }
             else -> {
-                parsererror = "found token ${currentToken876} unexpectedly in node 876, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken876 unexpectedly in node 876, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -60963,7 +60961,7 @@ public fun close() {
                 return 526
             }
             else -> {
-                parsererror = "found token ${currentToken879} unexpectedly in node 879, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken879 unexpectedly in node 879, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61060,7 +61058,7 @@ public fun close() {
                 return 1175
             }
             else -> {
-                parsererror = "found token ${currentToken896} unexpectedly in node 896, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken896 unexpectedly in node 896, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61079,7 +61077,7 @@ public fun close() {
                 return 1176
             }
             else -> {
-                parsererror = "found token ${currentToken897} unexpectedly in node 897, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken897 unexpectedly in node 897, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61114,7 +61112,7 @@ public fun close() {
                 return 1039
             }
             else -> {
-                parsererror = "found token ${currentToken903} unexpectedly in node 903, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken903 unexpectedly in node 903, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61136,7 +61134,7 @@ public fun close() {
                 return 1040
             }
             else -> {
-                parsererror = "found token ${currentToken905} unexpectedly in node 905, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken905 unexpectedly in node 905, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61172,7 +61170,7 @@ public fun close() {
                 return 1185
             }
             else -> {
-                parsererror = "found stack ${currentStack907} unexpectedly in node 907, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack907 unexpectedly in node 907, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61191,7 +61189,7 @@ public fun close() {
                 return 1187
             }
             else -> {
-                parsererror = "found token ${currentToken908} unexpectedly in node 908, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken908 unexpectedly in node 908, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61245,7 +61243,7 @@ public fun close() {
                 return 1188
             }
             else -> {
-                parsererror = "found token ${currentToken917} unexpectedly in node 917, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken917 unexpectedly in node 917, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61278,7 +61276,7 @@ public fun close() {
                 return 1057
             }
             else -> {
-                parsererror = "found token ${currentToken918} unexpectedly in node 918, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken918 unexpectedly in node 918, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61299,7 +61297,7 @@ public fun close() {
                 return 1115
             }
             else -> {
-                parsererror = "found token ${currentToken975} unexpectedly in node 975, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken975 unexpectedly in node 975, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61329,7 +61327,7 @@ public fun close() {
                 return 1126
             }
             else -> {
-                parsererror = "found token ${currentToken987} unexpectedly in node 987, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken987 unexpectedly in node 987, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61358,7 +61356,7 @@ public fun close() {
                 return 1131
             }
             else -> {
-                parsererror = "found token ${currentToken993} unexpectedly in node 993, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken993 unexpectedly in node 993, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61375,7 +61373,7 @@ public fun close() {
                 return 1132
             }
             else -> {
-                parsererror = "found token ${currentToken994} unexpectedly in node 994, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken994 unexpectedly in node 994, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61401,7 +61399,7 @@ public fun close() {
                 return 1274
             }
             else -> {
-                parsererror = "found stack ${currentStack997} unexpectedly in node 997, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack997 unexpectedly in node 997, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61420,7 +61418,7 @@ public fun close() {
                 return 520
             }
             else -> {
-                parsererror = "found stack ${currentStack1001} unexpectedly in node 1001, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1001 unexpectedly in node 1001, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61448,7 +61446,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found stack ${currentStack1003} unexpectedly in node 1003, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1003 unexpectedly in node 1003, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61469,7 +61467,7 @@ public fun close() {
                 return 1146
             }
             else -> {
-                parsererror = "found token ${currentToken1005} unexpectedly in node 1005, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1005 unexpectedly in node 1005, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61488,7 +61486,7 @@ public fun close() {
                 return 1280
             }
             else -> {
-                parsererror = "found token ${currentToken1007} unexpectedly in node 1007, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1007 unexpectedly in node 1007, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61520,7 +61518,7 @@ public fun close() {
                 return 1149
             }
             else -> {
-                parsererror = "found token ${currentToken1011} unexpectedly in node 1011, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1011 unexpectedly in node 1011, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61538,7 +61536,7 @@ public fun close() {
                 return 1281
             }
             else -> {
-                parsererror = "found token ${currentToken1013} unexpectedly in node 1013, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1013 unexpectedly in node 1013, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61558,7 +61556,7 @@ public fun close() {
                 return 1283
             }
             else -> {
-                parsererror = "found token ${currentToken1014} unexpectedly in node 1014, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1014 unexpectedly in node 1014, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61595,7 +61593,7 @@ public fun close() {
                 return 1288
             }
             else -> {
-                parsererror = "found stack ${currentStack1015} unexpectedly in node 1015, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1015 unexpectedly in node 1015, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61633,7 +61631,7 @@ public fun close() {
                 return 1304
             }
             else -> {
-                parsererror = "found token ${currentToken1036} unexpectedly in node 1036, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1036 unexpectedly in node 1036, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61650,7 +61648,7 @@ public fun close() {
                 return 1178
             }
             else -> {
-                parsererror = "found token ${currentToken1037} unexpectedly in node 1037, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1037 unexpectedly in node 1037, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61669,7 +61667,7 @@ public fun close() {
                 return 1039
             }
             else -> {
-                parsererror = "found token ${currentToken1038} unexpectedly in node 1038, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1038 unexpectedly in node 1038, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61698,7 +61696,7 @@ public fun close() {
                 return 1181
             }
             else -> {
-                parsererror = "found token ${currentToken1041} unexpectedly in node 1041, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1041 unexpectedly in node 1041, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61715,7 +61713,7 @@ public fun close() {
                 return 1186
             }
             else -> {
-                parsererror = "found token ${currentToken1047} unexpectedly in node 1047, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1047 unexpectedly in node 1047, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61780,7 +61778,7 @@ public fun close() {
                 return 1196
             }
             else -> {
-                parsererror = "found token ${currentToken1058} unexpectedly in node 1058, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1058 unexpectedly in node 1058, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61797,7 +61795,7 @@ public fun close() {
                 return 1197
             }
             else -> {
-                parsererror = "found token ${currentToken1059} unexpectedly in node 1059, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1059 unexpectedly in node 1059, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61814,7 +61812,7 @@ public fun close() {
                 return 1198
             }
             else -> {
-                parsererror = "found token ${currentToken1060} unexpectedly in node 1060, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1060 unexpectedly in node 1060, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61831,7 +61829,7 @@ public fun close() {
                 return 1199
             }
             else -> {
-                parsererror = "found token ${currentToken1061} unexpectedly in node 1061, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1061 unexpectedly in node 1061, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61848,7 +61846,7 @@ public fun close() {
                 return 1200
             }
             else -> {
-                parsererror = "found token ${currentToken1062} unexpectedly in node 1062, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1062 unexpectedly in node 1062, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61865,7 +61863,7 @@ public fun close() {
                 return 1201
             }
             else -> {
-                parsererror = "found token ${currentToken1063} unexpectedly in node 1063, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1063 unexpectedly in node 1063, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61882,7 +61880,7 @@ public fun close() {
                 return 1202
             }
             else -> {
-                parsererror = "found token ${currentToken1064} unexpectedly in node 1064, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1064 unexpectedly in node 1064, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61899,7 +61897,7 @@ public fun close() {
                 return 1203
             }
             else -> {
-                parsererror = "found token ${currentToken1065} unexpectedly in node 1065, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1065 unexpectedly in node 1065, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61916,7 +61914,7 @@ public fun close() {
                 return 1204
             }
             else -> {
-                parsererror = "found token ${currentToken1066} unexpectedly in node 1066, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1066 unexpectedly in node 1066, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61933,7 +61931,7 @@ public fun close() {
                 return 1205
             }
             else -> {
-                parsererror = "found token ${currentToken1067} unexpectedly in node 1067, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1067 unexpectedly in node 1067, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61950,7 +61948,7 @@ public fun close() {
                 return 1206
             }
             else -> {
-                parsererror = "found token ${currentToken1068} unexpectedly in node 1068, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1068 unexpectedly in node 1068, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61967,7 +61965,7 @@ public fun close() {
                 return 1207
             }
             else -> {
-                parsererror = "found token ${currentToken1069} unexpectedly in node 1069, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1069 unexpectedly in node 1069, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -61984,7 +61982,7 @@ public fun close() {
                 return 1208
             }
             else -> {
-                parsererror = "found token ${currentToken1070} unexpectedly in node 1070, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1070 unexpectedly in node 1070, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62001,7 +61999,7 @@ public fun close() {
                 return 1209
             }
             else -> {
-                parsererror = "found token ${currentToken1071} unexpectedly in node 1071, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1071 unexpectedly in node 1071, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62018,7 +62016,7 @@ public fun close() {
                 return 1210
             }
             else -> {
-                parsererror = "found token ${currentToken1072} unexpectedly in node 1072, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1072 unexpectedly in node 1072, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62035,7 +62033,7 @@ public fun close() {
                 return 1211
             }
             else -> {
-                parsererror = "found token ${currentToken1073} unexpectedly in node 1073, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1073 unexpectedly in node 1073, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62052,7 +62050,7 @@ public fun close() {
                 return 1212
             }
             else -> {
-                parsererror = "found token ${currentToken1074} unexpectedly in node 1074, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1074 unexpectedly in node 1074, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62069,7 +62067,7 @@ public fun close() {
                 return 1213
             }
             else -> {
-                parsererror = "found token ${currentToken1075} unexpectedly in node 1075, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1075 unexpectedly in node 1075, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62086,7 +62084,7 @@ public fun close() {
                 return 1214
             }
             else -> {
-                parsererror = "found token ${currentToken1076} unexpectedly in node 1076, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1076 unexpectedly in node 1076, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62103,7 +62101,7 @@ public fun close() {
                 return 1215
             }
             else -> {
-                parsererror = "found token ${currentToken1077} unexpectedly in node 1077, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1077 unexpectedly in node 1077, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62120,7 +62118,7 @@ public fun close() {
                 return 1216
             }
             else -> {
-                parsererror = "found token ${currentToken1078} unexpectedly in node 1078, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1078 unexpectedly in node 1078, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62137,7 +62135,7 @@ public fun close() {
                 return 1217
             }
             else -> {
-                parsererror = "found token ${currentToken1079} unexpectedly in node 1079, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1079 unexpectedly in node 1079, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62154,7 +62152,7 @@ public fun close() {
                 return 1218
             }
             else -> {
-                parsererror = "found token ${currentToken1080} unexpectedly in node 1080, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1080 unexpectedly in node 1080, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62171,7 +62169,7 @@ public fun close() {
                 return 1219
             }
             else -> {
-                parsererror = "found token ${currentToken1081} unexpectedly in node 1081, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1081 unexpectedly in node 1081, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62188,7 +62186,7 @@ public fun close() {
                 return 1220
             }
             else -> {
-                parsererror = "found token ${currentToken1082} unexpectedly in node 1082, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1082 unexpectedly in node 1082, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62205,7 +62203,7 @@ public fun close() {
                 return 1221
             }
             else -> {
-                parsererror = "found token ${currentToken1083} unexpectedly in node 1083, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1083 unexpectedly in node 1083, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62222,7 +62220,7 @@ public fun close() {
                 return 1222
             }
             else -> {
-                parsererror = "found token ${currentToken1084} unexpectedly in node 1084, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1084 unexpectedly in node 1084, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62239,7 +62237,7 @@ public fun close() {
                 return 1223
             }
             else -> {
-                parsererror = "found token ${currentToken1085} unexpectedly in node 1085, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1085 unexpectedly in node 1085, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62256,7 +62254,7 @@ public fun close() {
                 return 1224
             }
             else -> {
-                parsererror = "found token ${currentToken1086} unexpectedly in node 1086, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1086 unexpectedly in node 1086, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62273,7 +62271,7 @@ public fun close() {
                 return 1225
             }
             else -> {
-                parsererror = "found token ${currentToken1087} unexpectedly in node 1087, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1087 unexpectedly in node 1087, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62290,7 +62288,7 @@ public fun close() {
                 return 1226
             }
             else -> {
-                parsererror = "found token ${currentToken1088} unexpectedly in node 1088, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1088 unexpectedly in node 1088, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62307,7 +62305,7 @@ public fun close() {
                 return 1227
             }
             else -> {
-                parsererror = "found token ${currentToken1089} unexpectedly in node 1089, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1089 unexpectedly in node 1089, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62324,7 +62322,7 @@ public fun close() {
                 return 1228
             }
             else -> {
-                parsererror = "found token ${currentToken1090} unexpectedly in node 1090, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1090 unexpectedly in node 1090, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62341,7 +62339,7 @@ public fun close() {
                 return 1229
             }
             else -> {
-                parsererror = "found token ${currentToken1091} unexpectedly in node 1091, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1091 unexpectedly in node 1091, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62358,7 +62356,7 @@ public fun close() {
                 return 1230
             }
             else -> {
-                parsererror = "found token ${currentToken1092} unexpectedly in node 1092, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1092 unexpectedly in node 1092, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62375,7 +62373,7 @@ public fun close() {
                 return 1231
             }
             else -> {
-                parsererror = "found token ${currentToken1093} unexpectedly in node 1093, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1093 unexpectedly in node 1093, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62392,7 +62390,7 @@ public fun close() {
                 return 1232
             }
             else -> {
-                parsererror = "found token ${currentToken1094} unexpectedly in node 1094, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1094 unexpectedly in node 1094, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62409,7 +62407,7 @@ public fun close() {
                 return 1233
             }
             else -> {
-                parsererror = "found token ${currentToken1095} unexpectedly in node 1095, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1095 unexpectedly in node 1095, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62426,7 +62424,7 @@ public fun close() {
                 return 1234
             }
             else -> {
-                parsererror = "found token ${currentToken1096} unexpectedly in node 1096, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1096 unexpectedly in node 1096, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62443,7 +62441,7 @@ public fun close() {
                 return 1235
             }
             else -> {
-                parsererror = "found token ${currentToken1097} unexpectedly in node 1097, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1097 unexpectedly in node 1097, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62460,7 +62458,7 @@ public fun close() {
                 return 1236
             }
             else -> {
-                parsererror = "found token ${currentToken1098} unexpectedly in node 1098, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1098 unexpectedly in node 1098, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62477,7 +62475,7 @@ public fun close() {
                 return 1237
             }
             else -> {
-                parsererror = "found token ${currentToken1099} unexpectedly in node 1099, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1099 unexpectedly in node 1099, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62494,7 +62492,7 @@ public fun close() {
                 return 1238
             }
             else -> {
-                parsererror = "found token ${currentToken1100} unexpectedly in node 1100, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1100 unexpectedly in node 1100, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62511,7 +62509,7 @@ public fun close() {
                 return 1239
             }
             else -> {
-                parsererror = "found token ${currentToken1101} unexpectedly in node 1101, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1101 unexpectedly in node 1101, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62528,7 +62526,7 @@ public fun close() {
                 return 1240
             }
             else -> {
-                parsererror = "found token ${currentToken1102} unexpectedly in node 1102, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1102 unexpectedly in node 1102, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62545,7 +62543,7 @@ public fun close() {
                 return 1241
             }
             else -> {
-                parsererror = "found token ${currentToken1103} unexpectedly in node 1103, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1103 unexpectedly in node 1103, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62562,7 +62560,7 @@ public fun close() {
                 return 1242
             }
             else -> {
-                parsererror = "found token ${currentToken1104} unexpectedly in node 1104, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1104 unexpectedly in node 1104, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62579,7 +62577,7 @@ public fun close() {
                 return 1243
             }
             else -> {
-                parsererror = "found token ${currentToken1105} unexpectedly in node 1105, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1105 unexpectedly in node 1105, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62596,7 +62594,7 @@ public fun close() {
                 return 1244
             }
             else -> {
-                parsererror = "found token ${currentToken1106} unexpectedly in node 1106, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1106 unexpectedly in node 1106, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62613,7 +62611,7 @@ public fun close() {
                 return 1245
             }
             else -> {
-                parsererror = "found token ${currentToken1107} unexpectedly in node 1107, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1107 unexpectedly in node 1107, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62630,7 +62628,7 @@ public fun close() {
                 return 1246
             }
             else -> {
-                parsererror = "found token ${currentToken1108} unexpectedly in node 1108, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1108 unexpectedly in node 1108, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62647,7 +62645,7 @@ public fun close() {
                 return 1247
             }
             else -> {
-                parsererror = "found token ${currentToken1109} unexpectedly in node 1109, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1109 unexpectedly in node 1109, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62664,7 +62662,7 @@ public fun close() {
                 return 1248
             }
             else -> {
-                parsererror = "found token ${currentToken1110} unexpectedly in node 1110, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1110 unexpectedly in node 1110, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62681,7 +62679,7 @@ public fun close() {
                 return 1249
             }
             else -> {
-                parsererror = "found token ${currentToken1111} unexpectedly in node 1111, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1111 unexpectedly in node 1111, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62699,7 +62697,7 @@ public fun close() {
                 return 844
             }
             else -> {
-                parsererror = "found token ${currentToken1112} unexpectedly in node 1112, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1112 unexpectedly in node 1112, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62741,7 +62739,7 @@ public fun close() {
                 return 1367
             }
             else -> {
-                parsererror = "found token ${currentToken1117} unexpectedly in node 1117, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1117 unexpectedly in node 1117, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62760,7 +62758,7 @@ public fun close() {
                 return 1369
             }
             else -> {
-                parsererror = "found token ${currentToken1118} unexpectedly in node 1118, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1118 unexpectedly in node 1118, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62779,7 +62777,7 @@ public fun close() {
                 return 1371
             }
             else -> {
-                parsererror = "found token ${currentToken1119} unexpectedly in node 1119, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1119 unexpectedly in node 1119, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62798,7 +62796,7 @@ public fun close() {
                 return 1373
             }
             else -> {
-                parsererror = "found token ${currentToken1120} unexpectedly in node 1120, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1120 unexpectedly in node 1120, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62818,7 +62816,7 @@ public fun close() {
                 return 384
             }
             else -> {
-                parsererror = "found stack ${currentStack1121} unexpectedly in node 1121, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1121 unexpectedly in node 1121, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62837,7 +62835,7 @@ public fun close() {
                 return 1375
             }
             else -> {
-                parsererror = "found token ${currentToken1122} unexpectedly in node 1122, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1122 unexpectedly in node 1122, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62878,7 +62876,7 @@ public fun close() {
                 return 1269
             }
             else -> {
-                parsererror = "found token ${currentToken1129} unexpectedly in node 1129, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1129 unexpectedly in node 1129, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62938,7 +62936,7 @@ public fun close() {
                 return 1391
             }
             else -> {
-                parsererror = "found stack ${currentStack1147} unexpectedly in node 1147, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1147 unexpectedly in node 1147, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62967,7 +62965,7 @@ public fun close() {
                 return 1397
             }
             else -> {
-                parsererror = "found token ${currentToken1161} unexpectedly in node 1161, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1161 unexpectedly in node 1161, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -62986,7 +62984,7 @@ public fun close() {
                 return 1398
             }
             else -> {
-                parsererror = "found token ${currentToken1162} unexpectedly in node 1162, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1162 unexpectedly in node 1162, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63005,7 +63003,7 @@ public fun close() {
                 return 1399
             }
             else -> {
-                parsererror = "found token ${currentToken1163} unexpectedly in node 1163, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1163 unexpectedly in node 1163, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63024,7 +63022,7 @@ public fun close() {
                 return 1400
             }
             else -> {
-                parsererror = "found token ${currentToken1164} unexpectedly in node 1164, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1164 unexpectedly in node 1164, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63043,7 +63041,7 @@ public fun close() {
                 return 1401
             }
             else -> {
-                parsererror = "found token ${currentToken1165} unexpectedly in node 1165, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1165 unexpectedly in node 1165, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63062,7 +63060,7 @@ public fun close() {
                 return 1402
             }
             else -> {
-                parsererror = "found token ${currentToken1166} unexpectedly in node 1166, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1166 unexpectedly in node 1166, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63081,7 +63079,7 @@ public fun close() {
                 return 1403
             }
             else -> {
-                parsererror = "found token ${currentToken1167} unexpectedly in node 1167, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1167 unexpectedly in node 1167, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63100,7 +63098,7 @@ public fun close() {
                 return 1404
             }
             else -> {
-                parsererror = "found token ${currentToken1168} unexpectedly in node 1168, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1168 unexpectedly in node 1168, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63119,7 +63117,7 @@ public fun close() {
                 return 1405
             }
             else -> {
-                parsererror = "found token ${currentToken1169} unexpectedly in node 1169, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1169 unexpectedly in node 1169, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63138,7 +63136,7 @@ public fun close() {
                 return 1406
             }
             else -> {
-                parsererror = "found token ${currentToken1170} unexpectedly in node 1170, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1170 unexpectedly in node 1170, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63157,7 +63155,7 @@ public fun close() {
                 return 1407
             }
             else -> {
-                parsererror = "found token ${currentToken1171} unexpectedly in node 1171, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1171 unexpectedly in node 1171, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63176,7 +63174,7 @@ public fun close() {
                 return 1408
             }
             else -> {
-                parsererror = "found token ${currentToken1172} unexpectedly in node 1172, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1172 unexpectedly in node 1172, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63195,7 +63193,7 @@ public fun close() {
                 return 1409
             }
             else -> {
-                parsererror = "found token ${currentToken1173} unexpectedly in node 1173, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1173 unexpectedly in node 1173, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63214,7 +63212,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${currentStack1174} unexpectedly in node 1174, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1174 unexpectedly in node 1174, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63302,7 +63300,7 @@ public fun close() {
                 return 1315
             }
             else -> {
-                parsererror = "found token ${currentToken1196} unexpectedly in node 1196, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1196 unexpectedly in node 1196, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63319,7 +63317,7 @@ public fun close() {
                 return 1316
             }
             else -> {
-                parsererror = "found token ${currentToken1197} unexpectedly in node 1197, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1197 unexpectedly in node 1197, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63336,7 +63334,7 @@ public fun close() {
                 return 1317
             }
             else -> {
-                parsererror = "found token ${currentToken1198} unexpectedly in node 1198, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1198 unexpectedly in node 1198, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63353,7 +63351,7 @@ public fun close() {
                 return 1318
             }
             else -> {
-                parsererror = "found token ${currentToken1199} unexpectedly in node 1199, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1199 unexpectedly in node 1199, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63370,7 +63368,7 @@ public fun close() {
                 return 1319
             }
             else -> {
-                parsererror = "found token ${currentToken1200} unexpectedly in node 1200, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1200 unexpectedly in node 1200, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63387,7 +63385,7 @@ public fun close() {
                 return 1320
             }
             else -> {
-                parsererror = "found token ${currentToken1201} unexpectedly in node 1201, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1201 unexpectedly in node 1201, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63404,7 +63402,7 @@ public fun close() {
                 return 1321
             }
             else -> {
-                parsererror = "found token ${currentToken1202} unexpectedly in node 1202, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1202 unexpectedly in node 1202, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63422,7 +63420,7 @@ public fun close() {
                 return 1323
             }
             else -> {
-                parsererror = "found token ${currentToken1203} unexpectedly in node 1203, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1203 unexpectedly in node 1203, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63445,7 +63443,7 @@ public fun close() {
                 return 1324
             }
             else -> {
-                parsererror = "found token ${currentToken1205} unexpectedly in node 1205, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1205 unexpectedly in node 1205, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63462,7 +63460,7 @@ public fun close() {
                 return 1325
             }
             else -> {
-                parsererror = "found token ${currentToken1206} unexpectedly in node 1206, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1206 unexpectedly in node 1206, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63479,7 +63477,7 @@ public fun close() {
                 return 1326
             }
             else -> {
-                parsererror = "found token ${currentToken1207} unexpectedly in node 1207, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1207 unexpectedly in node 1207, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63496,7 +63494,7 @@ public fun close() {
                 return 1327
             }
             else -> {
-                parsererror = "found token ${currentToken1208} unexpectedly in node 1208, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1208 unexpectedly in node 1208, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63518,7 +63516,7 @@ public fun close() {
                 return 1329
             }
             else -> {
-                parsererror = "found token ${currentToken1210} unexpectedly in node 1210, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1210 unexpectedly in node 1210, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63535,7 +63533,7 @@ public fun close() {
                 return 1330
             }
             else -> {
-                parsererror = "found token ${currentToken1211} unexpectedly in node 1211, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1211 unexpectedly in node 1211, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63552,7 +63550,7 @@ public fun close() {
                 return 1331
             }
             else -> {
-                parsererror = "found token ${currentToken1212} unexpectedly in node 1212, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1212 unexpectedly in node 1212, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63569,7 +63567,7 @@ public fun close() {
                 return 1332
             }
             else -> {
-                parsererror = "found token ${currentToken1213} unexpectedly in node 1213, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1213 unexpectedly in node 1213, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63586,7 +63584,7 @@ public fun close() {
                 return 1333
             }
             else -> {
-                parsererror = "found token ${currentToken1214} unexpectedly in node 1214, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1214 unexpectedly in node 1214, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63603,7 +63601,7 @@ public fun close() {
                 return 1334
             }
             else -> {
-                parsererror = "found token ${currentToken1215} unexpectedly in node 1215, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1215 unexpectedly in node 1215, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63620,7 +63618,7 @@ public fun close() {
                 return 1335
             }
             else -> {
-                parsererror = "found token ${currentToken1216} unexpectedly in node 1216, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1216 unexpectedly in node 1216, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63637,7 +63635,7 @@ public fun close() {
                 return 1336
             }
             else -> {
-                parsererror = "found token ${currentToken1217} unexpectedly in node 1217, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1217 unexpectedly in node 1217, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63654,7 +63652,7 @@ public fun close() {
                 return 1337
             }
             else -> {
-                parsererror = "found token ${currentToken1218} unexpectedly in node 1218, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1218 unexpectedly in node 1218, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63671,7 +63669,7 @@ public fun close() {
                 return 1338
             }
             else -> {
-                parsererror = "found token ${currentToken1219} unexpectedly in node 1219, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1219 unexpectedly in node 1219, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63688,7 +63686,7 @@ public fun close() {
                 return 1339
             }
             else -> {
-                parsererror = "found token ${currentToken1220} unexpectedly in node 1220, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1220 unexpectedly in node 1220, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63705,7 +63703,7 @@ public fun close() {
                 return 1340
             }
             else -> {
-                parsererror = "found token ${currentToken1221} unexpectedly in node 1221, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1221 unexpectedly in node 1221, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63722,7 +63720,7 @@ public fun close() {
                 return 1341
             }
             else -> {
-                parsererror = "found token ${currentToken1222} unexpectedly in node 1222, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1222 unexpectedly in node 1222, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63739,7 +63737,7 @@ public fun close() {
                 return 1342
             }
             else -> {
-                parsererror = "found token ${currentToken1223} unexpectedly in node 1223, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1223 unexpectedly in node 1223, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63756,7 +63754,7 @@ public fun close() {
                 return 1343
             }
             else -> {
-                parsererror = "found token ${currentToken1224} unexpectedly in node 1224, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1224 unexpectedly in node 1224, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63773,7 +63771,7 @@ public fun close() {
                 return 1344
             }
             else -> {
-                parsererror = "found token ${currentToken1225} unexpectedly in node 1225, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1225 unexpectedly in node 1225, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63790,7 +63788,7 @@ public fun close() {
                 return 1345
             }
             else -> {
-                parsererror = "found token ${currentToken1226} unexpectedly in node 1226, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1226 unexpectedly in node 1226, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63807,7 +63805,7 @@ public fun close() {
                 return 1346
             }
             else -> {
-                parsererror = "found token ${currentToken1227} unexpectedly in node 1227, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1227 unexpectedly in node 1227, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63824,7 +63822,7 @@ public fun close() {
                 return 1347
             }
             else -> {
-                parsererror = "found token ${currentToken1228} unexpectedly in node 1228, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1228 unexpectedly in node 1228, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63859,7 +63857,7 @@ public fun close() {
                 return 1348
             }
             else -> {
-                parsererror = "found token ${currentToken1232} unexpectedly in node 1232, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1232 unexpectedly in node 1232, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63876,7 +63874,7 @@ public fun close() {
                 return 1349
             }
             else -> {
-                parsererror = "found token ${currentToken1233} unexpectedly in node 1233, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1233 unexpectedly in node 1233, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63893,7 +63891,7 @@ public fun close() {
                 return 1350
             }
             else -> {
-                parsererror = "found token ${currentToken1234} unexpectedly in node 1234, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1234 unexpectedly in node 1234, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63910,7 +63908,7 @@ public fun close() {
                 return 1351
             }
             else -> {
-                parsererror = "found token ${currentToken1235} unexpectedly in node 1235, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1235 unexpectedly in node 1235, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63927,7 +63925,7 @@ public fun close() {
                 return 1352
             }
             else -> {
-                parsererror = "found token ${currentToken1236} unexpectedly in node 1236, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1236 unexpectedly in node 1236, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63949,7 +63947,7 @@ public fun close() {
                 return 1353
             }
             else -> {
-                parsererror = "found token ${currentToken1238} unexpectedly in node 1238, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1238 unexpectedly in node 1238, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63966,7 +63964,7 @@ public fun close() {
                 return 1354
             }
             else -> {
-                parsererror = "found token ${currentToken1239} unexpectedly in node 1239, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1239 unexpectedly in node 1239, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -63983,7 +63981,7 @@ public fun close() {
                 return 1355
             }
             else -> {
-                parsererror = "found token ${currentToken1240} unexpectedly in node 1240, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1240 unexpectedly in node 1240, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64000,7 +63998,7 @@ public fun close() {
                 return 1356
             }
             else -> {
-                parsererror = "found token ${currentToken1241} unexpectedly in node 1241, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1241 unexpectedly in node 1241, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64017,7 +64015,7 @@ public fun close() {
                 return 1357
             }
             else -> {
-                parsererror = "found token ${currentToken1242} unexpectedly in node 1242, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1242 unexpectedly in node 1242, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64034,7 +64032,7 @@ public fun close() {
                 return 1358
             }
             else -> {
-                parsererror = "found token ${currentToken1243} unexpectedly in node 1243, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1243 unexpectedly in node 1243, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64051,7 +64049,7 @@ public fun close() {
                 return 1359
             }
             else -> {
-                parsererror = "found token ${currentToken1244} unexpectedly in node 1244, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1244 unexpectedly in node 1244, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64068,7 +64066,7 @@ public fun close() {
                 return 1360
             }
             else -> {
-                parsererror = "found token ${currentToken1245} unexpectedly in node 1245, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1245 unexpectedly in node 1245, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64085,7 +64083,7 @@ public fun close() {
                 return 1361
             }
             else -> {
-                parsererror = "found token ${currentToken1246} unexpectedly in node 1246, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1246 unexpectedly in node 1246, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64102,7 +64100,7 @@ public fun close() {
                 return 1362
             }
             else -> {
-                parsererror = "found token ${currentToken1247} unexpectedly in node 1247, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1247 unexpectedly in node 1247, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64125,7 +64123,7 @@ public fun close() {
                 return 1363
             }
             else -> {
-                parsererror = "found token ${currentToken1249} unexpectedly in node 1249, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1249 unexpectedly in node 1249, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64149,7 +64147,7 @@ public fun close() {
                 return 1426
             }
             else -> {
-                parsererror = "found token ${currentToken1254} unexpectedly in node 1254, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1254 unexpectedly in node 1254, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64173,7 +64171,7 @@ public fun close() {
                 return 1433
             }
             else -> {
-                parsererror = "found token ${currentToken1258} unexpectedly in node 1258, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1258 unexpectedly in node 1258, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64193,7 +64191,7 @@ public fun close() {
                 return 1375
             }
             else -> {
-                parsererror = "found token ${currentToken1260} unexpectedly in node 1260, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1260 unexpectedly in node 1260, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64226,7 +64224,7 @@ public fun close() {
                 return 1385
             }
             else -> {
-                parsererror = "found token ${currentToken1265} unexpectedly in node 1265, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1265 unexpectedly in node 1265, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64243,7 +64241,7 @@ public fun close() {
                 return 1386
             }
             else -> {
-                parsererror = "found token ${currentToken1266} unexpectedly in node 1266, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1266 unexpectedly in node 1266, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64260,7 +64258,7 @@ public fun close() {
                 return 1387
             }
             else -> {
-                parsererror = "found token ${currentToken1267} unexpectedly in node 1267, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1267 unexpectedly in node 1267, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64306,7 +64304,7 @@ public fun close() {
                 return 549
             }
             else -> {
-                parsererror = "found stack ${currentStack1275} unexpectedly in node 1275, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1275 unexpectedly in node 1275, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64329,7 +64327,7 @@ public fun close() {
                 return 1009
             }
             else -> {
-                parsererror = "found token ${currentToken1280} unexpectedly in node 1280, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1280 unexpectedly in node 1280, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64366,7 +64364,7 @@ public fun close() {
                 return 1276
             }
             else -> {
-                parsererror = "found token ${currentToken1284} unexpectedly in node 1284, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1284 unexpectedly in node 1284, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64421,7 +64419,7 @@ public fun close() {
                 return 1412
             }
             else -> {
-                parsererror = "found token ${currentToken1308} unexpectedly in node 1308, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1308 unexpectedly in node 1308, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64438,7 +64436,7 @@ public fun close() {
                 return 1413
             }
             else -> {
-                parsererror = "found token ${currentToken1309} unexpectedly in node 1309, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1309 unexpectedly in node 1309, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64455,7 +64453,7 @@ public fun close() {
                 return 1414
             }
             else -> {
-                parsererror = "found token ${currentToken1310} unexpectedly in node 1310, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1310 unexpectedly in node 1310, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64472,7 +64470,7 @@ public fun close() {
                 return 1415
             }
             else -> {
-                parsererror = "found token ${currentToken1311} unexpectedly in node 1311, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1311 unexpectedly in node 1311, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64489,7 +64487,7 @@ public fun close() {
                 return 1416
             }
             else -> {
-                parsererror = "found token ${currentToken1312} unexpectedly in node 1312, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1312 unexpectedly in node 1312, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64506,7 +64504,7 @@ public fun close() {
                 return 1417
             }
             else -> {
-                parsererror = "found token ${currentToken1313} unexpectedly in node 1313, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1313 unexpectedly in node 1313, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64523,7 +64521,7 @@ public fun close() {
                 return 1418
             }
             else -> {
-                parsererror = "found token ${currentToken1314} unexpectedly in node 1314, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1314 unexpectedly in node 1314, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64581,7 +64579,7 @@ public fun close() {
                 return 1419
             }
             else -> {
-                parsererror = "found token ${currentToken1322} unexpectedly in node 1322, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1322 unexpectedly in node 1322, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64630,7 +64628,7 @@ public fun close() {
                 return 1471
             }
             else -> {
-                parsererror = "found token ${currentToken1328} unexpectedly in node 1328, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1328 unexpectedly in node 1328, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64857,7 +64855,7 @@ public fun close() {
                 return 1422
             }
             else -> {
-                parsererror = "found token ${currentToken1364} unexpectedly in node 1364, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1364 unexpectedly in node 1364, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64891,7 +64889,7 @@ public fun close() {
                 return 1477
             }
             else -> {
-                parsererror = "found stack ${currentStack1369} unexpectedly in node 1369, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1369 unexpectedly in node 1369, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64911,7 +64909,7 @@ public fun close() {
                 return 1479
             }
             else -> {
-                parsererror = "found stack ${currentStack1371} unexpectedly in node 1371, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1371 unexpectedly in node 1371, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64933,7 +64931,7 @@ public fun close() {
                 return 1483
             }
             else -> {
-                parsererror = "found stack ${currentStack1373} unexpectedly in node 1373, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1373 unexpectedly in node 1373, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64953,7 +64951,7 @@ public fun close() {
                 return 294
             }
             else -> {
-                parsererror = "found token ${currentToken1375} unexpectedly in node 1375, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1375 unexpectedly in node 1375, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64970,7 +64968,7 @@ public fun close() {
                 return 1439
             }
             else -> {
-                parsererror = "found token ${currentToken1376} unexpectedly in node 1376, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1376 unexpectedly in node 1376, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -64987,7 +64985,7 @@ public fun close() {
                 return 1440
             }
             else -> {
-                parsererror = "found token ${currentToken1377} unexpectedly in node 1377, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1377 unexpectedly in node 1377, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65004,7 +65002,7 @@ public fun close() {
                 return 1441
             }
             else -> {
-                parsererror = "found token ${currentToken1378} unexpectedly in node 1378, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1378 unexpectedly in node 1378, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65093,7 +65091,7 @@ public fun close() {
                 return 1491
             }
             else -> {
-                parsererror = "found stack ${currentStack1388} unexpectedly in node 1388, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1388 unexpectedly in node 1388, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65111,7 +65109,7 @@ public fun close() {
                 return 1452
             }
             else -> {
-                parsererror = "found token ${currentToken1390} unexpectedly in node 1390, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1390 unexpectedly in node 1390, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65130,7 +65128,7 @@ public fun close() {
                 return 1496
             }
             else -> {
-                parsererror = "found token ${currentToken1391} unexpectedly in node 1391, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1391 unexpectedly in node 1391, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65211,7 +65209,7 @@ public fun close() {
                 return 1463
             }
             else -> {
-                parsererror = "found token ${currentToken1411} unexpectedly in node 1411, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1411 unexpectedly in node 1411, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65228,7 +65226,7 @@ public fun close() {
                 return 1464
             }
             else -> {
-                parsererror = "found token ${currentToken1412} unexpectedly in node 1412, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1412 unexpectedly in node 1412, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65245,7 +65243,7 @@ public fun close() {
                 return 1465
             }
             else -> {
-                parsererror = "found token ${currentToken1413} unexpectedly in node 1413, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1413 unexpectedly in node 1413, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65262,7 +65260,7 @@ public fun close() {
                 return 1466
             }
             else -> {
-                parsererror = "found token ${currentToken1414} unexpectedly in node 1414, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1414 unexpectedly in node 1414, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65279,7 +65277,7 @@ public fun close() {
                 return 1467
             }
             else -> {
-                parsererror = "found token ${currentToken1415} unexpectedly in node 1415, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1415 unexpectedly in node 1415, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65296,7 +65294,7 @@ public fun close() {
                 return 1468
             }
             else -> {
-                parsererror = "found token ${currentToken1416} unexpectedly in node 1416, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1416 unexpectedly in node 1416, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65313,7 +65311,7 @@ public fun close() {
                 return 1469
             }
             else -> {
-                parsererror = "found token ${currentToken1417} unexpectedly in node 1417, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1417 unexpectedly in node 1417, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65330,7 +65328,7 @@ public fun close() {
                 return 1470
             }
             else -> {
-                parsererror = "found token ${currentToken1418} unexpectedly in node 1418, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1418 unexpectedly in node 1418, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65374,7 +65372,7 @@ public fun close() {
                 return 1118
             }
             else -> {
-                parsererror = "found token ${currentToken1426} unexpectedly in node 1426, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1426 unexpectedly in node 1426, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65400,7 +65398,7 @@ public fun close() {
                 return 1120
             }
             else -> {
-                parsererror = "found token ${currentToken1433} unexpectedly in node 1433, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1433 unexpectedly in node 1433, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65445,7 +65443,7 @@ public fun close() {
                 return 1452
             }
             else -> {
-                parsererror = "found token ${currentToken1451} unexpectedly in node 1451, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1451 unexpectedly in node 1451, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65468,7 +65466,7 @@ public fun close() {
                 return 1495
             }
             else -> {
-                parsererror = "found token ${currentToken1453} unexpectedly in node 1453, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1453 unexpectedly in node 1453, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65485,7 +65483,7 @@ public fun close() {
                 return 1497
             }
             else -> {
-                parsererror = "found token ${currentToken1455} unexpectedly in node 1455, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1455 unexpectedly in node 1455, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65502,7 +65500,7 @@ public fun close() {
                 return 1498
             }
             else -> {
-                parsererror = "found token ${currentToken1456} unexpectedly in node 1456, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1456 unexpectedly in node 1456, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65522,7 +65520,7 @@ public fun close() {
                 return 45
             }
             else -> {
-                parsererror = "found token ${currentToken1457} unexpectedly in node 1457, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1457 unexpectedly in node 1457, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65542,7 +65540,7 @@ public fun close() {
                 return 1549
             }
             else -> {
-                parsererror = "found stack ${currentStack1458} unexpectedly in node 1458, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1458 unexpectedly in node 1458, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65564,7 +65562,7 @@ public fun close() {
                 return 645
             }
             else -> {
-                parsererror = "found stack ${currentStack1460} unexpectedly in node 1460, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1460 unexpectedly in node 1460, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65582,7 +65580,7 @@ public fun close() {
                 return 645
             }
             else -> {
-                parsererror = "found stack ${currentStack1461} unexpectedly in node 1461, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1461 unexpectedly in node 1461, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65606,7 +65604,7 @@ public fun close() {
                 return 378
             }
             else -> {
-                parsererror = "found token ${currentToken1463} unexpectedly in node 1463, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1463 unexpectedly in node 1463, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65627,7 +65625,7 @@ public fun close() {
                 return 1508
             }
             else -> {
-                parsererror = "found token ${currentToken1464} unexpectedly in node 1464, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1464 unexpectedly in node 1464, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65645,7 +65643,7 @@ public fun close() {
                 return 1510
             }
             else -> {
-                parsererror = "found token ${currentToken1465} unexpectedly in node 1465, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1465 unexpectedly in node 1465, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65663,7 +65661,7 @@ public fun close() {
                 return 1512
             }
             else -> {
-                parsererror = "found token ${currentToken1466} unexpectedly in node 1466, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1466 unexpectedly in node 1466, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65681,7 +65679,7 @@ public fun close() {
                 return 1514
             }
             else -> {
-                parsererror = "found token ${currentToken1467} unexpectedly in node 1467, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1467 unexpectedly in node 1467, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65699,7 +65697,7 @@ public fun close() {
                 return 1516
             }
             else -> {
-                parsererror = "found token ${currentToken1468} unexpectedly in node 1468, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1468 unexpectedly in node 1468, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65717,7 +65715,7 @@ public fun close() {
                 return 1518
             }
             else -> {
-                parsererror = "found token ${currentToken1469} unexpectedly in node 1469, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1469 unexpectedly in node 1469, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65735,7 +65733,7 @@ public fun close() {
                 return 1520
             }
             else -> {
-                parsererror = "found token ${currentToken1470} unexpectedly in node 1470, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1470 unexpectedly in node 1470, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65752,7 +65750,7 @@ public fun close() {
                 return 1521
             }
             else -> {
-                parsererror = "found token ${currentToken1471} unexpectedly in node 1471, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1471 unexpectedly in node 1471, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65777,7 +65775,7 @@ public fun close() {
                 return 1559
             }
             else -> {
-                parsererror = "found token ${currentToken1473} unexpectedly in node 1473, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1473 unexpectedly in node 1473, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65794,7 +65792,7 @@ public fun close() {
                 return 1525
             }
             else -> {
-                parsererror = "found token ${currentToken1476} unexpectedly in node 1476, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1476 unexpectedly in node 1476, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65819,7 +65817,7 @@ public fun close() {
                 return 1563
             }
             else -> {
-                parsererror = "found token ${currentToken1478} unexpectedly in node 1478, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1478 unexpectedly in node 1478, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65838,7 +65836,7 @@ public fun close() {
                 return 1565
             }
             else -> {
-                parsererror = "found token ${currentToken1479} unexpectedly in node 1479, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1479 unexpectedly in node 1479, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65855,7 +65853,7 @@ public fun close() {
                 return 1532
             }
             else -> {
-                parsererror = "found token ${currentToken1482} unexpectedly in node 1482, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1482 unexpectedly in node 1482, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65906,7 +65904,7 @@ public fun close() {
                 return 1450
             }
             else -> {
-                parsererror = "found token ${currentToken1485} unexpectedly in node 1485, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1485 unexpectedly in node 1485, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65972,7 +65970,7 @@ public fun close() {
                 return 1578
             }
             else -> {
-                parsererror = "found token ${currentToken1497} unexpectedly in node 1497, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1497 unexpectedly in node 1497, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -65991,7 +65989,7 @@ public fun close() {
                 return 1579
             }
             else -> {
-                parsererror = "found token ${currentToken1498} unexpectedly in node 1498, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1498 unexpectedly in node 1498, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66016,7 +66014,7 @@ public fun close() {
                 return 338
             }
             else -> {
-                parsererror = "found stack ${currentStack1503} unexpectedly in node 1503, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1503 unexpectedly in node 1503, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66035,7 +66033,7 @@ public fun close() {
                 return 1584
             }
             else -> {
-                parsererror = "found token ${currentToken1506} unexpectedly in node 1506, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1506 unexpectedly in node 1506, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66065,7 +66063,7 @@ public fun close() {
                 return 1510
             }
             else -> {
-                parsererror = "found token ${currentToken1509} unexpectedly in node 1509, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1509 unexpectedly in node 1509, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66090,7 +66088,7 @@ public fun close() {
                 return 1512
             }
             else -> {
-                parsererror = "found token ${currentToken1511} unexpectedly in node 1511, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1511 unexpectedly in node 1511, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66115,7 +66113,7 @@ public fun close() {
                 return 1514
             }
             else -> {
-                parsererror = "found token ${currentToken1513} unexpectedly in node 1513, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1513 unexpectedly in node 1513, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66140,7 +66138,7 @@ public fun close() {
                 return 1516
             }
             else -> {
-                parsererror = "found token ${currentToken1515} unexpectedly in node 1515, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1515 unexpectedly in node 1515, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66165,7 +66163,7 @@ public fun close() {
                 return 1518
             }
             else -> {
-                parsererror = "found token ${currentToken1517} unexpectedly in node 1517, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1517 unexpectedly in node 1517, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66190,7 +66188,7 @@ public fun close() {
                 return 1520
             }
             else -> {
-                parsererror = "found token ${currentToken1519} unexpectedly in node 1519, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1519 unexpectedly in node 1519, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66220,7 +66218,7 @@ public fun close() {
                 return 1586
             }
             else -> {
-                parsererror = "found token ${currentToken1522} unexpectedly in node 1522, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1522 unexpectedly in node 1522, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66238,7 +66236,7 @@ public fun close() {
                 return 1561
             }
             else -> {
-                parsererror = "found token ${currentToken1524} unexpectedly in node 1524, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1524 unexpectedly in node 1524, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66260,7 +66258,7 @@ public fun close() {
                 return 1590
             }
             else -> {
-                parsererror = "found token ${currentToken1527} unexpectedly in node 1527, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1527 unexpectedly in node 1527, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66278,7 +66276,7 @@ public fun close() {
                 return 1593
             }
             else -> {
-                parsererror = "found token ${currentToken1529} unexpectedly in node 1529, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1529 unexpectedly in node 1529, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66354,7 +66352,7 @@ public fun close() {
                 return 1606
             }
             else -> {
-                parsererror = "found stack ${currentStack1543} unexpectedly in node 1543, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1543 unexpectedly in node 1543, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66376,7 +66374,7 @@ public fun close() {
                 return 1580
             }
             else -> {
-                parsererror = "found token ${currentToken1548} unexpectedly in node 1548, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1548 unexpectedly in node 1548, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66398,7 +66396,7 @@ public fun close() {
                 return 398
             }
             else -> {
-                parsererror = "found token ${currentToken1549} unexpectedly in node 1549, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1549 unexpectedly in node 1549, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66416,7 +66414,7 @@ public fun close() {
                 return 1620
             }
             else -> {
-                parsererror = "found token ${currentToken1551} unexpectedly in node 1551, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1551 unexpectedly in node 1551, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66444,7 +66442,7 @@ public fun close() {
                 return 371
             }
             else -> {
-                parsererror = "found stack ${currentStack1559} unexpectedly in node 1559, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1559 unexpectedly in node 1559, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66477,7 +66475,7 @@ public fun close() {
                 return 235
             }
             else -> {
-                parsererror = "found stack ${currentStack1563} unexpectedly in node 1563, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1563 unexpectedly in node 1563, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66510,7 +66508,7 @@ public fun close() {
                 return 294
             }
             else -> {
-                parsererror = "found stack ${currentStack1565} unexpectedly in node 1565, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1565 unexpectedly in node 1565, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66534,7 +66532,7 @@ public fun close() {
                 return 1610
             }
             else -> {
-                parsererror = "found token ${currentToken1576} unexpectedly in node 1576, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1576 unexpectedly in node 1576, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66551,7 +66549,7 @@ public fun close() {
                 return 1639
             }
             else -> {
-                parsererror = "found stack ${currentStack1577} unexpectedly in node 1577, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1577 unexpectedly in node 1577, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66571,7 +66569,7 @@ public fun close() {
                 return 1641
             }
             else -> {
-                parsererror = "found stack ${currentStack1578} unexpectedly in node 1578, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1578 unexpectedly in node 1578, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66591,7 +66589,7 @@ public fun close() {
                 return 1642
             }
             else -> {
-                parsererror = "found stack ${currentStack1579} unexpectedly in node 1579, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1579 unexpectedly in node 1579, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66618,7 +66616,7 @@ public fun close() {
                 return 1619
             }
             else -> {
-                parsererror = "found token ${currentToken1582} unexpectedly in node 1582, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1582 unexpectedly in node 1582, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66636,7 +66634,7 @@ public fun close() {
                 return 1508
             }
             else -> {
-                parsererror = "found token ${currentToken1584} unexpectedly in node 1584, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1584 unexpectedly in node 1584, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66656,7 +66654,7 @@ public fun close() {
                 return 1559
             }
             else -> {
-                parsererror = "found token ${currentToken1586} unexpectedly in node 1586, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1586 unexpectedly in node 1586, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66676,7 +66674,7 @@ public fun close() {
                 return 1563
             }
             else -> {
-                parsererror = "found token ${currentToken1590} unexpectedly in node 1590, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1590 unexpectedly in node 1590, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66696,7 +66694,7 @@ public fun close() {
                 return 1565
             }
             else -> {
-                parsererror = "found token ${currentToken1593} unexpectedly in node 1593, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1593 unexpectedly in node 1593, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66713,7 +66711,7 @@ public fun close() {
                 return 1627
             }
             else -> {
-                parsererror = "found token ${currentToken1598} unexpectedly in node 1598, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1598 unexpectedly in node 1598, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66730,7 +66728,7 @@ public fun close() {
                 return 1628
             }
             else -> {
-                parsererror = "found token ${currentToken1599} unexpectedly in node 1599, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1599 unexpectedly in node 1599, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66747,7 +66745,7 @@ public fun close() {
                 return 1629
             }
             else -> {
-                parsererror = "found token ${currentToken1600} unexpectedly in node 1600, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1600 unexpectedly in node 1600, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66764,7 +66762,7 @@ public fun close() {
                 return 1630
             }
             else -> {
-                parsererror = "found token ${currentToken1601} unexpectedly in node 1601, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1601 unexpectedly in node 1601, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66781,7 +66779,7 @@ public fun close() {
                 return 1631
             }
             else -> {
-                parsererror = "found token ${currentToken1602} unexpectedly in node 1602, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1602 unexpectedly in node 1602, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66798,7 +66796,7 @@ public fun close() {
                 return 1632
             }
             else -> {
-                parsererror = "found token ${currentToken1603} unexpectedly in node 1603, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1603 unexpectedly in node 1603, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66815,7 +66813,7 @@ public fun close() {
                 return 1633
             }
             else -> {
-                parsererror = "found token ${currentToken1604} unexpectedly in node 1604, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1604 unexpectedly in node 1604, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66832,7 +66830,7 @@ public fun close() {
                 return 1634
             }
             else -> {
-                parsererror = "found token ${currentToken1605} unexpectedly in node 1605, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1605 unexpectedly in node 1605, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66851,7 +66849,7 @@ public fun close() {
                 return 1647
             }
             else -> {
-                parsererror = "found token ${currentToken1606} unexpectedly in node 1606, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1606 unexpectedly in node 1606, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66878,7 +66876,7 @@ public fun close() {
                 return 1637
             }
             else -> {
-                parsererror = "found token ${currentToken1609} unexpectedly in node 1609, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1609 unexpectedly in node 1609, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66895,7 +66893,7 @@ public fun close() {
                 return 1638
             }
             else -> {
-                parsererror = "found token ${currentToken1610} unexpectedly in node 1610, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1610 unexpectedly in node 1610, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -66912,7 +66910,7 @@ public fun close() {
                 return 344
             }
             else -> {
-                parsererror = "found token ${currentToken1611} unexpectedly in node 1611, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1611 unexpectedly in node 1611, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67002,7 +67000,7 @@ public fun close() {
                 return 1645
             }
             else -> {
-                parsererror = "found token ${currentToken1634} unexpectedly in node 1634, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1634 unexpectedly in node 1634, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67019,7 +67017,7 @@ public fun close() {
                 return 1646
             }
             else -> {
-                parsererror = "found token ${currentToken1635} unexpectedly in node 1635, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1635 unexpectedly in node 1635, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67048,7 +67046,7 @@ public fun close() {
                 return 498
             }
             else -> {
-                parsererror = "found stack ${currentStack1639} unexpectedly in node 1639, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1639 unexpectedly in node 1639, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67067,7 +67065,7 @@ public fun close() {
                 return 1641
             }
             else -> {
-                parsererror = "found token ${currentToken1640} unexpectedly in node 1640, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1640 unexpectedly in node 1640, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67092,7 +67090,7 @@ public fun close() {
                 return 1641
             }
             else -> {
-                parsererror = "found token ${currentToken1642} unexpectedly in node 1642, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1642 unexpectedly in node 1642, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67111,7 +67109,7 @@ public fun close() {
                 return 1660
             }
             else -> {
-                parsererror = "found token ${currentToken1643} unexpectedly in node 1643, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1643 unexpectedly in node 1643, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67141,7 +67139,7 @@ public fun close() {
                 return 1662
             }
             else -> {
-                parsererror = "found stack ${currentStack1647} unexpectedly in node 1647, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1647 unexpectedly in node 1647, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67159,7 +67157,7 @@ public fun close() {
                 return 1659
             }
             else -> {
-                parsererror = "found token ${currentToken1648} unexpectedly in node 1648, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1648 unexpectedly in node 1648, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67188,7 +67186,7 @@ public fun close() {
                 return 1661
             }
             else -> {
-                parsererror = "found token ${currentToken1655} unexpectedly in node 1655, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1655 unexpectedly in node 1655, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67212,7 +67210,7 @@ public fun close() {
                 return 1666
             }
             else -> {
-                parsererror = "found token ${currentToken1659} unexpectedly in node 1659, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1659 unexpectedly in node 1659, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67241,7 +67239,7 @@ public fun close() {
                 return 1668
             }
             else -> {
-                parsererror = "found token ${currentToken1662} unexpectedly in node 1662, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1662 unexpectedly in node 1662, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67258,7 +67256,7 @@ public fun close() {
                 return 1667
             }
             else -> {
-                parsererror = "found token ${currentToken1664} unexpectedly in node 1664, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1664 unexpectedly in node 1664, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67277,7 +67275,7 @@ public fun close() {
                 return 657
             }
             else -> {
-                parsererror = "found token ${currentToken1666} unexpectedly in node 1666, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1666 unexpectedly in node 1666, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67629,7 +67627,7 @@ public fun close() {
                 return 1825
             }
             else -> {
-                parsererror = "found stack ${currentStack1672} unexpectedly in node 1672, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1672 unexpectedly in node 1672, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67647,7 +67645,7 @@ public fun close() {
                 return 1133
             }
             else -> {
-                parsererror = "found token ${currentToken1687} unexpectedly in node 1687, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1687 unexpectedly in node 1687, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67664,7 +67662,7 @@ public fun close() {
                 return 1826
             }
             else -> {
-                parsererror = "found token ${currentToken1751} unexpectedly in node 1751, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1751 unexpectedly in node 1751, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67681,7 +67679,7 @@ public fun close() {
                 return 1827
             }
             else -> {
-                parsererror = "found token ${currentToken1752} unexpectedly in node 1752, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1752 unexpectedly in node 1752, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67698,7 +67696,7 @@ public fun close() {
                 return 1828
             }
             else -> {
-                parsererror = "found token ${currentToken1753} unexpectedly in node 1753, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1753 unexpectedly in node 1753, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67715,7 +67713,7 @@ public fun close() {
                 return 1829
             }
             else -> {
-                parsererror = "found token ${currentToken1754} unexpectedly in node 1754, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1754 unexpectedly in node 1754, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67732,7 +67730,7 @@ public fun close() {
                 return 1830
             }
             else -> {
-                parsererror = "found token ${currentToken1755} unexpectedly in node 1755, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1755 unexpectedly in node 1755, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67749,7 +67747,7 @@ public fun close() {
                 return 1831
             }
             else -> {
-                parsererror = "found token ${currentToken1756} unexpectedly in node 1756, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1756 unexpectedly in node 1756, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67768,7 +67766,7 @@ public fun close() {
                 return 1548
             }
             else -> {
-                parsererror = "found token ${currentToken1757} unexpectedly in node 1757, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1757 unexpectedly in node 1757, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67785,7 +67783,7 @@ public fun close() {
                 return 1834
             }
             else -> {
-                parsererror = "found token ${currentToken1758} unexpectedly in node 1758, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1758 unexpectedly in node 1758, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67802,7 +67800,7 @@ public fun close() {
                 return 1835
             }
             else -> {
-                parsererror = "found token ${currentToken1759} unexpectedly in node 1759, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1759 unexpectedly in node 1759, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67819,7 +67817,7 @@ public fun close() {
                 return 1836
             }
             else -> {
-                parsererror = "found token ${currentToken1760} unexpectedly in node 1760, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1760 unexpectedly in node 1760, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67836,7 +67834,7 @@ public fun close() {
                 return 1837
             }
             else -> {
-                parsererror = "found token ${currentToken1761} unexpectedly in node 1761, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1761 unexpectedly in node 1761, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67853,7 +67851,7 @@ public fun close() {
                 return 1838
             }
             else -> {
-                parsererror = "found token ${currentToken1762} unexpectedly in node 1762, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1762 unexpectedly in node 1762, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67870,7 +67868,7 @@ public fun close() {
                 return 1839
             }
             else -> {
-                parsererror = "found token ${currentToken1763} unexpectedly in node 1763, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1763 unexpectedly in node 1763, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67887,7 +67885,7 @@ public fun close() {
                 return 1840
             }
             else -> {
-                parsererror = "found token ${currentToken1764} unexpectedly in node 1764, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1764 unexpectedly in node 1764, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67904,7 +67902,7 @@ public fun close() {
                 return 1841
             }
             else -> {
-                parsererror = "found token ${currentToken1765} unexpectedly in node 1765, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1765 unexpectedly in node 1765, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67921,7 +67919,7 @@ public fun close() {
                 return 1842
             }
             else -> {
-                parsererror = "found token ${currentToken1766} unexpectedly in node 1766, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1766 unexpectedly in node 1766, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67938,7 +67936,7 @@ public fun close() {
                 return 1843
             }
             else -> {
-                parsererror = "found token ${currentToken1767} unexpectedly in node 1767, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1767 unexpectedly in node 1767, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67955,7 +67953,7 @@ public fun close() {
                 return 1844
             }
             else -> {
-                parsererror = "found token ${currentToken1768} unexpectedly in node 1768, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1768 unexpectedly in node 1768, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67974,7 +67972,7 @@ public fun close() {
                 return 1910
             }
             else -> {
-                parsererror = "found token ${currentToken1769} unexpectedly in node 1769, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1769 unexpectedly in node 1769, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -67991,7 +67989,7 @@ public fun close() {
                 return 1847
             }
             else -> {
-                parsererror = "found token ${currentToken1770} unexpectedly in node 1770, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1770 unexpectedly in node 1770, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68010,7 +68008,7 @@ public fun close() {
                 return 1772
             }
             else -> {
-                parsererror = "found token ${currentToken1771} unexpectedly in node 1771, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1771 unexpectedly in node 1771, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68027,7 +68025,7 @@ public fun close() {
                 return 1850
             }
             else -> {
-                parsererror = "found token ${currentToken1772} unexpectedly in node 1772, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1772 unexpectedly in node 1772, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68044,7 +68042,7 @@ public fun close() {
                 return 1851
             }
             else -> {
-                parsererror = "found token ${currentToken1773} unexpectedly in node 1773, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1773 unexpectedly in node 1773, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68061,7 +68059,7 @@ public fun close() {
                 return 1852
             }
             else -> {
-                parsererror = "found token ${currentToken1774} unexpectedly in node 1774, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1774 unexpectedly in node 1774, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68078,7 +68076,7 @@ public fun close() {
                 return 1853
             }
             else -> {
-                parsererror = "found token ${currentToken1775} unexpectedly in node 1775, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1775 unexpectedly in node 1775, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68097,7 +68095,7 @@ public fun close() {
                 return 1777
             }
             else -> {
-                parsererror = "found token ${currentToken1776} unexpectedly in node 1776, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1776 unexpectedly in node 1776, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68114,7 +68112,7 @@ public fun close() {
                 return 1856
             }
             else -> {
-                parsererror = "found token ${currentToken1777} unexpectedly in node 1777, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1777 unexpectedly in node 1777, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68131,7 +68129,7 @@ public fun close() {
                 return 1857
             }
             else -> {
-                parsererror = "found token ${currentToken1778} unexpectedly in node 1778, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1778 unexpectedly in node 1778, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68148,7 +68146,7 @@ public fun close() {
                 return 1858
             }
             else -> {
-                parsererror = "found token ${currentToken1779} unexpectedly in node 1779, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1779 unexpectedly in node 1779, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68165,7 +68163,7 @@ public fun close() {
                 return 1859
             }
             else -> {
-                parsererror = "found token ${currentToken1780} unexpectedly in node 1780, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1780 unexpectedly in node 1780, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68182,7 +68180,7 @@ public fun close() {
                 return 1860
             }
             else -> {
-                parsererror = "found token ${currentToken1781} unexpectedly in node 1781, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1781 unexpectedly in node 1781, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68199,7 +68197,7 @@ public fun close() {
                 return 1861
             }
             else -> {
-                parsererror = "found token ${currentToken1782} unexpectedly in node 1782, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1782 unexpectedly in node 1782, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68216,7 +68214,7 @@ public fun close() {
                 return 1862
             }
             else -> {
-                parsererror = "found token ${currentToken1783} unexpectedly in node 1783, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1783 unexpectedly in node 1783, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68233,7 +68231,7 @@ public fun close() {
                 return 1863
             }
             else -> {
-                parsererror = "found token ${currentToken1784} unexpectedly in node 1784, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1784 unexpectedly in node 1784, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68250,7 +68248,7 @@ public fun close() {
                 return 1864
             }
             else -> {
-                parsererror = "found token ${currentToken1785} unexpectedly in node 1785, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1785 unexpectedly in node 1785, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68267,7 +68265,7 @@ public fun close() {
                 return 1865
             }
             else -> {
-                parsererror = "found token ${currentToken1786} unexpectedly in node 1786, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1786 unexpectedly in node 1786, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68284,7 +68282,7 @@ public fun close() {
                 return 1866
             }
             else -> {
-                parsererror = "found token ${currentToken1787} unexpectedly in node 1787, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1787 unexpectedly in node 1787, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68301,7 +68299,7 @@ public fun close() {
                 return 1867
             }
             else -> {
-                parsererror = "found token ${currentToken1788} unexpectedly in node 1788, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1788 unexpectedly in node 1788, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68318,7 +68316,7 @@ public fun close() {
                 return 1868
             }
             else -> {
-                parsererror = "found token ${currentToken1789} unexpectedly in node 1789, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1789 unexpectedly in node 1789, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68335,7 +68333,7 @@ public fun close() {
                 return 1869
             }
             else -> {
-                parsererror = "found token ${currentToken1790} unexpectedly in node 1790, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1790 unexpectedly in node 1790, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68352,7 +68350,7 @@ public fun close() {
                 return 1870
             }
             else -> {
-                parsererror = "found token ${currentToken1791} unexpectedly in node 1791, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1791 unexpectedly in node 1791, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68369,7 +68367,7 @@ public fun close() {
                 return 1871
             }
             else -> {
-                parsererror = "found token ${currentToken1792} unexpectedly in node 1792, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1792 unexpectedly in node 1792, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68386,7 +68384,7 @@ public fun close() {
                 return 1872
             }
             else -> {
-                parsererror = "found token ${currentToken1793} unexpectedly in node 1793, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1793 unexpectedly in node 1793, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68403,7 +68401,7 @@ public fun close() {
                 return 1873
             }
             else -> {
-                parsererror = "found token ${currentToken1794} unexpectedly in node 1794, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1794 unexpectedly in node 1794, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68420,7 +68418,7 @@ public fun close() {
                 return 1874
             }
             else -> {
-                parsererror = "found token ${currentToken1795} unexpectedly in node 1795, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1795 unexpectedly in node 1795, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68437,7 +68435,7 @@ public fun close() {
                 return 1875
             }
             else -> {
-                parsererror = "found token ${currentToken1796} unexpectedly in node 1796, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1796 unexpectedly in node 1796, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68454,7 +68452,7 @@ public fun close() {
                 return 1876
             }
             else -> {
-                parsererror = "found token ${currentToken1797} unexpectedly in node 1797, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1797 unexpectedly in node 1797, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68471,7 +68469,7 @@ public fun close() {
                 return 1877
             }
             else -> {
-                parsererror = "found token ${currentToken1798} unexpectedly in node 1798, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1798 unexpectedly in node 1798, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68488,7 +68486,7 @@ public fun close() {
                 return 1878
             }
             else -> {
-                parsererror = "found token ${currentToken1799} unexpectedly in node 1799, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1799 unexpectedly in node 1799, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68505,7 +68503,7 @@ public fun close() {
                 return 1879
             }
             else -> {
-                parsererror = "found token ${currentToken1800} unexpectedly in node 1800, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1800 unexpectedly in node 1800, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68522,7 +68520,7 @@ public fun close() {
                 return 1880
             }
             else -> {
-                parsererror = "found token ${currentToken1801} unexpectedly in node 1801, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1801 unexpectedly in node 1801, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68539,7 +68537,7 @@ public fun close() {
                 return 1881
             }
             else -> {
-                parsererror = "found token ${currentToken1802} unexpectedly in node 1802, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1802 unexpectedly in node 1802, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68556,7 +68554,7 @@ public fun close() {
                 return 1882
             }
             else -> {
-                parsererror = "found token ${currentToken1803} unexpectedly in node 1803, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1803 unexpectedly in node 1803, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68573,7 +68571,7 @@ public fun close() {
                 return 1883
             }
             else -> {
-                parsererror = "found token ${currentToken1804} unexpectedly in node 1804, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1804 unexpectedly in node 1804, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68590,7 +68588,7 @@ public fun close() {
                 return 1884
             }
             else -> {
-                parsererror = "found token ${currentToken1805} unexpectedly in node 1805, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1805 unexpectedly in node 1805, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68607,7 +68605,7 @@ public fun close() {
                 return 1885
             }
             else -> {
-                parsererror = "found token ${currentToken1806} unexpectedly in node 1806, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1806 unexpectedly in node 1806, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68624,7 +68622,7 @@ public fun close() {
                 return 1886
             }
             else -> {
-                parsererror = "found token ${currentToken1807} unexpectedly in node 1807, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1807 unexpectedly in node 1807, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68641,7 +68639,7 @@ public fun close() {
                 return 1887
             }
             else -> {
-                parsererror = "found token ${currentToken1808} unexpectedly in node 1808, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1808 unexpectedly in node 1808, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68658,7 +68656,7 @@ public fun close() {
                 return 1888
             }
             else -> {
-                parsererror = "found token ${currentToken1809} unexpectedly in node 1809, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1809 unexpectedly in node 1809, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68675,7 +68673,7 @@ public fun close() {
                 return 1889
             }
             else -> {
-                parsererror = "found token ${currentToken1810} unexpectedly in node 1810, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1810 unexpectedly in node 1810, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68692,7 +68690,7 @@ public fun close() {
                 return 1890
             }
             else -> {
-                parsererror = "found token ${currentToken1811} unexpectedly in node 1811, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1811 unexpectedly in node 1811, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68709,7 +68707,7 @@ public fun close() {
                 return 1891
             }
             else -> {
-                parsererror = "found token ${currentToken1812} unexpectedly in node 1812, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1812 unexpectedly in node 1812, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68726,7 +68724,7 @@ public fun close() {
                 return 1892
             }
             else -> {
-                parsererror = "found token ${currentToken1813} unexpectedly in node 1813, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1813 unexpectedly in node 1813, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68743,7 +68741,7 @@ public fun close() {
                 return 1893
             }
             else -> {
-                parsererror = "found token ${currentToken1814} unexpectedly in node 1814, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1814 unexpectedly in node 1814, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68760,7 +68758,7 @@ public fun close() {
                 return 1894
             }
             else -> {
-                parsererror = "found token ${currentToken1815} unexpectedly in node 1815, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1815 unexpectedly in node 1815, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68777,7 +68775,7 @@ public fun close() {
                 return 1895
             }
             else -> {
-                parsererror = "found token ${currentToken1816} unexpectedly in node 1816, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1816 unexpectedly in node 1816, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68794,7 +68792,7 @@ public fun close() {
                 return 1896
             }
             else -> {
-                parsererror = "found token ${currentToken1817} unexpectedly in node 1817, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1817 unexpectedly in node 1817, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68811,7 +68809,7 @@ public fun close() {
                 return 1897
             }
             else -> {
-                parsererror = "found token ${currentToken1818} unexpectedly in node 1818, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1818 unexpectedly in node 1818, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68830,7 +68828,7 @@ public fun close() {
                 return 1820
             }
             else -> {
-                parsererror = "found token ${currentToken1819} unexpectedly in node 1819, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1819 unexpectedly in node 1819, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68847,7 +68845,7 @@ public fun close() {
                 return 1900
             }
             else -> {
-                parsererror = "found token ${currentToken1820} unexpectedly in node 1820, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1820 unexpectedly in node 1820, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68866,7 +68864,7 @@ public fun close() {
                 return 1915
             }
             else -> {
-                parsererror = "found token ${currentToken1821} unexpectedly in node 1821, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1821 unexpectedly in node 1821, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68885,7 +68883,7 @@ public fun close() {
                 return 374
             }
             else -> {
-                parsererror = "found token ${currentToken1822} unexpectedly in node 1822, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1822 unexpectedly in node 1822, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68902,7 +68900,7 @@ public fun close() {
                 return 1905
             }
             else -> {
-                parsererror = "found token ${currentToken1823} unexpectedly in node 1823, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1823 unexpectedly in node 1823, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68919,7 +68917,7 @@ public fun close() {
                 return 1906
             }
             else -> {
-                parsererror = "found token ${currentToken1824} unexpectedly in node 1824, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1824 unexpectedly in node 1824, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68936,7 +68934,7 @@ public fun close() {
                 return 1907
             }
             else -> {
-                parsererror = "found token ${currentToken1825} unexpectedly in node 1825, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1825 unexpectedly in node 1825, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68952,7 +68950,7 @@ public fun close() {
                 return 549
             }
             else -> {
-                parsererror = "found stack ${currentStack1826} unexpectedly in node 1826, at position ${bufferDefinedPosition}"
+                parsererror = "found stack $currentStack1826 unexpectedly in node 1826, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -68989,7 +68987,7 @@ public fun close() {
                 return 1908
             }
             else -> {
-                parsererror = "found token ${currentToken1832} unexpectedly in node 1832, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1832 unexpectedly in node 1832, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69052,7 +69050,7 @@ public fun close() {
                 return 1909
             }
             else -> {
-                parsererror = "found token ${currentToken1845} unexpectedly in node 1845, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1845 unexpectedly in node 1845, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69075,7 +69073,7 @@ public fun close() {
                 return 1911
             }
             else -> {
-                parsererror = "found token ${currentToken1848} unexpectedly in node 1848, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1848 unexpectedly in node 1848, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69112,7 +69110,7 @@ public fun close() {
                 return 1912
             }
             else -> {
-                parsererror = "found token ${currentToken1854} unexpectedly in node 1854, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1854 unexpectedly in node 1854, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69319,7 +69317,7 @@ public fun close() {
                 return 1913
             }
             else -> {
-                parsererror = "found token ${currentToken1898} unexpectedly in node 1898, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1898 unexpectedly in node 1898, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69340,7 +69338,7 @@ public fun close() {
                 return 1914
             }
             else -> {
-                parsererror = "found token ${currentToken1901} unexpectedly in node 1901, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1901 unexpectedly in node 1901, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69357,7 +69355,7 @@ public fun close() {
                 return 1916
             }
             else -> {
-                parsererror = "found token ${currentToken1903} unexpectedly in node 1903, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1903 unexpectedly in node 1903, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69389,7 +69387,7 @@ public fun close() {
                 return 1917
             }
             else -> {
-                parsererror = "found token ${currentToken1908} unexpectedly in node 1908, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1908 unexpectedly in node 1908, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69412,7 +69410,7 @@ public fun close() {
                 return 997
             }
             else -> {
-                parsererror = "found token ${currentToken1910} unexpectedly in node 1910, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1910 unexpectedly in node 1910, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69453,7 +69451,7 @@ public fun close() {
                 return 1001
             }
             else -> {
-                parsererror = "found token ${currentToken1915} unexpectedly in node 1915, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1915 unexpectedly in node 1915, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69475,7 +69473,7 @@ public fun close() {
                 return 1918
             }
             else -> {
-                parsererror = "found token ${currentToken1917} unexpectedly in node 1917, at position ${bufferDefinedPosition}"
+                parsererror = "found token $currentToken1917 unexpectedly in node 1917, at position $bufferDefinedPosition"
                 return -1
             }
         }
@@ -69485,7 +69483,7 @@ public fun close() {
         parserDefinedStackPosition = (parserDefinedStackPosition + 1)
         return 754
     }
-    public fun parserDefinedParse(): Unit {
+    public fun parserDefinedParse() {
         var node: Int = 0
         while ((node >= 0)) {
             when (node) {
@@ -73284,2733 +73282,2733 @@ public fun close() {
             TODO(parsererror!!)
         }
     }
-    private fun userCode0(): Unit {
+    private fun userCode0() {
         stack.add(allocASTSparqlDoc())
     }
-    private fun userCode1(): Unit {
+    private fun userCode1() {
         val tmp430: Any = stack.removeLast()
         astAssign_ASTSparqlDoc_0((stack.last() as ASTSparqlDoc), tmp430)
     }
-    private fun userCode2(): Unit {
+    private fun userCode2() {
         stack.add(allocASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional())
     }
-    private fun userCode3(): Unit {
+    private fun userCode3() {
         val tmp422: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional_0((stack.last() as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional), tmp422)
     }
-    private fun userCode4(): Unit {
+    private fun userCode4() {
         stack.add(allocASTValuesClauseOptional())
     }
-    private fun userCode5(): Unit {
+    private fun userCode5() {
         val tmp421: Any = stack.removeLast()
         astAssign_ASTValuesClauseOptional_0((stack.last() as ASTValuesClauseOptional), tmp421)
     }
-    private fun userCode6(): Unit {
+    private fun userCode6() {
         val tmp423: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional_1((stack.last() as ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional), tmp423)
     }
-    private fun userCode7(): Unit {
+    private fun userCode7() {
         stack.add(allocASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional())
     }
-    private fun userCode8(): Unit {
+    private fun userCode8() {
         stack.add(allocASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional())
     }
-    private fun userCode9(): Unit {
+    private fun userCode9() {
         val tmp427: Any = stack.removeLast()
         astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_0((stack.last() as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional), tmp427)
     }
-    private fun userCode10(): Unit {
+    private fun userCode10() {
         stack.add(allocASTClassOfPrologueAndUpdateOptional())
     }
-    private fun userCode11(): Unit {
+    private fun userCode11() {
         stack.add(allocASTClassOfPrologueAndUpdate())
     }
-    private fun userCode12(): Unit {
+    private fun userCode12() {
         val tmp424: Any = stack.removeLast()
         astAssign_ASTClassOfPrologueAndUpdate_0((stack.last() as ASTClassOfPrologueAndUpdate), tmp424)
     }
-    private fun userCode13(): Unit {
+    private fun userCode13() {
         val tmp425: Any = stack.removeLast()
         astAssign_ASTClassOfPrologueAndUpdate_1((stack.last() as ASTClassOfPrologueAndUpdate), tmp425)
     }
-    private fun userCode14(): Unit {
+    private fun userCode14() {
         val tmp426: Any = stack.removeLast()
         astAssign_ASTClassOfPrologueAndUpdateOptional_0((stack.last() as ASTClassOfPrologueAndUpdateOptional), tmp426)
     }
-    private fun userCode15(): Unit {
+    private fun userCode15() {
         val tmp428: Any = stack.removeLast()
         astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_1((stack.last() as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional), tmp428)
     }
-    private fun userCode16(): Unit {
+    private fun userCode16() {
         val tmp429: Any = stack.removeLast()
         astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional_0((stack.last() as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional), tmp429)
     }
-    private fun userCode17(): Unit {
+    private fun userCode17() {
         val tmp431: Any = stack.removeLast()
         astAssign_ASTSparqlDoc_1((stack.last() as ASTSparqlDoc), tmp431)
     }
-    private fun userCode18(): Unit {
+    private fun userCode18() {
         stack.add(allocASTUpdate())
     }
-    private fun userCode19(): Unit {
+    private fun userCode19() {
         stack.add(allocASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional())
     }
-    private fun userCode20(): Unit {
+    private fun userCode20() {
         val tmp435: Any = stack.removeLast()
         astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_0((stack.last() as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional), tmp435)
     }
-    private fun userCode21(): Unit {
+    private fun userCode21() {
         stack.add(allocASTClassOfPrologueAndUpdateOptional())
     }
-    private fun userCode22(): Unit {
+    private fun userCode22() {
         stack.add(allocASTClassOfPrologueAndUpdate())
     }
-    private fun userCode23(): Unit {
+    private fun userCode23() {
         val tmp432: Any = stack.removeLast()
         astAssign_ASTClassOfPrologueAndUpdate_0((stack.last() as ASTClassOfPrologueAndUpdate), tmp432)
     }
-    private fun userCode24(): Unit {
+    private fun userCode24() {
         val tmp433: Any = stack.removeLast()
         astAssign_ASTClassOfPrologueAndUpdate_1((stack.last() as ASTClassOfPrologueAndUpdate), tmp433)
     }
-    private fun userCode25(): Unit {
+    private fun userCode25() {
         val tmp434: Any = stack.removeLast()
         astAssign_ASTClassOfPrologueAndUpdateOptional_0((stack.last() as ASTClassOfPrologueAndUpdateOptional), tmp434)
     }
-    private fun userCode26(): Unit {
+    private fun userCode26() {
         val tmp436: Any = stack.removeLast()
         astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_1((stack.last() as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional), tmp436)
     }
-    private fun userCode27(): Unit {
+    private fun userCode27() {
         val tmp437: Any = stack.removeLast()
         astAssign_ASTUpdate_0((stack.last() as ASTUpdate), tmp437)
     }
-    private fun userCode28(): Unit {
+    private fun userCode28() {
         stack.add(allocASTPrologue())
     }
-    private fun userCode29(): Unit {
+    private fun userCode29() {
         val tmp438: Any = stack.removeLast()
         astAssign_ASTPrologue_0((stack.last() as ASTPrologue), tmp438)
     }
-    private fun userCode30(): Unit {
+    private fun userCode30() {
         stack.add(allocASTBaseDecl())
     }
-    private fun userCode31(): Unit {
+    private fun userCode31() {
         stack.add(getLastTokenString())
     }
-    private fun userCode32(): Unit {
+    private fun userCode32() {
         val tmp439: Any = stack.removeLast()
         astAssign_ASTBaseDecl_0((stack.last() as ASTBaseDecl), tmp439)
     }
-    private fun userCode33(): Unit {
+    private fun userCode33() {
         stack.add(allocASTPrefixDecl())
     }
-    private fun userCode34(): Unit {
+    private fun userCode34() {
         stack.add(getLastTokenString())
     }
-    private fun userCode35(): Unit {
+    private fun userCode35() {
         val tmp440: Any = stack.removeLast()
         astAssign_ASTPrefixDecl_0((stack.last() as ASTPrefixDecl), tmp440)
     }
-    private fun userCode36(): Unit {
+    private fun userCode36() {
         stack.add(getLastTokenString())
     }
-    private fun userCode37(): Unit {
+    private fun userCode37() {
         val tmp441: Any = stack.removeLast()
         astAssign_ASTPrefixDecl_1((stack.last() as ASTPrefixDecl), tmp441)
     }
-    private fun userCode38(): Unit {
+    private fun userCode38() {
         stack.add(allocASTSelectQuery())
     }
-    private fun userCode39(): Unit {
+    private fun userCode39() {
         val tmp443: Any = stack.removeLast()
         astAssign_ASTSelectQuery_0((stack.last() as ASTSelectQuery), tmp443)
     }
-    private fun userCode40(): Unit {
+    private fun userCode40() {
         stack.add(allocASTListOfDatasetClause())
     }
-    private fun userCode41(): Unit {
+    private fun userCode41() {
         val tmp442: Any = stack.removeLast()
         astAssign_ASTListOfDatasetClause_0((stack.last() as ASTListOfDatasetClause), tmp442)
     }
-    private fun userCode42(): Unit {
+    private fun userCode42() {
         val tmp444: Any = stack.removeLast()
         astAssign_ASTSelectQuery_1((stack.last() as ASTSelectQuery), tmp444)
     }
-    private fun userCode43(): Unit {
+    private fun userCode43() {
         val tmp445: Any = stack.removeLast()
         astAssign_ASTSelectQuery_2((stack.last() as ASTSelectQuery), tmp445)
     }
-    private fun userCode44(): Unit {
+    private fun userCode44() {
         val tmp446: Any = stack.removeLast()
         astAssign_ASTSelectQuery_3((stack.last() as ASTSelectQuery), tmp446)
     }
-    private fun userCode45(): Unit {
+    private fun userCode45() {
         stack.add(allocASTSubSelect())
     }
-    private fun userCode46(): Unit {
+    private fun userCode46() {
         val tmp448: Any = stack.removeLast()
         astAssign_ASTSubSelect_0((stack.last() as ASTSubSelect), tmp448)
     }
-    private fun userCode47(): Unit {
+    private fun userCode47() {
         val tmp449: Any = stack.removeLast()
         astAssign_ASTSubSelect_1((stack.last() as ASTSubSelect), tmp449)
     }
-    private fun userCode48(): Unit {
+    private fun userCode48() {
         val tmp450: Any = stack.removeLast()
         astAssign_ASTSubSelect_2((stack.last() as ASTSubSelect), tmp450)
     }
-    private fun userCode49(): Unit {
+    private fun userCode49() {
         stack.add(allocASTValuesClauseOptional())
     }
-    private fun userCode50(): Unit {
+    private fun userCode50() {
         val tmp447: Any = stack.removeLast()
         astAssign_ASTValuesClauseOptional_0((stack.last() as ASTValuesClauseOptional), tmp447)
     }
-    private fun userCode51(): Unit {
+    private fun userCode51() {
         val tmp451: Any = stack.removeLast()
         astAssign_ASTSubSelect_3((stack.last() as ASTSubSelect), tmp451)
     }
-    private fun userCode52(): Unit {
+    private fun userCode52() {
         stack.add(allocASTSelectClause())
     }
-    private fun userCode53(): Unit {
+    private fun userCode53() {
         stack.add("DISTINCT")
     }
-    private fun userCode54(): Unit {
+    private fun userCode54() {
         stack.add("REDUCED")
     }
-    private fun userCode55(): Unit {
+    private fun userCode55() {
         val tmp455: Any = stack.removeLast()
         astAssign_ASTSelectClause_0((stack.last() as ASTSelectClause), tmp455)
     }
-    private fun userCode56(): Unit {
+    private fun userCode56() {
         stack.add(allocASTListOfInterfaceOfVarOrClassOfExpressionAndVar())
     }
-    private fun userCode57(): Unit {
+    private fun userCode57() {
         stack.add(allocASTClassOfExpressionAndVar())
     }
-    private fun userCode58(): Unit {
+    private fun userCode58() {
         val tmp452: Any = stack.removeLast()
         astAssign_ASTClassOfExpressionAndVar_0((stack.last() as ASTClassOfExpressionAndVar), tmp452)
     }
-    private fun userCode59(): Unit {
+    private fun userCode59() {
         val tmp453: Any = stack.removeLast()
         astAssign_ASTClassOfExpressionAndVar_1((stack.last() as ASTClassOfExpressionAndVar), tmp453)
     }
-    private fun userCode60(): Unit {
+    private fun userCode60() {
         val tmp454: Any = stack.removeLast()
         astAssign_ASTListOfInterfaceOfVarOrClassOfExpressionAndVar_0((stack.last() as ASTListOfInterfaceOfVarOrClassOfExpressionAndVar), tmp454)
     }
-    private fun userCode61(): Unit {
+    private fun userCode61() {
         val tmp456: Any = stack.removeLast()
         astAssign_ASTSelectClause_1((stack.last() as ASTSelectClause), tmp456)
     }
-    private fun userCode62(): Unit {
+    private fun userCode62() {
         stack.add(allocASTSelectClauseAll())
     }
-    private fun userCode63(): Unit {
+    private fun userCode63() {
         stack.add(allocASTConstructQuery())
     }
-    private fun userCode64(): Unit {
+    private fun userCode64() {
         stack.add(allocASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier())
     }
-    private fun userCode65(): Unit {
+    private fun userCode65() {
         val tmp458: Any = stack.removeLast()
         astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_0((stack.last() as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier), tmp458)
     }
-    private fun userCode66(): Unit {
+    private fun userCode66() {
         stack.add(allocASTListOfDatasetClause())
     }
-    private fun userCode67(): Unit {
+    private fun userCode67() {
         val tmp457: Any = stack.removeLast()
         astAssign_ASTListOfDatasetClause_0((stack.last() as ASTListOfDatasetClause), tmp457)
     }
-    private fun userCode68(): Unit {
+    private fun userCode68() {
         val tmp459: Any = stack.removeLast()
         astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_1((stack.last() as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier), tmp459)
     }
-    private fun userCode69(): Unit {
+    private fun userCode69() {
         val tmp460: Any = stack.removeLast()
         astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_2((stack.last() as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier), tmp460)
     }
-    private fun userCode70(): Unit {
+    private fun userCode70() {
         val tmp461: Any = stack.removeLast()
         astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_3((stack.last() as ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier), tmp461)
     }
-    private fun userCode71(): Unit {
+    private fun userCode71() {
         stack.add(allocASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier())
     }
-    private fun userCode72(): Unit {
+    private fun userCode72() {
         stack.add(allocASTListOfDatasetClause())
     }
-    private fun userCode73(): Unit {
+    private fun userCode73() {
         val tmp462: Any = stack.removeLast()
         astAssign_ASTListOfDatasetClause_0((stack.last() as ASTListOfDatasetClause), tmp462)
     }
-    private fun userCode74(): Unit {
+    private fun userCode74() {
         val tmp463: Any = stack.removeLast()
         astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_0((stack.last() as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier), tmp463)
     }
-    private fun userCode75(): Unit {
+    private fun userCode75() {
         val tmp464: Any = stack.removeLast()
         astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_1((stack.last() as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier), tmp464)
     }
-    private fun userCode76(): Unit {
+    private fun userCode76() {
         val tmp465: Any = stack.removeLast()
         astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_2((stack.last() as ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier), tmp465)
     }
-    private fun userCode77(): Unit {
+    private fun userCode77() {
         val tmp466: Any = stack.removeLast()
         astAssign_ASTConstructQuery_0((stack.last() as ASTConstructQuery), tmp466)
     }
-    private fun userCode78(): Unit {
+    private fun userCode78() {
         stack.add(allocASTDescribeQuery())
     }
-    private fun userCode79(): Unit {
+    private fun userCode79() {
         stack.add(allocASTListOfVarOrIri())
     }
-    private fun userCode80(): Unit {
+    private fun userCode80() {
         val tmp467: Any = stack.removeLast()
         astAssign_ASTListOfVarOrIri_0((stack.last() as ASTListOfVarOrIri), tmp467)
     }
-    private fun userCode81(): Unit {
+    private fun userCode81() {
         val tmp470: Any = stack.removeLast()
         astAssign_ASTDescribeQuery_0((stack.last() as ASTDescribeQuery), tmp470)
     }
-    private fun userCode82(): Unit {
+    private fun userCode82() {
         stack.add(allocASTListOfDatasetClause())
     }
-    private fun userCode83(): Unit {
+    private fun userCode83() {
         val tmp468: Any = stack.removeLast()
         astAssign_ASTListOfDatasetClause_0((stack.last() as ASTListOfDatasetClause), tmp468)
     }
-    private fun userCode84(): Unit {
+    private fun userCode84() {
         val tmp471: Any = stack.removeLast()
         astAssign_ASTDescribeQuery_1((stack.last() as ASTDescribeQuery), tmp471)
     }
-    private fun userCode85(): Unit {
+    private fun userCode85() {
         stack.add(allocASTWhereClauseOptional())
     }
-    private fun userCode86(): Unit {
+    private fun userCode86() {
         val tmp469: Any = stack.removeLast()
         astAssign_ASTWhereClauseOptional_0((stack.last() as ASTWhereClauseOptional), tmp469)
     }
-    private fun userCode87(): Unit {
+    private fun userCode87() {
         val tmp472: Any = stack.removeLast()
         astAssign_ASTDescribeQuery_2((stack.last() as ASTDescribeQuery), tmp472)
     }
-    private fun userCode88(): Unit {
+    private fun userCode88() {
         val tmp473: Any = stack.removeLast()
         astAssign_ASTDescribeQuery_3((stack.last() as ASTDescribeQuery), tmp473)
     }
-    private fun userCode89(): Unit {
+    private fun userCode89() {
         stack.add(allocASTDescribeQueryAll())
     }
-    private fun userCode90(): Unit {
+    private fun userCode90() {
         stack.add(allocASTAskQuery())
     }
-    private fun userCode91(): Unit {
+    private fun userCode91() {
         stack.add(allocASTListOfDatasetClause())
     }
-    private fun userCode92(): Unit {
+    private fun userCode92() {
         val tmp474: Any = stack.removeLast()
         astAssign_ASTListOfDatasetClause_0((stack.last() as ASTListOfDatasetClause), tmp474)
     }
-    private fun userCode93(): Unit {
+    private fun userCode93() {
         val tmp475: Any = stack.removeLast()
         astAssign_ASTAskQuery_0((stack.last() as ASTAskQuery), tmp475)
     }
-    private fun userCode94(): Unit {
+    private fun userCode94() {
         val tmp476: Any = stack.removeLast()
         astAssign_ASTAskQuery_1((stack.last() as ASTAskQuery), tmp476)
     }
-    private fun userCode95(): Unit {
+    private fun userCode95() {
         val tmp477: Any = stack.removeLast()
         astAssign_ASTAskQuery_2((stack.last() as ASTAskQuery), tmp477)
     }
-    private fun userCode96(): Unit {
+    private fun userCode96() {
         stack.add(allocASTDatasetClause())
     }
-    private fun userCode97(): Unit {
+    private fun userCode97() {
         val tmp478: Any = stack.removeLast()
         astAssign_ASTDatasetClause_0((stack.last() as ASTDatasetClause), tmp478)
     }
-    private fun userCode98(): Unit {
+    private fun userCode98() {
         stack.add(allocASTDefaultGraphClause())
     }
-    private fun userCode99(): Unit {
+    private fun userCode99() {
         val tmp479: Any = stack.removeLast()
         astAssign_ASTDefaultGraphClause_0((stack.last() as ASTDefaultGraphClause), tmp479)
     }
-    private fun userCode100(): Unit {
+    private fun userCode100() {
         stack.add(allocASTNamedGraphClause())
     }
-    private fun userCode101(): Unit {
+    private fun userCode101() {
         val tmp480: Any = stack.removeLast()
         astAssign_ASTNamedGraphClause_0((stack.last() as ASTNamedGraphClause), tmp480)
     }
-    private fun userCode102(): Unit {
+    private fun userCode102() {
         stack.add(allocASTSourceSelector())
     }
-    private fun userCode103(): Unit {
+    private fun userCode103() {
         val tmp481: Any = stack.removeLast()
         astAssign_ASTSourceSelector_0((stack.last() as ASTSourceSelector), tmp481)
     }
-    private fun userCode104(): Unit {
+    private fun userCode104() {
         stack.add(allocASTWhereClause())
     }
-    private fun userCode105(): Unit {
+    private fun userCode105() {
         stack.add("WHERE")
     }
-    private fun userCode106(): Unit {
+    private fun userCode106() {
         val tmp482: Any = stack.removeLast()
         astAssign_ASTWhereClause_0((stack.last() as ASTWhereClause), tmp482)
     }
-    private fun userCode107(): Unit {
+    private fun userCode107() {
         val tmp483: Any = stack.removeLast()
         astAssign_ASTWhereClause_1((stack.last() as ASTWhereClause), tmp483)
     }
-    private fun userCode108(): Unit {
+    private fun userCode108() {
         stack.add(allocASTSolutionModifier())
     }
-    private fun userCode109(): Unit {
+    private fun userCode109() {
         stack.add(allocASTGroupClauseOptional())
     }
-    private fun userCode110(): Unit {
+    private fun userCode110() {
         val tmp484: Any = stack.removeLast()
         astAssign_ASTGroupClauseOptional_0((stack.last() as ASTGroupClauseOptional), tmp484)
     }
-    private fun userCode111(): Unit {
+    private fun userCode111() {
         val tmp488: Any = stack.removeLast()
         astAssign_ASTSolutionModifier_0((stack.last() as ASTSolutionModifier), tmp488)
     }
-    private fun userCode112(): Unit {
+    private fun userCode112() {
         stack.add(allocASTHavingClauseOptional())
     }
-    private fun userCode113(): Unit {
+    private fun userCode113() {
         val tmp485: Any = stack.removeLast()
         astAssign_ASTHavingClauseOptional_0((stack.last() as ASTHavingClauseOptional), tmp485)
     }
-    private fun userCode114(): Unit {
+    private fun userCode114() {
         val tmp489: Any = stack.removeLast()
         astAssign_ASTSolutionModifier_1((stack.last() as ASTSolutionModifier), tmp489)
     }
-    private fun userCode115(): Unit {
+    private fun userCode115() {
         stack.add(allocASTOrderClauseOptional())
     }
-    private fun userCode116(): Unit {
+    private fun userCode116() {
         val tmp486: Any = stack.removeLast()
         astAssign_ASTOrderClauseOptional_0((stack.last() as ASTOrderClauseOptional), tmp486)
     }
-    private fun userCode117(): Unit {
+    private fun userCode117() {
         val tmp490: Any = stack.removeLast()
         astAssign_ASTSolutionModifier_2((stack.last() as ASTSolutionModifier), tmp490)
     }
-    private fun userCode118(): Unit {
+    private fun userCode118() {
         stack.add(allocASTLimitOffsetClausesOptional())
     }
-    private fun userCode119(): Unit {
+    private fun userCode119() {
         val tmp487: Any = stack.removeLast()
         astAssign_ASTLimitOffsetClausesOptional_0((stack.last() as ASTLimitOffsetClausesOptional), tmp487)
     }
-    private fun userCode120(): Unit {
+    private fun userCode120() {
         val tmp491: Any = stack.removeLast()
         astAssign_ASTSolutionModifier_3((stack.last() as ASTSolutionModifier), tmp491)
     }
-    private fun userCode121(): Unit {
+    private fun userCode121() {
         stack.add(allocASTGroupClause())
     }
-    private fun userCode122(): Unit {
+    private fun userCode122() {
         stack.add(allocASTListOfGroupCondition())
     }
-    private fun userCode123(): Unit {
+    private fun userCode123() {
         val tmp492: Any = stack.removeLast()
         astAssign_ASTListOfGroupCondition_0((stack.last() as ASTListOfGroupCondition), tmp492)
     }
-    private fun userCode124(): Unit {
+    private fun userCode124() {
         val tmp493: Any = stack.removeLast()
         astAssign_ASTGroupClause_0((stack.last() as ASTGroupClause), tmp493)
     }
-    private fun userCode125(): Unit {
+    private fun userCode125() {
         stack.add(allocASTClassOfExpressionAndVarOptional())
     }
-    private fun userCode126(): Unit {
+    private fun userCode126() {
         val tmp495: Any = stack.removeLast()
         astAssign_ASTClassOfExpressionAndVarOptional_0((stack.last() as ASTClassOfExpressionAndVarOptional), tmp495)
     }
-    private fun userCode127(): Unit {
+    private fun userCode127() {
         stack.add(allocASTVarOptional())
     }
-    private fun userCode128(): Unit {
+    private fun userCode128() {
         val tmp494: Any = stack.removeLast()
         astAssign_ASTVarOptional_0((stack.last() as ASTVarOptional), tmp494)
     }
-    private fun userCode129(): Unit {
+    private fun userCode129() {
         val tmp496: Any = stack.removeLast()
         astAssign_ASTClassOfExpressionAndVarOptional_1((stack.last() as ASTClassOfExpressionAndVarOptional), tmp496)
     }
-    private fun userCode130(): Unit {
+    private fun userCode130() {
         stack.add(allocASTHavingClause())
     }
-    private fun userCode131(): Unit {
+    private fun userCode131() {
         stack.add(allocASTListOfHavingCondition())
     }
-    private fun userCode132(): Unit {
+    private fun userCode132() {
         val tmp497: Any = stack.removeLast()
         astAssign_ASTListOfHavingCondition_0((stack.last() as ASTListOfHavingCondition), tmp497)
     }
-    private fun userCode133(): Unit {
+    private fun userCode133() {
         val tmp498: Any = stack.removeLast()
         astAssign_ASTHavingClause_0((stack.last() as ASTHavingClause), tmp498)
     }
-    private fun userCode134(): Unit {
+    private fun userCode134() {
         stack.add(allocASTHavingCondition())
     }
-    private fun userCode135(): Unit {
+    private fun userCode135() {
         val tmp499: Any = stack.removeLast()
         astAssign_ASTHavingCondition_0((stack.last() as ASTHavingCondition), tmp499)
     }
-    private fun userCode136(): Unit {
+    private fun userCode136() {
         stack.add(allocASTOrderClause())
     }
-    private fun userCode137(): Unit {
+    private fun userCode137() {
         stack.add(allocASTListOfOrderCondition())
     }
-    private fun userCode138(): Unit {
+    private fun userCode138() {
         val tmp500: Any = stack.removeLast()
         astAssign_ASTListOfOrderCondition_0((stack.last() as ASTListOfOrderCondition), tmp500)
     }
-    private fun userCode139(): Unit {
+    private fun userCode139() {
         val tmp501: Any = stack.removeLast()
         astAssign_ASTOrderClause_0((stack.last() as ASTOrderClause), tmp501)
     }
-    private fun userCode140(): Unit {
+    private fun userCode140() {
         stack.add(allocASTOrderCondition())
     }
-    private fun userCode141(): Unit {
+    private fun userCode141() {
         stack.add("ASC")
     }
-    private fun userCode142(): Unit {
+    private fun userCode142() {
         stack.add("DESC")
     }
-    private fun userCode143(): Unit {
+    private fun userCode143() {
         val tmp502: Any = stack.removeLast()
         astAssign_ASTOrderCondition_0((stack.last() as ASTOrderCondition), tmp502)
     }
-    private fun userCode144(): Unit {
+    private fun userCode144() {
         val tmp503: Any = stack.removeLast()
         astAssign_ASTOrderCondition_1((stack.last() as ASTOrderCondition), tmp503)
     }
-    private fun userCode145(): Unit {
+    private fun userCode145() {
         stack.add(allocASTClassOfLimitClauseAndOffsetClauseOptional())
     }
-    private fun userCode146(): Unit {
+    private fun userCode146() {
         val tmp505: Any = stack.removeLast()
         astAssign_ASTClassOfLimitClauseAndOffsetClauseOptional_0((stack.last() as ASTClassOfLimitClauseAndOffsetClauseOptional), tmp505)
     }
-    private fun userCode147(): Unit {
+    private fun userCode147() {
         stack.add(allocASTOffsetClauseOptional())
     }
-    private fun userCode148(): Unit {
+    private fun userCode148() {
         val tmp504: Any = stack.removeLast()
         astAssign_ASTOffsetClauseOptional_0((stack.last() as ASTOffsetClauseOptional), tmp504)
     }
-    private fun userCode149(): Unit {
+    private fun userCode149() {
         val tmp506: Any = stack.removeLast()
         astAssign_ASTClassOfLimitClauseAndOffsetClauseOptional_1((stack.last() as ASTClassOfLimitClauseAndOffsetClauseOptional), tmp506)
     }
-    private fun userCode150(): Unit {
+    private fun userCode150() {
         stack.add(allocASTClassOfOffsetClauseAndLimitClauseOptional())
     }
-    private fun userCode151(): Unit {
+    private fun userCode151() {
         val tmp508: Any = stack.removeLast()
         astAssign_ASTClassOfOffsetClauseAndLimitClauseOptional_0((stack.last() as ASTClassOfOffsetClauseAndLimitClauseOptional), tmp508)
     }
-    private fun userCode152(): Unit {
+    private fun userCode152() {
         stack.add(allocASTLimitClauseOptional())
     }
-    private fun userCode153(): Unit {
+    private fun userCode153() {
         val tmp507: Any = stack.removeLast()
         astAssign_ASTLimitClauseOptional_0((stack.last() as ASTLimitClauseOptional), tmp507)
     }
-    private fun userCode154(): Unit {
+    private fun userCode154() {
         val tmp509: Any = stack.removeLast()
         astAssign_ASTClassOfOffsetClauseAndLimitClauseOptional_1((stack.last() as ASTClassOfOffsetClauseAndLimitClauseOptional), tmp509)
     }
-    private fun userCode155(): Unit {
+    private fun userCode155() {
         stack.add(allocASTLimitClause())
     }
-    private fun userCode156(): Unit {
+    private fun userCode156() {
         stack.add(getLastTokenString())
     }
-    private fun userCode157(): Unit {
+    private fun userCode157() {
         val tmp510: Any = stack.removeLast()
         astAssign_ASTLimitClause_0((stack.last() as ASTLimitClause), tmp510)
     }
-    private fun userCode158(): Unit {
+    private fun userCode158() {
         stack.add(allocASTOffsetClause())
     }
-    private fun userCode159(): Unit {
+    private fun userCode159() {
         stack.add(getLastTokenString())
     }
-    private fun userCode160(): Unit {
+    private fun userCode160() {
         val tmp511: Any = stack.removeLast()
         astAssign_ASTOffsetClause_0((stack.last() as ASTOffsetClause), tmp511)
     }
-    private fun userCode161(): Unit {
+    private fun userCode161() {
         stack.add(allocASTLoad())
     }
-    private fun userCode162(): Unit {
+    private fun userCode162() {
         stack.add("SILENT")
     }
-    private fun userCode163(): Unit {
+    private fun userCode163() {
         val tmp513: Any = stack.removeLast()
         astAssign_ASTLoad_0((stack.last() as ASTLoad), tmp513)
     }
-    private fun userCode164(): Unit {
+    private fun userCode164() {
         val tmp514: Any = stack.removeLast()
         astAssign_ASTLoad_1((stack.last() as ASTLoad), tmp514)
     }
-    private fun userCode165(): Unit {
+    private fun userCode165() {
         stack.add(allocASTGraphRefOptional())
     }
-    private fun userCode166(): Unit {
+    private fun userCode166() {
         val tmp512: Any = stack.removeLast()
         astAssign_ASTGraphRefOptional_0((stack.last() as ASTGraphRefOptional), tmp512)
     }
-    private fun userCode167(): Unit {
+    private fun userCode167() {
         val tmp515: Any = stack.removeLast()
         astAssign_ASTLoad_2((stack.last() as ASTLoad), tmp515)
     }
-    private fun userCode168(): Unit {
+    private fun userCode168() {
         stack.add(allocASTClear())
     }
-    private fun userCode169(): Unit {
+    private fun userCode169() {
         stack.add("SILENT")
     }
-    private fun userCode170(): Unit {
+    private fun userCode170() {
         val tmp516: Any = stack.removeLast()
         astAssign_ASTClear_0((stack.last() as ASTClear), tmp516)
     }
-    private fun userCode171(): Unit {
+    private fun userCode171() {
         val tmp517: Any = stack.removeLast()
         astAssign_ASTClear_1((stack.last() as ASTClear), tmp517)
     }
-    private fun userCode172(): Unit {
+    private fun userCode172() {
         stack.add(allocASTDrop())
     }
-    private fun userCode173(): Unit {
+    private fun userCode173() {
         stack.add("SILENT")
     }
-    private fun userCode174(): Unit {
+    private fun userCode174() {
         val tmp518: Any = stack.removeLast()
         astAssign_ASTDrop_0((stack.last() as ASTDrop), tmp518)
     }
-    private fun userCode175(): Unit {
+    private fun userCode175() {
         val tmp519: Any = stack.removeLast()
         astAssign_ASTDrop_1((stack.last() as ASTDrop), tmp519)
     }
-    private fun userCode176(): Unit {
+    private fun userCode176() {
         stack.add(allocASTCreate())
     }
-    private fun userCode177(): Unit {
+    private fun userCode177() {
         stack.add("SILENT")
     }
-    private fun userCode178(): Unit {
+    private fun userCode178() {
         val tmp520: Any = stack.removeLast()
         astAssign_ASTCreate_0((stack.last() as ASTCreate), tmp520)
     }
-    private fun userCode179(): Unit {
+    private fun userCode179() {
         val tmp521: Any = stack.removeLast()
         astAssign_ASTCreate_1((stack.last() as ASTCreate), tmp521)
     }
-    private fun userCode180(): Unit {
+    private fun userCode180() {
         stack.add(allocASTAdd())
     }
-    private fun userCode181(): Unit {
+    private fun userCode181() {
         stack.add("SILENT")
     }
-    private fun userCode182(): Unit {
+    private fun userCode182() {
         val tmp522: Any = stack.removeLast()
         astAssign_ASTAdd_0((stack.last() as ASTAdd), tmp522)
     }
-    private fun userCode183(): Unit {
+    private fun userCode183() {
         val tmp523: Any = stack.removeLast()
         astAssign_ASTAdd_1((stack.last() as ASTAdd), tmp523)
     }
-    private fun userCode184(): Unit {
+    private fun userCode184() {
         val tmp524: Any = stack.removeLast()
         astAssign_ASTAdd_2((stack.last() as ASTAdd), tmp524)
     }
-    private fun userCode185(): Unit {
+    private fun userCode185() {
         stack.add(allocASTMove())
     }
-    private fun userCode186(): Unit {
+    private fun userCode186() {
         stack.add("SILENT")
     }
-    private fun userCode187(): Unit {
+    private fun userCode187() {
         val tmp525: Any = stack.removeLast()
         astAssign_ASTMove_0((stack.last() as ASTMove), tmp525)
     }
-    private fun userCode188(): Unit {
+    private fun userCode188() {
         val tmp526: Any = stack.removeLast()
         astAssign_ASTMove_1((stack.last() as ASTMove), tmp526)
     }
-    private fun userCode189(): Unit {
+    private fun userCode189() {
         val tmp527: Any = stack.removeLast()
         astAssign_ASTMove_2((stack.last() as ASTMove), tmp527)
     }
-    private fun userCode190(): Unit {
+    private fun userCode190() {
         stack.add(allocASTCopy())
     }
-    private fun userCode191(): Unit {
+    private fun userCode191() {
         stack.add("SILENT")
     }
-    private fun userCode192(): Unit {
+    private fun userCode192() {
         val tmp528: Any = stack.removeLast()
         astAssign_ASTCopy_0((stack.last() as ASTCopy), tmp528)
     }
-    private fun userCode193(): Unit {
+    private fun userCode193() {
         val tmp529: Any = stack.removeLast()
         astAssign_ASTCopy_1((stack.last() as ASTCopy), tmp529)
     }
-    private fun userCode194(): Unit {
+    private fun userCode194() {
         val tmp530: Any = stack.removeLast()
         astAssign_ASTCopy_2((stack.last() as ASTCopy), tmp530)
     }
-    private fun userCode195(): Unit {
+    private fun userCode195() {
         stack.add(allocASTInsertData())
     }
-    private fun userCode196(): Unit {
+    private fun userCode196() {
         val tmp531: Any = stack.removeLast()
         astAssign_ASTInsertData_0((stack.last() as ASTInsertData), tmp531)
     }
-    private fun userCode197(): Unit {
+    private fun userCode197() {
         stack.add(allocASTDeleteData())
     }
-    private fun userCode198(): Unit {
+    private fun userCode198() {
         val tmp532: Any = stack.removeLast()
         astAssign_ASTDeleteData_0((stack.last() as ASTDeleteData), tmp532)
     }
-    private fun userCode199(): Unit {
+    private fun userCode199() {
         stack.add(allocASTDeleteWhere())
     }
-    private fun userCode200(): Unit {
+    private fun userCode200() {
         val tmp533: Any = stack.removeLast()
         astAssign_ASTDeleteWhere_0((stack.last() as ASTDeleteWhere), tmp533)
     }
-    private fun userCode201(): Unit {
+    private fun userCode201() {
         stack.add(allocASTModify())
     }
-    private fun userCode202(): Unit {
+    private fun userCode202() {
         stack.add(allocASTiriOptional())
     }
-    private fun userCode203(): Unit {
+    private fun userCode203() {
         val tmp534: Any = stack.removeLast()
         astAssign_ASTiriOptional_0((stack.last() as ASTiriOptional), tmp534)
     }
-    private fun userCode204(): Unit {
+    private fun userCode204() {
         val tmp539: Any = stack.removeLast()
         astAssign_ASTModify_0((stack.last() as ASTModify), tmp539)
     }
-    private fun userCode205(): Unit {
+    private fun userCode205() {
         stack.add(allocASTClassOfDeleteClauseAndInsertClauseOptional())
     }
-    private fun userCode206(): Unit {
+    private fun userCode206() {
         val tmp536: Any = stack.removeLast()
         astAssign_ASTClassOfDeleteClauseAndInsertClauseOptional_0((stack.last() as ASTClassOfDeleteClauseAndInsertClauseOptional), tmp536)
     }
-    private fun userCode207(): Unit {
+    private fun userCode207() {
         stack.add(allocASTInsertClauseOptional())
     }
-    private fun userCode208(): Unit {
+    private fun userCode208() {
         val tmp535: Any = stack.removeLast()
         astAssign_ASTInsertClauseOptional_0((stack.last() as ASTInsertClauseOptional), tmp535)
     }
-    private fun userCode209(): Unit {
+    private fun userCode209() {
         val tmp537: Any = stack.removeLast()
         astAssign_ASTClassOfDeleteClauseAndInsertClauseOptional_1((stack.last() as ASTClassOfDeleteClauseAndInsertClauseOptional), tmp537)
     }
-    private fun userCode210(): Unit {
+    private fun userCode210() {
         val tmp540: Any = stack.removeLast()
         astAssign_ASTModify_1((stack.last() as ASTModify), tmp540)
     }
-    private fun userCode211(): Unit {
+    private fun userCode211() {
         stack.add(allocASTListOfUsingClause())
     }
-    private fun userCode212(): Unit {
+    private fun userCode212() {
         val tmp538: Any = stack.removeLast()
         astAssign_ASTListOfUsingClause_0((stack.last() as ASTListOfUsingClause), tmp538)
     }
-    private fun userCode213(): Unit {
+    private fun userCode213() {
         val tmp541: Any = stack.removeLast()
         astAssign_ASTModify_2((stack.last() as ASTModify), tmp541)
     }
-    private fun userCode214(): Unit {
+    private fun userCode214() {
         val tmp542: Any = stack.removeLast()
         astAssign_ASTModify_3((stack.last() as ASTModify), tmp542)
     }
-    private fun userCode215(): Unit {
+    private fun userCode215() {
         stack.add(allocASTDeleteClause())
     }
-    private fun userCode216(): Unit {
+    private fun userCode216() {
         val tmp543: Any = stack.removeLast()
         astAssign_ASTDeleteClause_0((stack.last() as ASTDeleteClause), tmp543)
     }
-    private fun userCode217(): Unit {
+    private fun userCode217() {
         stack.add(allocASTInsertClause())
     }
-    private fun userCode218(): Unit {
+    private fun userCode218() {
         val tmp544: Any = stack.removeLast()
         astAssign_ASTInsertClause_0((stack.last() as ASTInsertClause), tmp544)
     }
-    private fun userCode219(): Unit {
+    private fun userCode219() {
         stack.add(allocASTUsingClause())
     }
-    private fun userCode220(): Unit {
+    private fun userCode220() {
         val tmp545: Any = stack.removeLast()
         astAssign_ASTUsingClause_0((stack.last() as ASTUsingClause), tmp545)
     }
-    private fun userCode221(): Unit {
+    private fun userCode221() {
         stack.add(allocASTClassOfGRAPHAndiri())
     }
-    private fun userCode222(): Unit {
+    private fun userCode222() {
         stack.add("GRAPH")
     }
-    private fun userCode223(): Unit {
+    private fun userCode223() {
         val tmp546: Any = stack.removeLast()
         astAssign_ASTClassOfGRAPHAndiri_0((stack.last() as ASTClassOfGRAPHAndiri), tmp546)
     }
-    private fun userCode224(): Unit {
+    private fun userCode224() {
         val tmp547: Any = stack.removeLast()
         astAssign_ASTClassOfGRAPHAndiri_1((stack.last() as ASTClassOfGRAPHAndiri), tmp547)
     }
-    private fun userCode225(): Unit {
+    private fun userCode225() {
         stack.add(allocASTGraphRef())
     }
-    private fun userCode226(): Unit {
+    private fun userCode226() {
         val tmp548: Any = stack.removeLast()
         astAssign_ASTGraphRef_0((stack.last() as ASTGraphRef), tmp548)
     }
-    private fun userCode227(): Unit {
+    private fun userCode227() {
         stack.add(allocASTGraphRefDefault())
     }
-    private fun userCode228(): Unit {
+    private fun userCode228() {
         stack.add(allocASTGraphRefNamed())
     }
-    private fun userCode229(): Unit {
+    private fun userCode229() {
         stack.add(allocASTGraphRefAll2())
     }
-    private fun userCode230(): Unit {
+    private fun userCode230() {
         stack.add(allocASTQuadPattern())
     }
-    private fun userCode231(): Unit {
+    private fun userCode231() {
         val tmp549: Any = stack.removeLast()
         astAssign_ASTQuadPattern_0((stack.last() as ASTQuadPattern), tmp549)
     }
-    private fun userCode232(): Unit {
+    private fun userCode232() {
         stack.add(allocASTQuadData())
     }
-    private fun userCode233(): Unit {
+    private fun userCode233() {
         val tmp550: Any = stack.removeLast()
         astAssign_ASTQuadData_0((stack.last() as ASTQuadData), tmp550)
     }
-    private fun userCode234(): Unit {
+    private fun userCode234() {
         stack.add(allocASTQuads())
     }
-    private fun userCode235(): Unit {
+    private fun userCode235() {
         stack.add(allocASTTriplesTemplateOptional())
     }
-    private fun userCode236(): Unit {
+    private fun userCode236() {
         val tmp551: Any = stack.removeLast()
         astAssign_ASTTriplesTemplateOptional_0((stack.last() as ASTTriplesTemplateOptional), tmp551)
     }
-    private fun userCode237(): Unit {
+    private fun userCode237() {
         val tmp557: Any = stack.removeLast()
         astAssign_ASTQuads_0((stack.last() as ASTQuads), tmp557)
     }
-    private fun userCode238(): Unit {
+    private fun userCode238() {
         stack.add(allocASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
     }
-    private fun userCode239(): Unit {
+    private fun userCode239() {
         stack.add(allocASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional())
     }
-    private fun userCode240(): Unit {
+    private fun userCode240() {
         val tmp553: Any = stack.removeLast()
         astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_0((stack.last() as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional), tmp553)
     }
-    private fun userCode241(): Unit {
+    private fun userCode241() {
         stack.add("point")
     }
-    private fun userCode242(): Unit {
+    private fun userCode242() {
         val tmp554: Any = stack.removeLast()
         astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_1((stack.last() as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional), tmp554)
     }
-    private fun userCode243(): Unit {
+    private fun userCode243() {
         stack.add(allocASTTriplesTemplateOptional())
     }
-    private fun userCode244(): Unit {
+    private fun userCode244() {
         val tmp552: Any = stack.removeLast()
         astAssign_ASTTriplesTemplateOptional_0((stack.last() as ASTTriplesTemplateOptional), tmp552)
     }
-    private fun userCode245(): Unit {
+    private fun userCode245() {
         val tmp555: Any = stack.removeLast()
         astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_2((stack.last() as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional), tmp555)
     }
-    private fun userCode246(): Unit {
+    private fun userCode246() {
         val tmp556: Any = stack.removeLast()
         astAssign_ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_0((stack.last() as ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional), tmp556)
     }
-    private fun userCode247(): Unit {
+    private fun userCode247() {
         val tmp558: Any = stack.removeLast()
         astAssign_ASTQuads_1((stack.last() as ASTQuads), tmp558)
     }
-    private fun userCode248(): Unit {
+    private fun userCode248() {
         stack.add(allocASTQuadsNotTriples())
     }
-    private fun userCode249(): Unit {
+    private fun userCode249() {
         val tmp560: Any = stack.removeLast()
         astAssign_ASTQuadsNotTriples_0((stack.last() as ASTQuadsNotTriples), tmp560)
     }
-    private fun userCode250(): Unit {
+    private fun userCode250() {
         stack.add(allocASTTriplesTemplateOptional())
     }
-    private fun userCode251(): Unit {
+    private fun userCode251() {
         val tmp559: Any = stack.removeLast()
         astAssign_ASTTriplesTemplateOptional_0((stack.last() as ASTTriplesTemplateOptional), tmp559)
     }
-    private fun userCode252(): Unit {
+    private fun userCode252() {
         val tmp561: Any = stack.removeLast()
         astAssign_ASTQuadsNotTriples_1((stack.last() as ASTQuadsNotTriples), tmp561)
     }
-    private fun userCode253(): Unit {
+    private fun userCode253() {
         stack.add(allocASTTriplesTemplate())
     }
-    private fun userCode254(): Unit {
+    private fun userCode254() {
         val tmp565: Any = stack.removeLast()
         astAssign_ASTTriplesTemplate_0((stack.last() as ASTTriplesTemplate), tmp565)
     }
-    private fun userCode255(): Unit {
+    private fun userCode255() {
         stack.add(allocASTTriplesTemplateOptionalOptional())
     }
-    private fun userCode256(): Unit {
+    private fun userCode256() {
         stack.add(allocASTTriplesTemplateOptional())
     }
-    private fun userCode257(): Unit {
+    private fun userCode257() {
         val tmp562: Any = stack.removeLast()
         astAssign_ASTTriplesTemplateOptional_0((stack.last() as ASTTriplesTemplateOptional), tmp562)
     }
-    private fun userCode258(): Unit {
+    private fun userCode258() {
         val tmp564: Any = stack.removeLast()
         astAssign_ASTTriplesTemplateOptionalOptional_0((stack.last() as ASTTriplesTemplateOptionalOptional), tmp564)
     }
-    private fun userCode259(): Unit {
+    private fun userCode259() {
         val tmp566: Any = stack.removeLast()
         astAssign_ASTTriplesTemplate_1((stack.last() as ASTTriplesTemplate), tmp566)
     }
-    private fun userCode260(): Unit {
+    private fun userCode260() {
         stack.add(allocASTGroupGraphPattern())
     }
-    private fun userCode261(): Unit {
+    private fun userCode261() {
         val tmp567: Any = stack.removeLast()
         astAssign_ASTGroupGraphPattern_0((stack.last() as ASTGroupGraphPattern), tmp567)
     }
-    private fun userCode262(): Unit {
+    private fun userCode262() {
         stack.add(allocASTGroupGraphPatternSub())
     }
-    private fun userCode263(): Unit {
+    private fun userCode263() {
         stack.add(allocASTTriplesBlockOptional())
     }
-    private fun userCode264(): Unit {
+    private fun userCode264() {
         val tmp568: Any = stack.removeLast()
         astAssign_ASTTriplesBlockOptional_0((stack.last() as ASTTriplesBlockOptional), tmp568)
     }
-    private fun userCode265(): Unit {
+    private fun userCode265() {
         val tmp574: Any = stack.removeLast()
         astAssign_ASTGroupGraphPatternSub_0((stack.last() as ASTGroupGraphPatternSub), tmp574)
     }
-    private fun userCode266(): Unit {
+    private fun userCode266() {
         stack.add(allocASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
     }
-    private fun userCode267(): Unit {
+    private fun userCode267() {
         stack.add(allocASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional())
     }
-    private fun userCode268(): Unit {
+    private fun userCode268() {
         val tmp570: Any = stack.removeLast()
         astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_0((stack.last() as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional), tmp570)
     }
-    private fun userCode269(): Unit {
+    private fun userCode269() {
         stack.add("point")
     }
-    private fun userCode270(): Unit {
+    private fun userCode270() {
         val tmp571: Any = stack.removeLast()
         astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_1((stack.last() as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional), tmp571)
     }
-    private fun userCode271(): Unit {
+    private fun userCode271() {
         stack.add(allocASTTriplesBlockOptional())
     }
-    private fun userCode272(): Unit {
+    private fun userCode272() {
         val tmp569: Any = stack.removeLast()
         astAssign_ASTTriplesBlockOptional_0((stack.last() as ASTTriplesBlockOptional), tmp569)
     }
-    private fun userCode273(): Unit {
+    private fun userCode273() {
         val tmp572: Any = stack.removeLast()
         astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_2((stack.last() as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional), tmp572)
     }
-    private fun userCode274(): Unit {
+    private fun userCode274() {
         val tmp573: Any = stack.removeLast()
         astAssign_ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_0((stack.last() as ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional), tmp573)
     }
-    private fun userCode275(): Unit {
+    private fun userCode275() {
         val tmp575: Any = stack.removeLast()
         astAssign_ASTGroupGraphPatternSub_1((stack.last() as ASTGroupGraphPatternSub), tmp575)
     }
-    private fun userCode276(): Unit {
+    private fun userCode276() {
         stack.add(allocASTTriplesBlock())
     }
-    private fun userCode277(): Unit {
+    private fun userCode277() {
         val tmp579: Any = stack.removeLast()
         astAssign_ASTTriplesBlock_0((stack.last() as ASTTriplesBlock), tmp579)
     }
-    private fun userCode278(): Unit {
+    private fun userCode278() {
         stack.add(allocASTTriplesBlockOptionalOptional())
     }
-    private fun userCode279(): Unit {
+    private fun userCode279() {
         stack.add(allocASTTriplesBlockOptional())
     }
-    private fun userCode280(): Unit {
+    private fun userCode280() {
         val tmp576: Any = stack.removeLast()
         astAssign_ASTTriplesBlockOptional_0((stack.last() as ASTTriplesBlockOptional), tmp576)
     }
-    private fun userCode281(): Unit {
+    private fun userCode281() {
         val tmp578: Any = stack.removeLast()
         astAssign_ASTTriplesBlockOptionalOptional_0((stack.last() as ASTTriplesBlockOptionalOptional), tmp578)
     }
-    private fun userCode282(): Unit {
+    private fun userCode282() {
         val tmp580: Any = stack.removeLast()
         astAssign_ASTTriplesBlock_1((stack.last() as ASTTriplesBlock), tmp580)
     }
-    private fun userCode283(): Unit {
+    private fun userCode283() {
         stack.add(allocASTOptionalGraphPattern())
     }
-    private fun userCode284(): Unit {
+    private fun userCode284() {
         val tmp581: Any = stack.removeLast()
         astAssign_ASTOptionalGraphPattern_0((stack.last() as ASTOptionalGraphPattern), tmp581)
     }
-    private fun userCode285(): Unit {
+    private fun userCode285() {
         stack.add(allocASTGraphGraphPattern())
     }
-    private fun userCode286(): Unit {
+    private fun userCode286() {
         val tmp582: Any = stack.removeLast()
         astAssign_ASTGraphGraphPattern_0((stack.last() as ASTGraphGraphPattern), tmp582)
     }
-    private fun userCode287(): Unit {
+    private fun userCode287() {
         val tmp583: Any = stack.removeLast()
         astAssign_ASTGraphGraphPattern_1((stack.last() as ASTGraphGraphPattern), tmp583)
     }
-    private fun userCode288(): Unit {
+    private fun userCode288() {
         stack.add(allocASTServiceGraphPattern())
     }
-    private fun userCode289(): Unit {
+    private fun userCode289() {
         stack.add("SILENT")
     }
-    private fun userCode290(): Unit {
+    private fun userCode290() {
         val tmp584: Any = stack.removeLast()
         astAssign_ASTServiceGraphPattern_0((stack.last() as ASTServiceGraphPattern), tmp584)
     }
-    private fun userCode291(): Unit {
+    private fun userCode291() {
         val tmp585: Any = stack.removeLast()
         astAssign_ASTServiceGraphPattern_1((stack.last() as ASTServiceGraphPattern), tmp585)
     }
-    private fun userCode292(): Unit {
+    private fun userCode292() {
         val tmp586: Any = stack.removeLast()
         astAssign_ASTServiceGraphPattern_2((stack.last() as ASTServiceGraphPattern), tmp586)
     }
-    private fun userCode293(): Unit {
+    private fun userCode293() {
         stack.add(allocASTBind())
     }
-    private fun userCode294(): Unit {
+    private fun userCode294() {
         val tmp587: Any = stack.removeLast()
         astAssign_ASTBind_0((stack.last() as ASTBind), tmp587)
     }
-    private fun userCode295(): Unit {
+    private fun userCode295() {
         val tmp588: Any = stack.removeLast()
         astAssign_ASTBind_1((stack.last() as ASTBind), tmp588)
     }
-    private fun userCode296(): Unit {
+    private fun userCode296() {
         stack.add(allocASTValuesClause())
     }
-    private fun userCode297(): Unit {
+    private fun userCode297() {
         val tmp589: Any = stack.removeLast()
         astAssign_ASTValuesClause_0((stack.last() as ASTValuesClause), tmp589)
     }
-    private fun userCode298(): Unit {
+    private fun userCode298() {
         stack.add(allocASTInlineDataOneVar())
     }
-    private fun userCode299(): Unit {
+    private fun userCode299() {
         val tmp591: Any = stack.removeLast()
         astAssign_ASTInlineDataOneVar_0((stack.last() as ASTInlineDataOneVar), tmp591)
     }
-    private fun userCode300(): Unit {
+    private fun userCode300() {
         stack.add(allocASTListOfDataBlockValue())
     }
-    private fun userCode301(): Unit {
+    private fun userCode301() {
         val tmp590: Any = stack.removeLast()
         astAssign_ASTListOfDataBlockValue_0((stack.last() as ASTListOfDataBlockValue), tmp590)
     }
-    private fun userCode302(): Unit {
+    private fun userCode302() {
         val tmp592: Any = stack.removeLast()
         astAssign_ASTInlineDataOneVar_1((stack.last() as ASTInlineDataOneVar), tmp592)
     }
-    private fun userCode303(): Unit {
+    private fun userCode303() {
         stack.add(allocASTInlineDataFull())
     }
-    private fun userCode304(): Unit {
+    private fun userCode304() {
         stack.add(allocASTListOfVar())
     }
-    private fun userCode305(): Unit {
+    private fun userCode305() {
         val tmp593: Any = stack.removeLast()
         astAssign_ASTListOfVar_0((stack.last() as ASTListOfVar), tmp593)
     }
-    private fun userCode306(): Unit {
+    private fun userCode306() {
         val tmp598: Any = stack.removeLast()
         astAssign_ASTInlineDataFull_0((stack.last() as ASTInlineDataFull), tmp598)
     }
-    private fun userCode307(): Unit {
+    private fun userCode307() {
         stack.add(allocASTListOfInterfaceOfListOfDataBlockValueOrNILParam())
     }
-    private fun userCode308(): Unit {
+    private fun userCode308() {
         stack.add(allocASTListOfDataBlockValue())
     }
-    private fun userCode309(): Unit {
+    private fun userCode309() {
         val tmp595: Any = stack.removeLast()
         astAssign_ASTListOfDataBlockValue_0((stack.last() as ASTListOfDataBlockValue), tmp595)
     }
-    private fun userCode310(): Unit {
+    private fun userCode310() {
         val tmp597: Any = stack.removeLast()
         astAssign_ASTListOfInterfaceOfListOfDataBlockValueOrNILParam_0((stack.last() as ASTListOfInterfaceOfListOfDataBlockValueOrNILParam), tmp597)
     }
-    private fun userCode311(): Unit {
+    private fun userCode311() {
         val tmp599: Any = stack.removeLast()
         astAssign_ASTInlineDataFull_1((stack.last() as ASTInlineDataFull), tmp599)
     }
-    private fun userCode312(): Unit {
+    private fun userCode312() {
         stack.add(allocASTUNDEF())
     }
-    private fun userCode313(): Unit {
+    private fun userCode313() {
         stack.add(allocASTMinusGraphPattern())
     }
-    private fun userCode314(): Unit {
+    private fun userCode314() {
         val tmp600: Any = stack.removeLast()
         astAssign_ASTMinusGraphPattern_0((stack.last() as ASTMinusGraphPattern), tmp600)
     }
-    private fun userCode315(): Unit {
+    private fun userCode315() {
         stack.add(allocASTGroupOrUnionGraphPattern())
     }
-    private fun userCode316(): Unit {
+    private fun userCode316() {
         val tmp602: Any = stack.removeLast()
         astAssign_ASTGroupOrUnionGraphPattern_0((stack.last() as ASTGroupOrUnionGraphPattern), tmp602)
     }
-    private fun userCode317(): Unit {
+    private fun userCode317() {
         stack.add(allocASTListOfGroupGraphPattern())
     }
-    private fun userCode318(): Unit {
+    private fun userCode318() {
         val tmp601: Any = stack.removeLast()
         astAssign_ASTListOfGroupGraphPattern_0((stack.last() as ASTListOfGroupGraphPattern), tmp601)
     }
-    private fun userCode319(): Unit {
+    private fun userCode319() {
         val tmp603: Any = stack.removeLast()
         astAssign_ASTGroupOrUnionGraphPattern_1((stack.last() as ASTGroupOrUnionGraphPattern), tmp603)
     }
-    private fun userCode320(): Unit {
+    private fun userCode320() {
         stack.add(allocASTFilter())
     }
-    private fun userCode321(): Unit {
+    private fun userCode321() {
         val tmp604: Any = stack.removeLast()
         astAssign_ASTFilter_0((stack.last() as ASTFilter), tmp604)
     }
-    private fun userCode322(): Unit {
+    private fun userCode322() {
         stack.add(allocASTFunctionCall())
     }
-    private fun userCode323(): Unit {
+    private fun userCode323() {
         val tmp605: Any = stack.removeLast()
         astAssign_ASTFunctionCall_0((stack.last() as ASTFunctionCall), tmp605)
     }
-    private fun userCode324(): Unit {
+    private fun userCode324() {
         val tmp606: Any = stack.removeLast()
         astAssign_ASTFunctionCall_1((stack.last() as ASTFunctionCall), tmp606)
     }
-    private fun userCode325(): Unit {
+    private fun userCode325() {
         stack.add(allocASTClassOfDISTINCTAndExpressionAndListOfExpression())
     }
-    private fun userCode326(): Unit {
+    private fun userCode326() {
         stack.add("DISTINCT")
     }
-    private fun userCode327(): Unit {
+    private fun userCode327() {
         val tmp608: Any = stack.removeLast()
         astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_0((stack.last() as ASTClassOfDISTINCTAndExpressionAndListOfExpression), tmp608)
     }
-    private fun userCode328(): Unit {
+    private fun userCode328() {
         val tmp609: Any = stack.removeLast()
         astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_1((stack.last() as ASTClassOfDISTINCTAndExpressionAndListOfExpression), tmp609)
     }
-    private fun userCode329(): Unit {
+    private fun userCode329() {
         stack.add(allocASTListOfExpression())
     }
-    private fun userCode330(): Unit {
+    private fun userCode330() {
         val tmp607: Any = stack.removeLast()
         astAssign_ASTListOfExpression_0((stack.last() as ASTListOfExpression), tmp607)
     }
-    private fun userCode331(): Unit {
+    private fun userCode331() {
         val tmp610: Any = stack.removeLast()
         astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_2((stack.last() as ASTClassOfDISTINCTAndExpressionAndListOfExpression), tmp610)
     }
-    private fun userCode332(): Unit {
+    private fun userCode332() {
         stack.add(allocASTClassOfExpressionAndListOfExpression())
     }
-    private fun userCode333(): Unit {
+    private fun userCode333() {
         val tmp612: Any = stack.removeLast()
         astAssign_ASTClassOfExpressionAndListOfExpression_0((stack.last() as ASTClassOfExpressionAndListOfExpression), tmp612)
     }
-    private fun userCode334(): Unit {
+    private fun userCode334() {
         stack.add(allocASTListOfExpression())
     }
-    private fun userCode335(): Unit {
+    private fun userCode335() {
         val tmp611: Any = stack.removeLast()
         astAssign_ASTListOfExpression_0((stack.last() as ASTListOfExpression), tmp611)
     }
-    private fun userCode336(): Unit {
+    private fun userCode336() {
         val tmp613: Any = stack.removeLast()
         astAssign_ASTClassOfExpressionAndListOfExpression_1((stack.last() as ASTClassOfExpressionAndListOfExpression), tmp613)
     }
-    private fun userCode337(): Unit {
+    private fun userCode337() {
         stack.add(allocASTConstructTemplate())
     }
-    private fun userCode338(): Unit {
+    private fun userCode338() {
         stack.add(allocASTConstructTriplesOptional())
     }
-    private fun userCode339(): Unit {
+    private fun userCode339() {
         val tmp614: Any = stack.removeLast()
         astAssign_ASTConstructTriplesOptional_0((stack.last() as ASTConstructTriplesOptional), tmp614)
     }
-    private fun userCode340(): Unit {
+    private fun userCode340() {
         val tmp615: Any = stack.removeLast()
         astAssign_ASTConstructTemplate_0((stack.last() as ASTConstructTemplate), tmp615)
     }
-    private fun userCode341(): Unit {
+    private fun userCode341() {
         stack.add(allocASTConstructTriples())
     }
-    private fun userCode342(): Unit {
+    private fun userCode342() {
         val tmp619: Any = stack.removeLast()
         astAssign_ASTConstructTriples_0((stack.last() as ASTConstructTriples), tmp619)
     }
-    private fun userCode343(): Unit {
+    private fun userCode343() {
         stack.add(allocASTConstructTriplesOptionalOptional())
     }
-    private fun userCode344(): Unit {
+    private fun userCode344() {
         stack.add(allocASTConstructTriplesOptional())
     }
-    private fun userCode345(): Unit {
+    private fun userCode345() {
         val tmp616: Any = stack.removeLast()
         astAssign_ASTConstructTriplesOptional_0((stack.last() as ASTConstructTriplesOptional), tmp616)
     }
-    private fun userCode346(): Unit {
+    private fun userCode346() {
         val tmp618: Any = stack.removeLast()
         astAssign_ASTConstructTriplesOptionalOptional_0((stack.last() as ASTConstructTriplesOptionalOptional), tmp618)
     }
-    private fun userCode347(): Unit {
+    private fun userCode347() {
         val tmp620: Any = stack.removeLast()
         astAssign_ASTConstructTriples_1((stack.last() as ASTConstructTriples), tmp620)
     }
-    private fun userCode348(): Unit {
+    private fun userCode348() {
         stack.add(allocASTClassOfVarOrTermAndPropertyListNotEmpty())
     }
-    private fun userCode349(): Unit {
+    private fun userCode349() {
         val tmp621: Any = stack.removeLast()
         astAssign_ASTClassOfVarOrTermAndPropertyListNotEmpty_0((stack.last() as ASTClassOfVarOrTermAndPropertyListNotEmpty), tmp621)
     }
-    private fun userCode350(): Unit {
+    private fun userCode350() {
         val tmp622: Any = stack.removeLast()
         astAssign_ASTClassOfVarOrTermAndPropertyListNotEmpty_1((stack.last() as ASTClassOfVarOrTermAndPropertyListNotEmpty), tmp622)
     }
-    private fun userCode351(): Unit {
+    private fun userCode351() {
         stack.add(allocASTClassOfTriplesNodeAndPropertyListOptional())
     }
-    private fun userCode352(): Unit {
+    private fun userCode352() {
         val tmp624: Any = stack.removeLast()
         astAssign_ASTClassOfTriplesNodeAndPropertyListOptional_0((stack.last() as ASTClassOfTriplesNodeAndPropertyListOptional), tmp624)
     }
-    private fun userCode353(): Unit {
+    private fun userCode353() {
         stack.add(allocASTPropertyListOptional())
     }
-    private fun userCode354(): Unit {
+    private fun userCode354() {
         val tmp623: Any = stack.removeLast()
         astAssign_ASTPropertyListOptional_0((stack.last() as ASTPropertyListOptional), tmp623)
     }
-    private fun userCode355(): Unit {
+    private fun userCode355() {
         val tmp625: Any = stack.removeLast()
         astAssign_ASTClassOfTriplesNodeAndPropertyListOptional_1((stack.last() as ASTClassOfTriplesNodeAndPropertyListOptional), tmp625)
     }
-    private fun userCode356(): Unit {
+    private fun userCode356() {
         stack.add(allocASTPropertyList())
     }
-    private fun userCode357(): Unit {
+    private fun userCode357() {
         val tmp626: Any = stack.removeLast()
         astAssign_ASTPropertyList_0((stack.last() as ASTPropertyList), tmp626)
     }
-    private fun userCode358(): Unit {
+    private fun userCode358() {
         stack.add(allocASTPropertyListNotEmpty())
     }
-    private fun userCode359(): Unit {
+    private fun userCode359() {
         val tmp632: Any = stack.removeLast()
         astAssign_ASTPropertyListNotEmpty_0((stack.last() as ASTPropertyListNotEmpty), tmp632)
     }
-    private fun userCode360(): Unit {
+    private fun userCode360() {
         val tmp633: Any = stack.removeLast()
         astAssign_ASTPropertyListNotEmpty_1((stack.last() as ASTPropertyListNotEmpty), tmp633)
     }
-    private fun userCode361(): Unit {
+    private fun userCode361() {
         stack.add(allocASTListOfClassOfVerbAndObjectListOptional())
     }
-    private fun userCode362(): Unit {
+    private fun userCode362() {
         stack.add(allocASTClassOfVerbAndObjectListOptional())
     }
-    private fun userCode363(): Unit {
+    private fun userCode363() {
         stack.add(allocASTClassOfVerbAndObjectList())
     }
-    private fun userCode364(): Unit {
+    private fun userCode364() {
         val tmp627: Any = stack.removeLast()
         astAssign_ASTClassOfVerbAndObjectList_0((stack.last() as ASTClassOfVerbAndObjectList), tmp627)
     }
-    private fun userCode365(): Unit {
+    private fun userCode365() {
         val tmp628: Any = stack.removeLast()
         astAssign_ASTClassOfVerbAndObjectList_1((stack.last() as ASTClassOfVerbAndObjectList), tmp628)
     }
-    private fun userCode366(): Unit {
+    private fun userCode366() {
         val tmp629: Any = stack.removeLast()
         astAssign_ASTClassOfVerbAndObjectListOptional_0((stack.last() as ASTClassOfVerbAndObjectListOptional), tmp629)
     }
-    private fun userCode367(): Unit {
+    private fun userCode367() {
         val tmp631: Any = stack.removeLast()
         astAssign_ASTListOfClassOfVerbAndObjectListOptional_0((stack.last() as ASTListOfClassOfVerbAndObjectListOptional), tmp631)
     }
-    private fun userCode368(): Unit {
+    private fun userCode368() {
         val tmp634: Any = stack.removeLast()
         astAssign_ASTPropertyListNotEmpty_2((stack.last() as ASTPropertyListNotEmpty), tmp634)
     }
-    private fun userCode369(): Unit {
+    private fun userCode369() {
         stack.add(allocASTRDFType())
     }
-    private fun userCode370(): Unit {
+    private fun userCode370() {
         stack.add(allocASTObjectList())
     }
-    private fun userCode371(): Unit {
+    private fun userCode371() {
         val tmp636: Any = stack.removeLast()
         astAssign_ASTObjectList_0((stack.last() as ASTObjectList), tmp636)
     }
-    private fun userCode372(): Unit {
+    private fun userCode372() {
         stack.add(allocASTListOfObject())
     }
-    private fun userCode373(): Unit {
+    private fun userCode373() {
         val tmp635: Any = stack.removeLast()
         astAssign_ASTListOfObject_0((stack.last() as ASTListOfObject), tmp635)
     }
-    private fun userCode374(): Unit {
+    private fun userCode374() {
         val tmp637: Any = stack.removeLast()
         astAssign_ASTObjectList_1((stack.last() as ASTObjectList), tmp637)
     }
-    private fun userCode375(): Unit {
+    private fun userCode375() {
         stack.add(allocASTObject())
     }
-    private fun userCode376(): Unit {
+    private fun userCode376() {
         val tmp638: Any = stack.removeLast()
         astAssign_ASTObject_0((stack.last() as ASTObject), tmp638)
     }
-    private fun userCode377(): Unit {
+    private fun userCode377() {
         stack.add(allocASTClassOfVarOrTermAndPropertyListPathNotEmpty())
     }
-    private fun userCode378(): Unit {
+    private fun userCode378() {
         val tmp639: Any = stack.removeLast()
         astAssign_ASTClassOfVarOrTermAndPropertyListPathNotEmpty_0((stack.last() as ASTClassOfVarOrTermAndPropertyListPathNotEmpty), tmp639)
     }
-    private fun userCode379(): Unit {
+    private fun userCode379() {
         val tmp640: Any = stack.removeLast()
         astAssign_ASTClassOfVarOrTermAndPropertyListPathNotEmpty_1((stack.last() as ASTClassOfVarOrTermAndPropertyListPathNotEmpty), tmp640)
     }
-    private fun userCode380(): Unit {
+    private fun userCode380() {
         stack.add(allocASTClassOfTriplesNodePathAndPropertyListPathOptional())
     }
-    private fun userCode381(): Unit {
+    private fun userCode381() {
         val tmp642: Any = stack.removeLast()
         astAssign_ASTClassOfTriplesNodePathAndPropertyListPathOptional_0((stack.last() as ASTClassOfTriplesNodePathAndPropertyListPathOptional), tmp642)
     }
-    private fun userCode382(): Unit {
+    private fun userCode382() {
         stack.add(allocASTPropertyListPathOptional())
     }
-    private fun userCode383(): Unit {
+    private fun userCode383() {
         val tmp641: Any = stack.removeLast()
         astAssign_ASTPropertyListPathOptional_0((stack.last() as ASTPropertyListPathOptional), tmp641)
     }
-    private fun userCode384(): Unit {
+    private fun userCode384() {
         val tmp643: Any = stack.removeLast()
         astAssign_ASTClassOfTriplesNodePathAndPropertyListPathOptional_1((stack.last() as ASTClassOfTriplesNodePathAndPropertyListPathOptional), tmp643)
     }
-    private fun userCode385(): Unit {
+    private fun userCode385() {
         stack.add(allocASTPropertyListPath())
     }
-    private fun userCode386(): Unit {
+    private fun userCode386() {
         val tmp644: Any = stack.removeLast()
         astAssign_ASTPropertyListPath_0((stack.last() as ASTPropertyListPath), tmp644)
     }
-    private fun userCode387(): Unit {
+    private fun userCode387() {
         stack.add(allocASTPropertyListPathNotEmpty())
     }
-    private fun userCode388(): Unit {
+    private fun userCode388() {
         val tmp650: Any = stack.removeLast()
         astAssign_ASTPropertyListPathNotEmpty_0((stack.last() as ASTPropertyListPathNotEmpty), tmp650)
     }
-    private fun userCode389(): Unit {
+    private fun userCode389() {
         val tmp651: Any = stack.removeLast()
         astAssign_ASTPropertyListPathNotEmpty_1((stack.last() as ASTPropertyListPathNotEmpty), tmp651)
     }
-    private fun userCode390(): Unit {
+    private fun userCode390() {
         stack.add(allocASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
     }
-    private fun userCode391(): Unit {
+    private fun userCode391() {
         stack.add(allocASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional())
     }
-    private fun userCode392(): Unit {
+    private fun userCode392() {
         stack.add(allocASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList())
     }
-    private fun userCode393(): Unit {
+    private fun userCode393() {
         val tmp645: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList_0((stack.last() as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList), tmp645)
     }
-    private fun userCode394(): Unit {
+    private fun userCode394() {
         val tmp646: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList_1((stack.last() as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList), tmp646)
     }
-    private fun userCode395(): Unit {
+    private fun userCode395() {
         val tmp647: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional_0((stack.last() as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional), tmp647)
     }
-    private fun userCode396(): Unit {
+    private fun userCode396() {
         val tmp649: Any = stack.removeLast()
         astAssign_ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional_0((stack.last() as ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional), tmp649)
     }
-    private fun userCode397(): Unit {
+    private fun userCode397() {
         val tmp652: Any = stack.removeLast()
         astAssign_ASTPropertyListPathNotEmpty_2((stack.last() as ASTPropertyListPathNotEmpty), tmp652)
     }
-    private fun userCode398(): Unit {
+    private fun userCode398() {
         stack.add(allocASTVerbPath())
     }
-    private fun userCode399(): Unit {
+    private fun userCode399() {
         val tmp653: Any = stack.removeLast()
         astAssign_ASTVerbPath_0((stack.last() as ASTVerbPath), tmp653)
     }
-    private fun userCode400(): Unit {
+    private fun userCode400() {
         stack.add(allocASTVerbSimple())
     }
-    private fun userCode401(): Unit {
+    private fun userCode401() {
         val tmp654: Any = stack.removeLast()
         astAssign_ASTVerbSimple_0((stack.last() as ASTVerbSimple), tmp654)
     }
-    private fun userCode402(): Unit {
+    private fun userCode402() {
         stack.add(allocASTObjectListPath())
     }
-    private fun userCode403(): Unit {
+    private fun userCode403() {
         val tmp656: Any = stack.removeLast()
         astAssign_ASTObjectListPath_0((stack.last() as ASTObjectListPath), tmp656)
     }
-    private fun userCode404(): Unit {
+    private fun userCode404() {
         stack.add(allocASTListOfObjectPath())
     }
-    private fun userCode405(): Unit {
+    private fun userCode405() {
         val tmp655: Any = stack.removeLast()
         astAssign_ASTListOfObjectPath_0((stack.last() as ASTListOfObjectPath), tmp655)
     }
-    private fun userCode406(): Unit {
+    private fun userCode406() {
         val tmp657: Any = stack.removeLast()
         astAssign_ASTObjectListPath_1((stack.last() as ASTObjectListPath), tmp657)
     }
-    private fun userCode407(): Unit {
+    private fun userCode407() {
         stack.add(allocASTObjectPath())
     }
-    private fun userCode408(): Unit {
+    private fun userCode408() {
         val tmp658: Any = stack.removeLast()
         astAssign_ASTObjectPath_0((stack.last() as ASTObjectPath), tmp658)
     }
-    private fun userCode409(): Unit {
+    private fun userCode409() {
         stack.add(allocASTPath())
     }
-    private fun userCode410(): Unit {
+    private fun userCode410() {
         val tmp659: Any = stack.removeLast()
         astAssign_ASTPath_0((stack.last() as ASTPath), tmp659)
     }
-    private fun userCode411(): Unit {
+    private fun userCode411() {
         stack.add(allocASTPathAlternative())
     }
-    private fun userCode412(): Unit {
+    private fun userCode412() {
         val tmp661: Any = stack.removeLast()
         astAssign_ASTPathAlternative_0((stack.last() as ASTPathAlternative), tmp661)
     }
-    private fun userCode413(): Unit {
+    private fun userCode413() {
         stack.add(allocASTListOfPathSequence())
     }
-    private fun userCode414(): Unit {
+    private fun userCode414() {
         val tmp660: Any = stack.removeLast()
         astAssign_ASTListOfPathSequence_0((stack.last() as ASTListOfPathSequence), tmp660)
     }
-    private fun userCode415(): Unit {
+    private fun userCode415() {
         val tmp662: Any = stack.removeLast()
         astAssign_ASTPathAlternative_1((stack.last() as ASTPathAlternative), tmp662)
     }
-    private fun userCode416(): Unit {
+    private fun userCode416() {
         stack.add(allocASTPathSequence())
     }
-    private fun userCode417(): Unit {
+    private fun userCode417() {
         val tmp664: Any = stack.removeLast()
         astAssign_ASTPathSequence_0((stack.last() as ASTPathSequence), tmp664)
     }
-    private fun userCode418(): Unit {
+    private fun userCode418() {
         stack.add(allocASTListOfPathEltOrInverse())
     }
-    private fun userCode419(): Unit {
+    private fun userCode419() {
         val tmp663: Any = stack.removeLast()
         astAssign_ASTListOfPathEltOrInverse_0((stack.last() as ASTListOfPathEltOrInverse), tmp663)
     }
-    private fun userCode420(): Unit {
+    private fun userCode420() {
         val tmp665: Any = stack.removeLast()
         astAssign_ASTPathSequence_1((stack.last() as ASTPathSequence), tmp665)
     }
-    private fun userCode421(): Unit {
+    private fun userCode421() {
         stack.add(allocASTPathElt())
     }
-    private fun userCode422(): Unit {
+    private fun userCode422() {
         val tmp666: Any = stack.removeLast()
         astAssign_ASTPathElt_0((stack.last() as ASTPathElt), tmp666)
     }
-    private fun userCode423(): Unit {
+    private fun userCode423() {
         stack.add("optional")
     }
-    private fun userCode424(): Unit {
+    private fun userCode424() {
         stack.add("any")
     }
-    private fun userCode425(): Unit {
+    private fun userCode425() {
         stack.add("atLeastOne")
     }
-    private fun userCode426(): Unit {
+    private fun userCode426() {
         val tmp667: Any = stack.removeLast()
         astAssign_ASTPathElt_1((stack.last() as ASTPathElt), tmp667)
     }
-    private fun userCode427(): Unit {
+    private fun userCode427() {
         stack.add(allocASTPathEltOrInverse())
     }
-    private fun userCode428(): Unit {
+    private fun userCode428() {
         stack.add("negated")
     }
-    private fun userCode429(): Unit {
+    private fun userCode429() {
         val tmp668: Any = stack.removeLast()
         astAssign_ASTPathEltOrInverse_0((stack.last() as ASTPathEltOrInverse), tmp668)
     }
-    private fun userCode430(): Unit {
+    private fun userCode430() {
         val tmp669: Any = stack.removeLast()
         astAssign_ASTPathEltOrInverse_1((stack.last() as ASTPathEltOrInverse), tmp669)
     }
-    private fun userCode431(): Unit {
+    private fun userCode431() {
         stack.add(allocASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional())
     }
-    private fun userCode432(): Unit {
+    private fun userCode432() {
         stack.add(allocASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet())
     }
-    private fun userCode433(): Unit {
+    private fun userCode433() {
         val tmp671: Any = stack.removeLast()
         astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet_0((stack.last() as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet), tmp671)
     }
-    private fun userCode434(): Unit {
+    private fun userCode434() {
         stack.add(allocASTListOfPathOneInPropertySet())
     }
-    private fun userCode435(): Unit {
+    private fun userCode435() {
         val tmp670: Any = stack.removeLast()
         astAssign_ASTListOfPathOneInPropertySet_0((stack.last() as ASTListOfPathOneInPropertySet), tmp670)
     }
-    private fun userCode436(): Unit {
+    private fun userCode436() {
         val tmp672: Any = stack.removeLast()
         astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet_1((stack.last() as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet), tmp672)
     }
-    private fun userCode437(): Unit {
+    private fun userCode437() {
         val tmp673: Any = stack.removeLast()
         astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional_0((stack.last() as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional), tmp673)
     }
-    private fun userCode438(): Unit {
+    private fun userCode438() {
         stack.add(allocASTPathOneInPropertySet())
     }
-    private fun userCode439(): Unit {
+    private fun userCode439() {
         stack.add("negated")
     }
-    private fun userCode440(): Unit {
+    private fun userCode440() {
         val tmp675: Any = stack.removeLast()
         astAssign_ASTPathOneInPropertySet_0((stack.last() as ASTPathOneInPropertySet), tmp675)
     }
-    private fun userCode441(): Unit {
+    private fun userCode441() {
         val tmp676: Any = stack.removeLast()
         astAssign_ASTPathOneInPropertySet_1((stack.last() as ASTPathOneInPropertySet), tmp676)
     }
-    private fun userCode442(): Unit {
+    private fun userCode442() {
         stack.add(allocASTInteger())
     }
-    private fun userCode443(): Unit {
+    private fun userCode443() {
         stack.add(getLastTokenString())
     }
-    private fun userCode444(): Unit {
+    private fun userCode444() {
         val tmp677: Any = stack.removeLast()
         astAssign_ASTInteger_0((stack.last() as ASTInteger), tmp677)
     }
-    private fun userCode445(): Unit {
+    private fun userCode445() {
         stack.add(allocASTBlankNodePropertyList())
     }
-    private fun userCode446(): Unit {
+    private fun userCode446() {
         val tmp678: Any = stack.removeLast()
         astAssign_ASTBlankNodePropertyList_0((stack.last() as ASTBlankNodePropertyList), tmp678)
     }
-    private fun userCode447(): Unit {
+    private fun userCode447() {
         stack.add(allocASTBlankNodePropertyListPath())
     }
-    private fun userCode448(): Unit {
+    private fun userCode448() {
         val tmp679: Any = stack.removeLast()
         astAssign_ASTBlankNodePropertyListPath_0((stack.last() as ASTBlankNodePropertyListPath), tmp679)
     }
-    private fun userCode449(): Unit {
+    private fun userCode449() {
         stack.add(allocASTCollection())
     }
-    private fun userCode450(): Unit {
+    private fun userCode450() {
         stack.add(allocASTListOfGraphNode())
     }
-    private fun userCode451(): Unit {
+    private fun userCode451() {
         val tmp680: Any = stack.removeLast()
         astAssign_ASTListOfGraphNode_0((stack.last() as ASTListOfGraphNode), tmp680)
     }
-    private fun userCode452(): Unit {
+    private fun userCode452() {
         val tmp681: Any = stack.removeLast()
         astAssign_ASTCollection_0((stack.last() as ASTCollection), tmp681)
     }
-    private fun userCode453(): Unit {
+    private fun userCode453() {
         stack.add(allocASTCollectionPath())
     }
-    private fun userCode454(): Unit {
+    private fun userCode454() {
         stack.add(allocASTListOfGraphNodePath())
     }
-    private fun userCode455(): Unit {
+    private fun userCode455() {
         val tmp682: Any = stack.removeLast()
         astAssign_ASTListOfGraphNodePath_0((stack.last() as ASTListOfGraphNodePath), tmp682)
     }
-    private fun userCode456(): Unit {
+    private fun userCode456() {
         val tmp683: Any = stack.removeLast()
         astAssign_ASTCollectionPath_0((stack.last() as ASTCollectionPath), tmp683)
     }
-    private fun userCode457(): Unit {
+    private fun userCode457() {
         stack.add(allocASTVar1())
     }
-    private fun userCode458(): Unit {
+    private fun userCode458() {
         stack.add(getLastTokenString())
     }
-    private fun userCode459(): Unit {
+    private fun userCode459() {
         val tmp684: Any = stack.removeLast()
         astAssign_ASTVar1_0((stack.last() as ASTVar1), tmp684)
     }
-    private fun userCode460(): Unit {
+    private fun userCode460() {
         stack.add(allocASTVar2())
     }
-    private fun userCode461(): Unit {
+    private fun userCode461() {
         stack.add(getLastTokenString())
     }
-    private fun userCode462(): Unit {
+    private fun userCode462() {
         val tmp685: Any = stack.removeLast()
         astAssign_ASTVar2_0((stack.last() as ASTVar2), tmp685)
     }
-    private fun userCode463(): Unit {
+    private fun userCode463() {
         stack.add(allocASTExpression())
     }
-    private fun userCode464(): Unit {
+    private fun userCode464() {
         val tmp686: Any = stack.removeLast()
         astAssign_ASTExpression_0((stack.last() as ASTExpression), tmp686)
     }
-    private fun userCode465(): Unit {
+    private fun userCode465() {
         stack.add(allocASTConditionalOrExpression())
     }
-    private fun userCode466(): Unit {
+    private fun userCode466() {
         val tmp688: Any = stack.removeLast()
         astAssign_ASTConditionalOrExpression_0((stack.last() as ASTConditionalOrExpression), tmp688)
     }
-    private fun userCode467(): Unit {
+    private fun userCode467() {
         stack.add(allocASTListOfConditionalAndExpression())
     }
-    private fun userCode468(): Unit {
+    private fun userCode468() {
         val tmp687: Any = stack.removeLast()
         astAssign_ASTListOfConditionalAndExpression_0((stack.last() as ASTListOfConditionalAndExpression), tmp687)
     }
-    private fun userCode469(): Unit {
+    private fun userCode469() {
         val tmp689: Any = stack.removeLast()
         astAssign_ASTConditionalOrExpression_1((stack.last() as ASTConditionalOrExpression), tmp689)
     }
-    private fun userCode470(): Unit {
+    private fun userCode470() {
         stack.add(allocASTConditionalAndExpression())
     }
-    private fun userCode471(): Unit {
+    private fun userCode471() {
         val tmp691: Any = stack.removeLast()
         astAssign_ASTConditionalAndExpression_0((stack.last() as ASTConditionalAndExpression), tmp691)
     }
-    private fun userCode472(): Unit {
+    private fun userCode472() {
         stack.add(allocASTListOfValueLogical())
     }
-    private fun userCode473(): Unit {
+    private fun userCode473() {
         val tmp690: Any = stack.removeLast()
         astAssign_ASTListOfValueLogical_0((stack.last() as ASTListOfValueLogical), tmp690)
     }
-    private fun userCode474(): Unit {
+    private fun userCode474() {
         val tmp692: Any = stack.removeLast()
         astAssign_ASTConditionalAndExpression_1((stack.last() as ASTConditionalAndExpression), tmp692)
     }
-    private fun userCode475(): Unit {
+    private fun userCode475() {
         stack.add(allocASTValueLogical())
     }
-    private fun userCode476(): Unit {
+    private fun userCode476() {
         val tmp693: Any = stack.removeLast()
         astAssign_ASTValueLogical_0((stack.last() as ASTValueLogical), tmp693)
     }
-    private fun userCode477(): Unit {
+    private fun userCode477() {
         stack.add(allocASTRelationalExpression())
     }
-    private fun userCode478(): Unit {
+    private fun userCode478() {
         val tmp695: Any = stack.removeLast()
         astAssign_ASTRelationalExpression_0((stack.last() as ASTRelationalExpression), tmp695)
     }
-    private fun userCode479(): Unit {
+    private fun userCode479() {
         stack.add(allocASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional())
     }
-    private fun userCode480(): Unit {
+    private fun userCode480() {
         val tmp694: Any = stack.removeLast()
         astAssign_ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional_0((stack.last() as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional), tmp694)
     }
-    private fun userCode481(): Unit {
+    private fun userCode481() {
         val tmp696: Any = stack.removeLast()
         astAssign_ASTRelationalExpression_1((stack.last() as ASTRelationalExpression), tmp696)
     }
-    private fun userCode482(): Unit {
+    private fun userCode482() {
         stack.add(allocASTRelationalExpressionEQ())
     }
-    private fun userCode483(): Unit {
+    private fun userCode483() {
         val tmp697: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionEQ_0((stack.last() as ASTRelationalExpressionEQ), tmp697)
     }
-    private fun userCode484(): Unit {
+    private fun userCode484() {
         stack.add(allocASTRelationalExpressionNEQ())
     }
-    private fun userCode485(): Unit {
+    private fun userCode485() {
         val tmp698: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionNEQ_0((stack.last() as ASTRelationalExpressionNEQ), tmp698)
     }
-    private fun userCode486(): Unit {
+    private fun userCode486() {
         stack.add(allocASTRelationalExpressionLT())
     }
-    private fun userCode487(): Unit {
+    private fun userCode487() {
         val tmp699: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionLT_0((stack.last() as ASTRelationalExpressionLT), tmp699)
     }
-    private fun userCode488(): Unit {
+    private fun userCode488() {
         stack.add(allocASTRelationalExpressionGT())
     }
-    private fun userCode489(): Unit {
+    private fun userCode489() {
         val tmp700: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionGT_0((stack.last() as ASTRelationalExpressionGT), tmp700)
     }
-    private fun userCode490(): Unit {
+    private fun userCode490() {
         stack.add(allocASTRelationalExpressionLEQ())
     }
-    private fun userCode491(): Unit {
+    private fun userCode491() {
         val tmp701: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionLEQ_0((stack.last() as ASTRelationalExpressionLEQ), tmp701)
     }
-    private fun userCode492(): Unit {
+    private fun userCode492() {
         stack.add(allocASTRelationalExpressionGEQ())
     }
-    private fun userCode493(): Unit {
+    private fun userCode493() {
         val tmp702: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionGEQ_0((stack.last() as ASTRelationalExpressionGEQ), tmp702)
     }
-    private fun userCode494(): Unit {
+    private fun userCode494() {
         stack.add(allocASTRelationalExpressionIN())
     }
-    private fun userCode495(): Unit {
+    private fun userCode495() {
         val tmp703: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionIN_0((stack.last() as ASTRelationalExpressionIN), tmp703)
     }
-    private fun userCode496(): Unit {
+    private fun userCode496() {
         stack.add(allocASTRelationalExpressionNOTIN())
     }
-    private fun userCode497(): Unit {
+    private fun userCode497() {
         val tmp704: Any = stack.removeLast()
         astAssign_ASTRelationalExpressionNOTIN_0((stack.last() as ASTRelationalExpressionNOTIN), tmp704)
     }
-    private fun userCode498(): Unit {
+    private fun userCode498() {
         stack.add(allocASTNumericExpression())
     }
-    private fun userCode499(): Unit {
+    private fun userCode499() {
         val tmp705: Any = stack.removeLast()
         astAssign_ASTNumericExpression_0((stack.last() as ASTNumericExpression), tmp705)
     }
-    private fun userCode500(): Unit {
+    private fun userCode500() {
         stack.add(allocASTAdditiveExpression())
     }
-    private fun userCode501(): Unit {
+    private fun userCode501() {
         val tmp710: Any = stack.removeLast()
         astAssign_ASTAdditiveExpression_0((stack.last() as ASTAdditiveExpression), tmp710)
     }
-    private fun userCode502(): Unit {
+    private fun userCode502() {
         stack.add(allocASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
     }
-    private fun userCode503(): Unit {
+    private fun userCode503() {
         stack.add(allocASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
     }
-    private fun userCode504(): Unit {
+    private fun userCode504() {
         val tmp707: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0((stack.last() as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE), tmp707)
     }
-    private fun userCode505(): Unit {
+    private fun userCode505() {
         stack.add(allocASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE())
     }
-    private fun userCode506(): Unit {
+    private fun userCode506() {
         val tmp706: Any = stack.removeLast()
         astAssign_ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0((stack.last() as ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE), tmp706)
     }
-    private fun userCode507(): Unit {
+    private fun userCode507() {
         val tmp708: Any = stack.removeLast()
         astAssign_ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_1((stack.last() as ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE), tmp708)
     }
-    private fun userCode508(): Unit {
+    private fun userCode508() {
         val tmp709: Any = stack.removeLast()
         astAssign_ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0((stack.last() as ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE), tmp709)
     }
-    private fun userCode509(): Unit {
+    private fun userCode509() {
         val tmp711: Any = stack.removeLast()
         astAssign_ASTAdditiveExpression_1((stack.last() as ASTAdditiveExpression), tmp711)
     }
-    private fun userCode510(): Unit {
+    private fun userCode510() {
         stack.add(allocASTAdditiveExpressionPLUS())
     }
-    private fun userCode511(): Unit {
+    private fun userCode511() {
         val tmp712: Any = stack.removeLast()
         astAssign_ASTAdditiveExpressionPLUS_0((stack.last() as ASTAdditiveExpressionPLUS), tmp712)
     }
-    private fun userCode512(): Unit {
+    private fun userCode512() {
         stack.add(allocASTAdditiveExpressionMINUS())
     }
-    private fun userCode513(): Unit {
+    private fun userCode513() {
         val tmp713: Any = stack.removeLast()
         astAssign_ASTAdditiveExpressionMINUS_0((stack.last() as ASTAdditiveExpressionMINUS), tmp713)
     }
-    private fun userCode514(): Unit {
+    private fun userCode514() {
         stack.add(allocASTAdditiveExpressionMULTIPLY())
     }
-    private fun userCode515(): Unit {
+    private fun userCode515() {
         val tmp714: Any = stack.removeLast()
         astAssign_ASTAdditiveExpressionMULTIPLY_0((stack.last() as ASTAdditiveExpressionMULTIPLY), tmp714)
     }
-    private fun userCode516(): Unit {
+    private fun userCode516() {
         stack.add(allocASTAdditiveExpressionDIVIDE())
     }
-    private fun userCode517(): Unit {
+    private fun userCode517() {
         val tmp715: Any = stack.removeLast()
         astAssign_ASTAdditiveExpressionDIVIDE_0((stack.last() as ASTAdditiveExpressionDIVIDE), tmp715)
     }
-    private fun userCode518(): Unit {
+    private fun userCode518() {
         stack.add(allocASTMultiplicativeExpression())
     }
-    private fun userCode519(): Unit {
+    private fun userCode519() {
         val tmp717: Any = stack.removeLast()
         astAssign_ASTMultiplicativeExpression_0((stack.last() as ASTMultiplicativeExpression), tmp717)
     }
-    private fun userCode520(): Unit {
+    private fun userCode520() {
         stack.add(allocASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE())
     }
-    private fun userCode521(): Unit {
+    private fun userCode521() {
         val tmp716: Any = stack.removeLast()
         astAssign_ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE_0((stack.last() as ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE), tmp716)
     }
-    private fun userCode522(): Unit {
+    private fun userCode522() {
         val tmp718: Any = stack.removeLast()
         astAssign_ASTMultiplicativeExpression_1((stack.last() as ASTMultiplicativeExpression), tmp718)
     }
-    private fun userCode523(): Unit {
+    private fun userCode523() {
         stack.add(allocASTMultiplicativeExpressionMULTIPLY())
     }
-    private fun userCode524(): Unit {
+    private fun userCode524() {
         val tmp719: Any = stack.removeLast()
         astAssign_ASTMultiplicativeExpressionMULTIPLY_0((stack.last() as ASTMultiplicativeExpressionMULTIPLY), tmp719)
     }
-    private fun userCode525(): Unit {
+    private fun userCode525() {
         stack.add(allocASTMultiplicativeExpressionDIVIDE())
     }
-    private fun userCode526(): Unit {
+    private fun userCode526() {
         val tmp720: Any = stack.removeLast()
         astAssign_ASTMultiplicativeExpressionDIVIDE_0((stack.last() as ASTMultiplicativeExpressionDIVIDE), tmp720)
     }
-    private fun userCode527(): Unit {
+    private fun userCode527() {
         stack.add(allocASTUnaryExpressionNOT())
     }
-    private fun userCode528(): Unit {
+    private fun userCode528() {
         val tmp721: Any = stack.removeLast()
         astAssign_ASTUnaryExpressionNOT_0((stack.last() as ASTUnaryExpressionNOT), tmp721)
     }
-    private fun userCode529(): Unit {
+    private fun userCode529() {
         stack.add(allocASTUnaryExpressionPLUS())
     }
-    private fun userCode530(): Unit {
+    private fun userCode530() {
         val tmp722: Any = stack.removeLast()
         astAssign_ASTUnaryExpressionPLUS_0((stack.last() as ASTUnaryExpressionPLUS), tmp722)
     }
-    private fun userCode531(): Unit {
+    private fun userCode531() {
         stack.add(allocASTUnaryExpressionMINUS())
     }
-    private fun userCode532(): Unit {
+    private fun userCode532() {
         val tmp723: Any = stack.removeLast()
         astAssign_ASTUnaryExpressionMINUS_0((stack.last() as ASTUnaryExpressionMINUS), tmp723)
     }
-    private fun userCode533(): Unit {
+    private fun userCode533() {
         stack.add(allocASTBrackettedExpression())
     }
-    private fun userCode534(): Unit {
+    private fun userCode534() {
         val tmp724: Any = stack.removeLast()
         astAssign_ASTBrackettedExpression_0((stack.last() as ASTBrackettedExpression), tmp724)
     }
-    private fun userCode535(): Unit {
+    private fun userCode535() {
         stack.add(allocASTBuiltInCallYear())
     }
-    private fun userCode536(): Unit {
+    private fun userCode536() {
         val tmp725: Any = stack.removeLast()
         astAssign_ASTBuiltInCallYear_0((stack.last() as ASTBuiltInCallYear), tmp725)
     }
-    private fun userCode537(): Unit {
+    private fun userCode537() {
         stack.add(allocASTBuiltInCallMonth())
     }
-    private fun userCode538(): Unit {
+    private fun userCode538() {
         val tmp726: Any = stack.removeLast()
         astAssign_ASTBuiltInCallMonth_0((stack.last() as ASTBuiltInCallMonth), tmp726)
     }
-    private fun userCode539(): Unit {
+    private fun userCode539() {
         stack.add(allocASTBuiltInCallHours())
     }
-    private fun userCode540(): Unit {
+    private fun userCode540() {
         val tmp727: Any = stack.removeLast()
         astAssign_ASTBuiltInCallHours_0((stack.last() as ASTBuiltInCallHours), tmp727)
     }
-    private fun userCode541(): Unit {
+    private fun userCode541() {
         stack.add(allocASTBuiltInCallNow())
     }
-    private fun userCode542(): Unit {
+    private fun userCode542() {
         val tmp728: Any = stack.removeLast()
         astAssign_ASTBuiltInCallNow_0((stack.last() as ASTBuiltInCallNow), tmp728)
     }
-    private fun userCode543(): Unit {
+    private fun userCode543() {
         stack.add(allocASTBuiltInCallSameTerm())
     }
-    private fun userCode544(): Unit {
+    private fun userCode544() {
         val tmp729: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSameTerm_0((stack.last() as ASTBuiltInCallSameTerm), tmp729)
     }
-    private fun userCode545(): Unit {
+    private fun userCode545() {
         val tmp730: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSameTerm_1((stack.last() as ASTBuiltInCallSameTerm), tmp730)
     }
-    private fun userCode546(): Unit {
+    private fun userCode546() {
         stack.add(allocASTBuiltInCallIsIri())
     }
-    private fun userCode547(): Unit {
+    private fun userCode547() {
         val tmp731: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIsIri_0((stack.last() as ASTBuiltInCallIsIri), tmp731)
     }
-    private fun userCode548(): Unit {
+    private fun userCode548() {
         stack.add(allocASTBuiltInCallIsBlanc())
     }
-    private fun userCode549(): Unit {
+    private fun userCode549() {
         val tmp732: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIsBlanc_0((stack.last() as ASTBuiltInCallIsBlanc), tmp732)
     }
-    private fun userCode550(): Unit {
+    private fun userCode550() {
         stack.add(allocASTBuiltInCallIsLiteral())
     }
-    private fun userCode551(): Unit {
+    private fun userCode551() {
         val tmp733: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIsLiteral_0((stack.last() as ASTBuiltInCallIsLiteral), tmp733)
     }
-    private fun userCode552(): Unit {
+    private fun userCode552() {
         stack.add(allocASTBuiltInCallMD5())
     }
-    private fun userCode553(): Unit {
+    private fun userCode553() {
         val tmp734: Any = stack.removeLast()
         astAssign_ASTBuiltInCallMD5_0((stack.last() as ASTBuiltInCallMD5), tmp734)
     }
-    private fun userCode554(): Unit {
+    private fun userCode554() {
         stack.add(allocASTBuiltInCallUUID())
     }
-    private fun userCode555(): Unit {
+    private fun userCode555() {
         val tmp735: Any = stack.removeLast()
         astAssign_ASTBuiltInCallUUID_0((stack.last() as ASTBuiltInCallUUID), tmp735)
     }
-    private fun userCode556(): Unit {
+    private fun userCode556() {
         stack.add(allocASTBuiltInCallSTRUUID())
     }
-    private fun userCode557(): Unit {
+    private fun userCode557() {
         val tmp736: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSTRUUID_0((stack.last() as ASTBuiltInCallSTRUUID), tmp736)
     }
-    private fun userCode558(): Unit {
+    private fun userCode558() {
         stack.add(allocASTBuiltInCallSHA1())
     }
-    private fun userCode559(): Unit {
+    private fun userCode559() {
         val tmp737: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSHA1_0((stack.last() as ASTBuiltInCallSHA1), tmp737)
     }
-    private fun userCode560(): Unit {
+    private fun userCode560() {
         stack.add(allocASTBuiltInCallSHA384())
     }
-    private fun userCode561(): Unit {
+    private fun userCode561() {
         val tmp738: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSHA384_0((stack.last() as ASTBuiltInCallSHA384), tmp738)
     }
-    private fun userCode562(): Unit {
+    private fun userCode562() {
         stack.add(allocASTBuiltInCallSHA512())
     }
-    private fun userCode563(): Unit {
+    private fun userCode563() {
         val tmp739: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSHA512_0((stack.last() as ASTBuiltInCallSHA512), tmp739)
     }
-    private fun userCode564(): Unit {
+    private fun userCode564() {
         stack.add(allocASTBuiltInCallCoalesce())
     }
-    private fun userCode565(): Unit {
+    private fun userCode565() {
         val tmp740: Any = stack.removeLast()
         astAssign_ASTBuiltInCallCoalesce_0((stack.last() as ASTBuiltInCallCoalesce), tmp740)
     }
-    private fun userCode566(): Unit {
+    private fun userCode566() {
         stack.add(allocASTBuiltInCallIf())
     }
-    private fun userCode567(): Unit {
+    private fun userCode567() {
         val tmp741: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIf_0((stack.last() as ASTBuiltInCallIf), tmp741)
     }
-    private fun userCode568(): Unit {
+    private fun userCode568() {
         val tmp742: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIf_1((stack.last() as ASTBuiltInCallIf), tmp742)
     }
-    private fun userCode569(): Unit {
+    private fun userCode569() {
         val tmp743: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIf_2((stack.last() as ASTBuiltInCallIf), tmp743)
     }
-    private fun userCode570(): Unit {
+    private fun userCode570() {
         stack.add(allocASTBuiltInCallStrLang())
     }
-    private fun userCode571(): Unit {
+    private fun userCode571() {
         val tmp744: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrLang_0((stack.last() as ASTBuiltInCallStrLang), tmp744)
     }
-    private fun userCode572(): Unit {
+    private fun userCode572() {
         val tmp745: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrLang_1((stack.last() as ASTBuiltInCallStrLang), tmp745)
     }
-    private fun userCode573(): Unit {
+    private fun userCode573() {
         stack.add(allocASTBuiltInCallIsUri())
     }
-    private fun userCode574(): Unit {
+    private fun userCode574() {
         val tmp746: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIsUri_0((stack.last() as ASTBuiltInCallIsUri), tmp746)
     }
-    private fun userCode575(): Unit {
+    private fun userCode575() {
         stack.add(allocASTBuiltInCallMinutes())
     }
-    private fun userCode576(): Unit {
+    private fun userCode576() {
         val tmp747: Any = stack.removeLast()
         astAssign_ASTBuiltInCallMinutes_0((stack.last() as ASTBuiltInCallMinutes), tmp747)
     }
-    private fun userCode577(): Unit {
+    private fun userCode577() {
         stack.add(allocASTBuiltInCallSHA256())
     }
-    private fun userCode578(): Unit {
+    private fun userCode578() {
         val tmp748: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSHA256_0((stack.last() as ASTBuiltInCallSHA256), tmp748)
     }
-    private fun userCode579(): Unit {
+    private fun userCode579() {
         stack.add(allocASTBuiltInCallStrDt())
     }
-    private fun userCode580(): Unit {
+    private fun userCode580() {
         val tmp749: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrDt_0((stack.last() as ASTBuiltInCallStrDt), tmp749)
     }
-    private fun userCode581(): Unit {
+    private fun userCode581() {
         val tmp750: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrDt_1((stack.last() as ASTBuiltInCallStrDt), tmp750)
     }
-    private fun userCode582(): Unit {
+    private fun userCode582() {
         stack.add(allocASTBuiltInCallIsNumeric())
     }
-    private fun userCode583(): Unit {
+    private fun userCode583() {
         val tmp751: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIsNumeric_0((stack.last() as ASTBuiltInCallIsNumeric), tmp751)
     }
-    private fun userCode584(): Unit {
+    private fun userCode584() {
         stack.add(allocASTBuiltInCallSeconds())
     }
-    private fun userCode585(): Unit {
+    private fun userCode585() {
         val tmp752: Any = stack.removeLast()
         astAssign_ASTBuiltInCallSeconds_0((stack.last() as ASTBuiltInCallSeconds), tmp752)
     }
-    private fun userCode586(): Unit {
+    private fun userCode586() {
         stack.add(allocASTBuiltInCallTimezone())
     }
-    private fun userCode587(): Unit {
+    private fun userCode587() {
         val tmp753: Any = stack.removeLast()
         astAssign_ASTBuiltInCallTimezone_0((stack.last() as ASTBuiltInCallTimezone), tmp753)
     }
-    private fun userCode588(): Unit {
+    private fun userCode588() {
         stack.add(allocASTBuiltInCallTz())
     }
-    private fun userCode589(): Unit {
+    private fun userCode589() {
         val tmp754: Any = stack.removeLast()
         astAssign_ASTBuiltInCallTz_0((stack.last() as ASTBuiltInCallTz), tmp754)
     }
-    private fun userCode590(): Unit {
+    private fun userCode590() {
         stack.add(allocASTBuiltInCallConcat())
     }
-    private fun userCode591(): Unit {
+    private fun userCode591() {
         val tmp755: Any = stack.removeLast()
         astAssign_ASTBuiltInCallConcat_0((stack.last() as ASTBuiltInCallConcat), tmp755)
     }
-    private fun userCode592(): Unit {
+    private fun userCode592() {
         stack.add(allocASTBuiltInCallStrLen())
     }
-    private fun userCode593(): Unit {
+    private fun userCode593() {
         val tmp756: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrLen_0((stack.last() as ASTBuiltInCallStrLen), tmp756)
     }
-    private fun userCode594(): Unit {
+    private fun userCode594() {
         stack.add(allocASTBuiltInCallUCase())
     }
-    private fun userCode595(): Unit {
+    private fun userCode595() {
         val tmp757: Any = stack.removeLast()
         astAssign_ASTBuiltInCallUCase_0((stack.last() as ASTBuiltInCallUCase), tmp757)
     }
-    private fun userCode596(): Unit {
+    private fun userCode596() {
         stack.add(allocASTBuiltInCallStrBefore())
     }
-    private fun userCode597(): Unit {
+    private fun userCode597() {
         val tmp758: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrBefore_0((stack.last() as ASTBuiltInCallStrBefore), tmp758)
     }
-    private fun userCode598(): Unit {
+    private fun userCode598() {
         val tmp759: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrBefore_1((stack.last() as ASTBuiltInCallStrBefore), tmp759)
     }
-    private fun userCode599(): Unit {
+    private fun userCode599() {
         stack.add(allocASTBuiltInCallStrAfter())
     }
-    private fun userCode600(): Unit {
+    private fun userCode600() {
         val tmp760: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrAfter_0((stack.last() as ASTBuiltInCallStrAfter), tmp760)
     }
-    private fun userCode601(): Unit {
+    private fun userCode601() {
         val tmp761: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrAfter_1((stack.last() as ASTBuiltInCallStrAfter), tmp761)
     }
-    private fun userCode602(): Unit {
+    private fun userCode602() {
         stack.add(allocASTBuiltInCallEncodeForUri())
     }
-    private fun userCode603(): Unit {
+    private fun userCode603() {
         val tmp762: Any = stack.removeLast()
         astAssign_ASTBuiltInCallEncodeForUri_0((stack.last() as ASTBuiltInCallEncodeForUri), tmp762)
     }
-    private fun userCode604(): Unit {
+    private fun userCode604() {
         stack.add(allocASTBuiltInCallContains())
     }
-    private fun userCode605(): Unit {
+    private fun userCode605() {
         val tmp763: Any = stack.removeLast()
         astAssign_ASTBuiltInCallContains_0((stack.last() as ASTBuiltInCallContains), tmp763)
     }
-    private fun userCode606(): Unit {
+    private fun userCode606() {
         val tmp764: Any = stack.removeLast()
         astAssign_ASTBuiltInCallContains_1((stack.last() as ASTBuiltInCallContains), tmp764)
     }
-    private fun userCode607(): Unit {
+    private fun userCode607() {
         stack.add(allocASTBuiltInCallStrStarts())
     }
-    private fun userCode608(): Unit {
+    private fun userCode608() {
         val tmp765: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrStarts_0((stack.last() as ASTBuiltInCallStrStarts), tmp765)
     }
-    private fun userCode609(): Unit {
+    private fun userCode609() {
         val tmp766: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrStarts_1((stack.last() as ASTBuiltInCallStrStarts), tmp766)
     }
-    private fun userCode610(): Unit {
+    private fun userCode610() {
         stack.add(allocASTBuiltInCallStrEnds())
     }
-    private fun userCode611(): Unit {
+    private fun userCode611() {
         val tmp767: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrEnds_0((stack.last() as ASTBuiltInCallStrEnds), tmp767)
     }
-    private fun userCode612(): Unit {
+    private fun userCode612() {
         val tmp768: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStrEnds_1((stack.last() as ASTBuiltInCallStrEnds), tmp768)
     }
-    private fun userCode613(): Unit {
+    private fun userCode613() {
         stack.add(allocASTBuiltInCallDay())
     }
-    private fun userCode614(): Unit {
+    private fun userCode614() {
         val tmp769: Any = stack.removeLast()
         astAssign_ASTBuiltInCallDay_0((stack.last() as ASTBuiltInCallDay), tmp769)
     }
-    private fun userCode615(): Unit {
+    private fun userCode615() {
         stack.add(allocASTBuiltInCallStr())
     }
-    private fun userCode616(): Unit {
+    private fun userCode616() {
         val tmp770: Any = stack.removeLast()
         astAssign_ASTBuiltInCallStr_0((stack.last() as ASTBuiltInCallStr), tmp770)
     }
-    private fun userCode617(): Unit {
+    private fun userCode617() {
         stack.add(allocASTBuiltInCallLang())
     }
-    private fun userCode618(): Unit {
+    private fun userCode618() {
         val tmp771: Any = stack.removeLast()
         astAssign_ASTBuiltInCallLang_0((stack.last() as ASTBuiltInCallLang), tmp771)
     }
-    private fun userCode619(): Unit {
+    private fun userCode619() {
         stack.add(allocASTBuildInCallLangMatches())
     }
-    private fun userCode620(): Unit {
+    private fun userCode620() {
         val tmp772: Any = stack.removeLast()
         astAssign_ASTBuildInCallLangMatches_0((stack.last() as ASTBuildInCallLangMatches), tmp772)
     }
-    private fun userCode621(): Unit {
+    private fun userCode621() {
         val tmp773: Any = stack.removeLast()
         astAssign_ASTBuildInCallLangMatches_1((stack.last() as ASTBuildInCallLangMatches), tmp773)
     }
-    private fun userCode622(): Unit {
+    private fun userCode622() {
         stack.add(allocASTBuiltInCallDataType())
     }
-    private fun userCode623(): Unit {
+    private fun userCode623() {
         val tmp774: Any = stack.removeLast()
         astAssign_ASTBuiltInCallDataType_0((stack.last() as ASTBuiltInCallDataType), tmp774)
     }
-    private fun userCode624(): Unit {
+    private fun userCode624() {
         stack.add(allocASTBuiltInCallBound())
     }
-    private fun userCode625(): Unit {
+    private fun userCode625() {
         val tmp775: Any = stack.removeLast()
         astAssign_ASTBuiltInCallBound_0((stack.last() as ASTBuiltInCallBound), tmp775)
     }
-    private fun userCode626(): Unit {
+    private fun userCode626() {
         stack.add(allocASTBuiltInCallIri())
     }
-    private fun userCode627(): Unit {
+    private fun userCode627() {
         val tmp776: Any = stack.removeLast()
         astAssign_ASTBuiltInCallIri_0((stack.last() as ASTBuiltInCallIri), tmp776)
     }
-    private fun userCode628(): Unit {
+    private fun userCode628() {
         stack.add(allocASTBuiltInCallUri())
     }
-    private fun userCode629(): Unit {
+    private fun userCode629() {
         val tmp777: Any = stack.removeLast()
         astAssign_ASTBuiltInCallUri_0((stack.last() as ASTBuiltInCallUri), tmp777)
     }
-    private fun userCode630(): Unit {
+    private fun userCode630() {
         stack.add(allocASTBuiltInCallBNode())
     }
-    private fun userCode631(): Unit {
+    private fun userCode631() {
         val tmp778: Any = stack.removeLast()
         astAssign_ASTBuiltInCallBNode_0((stack.last() as ASTBuiltInCallBNode), tmp778)
     }
-    private fun userCode632(): Unit {
+    private fun userCode632() {
         stack.add(allocASTBuiltInCallRand())
     }
-    private fun userCode633(): Unit {
+    private fun userCode633() {
         val tmp779: Any = stack.removeLast()
         astAssign_ASTBuiltInCallRand_0((stack.last() as ASTBuiltInCallRand), tmp779)
     }
-    private fun userCode634(): Unit {
+    private fun userCode634() {
         stack.add(allocASTBuiltInCallAbs())
     }
-    private fun userCode635(): Unit {
+    private fun userCode635() {
         val tmp780: Any = stack.removeLast()
         astAssign_ASTBuiltInCallAbs_0((stack.last() as ASTBuiltInCallAbs), tmp780)
     }
-    private fun userCode636(): Unit {
+    private fun userCode636() {
         stack.add(allocASTBuiltInCallCeil())
     }
-    private fun userCode637(): Unit {
+    private fun userCode637() {
         val tmp781: Any = stack.removeLast()
         astAssign_ASTBuiltInCallCeil_0((stack.last() as ASTBuiltInCallCeil), tmp781)
     }
-    private fun userCode638(): Unit {
+    private fun userCode638() {
         stack.add(allocASTBuiltInCallLCase())
     }
-    private fun userCode639(): Unit {
+    private fun userCode639() {
         val tmp782: Any = stack.removeLast()
         astAssign_ASTBuiltInCallLCase_0((stack.last() as ASTBuiltInCallLCase), tmp782)
     }
-    private fun userCode640(): Unit {
+    private fun userCode640() {
         stack.add(allocASTBuiltInCallFloor())
     }
-    private fun userCode641(): Unit {
+    private fun userCode641() {
         val tmp783: Any = stack.removeLast()
         astAssign_ASTBuiltInCallFloor_0((stack.last() as ASTBuiltInCallFloor), tmp783)
     }
-    private fun userCode642(): Unit {
+    private fun userCode642() {
         stack.add(allocASTBuiltInCallRound())
     }
-    private fun userCode643(): Unit {
+    private fun userCode643() {
         val tmp784: Any = stack.removeLast()
         astAssign_ASTBuiltInCallRound_0((stack.last() as ASTBuiltInCallRound), tmp784)
     }
-    private fun userCode644(): Unit {
+    private fun userCode644() {
         stack.add(allocASTRegexExpression())
     }
-    private fun userCode645(): Unit {
+    private fun userCode645() {
         val tmp786: Any = stack.removeLast()
         astAssign_ASTRegexExpression_0((stack.last() as ASTRegexExpression), tmp786)
     }
-    private fun userCode646(): Unit {
+    private fun userCode646() {
         val tmp787: Any = stack.removeLast()
         astAssign_ASTRegexExpression_1((stack.last() as ASTRegexExpression), tmp787)
     }
-    private fun userCode647(): Unit {
+    private fun userCode647() {
         stack.add(allocASTExpressionOptional())
     }
-    private fun userCode648(): Unit {
+    private fun userCode648() {
         val tmp785: Any = stack.removeLast()
         astAssign_ASTExpressionOptional_0((stack.last() as ASTExpressionOptional), tmp785)
     }
-    private fun userCode649(): Unit {
+    private fun userCode649() {
         val tmp788: Any = stack.removeLast()
         astAssign_ASTRegexExpression_2((stack.last() as ASTRegexExpression), tmp788)
     }
-    private fun userCode650(): Unit {
+    private fun userCode650() {
         stack.add(allocASTSubstringExpression())
     }
-    private fun userCode651(): Unit {
+    private fun userCode651() {
         val tmp790: Any = stack.removeLast()
         astAssign_ASTSubstringExpression_0((stack.last() as ASTSubstringExpression), tmp790)
     }
-    private fun userCode652(): Unit {
+    private fun userCode652() {
         val tmp791: Any = stack.removeLast()
         astAssign_ASTSubstringExpression_1((stack.last() as ASTSubstringExpression), tmp791)
     }
-    private fun userCode653(): Unit {
+    private fun userCode653() {
         stack.add(allocASTExpressionOptional())
     }
-    private fun userCode654(): Unit {
+    private fun userCode654() {
         val tmp789: Any = stack.removeLast()
         astAssign_ASTExpressionOptional_0((stack.last() as ASTExpressionOptional), tmp789)
     }
-    private fun userCode655(): Unit {
+    private fun userCode655() {
         val tmp792: Any = stack.removeLast()
         astAssign_ASTSubstringExpression_2((stack.last() as ASTSubstringExpression), tmp792)
     }
-    private fun userCode656(): Unit {
+    private fun userCode656() {
         stack.add(allocASTStrReplaceExpression())
     }
-    private fun userCode657(): Unit {
+    private fun userCode657() {
         val tmp794: Any = stack.removeLast()
         astAssign_ASTStrReplaceExpression_0((stack.last() as ASTStrReplaceExpression), tmp794)
     }
-    private fun userCode658(): Unit {
+    private fun userCode658() {
         val tmp795: Any = stack.removeLast()
         astAssign_ASTStrReplaceExpression_1((stack.last() as ASTStrReplaceExpression), tmp795)
     }
-    private fun userCode659(): Unit {
+    private fun userCode659() {
         val tmp796: Any = stack.removeLast()
         astAssign_ASTStrReplaceExpression_2((stack.last() as ASTStrReplaceExpression), tmp796)
     }
-    private fun userCode660(): Unit {
+    private fun userCode660() {
         stack.add(allocASTExpressionOptional())
     }
-    private fun userCode661(): Unit {
+    private fun userCode661() {
         val tmp793: Any = stack.removeLast()
         astAssign_ASTExpressionOptional_0((stack.last() as ASTExpressionOptional), tmp793)
     }
-    private fun userCode662(): Unit {
+    private fun userCode662() {
         val tmp797: Any = stack.removeLast()
         astAssign_ASTStrReplaceExpression_3((stack.last() as ASTStrReplaceExpression), tmp797)
     }
-    private fun userCode663(): Unit {
+    private fun userCode663() {
         stack.add(allocASTExistsFunc())
     }
-    private fun userCode664(): Unit {
+    private fun userCode664() {
         val tmp798: Any = stack.removeLast()
         astAssign_ASTExistsFunc_0((stack.last() as ASTExistsFunc), tmp798)
     }
-    private fun userCode665(): Unit {
+    private fun userCode665() {
         stack.add(allocASTNotExistsFunc())
     }
-    private fun userCode666(): Unit {
+    private fun userCode666() {
         val tmp799: Any = stack.removeLast()
         astAssign_ASTNotExistsFunc_0((stack.last() as ASTNotExistsFunc), tmp799)
     }
-    private fun userCode667(): Unit {
+    private fun userCode667() {
         stack.add(allocASTAggregateAvg())
     }
-    private fun userCode668(): Unit {
+    private fun userCode668() {
         stack.add("DISTINCT")
     }
-    private fun userCode669(): Unit {
+    private fun userCode669() {
         val tmp800: Any = stack.removeLast()
         astAssign_ASTAggregateAvg_0((stack.last() as ASTAggregateAvg), tmp800)
     }
-    private fun userCode670(): Unit {
+    private fun userCode670() {
         val tmp801: Any = stack.removeLast()
         astAssign_ASTAggregateAvg_1((stack.last() as ASTAggregateAvg), tmp801)
     }
-    private fun userCode671(): Unit {
+    private fun userCode671() {
         stack.add(allocASTAggregateCount())
     }
-    private fun userCode672(): Unit {
+    private fun userCode672() {
         stack.add("DISTINCT")
     }
-    private fun userCode673(): Unit {
+    private fun userCode673() {
         val tmp802: Any = stack.removeLast()
         astAssign_ASTAggregateCount_0((stack.last() as ASTAggregateCount), tmp802)
     }
-    private fun userCode674(): Unit {
+    private fun userCode674() {
         val tmp803: Any = stack.removeLast()
         astAssign_ASTAggregateCount_1((stack.last() as ASTAggregateCount), tmp803)
     }
-    private fun userCode675(): Unit {
+    private fun userCode675() {
         stack.add(allocASTAggregateCountAll())
     }
-    private fun userCode676(): Unit {
+    private fun userCode676() {
         stack.add(allocASTAggregateSum())
     }
-    private fun userCode677(): Unit {
+    private fun userCode677() {
         stack.add("DISTINCT")
     }
-    private fun userCode678(): Unit {
+    private fun userCode678() {
         val tmp804: Any = stack.removeLast()
         astAssign_ASTAggregateSum_0((stack.last() as ASTAggregateSum), tmp804)
     }
-    private fun userCode679(): Unit {
+    private fun userCode679() {
         val tmp805: Any = stack.removeLast()
         astAssign_ASTAggregateSum_1((stack.last() as ASTAggregateSum), tmp805)
     }
-    private fun userCode680(): Unit {
+    private fun userCode680() {
         stack.add(allocASTAggregateMin())
     }
-    private fun userCode681(): Unit {
+    private fun userCode681() {
         stack.add("DISTINCT")
     }
-    private fun userCode682(): Unit {
+    private fun userCode682() {
         val tmp806: Any = stack.removeLast()
         astAssign_ASTAggregateMin_0((stack.last() as ASTAggregateMin), tmp806)
     }
-    private fun userCode683(): Unit {
+    private fun userCode683() {
         val tmp807: Any = stack.removeLast()
         astAssign_ASTAggregateMin_1((stack.last() as ASTAggregateMin), tmp807)
     }
-    private fun userCode684(): Unit {
+    private fun userCode684() {
         stack.add(allocASTAggregateMax())
     }
-    private fun userCode685(): Unit {
+    private fun userCode685() {
         stack.add("DISTINCT")
     }
-    private fun userCode686(): Unit {
+    private fun userCode686() {
         val tmp808: Any = stack.removeLast()
         astAssign_ASTAggregateMax_0((stack.last() as ASTAggregateMax), tmp808)
     }
-    private fun userCode687(): Unit {
+    private fun userCode687() {
         val tmp809: Any = stack.removeLast()
         astAssign_ASTAggregateMax_1((stack.last() as ASTAggregateMax), tmp809)
     }
-    private fun userCode688(): Unit {
+    private fun userCode688() {
         stack.add(allocASTAggregateSample())
     }
-    private fun userCode689(): Unit {
+    private fun userCode689() {
         stack.add("DISTINCT")
     }
-    private fun userCode690(): Unit {
+    private fun userCode690() {
         val tmp810: Any = stack.removeLast()
         astAssign_ASTAggregateSample_0((stack.last() as ASTAggregateSample), tmp810)
     }
-    private fun userCode691(): Unit {
+    private fun userCode691() {
         val tmp811: Any = stack.removeLast()
         astAssign_ASTAggregateSample_1((stack.last() as ASTAggregateSample), tmp811)
     }
-    private fun userCode692(): Unit {
+    private fun userCode692() {
         stack.add(allocASTAggregateGroupConcat())
     }
-    private fun userCode693(): Unit {
+    private fun userCode693() {
         stack.add("DISTINCT")
     }
-    private fun userCode694(): Unit {
+    private fun userCode694() {
         val tmp813: Any = stack.removeLast()
         astAssign_ASTAggregateGroupConcat_0((stack.last() as ASTAggregateGroupConcat), tmp813)
     }
-    private fun userCode695(): Unit {
+    private fun userCode695() {
         val tmp814: Any = stack.removeLast()
         astAssign_ASTAggregateGroupConcat_1((stack.last() as ASTAggregateGroupConcat), tmp814)
     }
-    private fun userCode696(): Unit {
+    private fun userCode696() {
         stack.add(allocASTStringOptional())
     }
-    private fun userCode697(): Unit {
+    private fun userCode697() {
         val tmp812: Any = stack.removeLast()
         astAssign_ASTStringOptional_0((stack.last() as ASTStringOptional), tmp812)
     }
-    private fun userCode698(): Unit {
+    private fun userCode698() {
         val tmp815: Any = stack.removeLast()
         astAssign_ASTAggregateGroupConcat_2((stack.last() as ASTAggregateGroupConcat), tmp815)
     }
-    private fun userCode699(): Unit {
+    private fun userCode699() {
         stack.add(allocASTiriOrFunction())
     }
-    private fun userCode700(): Unit {
+    private fun userCode700() {
         val tmp817: Any = stack.removeLast()
         astAssign_ASTiriOrFunction_0((stack.last() as ASTiriOrFunction), tmp817)
     }
-    private fun userCode701(): Unit {
+    private fun userCode701() {
         stack.add(allocASTArgListOptional())
     }
-    private fun userCode702(): Unit {
+    private fun userCode702() {
         val tmp816: Any = stack.removeLast()
         astAssign_ASTArgListOptional_0((stack.last() as ASTArgListOptional), tmp816)
     }
-    private fun userCode703(): Unit {
+    private fun userCode703() {
         val tmp818: Any = stack.removeLast()
         astAssign_ASTiriOrFunction_1((stack.last() as ASTiriOrFunction), tmp818)
     }
-    private fun userCode704(): Unit {
+    private fun userCode704() {
         stack.add(allocASTRDFLiteral())
     }
-    private fun userCode705(): Unit {
+    private fun userCode705() {
         val tmp820: Any = stack.removeLast()
         astAssign_ASTRDFLiteral_0((stack.last() as ASTRDFLiteral), tmp820)
     }
-    private fun userCode706(): Unit {
+    private fun userCode706() {
         stack.add(allocASTInterfaceOfRDFLiteralLangOririOptional())
     }
-    private fun userCode707(): Unit {
+    private fun userCode707() {
         val tmp819: Any = stack.removeLast()
         astAssign_ASTInterfaceOfRDFLiteralLangOririOptional_0((stack.last() as ASTInterfaceOfRDFLiteralLangOririOptional), tmp819)
     }
-    private fun userCode708(): Unit {
+    private fun userCode708() {
         val tmp821: Any = stack.removeLast()
         astAssign_ASTRDFLiteral_1((stack.last() as ASTRDFLiteral), tmp821)
     }
-    private fun userCode709(): Unit {
+    private fun userCode709() {
         stack.add(allocASTRDFLiteralLang())
     }
-    private fun userCode710(): Unit {
+    private fun userCode710() {
         stack.add(getLastTokenString())
     }
-    private fun userCode711(): Unit {
+    private fun userCode711() {
         val tmp822: Any = stack.removeLast()
         astAssign_ASTRDFLiteralLang_0((stack.last() as ASTRDFLiteralLang), tmp822)
     }
-    private fun userCode712(): Unit {
+    private fun userCode712() {
         stack.add(allocASTNumericLiteralUnsignedInteger())
     }
-    private fun userCode713(): Unit {
+    private fun userCode713() {
         stack.add(getLastTokenString())
     }
-    private fun userCode714(): Unit {
+    private fun userCode714() {
         val tmp823: Any = stack.removeLast()
         astAssign_ASTNumericLiteralUnsignedInteger_0((stack.last() as ASTNumericLiteralUnsignedInteger), tmp823)
     }
-    private fun userCode715(): Unit {
+    private fun userCode715() {
         stack.add(allocASTNumericLiteralUnsignedDecimal())
     }
-    private fun userCode716(): Unit {
+    private fun userCode716() {
         stack.add(getLastTokenString())
     }
-    private fun userCode717(): Unit {
+    private fun userCode717() {
         val tmp824: Any = stack.removeLast()
         astAssign_ASTNumericLiteralUnsignedDecimal_0((stack.last() as ASTNumericLiteralUnsignedDecimal), tmp824)
     }
-    private fun userCode718(): Unit {
+    private fun userCode718() {
         stack.add(allocASTNumericLiteralUnsignedDouble())
     }
-    private fun userCode719(): Unit {
+    private fun userCode719() {
         stack.add(getLastTokenString())
     }
-    private fun userCode720(): Unit {
+    private fun userCode720() {
         val tmp825: Any = stack.removeLast()
         astAssign_ASTNumericLiteralUnsignedDouble_0((stack.last() as ASTNumericLiteralUnsignedDouble), tmp825)
     }
-    private fun userCode721(): Unit {
+    private fun userCode721() {
         stack.add(allocASTNumericLiteralPositiveInteger())
     }
-    private fun userCode722(): Unit {
+    private fun userCode722() {
         stack.add(getLastTokenString())
     }
-    private fun userCode723(): Unit {
+    private fun userCode723() {
         val tmp826: Any = stack.removeLast()
         astAssign_ASTNumericLiteralPositiveInteger_0((stack.last() as ASTNumericLiteralPositiveInteger), tmp826)
     }
-    private fun userCode724(): Unit {
+    private fun userCode724() {
         stack.add(allocASTNumericLiteralPositiveDecimal())
     }
-    private fun userCode725(): Unit {
+    private fun userCode725() {
         stack.add(getLastTokenString())
     }
-    private fun userCode726(): Unit {
+    private fun userCode726() {
         val tmp827: Any = stack.removeLast()
         astAssign_ASTNumericLiteralPositiveDecimal_0((stack.last() as ASTNumericLiteralPositiveDecimal), tmp827)
     }
-    private fun userCode727(): Unit {
+    private fun userCode727() {
         stack.add(allocASTNumericLiteralPositiveDouble())
     }
-    private fun userCode728(): Unit {
+    private fun userCode728() {
         stack.add(getLastTokenString())
     }
-    private fun userCode729(): Unit {
+    private fun userCode729() {
         val tmp828: Any = stack.removeLast()
         astAssign_ASTNumericLiteralPositiveDouble_0((stack.last() as ASTNumericLiteralPositiveDouble), tmp828)
     }
-    private fun userCode730(): Unit {
+    private fun userCode730() {
         stack.add(allocASTNumericLiteralNegativeInteger())
     }
-    private fun userCode731(): Unit {
+    private fun userCode731() {
         stack.add(getLastTokenString())
     }
-    private fun userCode732(): Unit {
+    private fun userCode732() {
         val tmp829: Any = stack.removeLast()
         astAssign_ASTNumericLiteralNegativeInteger_0((stack.last() as ASTNumericLiteralNegativeInteger), tmp829)
     }
-    private fun userCode733(): Unit {
+    private fun userCode733() {
         stack.add(allocASTNumericLiteralNegativeDecimal())
     }
-    private fun userCode734(): Unit {
+    private fun userCode734() {
         stack.add(getLastTokenString())
     }
-    private fun userCode735(): Unit {
+    private fun userCode735() {
         val tmp830: Any = stack.removeLast()
         astAssign_ASTNumericLiteralNegativeDecimal_0((stack.last() as ASTNumericLiteralNegativeDecimal), tmp830)
     }
-    private fun userCode736(): Unit {
+    private fun userCode736() {
         stack.add(allocASTNumericLiteralNegativeDouble())
     }
-    private fun userCode737(): Unit {
+    private fun userCode737() {
         stack.add(getLastTokenString())
     }
-    private fun userCode738(): Unit {
+    private fun userCode738() {
         val tmp831: Any = stack.removeLast()
         astAssign_ASTNumericLiteralNegativeDouble_0((stack.last() as ASTNumericLiteralNegativeDouble), tmp831)
     }
-    private fun userCode739(): Unit {
+    private fun userCode739() {
         stack.add(allocASTBooleanLiteralTrue())
     }
-    private fun userCode740(): Unit {
+    private fun userCode740() {
         stack.add(allocASTBooleanLiteralFalse())
     }
-    private fun userCode741(): Unit {
+    private fun userCode741() {
         stack.add(allocASTString1())
     }
-    private fun userCode742(): Unit {
+    private fun userCode742() {
         stack.add(getLastTokenString())
     }
-    private fun userCode743(): Unit {
+    private fun userCode743() {
         val tmp832: Any = stack.removeLast()
         astAssign_ASTString1_0((stack.last() as ASTString1), tmp832)
     }
-    private fun userCode744(): Unit {
+    private fun userCode744() {
         stack.add(allocASTString2())
     }
-    private fun userCode745(): Unit {
+    private fun userCode745() {
         stack.add(getLastTokenString())
     }
-    private fun userCode746(): Unit {
+    private fun userCode746() {
         val tmp833: Any = stack.removeLast()
         astAssign_ASTString2_0((stack.last() as ASTString2), tmp833)
     }
-    private fun userCode747(): Unit {
+    private fun userCode747() {
         stack.add(allocASTString1long())
     }
-    private fun userCode748(): Unit {
+    private fun userCode748() {
         stack.add(getLastTokenString())
     }
-    private fun userCode749(): Unit {
+    private fun userCode749() {
         val tmp834: Any = stack.removeLast()
         astAssign_ASTString1long_0((stack.last() as ASTString1long), tmp834)
     }
-    private fun userCode750(): Unit {
+    private fun userCode750() {
         stack.add(allocASTString2long())
     }
-    private fun userCode751(): Unit {
+    private fun userCode751() {
         stack.add(getLastTokenString())
     }
-    private fun userCode752(): Unit {
+    private fun userCode752() {
         val tmp835: Any = stack.removeLast()
         astAssign_ASTString2long_0((stack.last() as ASTString2long), tmp835)
     }
-    private fun userCode753(): Unit {
+    private fun userCode753() {
         stack.add(allocASTiriRef())
     }
-    private fun userCode754(): Unit {
+    private fun userCode754() {
         stack.add(getLastTokenString())
     }
-    private fun userCode755(): Unit {
+    private fun userCode755() {
         val tmp836: Any = stack.removeLast()
         astAssign_ASTiriRef_0((stack.last() as ASTiriRef), tmp836)
     }
-    private fun userCode756(): Unit {
+    private fun userCode756() {
         stack.add(allocASTPrefixedNameLN())
     }
-    private fun userCode757(): Unit {
+    private fun userCode757() {
         stack.add(getLastTokenString())
     }
-    private fun userCode758(): Unit {
+    private fun userCode758() {
         val tmp837: Any = stack.removeLast()
         astAssign_ASTPrefixedNameLN_0((stack.last() as ASTPrefixedNameLN), tmp837)
     }
-    private fun userCode759(): Unit {
+    private fun userCode759() {
         stack.add(allocASTPrefixedNameNS())
     }
-    private fun userCode760(): Unit {
+    private fun userCode760() {
         stack.add(getLastTokenString())
     }
-    private fun userCode761(): Unit {
+    private fun userCode761() {
         val tmp838: Any = stack.removeLast()
         astAssign_ASTPrefixedNameNS_0((stack.last() as ASTPrefixedNameNS), tmp838)
     }
-    private fun userCode762(): Unit {
+    private fun userCode762() {
         stack.add(allocASTBlankNodeLabel())
     }
-    private fun userCode763(): Unit {
+    private fun userCode763() {
         stack.add(getLastTokenString())
     }
-    private fun userCode764(): Unit {
+    private fun userCode764() {
         val tmp839: Any = stack.removeLast()
         astAssign_ASTBlankNodeLabel_0((stack.last() as ASTBlankNodeLabel), tmp839)
     }
-    private fun userCode765(): Unit {
+    private fun userCode765() {
         stack.add(allocASTBlankNodeANON())
     }
-    private fun userCode766(): Unit {
+    private fun userCode766() {
         stack.add(getLastTokenString())
     }
-    private fun userCode767(): Unit {
+    private fun userCode767() {
         val tmp840: Any = stack.removeLast()
         astAssign_ASTBlankNodeANON_0((stack.last() as ASTBlankNodeANON), tmp840)
     }
-    private fun userCode768(): Unit {
+    private fun userCode768() {
         stack.add(allocASTNILParam())
     }
-    private fun userCode769(): Unit {
+    private fun userCode769() {
         stack.add(getLastTokenString())
     }
-    private fun userCode770(): Unit {
+    private fun userCode770() {
         val tmp841: Any = stack.removeLast()
         astAssign_ASTNILParam_0((stack.last() as ASTNILParam), tmp841)
     }
-    public fun printASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery(node: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery?): Unit {
+    public fun printASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery(node: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76030,7 +76028,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery(node: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery?): Unit {
+    public fun freeASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery(node: ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery?) {
         if ((node != null)) {
             when (node.id) {
                 0 -> {
@@ -76053,7 +76051,7 @@ public fun close() {
         tmp.id = 4
         return tmp
     }
-    public fun printASTValuesClauseOptional(node: ASTValuesClauseOptional?): Unit {
+    public fun printASTValuesClauseOptional(node: ASTValuesClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76063,12 +76061,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTValuesClauseOptional(node: ASTValuesClauseOptional?): Unit {
+    public fun freeASTValuesClauseOptional(node: ASTValuesClauseOptional?) {
         if ((node != null)) {
             freeASTValuesClause(node.variable0)
         }
     }
-    private fun astAssign_ASTValuesClauseOptional_0(node: ASTValuesClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTValuesClauseOptional_0(node: ASTValuesClauseOptional, value: Any) {
         node.variable0 = (value as ASTValuesClause)
     }
     private fun allocASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional(): ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional {
@@ -76076,7 +76074,7 @@ public fun close() {
         tmp.id = 5
         return tmp
     }
-    public fun printASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional?): Unit {
+    public fun printASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76088,16 +76086,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional?): Unit {
+    public fun freeASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional?) {
         if ((node != null)) {
             freeASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery(node.variable0)
             freeASTValuesClauseOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional_0(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional_0(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, value: Any) {
         node.variable0 = (value as ASTInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQuery)
     }
-    private fun astAssign_ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional_1(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional_1(node: ASTClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptional, value: Any) {
         node.variable1 = (value as ASTValuesClauseOptional)
     }
     private fun allocASTClassOfPrologueAndUpdate(): ASTClassOfPrologueAndUpdate {
@@ -76105,7 +76103,7 @@ public fun close() {
         tmp.id = 6
         return tmp
     }
-    public fun printASTClassOfPrologueAndUpdate(node: ASTClassOfPrologueAndUpdate?): Unit {
+    public fun printASTClassOfPrologueAndUpdate(node: ASTClassOfPrologueAndUpdate?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76117,16 +76115,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfPrologueAndUpdate(node: ASTClassOfPrologueAndUpdate?): Unit {
+    public fun freeASTClassOfPrologueAndUpdate(node: ASTClassOfPrologueAndUpdate?) {
         if ((node != null)) {
             freeASTPrologue(node.variable0)
             freeASTUpdate(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfPrologueAndUpdate_0(node: ASTClassOfPrologueAndUpdate, value: Any): Unit {
+    private fun astAssign_ASTClassOfPrologueAndUpdate_0(node: ASTClassOfPrologueAndUpdate, value: Any) {
         node.variable0 = (value as ASTPrologue)
     }
-    private fun astAssign_ASTClassOfPrologueAndUpdate_1(node: ASTClassOfPrologueAndUpdate, value: Any): Unit {
+    private fun astAssign_ASTClassOfPrologueAndUpdate_1(node: ASTClassOfPrologueAndUpdate, value: Any) {
         node.variable1 = (value as ASTUpdate)
     }
     private fun allocASTClassOfPrologueAndUpdateOptional(): ASTClassOfPrologueAndUpdateOptional {
@@ -76134,7 +76132,7 @@ public fun close() {
         tmp.id = 7
         return tmp
     }
-    public fun printASTClassOfPrologueAndUpdateOptional(node: ASTClassOfPrologueAndUpdateOptional?): Unit {
+    public fun printASTClassOfPrologueAndUpdateOptional(node: ASTClassOfPrologueAndUpdateOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76144,12 +76142,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfPrologueAndUpdateOptional(node: ASTClassOfPrologueAndUpdateOptional?): Unit {
+    public fun freeASTClassOfPrologueAndUpdateOptional(node: ASTClassOfPrologueAndUpdateOptional?) {
         if ((node != null)) {
             freeASTClassOfPrologueAndUpdate(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfPrologueAndUpdateOptional_0(node: ASTClassOfPrologueAndUpdateOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfPrologueAndUpdateOptional_0(node: ASTClassOfPrologueAndUpdateOptional, value: Any) {
         node.variable0 = (value as ASTClassOfPrologueAndUpdate)
     }
     private fun allocASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional(): ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional {
@@ -76157,7 +76155,7 @@ public fun close() {
         tmp.id = 8
         return tmp
     }
-    public fun printASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional?): Unit {
+    public fun printASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76169,16 +76167,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional?): Unit {
+    public fun freeASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional?) {
         if ((node != null)) {
             freeASTUpdate1(node.variable0)
             freeASTClassOfPrologueAndUpdateOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_0(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_0(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional, value: Any) {
         node.variable0 = (value as ASTUpdate1)
     }
-    private fun astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_1(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional_1(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional, value: Any) {
         node.variable1 = (value as ASTClassOfPrologueAndUpdateOptional)
     }
     private fun allocASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(): ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional {
@@ -76186,7 +76184,7 @@ public fun close() {
         tmp.id = 9
         return tmp
     }
-    public fun printASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?): Unit {
+    public fun printASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76196,15 +76194,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?): Unit {
+    public fun freeASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?) {
         if ((node != null)) {
             freeASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional_0(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional_0(node: ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional, value: Any) {
         node.variable0 = (value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional)
     }
-    public fun printASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?): Unit {
+    public fun printASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76218,7 +76216,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?): Unit {
+    public fun freeASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node: ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional?) {
         if ((node != null)) {
             when (node.id) {
                 5 -> {
@@ -76235,7 +76233,7 @@ public fun close() {
         tmp.id = 10
         return tmp
     }
-    public fun printASTSparqlDoc(node: ASTSparqlDoc?): Unit {
+    public fun printASTSparqlDoc(node: ASTSparqlDoc?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76247,16 +76245,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSparqlDoc(node: ASTSparqlDoc?): Unit {
+    public fun freeASTSparqlDoc(node: ASTSparqlDoc?) {
         if ((node != null)) {
             freeASTPrologue(node.variable0)
             freeASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTSparqlDoc_0(node: ASTSparqlDoc, value: Any): Unit {
+    private fun astAssign_ASTSparqlDoc_0(node: ASTSparqlDoc, value: Any) {
         node.variable0 = (value as ASTPrologue)
     }
-    private fun astAssign_ASTSparqlDoc_1(node: ASTSparqlDoc, value: Any): Unit {
+    private fun astAssign_ASTSparqlDoc_1(node: ASTSparqlDoc, value: Any) {
         node.variable1 = (value as ASTInterfaceOfClassOfInterfaceOfSelectQueryOrConstructQueryOrDescribeQueryOrAskQueryAndValuesClauseOptionalOrClassOfUpdate1AndClassOfPrologueAndUpdateOptionalOptional)
     }
     private fun allocASTUpdate(): ASTUpdate {
@@ -76264,7 +76262,7 @@ public fun close() {
         tmp.id = 11
         return tmp
     }
-    public fun printASTUpdate(node: ASTUpdate?): Unit {
+    public fun printASTUpdate(node: ASTUpdate?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76274,15 +76272,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTUpdate(node: ASTUpdate?): Unit {
+    public fun freeASTUpdate(node: ASTUpdate?) {
         if ((node != null)) {
             freeASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional(node.variable0)
         }
     }
-    private fun astAssign_ASTUpdate_0(node: ASTUpdate, value: Any): Unit {
+    private fun astAssign_ASTUpdate_0(node: ASTUpdate, value: Any) {
         node.variable0 = (value as ASTClassOfUpdate1AndClassOfPrologueAndUpdateOptional)
     }
-    public fun printASTInterfaceOfBaseDeclOrPrefixDecl(node: ASTInterfaceOfBaseDeclOrPrefixDecl?): Unit {
+    public fun printASTInterfaceOfBaseDeclOrPrefixDecl(node: ASTInterfaceOfBaseDeclOrPrefixDecl?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76296,7 +76294,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfBaseDeclOrPrefixDecl(node: ASTInterfaceOfBaseDeclOrPrefixDecl?): Unit {
+    public fun freeASTInterfaceOfBaseDeclOrPrefixDecl(node: ASTInterfaceOfBaseDeclOrPrefixDecl?) {
         if ((node != null)) {
             when (node.id) {
                 12 -> {
@@ -76308,7 +76306,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTPrologue(node: ASTPrologue?): Unit {
+    public fun printASTPrologue(node: ASTPrologue?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76319,7 +76317,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTPrologue(node: ASTPrologue?): Unit {
+    public fun freeASTPrologue(node: ASTPrologue?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTInterfaceOfBaseDeclOrPrefixDecl(it)
@@ -76332,7 +76330,7 @@ public fun close() {
         tmp.id = 14
         return tmp
     }
-    private fun astAssign_ASTPrologue_0(node: ASTPrologue, value: Any): Unit {
+    private fun astAssign_ASTPrologue_0(node: ASTPrologue, value: Any) {
         node.value.add((value as ASTInterfaceOfBaseDeclOrPrefixDecl))
     }
     private fun allocASTBaseDecl(): ASTBaseDecl {
@@ -76340,7 +76338,7 @@ public fun close() {
         tmp.id = 12
         return tmp
     }
-    public fun printASTBaseDecl(node: ASTBaseDecl?): Unit {
+    public fun printASTBaseDecl(node: ASTBaseDecl?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76349,11 +76347,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBaseDecl(node: ASTBaseDecl?): Unit {
+    public fun freeASTBaseDecl(node: ASTBaseDecl?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTBaseDecl_0(node: ASTBaseDecl, value: Any): Unit {
+    private fun astAssign_ASTBaseDecl_0(node: ASTBaseDecl, value: Any) {
         node.IRIREF = (value as String)
     }
     private fun allocASTPrefixDecl(): ASTPrefixDecl {
@@ -76361,7 +76359,7 @@ public fun close() {
         tmp.id = 13
         return tmp
     }
-    public fun printASTPrefixDecl(node: ASTPrefixDecl?): Unit {
+    public fun printASTPrefixDecl(node: ASTPrefixDecl?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76371,17 +76369,17 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPrefixDecl(node: ASTPrefixDecl?): Unit {
+    public fun freeASTPrefixDecl(node: ASTPrefixDecl?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTPrefixDecl_0(node: ASTPrefixDecl, value: Any): Unit {
+    private fun astAssign_ASTPrefixDecl_0(node: ASTPrefixDecl, value: Any) {
         node.PNAME_NS = (value as String)
     }
-    private fun astAssign_ASTPrefixDecl_1(node: ASTPrefixDecl, value: Any): Unit {
+    private fun astAssign_ASTPrefixDecl_1(node: ASTPrefixDecl, value: Any) {
         node.IRIREF = (value as String)
     }
-    public fun printASTListOfDatasetClause(node: ASTListOfDatasetClause?): Unit {
+    public fun printASTListOfDatasetClause(node: ASTListOfDatasetClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76392,7 +76390,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfDatasetClause(node: ASTListOfDatasetClause?): Unit {
+    public fun freeASTListOfDatasetClause(node: ASTListOfDatasetClause?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTDatasetClause(it)
@@ -76405,7 +76403,7 @@ public fun close() {
         tmp.id = 15
         return tmp
     }
-    private fun astAssign_ASTListOfDatasetClause_0(node: ASTListOfDatasetClause, value: Any): Unit {
+    private fun astAssign_ASTListOfDatasetClause_0(node: ASTListOfDatasetClause, value: Any) {
         node.value.add((value as ASTDatasetClause))
     }
     private fun allocASTSelectQuery(): ASTSelectQuery {
@@ -76413,7 +76411,7 @@ public fun close() {
         tmp.id = 0
         return tmp
     }
-    public fun printASTSelectQuery(node: ASTSelectQuery?): Unit {
+    public fun printASTSelectQuery(node: ASTSelectQuery?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76429,7 +76427,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSelectQuery(node: ASTSelectQuery?): Unit {
+    public fun freeASTSelectQuery(node: ASTSelectQuery?) {
         if ((node != null)) {
             freeASTSelectClause(node.variable0)
             freeASTListOfDatasetClause(node.variable1)
@@ -76437,16 +76435,16 @@ public fun close() {
             freeASTSolutionModifier(node.variable3)
         }
     }
-    private fun astAssign_ASTSelectQuery_0(node: ASTSelectQuery, value: Any): Unit {
+    private fun astAssign_ASTSelectQuery_0(node: ASTSelectQuery, value: Any) {
         node.variable0 = (value as ASTSelectClause)
     }
-    private fun astAssign_ASTSelectQuery_1(node: ASTSelectQuery, value: Any): Unit {
+    private fun astAssign_ASTSelectQuery_1(node: ASTSelectQuery, value: Any) {
         node.variable1 = (value as ASTListOfDatasetClause)
     }
-    private fun astAssign_ASTSelectQuery_2(node: ASTSelectQuery, value: Any): Unit {
+    private fun astAssign_ASTSelectQuery_2(node: ASTSelectQuery, value: Any) {
         node.variable2 = (value as ASTWhereClause)
     }
-    private fun astAssign_ASTSelectQuery_3(node: ASTSelectQuery, value: Any): Unit {
+    private fun astAssign_ASTSelectQuery_3(node: ASTSelectQuery, value: Any) {
         node.variable3 = (value as ASTSolutionModifier)
     }
     private fun allocASTSubSelect(): ASTSubSelect {
@@ -76454,7 +76452,7 @@ public fun close() {
         tmp.id = 16
         return tmp
     }
-    public fun printASTSubSelect(node: ASTSubSelect?): Unit {
+    public fun printASTSubSelect(node: ASTSubSelect?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76470,7 +76468,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSubSelect(node: ASTSubSelect?): Unit {
+    public fun freeASTSubSelect(node: ASTSubSelect?) {
         if ((node != null)) {
             freeASTSelectClause(node.variable0)
             freeASTWhereClause(node.variable1)
@@ -76478,16 +76476,16 @@ public fun close() {
             freeASTValuesClauseOptional(node.variable3)
         }
     }
-    private fun astAssign_ASTSubSelect_0(node: ASTSubSelect, value: Any): Unit {
+    private fun astAssign_ASTSubSelect_0(node: ASTSubSelect, value: Any) {
         node.variable0 = (value as ASTSelectClause)
     }
-    private fun astAssign_ASTSubSelect_1(node: ASTSubSelect, value: Any): Unit {
+    private fun astAssign_ASTSubSelect_1(node: ASTSubSelect, value: Any) {
         node.variable1 = (value as ASTWhereClause)
     }
-    private fun astAssign_ASTSubSelect_2(node: ASTSubSelect, value: Any): Unit {
+    private fun astAssign_ASTSubSelect_2(node: ASTSubSelect, value: Any) {
         node.variable2 = (value as ASTSolutionModifier)
     }
-    private fun astAssign_ASTSubSelect_3(node: ASTSubSelect, value: Any): Unit {
+    private fun astAssign_ASTSubSelect_3(node: ASTSubSelect, value: Any) {
         node.variable3 = (value as ASTValuesClauseOptional)
     }
     private fun allocASTClassOfExpressionAndVar(): ASTClassOfExpressionAndVar {
@@ -76495,7 +76493,7 @@ public fun close() {
         tmp.id = 17
         return tmp
     }
-    public fun printASTClassOfExpressionAndVar(node: ASTClassOfExpressionAndVar?): Unit {
+    public fun printASTClassOfExpressionAndVar(node: ASTClassOfExpressionAndVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76507,19 +76505,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfExpressionAndVar(node: ASTClassOfExpressionAndVar?): Unit {
+    public fun freeASTClassOfExpressionAndVar(node: ASTClassOfExpressionAndVar?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTVar(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfExpressionAndVar_0(node: ASTClassOfExpressionAndVar, value: Any): Unit {
+    private fun astAssign_ASTClassOfExpressionAndVar_0(node: ASTClassOfExpressionAndVar, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTClassOfExpressionAndVar_1(node: ASTClassOfExpressionAndVar, value: Any): Unit {
+    private fun astAssign_ASTClassOfExpressionAndVar_1(node: ASTClassOfExpressionAndVar, value: Any) {
         node.variable1 = (value as ASTVar)
     }
-    public fun printASTInterfaceOfVarOrClassOfExpressionAndVar(node: ASTInterfaceOfVarOrClassOfExpressionAndVar?): Unit {
+    public fun printASTInterfaceOfVarOrClassOfExpressionAndVar(node: ASTInterfaceOfVarOrClassOfExpressionAndVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76533,7 +76531,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfVarOrClassOfExpressionAndVar(node: ASTInterfaceOfVarOrClassOfExpressionAndVar?): Unit {
+    public fun freeASTInterfaceOfVarOrClassOfExpressionAndVar(node: ASTInterfaceOfVarOrClassOfExpressionAndVar?) {
         if ((node != null)) {
             when (node.id) {
                 18, 19 -> {
@@ -76545,7 +76543,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfInterfaceOfVarOrClassOfExpressionAndVar(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar?): Unit {
+    public fun printASTListOfInterfaceOfVarOrClassOfExpressionAndVar(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76556,7 +76554,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfInterfaceOfVarOrClassOfExpressionAndVar(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar?): Unit {
+    public fun freeASTListOfInterfaceOfVarOrClassOfExpressionAndVar(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTInterfaceOfVarOrClassOfExpressionAndVar(it)
@@ -76569,10 +76567,10 @@ public fun close() {
         tmp.id = 20
         return tmp
     }
-    private fun astAssign_ASTListOfInterfaceOfVarOrClassOfExpressionAndVar_0(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar, value: Any): Unit {
+    private fun astAssign_ASTListOfInterfaceOfVarOrClassOfExpressionAndVar_0(node: ASTListOfInterfaceOfVarOrClassOfExpressionAndVar, value: Any) {
         node.value.add((value as ASTInterfaceOfVarOrClassOfExpressionAndVar))
     }
-    public fun printASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll(node: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll?): Unit {
+    public fun printASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll(node: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76586,7 +76584,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll(node: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll?): Unit {
+    public fun freeASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll(node: ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll?) {
         if ((node != null)) {
             when (node.id) {
                 20 -> {
@@ -76603,7 +76601,7 @@ public fun close() {
         tmp.id = 22
         return tmp
     }
-    public fun printASTSelectClause(node: ASTSelectClause?): Unit {
+    public fun printASTSelectClause(node: ASTSelectClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76614,15 +76612,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSelectClause(node: ASTSelectClause?): Unit {
+    public fun freeASTSelectClause(node: ASTSelectClause?) {
         if ((node != null)) {
             freeASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll(node.variable1)
         }
     }
-    private fun astAssign_ASTSelectClause_0(node: ASTSelectClause, value: Any): Unit {
+    private fun astAssign_ASTSelectClause_0(node: ASTSelectClause, value: Any) {
         node.variable0 = (ASTEnumOfDISTINCTAndREDUCED.values.indexOf((value as String)) + 1)
     }
-    private fun astAssign_ASTSelectClause_1(node: ASTSelectClause, value: Any): Unit {
+    private fun astAssign_ASTSelectClause_1(node: ASTSelectClause, value: Any) {
         node.variable1 = (value as ASTInterfaceOfListOfInterfaceOfVarOrClassOfExpressionAndVarOrSelectClauseAll)
     }
     private fun allocASTSelectClauseAll(): ASTSelectClauseAll {
@@ -76630,7 +76628,7 @@ public fun close() {
         tmp.id = 21
         return tmp
     }
-    public fun printASTSelectClauseAll(node: ASTSelectClauseAll?): Unit {
+    public fun printASTSelectClauseAll(node: ASTSelectClauseAll?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76638,7 +76636,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSelectClauseAll(node: ASTSelectClauseAll?): Unit {
+    public fun freeASTSelectClauseAll(node: ASTSelectClauseAll?) {
         if ((node != null)) {
         }
     }
@@ -76647,7 +76645,7 @@ public fun close() {
         tmp.id = 23
         return tmp
     }
-    public fun printASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier?): Unit {
+    public fun printASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76663,7 +76661,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier?): Unit {
+    public fun freeASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier?) {
         if ((node != null)) {
             freeASTConstructTemplate(node.variable0)
             freeASTListOfDatasetClause(node.variable1)
@@ -76671,16 +76669,16 @@ public fun close() {
             freeASTSolutionModifier(node.variable3)
         }
     }
-    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_0(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_0(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any) {
         node.variable0 = (value as ASTConstructTemplate)
     }
-    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_1(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_1(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any) {
         node.variable1 = (value as ASTListOfDatasetClause)
     }
-    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_2(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_2(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any) {
         node.variable2 = (value as ASTWhereClause)
     }
-    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_3(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier_3(node: ASTClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifier, value: Any) {
         node.variable3 = (value as ASTSolutionModifier)
     }
     private fun allocASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(): ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier {
@@ -76688,7 +76686,7 @@ public fun close() {
         tmp.id = 24
         return tmp
     }
-    public fun printASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?): Unit {
+    public fun printASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76702,23 +76700,23 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?): Unit {
+    public fun freeASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?) {
         if ((node != null)) {
             freeASTListOfDatasetClause(node.variable0)
             freeASTGroupGraphPattern(node.variable1)
             freeASTSolutionModifier(node.variable2)
         }
     }
-    private fun astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_0(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_0(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, value: Any) {
         node.variable0 = (value as ASTListOfDatasetClause)
     }
-    private fun astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_1(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_1(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, value: Any) {
         node.variable1 = (value as ASTGroupGraphPattern)
     }
-    private fun astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_2(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier_2(node: ASTClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier, value: Any) {
         node.variable2 = (value as ASTSolutionModifier)
     }
-    public fun printASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?): Unit {
+    public fun printASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76732,7 +76730,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?): Unit {
+    public fun freeASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node: ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier?) {
         if ((node != null)) {
             when (node.id) {
                 23 -> {
@@ -76749,7 +76747,7 @@ public fun close() {
         tmp.id = 1
         return tmp
     }
-    public fun printASTConstructQuery(node: ASTConstructQuery?): Unit {
+    public fun printASTConstructQuery(node: ASTConstructQuery?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76759,15 +76757,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTConstructQuery(node: ASTConstructQuery?): Unit {
+    public fun freeASTConstructQuery(node: ASTConstructQuery?) {
         if ((node != null)) {
             freeASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier(node.variable0)
         }
     }
-    private fun astAssign_ASTConstructQuery_0(node: ASTConstructQuery, value: Any): Unit {
+    private fun astAssign_ASTConstructQuery_0(node: ASTConstructQuery, value: Any) {
         node.variable0 = (value as ASTInterfaceOfClassOfConstructTemplateAndListOfDatasetClauseAndWhereClauseAndSolutionModifierOrClassOfListOfDatasetClauseAndGroupGraphPatternAndSolutionModifier)
     }
-    public fun printASTListOfVarOrIri(node: ASTListOfVarOrIri?): Unit {
+    public fun printASTListOfVarOrIri(node: ASTListOfVarOrIri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76778,7 +76776,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfVarOrIri(node: ASTListOfVarOrIri?): Unit {
+    public fun freeASTListOfVarOrIri(node: ASTListOfVarOrIri?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTVarOrIri(it)
@@ -76791,10 +76789,10 @@ public fun close() {
         tmp.id = 25
         return tmp
     }
-    private fun astAssign_ASTListOfVarOrIri_0(node: ASTListOfVarOrIri, value: Any): Unit {
+    private fun astAssign_ASTListOfVarOrIri_0(node: ASTListOfVarOrIri, value: Any) {
         node.value.add((value as ASTVarOrIri))
     }
-    public fun printASTInterfaceOfListOfVarOrIriOrDescribeQueryAll(node: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll?): Unit {
+    public fun printASTInterfaceOfListOfVarOrIriOrDescribeQueryAll(node: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76808,7 +76806,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfListOfVarOrIriOrDescribeQueryAll(node: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll?): Unit {
+    public fun freeASTInterfaceOfListOfVarOrIriOrDescribeQueryAll(node: ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll?) {
         if ((node != null)) {
             when (node.id) {
                 25 -> {
@@ -76825,7 +76823,7 @@ public fun close() {
         tmp.id = 27
         return tmp
     }
-    public fun printASTWhereClauseOptional(node: ASTWhereClauseOptional?): Unit {
+    public fun printASTWhereClauseOptional(node: ASTWhereClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76835,12 +76833,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTWhereClauseOptional(node: ASTWhereClauseOptional?): Unit {
+    public fun freeASTWhereClauseOptional(node: ASTWhereClauseOptional?) {
         if ((node != null)) {
             freeASTWhereClause(node.variable0)
         }
     }
-    private fun astAssign_ASTWhereClauseOptional_0(node: ASTWhereClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTWhereClauseOptional_0(node: ASTWhereClauseOptional, value: Any) {
         node.variable0 = (value as ASTWhereClause)
     }
     private fun allocASTDescribeQuery(): ASTDescribeQuery {
@@ -76848,7 +76846,7 @@ public fun close() {
         tmp.id = 2
         return tmp
     }
-    public fun printASTDescribeQuery(node: ASTDescribeQuery?): Unit {
+    public fun printASTDescribeQuery(node: ASTDescribeQuery?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76864,7 +76862,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDescribeQuery(node: ASTDescribeQuery?): Unit {
+    public fun freeASTDescribeQuery(node: ASTDescribeQuery?) {
         if ((node != null)) {
             freeASTInterfaceOfListOfVarOrIriOrDescribeQueryAll(node.variable0)
             freeASTListOfDatasetClause(node.variable1)
@@ -76872,16 +76870,16 @@ public fun close() {
             freeASTSolutionModifier(node.variable3)
         }
     }
-    private fun astAssign_ASTDescribeQuery_0(node: ASTDescribeQuery, value: Any): Unit {
+    private fun astAssign_ASTDescribeQuery_0(node: ASTDescribeQuery, value: Any) {
         node.variable0 = (value as ASTInterfaceOfListOfVarOrIriOrDescribeQueryAll)
     }
-    private fun astAssign_ASTDescribeQuery_1(node: ASTDescribeQuery, value: Any): Unit {
+    private fun astAssign_ASTDescribeQuery_1(node: ASTDescribeQuery, value: Any) {
         node.variable1 = (value as ASTListOfDatasetClause)
     }
-    private fun astAssign_ASTDescribeQuery_2(node: ASTDescribeQuery, value: Any): Unit {
+    private fun astAssign_ASTDescribeQuery_2(node: ASTDescribeQuery, value: Any) {
         node.variable2 = (value as ASTWhereClauseOptional)
     }
-    private fun astAssign_ASTDescribeQuery_3(node: ASTDescribeQuery, value: Any): Unit {
+    private fun astAssign_ASTDescribeQuery_3(node: ASTDescribeQuery, value: Any) {
         node.variable3 = (value as ASTSolutionModifier)
     }
     private fun allocASTDescribeQueryAll(): ASTDescribeQueryAll {
@@ -76889,7 +76887,7 @@ public fun close() {
         tmp.id = 26
         return tmp
     }
-    public fun printASTDescribeQueryAll(node: ASTDescribeQueryAll?): Unit {
+    public fun printASTDescribeQueryAll(node: ASTDescribeQueryAll?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76897,7 +76895,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDescribeQueryAll(node: ASTDescribeQueryAll?): Unit {
+    public fun freeASTDescribeQueryAll(node: ASTDescribeQueryAll?) {
         if ((node != null)) {
         }
     }
@@ -76906,7 +76904,7 @@ public fun close() {
         tmp.id = 3
         return tmp
     }
-    public fun printASTAskQuery(node: ASTAskQuery?): Unit {
+    public fun printASTAskQuery(node: ASTAskQuery?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76920,23 +76918,23 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAskQuery(node: ASTAskQuery?): Unit {
+    public fun freeASTAskQuery(node: ASTAskQuery?) {
         if ((node != null)) {
             freeASTListOfDatasetClause(node.variable0)
             freeASTWhereClause(node.variable1)
             freeASTSolutionModifier(node.variable2)
         }
     }
-    private fun astAssign_ASTAskQuery_0(node: ASTAskQuery, value: Any): Unit {
+    private fun astAssign_ASTAskQuery_0(node: ASTAskQuery, value: Any) {
         node.variable0 = (value as ASTListOfDatasetClause)
     }
-    private fun astAssign_ASTAskQuery_1(node: ASTAskQuery, value: Any): Unit {
+    private fun astAssign_ASTAskQuery_1(node: ASTAskQuery, value: Any) {
         node.variable1 = (value as ASTWhereClause)
     }
-    private fun astAssign_ASTAskQuery_2(node: ASTAskQuery, value: Any): Unit {
+    private fun astAssign_ASTAskQuery_2(node: ASTAskQuery, value: Any) {
         node.variable2 = (value as ASTSolutionModifier)
     }
-    public fun printASTInterfaceOfDefaultGraphClauseOrNamedGraphClause(node: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause?): Unit {
+    public fun printASTInterfaceOfDefaultGraphClauseOrNamedGraphClause(node: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76950,7 +76948,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfDefaultGraphClauseOrNamedGraphClause(node: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause?): Unit {
+    public fun freeASTInterfaceOfDefaultGraphClauseOrNamedGraphClause(node: ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause?) {
         if ((node != null)) {
             when (node.id) {
                 28 -> {
@@ -76967,7 +76965,7 @@ public fun close() {
         tmp.id = 30
         return tmp
     }
-    public fun printASTDatasetClause(node: ASTDatasetClause?): Unit {
+    public fun printASTDatasetClause(node: ASTDatasetClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -76977,12 +76975,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDatasetClause(node: ASTDatasetClause?): Unit {
+    public fun freeASTDatasetClause(node: ASTDatasetClause?) {
         if ((node != null)) {
             freeASTInterfaceOfDefaultGraphClauseOrNamedGraphClause(node.variable0)
         }
     }
-    private fun astAssign_ASTDatasetClause_0(node: ASTDatasetClause, value: Any): Unit {
+    private fun astAssign_ASTDatasetClause_0(node: ASTDatasetClause, value: Any) {
         node.variable0 = (value as ASTInterfaceOfDefaultGraphClauseOrNamedGraphClause)
     }
     private fun allocASTDefaultGraphClause(): ASTDefaultGraphClause {
@@ -76990,7 +76988,7 @@ public fun close() {
         tmp.id = 28
         return tmp
     }
-    public fun printASTDefaultGraphClause(node: ASTDefaultGraphClause?): Unit {
+    public fun printASTDefaultGraphClause(node: ASTDefaultGraphClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77000,12 +76998,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDefaultGraphClause(node: ASTDefaultGraphClause?): Unit {
+    public fun freeASTDefaultGraphClause(node: ASTDefaultGraphClause?) {
         if ((node != null)) {
             freeASTSourceSelector(node.variable0)
         }
     }
-    private fun astAssign_ASTDefaultGraphClause_0(node: ASTDefaultGraphClause, value: Any): Unit {
+    private fun astAssign_ASTDefaultGraphClause_0(node: ASTDefaultGraphClause, value: Any) {
         node.variable0 = (value as ASTSourceSelector)
     }
     private fun allocASTNamedGraphClause(): ASTNamedGraphClause {
@@ -77013,7 +77011,7 @@ public fun close() {
         tmp.id = 29
         return tmp
     }
-    public fun printASTNamedGraphClause(node: ASTNamedGraphClause?): Unit {
+    public fun printASTNamedGraphClause(node: ASTNamedGraphClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77023,12 +77021,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNamedGraphClause(node: ASTNamedGraphClause?): Unit {
+    public fun freeASTNamedGraphClause(node: ASTNamedGraphClause?) {
         if ((node != null)) {
             freeASTSourceSelector(node.variable0)
         }
     }
-    private fun astAssign_ASTNamedGraphClause_0(node: ASTNamedGraphClause, value: Any): Unit {
+    private fun astAssign_ASTNamedGraphClause_0(node: ASTNamedGraphClause, value: Any) {
         node.variable0 = (value as ASTSourceSelector)
     }
     private fun allocASTSourceSelector(): ASTSourceSelector {
@@ -77036,7 +77034,7 @@ public fun close() {
         tmp.id = 31
         return tmp
     }
-    public fun printASTSourceSelector(node: ASTSourceSelector?): Unit {
+    public fun printASTSourceSelector(node: ASTSourceSelector?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77046,12 +77044,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSourceSelector(node: ASTSourceSelector?): Unit {
+    public fun freeASTSourceSelector(node: ASTSourceSelector?) {
         if ((node != null)) {
             freeASTiri(node.variable0)
         }
     }
-    private fun astAssign_ASTSourceSelector_0(node: ASTSourceSelector, value: Any): Unit {
+    private fun astAssign_ASTSourceSelector_0(node: ASTSourceSelector, value: Any) {
         node.variable0 = (value as ASTiri)
     }
     private fun allocASTWhereClause(): ASTWhereClause {
@@ -77059,7 +77057,7 @@ public fun close() {
         tmp.id = 32
         return tmp
     }
-    public fun printASTWhereClause(node: ASTWhereClause?): Unit {
+    public fun printASTWhereClause(node: ASTWhereClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77070,15 +77068,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTWhereClause(node: ASTWhereClause?): Unit {
+    public fun freeASTWhereClause(node: ASTWhereClause?) {
         if ((node != null)) {
             freeASTGroupGraphPattern(node.variable1)
         }
     }
-    private fun astAssign_ASTWhereClause_0(node: ASTWhereClause, value: Any): Unit {
+    private fun astAssign_ASTWhereClause_0(node: ASTWhereClause, value: Any) {
         node.WHERE = true
     }
-    private fun astAssign_ASTWhereClause_1(node: ASTWhereClause, value: Any): Unit {
+    private fun astAssign_ASTWhereClause_1(node: ASTWhereClause, value: Any) {
         node.variable1 = (value as ASTGroupGraphPattern)
     }
     private fun allocASTGroupClauseOptional(): ASTGroupClauseOptional {
@@ -77086,7 +77084,7 @@ public fun close() {
         tmp.id = 33
         return tmp
     }
-    public fun printASTGroupClauseOptional(node: ASTGroupClauseOptional?): Unit {
+    public fun printASTGroupClauseOptional(node: ASTGroupClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77096,12 +77094,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGroupClauseOptional(node: ASTGroupClauseOptional?): Unit {
+    public fun freeASTGroupClauseOptional(node: ASTGroupClauseOptional?) {
         if ((node != null)) {
             freeASTGroupClause(node.variable0)
         }
     }
-    private fun astAssign_ASTGroupClauseOptional_0(node: ASTGroupClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTGroupClauseOptional_0(node: ASTGroupClauseOptional, value: Any) {
         node.variable0 = (value as ASTGroupClause)
     }
     private fun allocASTHavingClauseOptional(): ASTHavingClauseOptional {
@@ -77109,7 +77107,7 @@ public fun close() {
         tmp.id = 34
         return tmp
     }
-    public fun printASTHavingClauseOptional(node: ASTHavingClauseOptional?): Unit {
+    public fun printASTHavingClauseOptional(node: ASTHavingClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77119,12 +77117,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTHavingClauseOptional(node: ASTHavingClauseOptional?): Unit {
+    public fun freeASTHavingClauseOptional(node: ASTHavingClauseOptional?) {
         if ((node != null)) {
             freeASTHavingClause(node.variable0)
         }
     }
-    private fun astAssign_ASTHavingClauseOptional_0(node: ASTHavingClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTHavingClauseOptional_0(node: ASTHavingClauseOptional, value: Any) {
         node.variable0 = (value as ASTHavingClause)
     }
     private fun allocASTOrderClauseOptional(): ASTOrderClauseOptional {
@@ -77132,7 +77130,7 @@ public fun close() {
         tmp.id = 35
         return tmp
     }
-    public fun printASTOrderClauseOptional(node: ASTOrderClauseOptional?): Unit {
+    public fun printASTOrderClauseOptional(node: ASTOrderClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77142,12 +77140,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTOrderClauseOptional(node: ASTOrderClauseOptional?): Unit {
+    public fun freeASTOrderClauseOptional(node: ASTOrderClauseOptional?) {
         if ((node != null)) {
             freeASTOrderClause(node.variable0)
         }
     }
-    private fun astAssign_ASTOrderClauseOptional_0(node: ASTOrderClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTOrderClauseOptional_0(node: ASTOrderClauseOptional, value: Any) {
         node.variable0 = (value as ASTOrderClause)
     }
     private fun allocASTLimitOffsetClausesOptional(): ASTLimitOffsetClausesOptional {
@@ -77155,7 +77153,7 @@ public fun close() {
         tmp.id = 36
         return tmp
     }
-    public fun printASTLimitOffsetClausesOptional(node: ASTLimitOffsetClausesOptional?): Unit {
+    public fun printASTLimitOffsetClausesOptional(node: ASTLimitOffsetClausesOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77165,12 +77163,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTLimitOffsetClausesOptional(node: ASTLimitOffsetClausesOptional?): Unit {
+    public fun freeASTLimitOffsetClausesOptional(node: ASTLimitOffsetClausesOptional?) {
         if ((node != null)) {
             freeASTLimitOffsetClauses(node.variable0)
         }
     }
-    private fun astAssign_ASTLimitOffsetClausesOptional_0(node: ASTLimitOffsetClausesOptional, value: Any): Unit {
+    private fun astAssign_ASTLimitOffsetClausesOptional_0(node: ASTLimitOffsetClausesOptional, value: Any) {
         node.variable0 = (value as ASTLimitOffsetClauses)
     }
     private fun allocASTSolutionModifier(): ASTSolutionModifier {
@@ -77178,7 +77176,7 @@ public fun close() {
         tmp.id = 37
         return tmp
     }
-    public fun printASTSolutionModifier(node: ASTSolutionModifier?): Unit {
+    public fun printASTSolutionModifier(node: ASTSolutionModifier?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77194,7 +77192,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSolutionModifier(node: ASTSolutionModifier?): Unit {
+    public fun freeASTSolutionModifier(node: ASTSolutionModifier?) {
         if ((node != null)) {
             freeASTGroupClauseOptional(node.variable0)
             freeASTHavingClauseOptional(node.variable1)
@@ -77202,19 +77200,19 @@ public fun close() {
             freeASTLimitOffsetClausesOptional(node.variable3)
         }
     }
-    private fun astAssign_ASTSolutionModifier_0(node: ASTSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTSolutionModifier_0(node: ASTSolutionModifier, value: Any) {
         node.variable0 = (value as ASTGroupClauseOptional)
     }
-    private fun astAssign_ASTSolutionModifier_1(node: ASTSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTSolutionModifier_1(node: ASTSolutionModifier, value: Any) {
         node.variable1 = (value as ASTHavingClauseOptional)
     }
-    private fun astAssign_ASTSolutionModifier_2(node: ASTSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTSolutionModifier_2(node: ASTSolutionModifier, value: Any) {
         node.variable2 = (value as ASTOrderClauseOptional)
     }
-    private fun astAssign_ASTSolutionModifier_3(node: ASTSolutionModifier, value: Any): Unit {
+    private fun astAssign_ASTSolutionModifier_3(node: ASTSolutionModifier, value: Any) {
         node.variable3 = (value as ASTLimitOffsetClausesOptional)
     }
-    public fun printASTListOfGroupCondition(node: ASTListOfGroupCondition?): Unit {
+    public fun printASTListOfGroupCondition(node: ASTListOfGroupCondition?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77225,7 +77223,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfGroupCondition(node: ASTListOfGroupCondition?): Unit {
+    public fun freeASTListOfGroupCondition(node: ASTListOfGroupCondition?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTGroupCondition(it)
@@ -77238,7 +77236,7 @@ public fun close() {
         tmp.id = 38
         return tmp
     }
-    private fun astAssign_ASTListOfGroupCondition_0(node: ASTListOfGroupCondition, value: Any): Unit {
+    private fun astAssign_ASTListOfGroupCondition_0(node: ASTListOfGroupCondition, value: Any) {
         node.value.add((value as ASTGroupCondition))
     }
     private fun allocASTGroupClause(): ASTGroupClause {
@@ -77246,7 +77244,7 @@ public fun close() {
         tmp.id = 39
         return tmp
     }
-    public fun printASTGroupClause(node: ASTGroupClause?): Unit {
+    public fun printASTGroupClause(node: ASTGroupClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77256,12 +77254,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGroupClause(node: ASTGroupClause?): Unit {
+    public fun freeASTGroupClause(node: ASTGroupClause?) {
         if ((node != null)) {
             freeASTListOfGroupCondition(node.variable0)
         }
     }
-    private fun astAssign_ASTGroupClause_0(node: ASTGroupClause, value: Any): Unit {
+    private fun astAssign_ASTGroupClause_0(node: ASTGroupClause, value: Any) {
         node.variable0 = (value as ASTListOfGroupCondition)
     }
     private fun allocASTVarOptional(): ASTVarOptional {
@@ -77269,7 +77267,7 @@ public fun close() {
         tmp.id = 40
         return tmp
     }
-    public fun printASTVarOptional(node: ASTVarOptional?): Unit {
+    public fun printASTVarOptional(node: ASTVarOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77279,12 +77277,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTVarOptional(node: ASTVarOptional?): Unit {
+    public fun freeASTVarOptional(node: ASTVarOptional?) {
         if ((node != null)) {
             freeASTVar(node.variable0)
         }
     }
-    private fun astAssign_ASTVarOptional_0(node: ASTVarOptional, value: Any): Unit {
+    private fun astAssign_ASTVarOptional_0(node: ASTVarOptional, value: Any) {
         node.variable0 = (value as ASTVar)
     }
     private fun allocASTClassOfExpressionAndVarOptional(): ASTClassOfExpressionAndVarOptional {
@@ -77292,7 +77290,7 @@ public fun close() {
         tmp.id = 41
         return tmp
     }
-    public fun printASTClassOfExpressionAndVarOptional(node: ASTClassOfExpressionAndVarOptional?): Unit {
+    public fun printASTClassOfExpressionAndVarOptional(node: ASTClassOfExpressionAndVarOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77304,19 +77302,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfExpressionAndVarOptional(node: ASTClassOfExpressionAndVarOptional?): Unit {
+    public fun freeASTClassOfExpressionAndVarOptional(node: ASTClassOfExpressionAndVarOptional?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTVarOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfExpressionAndVarOptional_0(node: ASTClassOfExpressionAndVarOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfExpressionAndVarOptional_0(node: ASTClassOfExpressionAndVarOptional, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTClassOfExpressionAndVarOptional_1(node: ASTClassOfExpressionAndVarOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfExpressionAndVarOptional_1(node: ASTClassOfExpressionAndVarOptional, value: Any) {
         node.variable1 = (value as ASTVarOptional)
     }
-    public fun printASTGroupCondition(node: ASTGroupCondition?): Unit {
+    public fun printASTGroupCondition(node: ASTGroupCondition?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77336,7 +77334,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTGroupCondition(node: ASTGroupCondition?): Unit {
+    public fun freeASTGroupCondition(node: ASTGroupCondition?) {
         if ((node != null)) {
             when (node.id) {
                 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102 -> {
@@ -77354,7 +77352,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfHavingCondition(node: ASTListOfHavingCondition?): Unit {
+    public fun printASTListOfHavingCondition(node: ASTListOfHavingCondition?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77365,7 +77363,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfHavingCondition(node: ASTListOfHavingCondition?): Unit {
+    public fun freeASTListOfHavingCondition(node: ASTListOfHavingCondition?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTHavingCondition(it)
@@ -77378,7 +77376,7 @@ public fun close() {
         tmp.id = 104
         return tmp
     }
-    private fun astAssign_ASTListOfHavingCondition_0(node: ASTListOfHavingCondition, value: Any): Unit {
+    private fun astAssign_ASTListOfHavingCondition_0(node: ASTListOfHavingCondition, value: Any) {
         node.value.add((value as ASTHavingCondition))
     }
     private fun allocASTHavingClause(): ASTHavingClause {
@@ -77386,7 +77384,7 @@ public fun close() {
         tmp.id = 105
         return tmp
     }
-    public fun printASTHavingClause(node: ASTHavingClause?): Unit {
+    public fun printASTHavingClause(node: ASTHavingClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77396,12 +77394,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTHavingClause(node: ASTHavingClause?): Unit {
+    public fun freeASTHavingClause(node: ASTHavingClause?) {
         if ((node != null)) {
             freeASTListOfHavingCondition(node.variable0)
         }
     }
-    private fun astAssign_ASTHavingClause_0(node: ASTHavingClause, value: Any): Unit {
+    private fun astAssign_ASTHavingClause_0(node: ASTHavingClause, value: Any) {
         node.variable0 = (value as ASTListOfHavingCondition)
     }
     private fun allocASTHavingCondition(): ASTHavingCondition {
@@ -77409,7 +77407,7 @@ public fun close() {
         tmp.id = 106
         return tmp
     }
-    public fun printASTHavingCondition(node: ASTHavingCondition?): Unit {
+    public fun printASTHavingCondition(node: ASTHavingCondition?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77419,15 +77417,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTHavingCondition(node: ASTHavingCondition?): Unit {
+    public fun freeASTHavingCondition(node: ASTHavingCondition?) {
         if ((node != null)) {
             freeASTConstraint(node.variable0)
         }
     }
-    private fun astAssign_ASTHavingCondition_0(node: ASTHavingCondition, value: Any): Unit {
+    private fun astAssign_ASTHavingCondition_0(node: ASTHavingCondition, value: Any) {
         node.variable0 = (value as ASTConstraint)
     }
-    public fun printASTListOfOrderCondition(node: ASTListOfOrderCondition?): Unit {
+    public fun printASTListOfOrderCondition(node: ASTListOfOrderCondition?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77438,7 +77436,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfOrderCondition(node: ASTListOfOrderCondition?): Unit {
+    public fun freeASTListOfOrderCondition(node: ASTListOfOrderCondition?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTOrderCondition(it)
@@ -77451,7 +77449,7 @@ public fun close() {
         tmp.id = 107
         return tmp
     }
-    private fun astAssign_ASTListOfOrderCondition_0(node: ASTListOfOrderCondition, value: Any): Unit {
+    private fun astAssign_ASTListOfOrderCondition_0(node: ASTListOfOrderCondition, value: Any) {
         node.value.add((value as ASTOrderCondition))
     }
     private fun allocASTOrderClause(): ASTOrderClause {
@@ -77459,7 +77457,7 @@ public fun close() {
         tmp.id = 108
         return tmp
     }
-    public fun printASTOrderClause(node: ASTOrderClause?): Unit {
+    public fun printASTOrderClause(node: ASTOrderClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77469,15 +77467,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTOrderClause(node: ASTOrderClause?): Unit {
+    public fun freeASTOrderClause(node: ASTOrderClause?) {
         if ((node != null)) {
             freeASTListOfOrderCondition(node.variable0)
         }
     }
-    private fun astAssign_ASTOrderClause_0(node: ASTOrderClause, value: Any): Unit {
+    private fun astAssign_ASTOrderClause_0(node: ASTOrderClause, value: Any) {
         node.variable0 = (value as ASTListOfOrderCondition)
     }
-    public fun printASTInterfaceOfConstraintOrVar(node: ASTInterfaceOfConstraintOrVar?): Unit {
+    public fun printASTInterfaceOfConstraintOrVar(node: ASTInterfaceOfConstraintOrVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77491,7 +77489,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfConstraintOrVar(node: ASTInterfaceOfConstraintOrVar?): Unit {
+    public fun freeASTInterfaceOfConstraintOrVar(node: ASTInterfaceOfConstraintOrVar?) {
         if ((node != null)) {
             when (node.id) {
                 109, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103 -> {
@@ -77508,7 +77506,7 @@ public fun close() {
         tmp.id = 110
         return tmp
     }
-    public fun printASTOrderCondition(node: ASTOrderCondition?): Unit {
+    public fun printASTOrderCondition(node: ASTOrderCondition?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77519,15 +77517,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTOrderCondition(node: ASTOrderCondition?): Unit {
+    public fun freeASTOrderCondition(node: ASTOrderCondition?) {
         if ((node != null)) {
             freeASTInterfaceOfConstraintOrVar(node.variable1)
         }
     }
-    private fun astAssign_ASTOrderCondition_0(node: ASTOrderCondition, value: Any): Unit {
+    private fun astAssign_ASTOrderCondition_0(node: ASTOrderCondition, value: Any) {
         node.variable0 = (ASTEnumOfASCAndDESC.values.indexOf((value as String)) + 1)
     }
-    private fun astAssign_ASTOrderCondition_1(node: ASTOrderCondition, value: Any): Unit {
+    private fun astAssign_ASTOrderCondition_1(node: ASTOrderCondition, value: Any) {
         node.variable1 = (value as ASTInterfaceOfConstraintOrVar)
     }
     private fun allocASTOffsetClauseOptional(): ASTOffsetClauseOptional {
@@ -77535,7 +77533,7 @@ public fun close() {
         tmp.id = 111
         return tmp
     }
-    public fun printASTOffsetClauseOptional(node: ASTOffsetClauseOptional?): Unit {
+    public fun printASTOffsetClauseOptional(node: ASTOffsetClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77545,12 +77543,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTOffsetClauseOptional(node: ASTOffsetClauseOptional?): Unit {
+    public fun freeASTOffsetClauseOptional(node: ASTOffsetClauseOptional?) {
         if ((node != null)) {
             freeASTOffsetClause(node.variable0)
         }
     }
-    private fun astAssign_ASTOffsetClauseOptional_0(node: ASTOffsetClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTOffsetClauseOptional_0(node: ASTOffsetClauseOptional, value: Any) {
         node.variable0 = (value as ASTOffsetClause)
     }
     private fun allocASTClassOfLimitClauseAndOffsetClauseOptional(): ASTClassOfLimitClauseAndOffsetClauseOptional {
@@ -77558,7 +77556,7 @@ public fun close() {
         tmp.id = 112
         return tmp
     }
-    public fun printASTClassOfLimitClauseAndOffsetClauseOptional(node: ASTClassOfLimitClauseAndOffsetClauseOptional?): Unit {
+    public fun printASTClassOfLimitClauseAndOffsetClauseOptional(node: ASTClassOfLimitClauseAndOffsetClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77570,16 +77568,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfLimitClauseAndOffsetClauseOptional(node: ASTClassOfLimitClauseAndOffsetClauseOptional?): Unit {
+    public fun freeASTClassOfLimitClauseAndOffsetClauseOptional(node: ASTClassOfLimitClauseAndOffsetClauseOptional?) {
         if ((node != null)) {
             freeASTLimitClause(node.variable0)
             freeASTOffsetClauseOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfLimitClauseAndOffsetClauseOptional_0(node: ASTClassOfLimitClauseAndOffsetClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfLimitClauseAndOffsetClauseOptional_0(node: ASTClassOfLimitClauseAndOffsetClauseOptional, value: Any) {
         node.variable0 = (value as ASTLimitClause)
     }
-    private fun astAssign_ASTClassOfLimitClauseAndOffsetClauseOptional_1(node: ASTClassOfLimitClauseAndOffsetClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfLimitClauseAndOffsetClauseOptional_1(node: ASTClassOfLimitClauseAndOffsetClauseOptional, value: Any) {
         node.variable1 = (value as ASTOffsetClauseOptional)
     }
     private fun allocASTLimitClauseOptional(): ASTLimitClauseOptional {
@@ -77587,7 +77585,7 @@ public fun close() {
         tmp.id = 113
         return tmp
     }
-    public fun printASTLimitClauseOptional(node: ASTLimitClauseOptional?): Unit {
+    public fun printASTLimitClauseOptional(node: ASTLimitClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77597,12 +77595,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTLimitClauseOptional(node: ASTLimitClauseOptional?): Unit {
+    public fun freeASTLimitClauseOptional(node: ASTLimitClauseOptional?) {
         if ((node != null)) {
             freeASTLimitClause(node.variable0)
         }
     }
-    private fun astAssign_ASTLimitClauseOptional_0(node: ASTLimitClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTLimitClauseOptional_0(node: ASTLimitClauseOptional, value: Any) {
         node.variable0 = (value as ASTLimitClause)
     }
     private fun allocASTClassOfOffsetClauseAndLimitClauseOptional(): ASTClassOfOffsetClauseAndLimitClauseOptional {
@@ -77610,7 +77608,7 @@ public fun close() {
         tmp.id = 114
         return tmp
     }
-    public fun printASTClassOfOffsetClauseAndLimitClauseOptional(node: ASTClassOfOffsetClauseAndLimitClauseOptional?): Unit {
+    public fun printASTClassOfOffsetClauseAndLimitClauseOptional(node: ASTClassOfOffsetClauseAndLimitClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77622,19 +77620,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfOffsetClauseAndLimitClauseOptional(node: ASTClassOfOffsetClauseAndLimitClauseOptional?): Unit {
+    public fun freeASTClassOfOffsetClauseAndLimitClauseOptional(node: ASTClassOfOffsetClauseAndLimitClauseOptional?) {
         if ((node != null)) {
             freeASTOffsetClause(node.variable0)
             freeASTLimitClauseOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfOffsetClauseAndLimitClauseOptional_0(node: ASTClassOfOffsetClauseAndLimitClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfOffsetClauseAndLimitClauseOptional_0(node: ASTClassOfOffsetClauseAndLimitClauseOptional, value: Any) {
         node.variable0 = (value as ASTOffsetClause)
     }
-    private fun astAssign_ASTClassOfOffsetClauseAndLimitClauseOptional_1(node: ASTClassOfOffsetClauseAndLimitClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfOffsetClauseAndLimitClauseOptional_1(node: ASTClassOfOffsetClauseAndLimitClauseOptional, value: Any) {
         node.variable1 = (value as ASTLimitClauseOptional)
     }
-    public fun printASTLimitOffsetClauses(node: ASTLimitOffsetClauses?): Unit {
+    public fun printASTLimitOffsetClauses(node: ASTLimitOffsetClauses?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77648,7 +77646,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTLimitOffsetClauses(node: ASTLimitOffsetClauses?): Unit {
+    public fun freeASTLimitOffsetClauses(node: ASTLimitOffsetClauses?) {
         if ((node != null)) {
             when (node.id) {
                 112 -> {
@@ -77665,7 +77663,7 @@ public fun close() {
         tmp.id = 115
         return tmp
     }
-    public fun printASTLimitClause(node: ASTLimitClause?): Unit {
+    public fun printASTLimitClause(node: ASTLimitClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77674,11 +77672,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTLimitClause(node: ASTLimitClause?): Unit {
+    public fun freeASTLimitClause(node: ASTLimitClause?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTLimitClause_0(node: ASTLimitClause, value: Any): Unit {
+    private fun astAssign_ASTLimitClause_0(node: ASTLimitClause, value: Any) {
         node.INTEGER = (value as String)
     }
     private fun allocASTOffsetClause(): ASTOffsetClause {
@@ -77686,7 +77684,7 @@ public fun close() {
         tmp.id = 116
         return tmp
     }
-    public fun printASTOffsetClause(node: ASTOffsetClause?): Unit {
+    public fun printASTOffsetClause(node: ASTOffsetClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77695,14 +77693,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTOffsetClause(node: ASTOffsetClause?): Unit {
+    public fun freeASTOffsetClause(node: ASTOffsetClause?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTOffsetClause_0(node: ASTOffsetClause, value: Any): Unit {
+    private fun astAssign_ASTOffsetClause_0(node: ASTOffsetClause, value: Any) {
         node.INTEGER = (value as String)
     }
-    public fun printASTUpdate1(node: ASTUpdate1?): Unit {
+    public fun printASTUpdate1(node: ASTUpdate1?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77743,7 +77741,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTUpdate1(node: ASTUpdate1?): Unit {
+    public fun freeASTUpdate1(node: ASTUpdate1?) {
         if ((node != null)) {
             when (node.id) {
                 117 -> {
@@ -77787,7 +77785,7 @@ public fun close() {
         tmp.id = 128
         return tmp
     }
-    public fun printASTGraphRefOptional(node: ASTGraphRefOptional?): Unit {
+    public fun printASTGraphRefOptional(node: ASTGraphRefOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77797,12 +77795,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGraphRefOptional(node: ASTGraphRefOptional?): Unit {
+    public fun freeASTGraphRefOptional(node: ASTGraphRefOptional?) {
         if ((node != null)) {
             freeASTGraphRef(node.variable0)
         }
     }
-    private fun astAssign_ASTGraphRefOptional_0(node: ASTGraphRefOptional, value: Any): Unit {
+    private fun astAssign_ASTGraphRefOptional_0(node: ASTGraphRefOptional, value: Any) {
         node.variable0 = (value as ASTGraphRef)
     }
     private fun allocASTLoad(): ASTLoad {
@@ -77810,7 +77808,7 @@ public fun close() {
         tmp.id = 117
         return tmp
     }
-    public fun printASTLoad(node: ASTLoad?): Unit {
+    public fun printASTLoad(node: ASTLoad?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77823,19 +77821,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTLoad(node: ASTLoad?): Unit {
+    public fun freeASTLoad(node: ASTLoad?) {
         if ((node != null)) {
             freeASTiri(node.variable1)
             freeASTGraphRefOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTLoad_0(node: ASTLoad, value: Any): Unit {
+    private fun astAssign_ASTLoad_0(node: ASTLoad, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTLoad_1(node: ASTLoad, value: Any): Unit {
+    private fun astAssign_ASTLoad_1(node: ASTLoad, value: Any) {
         node.variable1 = (value as ASTiri)
     }
-    private fun astAssign_ASTLoad_2(node: ASTLoad, value: Any): Unit {
+    private fun astAssign_ASTLoad_2(node: ASTLoad, value: Any) {
         node.variable2 = (value as ASTGraphRefOptional)
     }
     private fun allocASTClear(): ASTClear {
@@ -77843,7 +77841,7 @@ public fun close() {
         tmp.id = 118
         return tmp
     }
-    public fun printASTClear(node: ASTClear?): Unit {
+    public fun printASTClear(node: ASTClear?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77854,15 +77852,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClear(node: ASTClear?): Unit {
+    public fun freeASTClear(node: ASTClear?) {
         if ((node != null)) {
             freeASTGraphRefAll(node.variable1)
         }
     }
-    private fun astAssign_ASTClear_0(node: ASTClear, value: Any): Unit {
+    private fun astAssign_ASTClear_0(node: ASTClear, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTClear_1(node: ASTClear, value: Any): Unit {
+    private fun astAssign_ASTClear_1(node: ASTClear, value: Any) {
         node.variable1 = (value as ASTGraphRefAll)
     }
     private fun allocASTDrop(): ASTDrop {
@@ -77870,7 +77868,7 @@ public fun close() {
         tmp.id = 119
         return tmp
     }
-    public fun printASTDrop(node: ASTDrop?): Unit {
+    public fun printASTDrop(node: ASTDrop?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77881,15 +77879,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDrop(node: ASTDrop?): Unit {
+    public fun freeASTDrop(node: ASTDrop?) {
         if ((node != null)) {
             freeASTGraphRefAll(node.variable1)
         }
     }
-    private fun astAssign_ASTDrop_0(node: ASTDrop, value: Any): Unit {
+    private fun astAssign_ASTDrop_0(node: ASTDrop, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTDrop_1(node: ASTDrop, value: Any): Unit {
+    private fun astAssign_ASTDrop_1(node: ASTDrop, value: Any) {
         node.variable1 = (value as ASTGraphRefAll)
     }
     private fun allocASTCreate(): ASTCreate {
@@ -77897,7 +77895,7 @@ public fun close() {
         tmp.id = 123
         return tmp
     }
-    public fun printASTCreate(node: ASTCreate?): Unit {
+    public fun printASTCreate(node: ASTCreate?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77908,15 +77906,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTCreate(node: ASTCreate?): Unit {
+    public fun freeASTCreate(node: ASTCreate?) {
         if ((node != null)) {
             freeASTGraphRef(node.variable1)
         }
     }
-    private fun astAssign_ASTCreate_0(node: ASTCreate, value: Any): Unit {
+    private fun astAssign_ASTCreate_0(node: ASTCreate, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTCreate_1(node: ASTCreate, value: Any): Unit {
+    private fun astAssign_ASTCreate_1(node: ASTCreate, value: Any) {
         node.variable1 = (value as ASTGraphRef)
     }
     private fun allocASTAdd(): ASTAdd {
@@ -77924,7 +77922,7 @@ public fun close() {
         tmp.id = 120
         return tmp
     }
-    public fun printASTAdd(node: ASTAdd?): Unit {
+    public fun printASTAdd(node: ASTAdd?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77937,19 +77935,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAdd(node: ASTAdd?): Unit {
+    public fun freeASTAdd(node: ASTAdd?) {
         if ((node != null)) {
             freeASTGraphOrDefault(node.variable1)
             freeASTGraphOrDefault(node.variable2)
         }
     }
-    private fun astAssign_ASTAdd_0(node: ASTAdd, value: Any): Unit {
+    private fun astAssign_ASTAdd_0(node: ASTAdd, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTAdd_1(node: ASTAdd, value: Any): Unit {
+    private fun astAssign_ASTAdd_1(node: ASTAdd, value: Any) {
         node.variable1 = (value as ASTGraphOrDefault)
     }
-    private fun astAssign_ASTAdd_2(node: ASTAdd, value: Any): Unit {
+    private fun astAssign_ASTAdd_2(node: ASTAdd, value: Any) {
         node.variable2 = (value as ASTGraphOrDefault)
     }
     private fun allocASTMove(): ASTMove {
@@ -77957,7 +77955,7 @@ public fun close() {
         tmp.id = 121
         return tmp
     }
-    public fun printASTMove(node: ASTMove?): Unit {
+    public fun printASTMove(node: ASTMove?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -77970,19 +77968,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTMove(node: ASTMove?): Unit {
+    public fun freeASTMove(node: ASTMove?) {
         if ((node != null)) {
             freeASTGraphOrDefault(node.variable1)
             freeASTGraphOrDefault(node.variable2)
         }
     }
-    private fun astAssign_ASTMove_0(node: ASTMove, value: Any): Unit {
+    private fun astAssign_ASTMove_0(node: ASTMove, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTMove_1(node: ASTMove, value: Any): Unit {
+    private fun astAssign_ASTMove_1(node: ASTMove, value: Any) {
         node.variable1 = (value as ASTGraphOrDefault)
     }
-    private fun astAssign_ASTMove_2(node: ASTMove, value: Any): Unit {
+    private fun astAssign_ASTMove_2(node: ASTMove, value: Any) {
         node.variable2 = (value as ASTGraphOrDefault)
     }
     private fun allocASTCopy(): ASTCopy {
@@ -77990,7 +77988,7 @@ public fun close() {
         tmp.id = 122
         return tmp
     }
-    public fun printASTCopy(node: ASTCopy?): Unit {
+    public fun printASTCopy(node: ASTCopy?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78003,19 +78001,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTCopy(node: ASTCopy?): Unit {
+    public fun freeASTCopy(node: ASTCopy?) {
         if ((node != null)) {
             freeASTGraphOrDefault(node.variable1)
             freeASTGraphOrDefault(node.variable2)
         }
     }
-    private fun astAssign_ASTCopy_0(node: ASTCopy, value: Any): Unit {
+    private fun astAssign_ASTCopy_0(node: ASTCopy, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTCopy_1(node: ASTCopy, value: Any): Unit {
+    private fun astAssign_ASTCopy_1(node: ASTCopy, value: Any) {
         node.variable1 = (value as ASTGraphOrDefault)
     }
-    private fun astAssign_ASTCopy_2(node: ASTCopy, value: Any): Unit {
+    private fun astAssign_ASTCopy_2(node: ASTCopy, value: Any) {
         node.variable2 = (value as ASTGraphOrDefault)
     }
     private fun allocASTInsertData(): ASTInsertData {
@@ -78023,7 +78021,7 @@ public fun close() {
         tmp.id = 124
         return tmp
     }
-    public fun printASTInsertData(node: ASTInsertData?): Unit {
+    public fun printASTInsertData(node: ASTInsertData?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78033,12 +78031,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInsertData(node: ASTInsertData?): Unit {
+    public fun freeASTInsertData(node: ASTInsertData?) {
         if ((node != null)) {
             freeASTQuadData(node.variable0)
         }
     }
-    private fun astAssign_ASTInsertData_0(node: ASTInsertData, value: Any): Unit {
+    private fun astAssign_ASTInsertData_0(node: ASTInsertData, value: Any) {
         node.variable0 = (value as ASTQuadData)
     }
     private fun allocASTDeleteData(): ASTDeleteData {
@@ -78046,7 +78044,7 @@ public fun close() {
         tmp.id = 125
         return tmp
     }
-    public fun printASTDeleteData(node: ASTDeleteData?): Unit {
+    public fun printASTDeleteData(node: ASTDeleteData?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78056,12 +78054,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDeleteData(node: ASTDeleteData?): Unit {
+    public fun freeASTDeleteData(node: ASTDeleteData?) {
         if ((node != null)) {
             freeASTQuadData(node.variable0)
         }
     }
-    private fun astAssign_ASTDeleteData_0(node: ASTDeleteData, value: Any): Unit {
+    private fun astAssign_ASTDeleteData_0(node: ASTDeleteData, value: Any) {
         node.variable0 = (value as ASTQuadData)
     }
     private fun allocASTDeleteWhere(): ASTDeleteWhere {
@@ -78069,7 +78067,7 @@ public fun close() {
         tmp.id = 126
         return tmp
     }
-    public fun printASTDeleteWhere(node: ASTDeleteWhere?): Unit {
+    public fun printASTDeleteWhere(node: ASTDeleteWhere?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78079,12 +78077,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDeleteWhere(node: ASTDeleteWhere?): Unit {
+    public fun freeASTDeleteWhere(node: ASTDeleteWhere?) {
         if ((node != null)) {
             freeASTQuadPattern(node.variable0)
         }
     }
-    private fun astAssign_ASTDeleteWhere_0(node: ASTDeleteWhere, value: Any): Unit {
+    private fun astAssign_ASTDeleteWhere_0(node: ASTDeleteWhere, value: Any) {
         node.variable0 = (value as ASTQuadPattern)
     }
     private fun allocASTiriOptional(): ASTiriOptional {
@@ -78092,7 +78090,7 @@ public fun close() {
         tmp.id = 129
         return tmp
     }
-    public fun printASTiriOptional(node: ASTiriOptional?): Unit {
+    public fun printASTiriOptional(node: ASTiriOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78102,12 +78100,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTiriOptional(node: ASTiriOptional?): Unit {
+    public fun freeASTiriOptional(node: ASTiriOptional?) {
         if ((node != null)) {
             freeASTiri(node.variable0)
         }
     }
-    private fun astAssign_ASTiriOptional_0(node: ASTiriOptional, value: Any): Unit {
+    private fun astAssign_ASTiriOptional_0(node: ASTiriOptional, value: Any) {
         node.variable0 = (value as ASTiri)
     }
     private fun allocASTInsertClauseOptional(): ASTInsertClauseOptional {
@@ -78115,7 +78113,7 @@ public fun close() {
         tmp.id = 130
         return tmp
     }
-    public fun printASTInsertClauseOptional(node: ASTInsertClauseOptional?): Unit {
+    public fun printASTInsertClauseOptional(node: ASTInsertClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78125,12 +78123,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInsertClauseOptional(node: ASTInsertClauseOptional?): Unit {
+    public fun freeASTInsertClauseOptional(node: ASTInsertClauseOptional?) {
         if ((node != null)) {
             freeASTInsertClause(node.variable0)
         }
     }
-    private fun astAssign_ASTInsertClauseOptional_0(node: ASTInsertClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTInsertClauseOptional_0(node: ASTInsertClauseOptional, value: Any) {
         node.variable0 = (value as ASTInsertClause)
     }
     private fun allocASTClassOfDeleteClauseAndInsertClauseOptional(): ASTClassOfDeleteClauseAndInsertClauseOptional {
@@ -78138,7 +78136,7 @@ public fun close() {
         tmp.id = 131
         return tmp
     }
-    public fun printASTClassOfDeleteClauseAndInsertClauseOptional(node: ASTClassOfDeleteClauseAndInsertClauseOptional?): Unit {
+    public fun printASTClassOfDeleteClauseAndInsertClauseOptional(node: ASTClassOfDeleteClauseAndInsertClauseOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78150,19 +78148,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfDeleteClauseAndInsertClauseOptional(node: ASTClassOfDeleteClauseAndInsertClauseOptional?): Unit {
+    public fun freeASTClassOfDeleteClauseAndInsertClauseOptional(node: ASTClassOfDeleteClauseAndInsertClauseOptional?) {
         if ((node != null)) {
             freeASTDeleteClause(node.variable0)
             freeASTInsertClauseOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfDeleteClauseAndInsertClauseOptional_0(node: ASTClassOfDeleteClauseAndInsertClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfDeleteClauseAndInsertClauseOptional_0(node: ASTClassOfDeleteClauseAndInsertClauseOptional, value: Any) {
         node.variable0 = (value as ASTDeleteClause)
     }
-    private fun astAssign_ASTClassOfDeleteClauseAndInsertClauseOptional_1(node: ASTClassOfDeleteClauseAndInsertClauseOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfDeleteClauseAndInsertClauseOptional_1(node: ASTClassOfDeleteClauseAndInsertClauseOptional, value: Any) {
         node.variable1 = (value as ASTInsertClauseOptional)
     }
-    public fun printASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause(node: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause?): Unit {
+    public fun printASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause(node: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78176,7 +78174,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause(node: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause?): Unit {
+    public fun freeASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause(node: ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause?) {
         if ((node != null)) {
             when (node.id) {
                 131 -> {
@@ -78188,7 +78186,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfUsingClause(node: ASTListOfUsingClause?): Unit {
+    public fun printASTListOfUsingClause(node: ASTListOfUsingClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78199,7 +78197,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfUsingClause(node: ASTListOfUsingClause?): Unit {
+    public fun freeASTListOfUsingClause(node: ASTListOfUsingClause?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTUsingClause(it)
@@ -78212,7 +78210,7 @@ public fun close() {
         tmp.id = 133
         return tmp
     }
-    private fun astAssign_ASTListOfUsingClause_0(node: ASTListOfUsingClause, value: Any): Unit {
+    private fun astAssign_ASTListOfUsingClause_0(node: ASTListOfUsingClause, value: Any) {
         node.value.add((value as ASTUsingClause))
     }
     private fun allocASTModify(): ASTModify {
@@ -78220,7 +78218,7 @@ public fun close() {
         tmp.id = 127
         return tmp
     }
-    public fun printASTModify(node: ASTModify?): Unit {
+    public fun printASTModify(node: ASTModify?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78236,7 +78234,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTModify(node: ASTModify?): Unit {
+    public fun freeASTModify(node: ASTModify?) {
         if ((node != null)) {
             freeASTiriOptional(node.variable0)
             freeASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause(node.variable1)
@@ -78244,16 +78242,16 @@ public fun close() {
             freeASTGroupGraphPattern(node.variable3)
         }
     }
-    private fun astAssign_ASTModify_0(node: ASTModify, value: Any): Unit {
+    private fun astAssign_ASTModify_0(node: ASTModify, value: Any) {
         node.variable0 = (value as ASTiriOptional)
     }
-    private fun astAssign_ASTModify_1(node: ASTModify, value: Any): Unit {
+    private fun astAssign_ASTModify_1(node: ASTModify, value: Any) {
         node.variable1 = (value as ASTInterfaceOfClassOfDeleteClauseAndInsertClauseOptionalOrInsertClause)
     }
-    private fun astAssign_ASTModify_2(node: ASTModify, value: Any): Unit {
+    private fun astAssign_ASTModify_2(node: ASTModify, value: Any) {
         node.variable2 = (value as ASTListOfUsingClause)
     }
-    private fun astAssign_ASTModify_3(node: ASTModify, value: Any): Unit {
+    private fun astAssign_ASTModify_3(node: ASTModify, value: Any) {
         node.variable3 = (value as ASTGroupGraphPattern)
     }
     private fun allocASTDeleteClause(): ASTDeleteClause {
@@ -78261,7 +78259,7 @@ public fun close() {
         tmp.id = 134
         return tmp
     }
-    public fun printASTDeleteClause(node: ASTDeleteClause?): Unit {
+    public fun printASTDeleteClause(node: ASTDeleteClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78271,12 +78269,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTDeleteClause(node: ASTDeleteClause?): Unit {
+    public fun freeASTDeleteClause(node: ASTDeleteClause?) {
         if ((node != null)) {
             freeASTQuadPattern(node.variable0)
         }
     }
-    private fun astAssign_ASTDeleteClause_0(node: ASTDeleteClause, value: Any): Unit {
+    private fun astAssign_ASTDeleteClause_0(node: ASTDeleteClause, value: Any) {
         node.variable0 = (value as ASTQuadPattern)
     }
     private fun allocASTInsertClause(): ASTInsertClause {
@@ -78284,7 +78282,7 @@ public fun close() {
         tmp.id = 132
         return tmp
     }
-    public fun printASTInsertClause(node: ASTInsertClause?): Unit {
+    public fun printASTInsertClause(node: ASTInsertClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78294,12 +78292,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInsertClause(node: ASTInsertClause?): Unit {
+    public fun freeASTInsertClause(node: ASTInsertClause?) {
         if ((node != null)) {
             freeASTQuadPattern(node.variable0)
         }
     }
-    private fun astAssign_ASTInsertClause_0(node: ASTInsertClause, value: Any): Unit {
+    private fun astAssign_ASTInsertClause_0(node: ASTInsertClause, value: Any) {
         node.variable0 = (value as ASTQuadPattern)
     }
     private fun allocASTUsingClause(): ASTUsingClause {
@@ -78307,7 +78305,7 @@ public fun close() {
         tmp.id = 135
         return tmp
     }
-    public fun printASTUsingClause(node: ASTUsingClause?): Unit {
+    public fun printASTUsingClause(node: ASTUsingClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78317,12 +78315,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTUsingClause(node: ASTUsingClause?): Unit {
+    public fun freeASTUsingClause(node: ASTUsingClause?) {
         if ((node != null)) {
             freeASTiri(node.variable0)
         }
     }
-    private fun astAssign_ASTUsingClause_0(node: ASTUsingClause, value: Any): Unit {
+    private fun astAssign_ASTUsingClause_0(node: ASTUsingClause, value: Any) {
         node.variable0 = (value as ASTiri)
     }
     private fun allocASTClassOfGRAPHAndiri(): ASTClassOfGRAPHAndiri {
@@ -78330,7 +78328,7 @@ public fun close() {
         tmp.id = 136
         return tmp
     }
-    public fun printASTClassOfGRAPHAndiri(node: ASTClassOfGRAPHAndiri?): Unit {
+    public fun printASTClassOfGRAPHAndiri(node: ASTClassOfGRAPHAndiri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78341,18 +78339,18 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfGRAPHAndiri(node: ASTClassOfGRAPHAndiri?): Unit {
+    public fun freeASTClassOfGRAPHAndiri(node: ASTClassOfGRAPHAndiri?) {
         if ((node != null)) {
             freeASTiri(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfGRAPHAndiri_0(node: ASTClassOfGRAPHAndiri, value: Any): Unit {
+    private fun astAssign_ASTClassOfGRAPHAndiri_0(node: ASTClassOfGRAPHAndiri, value: Any) {
         node.GRAPH = true
     }
-    private fun astAssign_ASTClassOfGRAPHAndiri_1(node: ASTClassOfGRAPHAndiri, value: Any): Unit {
+    private fun astAssign_ASTClassOfGRAPHAndiri_1(node: ASTClassOfGRAPHAndiri, value: Any) {
         node.variable1 = (value as ASTiri)
     }
-    public fun printASTGraphOrDefault(node: ASTGraphOrDefault?): Unit {
+    public fun printASTGraphOrDefault(node: ASTGraphOrDefault?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78366,7 +78364,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTGraphOrDefault(node: ASTGraphOrDefault?): Unit {
+    public fun freeASTGraphOrDefault(node: ASTGraphOrDefault?) {
         if ((node != null)) {
             when (node.id) {
                 137 -> {
@@ -78383,7 +78381,7 @@ public fun close() {
         tmp.id = 138
         return tmp
     }
-    public fun printASTGraphRef(node: ASTGraphRef?): Unit {
+    public fun printASTGraphRef(node: ASTGraphRef?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78393,15 +78391,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGraphRef(node: ASTGraphRef?): Unit {
+    public fun freeASTGraphRef(node: ASTGraphRef?) {
         if ((node != null)) {
             freeASTiri(node.variable0)
         }
     }
-    private fun astAssign_ASTGraphRef_0(node: ASTGraphRef, value: Any): Unit {
+    private fun astAssign_ASTGraphRef_0(node: ASTGraphRef, value: Any) {
         node.variable0 = (value as ASTiri)
     }
-    public fun printASTGraphRefAll(node: ASTGraphRefAll?): Unit {
+    public fun printASTGraphRefAll(node: ASTGraphRefAll?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78421,7 +78419,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTGraphRefAll(node: ASTGraphRefAll?): Unit {
+    public fun freeASTGraphRefAll(node: ASTGraphRefAll?) {
         if ((node != null)) {
             when (node.id) {
                 138 -> {
@@ -78444,7 +78442,7 @@ public fun close() {
         tmp.id = 137
         return tmp
     }
-    public fun printASTGraphRefDefault(node: ASTGraphRefDefault?): Unit {
+    public fun printASTGraphRefDefault(node: ASTGraphRefDefault?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78452,7 +78450,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGraphRefDefault(node: ASTGraphRefDefault?): Unit {
+    public fun freeASTGraphRefDefault(node: ASTGraphRefDefault?) {
         if ((node != null)) {
         }
     }
@@ -78461,7 +78459,7 @@ public fun close() {
         tmp.id = 139
         return tmp
     }
-    public fun printASTGraphRefNamed(node: ASTGraphRefNamed?): Unit {
+    public fun printASTGraphRefNamed(node: ASTGraphRefNamed?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78469,7 +78467,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGraphRefNamed(node: ASTGraphRefNamed?): Unit {
+    public fun freeASTGraphRefNamed(node: ASTGraphRefNamed?) {
         if ((node != null)) {
         }
     }
@@ -78478,7 +78476,7 @@ public fun close() {
         tmp.id = 140
         return tmp
     }
-    public fun printASTGraphRefAll2(node: ASTGraphRefAll2?): Unit {
+    public fun printASTGraphRefAll2(node: ASTGraphRefAll2?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78486,7 +78484,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGraphRefAll2(node: ASTGraphRefAll2?): Unit {
+    public fun freeASTGraphRefAll2(node: ASTGraphRefAll2?) {
         if ((node != null)) {
         }
     }
@@ -78495,7 +78493,7 @@ public fun close() {
         tmp.id = 141
         return tmp
     }
-    public fun printASTQuadPattern(node: ASTQuadPattern?): Unit {
+    public fun printASTQuadPattern(node: ASTQuadPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78505,12 +78503,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTQuadPattern(node: ASTQuadPattern?): Unit {
+    public fun freeASTQuadPattern(node: ASTQuadPattern?) {
         if ((node != null)) {
             freeASTQuads(node.variable0)
         }
     }
-    private fun astAssign_ASTQuadPattern_0(node: ASTQuadPattern, value: Any): Unit {
+    private fun astAssign_ASTQuadPattern_0(node: ASTQuadPattern, value: Any) {
         node.variable0 = (value as ASTQuads)
     }
     private fun allocASTQuadData(): ASTQuadData {
@@ -78518,7 +78516,7 @@ public fun close() {
         tmp.id = 142
         return tmp
     }
-    public fun printASTQuadData(node: ASTQuadData?): Unit {
+    public fun printASTQuadData(node: ASTQuadData?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78528,12 +78526,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTQuadData(node: ASTQuadData?): Unit {
+    public fun freeASTQuadData(node: ASTQuadData?) {
         if ((node != null)) {
             freeASTQuads(node.variable0)
         }
     }
-    private fun astAssign_ASTQuadData_0(node: ASTQuadData, value: Any): Unit {
+    private fun astAssign_ASTQuadData_0(node: ASTQuadData, value: Any) {
         node.variable0 = (value as ASTQuads)
     }
     private fun allocASTTriplesTemplateOptional(): ASTTriplesTemplateOptional {
@@ -78541,7 +78539,7 @@ public fun close() {
         tmp.id = 143
         return tmp
     }
-    public fun printASTTriplesTemplateOptional(node: ASTTriplesTemplateOptional?): Unit {
+    public fun printASTTriplesTemplateOptional(node: ASTTriplesTemplateOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78551,12 +78549,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTTriplesTemplateOptional(node: ASTTriplesTemplateOptional?): Unit {
+    public fun freeASTTriplesTemplateOptional(node: ASTTriplesTemplateOptional?) {
         if ((node != null)) {
             freeASTTriplesTemplate(node.variable0)
         }
     }
-    private fun astAssign_ASTTriplesTemplateOptional_0(node: ASTTriplesTemplateOptional, value: Any): Unit {
+    private fun astAssign_ASTTriplesTemplateOptional_0(node: ASTTriplesTemplateOptional, value: Any) {
         node.variable0 = (value as ASTTriplesTemplate)
     }
     private fun allocASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(): ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional {
@@ -78564,7 +78562,7 @@ public fun close() {
         tmp.id = 144
         return tmp
     }
-    public fun printASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?): Unit {
+    public fun printASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78577,22 +78575,22 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?): Unit {
+    public fun freeASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?) {
         if ((node != null)) {
             freeASTQuadsNotTriples(node.variable0)
             freeASTTriplesTemplateOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_0(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_0(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any) {
         node.variable0 = (value as ASTQuadsNotTriples)
     }
-    private fun astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_1(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_1(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any) {
         node.point = true
     }
-    private fun astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_2(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_2(node: ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any) {
         node.variable2 = (value as ASTTriplesTemplateOptional)
     }
-    public fun printASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?): Unit {
+    public fun printASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78603,7 +78601,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?): Unit {
+    public fun freeASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(it)
@@ -78616,7 +78614,7 @@ public fun close() {
         tmp.id = 145
         return tmp
     }
-    private fun astAssign_ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_0(node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any): Unit {
+    private fun astAssign_ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional_0(node: ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional, value: Any) {
         node.value.add((value as ASTClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional))
     }
     private fun allocASTQuads(): ASTQuads {
@@ -78624,7 +78622,7 @@ public fun close() {
         tmp.id = 146
         return tmp
     }
-    public fun printASTQuads(node: ASTQuads?): Unit {
+    public fun printASTQuads(node: ASTQuads?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78636,16 +78634,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTQuads(node: ASTQuads?): Unit {
+    public fun freeASTQuads(node: ASTQuads?) {
         if ((node != null)) {
             freeASTTriplesTemplateOptional(node.variable0)
             freeASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTQuads_0(node: ASTQuads, value: Any): Unit {
+    private fun astAssign_ASTQuads_0(node: ASTQuads, value: Any) {
         node.variable0 = (value as ASTTriplesTemplateOptional)
     }
-    private fun astAssign_ASTQuads_1(node: ASTQuads, value: Any): Unit {
+    private fun astAssign_ASTQuads_1(node: ASTQuads, value: Any) {
         node.variable1 = (value as ASTListOfClassOfQuadsNotTriplesAndpointAndTriplesTemplateOptional)
     }
     private fun allocASTQuadsNotTriples(): ASTQuadsNotTriples {
@@ -78653,7 +78651,7 @@ public fun close() {
         tmp.id = 147
         return tmp
     }
-    public fun printASTQuadsNotTriples(node: ASTQuadsNotTriples?): Unit {
+    public fun printASTQuadsNotTriples(node: ASTQuadsNotTriples?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78665,16 +78663,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTQuadsNotTriples(node: ASTQuadsNotTriples?): Unit {
+    public fun freeASTQuadsNotTriples(node: ASTQuadsNotTriples?) {
         if ((node != null)) {
             freeASTVarOrIri(node.variable0)
             freeASTTriplesTemplateOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTQuadsNotTriples_0(node: ASTQuadsNotTriples, value: Any): Unit {
+    private fun astAssign_ASTQuadsNotTriples_0(node: ASTQuadsNotTriples, value: Any) {
         node.variable0 = (value as ASTVarOrIri)
     }
-    private fun astAssign_ASTQuadsNotTriples_1(node: ASTQuadsNotTriples, value: Any): Unit {
+    private fun astAssign_ASTQuadsNotTriples_1(node: ASTQuadsNotTriples, value: Any) {
         node.variable1 = (value as ASTTriplesTemplateOptional)
     }
     private fun allocASTTriplesTemplateOptionalOptional(): ASTTriplesTemplateOptionalOptional {
@@ -78682,7 +78680,7 @@ public fun close() {
         tmp.id = 148
         return tmp
     }
-    public fun printASTTriplesTemplateOptionalOptional(node: ASTTriplesTemplateOptionalOptional?): Unit {
+    public fun printASTTriplesTemplateOptionalOptional(node: ASTTriplesTemplateOptionalOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78692,12 +78690,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTTriplesTemplateOptionalOptional(node: ASTTriplesTemplateOptionalOptional?): Unit {
+    public fun freeASTTriplesTemplateOptionalOptional(node: ASTTriplesTemplateOptionalOptional?) {
         if ((node != null)) {
             freeASTTriplesTemplateOptional(node.variable0)
         }
     }
-    private fun astAssign_ASTTriplesTemplateOptionalOptional_0(node: ASTTriplesTemplateOptionalOptional, value: Any): Unit {
+    private fun astAssign_ASTTriplesTemplateOptionalOptional_0(node: ASTTriplesTemplateOptionalOptional, value: Any) {
         node.variable0 = (value as ASTTriplesTemplateOptional)
     }
     private fun allocASTTriplesTemplate(): ASTTriplesTemplate {
@@ -78705,7 +78703,7 @@ public fun close() {
         tmp.id = 149
         return tmp
     }
-    public fun printASTTriplesTemplate(node: ASTTriplesTemplate?): Unit {
+    public fun printASTTriplesTemplate(node: ASTTriplesTemplate?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78717,19 +78715,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTTriplesTemplate(node: ASTTriplesTemplate?): Unit {
+    public fun freeASTTriplesTemplate(node: ASTTriplesTemplate?) {
         if ((node != null)) {
             freeASTTriplesSameSubject(node.variable0)
             freeASTTriplesTemplateOptionalOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTTriplesTemplate_0(node: ASTTriplesTemplate, value: Any): Unit {
+    private fun astAssign_ASTTriplesTemplate_0(node: ASTTriplesTemplate, value: Any) {
         node.variable0 = (value as ASTTriplesSameSubject)
     }
-    private fun astAssign_ASTTriplesTemplate_1(node: ASTTriplesTemplate, value: Any): Unit {
+    private fun astAssign_ASTTriplesTemplate_1(node: ASTTriplesTemplate, value: Any) {
         node.variable1 = (value as ASTTriplesTemplateOptionalOptional)
     }
-    public fun printASTInterfaceOfSubSelectOrGroupGraphPatternSub(node: ASTInterfaceOfSubSelectOrGroupGraphPatternSub?): Unit {
+    public fun printASTInterfaceOfSubSelectOrGroupGraphPatternSub(node: ASTInterfaceOfSubSelectOrGroupGraphPatternSub?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78743,7 +78741,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfSubSelectOrGroupGraphPatternSub(node: ASTInterfaceOfSubSelectOrGroupGraphPatternSub?): Unit {
+    public fun freeASTInterfaceOfSubSelectOrGroupGraphPatternSub(node: ASTInterfaceOfSubSelectOrGroupGraphPatternSub?) {
         if ((node != null)) {
             when (node.id) {
                 16 -> {
@@ -78760,7 +78758,7 @@ public fun close() {
         tmp.id = 151
         return tmp
     }
-    public fun printASTGroupGraphPattern(node: ASTGroupGraphPattern?): Unit {
+    public fun printASTGroupGraphPattern(node: ASTGroupGraphPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78770,12 +78768,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGroupGraphPattern(node: ASTGroupGraphPattern?): Unit {
+    public fun freeASTGroupGraphPattern(node: ASTGroupGraphPattern?) {
         if ((node != null)) {
             freeASTInterfaceOfSubSelectOrGroupGraphPatternSub(node.variable0)
         }
     }
-    private fun astAssign_ASTGroupGraphPattern_0(node: ASTGroupGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTGroupGraphPattern_0(node: ASTGroupGraphPattern, value: Any) {
         node.variable0 = (value as ASTInterfaceOfSubSelectOrGroupGraphPatternSub)
     }
     private fun allocASTTriplesBlockOptional(): ASTTriplesBlockOptional {
@@ -78783,7 +78781,7 @@ public fun close() {
         tmp.id = 152
         return tmp
     }
-    public fun printASTTriplesBlockOptional(node: ASTTriplesBlockOptional?): Unit {
+    public fun printASTTriplesBlockOptional(node: ASTTriplesBlockOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78793,12 +78791,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTTriplesBlockOptional(node: ASTTriplesBlockOptional?): Unit {
+    public fun freeASTTriplesBlockOptional(node: ASTTriplesBlockOptional?) {
         if ((node != null)) {
             freeASTTriplesBlock(node.variable0)
         }
     }
-    private fun astAssign_ASTTriplesBlockOptional_0(node: ASTTriplesBlockOptional, value: Any): Unit {
+    private fun astAssign_ASTTriplesBlockOptional_0(node: ASTTriplesBlockOptional, value: Any) {
         node.variable0 = (value as ASTTriplesBlock)
     }
     private fun allocASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(): ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional {
@@ -78806,7 +78804,7 @@ public fun close() {
         tmp.id = 153
         return tmp
     }
-    public fun printASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?): Unit {
+    public fun printASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78819,22 +78817,22 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?): Unit {
+    public fun freeASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?) {
         if ((node != null)) {
             freeASTGraphPatternNotTriples(node.variable0)
             freeASTTriplesBlockOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_0(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_0(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any) {
         node.variable0 = (value as ASTGraphPatternNotTriples)
     }
-    private fun astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_1(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_1(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any) {
         node.point = true
     }
-    private fun astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_2(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_2(node: ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any) {
         node.variable2 = (value as ASTTriplesBlockOptional)
     }
-    public fun printASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?): Unit {
+    public fun printASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78845,7 +78843,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?): Unit {
+    public fun freeASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(it)
@@ -78858,7 +78856,7 @@ public fun close() {
         tmp.id = 154
         return tmp
     }
-    private fun astAssign_ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_0(node: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any): Unit {
+    private fun astAssign_ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional_0(node: ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional, value: Any) {
         node.value.add((value as ASTClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional))
     }
     private fun allocASTGroupGraphPatternSub(): ASTGroupGraphPatternSub {
@@ -78866,7 +78864,7 @@ public fun close() {
         tmp.id = 150
         return tmp
     }
-    public fun printASTGroupGraphPatternSub(node: ASTGroupGraphPatternSub?): Unit {
+    public fun printASTGroupGraphPatternSub(node: ASTGroupGraphPatternSub?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78878,16 +78876,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGroupGraphPatternSub(node: ASTGroupGraphPatternSub?): Unit {
+    public fun freeASTGroupGraphPatternSub(node: ASTGroupGraphPatternSub?) {
         if ((node != null)) {
             freeASTTriplesBlockOptional(node.variable0)
             freeASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTGroupGraphPatternSub_0(node: ASTGroupGraphPatternSub, value: Any): Unit {
+    private fun astAssign_ASTGroupGraphPatternSub_0(node: ASTGroupGraphPatternSub, value: Any) {
         node.variable0 = (value as ASTTriplesBlockOptional)
     }
-    private fun astAssign_ASTGroupGraphPatternSub_1(node: ASTGroupGraphPatternSub, value: Any): Unit {
+    private fun astAssign_ASTGroupGraphPatternSub_1(node: ASTGroupGraphPatternSub, value: Any) {
         node.variable1 = (value as ASTListOfClassOfGraphPatternNotTriplesAndpointAndTriplesBlockOptional)
     }
     private fun allocASTTriplesBlockOptionalOptional(): ASTTriplesBlockOptionalOptional {
@@ -78895,7 +78893,7 @@ public fun close() {
         tmp.id = 155
         return tmp
     }
-    public fun printASTTriplesBlockOptionalOptional(node: ASTTriplesBlockOptionalOptional?): Unit {
+    public fun printASTTriplesBlockOptionalOptional(node: ASTTriplesBlockOptionalOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78905,12 +78903,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTTriplesBlockOptionalOptional(node: ASTTriplesBlockOptionalOptional?): Unit {
+    public fun freeASTTriplesBlockOptionalOptional(node: ASTTriplesBlockOptionalOptional?) {
         if ((node != null)) {
             freeASTTriplesBlockOptional(node.variable0)
         }
     }
-    private fun astAssign_ASTTriplesBlockOptionalOptional_0(node: ASTTriplesBlockOptionalOptional, value: Any): Unit {
+    private fun astAssign_ASTTriplesBlockOptionalOptional_0(node: ASTTriplesBlockOptionalOptional, value: Any) {
         node.variable0 = (value as ASTTriplesBlockOptional)
     }
     private fun allocASTTriplesBlock(): ASTTriplesBlock {
@@ -78918,7 +78916,7 @@ public fun close() {
         tmp.id = 156
         return tmp
     }
-    public fun printASTTriplesBlock(node: ASTTriplesBlock?): Unit {
+    public fun printASTTriplesBlock(node: ASTTriplesBlock?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78930,19 +78928,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTTriplesBlock(node: ASTTriplesBlock?): Unit {
+    public fun freeASTTriplesBlock(node: ASTTriplesBlock?) {
         if ((node != null)) {
             freeASTTriplesSameSubjectPath(node.variable0)
             freeASTTriplesBlockOptionalOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTTriplesBlock_0(node: ASTTriplesBlock, value: Any): Unit {
+    private fun astAssign_ASTTriplesBlock_0(node: ASTTriplesBlock, value: Any) {
         node.variable0 = (value as ASTTriplesSameSubjectPath)
     }
-    private fun astAssign_ASTTriplesBlock_1(node: ASTTriplesBlock, value: Any): Unit {
+    private fun astAssign_ASTTriplesBlock_1(node: ASTTriplesBlock, value: Any) {
         node.variable1 = (value as ASTTriplesBlockOptionalOptional)
     }
-    public fun printASTGraphPatternNotTriples(node: ASTGraphPatternNotTriples?): Unit {
+    public fun printASTGraphPatternNotTriples(node: ASTGraphPatternNotTriples?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -78974,7 +78972,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTGraphPatternNotTriples(node: ASTGraphPatternNotTriples?): Unit {
+    public fun freeASTGraphPatternNotTriples(node: ASTGraphPatternNotTriples?) {
         if ((node != null)) {
             when (node.id) {
                 157 -> {
@@ -79009,7 +79007,7 @@ public fun close() {
         tmp.id = 158
         return tmp
     }
-    public fun printASTOptionalGraphPattern(node: ASTOptionalGraphPattern?): Unit {
+    public fun printASTOptionalGraphPattern(node: ASTOptionalGraphPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79019,12 +79017,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTOptionalGraphPattern(node: ASTOptionalGraphPattern?): Unit {
+    public fun freeASTOptionalGraphPattern(node: ASTOptionalGraphPattern?) {
         if ((node != null)) {
             freeASTGroupGraphPattern(node.variable0)
         }
     }
-    private fun astAssign_ASTOptionalGraphPattern_0(node: ASTOptionalGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTOptionalGraphPattern_0(node: ASTOptionalGraphPattern, value: Any) {
         node.variable0 = (value as ASTGroupGraphPattern)
     }
     private fun allocASTGraphGraphPattern(): ASTGraphGraphPattern {
@@ -79032,7 +79030,7 @@ public fun close() {
         tmp.id = 160
         return tmp
     }
-    public fun printASTGraphGraphPattern(node: ASTGraphGraphPattern?): Unit {
+    public fun printASTGraphGraphPattern(node: ASTGraphGraphPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79044,16 +79042,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGraphGraphPattern(node: ASTGraphGraphPattern?): Unit {
+    public fun freeASTGraphGraphPattern(node: ASTGraphGraphPattern?) {
         if ((node != null)) {
             freeASTVarOrIri(node.variable0)
             freeASTGroupGraphPattern(node.variable1)
         }
     }
-    private fun astAssign_ASTGraphGraphPattern_0(node: ASTGraphGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTGraphGraphPattern_0(node: ASTGraphGraphPattern, value: Any) {
         node.variable0 = (value as ASTVarOrIri)
     }
-    private fun astAssign_ASTGraphGraphPattern_1(node: ASTGraphGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTGraphGraphPattern_1(node: ASTGraphGraphPattern, value: Any) {
         node.variable1 = (value as ASTGroupGraphPattern)
     }
     private fun allocASTServiceGraphPattern(): ASTServiceGraphPattern {
@@ -79061,7 +79059,7 @@ public fun close() {
         tmp.id = 161
         return tmp
     }
-    public fun printASTServiceGraphPattern(node: ASTServiceGraphPattern?): Unit {
+    public fun printASTServiceGraphPattern(node: ASTServiceGraphPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79074,19 +79072,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTServiceGraphPattern(node: ASTServiceGraphPattern?): Unit {
+    public fun freeASTServiceGraphPattern(node: ASTServiceGraphPattern?) {
         if ((node != null)) {
             freeASTVarOrIri(node.variable1)
             freeASTGroupGraphPattern(node.variable2)
         }
     }
-    private fun astAssign_ASTServiceGraphPattern_0(node: ASTServiceGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTServiceGraphPattern_0(node: ASTServiceGraphPattern, value: Any) {
         node.SILENT = true
     }
-    private fun astAssign_ASTServiceGraphPattern_1(node: ASTServiceGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTServiceGraphPattern_1(node: ASTServiceGraphPattern, value: Any) {
         node.variable1 = (value as ASTVarOrIri)
     }
-    private fun astAssign_ASTServiceGraphPattern_2(node: ASTServiceGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTServiceGraphPattern_2(node: ASTServiceGraphPattern, value: Any) {
         node.variable2 = (value as ASTGroupGraphPattern)
     }
     private fun allocASTBind(): ASTBind {
@@ -79094,7 +79092,7 @@ public fun close() {
         tmp.id = 163
         return tmp
     }
-    public fun printASTBind(node: ASTBind?): Unit {
+    public fun printASTBind(node: ASTBind?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79106,16 +79104,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBind(node: ASTBind?): Unit {
+    public fun freeASTBind(node: ASTBind?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTVar(node.variable1)
         }
     }
-    private fun astAssign_ASTBind_0(node: ASTBind, value: Any): Unit {
+    private fun astAssign_ASTBind_0(node: ASTBind, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBind_1(node: ASTBind, value: Any): Unit {
+    private fun astAssign_ASTBind_1(node: ASTBind, value: Any) {
         node.variable1 = (value as ASTVar)
     }
     private fun allocASTValuesClause(): ASTValuesClause {
@@ -79123,7 +79121,7 @@ public fun close() {
         tmp.id = 164
         return tmp
     }
-    public fun printASTValuesClause(node: ASTValuesClause?): Unit {
+    public fun printASTValuesClause(node: ASTValuesClause?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79133,15 +79131,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTValuesClause(node: ASTValuesClause?): Unit {
+    public fun freeASTValuesClause(node: ASTValuesClause?) {
         if ((node != null)) {
             freeASTDataBlock(node.variable0)
         }
     }
-    private fun astAssign_ASTValuesClause_0(node: ASTValuesClause, value: Any): Unit {
+    private fun astAssign_ASTValuesClause_0(node: ASTValuesClause, value: Any) {
         node.variable0 = (value as ASTDataBlock)
     }
-    public fun printASTDataBlock(node: ASTDataBlock?): Unit {
+    public fun printASTDataBlock(node: ASTDataBlock?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79155,7 +79153,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTDataBlock(node: ASTDataBlock?): Unit {
+    public fun freeASTDataBlock(node: ASTDataBlock?) {
         if ((node != null)) {
             when (node.id) {
                 165 -> {
@@ -79167,7 +79165,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfDataBlockValue(node: ASTListOfDataBlockValue?): Unit {
+    public fun printASTListOfDataBlockValue(node: ASTListOfDataBlockValue?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79178,7 +79176,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfDataBlockValue(node: ASTListOfDataBlockValue?): Unit {
+    public fun freeASTListOfDataBlockValue(node: ASTListOfDataBlockValue?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTDataBlockValue(it)
@@ -79191,7 +79189,7 @@ public fun close() {
         tmp.id = 167
         return tmp
     }
-    private fun astAssign_ASTListOfDataBlockValue_0(node: ASTListOfDataBlockValue, value: Any): Unit {
+    private fun astAssign_ASTListOfDataBlockValue_0(node: ASTListOfDataBlockValue, value: Any) {
         node.value.add((value as ASTDataBlockValue))
     }
     private fun allocASTInlineDataOneVar(): ASTInlineDataOneVar {
@@ -79199,7 +79197,7 @@ public fun close() {
         tmp.id = 165
         return tmp
     }
-    public fun printASTInlineDataOneVar(node: ASTInlineDataOneVar?): Unit {
+    public fun printASTInlineDataOneVar(node: ASTInlineDataOneVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79211,19 +79209,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInlineDataOneVar(node: ASTInlineDataOneVar?): Unit {
+    public fun freeASTInlineDataOneVar(node: ASTInlineDataOneVar?) {
         if ((node != null)) {
             freeASTVar(node.variable0)
             freeASTListOfDataBlockValue(node.variable1)
         }
     }
-    private fun astAssign_ASTInlineDataOneVar_0(node: ASTInlineDataOneVar, value: Any): Unit {
+    private fun astAssign_ASTInlineDataOneVar_0(node: ASTInlineDataOneVar, value: Any) {
         node.variable0 = (value as ASTVar)
     }
-    private fun astAssign_ASTInlineDataOneVar_1(node: ASTInlineDataOneVar, value: Any): Unit {
+    private fun astAssign_ASTInlineDataOneVar_1(node: ASTInlineDataOneVar, value: Any) {
         node.variable1 = (value as ASTListOfDataBlockValue)
     }
-    public fun printASTListOfVar(node: ASTListOfVar?): Unit {
+    public fun printASTListOfVar(node: ASTListOfVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79234,7 +79232,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfVar(node: ASTListOfVar?): Unit {
+    public fun freeASTListOfVar(node: ASTListOfVar?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTVar(it)
@@ -79247,10 +79245,10 @@ public fun close() {
         tmp.id = 168
         return tmp
     }
-    private fun astAssign_ASTListOfVar_0(node: ASTListOfVar, value: Any): Unit {
+    private fun astAssign_ASTListOfVar_0(node: ASTListOfVar, value: Any) {
         node.value.add((value as ASTVar))
     }
-    public fun printASTInterfaceOfNILParamOrListOfVar(node: ASTInterfaceOfNILParamOrListOfVar?): Unit {
+    public fun printASTInterfaceOfNILParamOrListOfVar(node: ASTInterfaceOfNILParamOrListOfVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79264,7 +79262,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfNILParamOrListOfVar(node: ASTInterfaceOfNILParamOrListOfVar?): Unit {
+    public fun freeASTInterfaceOfNILParamOrListOfVar(node: ASTInterfaceOfNILParamOrListOfVar?) {
         if ((node != null)) {
             when (node.id) {
                 169 -> {
@@ -79276,7 +79274,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTInterfaceOfListOfDataBlockValueOrNILParam(node: ASTInterfaceOfListOfDataBlockValueOrNILParam?): Unit {
+    public fun printASTInterfaceOfListOfDataBlockValueOrNILParam(node: ASTInterfaceOfListOfDataBlockValueOrNILParam?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79290,7 +79288,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfListOfDataBlockValueOrNILParam(node: ASTInterfaceOfListOfDataBlockValueOrNILParam?): Unit {
+    public fun freeASTInterfaceOfListOfDataBlockValueOrNILParam(node: ASTInterfaceOfListOfDataBlockValueOrNILParam?) {
         if ((node != null)) {
             when (node.id) {
                 167 -> {
@@ -79302,7 +79300,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfInterfaceOfListOfDataBlockValueOrNILParam(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam?): Unit {
+    public fun printASTListOfInterfaceOfListOfDataBlockValueOrNILParam(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79313,7 +79311,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfInterfaceOfListOfDataBlockValueOrNILParam(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam?): Unit {
+    public fun freeASTListOfInterfaceOfListOfDataBlockValueOrNILParam(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTInterfaceOfListOfDataBlockValueOrNILParam(it)
@@ -79326,7 +79324,7 @@ public fun close() {
         tmp.id = 170
         return tmp
     }
-    private fun astAssign_ASTListOfInterfaceOfListOfDataBlockValueOrNILParam_0(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam, value: Any): Unit {
+    private fun astAssign_ASTListOfInterfaceOfListOfDataBlockValueOrNILParam_0(node: ASTListOfInterfaceOfListOfDataBlockValueOrNILParam, value: Any) {
         node.value.add((value as ASTInterfaceOfListOfDataBlockValueOrNILParam))
     }
     private fun allocASTInlineDataFull(): ASTInlineDataFull {
@@ -79334,7 +79332,7 @@ public fun close() {
         tmp.id = 166
         return tmp
     }
-    public fun printASTInlineDataFull(node: ASTInlineDataFull?): Unit {
+    public fun printASTInlineDataFull(node: ASTInlineDataFull?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79346,19 +79344,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInlineDataFull(node: ASTInlineDataFull?): Unit {
+    public fun freeASTInlineDataFull(node: ASTInlineDataFull?) {
         if ((node != null)) {
             freeASTInterfaceOfNILParamOrListOfVar(node.variable0)
             freeASTListOfInterfaceOfListOfDataBlockValueOrNILParam(node.variable1)
         }
     }
-    private fun astAssign_ASTInlineDataFull_0(node: ASTInlineDataFull, value: Any): Unit {
+    private fun astAssign_ASTInlineDataFull_0(node: ASTInlineDataFull, value: Any) {
         node.variable0 = (value as ASTInterfaceOfNILParamOrListOfVar)
     }
-    private fun astAssign_ASTInlineDataFull_1(node: ASTInlineDataFull, value: Any): Unit {
+    private fun astAssign_ASTInlineDataFull_1(node: ASTInlineDataFull, value: Any) {
         node.variable1 = (value as ASTListOfInterfaceOfListOfDataBlockValueOrNILParam)
     }
-    public fun printASTDataBlockValue(node: ASTDataBlockValue?): Unit {
+    public fun printASTDataBlockValue(node: ASTDataBlockValue?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79381,7 +79379,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTDataBlockValue(node: ASTDataBlockValue?): Unit {
+    public fun freeASTDataBlockValue(node: ASTDataBlockValue?) {
         if ((node != null)) {
             when (node.id) {
                 171, 172, 173 -> {
@@ -79407,7 +79405,7 @@ public fun close() {
         tmp.id = 186
         return tmp
     }
-    public fun printASTUNDEF(node: ASTUNDEF?): Unit {
+    public fun printASTUNDEF(node: ASTUNDEF?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79415,7 +79413,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTUNDEF(node: ASTUNDEF?): Unit {
+    public fun freeASTUNDEF(node: ASTUNDEF?) {
         if ((node != null)) {
         }
     }
@@ -79424,7 +79422,7 @@ public fun close() {
         tmp.id = 159
         return tmp
     }
-    public fun printASTMinusGraphPattern(node: ASTMinusGraphPattern?): Unit {
+    public fun printASTMinusGraphPattern(node: ASTMinusGraphPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79434,15 +79432,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTMinusGraphPattern(node: ASTMinusGraphPattern?): Unit {
+    public fun freeASTMinusGraphPattern(node: ASTMinusGraphPattern?) {
         if ((node != null)) {
             freeASTGroupGraphPattern(node.variable0)
         }
     }
-    private fun astAssign_ASTMinusGraphPattern_0(node: ASTMinusGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTMinusGraphPattern_0(node: ASTMinusGraphPattern, value: Any) {
         node.variable0 = (value as ASTGroupGraphPattern)
     }
-    public fun printASTListOfGroupGraphPattern(node: ASTListOfGroupGraphPattern?): Unit {
+    public fun printASTListOfGroupGraphPattern(node: ASTListOfGroupGraphPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79453,7 +79451,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfGroupGraphPattern(node: ASTListOfGroupGraphPattern?): Unit {
+    public fun freeASTListOfGroupGraphPattern(node: ASTListOfGroupGraphPattern?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTGroupGraphPattern(it)
@@ -79466,7 +79464,7 @@ public fun close() {
         tmp.id = 187
         return tmp
     }
-    private fun astAssign_ASTListOfGroupGraphPattern_0(node: ASTListOfGroupGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTListOfGroupGraphPattern_0(node: ASTListOfGroupGraphPattern, value: Any) {
         node.value.add((value as ASTGroupGraphPattern))
     }
     private fun allocASTGroupOrUnionGraphPattern(): ASTGroupOrUnionGraphPattern {
@@ -79474,7 +79472,7 @@ public fun close() {
         tmp.id = 157
         return tmp
     }
-    public fun printASTGroupOrUnionGraphPattern(node: ASTGroupOrUnionGraphPattern?): Unit {
+    public fun printASTGroupOrUnionGraphPattern(node: ASTGroupOrUnionGraphPattern?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79486,16 +79484,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTGroupOrUnionGraphPattern(node: ASTGroupOrUnionGraphPattern?): Unit {
+    public fun freeASTGroupOrUnionGraphPattern(node: ASTGroupOrUnionGraphPattern?) {
         if ((node != null)) {
             freeASTGroupGraphPattern(node.variable0)
             freeASTListOfGroupGraphPattern(node.variable1)
         }
     }
-    private fun astAssign_ASTGroupOrUnionGraphPattern_0(node: ASTGroupOrUnionGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTGroupOrUnionGraphPattern_0(node: ASTGroupOrUnionGraphPattern, value: Any) {
         node.variable0 = (value as ASTGroupGraphPattern)
     }
-    private fun astAssign_ASTGroupOrUnionGraphPattern_1(node: ASTGroupOrUnionGraphPattern, value: Any): Unit {
+    private fun astAssign_ASTGroupOrUnionGraphPattern_1(node: ASTGroupOrUnionGraphPattern, value: Any) {
         node.variable1 = (value as ASTListOfGroupGraphPattern)
     }
     private fun allocASTFilter(): ASTFilter {
@@ -79503,7 +79501,7 @@ public fun close() {
         tmp.id = 162
         return tmp
     }
-    public fun printASTFilter(node: ASTFilter?): Unit {
+    public fun printASTFilter(node: ASTFilter?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79513,15 +79511,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTFilter(node: ASTFilter?): Unit {
+    public fun freeASTFilter(node: ASTFilter?) {
         if ((node != null)) {
             freeASTConstraint(node.variable0)
         }
     }
-    private fun astAssign_ASTFilter_0(node: ASTFilter, value: Any): Unit {
+    private fun astAssign_ASTFilter_0(node: ASTFilter, value: Any) {
         node.variable0 = (value as ASTConstraint)
     }
-    public fun printASTConstraint(node: ASTConstraint?): Unit {
+    public fun printASTConstraint(node: ASTConstraint?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79538,7 +79536,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTConstraint(node: ASTConstraint?): Unit {
+    public fun freeASTConstraint(node: ASTConstraint?) {
         if ((node != null)) {
             when (node.id) {
                 109 -> {
@@ -79558,7 +79556,7 @@ public fun close() {
         tmp.id = 103
         return tmp
     }
-    public fun printASTFunctionCall(node: ASTFunctionCall?): Unit {
+    public fun printASTFunctionCall(node: ASTFunctionCall?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79570,19 +79568,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTFunctionCall(node: ASTFunctionCall?): Unit {
+    public fun freeASTFunctionCall(node: ASTFunctionCall?) {
         if ((node != null)) {
             freeASTiri(node.variable0)
             freeASTArgList(node.variable1)
         }
     }
-    private fun astAssign_ASTFunctionCall_0(node: ASTFunctionCall, value: Any): Unit {
+    private fun astAssign_ASTFunctionCall_0(node: ASTFunctionCall, value: Any) {
         node.variable0 = (value as ASTiri)
     }
-    private fun astAssign_ASTFunctionCall_1(node: ASTFunctionCall, value: Any): Unit {
+    private fun astAssign_ASTFunctionCall_1(node: ASTFunctionCall, value: Any) {
         node.variable1 = (value as ASTArgList)
     }
-    public fun printASTListOfExpression(node: ASTListOfExpression?): Unit {
+    public fun printASTListOfExpression(node: ASTListOfExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79593,7 +79591,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfExpression(node: ASTListOfExpression?): Unit {
+    public fun freeASTListOfExpression(node: ASTListOfExpression?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTExpression(it)
@@ -79606,7 +79604,7 @@ public fun close() {
         tmp.id = 188
         return tmp
     }
-    private fun astAssign_ASTListOfExpression_0(node: ASTListOfExpression, value: Any): Unit {
+    private fun astAssign_ASTListOfExpression_0(node: ASTListOfExpression, value: Any) {
         node.value.add((value as ASTExpression))
     }
     private fun allocASTClassOfDISTINCTAndExpressionAndListOfExpression(): ASTClassOfDISTINCTAndExpressionAndListOfExpression {
@@ -79614,7 +79612,7 @@ public fun close() {
         tmp.id = 189
         return tmp
     }
-    public fun printASTClassOfDISTINCTAndExpressionAndListOfExpression(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression?): Unit {
+    public fun printASTClassOfDISTINCTAndExpressionAndListOfExpression(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79627,22 +79625,22 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfDISTINCTAndExpressionAndListOfExpression(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression?): Unit {
+    public fun freeASTClassOfDISTINCTAndExpressionAndListOfExpression(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression?) {
         if ((node != null)) {
             freeASTExpression(node.variable1)
             freeASTListOfExpression(node.variable2)
         }
     }
-    private fun astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_0(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression, value: Any): Unit {
+    private fun astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_0(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_1(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression, value: Any): Unit {
+    private fun astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_1(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
-    private fun astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_2(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression, value: Any): Unit {
+    private fun astAssign_ASTClassOfDISTINCTAndExpressionAndListOfExpression_2(node: ASTClassOfDISTINCTAndExpressionAndListOfExpression, value: Any) {
         node.variable2 = (value as ASTListOfExpression)
     }
-    public fun printASTArgList(node: ASTArgList?): Unit {
+    public fun printASTArgList(node: ASTArgList?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79656,7 +79654,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTArgList(node: ASTArgList?): Unit {
+    public fun freeASTArgList(node: ASTArgList?) {
         if ((node != null)) {
             when (node.id) {
                 169 -> {
@@ -79673,7 +79671,7 @@ public fun close() {
         tmp.id = 190
         return tmp
     }
-    public fun printASTClassOfExpressionAndListOfExpression(node: ASTClassOfExpressionAndListOfExpression?): Unit {
+    public fun printASTClassOfExpressionAndListOfExpression(node: ASTClassOfExpressionAndListOfExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79685,19 +79683,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfExpressionAndListOfExpression(node: ASTClassOfExpressionAndListOfExpression?): Unit {
+    public fun freeASTClassOfExpressionAndListOfExpression(node: ASTClassOfExpressionAndListOfExpression?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTListOfExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfExpressionAndListOfExpression_0(node: ASTClassOfExpressionAndListOfExpression, value: Any): Unit {
+    private fun astAssign_ASTClassOfExpressionAndListOfExpression_0(node: ASTClassOfExpressionAndListOfExpression, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTClassOfExpressionAndListOfExpression_1(node: ASTClassOfExpressionAndListOfExpression, value: Any): Unit {
+    private fun astAssign_ASTClassOfExpressionAndListOfExpression_1(node: ASTClassOfExpressionAndListOfExpression, value: Any) {
         node.variable1 = (value as ASTListOfExpression)
     }
-    public fun printASTExpressionList(node: ASTExpressionList?): Unit {
+    public fun printASTExpressionList(node: ASTExpressionList?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79711,7 +79709,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTExpressionList(node: ASTExpressionList?): Unit {
+    public fun freeASTExpressionList(node: ASTExpressionList?) {
         if ((node != null)) {
             when (node.id) {
                 169 -> {
@@ -79728,7 +79726,7 @@ public fun close() {
         tmp.id = 191
         return tmp
     }
-    public fun printASTConstructTriplesOptional(node: ASTConstructTriplesOptional?): Unit {
+    public fun printASTConstructTriplesOptional(node: ASTConstructTriplesOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79738,12 +79736,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTConstructTriplesOptional(node: ASTConstructTriplesOptional?): Unit {
+    public fun freeASTConstructTriplesOptional(node: ASTConstructTriplesOptional?) {
         if ((node != null)) {
             freeASTConstructTriples(node.variable0)
         }
     }
-    private fun astAssign_ASTConstructTriplesOptional_0(node: ASTConstructTriplesOptional, value: Any): Unit {
+    private fun astAssign_ASTConstructTriplesOptional_0(node: ASTConstructTriplesOptional, value: Any) {
         node.variable0 = (value as ASTConstructTriples)
     }
     private fun allocASTConstructTemplate(): ASTConstructTemplate {
@@ -79751,7 +79749,7 @@ public fun close() {
         tmp.id = 192
         return tmp
     }
-    public fun printASTConstructTemplate(node: ASTConstructTemplate?): Unit {
+    public fun printASTConstructTemplate(node: ASTConstructTemplate?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79761,12 +79759,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTConstructTemplate(node: ASTConstructTemplate?): Unit {
+    public fun freeASTConstructTemplate(node: ASTConstructTemplate?) {
         if ((node != null)) {
             freeASTConstructTriplesOptional(node.variable0)
         }
     }
-    private fun astAssign_ASTConstructTemplate_0(node: ASTConstructTemplate, value: Any): Unit {
+    private fun astAssign_ASTConstructTemplate_0(node: ASTConstructTemplate, value: Any) {
         node.variable0 = (value as ASTConstructTriplesOptional)
     }
     private fun allocASTConstructTriplesOptionalOptional(): ASTConstructTriplesOptionalOptional {
@@ -79774,7 +79772,7 @@ public fun close() {
         tmp.id = 193
         return tmp
     }
-    public fun printASTConstructTriplesOptionalOptional(node: ASTConstructTriplesOptionalOptional?): Unit {
+    public fun printASTConstructTriplesOptionalOptional(node: ASTConstructTriplesOptionalOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79784,12 +79782,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTConstructTriplesOptionalOptional(node: ASTConstructTriplesOptionalOptional?): Unit {
+    public fun freeASTConstructTriplesOptionalOptional(node: ASTConstructTriplesOptionalOptional?) {
         if ((node != null)) {
             freeASTConstructTriplesOptional(node.variable0)
         }
     }
-    private fun astAssign_ASTConstructTriplesOptionalOptional_0(node: ASTConstructTriplesOptionalOptional, value: Any): Unit {
+    private fun astAssign_ASTConstructTriplesOptionalOptional_0(node: ASTConstructTriplesOptionalOptional, value: Any) {
         node.variable0 = (value as ASTConstructTriplesOptional)
     }
     private fun allocASTConstructTriples(): ASTConstructTriples {
@@ -79797,7 +79795,7 @@ public fun close() {
         tmp.id = 194
         return tmp
     }
-    public fun printASTConstructTriples(node: ASTConstructTriples?): Unit {
+    public fun printASTConstructTriples(node: ASTConstructTriples?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79809,16 +79807,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTConstructTriples(node: ASTConstructTriples?): Unit {
+    public fun freeASTConstructTriples(node: ASTConstructTriples?) {
         if ((node != null)) {
             freeASTTriplesSameSubject(node.variable0)
             freeASTConstructTriplesOptionalOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTConstructTriples_0(node: ASTConstructTriples, value: Any): Unit {
+    private fun astAssign_ASTConstructTriples_0(node: ASTConstructTriples, value: Any) {
         node.variable0 = (value as ASTTriplesSameSubject)
     }
-    private fun astAssign_ASTConstructTriples_1(node: ASTConstructTriples, value: Any): Unit {
+    private fun astAssign_ASTConstructTriples_1(node: ASTConstructTriples, value: Any) {
         node.variable1 = (value as ASTConstructTriplesOptionalOptional)
     }
     private fun allocASTClassOfVarOrTermAndPropertyListNotEmpty(): ASTClassOfVarOrTermAndPropertyListNotEmpty {
@@ -79826,7 +79824,7 @@ public fun close() {
         tmp.id = 195
         return tmp
     }
-    public fun printASTClassOfVarOrTermAndPropertyListNotEmpty(node: ASTClassOfVarOrTermAndPropertyListNotEmpty?): Unit {
+    public fun printASTClassOfVarOrTermAndPropertyListNotEmpty(node: ASTClassOfVarOrTermAndPropertyListNotEmpty?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79838,16 +79836,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfVarOrTermAndPropertyListNotEmpty(node: ASTClassOfVarOrTermAndPropertyListNotEmpty?): Unit {
+    public fun freeASTClassOfVarOrTermAndPropertyListNotEmpty(node: ASTClassOfVarOrTermAndPropertyListNotEmpty?) {
         if ((node != null)) {
             freeASTVarOrTerm(node.variable0)
             freeASTPropertyListNotEmpty(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfVarOrTermAndPropertyListNotEmpty_0(node: ASTClassOfVarOrTermAndPropertyListNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTClassOfVarOrTermAndPropertyListNotEmpty_0(node: ASTClassOfVarOrTermAndPropertyListNotEmpty, value: Any) {
         node.variable0 = (value as ASTVarOrTerm)
     }
-    private fun astAssign_ASTClassOfVarOrTermAndPropertyListNotEmpty_1(node: ASTClassOfVarOrTermAndPropertyListNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTClassOfVarOrTermAndPropertyListNotEmpty_1(node: ASTClassOfVarOrTermAndPropertyListNotEmpty, value: Any) {
         node.variable1 = (value as ASTPropertyListNotEmpty)
     }
     private fun allocASTPropertyListOptional(): ASTPropertyListOptional {
@@ -79855,7 +79853,7 @@ public fun close() {
         tmp.id = 196
         return tmp
     }
-    public fun printASTPropertyListOptional(node: ASTPropertyListOptional?): Unit {
+    public fun printASTPropertyListOptional(node: ASTPropertyListOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79865,12 +79863,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPropertyListOptional(node: ASTPropertyListOptional?): Unit {
+    public fun freeASTPropertyListOptional(node: ASTPropertyListOptional?) {
         if ((node != null)) {
             freeASTPropertyList(node.variable0)
         }
     }
-    private fun astAssign_ASTPropertyListOptional_0(node: ASTPropertyListOptional, value: Any): Unit {
+    private fun astAssign_ASTPropertyListOptional_0(node: ASTPropertyListOptional, value: Any) {
         node.variable0 = (value as ASTPropertyList)
     }
     private fun allocASTClassOfTriplesNodeAndPropertyListOptional(): ASTClassOfTriplesNodeAndPropertyListOptional {
@@ -79878,7 +79876,7 @@ public fun close() {
         tmp.id = 197
         return tmp
     }
-    public fun printASTClassOfTriplesNodeAndPropertyListOptional(node: ASTClassOfTriplesNodeAndPropertyListOptional?): Unit {
+    public fun printASTClassOfTriplesNodeAndPropertyListOptional(node: ASTClassOfTriplesNodeAndPropertyListOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79890,19 +79888,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfTriplesNodeAndPropertyListOptional(node: ASTClassOfTriplesNodeAndPropertyListOptional?): Unit {
+    public fun freeASTClassOfTriplesNodeAndPropertyListOptional(node: ASTClassOfTriplesNodeAndPropertyListOptional?) {
         if ((node != null)) {
             freeASTTriplesNode(node.variable0)
             freeASTPropertyListOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfTriplesNodeAndPropertyListOptional_0(node: ASTClassOfTriplesNodeAndPropertyListOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfTriplesNodeAndPropertyListOptional_0(node: ASTClassOfTriplesNodeAndPropertyListOptional, value: Any) {
         node.variable0 = (value as ASTTriplesNode)
     }
-    private fun astAssign_ASTClassOfTriplesNodeAndPropertyListOptional_1(node: ASTClassOfTriplesNodeAndPropertyListOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfTriplesNodeAndPropertyListOptional_1(node: ASTClassOfTriplesNodeAndPropertyListOptional, value: Any) {
         node.variable1 = (value as ASTPropertyListOptional)
     }
-    public fun printASTTriplesSameSubject(node: ASTTriplesSameSubject?): Unit {
+    public fun printASTTriplesSameSubject(node: ASTTriplesSameSubject?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79916,7 +79914,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTTriplesSameSubject(node: ASTTriplesSameSubject?): Unit {
+    public fun freeASTTriplesSameSubject(node: ASTTriplesSameSubject?) {
         if ((node != null)) {
             when (node.id) {
                 195 -> {
@@ -79933,7 +79931,7 @@ public fun close() {
         tmp.id = 198
         return tmp
     }
-    public fun printASTPropertyList(node: ASTPropertyList?): Unit {
+    public fun printASTPropertyList(node: ASTPropertyList?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79943,12 +79941,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPropertyList(node: ASTPropertyList?): Unit {
+    public fun freeASTPropertyList(node: ASTPropertyList?) {
         if ((node != null)) {
             freeASTPropertyListNotEmpty(node.variable0)
         }
     }
-    private fun astAssign_ASTPropertyList_0(node: ASTPropertyList, value: Any): Unit {
+    private fun astAssign_ASTPropertyList_0(node: ASTPropertyList, value: Any) {
         node.variable0 = (value as ASTPropertyListNotEmpty)
     }
     private fun allocASTClassOfVerbAndObjectList(): ASTClassOfVerbAndObjectList {
@@ -79956,7 +79954,7 @@ public fun close() {
         tmp.id = 199
         return tmp
     }
-    public fun printASTClassOfVerbAndObjectList(node: ASTClassOfVerbAndObjectList?): Unit {
+    public fun printASTClassOfVerbAndObjectList(node: ASTClassOfVerbAndObjectList?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79968,16 +79966,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfVerbAndObjectList(node: ASTClassOfVerbAndObjectList?): Unit {
+    public fun freeASTClassOfVerbAndObjectList(node: ASTClassOfVerbAndObjectList?) {
         if ((node != null)) {
             freeASTVerb(node.variable0)
             freeASTObjectList(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfVerbAndObjectList_0(node: ASTClassOfVerbAndObjectList, value: Any): Unit {
+    private fun astAssign_ASTClassOfVerbAndObjectList_0(node: ASTClassOfVerbAndObjectList, value: Any) {
         node.variable0 = (value as ASTVerb)
     }
-    private fun astAssign_ASTClassOfVerbAndObjectList_1(node: ASTClassOfVerbAndObjectList, value: Any): Unit {
+    private fun astAssign_ASTClassOfVerbAndObjectList_1(node: ASTClassOfVerbAndObjectList, value: Any) {
         node.variable1 = (value as ASTObjectList)
     }
     private fun allocASTClassOfVerbAndObjectListOptional(): ASTClassOfVerbAndObjectListOptional {
@@ -79985,7 +79983,7 @@ public fun close() {
         tmp.id = 200
         return tmp
     }
-    public fun printASTClassOfVerbAndObjectListOptional(node: ASTClassOfVerbAndObjectListOptional?): Unit {
+    public fun printASTClassOfVerbAndObjectListOptional(node: ASTClassOfVerbAndObjectListOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -79995,15 +79993,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfVerbAndObjectListOptional(node: ASTClassOfVerbAndObjectListOptional?): Unit {
+    public fun freeASTClassOfVerbAndObjectListOptional(node: ASTClassOfVerbAndObjectListOptional?) {
         if ((node != null)) {
             freeASTClassOfVerbAndObjectList(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfVerbAndObjectListOptional_0(node: ASTClassOfVerbAndObjectListOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfVerbAndObjectListOptional_0(node: ASTClassOfVerbAndObjectListOptional, value: Any) {
         node.variable0 = (value as ASTClassOfVerbAndObjectList)
     }
-    public fun printASTListOfClassOfVerbAndObjectListOptional(node: ASTListOfClassOfVerbAndObjectListOptional?): Unit {
+    public fun printASTListOfClassOfVerbAndObjectListOptional(node: ASTListOfClassOfVerbAndObjectListOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80014,7 +80012,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfClassOfVerbAndObjectListOptional(node: ASTListOfClassOfVerbAndObjectListOptional?): Unit {
+    public fun freeASTListOfClassOfVerbAndObjectListOptional(node: ASTListOfClassOfVerbAndObjectListOptional?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTClassOfVerbAndObjectListOptional(it)
@@ -80027,7 +80025,7 @@ public fun close() {
         tmp.id = 201
         return tmp
     }
-    private fun astAssign_ASTListOfClassOfVerbAndObjectListOptional_0(node: ASTListOfClassOfVerbAndObjectListOptional, value: Any): Unit {
+    private fun astAssign_ASTListOfClassOfVerbAndObjectListOptional_0(node: ASTListOfClassOfVerbAndObjectListOptional, value: Any) {
         node.value.add((value as ASTClassOfVerbAndObjectListOptional))
     }
     private fun allocASTPropertyListNotEmpty(): ASTPropertyListNotEmpty {
@@ -80035,7 +80033,7 @@ public fun close() {
         tmp.id = 202
         return tmp
     }
-    public fun printASTPropertyListNotEmpty(node: ASTPropertyListNotEmpty?): Unit {
+    public fun printASTPropertyListNotEmpty(node: ASTPropertyListNotEmpty?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80049,23 +80047,23 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPropertyListNotEmpty(node: ASTPropertyListNotEmpty?): Unit {
+    public fun freeASTPropertyListNotEmpty(node: ASTPropertyListNotEmpty?) {
         if ((node != null)) {
             freeASTVerb(node.variable0)
             freeASTObjectList(node.variable1)
             freeASTListOfClassOfVerbAndObjectListOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTPropertyListNotEmpty_0(node: ASTPropertyListNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTPropertyListNotEmpty_0(node: ASTPropertyListNotEmpty, value: Any) {
         node.variable0 = (value as ASTVerb)
     }
-    private fun astAssign_ASTPropertyListNotEmpty_1(node: ASTPropertyListNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTPropertyListNotEmpty_1(node: ASTPropertyListNotEmpty, value: Any) {
         node.variable1 = (value as ASTObjectList)
     }
-    private fun astAssign_ASTPropertyListNotEmpty_2(node: ASTPropertyListNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTPropertyListNotEmpty_2(node: ASTPropertyListNotEmpty, value: Any) {
         node.variable2 = (value as ASTListOfClassOfVerbAndObjectListOptional)
     }
-    public fun printASTVerb(node: ASTVerb?): Unit {
+    public fun printASTVerb(node: ASTVerb?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80079,7 +80077,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTVerb(node: ASTVerb?): Unit {
+    public fun freeASTVerb(node: ASTVerb?) {
         if ((node != null)) {
             when (node.id) {
                 18, 19, 171, 172, 173 -> {
@@ -80096,7 +80094,7 @@ public fun close() {
         tmp.id = 203
         return tmp
     }
-    public fun printASTRDFType(node: ASTRDFType?): Unit {
+    public fun printASTRDFType(node: ASTRDFType?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80104,11 +80102,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRDFType(node: ASTRDFType?): Unit {
+    public fun freeASTRDFType(node: ASTRDFType?) {
         if ((node != null)) {
         }
     }
-    public fun printASTListOfObject(node: ASTListOfObject?): Unit {
+    public fun printASTListOfObject(node: ASTListOfObject?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80119,7 +80117,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfObject(node: ASTListOfObject?): Unit {
+    public fun freeASTListOfObject(node: ASTListOfObject?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTObject(it)
@@ -80132,7 +80130,7 @@ public fun close() {
         tmp.id = 204
         return tmp
     }
-    private fun astAssign_ASTListOfObject_0(node: ASTListOfObject, value: Any): Unit {
+    private fun astAssign_ASTListOfObject_0(node: ASTListOfObject, value: Any) {
         node.value.add((value as ASTObject))
     }
     private fun allocASTObjectList(): ASTObjectList {
@@ -80140,7 +80138,7 @@ public fun close() {
         tmp.id = 205
         return tmp
     }
-    public fun printASTObjectList(node: ASTObjectList?): Unit {
+    public fun printASTObjectList(node: ASTObjectList?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80152,16 +80150,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTObjectList(node: ASTObjectList?): Unit {
+    public fun freeASTObjectList(node: ASTObjectList?) {
         if ((node != null)) {
             freeASTObject(node.variable0)
             freeASTListOfObject(node.variable1)
         }
     }
-    private fun astAssign_ASTObjectList_0(node: ASTObjectList, value: Any): Unit {
+    private fun astAssign_ASTObjectList_0(node: ASTObjectList, value: Any) {
         node.variable0 = (value as ASTObject)
     }
-    private fun astAssign_ASTObjectList_1(node: ASTObjectList, value: Any): Unit {
+    private fun astAssign_ASTObjectList_1(node: ASTObjectList, value: Any) {
         node.variable1 = (value as ASTListOfObject)
     }
     private fun allocASTObject(): ASTObject {
@@ -80169,7 +80167,7 @@ public fun close() {
         tmp.id = 206
         return tmp
     }
-    public fun printASTObject(node: ASTObject?): Unit {
+    public fun printASTObject(node: ASTObject?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80179,12 +80177,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTObject(node: ASTObject?): Unit {
+    public fun freeASTObject(node: ASTObject?) {
         if ((node != null)) {
             freeASTGraphNode(node.variable0)
         }
     }
-    private fun astAssign_ASTObject_0(node: ASTObject, value: Any): Unit {
+    private fun astAssign_ASTObject_0(node: ASTObject, value: Any) {
         node.variable0 = (value as ASTGraphNode)
     }
     private fun allocASTClassOfVarOrTermAndPropertyListPathNotEmpty(): ASTClassOfVarOrTermAndPropertyListPathNotEmpty {
@@ -80192,7 +80190,7 @@ public fun close() {
         tmp.id = 207
         return tmp
     }
-    public fun printASTClassOfVarOrTermAndPropertyListPathNotEmpty(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty?): Unit {
+    public fun printASTClassOfVarOrTermAndPropertyListPathNotEmpty(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80204,16 +80202,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfVarOrTermAndPropertyListPathNotEmpty(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty?): Unit {
+    public fun freeASTClassOfVarOrTermAndPropertyListPathNotEmpty(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty?) {
         if ((node != null)) {
             freeASTVarOrTerm(node.variable0)
             freeASTPropertyListPathNotEmpty(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfVarOrTermAndPropertyListPathNotEmpty_0(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTClassOfVarOrTermAndPropertyListPathNotEmpty_0(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty, value: Any) {
         node.variable0 = (value as ASTVarOrTerm)
     }
-    private fun astAssign_ASTClassOfVarOrTermAndPropertyListPathNotEmpty_1(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTClassOfVarOrTermAndPropertyListPathNotEmpty_1(node: ASTClassOfVarOrTermAndPropertyListPathNotEmpty, value: Any) {
         node.variable1 = (value as ASTPropertyListPathNotEmpty)
     }
     private fun allocASTPropertyListPathOptional(): ASTPropertyListPathOptional {
@@ -80221,7 +80219,7 @@ public fun close() {
         tmp.id = 208
         return tmp
     }
-    public fun printASTPropertyListPathOptional(node: ASTPropertyListPathOptional?): Unit {
+    public fun printASTPropertyListPathOptional(node: ASTPropertyListPathOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80231,12 +80229,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPropertyListPathOptional(node: ASTPropertyListPathOptional?): Unit {
+    public fun freeASTPropertyListPathOptional(node: ASTPropertyListPathOptional?) {
         if ((node != null)) {
             freeASTPropertyListPath(node.variable0)
         }
     }
-    private fun astAssign_ASTPropertyListPathOptional_0(node: ASTPropertyListPathOptional, value: Any): Unit {
+    private fun astAssign_ASTPropertyListPathOptional_0(node: ASTPropertyListPathOptional, value: Any) {
         node.variable0 = (value as ASTPropertyListPath)
     }
     private fun allocASTClassOfTriplesNodePathAndPropertyListPathOptional(): ASTClassOfTriplesNodePathAndPropertyListPathOptional {
@@ -80244,7 +80242,7 @@ public fun close() {
         tmp.id = 209
         return tmp
     }
-    public fun printASTClassOfTriplesNodePathAndPropertyListPathOptional(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional?): Unit {
+    public fun printASTClassOfTriplesNodePathAndPropertyListPathOptional(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80256,19 +80254,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfTriplesNodePathAndPropertyListPathOptional(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional?): Unit {
+    public fun freeASTClassOfTriplesNodePathAndPropertyListPathOptional(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional?) {
         if ((node != null)) {
             freeASTTriplesNodePath(node.variable0)
             freeASTPropertyListPathOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfTriplesNodePathAndPropertyListPathOptional_0(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfTriplesNodePathAndPropertyListPathOptional_0(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional, value: Any) {
         node.variable0 = (value as ASTTriplesNodePath)
     }
-    private fun astAssign_ASTClassOfTriplesNodePathAndPropertyListPathOptional_1(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfTriplesNodePathAndPropertyListPathOptional_1(node: ASTClassOfTriplesNodePathAndPropertyListPathOptional, value: Any) {
         node.variable1 = (value as ASTPropertyListPathOptional)
     }
-    public fun printASTTriplesSameSubjectPath(node: ASTTriplesSameSubjectPath?): Unit {
+    public fun printASTTriplesSameSubjectPath(node: ASTTriplesSameSubjectPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80282,7 +80280,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTTriplesSameSubjectPath(node: ASTTriplesSameSubjectPath?): Unit {
+    public fun freeASTTriplesSameSubjectPath(node: ASTTriplesSameSubjectPath?) {
         if ((node != null)) {
             when (node.id) {
                 207 -> {
@@ -80299,7 +80297,7 @@ public fun close() {
         tmp.id = 210
         return tmp
     }
-    public fun printASTPropertyListPath(node: ASTPropertyListPath?): Unit {
+    public fun printASTPropertyListPath(node: ASTPropertyListPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80309,15 +80307,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPropertyListPath(node: ASTPropertyListPath?): Unit {
+    public fun freeASTPropertyListPath(node: ASTPropertyListPath?) {
         if ((node != null)) {
             freeASTPropertyListPathNotEmpty(node.variable0)
         }
     }
-    private fun astAssign_ASTPropertyListPath_0(node: ASTPropertyListPath, value: Any): Unit {
+    private fun astAssign_ASTPropertyListPath_0(node: ASTPropertyListPath, value: Any) {
         node.variable0 = (value as ASTPropertyListPathNotEmpty)
     }
-    public fun printASTInterfaceOfVerbPathOrVerbSimple(node: ASTInterfaceOfVerbPathOrVerbSimple?): Unit {
+    public fun printASTInterfaceOfVerbPathOrVerbSimple(node: ASTInterfaceOfVerbPathOrVerbSimple?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80331,7 +80329,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfVerbPathOrVerbSimple(node: ASTInterfaceOfVerbPathOrVerbSimple?): Unit {
+    public fun freeASTInterfaceOfVerbPathOrVerbSimple(node: ASTInterfaceOfVerbPathOrVerbSimple?) {
         if ((node != null)) {
             when (node.id) {
                 211 -> {
@@ -80348,7 +80346,7 @@ public fun close() {
         tmp.id = 213
         return tmp
     }
-    public fun printASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList?): Unit {
+    public fun printASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80360,16 +80358,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList?): Unit {
+    public fun freeASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList?) {
         if ((node != null)) {
             freeASTInterfaceOfVerbPathOrVerbSimple(node.variable0)
             freeASTObjectList(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList_0(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList_0(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList, value: Any) {
         node.variable0 = (value as ASTInterfaceOfVerbPathOrVerbSimple)
     }
-    private fun astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList_1(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList_1(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList, value: Any) {
         node.variable1 = (value as ASTObjectList)
     }
     private fun allocASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(): ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional {
@@ -80377,7 +80375,7 @@ public fun close() {
         tmp.id = 214
         return tmp
     }
-    public fun printASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?): Unit {
+    public fun printASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80387,15 +80385,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?): Unit {
+    public fun freeASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?) {
         if ((node != null)) {
             freeASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional_0(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional_0(node: ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional, value: Any) {
         node.variable0 = (value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectList)
     }
-    public fun printASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?): Unit {
+    public fun printASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80406,7 +80404,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?): Unit {
+    public fun freeASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(it)
@@ -80419,7 +80417,7 @@ public fun close() {
         tmp.id = 215
         return tmp
     }
-    private fun astAssign_ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional_0(node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional, value: Any): Unit {
+    private fun astAssign_ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional_0(node: ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional, value: Any) {
         node.value.add((value as ASTClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional))
     }
     private fun allocASTPropertyListPathNotEmpty(): ASTPropertyListPathNotEmpty {
@@ -80427,7 +80425,7 @@ public fun close() {
         tmp.id = 216
         return tmp
     }
-    public fun printASTPropertyListPathNotEmpty(node: ASTPropertyListPathNotEmpty?): Unit {
+    public fun printASTPropertyListPathNotEmpty(node: ASTPropertyListPathNotEmpty?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80441,20 +80439,20 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPropertyListPathNotEmpty(node: ASTPropertyListPathNotEmpty?): Unit {
+    public fun freeASTPropertyListPathNotEmpty(node: ASTPropertyListPathNotEmpty?) {
         if ((node != null)) {
             freeASTInterfaceOfVerbPathOrVerbSimple(node.variable0)
             freeASTObjectListPath(node.variable1)
             freeASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTPropertyListPathNotEmpty_0(node: ASTPropertyListPathNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTPropertyListPathNotEmpty_0(node: ASTPropertyListPathNotEmpty, value: Any) {
         node.variable0 = (value as ASTInterfaceOfVerbPathOrVerbSimple)
     }
-    private fun astAssign_ASTPropertyListPathNotEmpty_1(node: ASTPropertyListPathNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTPropertyListPathNotEmpty_1(node: ASTPropertyListPathNotEmpty, value: Any) {
         node.variable1 = (value as ASTObjectListPath)
     }
-    private fun astAssign_ASTPropertyListPathNotEmpty_2(node: ASTPropertyListPathNotEmpty, value: Any): Unit {
+    private fun astAssign_ASTPropertyListPathNotEmpty_2(node: ASTPropertyListPathNotEmpty, value: Any) {
         node.variable2 = (value as ASTListOfClassOfInterfaceOfVerbPathOrVerbSimpleAndObjectListOptional)
     }
     private fun allocASTVerbPath(): ASTVerbPath {
@@ -80462,7 +80460,7 @@ public fun close() {
         tmp.id = 211
         return tmp
     }
-    public fun printASTVerbPath(node: ASTVerbPath?): Unit {
+    public fun printASTVerbPath(node: ASTVerbPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80472,12 +80470,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTVerbPath(node: ASTVerbPath?): Unit {
+    public fun freeASTVerbPath(node: ASTVerbPath?) {
         if ((node != null)) {
             freeASTPath(node.variable0)
         }
     }
-    private fun astAssign_ASTVerbPath_0(node: ASTVerbPath, value: Any): Unit {
+    private fun astAssign_ASTVerbPath_0(node: ASTVerbPath, value: Any) {
         node.variable0 = (value as ASTPath)
     }
     private fun allocASTVerbSimple(): ASTVerbSimple {
@@ -80485,7 +80483,7 @@ public fun close() {
         tmp.id = 212
         return tmp
     }
-    public fun printASTVerbSimple(node: ASTVerbSimple?): Unit {
+    public fun printASTVerbSimple(node: ASTVerbSimple?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80495,15 +80493,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTVerbSimple(node: ASTVerbSimple?): Unit {
+    public fun freeASTVerbSimple(node: ASTVerbSimple?) {
         if ((node != null)) {
             freeASTVar(node.variable0)
         }
     }
-    private fun astAssign_ASTVerbSimple_0(node: ASTVerbSimple, value: Any): Unit {
+    private fun astAssign_ASTVerbSimple_0(node: ASTVerbSimple, value: Any) {
         node.variable0 = (value as ASTVar)
     }
-    public fun printASTListOfObjectPath(node: ASTListOfObjectPath?): Unit {
+    public fun printASTListOfObjectPath(node: ASTListOfObjectPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80514,7 +80512,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfObjectPath(node: ASTListOfObjectPath?): Unit {
+    public fun freeASTListOfObjectPath(node: ASTListOfObjectPath?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTObjectPath(it)
@@ -80527,7 +80525,7 @@ public fun close() {
         tmp.id = 217
         return tmp
     }
-    private fun astAssign_ASTListOfObjectPath_0(node: ASTListOfObjectPath, value: Any): Unit {
+    private fun astAssign_ASTListOfObjectPath_0(node: ASTListOfObjectPath, value: Any) {
         node.value.add((value as ASTObjectPath))
     }
     private fun allocASTObjectListPath(): ASTObjectListPath {
@@ -80535,7 +80533,7 @@ public fun close() {
         tmp.id = 218
         return tmp
     }
-    public fun printASTObjectListPath(node: ASTObjectListPath?): Unit {
+    public fun printASTObjectListPath(node: ASTObjectListPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80547,16 +80545,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTObjectListPath(node: ASTObjectListPath?): Unit {
+    public fun freeASTObjectListPath(node: ASTObjectListPath?) {
         if ((node != null)) {
             freeASTObjectPath(node.variable0)
             freeASTListOfObjectPath(node.variable1)
         }
     }
-    private fun astAssign_ASTObjectListPath_0(node: ASTObjectListPath, value: Any): Unit {
+    private fun astAssign_ASTObjectListPath_0(node: ASTObjectListPath, value: Any) {
         node.variable0 = (value as ASTObjectPath)
     }
-    private fun astAssign_ASTObjectListPath_1(node: ASTObjectListPath, value: Any): Unit {
+    private fun astAssign_ASTObjectListPath_1(node: ASTObjectListPath, value: Any) {
         node.variable1 = (value as ASTListOfObjectPath)
     }
     private fun allocASTObjectPath(): ASTObjectPath {
@@ -80564,7 +80562,7 @@ public fun close() {
         tmp.id = 219
         return tmp
     }
-    public fun printASTObjectPath(node: ASTObjectPath?): Unit {
+    public fun printASTObjectPath(node: ASTObjectPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80574,12 +80572,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTObjectPath(node: ASTObjectPath?): Unit {
+    public fun freeASTObjectPath(node: ASTObjectPath?) {
         if ((node != null)) {
             freeASTGraphNodePath(node.variable0)
         }
     }
-    private fun astAssign_ASTObjectPath_0(node: ASTObjectPath, value: Any): Unit {
+    private fun astAssign_ASTObjectPath_0(node: ASTObjectPath, value: Any) {
         node.variable0 = (value as ASTGraphNodePath)
     }
     private fun allocASTPath(): ASTPath {
@@ -80587,7 +80585,7 @@ public fun close() {
         tmp.id = 220
         return tmp
     }
-    public fun printASTPath(node: ASTPath?): Unit {
+    public fun printASTPath(node: ASTPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80597,15 +80595,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPath(node: ASTPath?): Unit {
+    public fun freeASTPath(node: ASTPath?) {
         if ((node != null)) {
             freeASTPathAlternative(node.variable0)
         }
     }
-    private fun astAssign_ASTPath_0(node: ASTPath, value: Any): Unit {
+    private fun astAssign_ASTPath_0(node: ASTPath, value: Any) {
         node.variable0 = (value as ASTPathAlternative)
     }
-    public fun printASTListOfPathSequence(node: ASTListOfPathSequence?): Unit {
+    public fun printASTListOfPathSequence(node: ASTListOfPathSequence?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80616,7 +80614,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfPathSequence(node: ASTListOfPathSequence?): Unit {
+    public fun freeASTListOfPathSequence(node: ASTListOfPathSequence?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTPathSequence(it)
@@ -80629,7 +80627,7 @@ public fun close() {
         tmp.id = 221
         return tmp
     }
-    private fun astAssign_ASTListOfPathSequence_0(node: ASTListOfPathSequence, value: Any): Unit {
+    private fun astAssign_ASTListOfPathSequence_0(node: ASTListOfPathSequence, value: Any) {
         node.value.add((value as ASTPathSequence))
     }
     private fun allocASTPathAlternative(): ASTPathAlternative {
@@ -80637,7 +80635,7 @@ public fun close() {
         tmp.id = 222
         return tmp
     }
-    public fun printASTPathAlternative(node: ASTPathAlternative?): Unit {
+    public fun printASTPathAlternative(node: ASTPathAlternative?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80649,19 +80647,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPathAlternative(node: ASTPathAlternative?): Unit {
+    public fun freeASTPathAlternative(node: ASTPathAlternative?) {
         if ((node != null)) {
             freeASTPathSequence(node.variable0)
             freeASTListOfPathSequence(node.variable1)
         }
     }
-    private fun astAssign_ASTPathAlternative_0(node: ASTPathAlternative, value: Any): Unit {
+    private fun astAssign_ASTPathAlternative_0(node: ASTPathAlternative, value: Any) {
         node.variable0 = (value as ASTPathSequence)
     }
-    private fun astAssign_ASTPathAlternative_1(node: ASTPathAlternative, value: Any): Unit {
+    private fun astAssign_ASTPathAlternative_1(node: ASTPathAlternative, value: Any) {
         node.variable1 = (value as ASTListOfPathSequence)
     }
-    public fun printASTListOfPathEltOrInverse(node: ASTListOfPathEltOrInverse?): Unit {
+    public fun printASTListOfPathEltOrInverse(node: ASTListOfPathEltOrInverse?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80672,7 +80670,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfPathEltOrInverse(node: ASTListOfPathEltOrInverse?): Unit {
+    public fun freeASTListOfPathEltOrInverse(node: ASTListOfPathEltOrInverse?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTPathEltOrInverse(it)
@@ -80685,7 +80683,7 @@ public fun close() {
         tmp.id = 223
         return tmp
     }
-    private fun astAssign_ASTListOfPathEltOrInverse_0(node: ASTListOfPathEltOrInverse, value: Any): Unit {
+    private fun astAssign_ASTListOfPathEltOrInverse_0(node: ASTListOfPathEltOrInverse, value: Any) {
         node.value.add((value as ASTPathEltOrInverse))
     }
     private fun allocASTPathSequence(): ASTPathSequence {
@@ -80693,7 +80691,7 @@ public fun close() {
         tmp.id = 224
         return tmp
     }
-    public fun printASTPathSequence(node: ASTPathSequence?): Unit {
+    public fun printASTPathSequence(node: ASTPathSequence?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80705,16 +80703,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPathSequence(node: ASTPathSequence?): Unit {
+    public fun freeASTPathSequence(node: ASTPathSequence?) {
         if ((node != null)) {
             freeASTPathEltOrInverse(node.variable0)
             freeASTListOfPathEltOrInverse(node.variable1)
         }
     }
-    private fun astAssign_ASTPathSequence_0(node: ASTPathSequence, value: Any): Unit {
+    private fun astAssign_ASTPathSequence_0(node: ASTPathSequence, value: Any) {
         node.variable0 = (value as ASTPathEltOrInverse)
     }
-    private fun astAssign_ASTPathSequence_1(node: ASTPathSequence, value: Any): Unit {
+    private fun astAssign_ASTPathSequence_1(node: ASTPathSequence, value: Any) {
         node.variable1 = (value as ASTListOfPathEltOrInverse)
     }
     private fun allocASTPathElt(): ASTPathElt {
@@ -80722,7 +80720,7 @@ public fun close() {
         tmp.id = 225
         return tmp
     }
-    public fun printASTPathElt(node: ASTPathElt?): Unit {
+    public fun printASTPathElt(node: ASTPathElt?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80733,15 +80731,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPathElt(node: ASTPathElt?): Unit {
+    public fun freeASTPathElt(node: ASTPathElt?) {
         if ((node != null)) {
             freeASTPathPrimary(node.variable0)
         }
     }
-    private fun astAssign_ASTPathElt_0(node: ASTPathElt, value: Any): Unit {
+    private fun astAssign_ASTPathElt_0(node: ASTPathElt, value: Any) {
         node.variable0 = (value as ASTPathPrimary)
     }
-    private fun astAssign_ASTPathElt_1(node: ASTPathElt, value: Any): Unit {
+    private fun astAssign_ASTPathElt_1(node: ASTPathElt, value: Any) {
         node.variable1 = (ASTEnumOfoptionalAndanyAndatLeastOne.values.indexOf((value as String)) + 1)
     }
     private fun allocASTPathEltOrInverse(): ASTPathEltOrInverse {
@@ -80749,7 +80747,7 @@ public fun close() {
         tmp.id = 226
         return tmp
     }
-    public fun printASTPathEltOrInverse(node: ASTPathEltOrInverse?): Unit {
+    public fun printASTPathEltOrInverse(node: ASTPathEltOrInverse?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80760,18 +80758,18 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPathEltOrInverse(node: ASTPathEltOrInverse?): Unit {
+    public fun freeASTPathEltOrInverse(node: ASTPathEltOrInverse?) {
         if ((node != null)) {
             freeASTPathElt(node.variable1)
         }
     }
-    private fun astAssign_ASTPathEltOrInverse_0(node: ASTPathEltOrInverse, value: Any): Unit {
+    private fun astAssign_ASTPathEltOrInverse_0(node: ASTPathEltOrInverse, value: Any) {
         node.negated = true
     }
-    private fun astAssign_ASTPathEltOrInverse_1(node: ASTPathEltOrInverse, value: Any): Unit {
+    private fun astAssign_ASTPathEltOrInverse_1(node: ASTPathEltOrInverse, value: Any) {
         node.variable1 = (value as ASTPathElt)
     }
-    public fun printASTPathPrimary(node: ASTPathPrimary?): Unit {
+    public fun printASTPathPrimary(node: ASTPathPrimary?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80791,7 +80789,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTPathPrimary(node: ASTPathPrimary?): Unit {
+    public fun freeASTPathPrimary(node: ASTPathPrimary?) {
         if ((node != null)) {
             when (node.id) {
                 171, 172, 173 -> {
@@ -80809,7 +80807,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfPathOneInPropertySet(node: ASTListOfPathOneInPropertySet?): Unit {
+    public fun printASTListOfPathOneInPropertySet(node: ASTListOfPathOneInPropertySet?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80820,7 +80818,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfPathOneInPropertySet(node: ASTListOfPathOneInPropertySet?): Unit {
+    public fun freeASTListOfPathOneInPropertySet(node: ASTListOfPathOneInPropertySet?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTPathOneInPropertySet(it)
@@ -80833,7 +80831,7 @@ public fun close() {
         tmp.id = 229
         return tmp
     }
-    private fun astAssign_ASTListOfPathOneInPropertySet_0(node: ASTListOfPathOneInPropertySet, value: Any): Unit {
+    private fun astAssign_ASTListOfPathOneInPropertySet_0(node: ASTListOfPathOneInPropertySet, value: Any) {
         node.value.add((value as ASTPathOneInPropertySet))
     }
     private fun allocASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet(): ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet {
@@ -80841,7 +80839,7 @@ public fun close() {
         tmp.id = 230
         return tmp
     }
-    public fun printASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet?): Unit {
+    public fun printASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80853,16 +80851,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet?): Unit {
+    public fun freeASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet?) {
         if ((node != null)) {
             freeASTPathOneInPropertySet(node.variable0)
             freeASTListOfPathOneInPropertySet(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet_0(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet, value: Any): Unit {
+    private fun astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet_0(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet, value: Any) {
         node.variable0 = (value as ASTPathOneInPropertySet)
     }
-    private fun astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet_1(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet, value: Any): Unit {
+    private fun astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet_1(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet, value: Any) {
         node.variable1 = (value as ASTListOfPathOneInPropertySet)
     }
     private fun allocASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional(): ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional {
@@ -80870,7 +80868,7 @@ public fun close() {
         tmp.id = 228
         return tmp
     }
-    public fun printASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional?): Unit {
+    public fun printASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80880,15 +80878,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional?): Unit {
+    public fun freeASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional?) {
         if ((node != null)) {
             freeASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet(node.variable0)
         }
     }
-    private fun astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional_0(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional, value: Any): Unit {
+    private fun astAssign_ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional_0(node: ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySetOptional, value: Any) {
         node.variable0 = (value as ASTClassOfPathOneInPropertySetAndListOfPathOneInPropertySet)
     }
-    public fun printASTPathNegatedPropertySet(node: ASTPathNegatedPropertySet?): Unit {
+    public fun printASTPathNegatedPropertySet(node: ASTPathNegatedPropertySet?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80902,7 +80900,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTPathNegatedPropertySet(node: ASTPathNegatedPropertySet?): Unit {
+    public fun freeASTPathNegatedPropertySet(node: ASTPathNegatedPropertySet?) {
         if ((node != null)) {
             when (node.id) {
                 227 -> {
@@ -80914,7 +80912,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTInterfaceOfiriOrRDFType(node: ASTInterfaceOfiriOrRDFType?): Unit {
+    public fun printASTInterfaceOfiriOrRDFType(node: ASTInterfaceOfiriOrRDFType?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80928,7 +80926,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfiriOrRDFType(node: ASTInterfaceOfiriOrRDFType?): Unit {
+    public fun freeASTInterfaceOfiriOrRDFType(node: ASTInterfaceOfiriOrRDFType?) {
         if ((node != null)) {
             when (node.id) {
                 171, 172, 173 -> {
@@ -80945,7 +80943,7 @@ public fun close() {
         tmp.id = 227
         return tmp
     }
-    public fun printASTPathOneInPropertySet(node: ASTPathOneInPropertySet?): Unit {
+    public fun printASTPathOneInPropertySet(node: ASTPathOneInPropertySet?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80956,15 +80954,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPathOneInPropertySet(node: ASTPathOneInPropertySet?): Unit {
+    public fun freeASTPathOneInPropertySet(node: ASTPathOneInPropertySet?) {
         if ((node != null)) {
             freeASTInterfaceOfiriOrRDFType(node.variable1)
         }
     }
-    private fun astAssign_ASTPathOneInPropertySet_0(node: ASTPathOneInPropertySet, value: Any): Unit {
+    private fun astAssign_ASTPathOneInPropertySet_0(node: ASTPathOneInPropertySet, value: Any) {
         node.negated = true
     }
-    private fun astAssign_ASTPathOneInPropertySet_1(node: ASTPathOneInPropertySet, value: Any): Unit {
+    private fun astAssign_ASTPathOneInPropertySet_1(node: ASTPathOneInPropertySet, value: Any) {
         node.variable1 = (value as ASTInterfaceOfiriOrRDFType)
     }
     private fun allocASTInteger(): ASTInteger {
@@ -80972,7 +80970,7 @@ public fun close() {
         tmp.id = 231
         return tmp
     }
-    public fun printASTInteger(node: ASTInteger?): Unit {
+    public fun printASTInteger(node: ASTInteger?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -80981,14 +80979,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInteger(node: ASTInteger?): Unit {
+    public fun freeASTInteger(node: ASTInteger?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTInteger_0(node: ASTInteger, value: Any): Unit {
+    private fun astAssign_ASTInteger_0(node: ASTInteger, value: Any) {
         node.INTEGER = (value as String)
     }
-    public fun printASTTriplesNode(node: ASTTriplesNode?): Unit {
+    public fun printASTTriplesNode(node: ASTTriplesNode?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81002,7 +81000,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTTriplesNode(node: ASTTriplesNode?): Unit {
+    public fun freeASTTriplesNode(node: ASTTriplesNode?) {
         if ((node != null)) {
             when (node.id) {
                 232 -> {
@@ -81019,7 +81017,7 @@ public fun close() {
         tmp.id = 233
         return tmp
     }
-    public fun printASTBlankNodePropertyList(node: ASTBlankNodePropertyList?): Unit {
+    public fun printASTBlankNodePropertyList(node: ASTBlankNodePropertyList?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81029,15 +81027,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBlankNodePropertyList(node: ASTBlankNodePropertyList?): Unit {
+    public fun freeASTBlankNodePropertyList(node: ASTBlankNodePropertyList?) {
         if ((node != null)) {
             freeASTPropertyListNotEmpty(node.variable0)
         }
     }
-    private fun astAssign_ASTBlankNodePropertyList_0(node: ASTBlankNodePropertyList, value: Any): Unit {
+    private fun astAssign_ASTBlankNodePropertyList_0(node: ASTBlankNodePropertyList, value: Any) {
         node.variable0 = (value as ASTPropertyListNotEmpty)
     }
-    public fun printASTTriplesNodePath(node: ASTTriplesNodePath?): Unit {
+    public fun printASTTriplesNodePath(node: ASTTriplesNodePath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81051,7 +81049,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTTriplesNodePath(node: ASTTriplesNodePath?): Unit {
+    public fun freeASTTriplesNodePath(node: ASTTriplesNodePath?) {
         if ((node != null)) {
             when (node.id) {
                 234 -> {
@@ -81068,7 +81066,7 @@ public fun close() {
         tmp.id = 235
         return tmp
     }
-    public fun printASTBlankNodePropertyListPath(node: ASTBlankNodePropertyListPath?): Unit {
+    public fun printASTBlankNodePropertyListPath(node: ASTBlankNodePropertyListPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81078,15 +81076,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBlankNodePropertyListPath(node: ASTBlankNodePropertyListPath?): Unit {
+    public fun freeASTBlankNodePropertyListPath(node: ASTBlankNodePropertyListPath?) {
         if ((node != null)) {
             freeASTPropertyListPathNotEmpty(node.variable0)
         }
     }
-    private fun astAssign_ASTBlankNodePropertyListPath_0(node: ASTBlankNodePropertyListPath, value: Any): Unit {
+    private fun astAssign_ASTBlankNodePropertyListPath_0(node: ASTBlankNodePropertyListPath, value: Any) {
         node.variable0 = (value as ASTPropertyListPathNotEmpty)
     }
-    public fun printASTListOfGraphNode(node: ASTListOfGraphNode?): Unit {
+    public fun printASTListOfGraphNode(node: ASTListOfGraphNode?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81097,7 +81095,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfGraphNode(node: ASTListOfGraphNode?): Unit {
+    public fun freeASTListOfGraphNode(node: ASTListOfGraphNode?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTGraphNode(it)
@@ -81110,7 +81108,7 @@ public fun close() {
         tmp.id = 236
         return tmp
     }
-    private fun astAssign_ASTListOfGraphNode_0(node: ASTListOfGraphNode, value: Any): Unit {
+    private fun astAssign_ASTListOfGraphNode_0(node: ASTListOfGraphNode, value: Any) {
         node.value.add((value as ASTGraphNode))
     }
     private fun allocASTCollection(): ASTCollection {
@@ -81118,7 +81116,7 @@ public fun close() {
         tmp.id = 232
         return tmp
     }
-    public fun printASTCollection(node: ASTCollection?): Unit {
+    public fun printASTCollection(node: ASTCollection?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81128,15 +81126,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTCollection(node: ASTCollection?): Unit {
+    public fun freeASTCollection(node: ASTCollection?) {
         if ((node != null)) {
             freeASTListOfGraphNode(node.variable0)
         }
     }
-    private fun astAssign_ASTCollection_0(node: ASTCollection, value: Any): Unit {
+    private fun astAssign_ASTCollection_0(node: ASTCollection, value: Any) {
         node.variable0 = (value as ASTListOfGraphNode)
     }
-    public fun printASTListOfGraphNodePath(node: ASTListOfGraphNodePath?): Unit {
+    public fun printASTListOfGraphNodePath(node: ASTListOfGraphNodePath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81147,7 +81145,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfGraphNodePath(node: ASTListOfGraphNodePath?): Unit {
+    public fun freeASTListOfGraphNodePath(node: ASTListOfGraphNodePath?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTGraphNodePath(it)
@@ -81160,7 +81158,7 @@ public fun close() {
         tmp.id = 237
         return tmp
     }
-    private fun astAssign_ASTListOfGraphNodePath_0(node: ASTListOfGraphNodePath, value: Any): Unit {
+    private fun astAssign_ASTListOfGraphNodePath_0(node: ASTListOfGraphNodePath, value: Any) {
         node.value.add((value as ASTGraphNodePath))
     }
     private fun allocASTCollectionPath(): ASTCollectionPath {
@@ -81168,7 +81166,7 @@ public fun close() {
         tmp.id = 234
         return tmp
     }
-    public fun printASTCollectionPath(node: ASTCollectionPath?): Unit {
+    public fun printASTCollectionPath(node: ASTCollectionPath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81178,15 +81176,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTCollectionPath(node: ASTCollectionPath?): Unit {
+    public fun freeASTCollectionPath(node: ASTCollectionPath?) {
         if ((node != null)) {
             freeASTListOfGraphNodePath(node.variable0)
         }
     }
-    private fun astAssign_ASTCollectionPath_0(node: ASTCollectionPath, value: Any): Unit {
+    private fun astAssign_ASTCollectionPath_0(node: ASTCollectionPath, value: Any) {
         node.variable0 = (value as ASTListOfGraphNodePath)
     }
-    public fun printASTGraphNode(node: ASTGraphNode?): Unit {
+    public fun printASTGraphNode(node: ASTGraphNode?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81200,7 +81198,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTGraphNode(node: ASTGraphNode?): Unit {
+    public fun freeASTGraphNode(node: ASTGraphNode?) {
         if ((node != null)) {
             when (node.id) {
                 18, 19, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 238, 239, 169 -> {
@@ -81212,7 +81210,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTGraphNodePath(node: ASTGraphNodePath?): Unit {
+    public fun printASTGraphNodePath(node: ASTGraphNodePath?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81226,7 +81224,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTGraphNodePath(node: ASTGraphNodePath?): Unit {
+    public fun freeASTGraphNodePath(node: ASTGraphNodePath?) {
         if ((node != null)) {
             when (node.id) {
                 18, 19, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184, 185, 238, 239, 169 -> {
@@ -81238,7 +81236,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTVarOrTerm(node: ASTVarOrTerm?): Unit {
+    public fun printASTVarOrTerm(node: ASTVarOrTerm?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81252,7 +81250,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTVarOrTerm(node: ASTVarOrTerm?): Unit {
+    public fun freeASTVarOrTerm(node: ASTVarOrTerm?) {
         if ((node != null)) {
             when (node.id) {
                 18, 19 -> {
@@ -81264,7 +81262,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTVarOrIri(node: ASTVarOrIri?): Unit {
+    public fun printASTVarOrIri(node: ASTVarOrIri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81278,7 +81276,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTVarOrIri(node: ASTVarOrIri?): Unit {
+    public fun freeASTVarOrIri(node: ASTVarOrIri?) {
         if ((node != null)) {
             when (node.id) {
                 18, 19 -> {
@@ -81290,7 +81288,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTVar(node: ASTVar?): Unit {
+    public fun printASTVar(node: ASTVar?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81304,7 +81302,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTVar(node: ASTVar?): Unit {
+    public fun freeASTVar(node: ASTVar?) {
         if ((node != null)) {
             when (node.id) {
                 18 -> {
@@ -81321,7 +81319,7 @@ public fun close() {
         tmp.id = 18
         return tmp
     }
-    public fun printASTVar1(node: ASTVar1?): Unit {
+    public fun printASTVar1(node: ASTVar1?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81330,11 +81328,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTVar1(node: ASTVar1?): Unit {
+    public fun freeASTVar1(node: ASTVar1?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTVar1_0(node: ASTVar1, value: Any): Unit {
+    private fun astAssign_ASTVar1_0(node: ASTVar1, value: Any) {
         node.VAR1 = (value as String)
     }
     private fun allocASTVar2(): ASTVar2 {
@@ -81342,7 +81340,7 @@ public fun close() {
         tmp.id = 19
         return tmp
     }
-    public fun printASTVar2(node: ASTVar2?): Unit {
+    public fun printASTVar2(node: ASTVar2?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81351,14 +81349,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTVar2(node: ASTVar2?): Unit {
+    public fun freeASTVar2(node: ASTVar2?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTVar2_0(node: ASTVar2, value: Any): Unit {
+    private fun astAssign_ASTVar2_0(node: ASTVar2, value: Any) {
         node.VAR2 = (value as String)
     }
-    public fun printASTGraphTerm(node: ASTGraphTerm?): Unit {
+    public fun printASTGraphTerm(node: ASTGraphTerm?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81384,7 +81382,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTGraphTerm(node: ASTGraphTerm?): Unit {
+    public fun freeASTGraphTerm(node: ASTGraphTerm?) {
         if ((node != null)) {
             when (node.id) {
                 171, 172, 173 -> {
@@ -81413,7 +81411,7 @@ public fun close() {
         tmp.id = 240
         return tmp
     }
-    public fun printASTExpression(node: ASTExpression?): Unit {
+    public fun printASTExpression(node: ASTExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81423,15 +81421,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTExpression(node: ASTExpression?): Unit {
+    public fun freeASTExpression(node: ASTExpression?) {
         if ((node != null)) {
             freeASTConditionalOrExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTExpression_0(node: ASTExpression, value: Any): Unit {
+    private fun astAssign_ASTExpression_0(node: ASTExpression, value: Any) {
         node.variable0 = (value as ASTConditionalOrExpression)
     }
-    public fun printASTListOfConditionalAndExpression(node: ASTListOfConditionalAndExpression?): Unit {
+    public fun printASTListOfConditionalAndExpression(node: ASTListOfConditionalAndExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81442,7 +81440,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfConditionalAndExpression(node: ASTListOfConditionalAndExpression?): Unit {
+    public fun freeASTListOfConditionalAndExpression(node: ASTListOfConditionalAndExpression?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTConditionalAndExpression(it)
@@ -81455,7 +81453,7 @@ public fun close() {
         tmp.id = 241
         return tmp
     }
-    private fun astAssign_ASTListOfConditionalAndExpression_0(node: ASTListOfConditionalAndExpression, value: Any): Unit {
+    private fun astAssign_ASTListOfConditionalAndExpression_0(node: ASTListOfConditionalAndExpression, value: Any) {
         node.value.add((value as ASTConditionalAndExpression))
     }
     private fun allocASTConditionalOrExpression(): ASTConditionalOrExpression {
@@ -81463,7 +81461,7 @@ public fun close() {
         tmp.id = 242
         return tmp
     }
-    public fun printASTConditionalOrExpression(node: ASTConditionalOrExpression?): Unit {
+    public fun printASTConditionalOrExpression(node: ASTConditionalOrExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81475,19 +81473,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTConditionalOrExpression(node: ASTConditionalOrExpression?): Unit {
+    public fun freeASTConditionalOrExpression(node: ASTConditionalOrExpression?) {
         if ((node != null)) {
             freeASTConditionalAndExpression(node.variable0)
             freeASTListOfConditionalAndExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTConditionalOrExpression_0(node: ASTConditionalOrExpression, value: Any): Unit {
+    private fun astAssign_ASTConditionalOrExpression_0(node: ASTConditionalOrExpression, value: Any) {
         node.variable0 = (value as ASTConditionalAndExpression)
     }
-    private fun astAssign_ASTConditionalOrExpression_1(node: ASTConditionalOrExpression, value: Any): Unit {
+    private fun astAssign_ASTConditionalOrExpression_1(node: ASTConditionalOrExpression, value: Any) {
         node.variable1 = (value as ASTListOfConditionalAndExpression)
     }
-    public fun printASTListOfValueLogical(node: ASTListOfValueLogical?): Unit {
+    public fun printASTListOfValueLogical(node: ASTListOfValueLogical?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81498,7 +81496,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfValueLogical(node: ASTListOfValueLogical?): Unit {
+    public fun freeASTListOfValueLogical(node: ASTListOfValueLogical?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTValueLogical(it)
@@ -81511,7 +81509,7 @@ public fun close() {
         tmp.id = 243
         return tmp
     }
-    private fun astAssign_ASTListOfValueLogical_0(node: ASTListOfValueLogical, value: Any): Unit {
+    private fun astAssign_ASTListOfValueLogical_0(node: ASTListOfValueLogical, value: Any) {
         node.value.add((value as ASTValueLogical))
     }
     private fun allocASTConditionalAndExpression(): ASTConditionalAndExpression {
@@ -81519,7 +81517,7 @@ public fun close() {
         tmp.id = 244
         return tmp
     }
-    public fun printASTConditionalAndExpression(node: ASTConditionalAndExpression?): Unit {
+    public fun printASTConditionalAndExpression(node: ASTConditionalAndExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81531,16 +81529,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTConditionalAndExpression(node: ASTConditionalAndExpression?): Unit {
+    public fun freeASTConditionalAndExpression(node: ASTConditionalAndExpression?) {
         if ((node != null)) {
             freeASTValueLogical(node.variable0)
             freeASTListOfValueLogical(node.variable1)
         }
     }
-    private fun astAssign_ASTConditionalAndExpression_0(node: ASTConditionalAndExpression, value: Any): Unit {
+    private fun astAssign_ASTConditionalAndExpression_0(node: ASTConditionalAndExpression, value: Any) {
         node.variable0 = (value as ASTValueLogical)
     }
-    private fun astAssign_ASTConditionalAndExpression_1(node: ASTConditionalAndExpression, value: Any): Unit {
+    private fun astAssign_ASTConditionalAndExpression_1(node: ASTConditionalAndExpression, value: Any) {
         node.variable1 = (value as ASTListOfValueLogical)
     }
     private fun allocASTValueLogical(): ASTValueLogical {
@@ -81548,7 +81546,7 @@ public fun close() {
         tmp.id = 245
         return tmp
     }
-    public fun printASTValueLogical(node: ASTValueLogical?): Unit {
+    public fun printASTValueLogical(node: ASTValueLogical?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81558,15 +81556,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTValueLogical(node: ASTValueLogical?): Unit {
+    public fun freeASTValueLogical(node: ASTValueLogical?) {
         if ((node != null)) {
             freeASTRelationalExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTValueLogical_0(node: ASTValueLogical, value: Any): Unit {
+    private fun astAssign_ASTValueLogical_0(node: ASTValueLogical, value: Any) {
         node.variable0 = (value as ASTRelationalExpression)
     }
-    public fun printASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN?): Unit {
+    public fun printASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81598,7 +81596,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN?): Unit {
+    public fun freeASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN?) {
         if ((node != null)) {
             when (node.id) {
                 246 -> {
@@ -81633,7 +81631,7 @@ public fun close() {
         tmp.id = 254
         return tmp
     }
-    public fun printASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional?): Unit {
+    public fun printASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81643,12 +81641,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional?): Unit {
+    public fun freeASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional?) {
         if ((node != null)) {
             freeASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN(node.variable0)
         }
     }
-    private fun astAssign_ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional_0(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional, value: Any): Unit {
+    private fun astAssign_ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional_0(node: ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional, value: Any) {
         node.variable0 = (value as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTIN)
     }
     private fun allocASTRelationalExpression(): ASTRelationalExpression {
@@ -81656,7 +81654,7 @@ public fun close() {
         tmp.id = 255
         return tmp
     }
-    public fun printASTRelationalExpression(node: ASTRelationalExpression?): Unit {
+    public fun printASTRelationalExpression(node: ASTRelationalExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81668,16 +81666,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpression(node: ASTRelationalExpression?): Unit {
+    public fun freeASTRelationalExpression(node: ASTRelationalExpression?) {
         if ((node != null)) {
             freeASTNumericExpression(node.variable0)
             freeASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTRelationalExpression_0(node: ASTRelationalExpression, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpression_0(node: ASTRelationalExpression, value: Any) {
         node.variable0 = (value as ASTNumericExpression)
     }
-    private fun astAssign_ASTRelationalExpression_1(node: ASTRelationalExpression, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpression_1(node: ASTRelationalExpression, value: Any) {
         node.variable1 = (value as ASTInterfaceOfRelationalExpressionEQOrRelationalExpressionNEQOrRelationalExpressionLTOrRelationalExpressionGTOrRelationalExpressionLEQOrRelationalExpressionGEQOrRelationalExpressionINOrRelationalExpressionNOTINOptional)
     }
     private fun allocASTRelationalExpressionEQ(): ASTRelationalExpressionEQ {
@@ -81685,7 +81683,7 @@ public fun close() {
         tmp.id = 246
         return tmp
     }
-    public fun printASTRelationalExpressionEQ(node: ASTRelationalExpressionEQ?): Unit {
+    public fun printASTRelationalExpressionEQ(node: ASTRelationalExpressionEQ?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81695,12 +81693,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionEQ(node: ASTRelationalExpressionEQ?): Unit {
+    public fun freeASTRelationalExpressionEQ(node: ASTRelationalExpressionEQ?) {
         if ((node != null)) {
             freeASTNumericExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionEQ_0(node: ASTRelationalExpressionEQ, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionEQ_0(node: ASTRelationalExpressionEQ, value: Any) {
         node.variable0 = (value as ASTNumericExpression)
     }
     private fun allocASTRelationalExpressionNEQ(): ASTRelationalExpressionNEQ {
@@ -81708,7 +81706,7 @@ public fun close() {
         tmp.id = 247
         return tmp
     }
-    public fun printASTRelationalExpressionNEQ(node: ASTRelationalExpressionNEQ?): Unit {
+    public fun printASTRelationalExpressionNEQ(node: ASTRelationalExpressionNEQ?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81718,12 +81716,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionNEQ(node: ASTRelationalExpressionNEQ?): Unit {
+    public fun freeASTRelationalExpressionNEQ(node: ASTRelationalExpressionNEQ?) {
         if ((node != null)) {
             freeASTNumericExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionNEQ_0(node: ASTRelationalExpressionNEQ, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionNEQ_0(node: ASTRelationalExpressionNEQ, value: Any) {
         node.variable0 = (value as ASTNumericExpression)
     }
     private fun allocASTRelationalExpressionLT(): ASTRelationalExpressionLT {
@@ -81731,7 +81729,7 @@ public fun close() {
         tmp.id = 248
         return tmp
     }
-    public fun printASTRelationalExpressionLT(node: ASTRelationalExpressionLT?): Unit {
+    public fun printASTRelationalExpressionLT(node: ASTRelationalExpressionLT?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81741,12 +81739,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionLT(node: ASTRelationalExpressionLT?): Unit {
+    public fun freeASTRelationalExpressionLT(node: ASTRelationalExpressionLT?) {
         if ((node != null)) {
             freeASTNumericExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionLT_0(node: ASTRelationalExpressionLT, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionLT_0(node: ASTRelationalExpressionLT, value: Any) {
         node.variable0 = (value as ASTNumericExpression)
     }
     private fun allocASTRelationalExpressionGT(): ASTRelationalExpressionGT {
@@ -81754,7 +81752,7 @@ public fun close() {
         tmp.id = 249
         return tmp
     }
-    public fun printASTRelationalExpressionGT(node: ASTRelationalExpressionGT?): Unit {
+    public fun printASTRelationalExpressionGT(node: ASTRelationalExpressionGT?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81764,12 +81762,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionGT(node: ASTRelationalExpressionGT?): Unit {
+    public fun freeASTRelationalExpressionGT(node: ASTRelationalExpressionGT?) {
         if ((node != null)) {
             freeASTNumericExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionGT_0(node: ASTRelationalExpressionGT, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionGT_0(node: ASTRelationalExpressionGT, value: Any) {
         node.variable0 = (value as ASTNumericExpression)
     }
     private fun allocASTRelationalExpressionLEQ(): ASTRelationalExpressionLEQ {
@@ -81777,7 +81775,7 @@ public fun close() {
         tmp.id = 250
         return tmp
     }
-    public fun printASTRelationalExpressionLEQ(node: ASTRelationalExpressionLEQ?): Unit {
+    public fun printASTRelationalExpressionLEQ(node: ASTRelationalExpressionLEQ?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81787,12 +81785,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionLEQ(node: ASTRelationalExpressionLEQ?): Unit {
+    public fun freeASTRelationalExpressionLEQ(node: ASTRelationalExpressionLEQ?) {
         if ((node != null)) {
             freeASTNumericExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionLEQ_0(node: ASTRelationalExpressionLEQ, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionLEQ_0(node: ASTRelationalExpressionLEQ, value: Any) {
         node.variable0 = (value as ASTNumericExpression)
     }
     private fun allocASTRelationalExpressionGEQ(): ASTRelationalExpressionGEQ {
@@ -81800,7 +81798,7 @@ public fun close() {
         tmp.id = 251
         return tmp
     }
-    public fun printASTRelationalExpressionGEQ(node: ASTRelationalExpressionGEQ?): Unit {
+    public fun printASTRelationalExpressionGEQ(node: ASTRelationalExpressionGEQ?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81810,12 +81808,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionGEQ(node: ASTRelationalExpressionGEQ?): Unit {
+    public fun freeASTRelationalExpressionGEQ(node: ASTRelationalExpressionGEQ?) {
         if ((node != null)) {
             freeASTNumericExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionGEQ_0(node: ASTRelationalExpressionGEQ, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionGEQ_0(node: ASTRelationalExpressionGEQ, value: Any) {
         node.variable0 = (value as ASTNumericExpression)
     }
     private fun allocASTRelationalExpressionIN(): ASTRelationalExpressionIN {
@@ -81823,7 +81821,7 @@ public fun close() {
         tmp.id = 252
         return tmp
     }
-    public fun printASTRelationalExpressionIN(node: ASTRelationalExpressionIN?): Unit {
+    public fun printASTRelationalExpressionIN(node: ASTRelationalExpressionIN?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81833,12 +81831,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionIN(node: ASTRelationalExpressionIN?): Unit {
+    public fun freeASTRelationalExpressionIN(node: ASTRelationalExpressionIN?) {
         if ((node != null)) {
             freeASTExpressionList(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionIN_0(node: ASTRelationalExpressionIN, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionIN_0(node: ASTRelationalExpressionIN, value: Any) {
         node.variable0 = (value as ASTExpressionList)
     }
     private fun allocASTRelationalExpressionNOTIN(): ASTRelationalExpressionNOTIN {
@@ -81846,7 +81844,7 @@ public fun close() {
         tmp.id = 253
         return tmp
     }
-    public fun printASTRelationalExpressionNOTIN(node: ASTRelationalExpressionNOTIN?): Unit {
+    public fun printASTRelationalExpressionNOTIN(node: ASTRelationalExpressionNOTIN?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81856,12 +81854,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRelationalExpressionNOTIN(node: ASTRelationalExpressionNOTIN?): Unit {
+    public fun freeASTRelationalExpressionNOTIN(node: ASTRelationalExpressionNOTIN?) {
         if ((node != null)) {
             freeASTExpressionList(node.variable0)
         }
     }
-    private fun astAssign_ASTRelationalExpressionNOTIN_0(node: ASTRelationalExpressionNOTIN, value: Any): Unit {
+    private fun astAssign_ASTRelationalExpressionNOTIN_0(node: ASTRelationalExpressionNOTIN, value: Any) {
         node.variable0 = (value as ASTExpressionList)
     }
     private fun allocASTNumericExpression(): ASTNumericExpression {
@@ -81869,7 +81867,7 @@ public fun close() {
         tmp.id = 256
         return tmp
     }
-    public fun printASTNumericExpression(node: ASTNumericExpression?): Unit {
+    public fun printASTNumericExpression(node: ASTNumericExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81879,15 +81877,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericExpression(node: ASTNumericExpression?): Unit {
+    public fun freeASTNumericExpression(node: ASTNumericExpression?) {
         if ((node != null)) {
             freeASTAdditiveExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTNumericExpression_0(node: ASTNumericExpression, value: Any): Unit {
+    private fun astAssign_ASTNumericExpression_0(node: ASTNumericExpression, value: Any) {
         node.variable0 = (value as ASTAdditiveExpression)
     }
-    public fun printASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative(node: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative?): Unit {
+    public fun printASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative(node: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81901,7 +81899,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative(node: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative?): Unit {
+    public fun freeASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative(node: ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative?) {
         if ((node != null)) {
             when (node.id) {
                 178, 179, 180 -> {
@@ -81913,7 +81911,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun printASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81927,7 +81925,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun freeASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node != null)) {
             when (node.id) {
                 257 -> {
@@ -81939,7 +81937,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun printASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81950,7 +81948,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun freeASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(it)
@@ -81963,7 +81961,7 @@ public fun close() {
         tmp.id = 259
         return tmp
     }
-    private fun astAssign_ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0(node: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any): Unit {
+    private fun astAssign_ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0(node: ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any) {
         node.value.add((value as ASTInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE))
     }
     private fun allocASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(): ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE {
@@ -81971,7 +81969,7 @@ public fun close() {
         tmp.id = 260
         return tmp
     }
-    public fun printASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun printASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -81983,19 +81981,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun freeASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node != null)) {
             freeASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative(node.variable0)
             freeASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node.variable1)
         }
     }
-    private fun astAssign_ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any) {
         node.variable0 = (value as ASTInterfaceOfNumericLiteralPositiveOrNumericLiteralNegative)
     }
-    private fun astAssign_ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_1(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any): Unit {
+    private fun astAssign_ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_1(node: ASTClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any) {
         node.variable1 = (value as ASTListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
     }
-    public fun printASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun printASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82012,7 +82010,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun freeASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node != null)) {
             when (node.id) {
                 261 -> {
@@ -82027,7 +82025,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun printASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82038,7 +82036,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?): Unit {
+    public fun freeASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(it)
@@ -82051,7 +82049,7 @@ public fun close() {
         tmp.id = 263
         return tmp
     }
-    private fun astAssign_ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0(node: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any): Unit {
+    private fun astAssign_ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE_0(node: ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE, value: Any) {
         node.value.add((value as ASTInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE))
     }
     private fun allocASTAdditiveExpression(): ASTAdditiveExpression {
@@ -82059,7 +82057,7 @@ public fun close() {
         tmp.id = 264
         return tmp
     }
-    public fun printASTAdditiveExpression(node: ASTAdditiveExpression?): Unit {
+    public fun printASTAdditiveExpression(node: ASTAdditiveExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82071,16 +82069,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAdditiveExpression(node: ASTAdditiveExpression?): Unit {
+    public fun freeASTAdditiveExpression(node: ASTAdditiveExpression?) {
         if ((node != null)) {
             freeASTMultiplicativeExpression(node.variable0)
             freeASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE(node.variable1)
         }
     }
-    private fun astAssign_ASTAdditiveExpression_0(node: ASTAdditiveExpression, value: Any): Unit {
+    private fun astAssign_ASTAdditiveExpression_0(node: ASTAdditiveExpression, value: Any) {
         node.variable0 = (value as ASTMultiplicativeExpression)
     }
-    private fun astAssign_ASTAdditiveExpression_1(node: ASTAdditiveExpression, value: Any): Unit {
+    private fun astAssign_ASTAdditiveExpression_1(node: ASTAdditiveExpression, value: Any) {
         node.variable1 = (value as ASTListOfInterfaceOfAdditiveExpressionPLUSOrAdditiveExpressionMINUSOrClassOfInterfaceOfNumericLiteralPositiveOrNumericLiteralNegativeAndListOfInterfaceOfAdditiveExpressionMULTIPLYOrAdditiveExpressionDIVIDE)
     }
     private fun allocASTAdditiveExpressionPLUS(): ASTAdditiveExpressionPLUS {
@@ -82088,7 +82086,7 @@ public fun close() {
         tmp.id = 261
         return tmp
     }
-    public fun printASTAdditiveExpressionPLUS(node: ASTAdditiveExpressionPLUS?): Unit {
+    public fun printASTAdditiveExpressionPLUS(node: ASTAdditiveExpressionPLUS?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82098,12 +82096,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAdditiveExpressionPLUS(node: ASTAdditiveExpressionPLUS?): Unit {
+    public fun freeASTAdditiveExpressionPLUS(node: ASTAdditiveExpressionPLUS?) {
         if ((node != null)) {
             freeASTMultiplicativeExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTAdditiveExpressionPLUS_0(node: ASTAdditiveExpressionPLUS, value: Any): Unit {
+    private fun astAssign_ASTAdditiveExpressionPLUS_0(node: ASTAdditiveExpressionPLUS, value: Any) {
         node.variable0 = (value as ASTMultiplicativeExpression)
     }
     private fun allocASTAdditiveExpressionMINUS(): ASTAdditiveExpressionMINUS {
@@ -82111,7 +82109,7 @@ public fun close() {
         tmp.id = 262
         return tmp
     }
-    public fun printASTAdditiveExpressionMINUS(node: ASTAdditiveExpressionMINUS?): Unit {
+    public fun printASTAdditiveExpressionMINUS(node: ASTAdditiveExpressionMINUS?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82121,12 +82119,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAdditiveExpressionMINUS(node: ASTAdditiveExpressionMINUS?): Unit {
+    public fun freeASTAdditiveExpressionMINUS(node: ASTAdditiveExpressionMINUS?) {
         if ((node != null)) {
             freeASTMultiplicativeExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTAdditiveExpressionMINUS_0(node: ASTAdditiveExpressionMINUS, value: Any): Unit {
+    private fun astAssign_ASTAdditiveExpressionMINUS_0(node: ASTAdditiveExpressionMINUS, value: Any) {
         node.variable0 = (value as ASTMultiplicativeExpression)
     }
     private fun allocASTAdditiveExpressionMULTIPLY(): ASTAdditiveExpressionMULTIPLY {
@@ -82134,7 +82132,7 @@ public fun close() {
         tmp.id = 257
         return tmp
     }
-    public fun printASTAdditiveExpressionMULTIPLY(node: ASTAdditiveExpressionMULTIPLY?): Unit {
+    public fun printASTAdditiveExpressionMULTIPLY(node: ASTAdditiveExpressionMULTIPLY?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82144,12 +82142,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAdditiveExpressionMULTIPLY(node: ASTAdditiveExpressionMULTIPLY?): Unit {
+    public fun freeASTAdditiveExpressionMULTIPLY(node: ASTAdditiveExpressionMULTIPLY?) {
         if ((node != null)) {
             freeASTUnaryExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTAdditiveExpressionMULTIPLY_0(node: ASTAdditiveExpressionMULTIPLY, value: Any): Unit {
+    private fun astAssign_ASTAdditiveExpressionMULTIPLY_0(node: ASTAdditiveExpressionMULTIPLY, value: Any) {
         node.variable0 = (value as ASTUnaryExpression)
     }
     private fun allocASTAdditiveExpressionDIVIDE(): ASTAdditiveExpressionDIVIDE {
@@ -82157,7 +82155,7 @@ public fun close() {
         tmp.id = 258
         return tmp
     }
-    public fun printASTAdditiveExpressionDIVIDE(node: ASTAdditiveExpressionDIVIDE?): Unit {
+    public fun printASTAdditiveExpressionDIVIDE(node: ASTAdditiveExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82167,15 +82165,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAdditiveExpressionDIVIDE(node: ASTAdditiveExpressionDIVIDE?): Unit {
+    public fun freeASTAdditiveExpressionDIVIDE(node: ASTAdditiveExpressionDIVIDE?) {
         if ((node != null)) {
             freeASTUnaryExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTAdditiveExpressionDIVIDE_0(node: ASTAdditiveExpressionDIVIDE, value: Any): Unit {
+    private fun astAssign_ASTAdditiveExpressionDIVIDE_0(node: ASTAdditiveExpressionDIVIDE, value: Any) {
         node.variable0 = (value as ASTUnaryExpression)
     }
-    public fun printASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?): Unit {
+    public fun printASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82189,7 +82187,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?): Unit {
+    public fun freeASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?) {
         if ((node != null)) {
             when (node.id) {
                 265 -> {
@@ -82201,7 +82199,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?): Unit {
+    public fun printASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82212,7 +82210,7 @@ public fun close() {
             print("],},")
         }
     }
-    public fun freeASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?): Unit {
+    public fun freeASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE?) {
         if ((node != null)) {
             node.value.forEach {
                 freeASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(it)
@@ -82225,7 +82223,7 @@ public fun close() {
         tmp.id = 267
         return tmp
     }
-    private fun astAssign_ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE_0(node: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, value: Any): Unit {
+    private fun astAssign_ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE_0(node: ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE, value: Any) {
         node.value.add((value as ASTInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE))
     }
     private fun allocASTMultiplicativeExpression(): ASTMultiplicativeExpression {
@@ -82233,7 +82231,7 @@ public fun close() {
         tmp.id = 268
         return tmp
     }
-    public fun printASTMultiplicativeExpression(node: ASTMultiplicativeExpression?): Unit {
+    public fun printASTMultiplicativeExpression(node: ASTMultiplicativeExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82245,16 +82243,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTMultiplicativeExpression(node: ASTMultiplicativeExpression?): Unit {
+    public fun freeASTMultiplicativeExpression(node: ASTMultiplicativeExpression?) {
         if ((node != null)) {
             freeASTUnaryExpression(node.variable0)
             freeASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE(node.variable1)
         }
     }
-    private fun astAssign_ASTMultiplicativeExpression_0(node: ASTMultiplicativeExpression, value: Any): Unit {
+    private fun astAssign_ASTMultiplicativeExpression_0(node: ASTMultiplicativeExpression, value: Any) {
         node.variable0 = (value as ASTUnaryExpression)
     }
-    private fun astAssign_ASTMultiplicativeExpression_1(node: ASTMultiplicativeExpression, value: Any): Unit {
+    private fun astAssign_ASTMultiplicativeExpression_1(node: ASTMultiplicativeExpression, value: Any) {
         node.variable1 = (value as ASTListOfInterfaceOfMultiplicativeExpressionMULTIPLYOrMultiplicativeExpressionDIVIDE)
     }
     private fun allocASTMultiplicativeExpressionMULTIPLY(): ASTMultiplicativeExpressionMULTIPLY {
@@ -82262,7 +82260,7 @@ public fun close() {
         tmp.id = 265
         return tmp
     }
-    public fun printASTMultiplicativeExpressionMULTIPLY(node: ASTMultiplicativeExpressionMULTIPLY?): Unit {
+    public fun printASTMultiplicativeExpressionMULTIPLY(node: ASTMultiplicativeExpressionMULTIPLY?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82272,12 +82270,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTMultiplicativeExpressionMULTIPLY(node: ASTMultiplicativeExpressionMULTIPLY?): Unit {
+    public fun freeASTMultiplicativeExpressionMULTIPLY(node: ASTMultiplicativeExpressionMULTIPLY?) {
         if ((node != null)) {
             freeASTUnaryExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTMultiplicativeExpressionMULTIPLY_0(node: ASTMultiplicativeExpressionMULTIPLY, value: Any): Unit {
+    private fun astAssign_ASTMultiplicativeExpressionMULTIPLY_0(node: ASTMultiplicativeExpressionMULTIPLY, value: Any) {
         node.variable0 = (value as ASTUnaryExpression)
     }
     private fun allocASTMultiplicativeExpressionDIVIDE(): ASTMultiplicativeExpressionDIVIDE {
@@ -82285,7 +82283,7 @@ public fun close() {
         tmp.id = 266
         return tmp
     }
-    public fun printASTMultiplicativeExpressionDIVIDE(node: ASTMultiplicativeExpressionDIVIDE?): Unit {
+    public fun printASTMultiplicativeExpressionDIVIDE(node: ASTMultiplicativeExpressionDIVIDE?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82295,15 +82293,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTMultiplicativeExpressionDIVIDE(node: ASTMultiplicativeExpressionDIVIDE?): Unit {
+    public fun freeASTMultiplicativeExpressionDIVIDE(node: ASTMultiplicativeExpressionDIVIDE?) {
         if ((node != null)) {
             freeASTUnaryExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTMultiplicativeExpressionDIVIDE_0(node: ASTMultiplicativeExpressionDIVIDE, value: Any): Unit {
+    private fun astAssign_ASTMultiplicativeExpressionDIVIDE_0(node: ASTMultiplicativeExpressionDIVIDE, value: Any) {
         node.variable0 = (value as ASTUnaryExpression)
     }
-    public fun printASTUnaryExpression(node: ASTUnaryExpression?): Unit {
+    public fun printASTUnaryExpression(node: ASTUnaryExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82323,7 +82321,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTUnaryExpression(node: ASTUnaryExpression?): Unit {
+    public fun freeASTUnaryExpression(node: ASTUnaryExpression?) {
         if ((node != null)) {
             when (node.id) {
                 269 -> {
@@ -82346,7 +82344,7 @@ public fun close() {
         tmp.id = 269
         return tmp
     }
-    public fun printASTUnaryExpressionNOT(node: ASTUnaryExpressionNOT?): Unit {
+    public fun printASTUnaryExpressionNOT(node: ASTUnaryExpressionNOT?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82356,12 +82354,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTUnaryExpressionNOT(node: ASTUnaryExpressionNOT?): Unit {
+    public fun freeASTUnaryExpressionNOT(node: ASTUnaryExpressionNOT?) {
         if ((node != null)) {
             freeASTPrimaryExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTUnaryExpressionNOT_0(node: ASTUnaryExpressionNOT, value: Any): Unit {
+    private fun astAssign_ASTUnaryExpressionNOT_0(node: ASTUnaryExpressionNOT, value: Any) {
         node.variable0 = (value as ASTPrimaryExpression)
     }
     private fun allocASTUnaryExpressionPLUS(): ASTUnaryExpressionPLUS {
@@ -82369,7 +82367,7 @@ public fun close() {
         tmp.id = 270
         return tmp
     }
-    public fun printASTUnaryExpressionPLUS(node: ASTUnaryExpressionPLUS?): Unit {
+    public fun printASTUnaryExpressionPLUS(node: ASTUnaryExpressionPLUS?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82379,12 +82377,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTUnaryExpressionPLUS(node: ASTUnaryExpressionPLUS?): Unit {
+    public fun freeASTUnaryExpressionPLUS(node: ASTUnaryExpressionPLUS?) {
         if ((node != null)) {
             freeASTPrimaryExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTUnaryExpressionPLUS_0(node: ASTUnaryExpressionPLUS, value: Any): Unit {
+    private fun astAssign_ASTUnaryExpressionPLUS_0(node: ASTUnaryExpressionPLUS, value: Any) {
         node.variable0 = (value as ASTPrimaryExpression)
     }
     private fun allocASTUnaryExpressionMINUS(): ASTUnaryExpressionMINUS {
@@ -82392,7 +82390,7 @@ public fun close() {
         tmp.id = 271
         return tmp
     }
-    public fun printASTUnaryExpressionMINUS(node: ASTUnaryExpressionMINUS?): Unit {
+    public fun printASTUnaryExpressionMINUS(node: ASTUnaryExpressionMINUS?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82402,15 +82400,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTUnaryExpressionMINUS(node: ASTUnaryExpressionMINUS?): Unit {
+    public fun freeASTUnaryExpressionMINUS(node: ASTUnaryExpressionMINUS?) {
         if ((node != null)) {
             freeASTPrimaryExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTUnaryExpressionMINUS_0(node: ASTUnaryExpressionMINUS, value: Any): Unit {
+    private fun astAssign_ASTUnaryExpressionMINUS_0(node: ASTUnaryExpressionMINUS, value: Any) {
         node.variable0 = (value as ASTPrimaryExpression)
     }
-    public fun printASTPrimaryExpression(node: ASTPrimaryExpression?): Unit {
+    public fun printASTPrimaryExpression(node: ASTPrimaryExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82439,7 +82437,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTPrimaryExpression(node: ASTPrimaryExpression?): Unit {
+    public fun freeASTPrimaryExpression(node: ASTPrimaryExpression?) {
         if ((node != null)) {
             when (node.id) {
                 109 -> {
@@ -82471,7 +82469,7 @@ public fun close() {
         tmp.id = 109
         return tmp
     }
-    public fun printASTBrackettedExpression(node: ASTBrackettedExpression?): Unit {
+    public fun printASTBrackettedExpression(node: ASTBrackettedExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82481,15 +82479,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBrackettedExpression(node: ASTBrackettedExpression?): Unit {
+    public fun freeASTBrackettedExpression(node: ASTBrackettedExpression?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBrackettedExpression_0(node: ASTBrackettedExpression, value: Any): Unit {
+    private fun astAssign_ASTBrackettedExpression_0(node: ASTBrackettedExpression, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    public fun printASTBuiltInCall(node: ASTBuiltInCall?): Unit {
+    public fun printASTBuiltInCall(node: ASTBuiltInCall?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82662,7 +82660,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTBuiltInCall(node: ASTBuiltInCall?): Unit {
+    public fun freeASTBuiltInCall(node: ASTBuiltInCall?) {
         if ((node != null)) {
             when (node.id) {
                 42, 43, 44, 45, 46, 47, 48 -> {
@@ -82838,7 +82836,7 @@ public fun close() {
         tmp.id = 74
         return tmp
     }
-    public fun printASTBuiltInCallYear(node: ASTBuiltInCallYear?): Unit {
+    public fun printASTBuiltInCallYear(node: ASTBuiltInCallYear?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82848,12 +82846,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallYear(node: ASTBuiltInCallYear?): Unit {
+    public fun freeASTBuiltInCallYear(node: ASTBuiltInCallYear?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallYear_0(node: ASTBuiltInCallYear, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallYear_0(node: ASTBuiltInCallYear, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallMonth(): ASTBuiltInCallMonth {
@@ -82861,7 +82859,7 @@ public fun close() {
         tmp.id = 75
         return tmp
     }
-    public fun printASTBuiltInCallMonth(node: ASTBuiltInCallMonth?): Unit {
+    public fun printASTBuiltInCallMonth(node: ASTBuiltInCallMonth?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82871,12 +82869,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallMonth(node: ASTBuiltInCallMonth?): Unit {
+    public fun freeASTBuiltInCallMonth(node: ASTBuiltInCallMonth?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallMonth_0(node: ASTBuiltInCallMonth, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallMonth_0(node: ASTBuiltInCallMonth, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallHours(): ASTBuiltInCallHours {
@@ -82884,7 +82882,7 @@ public fun close() {
         tmp.id = 77
         return tmp
     }
-    public fun printASTBuiltInCallHours(node: ASTBuiltInCallHours?): Unit {
+    public fun printASTBuiltInCallHours(node: ASTBuiltInCallHours?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82894,12 +82892,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallHours(node: ASTBuiltInCallHours?): Unit {
+    public fun freeASTBuiltInCallHours(node: ASTBuiltInCallHours?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallHours_0(node: ASTBuiltInCallHours, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallHours_0(node: ASTBuiltInCallHours, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallNow(): ASTBuiltInCallNow {
@@ -82907,7 +82905,7 @@ public fun close() {
         tmp.id = 82
         return tmp
     }
-    public fun printASTBuiltInCallNow(node: ASTBuiltInCallNow?): Unit {
+    public fun printASTBuiltInCallNow(node: ASTBuiltInCallNow?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82917,12 +82915,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallNow(node: ASTBuiltInCallNow?): Unit {
+    public fun freeASTBuiltInCallNow(node: ASTBuiltInCallNow?) {
         if ((node != null)) {
             freeASTNILParam(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallNow_0(node: ASTBuiltInCallNow, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallNow_0(node: ASTBuiltInCallNow, value: Any) {
         node.variable0 = (value as ASTNILParam)
     }
     private fun allocASTBuiltInCallSameTerm(): ASTBuiltInCallSameTerm {
@@ -82930,7 +82928,7 @@ public fun close() {
         tmp.id = 94
         return tmp
     }
-    public fun printASTBuiltInCallSameTerm(node: ASTBuiltInCallSameTerm?): Unit {
+    public fun printASTBuiltInCallSameTerm(node: ASTBuiltInCallSameTerm?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82942,16 +82940,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallSameTerm(node: ASTBuiltInCallSameTerm?): Unit {
+    public fun freeASTBuiltInCallSameTerm(node: ASTBuiltInCallSameTerm?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallSameTerm_0(node: ASTBuiltInCallSameTerm, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSameTerm_0(node: ASTBuiltInCallSameTerm, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallSameTerm_1(node: ASTBuiltInCallSameTerm, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSameTerm_1(node: ASTBuiltInCallSameTerm, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallIsIri(): ASTBuiltInCallIsIri {
@@ -82959,7 +82957,7 @@ public fun close() {
         tmp.id = 95
         return tmp
     }
-    public fun printASTBuiltInCallIsIri(node: ASTBuiltInCallIsIri?): Unit {
+    public fun printASTBuiltInCallIsIri(node: ASTBuiltInCallIsIri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82969,12 +82967,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallIsIri(node: ASTBuiltInCallIsIri?): Unit {
+    public fun freeASTBuiltInCallIsIri(node: ASTBuiltInCallIsIri?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallIsIri_0(node: ASTBuiltInCallIsIri, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIsIri_0(node: ASTBuiltInCallIsIri, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallIsBlanc(): ASTBuiltInCallIsBlanc {
@@ -82982,7 +82980,7 @@ public fun close() {
         tmp.id = 97
         return tmp
     }
-    public fun printASTBuiltInCallIsBlanc(node: ASTBuiltInCallIsBlanc?): Unit {
+    public fun printASTBuiltInCallIsBlanc(node: ASTBuiltInCallIsBlanc?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -82992,12 +82990,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallIsBlanc(node: ASTBuiltInCallIsBlanc?): Unit {
+    public fun freeASTBuiltInCallIsBlanc(node: ASTBuiltInCallIsBlanc?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallIsBlanc_0(node: ASTBuiltInCallIsBlanc, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIsBlanc_0(node: ASTBuiltInCallIsBlanc, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallIsLiteral(): ASTBuiltInCallIsLiteral {
@@ -83005,7 +83003,7 @@ public fun close() {
         tmp.id = 98
         return tmp
     }
-    public fun printASTBuiltInCallIsLiteral(node: ASTBuiltInCallIsLiteral?): Unit {
+    public fun printASTBuiltInCallIsLiteral(node: ASTBuiltInCallIsLiteral?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83015,12 +83013,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallIsLiteral(node: ASTBuiltInCallIsLiteral?): Unit {
+    public fun freeASTBuiltInCallIsLiteral(node: ASTBuiltInCallIsLiteral?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallIsLiteral_0(node: ASTBuiltInCallIsLiteral, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIsLiteral_0(node: ASTBuiltInCallIsLiteral, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallMD5(): ASTBuiltInCallMD5 {
@@ -83028,7 +83026,7 @@ public fun close() {
         tmp.id = 85
         return tmp
     }
-    public fun printASTBuiltInCallMD5(node: ASTBuiltInCallMD5?): Unit {
+    public fun printASTBuiltInCallMD5(node: ASTBuiltInCallMD5?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83038,12 +83036,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallMD5(node: ASTBuiltInCallMD5?): Unit {
+    public fun freeASTBuiltInCallMD5(node: ASTBuiltInCallMD5?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallMD5_0(node: ASTBuiltInCallMD5, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallMD5_0(node: ASTBuiltInCallMD5, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallUUID(): ASTBuiltInCallUUID {
@@ -83051,7 +83049,7 @@ public fun close() {
         tmp.id = 83
         return tmp
     }
-    public fun printASTBuiltInCallUUID(node: ASTBuiltInCallUUID?): Unit {
+    public fun printASTBuiltInCallUUID(node: ASTBuiltInCallUUID?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83061,12 +83059,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallUUID(node: ASTBuiltInCallUUID?): Unit {
+    public fun freeASTBuiltInCallUUID(node: ASTBuiltInCallUUID?) {
         if ((node != null)) {
             freeASTNILParam(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallUUID_0(node: ASTBuiltInCallUUID, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallUUID_0(node: ASTBuiltInCallUUID, value: Any) {
         node.variable0 = (value as ASTNILParam)
     }
     private fun allocASTBuiltInCallSTRUUID(): ASTBuiltInCallSTRUUID {
@@ -83074,7 +83072,7 @@ public fun close() {
         tmp.id = 84
         return tmp
     }
-    public fun printASTBuiltInCallSTRUUID(node: ASTBuiltInCallSTRUUID?): Unit {
+    public fun printASTBuiltInCallSTRUUID(node: ASTBuiltInCallSTRUUID?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83084,12 +83082,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallSTRUUID(node: ASTBuiltInCallSTRUUID?): Unit {
+    public fun freeASTBuiltInCallSTRUUID(node: ASTBuiltInCallSTRUUID?) {
         if ((node != null)) {
             freeASTNILParam(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallSTRUUID_0(node: ASTBuiltInCallSTRUUID, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSTRUUID_0(node: ASTBuiltInCallSTRUUID, value: Any) {
         node.variable0 = (value as ASTNILParam)
     }
     private fun allocASTBuiltInCallSHA1(): ASTBuiltInCallSHA1 {
@@ -83097,7 +83095,7 @@ public fun close() {
         tmp.id = 86
         return tmp
     }
-    public fun printASTBuiltInCallSHA1(node: ASTBuiltInCallSHA1?): Unit {
+    public fun printASTBuiltInCallSHA1(node: ASTBuiltInCallSHA1?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83107,12 +83105,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallSHA1(node: ASTBuiltInCallSHA1?): Unit {
+    public fun freeASTBuiltInCallSHA1(node: ASTBuiltInCallSHA1?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallSHA1_0(node: ASTBuiltInCallSHA1, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSHA1_0(node: ASTBuiltInCallSHA1, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallSHA384(): ASTBuiltInCallSHA384 {
@@ -83120,7 +83118,7 @@ public fun close() {
         tmp.id = 88
         return tmp
     }
-    public fun printASTBuiltInCallSHA384(node: ASTBuiltInCallSHA384?): Unit {
+    public fun printASTBuiltInCallSHA384(node: ASTBuiltInCallSHA384?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83130,12 +83128,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallSHA384(node: ASTBuiltInCallSHA384?): Unit {
+    public fun freeASTBuiltInCallSHA384(node: ASTBuiltInCallSHA384?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallSHA384_0(node: ASTBuiltInCallSHA384, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSHA384_0(node: ASTBuiltInCallSHA384, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallSHA512(): ASTBuiltInCallSHA512 {
@@ -83143,7 +83141,7 @@ public fun close() {
         tmp.id = 89
         return tmp
     }
-    public fun printASTBuiltInCallSHA512(node: ASTBuiltInCallSHA512?): Unit {
+    public fun printASTBuiltInCallSHA512(node: ASTBuiltInCallSHA512?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83153,12 +83151,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallSHA512(node: ASTBuiltInCallSHA512?): Unit {
+    public fun freeASTBuiltInCallSHA512(node: ASTBuiltInCallSHA512?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallSHA512_0(node: ASTBuiltInCallSHA512, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSHA512_0(node: ASTBuiltInCallSHA512, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallCoalesce(): ASTBuiltInCallCoalesce {
@@ -83166,7 +83164,7 @@ public fun close() {
         tmp.id = 90
         return tmp
     }
-    public fun printASTBuiltInCallCoalesce(node: ASTBuiltInCallCoalesce?): Unit {
+    public fun printASTBuiltInCallCoalesce(node: ASTBuiltInCallCoalesce?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83176,12 +83174,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallCoalesce(node: ASTBuiltInCallCoalesce?): Unit {
+    public fun freeASTBuiltInCallCoalesce(node: ASTBuiltInCallCoalesce?) {
         if ((node != null)) {
             freeASTExpressionList(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallCoalesce_0(node: ASTBuiltInCallCoalesce, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallCoalesce_0(node: ASTBuiltInCallCoalesce, value: Any) {
         node.variable0 = (value as ASTExpressionList)
     }
     private fun allocASTBuiltInCallIf(): ASTBuiltInCallIf {
@@ -83189,7 +83187,7 @@ public fun close() {
         tmp.id = 91
         return tmp
     }
-    public fun printASTBuiltInCallIf(node: ASTBuiltInCallIf?): Unit {
+    public fun printASTBuiltInCallIf(node: ASTBuiltInCallIf?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83203,20 +83201,20 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallIf(node: ASTBuiltInCallIf?): Unit {
+    public fun freeASTBuiltInCallIf(node: ASTBuiltInCallIf?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
             freeASTExpression(node.variable2)
         }
     }
-    private fun astAssign_ASTBuiltInCallIf_0(node: ASTBuiltInCallIf, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIf_0(node: ASTBuiltInCallIf, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallIf_1(node: ASTBuiltInCallIf, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIf_1(node: ASTBuiltInCallIf, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallIf_2(node: ASTBuiltInCallIf, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIf_2(node: ASTBuiltInCallIf, value: Any) {
         node.variable2 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallStrLang(): ASTBuiltInCallStrLang {
@@ -83224,7 +83222,7 @@ public fun close() {
         tmp.id = 92
         return tmp
     }
-    public fun printASTBuiltInCallStrLang(node: ASTBuiltInCallStrLang?): Unit {
+    public fun printASTBuiltInCallStrLang(node: ASTBuiltInCallStrLang?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83236,16 +83234,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStrLang(node: ASTBuiltInCallStrLang?): Unit {
+    public fun freeASTBuiltInCallStrLang(node: ASTBuiltInCallStrLang?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallStrLang_0(node: ASTBuiltInCallStrLang, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrLang_0(node: ASTBuiltInCallStrLang, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallStrLang_1(node: ASTBuiltInCallStrLang, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrLang_1(node: ASTBuiltInCallStrLang, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallIsUri(): ASTBuiltInCallIsUri {
@@ -83253,7 +83251,7 @@ public fun close() {
         tmp.id = 96
         return tmp
     }
-    public fun printASTBuiltInCallIsUri(node: ASTBuiltInCallIsUri?): Unit {
+    public fun printASTBuiltInCallIsUri(node: ASTBuiltInCallIsUri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83263,12 +83261,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallIsUri(node: ASTBuiltInCallIsUri?): Unit {
+    public fun freeASTBuiltInCallIsUri(node: ASTBuiltInCallIsUri?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallIsUri_0(node: ASTBuiltInCallIsUri, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIsUri_0(node: ASTBuiltInCallIsUri, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallMinutes(): ASTBuiltInCallMinutes {
@@ -83276,7 +83274,7 @@ public fun close() {
         tmp.id = 78
         return tmp
     }
-    public fun printASTBuiltInCallMinutes(node: ASTBuiltInCallMinutes?): Unit {
+    public fun printASTBuiltInCallMinutes(node: ASTBuiltInCallMinutes?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83286,12 +83284,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallMinutes(node: ASTBuiltInCallMinutes?): Unit {
+    public fun freeASTBuiltInCallMinutes(node: ASTBuiltInCallMinutes?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallMinutes_0(node: ASTBuiltInCallMinutes, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallMinutes_0(node: ASTBuiltInCallMinutes, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallSHA256(): ASTBuiltInCallSHA256 {
@@ -83299,7 +83297,7 @@ public fun close() {
         tmp.id = 87
         return tmp
     }
-    public fun printASTBuiltInCallSHA256(node: ASTBuiltInCallSHA256?): Unit {
+    public fun printASTBuiltInCallSHA256(node: ASTBuiltInCallSHA256?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83309,12 +83307,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallSHA256(node: ASTBuiltInCallSHA256?): Unit {
+    public fun freeASTBuiltInCallSHA256(node: ASTBuiltInCallSHA256?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallSHA256_0(node: ASTBuiltInCallSHA256, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSHA256_0(node: ASTBuiltInCallSHA256, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallStrDt(): ASTBuiltInCallStrDt {
@@ -83322,7 +83320,7 @@ public fun close() {
         tmp.id = 93
         return tmp
     }
-    public fun printASTBuiltInCallStrDt(node: ASTBuiltInCallStrDt?): Unit {
+    public fun printASTBuiltInCallStrDt(node: ASTBuiltInCallStrDt?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83334,16 +83332,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStrDt(node: ASTBuiltInCallStrDt?): Unit {
+    public fun freeASTBuiltInCallStrDt(node: ASTBuiltInCallStrDt?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallStrDt_0(node: ASTBuiltInCallStrDt, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrDt_0(node: ASTBuiltInCallStrDt, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallStrDt_1(node: ASTBuiltInCallStrDt, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrDt_1(node: ASTBuiltInCallStrDt, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallIsNumeric(): ASTBuiltInCallIsNumeric {
@@ -83351,7 +83349,7 @@ public fun close() {
         tmp.id = 99
         return tmp
     }
-    public fun printASTBuiltInCallIsNumeric(node: ASTBuiltInCallIsNumeric?): Unit {
+    public fun printASTBuiltInCallIsNumeric(node: ASTBuiltInCallIsNumeric?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83361,12 +83359,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallIsNumeric(node: ASTBuiltInCallIsNumeric?): Unit {
+    public fun freeASTBuiltInCallIsNumeric(node: ASTBuiltInCallIsNumeric?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallIsNumeric_0(node: ASTBuiltInCallIsNumeric, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIsNumeric_0(node: ASTBuiltInCallIsNumeric, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallSeconds(): ASTBuiltInCallSeconds {
@@ -83374,7 +83372,7 @@ public fun close() {
         tmp.id = 79
         return tmp
     }
-    public fun printASTBuiltInCallSeconds(node: ASTBuiltInCallSeconds?): Unit {
+    public fun printASTBuiltInCallSeconds(node: ASTBuiltInCallSeconds?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83384,12 +83382,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallSeconds(node: ASTBuiltInCallSeconds?): Unit {
+    public fun freeASTBuiltInCallSeconds(node: ASTBuiltInCallSeconds?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallSeconds_0(node: ASTBuiltInCallSeconds, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallSeconds_0(node: ASTBuiltInCallSeconds, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallTimezone(): ASTBuiltInCallTimezone {
@@ -83397,7 +83395,7 @@ public fun close() {
         tmp.id = 80
         return tmp
     }
-    public fun printASTBuiltInCallTimezone(node: ASTBuiltInCallTimezone?): Unit {
+    public fun printASTBuiltInCallTimezone(node: ASTBuiltInCallTimezone?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83407,12 +83405,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallTimezone(node: ASTBuiltInCallTimezone?): Unit {
+    public fun freeASTBuiltInCallTimezone(node: ASTBuiltInCallTimezone?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallTimezone_0(node: ASTBuiltInCallTimezone, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallTimezone_0(node: ASTBuiltInCallTimezone, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallTz(): ASTBuiltInCallTz {
@@ -83420,7 +83418,7 @@ public fun close() {
         tmp.id = 81
         return tmp
     }
-    public fun printASTBuiltInCallTz(node: ASTBuiltInCallTz?): Unit {
+    public fun printASTBuiltInCallTz(node: ASTBuiltInCallTz?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83430,12 +83428,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallTz(node: ASTBuiltInCallTz?): Unit {
+    public fun freeASTBuiltInCallTz(node: ASTBuiltInCallTz?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallTz_0(node: ASTBuiltInCallTz, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallTz_0(node: ASTBuiltInCallTz, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallConcat(): ASTBuiltInCallConcat {
@@ -83443,7 +83441,7 @@ public fun close() {
         tmp.id = 62
         return tmp
     }
-    public fun printASTBuiltInCallConcat(node: ASTBuiltInCallConcat?): Unit {
+    public fun printASTBuiltInCallConcat(node: ASTBuiltInCallConcat?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83453,12 +83451,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallConcat(node: ASTBuiltInCallConcat?): Unit {
+    public fun freeASTBuiltInCallConcat(node: ASTBuiltInCallConcat?) {
         if ((node != null)) {
             freeASTExpressionList(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallConcat_0(node: ASTBuiltInCallConcat, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallConcat_0(node: ASTBuiltInCallConcat, value: Any) {
         node.variable0 = (value as ASTExpressionList)
     }
     private fun allocASTBuiltInCallStrLen(): ASTBuiltInCallStrLen {
@@ -83466,7 +83464,7 @@ public fun close() {
         tmp.id = 64
         return tmp
     }
-    public fun printASTBuiltInCallStrLen(node: ASTBuiltInCallStrLen?): Unit {
+    public fun printASTBuiltInCallStrLen(node: ASTBuiltInCallStrLen?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83476,12 +83474,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStrLen(node: ASTBuiltInCallStrLen?): Unit {
+    public fun freeASTBuiltInCallStrLen(node: ASTBuiltInCallStrLen?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallStrLen_0(node: ASTBuiltInCallStrLen, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrLen_0(node: ASTBuiltInCallStrLen, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallUCase(): ASTBuiltInCallUCase {
@@ -83489,7 +83487,7 @@ public fun close() {
         tmp.id = 66
         return tmp
     }
-    public fun printASTBuiltInCallUCase(node: ASTBuiltInCallUCase?): Unit {
+    public fun printASTBuiltInCallUCase(node: ASTBuiltInCallUCase?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83499,12 +83497,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallUCase(node: ASTBuiltInCallUCase?): Unit {
+    public fun freeASTBuiltInCallUCase(node: ASTBuiltInCallUCase?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallUCase_0(node: ASTBuiltInCallUCase, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallUCase_0(node: ASTBuiltInCallUCase, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallStrBefore(): ASTBuiltInCallStrBefore {
@@ -83512,7 +83510,7 @@ public fun close() {
         tmp.id = 72
         return tmp
     }
-    public fun printASTBuiltInCallStrBefore(node: ASTBuiltInCallStrBefore?): Unit {
+    public fun printASTBuiltInCallStrBefore(node: ASTBuiltInCallStrBefore?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83524,16 +83522,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStrBefore(node: ASTBuiltInCallStrBefore?): Unit {
+    public fun freeASTBuiltInCallStrBefore(node: ASTBuiltInCallStrBefore?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallStrBefore_0(node: ASTBuiltInCallStrBefore, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrBefore_0(node: ASTBuiltInCallStrBefore, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallStrBefore_1(node: ASTBuiltInCallStrBefore, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrBefore_1(node: ASTBuiltInCallStrBefore, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallStrAfter(): ASTBuiltInCallStrAfter {
@@ -83541,7 +83539,7 @@ public fun close() {
         tmp.id = 73
         return tmp
     }
-    public fun printASTBuiltInCallStrAfter(node: ASTBuiltInCallStrAfter?): Unit {
+    public fun printASTBuiltInCallStrAfter(node: ASTBuiltInCallStrAfter?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83553,16 +83551,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStrAfter(node: ASTBuiltInCallStrAfter?): Unit {
+    public fun freeASTBuiltInCallStrAfter(node: ASTBuiltInCallStrAfter?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallStrAfter_0(node: ASTBuiltInCallStrAfter, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrAfter_0(node: ASTBuiltInCallStrAfter, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallStrAfter_1(node: ASTBuiltInCallStrAfter, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrAfter_1(node: ASTBuiltInCallStrAfter, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallEncodeForUri(): ASTBuiltInCallEncodeForUri {
@@ -83570,7 +83568,7 @@ public fun close() {
         tmp.id = 68
         return tmp
     }
-    public fun printASTBuiltInCallEncodeForUri(node: ASTBuiltInCallEncodeForUri?): Unit {
+    public fun printASTBuiltInCallEncodeForUri(node: ASTBuiltInCallEncodeForUri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83580,12 +83578,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallEncodeForUri(node: ASTBuiltInCallEncodeForUri?): Unit {
+    public fun freeASTBuiltInCallEncodeForUri(node: ASTBuiltInCallEncodeForUri?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallEncodeForUri_0(node: ASTBuiltInCallEncodeForUri, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallEncodeForUri_0(node: ASTBuiltInCallEncodeForUri, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallContains(): ASTBuiltInCallContains {
@@ -83593,7 +83591,7 @@ public fun close() {
         tmp.id = 69
         return tmp
     }
-    public fun printASTBuiltInCallContains(node: ASTBuiltInCallContains?): Unit {
+    public fun printASTBuiltInCallContains(node: ASTBuiltInCallContains?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83605,16 +83603,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallContains(node: ASTBuiltInCallContains?): Unit {
+    public fun freeASTBuiltInCallContains(node: ASTBuiltInCallContains?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallContains_0(node: ASTBuiltInCallContains, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallContains_0(node: ASTBuiltInCallContains, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallContains_1(node: ASTBuiltInCallContains, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallContains_1(node: ASTBuiltInCallContains, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallStrStarts(): ASTBuiltInCallStrStarts {
@@ -83622,7 +83620,7 @@ public fun close() {
         tmp.id = 70
         return tmp
     }
-    public fun printASTBuiltInCallStrStarts(node: ASTBuiltInCallStrStarts?): Unit {
+    public fun printASTBuiltInCallStrStarts(node: ASTBuiltInCallStrStarts?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83634,16 +83632,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStrStarts(node: ASTBuiltInCallStrStarts?): Unit {
+    public fun freeASTBuiltInCallStrStarts(node: ASTBuiltInCallStrStarts?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallStrStarts_0(node: ASTBuiltInCallStrStarts, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrStarts_0(node: ASTBuiltInCallStrStarts, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallStrStarts_1(node: ASTBuiltInCallStrStarts, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrStarts_1(node: ASTBuiltInCallStrStarts, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallStrEnds(): ASTBuiltInCallStrEnds {
@@ -83651,7 +83649,7 @@ public fun close() {
         tmp.id = 71
         return tmp
     }
-    public fun printASTBuiltInCallStrEnds(node: ASTBuiltInCallStrEnds?): Unit {
+    public fun printASTBuiltInCallStrEnds(node: ASTBuiltInCallStrEnds?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83663,16 +83661,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStrEnds(node: ASTBuiltInCallStrEnds?): Unit {
+    public fun freeASTBuiltInCallStrEnds(node: ASTBuiltInCallStrEnds?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuiltInCallStrEnds_0(node: ASTBuiltInCallStrEnds, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrEnds_0(node: ASTBuiltInCallStrEnds, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuiltInCallStrEnds_1(node: ASTBuiltInCallStrEnds, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStrEnds_1(node: ASTBuiltInCallStrEnds, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallDay(): ASTBuiltInCallDay {
@@ -83680,7 +83678,7 @@ public fun close() {
         tmp.id = 76
         return tmp
     }
-    public fun printASTBuiltInCallDay(node: ASTBuiltInCallDay?): Unit {
+    public fun printASTBuiltInCallDay(node: ASTBuiltInCallDay?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83690,12 +83688,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallDay(node: ASTBuiltInCallDay?): Unit {
+    public fun freeASTBuiltInCallDay(node: ASTBuiltInCallDay?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallDay_0(node: ASTBuiltInCallDay, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallDay_0(node: ASTBuiltInCallDay, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallStr(): ASTBuiltInCallStr {
@@ -83703,7 +83701,7 @@ public fun close() {
         tmp.id = 49
         return tmp
     }
-    public fun printASTBuiltInCallStr(node: ASTBuiltInCallStr?): Unit {
+    public fun printASTBuiltInCallStr(node: ASTBuiltInCallStr?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83713,12 +83711,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallStr(node: ASTBuiltInCallStr?): Unit {
+    public fun freeASTBuiltInCallStr(node: ASTBuiltInCallStr?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallStr_0(node: ASTBuiltInCallStr, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallStr_0(node: ASTBuiltInCallStr, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallLang(): ASTBuiltInCallLang {
@@ -83726,7 +83724,7 @@ public fun close() {
         tmp.id = 50
         return tmp
     }
-    public fun printASTBuiltInCallLang(node: ASTBuiltInCallLang?): Unit {
+    public fun printASTBuiltInCallLang(node: ASTBuiltInCallLang?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83736,12 +83734,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallLang(node: ASTBuiltInCallLang?): Unit {
+    public fun freeASTBuiltInCallLang(node: ASTBuiltInCallLang?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallLang_0(node: ASTBuiltInCallLang, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallLang_0(node: ASTBuiltInCallLang, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuildInCallLangMatches(): ASTBuildInCallLangMatches {
@@ -83749,7 +83747,7 @@ public fun close() {
         tmp.id = 51
         return tmp
     }
-    public fun printASTBuildInCallLangMatches(node: ASTBuildInCallLangMatches?): Unit {
+    public fun printASTBuildInCallLangMatches(node: ASTBuildInCallLangMatches?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83761,16 +83759,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuildInCallLangMatches(node: ASTBuildInCallLangMatches?): Unit {
+    public fun freeASTBuildInCallLangMatches(node: ASTBuildInCallLangMatches?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTBuildInCallLangMatches_0(node: ASTBuildInCallLangMatches, value: Any): Unit {
+    private fun astAssign_ASTBuildInCallLangMatches_0(node: ASTBuildInCallLangMatches, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTBuildInCallLangMatches_1(node: ASTBuildInCallLangMatches, value: Any): Unit {
+    private fun astAssign_ASTBuildInCallLangMatches_1(node: ASTBuildInCallLangMatches, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallDataType(): ASTBuiltInCallDataType {
@@ -83778,7 +83776,7 @@ public fun close() {
         tmp.id = 52
         return tmp
     }
-    public fun printASTBuiltInCallDataType(node: ASTBuiltInCallDataType?): Unit {
+    public fun printASTBuiltInCallDataType(node: ASTBuiltInCallDataType?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83788,12 +83786,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallDataType(node: ASTBuiltInCallDataType?): Unit {
+    public fun freeASTBuiltInCallDataType(node: ASTBuiltInCallDataType?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallDataType_0(node: ASTBuiltInCallDataType, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallDataType_0(node: ASTBuiltInCallDataType, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallBound(): ASTBuiltInCallBound {
@@ -83801,7 +83799,7 @@ public fun close() {
         tmp.id = 53
         return tmp
     }
-    public fun printASTBuiltInCallBound(node: ASTBuiltInCallBound?): Unit {
+    public fun printASTBuiltInCallBound(node: ASTBuiltInCallBound?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83811,12 +83809,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallBound(node: ASTBuiltInCallBound?): Unit {
+    public fun freeASTBuiltInCallBound(node: ASTBuiltInCallBound?) {
         if ((node != null)) {
             freeASTVar(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallBound_0(node: ASTBuiltInCallBound, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallBound_0(node: ASTBuiltInCallBound, value: Any) {
         node.variable0 = (value as ASTVar)
     }
     private fun allocASTBuiltInCallIri(): ASTBuiltInCallIri {
@@ -83824,7 +83822,7 @@ public fun close() {
         tmp.id = 54
         return tmp
     }
-    public fun printASTBuiltInCallIri(node: ASTBuiltInCallIri?): Unit {
+    public fun printASTBuiltInCallIri(node: ASTBuiltInCallIri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83834,12 +83832,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallIri(node: ASTBuiltInCallIri?): Unit {
+    public fun freeASTBuiltInCallIri(node: ASTBuiltInCallIri?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallIri_0(node: ASTBuiltInCallIri, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallIri_0(node: ASTBuiltInCallIri, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallUri(): ASTBuiltInCallUri {
@@ -83847,7 +83845,7 @@ public fun close() {
         tmp.id = 55
         return tmp
     }
-    public fun printASTBuiltInCallUri(node: ASTBuiltInCallUri?): Unit {
+    public fun printASTBuiltInCallUri(node: ASTBuiltInCallUri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83857,15 +83855,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallUri(node: ASTBuiltInCallUri?): Unit {
+    public fun freeASTBuiltInCallUri(node: ASTBuiltInCallUri?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallUri_0(node: ASTBuiltInCallUri, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallUri_0(node: ASTBuiltInCallUri, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    public fun printASTInterfaceOfExpressionOrNILParam(node: ASTInterfaceOfExpressionOrNILParam?): Unit {
+    public fun printASTInterfaceOfExpressionOrNILParam(node: ASTInterfaceOfExpressionOrNILParam?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83879,7 +83877,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfExpressionOrNILParam(node: ASTInterfaceOfExpressionOrNILParam?): Unit {
+    public fun freeASTInterfaceOfExpressionOrNILParam(node: ASTInterfaceOfExpressionOrNILParam?) {
         if ((node != null)) {
             when (node.id) {
                 240 -> {
@@ -83896,7 +83894,7 @@ public fun close() {
         tmp.id = 56
         return tmp
     }
-    public fun printASTBuiltInCallBNode(node: ASTBuiltInCallBNode?): Unit {
+    public fun printASTBuiltInCallBNode(node: ASTBuiltInCallBNode?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83906,12 +83904,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallBNode(node: ASTBuiltInCallBNode?): Unit {
+    public fun freeASTBuiltInCallBNode(node: ASTBuiltInCallBNode?) {
         if ((node != null)) {
             freeASTInterfaceOfExpressionOrNILParam(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallBNode_0(node: ASTBuiltInCallBNode, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallBNode_0(node: ASTBuiltInCallBNode, value: Any) {
         node.variable0 = (value as ASTInterfaceOfExpressionOrNILParam)
     }
     private fun allocASTBuiltInCallRand(): ASTBuiltInCallRand {
@@ -83919,7 +83917,7 @@ public fun close() {
         tmp.id = 57
         return tmp
     }
-    public fun printASTBuiltInCallRand(node: ASTBuiltInCallRand?): Unit {
+    public fun printASTBuiltInCallRand(node: ASTBuiltInCallRand?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83929,12 +83927,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallRand(node: ASTBuiltInCallRand?): Unit {
+    public fun freeASTBuiltInCallRand(node: ASTBuiltInCallRand?) {
         if ((node != null)) {
             freeASTNILParam(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallRand_0(node: ASTBuiltInCallRand, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallRand_0(node: ASTBuiltInCallRand, value: Any) {
         node.variable0 = (value as ASTNILParam)
     }
     private fun allocASTBuiltInCallAbs(): ASTBuiltInCallAbs {
@@ -83942,7 +83940,7 @@ public fun close() {
         tmp.id = 58
         return tmp
     }
-    public fun printASTBuiltInCallAbs(node: ASTBuiltInCallAbs?): Unit {
+    public fun printASTBuiltInCallAbs(node: ASTBuiltInCallAbs?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83952,12 +83950,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallAbs(node: ASTBuiltInCallAbs?): Unit {
+    public fun freeASTBuiltInCallAbs(node: ASTBuiltInCallAbs?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallAbs_0(node: ASTBuiltInCallAbs, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallAbs_0(node: ASTBuiltInCallAbs, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallCeil(): ASTBuiltInCallCeil {
@@ -83965,7 +83963,7 @@ public fun close() {
         tmp.id = 59
         return tmp
     }
-    public fun printASTBuiltInCallCeil(node: ASTBuiltInCallCeil?): Unit {
+    public fun printASTBuiltInCallCeil(node: ASTBuiltInCallCeil?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83975,12 +83973,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallCeil(node: ASTBuiltInCallCeil?): Unit {
+    public fun freeASTBuiltInCallCeil(node: ASTBuiltInCallCeil?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallCeil_0(node: ASTBuiltInCallCeil, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallCeil_0(node: ASTBuiltInCallCeil, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallLCase(): ASTBuiltInCallLCase {
@@ -83988,7 +83986,7 @@ public fun close() {
         tmp.id = 67
         return tmp
     }
-    public fun printASTBuiltInCallLCase(node: ASTBuiltInCallLCase?): Unit {
+    public fun printASTBuiltInCallLCase(node: ASTBuiltInCallLCase?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -83998,12 +83996,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallLCase(node: ASTBuiltInCallLCase?): Unit {
+    public fun freeASTBuiltInCallLCase(node: ASTBuiltInCallLCase?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallLCase_0(node: ASTBuiltInCallLCase, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallLCase_0(node: ASTBuiltInCallLCase, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallFloor(): ASTBuiltInCallFloor {
@@ -84011,7 +84009,7 @@ public fun close() {
         tmp.id = 60
         return tmp
     }
-    public fun printASTBuiltInCallFloor(node: ASTBuiltInCallFloor?): Unit {
+    public fun printASTBuiltInCallFloor(node: ASTBuiltInCallFloor?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84021,12 +84019,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallFloor(node: ASTBuiltInCallFloor?): Unit {
+    public fun freeASTBuiltInCallFloor(node: ASTBuiltInCallFloor?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallFloor_0(node: ASTBuiltInCallFloor, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallFloor_0(node: ASTBuiltInCallFloor, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTBuiltInCallRound(): ASTBuiltInCallRound {
@@ -84034,7 +84032,7 @@ public fun close() {
         tmp.id = 61
         return tmp
     }
-    public fun printASTBuiltInCallRound(node: ASTBuiltInCallRound?): Unit {
+    public fun printASTBuiltInCallRound(node: ASTBuiltInCallRound?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84044,12 +84042,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBuiltInCallRound(node: ASTBuiltInCallRound?): Unit {
+    public fun freeASTBuiltInCallRound(node: ASTBuiltInCallRound?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTBuiltInCallRound_0(node: ASTBuiltInCallRound, value: Any): Unit {
+    private fun astAssign_ASTBuiltInCallRound_0(node: ASTBuiltInCallRound, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTExpressionOptional(): ASTExpressionOptional {
@@ -84057,7 +84055,7 @@ public fun close() {
         tmp.id = 273
         return tmp
     }
-    public fun printASTExpressionOptional(node: ASTExpressionOptional?): Unit {
+    public fun printASTExpressionOptional(node: ASTExpressionOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84067,12 +84065,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTExpressionOptional(node: ASTExpressionOptional?): Unit {
+    public fun freeASTExpressionOptional(node: ASTExpressionOptional?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
         }
     }
-    private fun astAssign_ASTExpressionOptional_0(node: ASTExpressionOptional, value: Any): Unit {
+    private fun astAssign_ASTExpressionOptional_0(node: ASTExpressionOptional, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
     private fun allocASTRegexExpression(): ASTRegexExpression {
@@ -84080,7 +84078,7 @@ public fun close() {
         tmp.id = 100
         return tmp
     }
-    public fun printASTRegexExpression(node: ASTRegexExpression?): Unit {
+    public fun printASTRegexExpression(node: ASTRegexExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84094,20 +84092,20 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRegexExpression(node: ASTRegexExpression?): Unit {
+    public fun freeASTRegexExpression(node: ASTRegexExpression?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
             freeASTExpressionOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTRegexExpression_0(node: ASTRegexExpression, value: Any): Unit {
+    private fun astAssign_ASTRegexExpression_0(node: ASTRegexExpression, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTRegexExpression_1(node: ASTRegexExpression, value: Any): Unit {
+    private fun astAssign_ASTRegexExpression_1(node: ASTRegexExpression, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
-    private fun astAssign_ASTRegexExpression_2(node: ASTRegexExpression, value: Any): Unit {
+    private fun astAssign_ASTRegexExpression_2(node: ASTRegexExpression, value: Any) {
         node.variable2 = (value as ASTExpressionOptional)
     }
     private fun allocASTSubstringExpression(): ASTSubstringExpression {
@@ -84115,7 +84113,7 @@ public fun close() {
         tmp.id = 63
         return tmp
     }
-    public fun printASTSubstringExpression(node: ASTSubstringExpression?): Unit {
+    public fun printASTSubstringExpression(node: ASTSubstringExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84129,20 +84127,20 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTSubstringExpression(node: ASTSubstringExpression?): Unit {
+    public fun freeASTSubstringExpression(node: ASTSubstringExpression?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
             freeASTExpressionOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTSubstringExpression_0(node: ASTSubstringExpression, value: Any): Unit {
+    private fun astAssign_ASTSubstringExpression_0(node: ASTSubstringExpression, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTSubstringExpression_1(node: ASTSubstringExpression, value: Any): Unit {
+    private fun astAssign_ASTSubstringExpression_1(node: ASTSubstringExpression, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
-    private fun astAssign_ASTSubstringExpression_2(node: ASTSubstringExpression, value: Any): Unit {
+    private fun astAssign_ASTSubstringExpression_2(node: ASTSubstringExpression, value: Any) {
         node.variable2 = (value as ASTExpressionOptional)
     }
     private fun allocASTStrReplaceExpression(): ASTStrReplaceExpression {
@@ -84150,7 +84148,7 @@ public fun close() {
         tmp.id = 65
         return tmp
     }
-    public fun printASTStrReplaceExpression(node: ASTStrReplaceExpression?): Unit {
+    public fun printASTStrReplaceExpression(node: ASTStrReplaceExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84166,7 +84164,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTStrReplaceExpression(node: ASTStrReplaceExpression?): Unit {
+    public fun freeASTStrReplaceExpression(node: ASTStrReplaceExpression?) {
         if ((node != null)) {
             freeASTExpression(node.variable0)
             freeASTExpression(node.variable1)
@@ -84174,16 +84172,16 @@ public fun close() {
             freeASTExpressionOptional(node.variable3)
         }
     }
-    private fun astAssign_ASTStrReplaceExpression_0(node: ASTStrReplaceExpression, value: Any): Unit {
+    private fun astAssign_ASTStrReplaceExpression_0(node: ASTStrReplaceExpression, value: Any) {
         node.variable0 = (value as ASTExpression)
     }
-    private fun astAssign_ASTStrReplaceExpression_1(node: ASTStrReplaceExpression, value: Any): Unit {
+    private fun astAssign_ASTStrReplaceExpression_1(node: ASTStrReplaceExpression, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
-    private fun astAssign_ASTStrReplaceExpression_2(node: ASTStrReplaceExpression, value: Any): Unit {
+    private fun astAssign_ASTStrReplaceExpression_2(node: ASTStrReplaceExpression, value: Any) {
         node.variable2 = (value as ASTExpression)
     }
-    private fun astAssign_ASTStrReplaceExpression_3(node: ASTStrReplaceExpression, value: Any): Unit {
+    private fun astAssign_ASTStrReplaceExpression_3(node: ASTStrReplaceExpression, value: Any) {
         node.variable3 = (value as ASTExpressionOptional)
     }
     private fun allocASTExistsFunc(): ASTExistsFunc {
@@ -84191,7 +84189,7 @@ public fun close() {
         tmp.id = 101
         return tmp
     }
-    public fun printASTExistsFunc(node: ASTExistsFunc?): Unit {
+    public fun printASTExistsFunc(node: ASTExistsFunc?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84201,12 +84199,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTExistsFunc(node: ASTExistsFunc?): Unit {
+    public fun freeASTExistsFunc(node: ASTExistsFunc?) {
         if ((node != null)) {
             freeASTGroupGraphPattern(node.variable0)
         }
     }
-    private fun astAssign_ASTExistsFunc_0(node: ASTExistsFunc, value: Any): Unit {
+    private fun astAssign_ASTExistsFunc_0(node: ASTExistsFunc, value: Any) {
         node.variable0 = (value as ASTGroupGraphPattern)
     }
     private fun allocASTNotExistsFunc(): ASTNotExistsFunc {
@@ -84214,7 +84212,7 @@ public fun close() {
         tmp.id = 102
         return tmp
     }
-    public fun printASTNotExistsFunc(node: ASTNotExistsFunc?): Unit {
+    public fun printASTNotExistsFunc(node: ASTNotExistsFunc?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84224,15 +84222,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNotExistsFunc(node: ASTNotExistsFunc?): Unit {
+    public fun freeASTNotExistsFunc(node: ASTNotExistsFunc?) {
         if ((node != null)) {
             freeASTGroupGraphPattern(node.variable0)
         }
     }
-    private fun astAssign_ASTNotExistsFunc_0(node: ASTNotExistsFunc, value: Any): Unit {
+    private fun astAssign_ASTNotExistsFunc_0(node: ASTNotExistsFunc, value: Any) {
         node.variable0 = (value as ASTGroupGraphPattern)
     }
-    public fun printASTAggregate(node: ASTAggregate?): Unit {
+    public fun printASTAggregate(node: ASTAggregate?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84261,7 +84259,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTAggregate(node: ASTAggregate?): Unit {
+    public fun freeASTAggregate(node: ASTAggregate?) {
         if ((node != null)) {
             when (node.id) {
                 42 -> {
@@ -84293,7 +84291,7 @@ public fun close() {
         tmp.id = 46
         return tmp
     }
-    public fun printASTAggregateAvg(node: ASTAggregateAvg?): Unit {
+    public fun printASTAggregateAvg(node: ASTAggregateAvg?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84304,18 +84302,18 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateAvg(node: ASTAggregateAvg?): Unit {
+    public fun freeASTAggregateAvg(node: ASTAggregateAvg?) {
         if ((node != null)) {
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTAggregateAvg_0(node: ASTAggregateAvg, value: Any): Unit {
+    private fun astAssign_ASTAggregateAvg_0(node: ASTAggregateAvg, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTAggregateAvg_1(node: ASTAggregateAvg, value: Any): Unit {
+    private fun astAssign_ASTAggregateAvg_1(node: ASTAggregateAvg, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
-    public fun printASTInterfaceOfAggregateCountAllOrExpression(node: ASTInterfaceOfAggregateCountAllOrExpression?): Unit {
+    public fun printASTInterfaceOfAggregateCountAllOrExpression(node: ASTInterfaceOfAggregateCountAllOrExpression?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84329,7 +84327,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfAggregateCountAllOrExpression(node: ASTInterfaceOfAggregateCountAllOrExpression?): Unit {
+    public fun freeASTInterfaceOfAggregateCountAllOrExpression(node: ASTInterfaceOfAggregateCountAllOrExpression?) {
         if ((node != null)) {
             when (node.id) {
                 274 -> {
@@ -84346,7 +84344,7 @@ public fun close() {
         tmp.id = 42
         return tmp
     }
-    public fun printASTAggregateCount(node: ASTAggregateCount?): Unit {
+    public fun printASTAggregateCount(node: ASTAggregateCount?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84357,15 +84355,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateCount(node: ASTAggregateCount?): Unit {
+    public fun freeASTAggregateCount(node: ASTAggregateCount?) {
         if ((node != null)) {
             freeASTInterfaceOfAggregateCountAllOrExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTAggregateCount_0(node: ASTAggregateCount, value: Any): Unit {
+    private fun astAssign_ASTAggregateCount_0(node: ASTAggregateCount, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTAggregateCount_1(node: ASTAggregateCount, value: Any): Unit {
+    private fun astAssign_ASTAggregateCount_1(node: ASTAggregateCount, value: Any) {
         node.variable1 = (value as ASTInterfaceOfAggregateCountAllOrExpression)
     }
     private fun allocASTAggregateCountAll(): ASTAggregateCountAll {
@@ -84373,7 +84371,7 @@ public fun close() {
         tmp.id = 274
         return tmp
     }
-    public fun printASTAggregateCountAll(node: ASTAggregateCountAll?): Unit {
+    public fun printASTAggregateCountAll(node: ASTAggregateCountAll?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84381,7 +84379,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateCountAll(node: ASTAggregateCountAll?): Unit {
+    public fun freeASTAggregateCountAll(node: ASTAggregateCountAll?) {
         if ((node != null)) {
         }
     }
@@ -84390,7 +84388,7 @@ public fun close() {
         tmp.id = 43
         return tmp
     }
-    public fun printASTAggregateSum(node: ASTAggregateSum?): Unit {
+    public fun printASTAggregateSum(node: ASTAggregateSum?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84401,15 +84399,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateSum(node: ASTAggregateSum?): Unit {
+    public fun freeASTAggregateSum(node: ASTAggregateSum?) {
         if ((node != null)) {
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTAggregateSum_0(node: ASTAggregateSum, value: Any): Unit {
+    private fun astAssign_ASTAggregateSum_0(node: ASTAggregateSum, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTAggregateSum_1(node: ASTAggregateSum, value: Any): Unit {
+    private fun astAssign_ASTAggregateSum_1(node: ASTAggregateSum, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTAggregateMin(): ASTAggregateMin {
@@ -84417,7 +84415,7 @@ public fun close() {
         tmp.id = 44
         return tmp
     }
-    public fun printASTAggregateMin(node: ASTAggregateMin?): Unit {
+    public fun printASTAggregateMin(node: ASTAggregateMin?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84428,15 +84426,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateMin(node: ASTAggregateMin?): Unit {
+    public fun freeASTAggregateMin(node: ASTAggregateMin?) {
         if ((node != null)) {
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTAggregateMin_0(node: ASTAggregateMin, value: Any): Unit {
+    private fun astAssign_ASTAggregateMin_0(node: ASTAggregateMin, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTAggregateMin_1(node: ASTAggregateMin, value: Any): Unit {
+    private fun astAssign_ASTAggregateMin_1(node: ASTAggregateMin, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTAggregateMax(): ASTAggregateMax {
@@ -84444,7 +84442,7 @@ public fun close() {
         tmp.id = 45
         return tmp
     }
-    public fun printASTAggregateMax(node: ASTAggregateMax?): Unit {
+    public fun printASTAggregateMax(node: ASTAggregateMax?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84455,15 +84453,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateMax(node: ASTAggregateMax?): Unit {
+    public fun freeASTAggregateMax(node: ASTAggregateMax?) {
         if ((node != null)) {
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTAggregateMax_0(node: ASTAggregateMax, value: Any): Unit {
+    private fun astAssign_ASTAggregateMax_0(node: ASTAggregateMax, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTAggregateMax_1(node: ASTAggregateMax, value: Any): Unit {
+    private fun astAssign_ASTAggregateMax_1(node: ASTAggregateMax, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTAggregateSample(): ASTAggregateSample {
@@ -84471,7 +84469,7 @@ public fun close() {
         tmp.id = 47
         return tmp
     }
-    public fun printASTAggregateSample(node: ASTAggregateSample?): Unit {
+    public fun printASTAggregateSample(node: ASTAggregateSample?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84482,15 +84480,15 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateSample(node: ASTAggregateSample?): Unit {
+    public fun freeASTAggregateSample(node: ASTAggregateSample?) {
         if ((node != null)) {
             freeASTExpression(node.variable1)
         }
     }
-    private fun astAssign_ASTAggregateSample_0(node: ASTAggregateSample, value: Any): Unit {
+    private fun astAssign_ASTAggregateSample_0(node: ASTAggregateSample, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTAggregateSample_1(node: ASTAggregateSample, value: Any): Unit {
+    private fun astAssign_ASTAggregateSample_1(node: ASTAggregateSample, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
     private fun allocASTStringOptional(): ASTStringOptional {
@@ -84498,7 +84496,7 @@ public fun close() {
         tmp.id = 275
         return tmp
     }
-    public fun printASTStringOptional(node: ASTStringOptional?): Unit {
+    public fun printASTStringOptional(node: ASTStringOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84508,12 +84506,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTStringOptional(node: ASTStringOptional?): Unit {
+    public fun freeASTStringOptional(node: ASTStringOptional?) {
         if ((node != null)) {
             freeASTString(node.variable0)
         }
     }
-    private fun astAssign_ASTStringOptional_0(node: ASTStringOptional, value: Any): Unit {
+    private fun astAssign_ASTStringOptional_0(node: ASTStringOptional, value: Any) {
         node.variable0 = (value as ASTString)
     }
     private fun allocASTAggregateGroupConcat(): ASTAggregateGroupConcat {
@@ -84521,7 +84519,7 @@ public fun close() {
         tmp.id = 48
         return tmp
     }
-    public fun printASTAggregateGroupConcat(node: ASTAggregateGroupConcat?): Unit {
+    public fun printASTAggregateGroupConcat(node: ASTAggregateGroupConcat?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84534,19 +84532,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTAggregateGroupConcat(node: ASTAggregateGroupConcat?): Unit {
+    public fun freeASTAggregateGroupConcat(node: ASTAggregateGroupConcat?) {
         if ((node != null)) {
             freeASTExpression(node.variable1)
             freeASTStringOptional(node.variable2)
         }
     }
-    private fun astAssign_ASTAggregateGroupConcat_0(node: ASTAggregateGroupConcat, value: Any): Unit {
+    private fun astAssign_ASTAggregateGroupConcat_0(node: ASTAggregateGroupConcat, value: Any) {
         node.DISTINCT = true
     }
-    private fun astAssign_ASTAggregateGroupConcat_1(node: ASTAggregateGroupConcat, value: Any): Unit {
+    private fun astAssign_ASTAggregateGroupConcat_1(node: ASTAggregateGroupConcat, value: Any) {
         node.variable1 = (value as ASTExpression)
     }
-    private fun astAssign_ASTAggregateGroupConcat_2(node: ASTAggregateGroupConcat, value: Any): Unit {
+    private fun astAssign_ASTAggregateGroupConcat_2(node: ASTAggregateGroupConcat, value: Any) {
         node.variable2 = (value as ASTStringOptional)
     }
     private fun allocASTArgListOptional(): ASTArgListOptional {
@@ -84554,7 +84552,7 @@ public fun close() {
         tmp.id = 276
         return tmp
     }
-    public fun printASTArgListOptional(node: ASTArgListOptional?): Unit {
+    public fun printASTArgListOptional(node: ASTArgListOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84564,12 +84562,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTArgListOptional(node: ASTArgListOptional?): Unit {
+    public fun freeASTArgListOptional(node: ASTArgListOptional?) {
         if ((node != null)) {
             freeASTArgList(node.variable0)
         }
     }
-    private fun astAssign_ASTArgListOptional_0(node: ASTArgListOptional, value: Any): Unit {
+    private fun astAssign_ASTArgListOptional_0(node: ASTArgListOptional, value: Any) {
         node.variable0 = (value as ASTArgList)
     }
     private fun allocASTiriOrFunction(): ASTiriOrFunction {
@@ -84577,7 +84575,7 @@ public fun close() {
         tmp.id = 272
         return tmp
     }
-    public fun printASTiriOrFunction(node: ASTiriOrFunction?): Unit {
+    public fun printASTiriOrFunction(node: ASTiriOrFunction?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84589,19 +84587,19 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTiriOrFunction(node: ASTiriOrFunction?): Unit {
+    public fun freeASTiriOrFunction(node: ASTiriOrFunction?) {
         if ((node != null)) {
             freeASTiri(node.variable0)
             freeASTArgListOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTiriOrFunction_0(node: ASTiriOrFunction, value: Any): Unit {
+    private fun astAssign_ASTiriOrFunction_0(node: ASTiriOrFunction, value: Any) {
         node.variable0 = (value as ASTiri)
     }
-    private fun astAssign_ASTiriOrFunction_1(node: ASTiriOrFunction, value: Any): Unit {
+    private fun astAssign_ASTiriOrFunction_1(node: ASTiriOrFunction, value: Any) {
         node.variable1 = (value as ASTArgListOptional)
     }
-    public fun printASTInterfaceOfRDFLiteralLangOriri(node: ASTInterfaceOfRDFLiteralLangOriri?): Unit {
+    public fun printASTInterfaceOfRDFLiteralLangOriri(node: ASTInterfaceOfRDFLiteralLangOriri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84615,7 +84613,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTInterfaceOfRDFLiteralLangOriri(node: ASTInterfaceOfRDFLiteralLangOriri?): Unit {
+    public fun freeASTInterfaceOfRDFLiteralLangOriri(node: ASTInterfaceOfRDFLiteralLangOriri?) {
         if ((node != null)) {
             when (node.id) {
                 277 -> {
@@ -84632,7 +84630,7 @@ public fun close() {
         tmp.id = 278
         return tmp
     }
-    public fun printASTInterfaceOfRDFLiteralLangOririOptional(node: ASTInterfaceOfRDFLiteralLangOririOptional?): Unit {
+    public fun printASTInterfaceOfRDFLiteralLangOririOptional(node: ASTInterfaceOfRDFLiteralLangOririOptional?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84642,12 +84640,12 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTInterfaceOfRDFLiteralLangOririOptional(node: ASTInterfaceOfRDFLiteralLangOririOptional?): Unit {
+    public fun freeASTInterfaceOfRDFLiteralLangOririOptional(node: ASTInterfaceOfRDFLiteralLangOririOptional?) {
         if ((node != null)) {
             freeASTInterfaceOfRDFLiteralLangOriri(node.variable0)
         }
     }
-    private fun astAssign_ASTInterfaceOfRDFLiteralLangOririOptional_0(node: ASTInterfaceOfRDFLiteralLangOririOptional, value: Any): Unit {
+    private fun astAssign_ASTInterfaceOfRDFLiteralLangOririOptional_0(node: ASTInterfaceOfRDFLiteralLangOririOptional, value: Any) {
         node.variable0 = (value as ASTInterfaceOfRDFLiteralLangOriri)
     }
     private fun allocASTRDFLiteral(): ASTRDFLiteral {
@@ -84655,7 +84653,7 @@ public fun close() {
         tmp.id = 174
         return tmp
     }
-    public fun printASTRDFLiteral(node: ASTRDFLiteral?): Unit {
+    public fun printASTRDFLiteral(node: ASTRDFLiteral?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84667,16 +84665,16 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRDFLiteral(node: ASTRDFLiteral?): Unit {
+    public fun freeASTRDFLiteral(node: ASTRDFLiteral?) {
         if ((node != null)) {
             freeASTString(node.variable0)
             freeASTInterfaceOfRDFLiteralLangOririOptional(node.variable1)
         }
     }
-    private fun astAssign_ASTRDFLiteral_0(node: ASTRDFLiteral, value: Any): Unit {
+    private fun astAssign_ASTRDFLiteral_0(node: ASTRDFLiteral, value: Any) {
         node.variable0 = (value as ASTString)
     }
-    private fun astAssign_ASTRDFLiteral_1(node: ASTRDFLiteral, value: Any): Unit {
+    private fun astAssign_ASTRDFLiteral_1(node: ASTRDFLiteral, value: Any) {
         node.variable1 = (value as ASTInterfaceOfRDFLiteralLangOririOptional)
     }
     private fun allocASTRDFLiteralLang(): ASTRDFLiteralLang {
@@ -84684,7 +84682,7 @@ public fun close() {
         tmp.id = 277
         return tmp
     }
-    public fun printASTRDFLiteralLang(node: ASTRDFLiteralLang?): Unit {
+    public fun printASTRDFLiteralLang(node: ASTRDFLiteralLang?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84693,14 +84691,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTRDFLiteralLang(node: ASTRDFLiteralLang?): Unit {
+    public fun freeASTRDFLiteralLang(node: ASTRDFLiteralLang?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTRDFLiteralLang_0(node: ASTRDFLiteralLang, value: Any): Unit {
+    private fun astAssign_ASTRDFLiteralLang_0(node: ASTRDFLiteralLang, value: Any) {
         node.LANGTAG = (value as String)
     }
-    public fun printASTNumericLiteral(node: ASTNumericLiteral?): Unit {
+    public fun printASTNumericLiteral(node: ASTNumericLiteral?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84717,7 +84715,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTNumericLiteral(node: ASTNumericLiteral?): Unit {
+    public fun freeASTNumericLiteral(node: ASTNumericLiteral?) {
         if ((node != null)) {
             when (node.id) {
                 175, 176, 177 -> {
@@ -84732,7 +84730,7 @@ public fun close() {
             }
         }
     }
-    public fun printASTNumericLiteralUnsigned(node: ASTNumericLiteralUnsigned?): Unit {
+    public fun printASTNumericLiteralUnsigned(node: ASTNumericLiteralUnsigned?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84749,7 +84747,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTNumericLiteralUnsigned(node: ASTNumericLiteralUnsigned?): Unit {
+    public fun freeASTNumericLiteralUnsigned(node: ASTNumericLiteralUnsigned?) {
         if ((node != null)) {
             when (node.id) {
                 175 -> {
@@ -84769,7 +84767,7 @@ public fun close() {
         tmp.id = 175
         return tmp
     }
-    public fun printASTNumericLiteralUnsignedInteger(node: ASTNumericLiteralUnsignedInteger?): Unit {
+    public fun printASTNumericLiteralUnsignedInteger(node: ASTNumericLiteralUnsignedInteger?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84778,11 +84776,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralUnsignedInteger(node: ASTNumericLiteralUnsignedInteger?): Unit {
+    public fun freeASTNumericLiteralUnsignedInteger(node: ASTNumericLiteralUnsignedInteger?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralUnsignedInteger_0(node: ASTNumericLiteralUnsignedInteger, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralUnsignedInteger_0(node: ASTNumericLiteralUnsignedInteger, value: Any) {
         node.INTEGER = (value as String)
     }
     private fun allocASTNumericLiteralUnsignedDecimal(): ASTNumericLiteralUnsignedDecimal {
@@ -84790,7 +84788,7 @@ public fun close() {
         tmp.id = 176
         return tmp
     }
-    public fun printASTNumericLiteralUnsignedDecimal(node: ASTNumericLiteralUnsignedDecimal?): Unit {
+    public fun printASTNumericLiteralUnsignedDecimal(node: ASTNumericLiteralUnsignedDecimal?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84799,11 +84797,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralUnsignedDecimal(node: ASTNumericLiteralUnsignedDecimal?): Unit {
+    public fun freeASTNumericLiteralUnsignedDecimal(node: ASTNumericLiteralUnsignedDecimal?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralUnsignedDecimal_0(node: ASTNumericLiteralUnsignedDecimal, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralUnsignedDecimal_0(node: ASTNumericLiteralUnsignedDecimal, value: Any) {
         node.DECIMAL = (value as String)
     }
     private fun allocASTNumericLiteralUnsignedDouble(): ASTNumericLiteralUnsignedDouble {
@@ -84811,7 +84809,7 @@ public fun close() {
         tmp.id = 177
         return tmp
     }
-    public fun printASTNumericLiteralUnsignedDouble(node: ASTNumericLiteralUnsignedDouble?): Unit {
+    public fun printASTNumericLiteralUnsignedDouble(node: ASTNumericLiteralUnsignedDouble?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84820,14 +84818,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralUnsignedDouble(node: ASTNumericLiteralUnsignedDouble?): Unit {
+    public fun freeASTNumericLiteralUnsignedDouble(node: ASTNumericLiteralUnsignedDouble?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralUnsignedDouble_0(node: ASTNumericLiteralUnsignedDouble, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralUnsignedDouble_0(node: ASTNumericLiteralUnsignedDouble, value: Any) {
         node.DOUBLE = (value as String)
     }
-    public fun printASTNumericLiteralPositive(node: ASTNumericLiteralPositive?): Unit {
+    public fun printASTNumericLiteralPositive(node: ASTNumericLiteralPositive?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84844,7 +84842,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTNumericLiteralPositive(node: ASTNumericLiteralPositive?): Unit {
+    public fun freeASTNumericLiteralPositive(node: ASTNumericLiteralPositive?) {
         if ((node != null)) {
             when (node.id) {
                 178 -> {
@@ -84864,7 +84862,7 @@ public fun close() {
         tmp.id = 178
         return tmp
     }
-    public fun printASTNumericLiteralPositiveInteger(node: ASTNumericLiteralPositiveInteger?): Unit {
+    public fun printASTNumericLiteralPositiveInteger(node: ASTNumericLiteralPositiveInteger?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84873,11 +84871,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralPositiveInteger(node: ASTNumericLiteralPositiveInteger?): Unit {
+    public fun freeASTNumericLiteralPositiveInteger(node: ASTNumericLiteralPositiveInteger?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralPositiveInteger_0(node: ASTNumericLiteralPositiveInteger, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralPositiveInteger_0(node: ASTNumericLiteralPositiveInteger, value: Any) {
         node.INTEGER_POSITIVE = (value as String)
     }
     private fun allocASTNumericLiteralPositiveDecimal(): ASTNumericLiteralPositiveDecimal {
@@ -84885,7 +84883,7 @@ public fun close() {
         tmp.id = 179
         return tmp
     }
-    public fun printASTNumericLiteralPositiveDecimal(node: ASTNumericLiteralPositiveDecimal?): Unit {
+    public fun printASTNumericLiteralPositiveDecimal(node: ASTNumericLiteralPositiveDecimal?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84894,11 +84892,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralPositiveDecimal(node: ASTNumericLiteralPositiveDecimal?): Unit {
+    public fun freeASTNumericLiteralPositiveDecimal(node: ASTNumericLiteralPositiveDecimal?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralPositiveDecimal_0(node: ASTNumericLiteralPositiveDecimal, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralPositiveDecimal_0(node: ASTNumericLiteralPositiveDecimal, value: Any) {
         node.DECIMAL_POSITIVE = (value as String)
     }
     private fun allocASTNumericLiteralPositiveDouble(): ASTNumericLiteralPositiveDouble {
@@ -84906,7 +84904,7 @@ public fun close() {
         tmp.id = 180
         return tmp
     }
-    public fun printASTNumericLiteralPositiveDouble(node: ASTNumericLiteralPositiveDouble?): Unit {
+    public fun printASTNumericLiteralPositiveDouble(node: ASTNumericLiteralPositiveDouble?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84915,14 +84913,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralPositiveDouble(node: ASTNumericLiteralPositiveDouble?): Unit {
+    public fun freeASTNumericLiteralPositiveDouble(node: ASTNumericLiteralPositiveDouble?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralPositiveDouble_0(node: ASTNumericLiteralPositiveDouble, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralPositiveDouble_0(node: ASTNumericLiteralPositiveDouble, value: Any) {
         node.DOUBLE_POSITIVE = (value as String)
     }
-    public fun printASTNumericLiteralNegative(node: ASTNumericLiteralNegative?): Unit {
+    public fun printASTNumericLiteralNegative(node: ASTNumericLiteralNegative?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84939,7 +84937,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTNumericLiteralNegative(node: ASTNumericLiteralNegative?): Unit {
+    public fun freeASTNumericLiteralNegative(node: ASTNumericLiteralNegative?) {
         if ((node != null)) {
             when (node.id) {
                 181 -> {
@@ -84959,7 +84957,7 @@ public fun close() {
         tmp.id = 181
         return tmp
     }
-    public fun printASTNumericLiteralNegativeInteger(node: ASTNumericLiteralNegativeInteger?): Unit {
+    public fun printASTNumericLiteralNegativeInteger(node: ASTNumericLiteralNegativeInteger?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84968,11 +84966,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralNegativeInteger(node: ASTNumericLiteralNegativeInteger?): Unit {
+    public fun freeASTNumericLiteralNegativeInteger(node: ASTNumericLiteralNegativeInteger?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralNegativeInteger_0(node: ASTNumericLiteralNegativeInteger, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralNegativeInteger_0(node: ASTNumericLiteralNegativeInteger, value: Any) {
         node.INTEGER_NEGATIVE = (value as String)
     }
     private fun allocASTNumericLiteralNegativeDecimal(): ASTNumericLiteralNegativeDecimal {
@@ -84980,7 +84978,7 @@ public fun close() {
         tmp.id = 182
         return tmp
     }
-    public fun printASTNumericLiteralNegativeDecimal(node: ASTNumericLiteralNegativeDecimal?): Unit {
+    public fun printASTNumericLiteralNegativeDecimal(node: ASTNumericLiteralNegativeDecimal?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -84989,11 +84987,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralNegativeDecimal(node: ASTNumericLiteralNegativeDecimal?): Unit {
+    public fun freeASTNumericLiteralNegativeDecimal(node: ASTNumericLiteralNegativeDecimal?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralNegativeDecimal_0(node: ASTNumericLiteralNegativeDecimal, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralNegativeDecimal_0(node: ASTNumericLiteralNegativeDecimal, value: Any) {
         node.DECIMAL_NEGATIVE = (value as String)
     }
     private fun allocASTNumericLiteralNegativeDouble(): ASTNumericLiteralNegativeDouble {
@@ -85001,7 +84999,7 @@ public fun close() {
         tmp.id = 183
         return tmp
     }
-    public fun printASTNumericLiteralNegativeDouble(node: ASTNumericLiteralNegativeDouble?): Unit {
+    public fun printASTNumericLiteralNegativeDouble(node: ASTNumericLiteralNegativeDouble?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85010,14 +85008,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNumericLiteralNegativeDouble(node: ASTNumericLiteralNegativeDouble?): Unit {
+    public fun freeASTNumericLiteralNegativeDouble(node: ASTNumericLiteralNegativeDouble?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNumericLiteralNegativeDouble_0(node: ASTNumericLiteralNegativeDouble, value: Any): Unit {
+    private fun astAssign_ASTNumericLiteralNegativeDouble_0(node: ASTNumericLiteralNegativeDouble, value: Any) {
         node.DOUBLE_NEGATIVE = (value as String)
     }
-    public fun printASTBooleanLiteral(node: ASTBooleanLiteral?): Unit {
+    public fun printASTBooleanLiteral(node: ASTBooleanLiteral?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85031,7 +85029,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTBooleanLiteral(node: ASTBooleanLiteral?): Unit {
+    public fun freeASTBooleanLiteral(node: ASTBooleanLiteral?) {
         if ((node != null)) {
             when (node.id) {
                 184 -> {
@@ -85048,7 +85046,7 @@ public fun close() {
         tmp.id = 184
         return tmp
     }
-    public fun printASTBooleanLiteralTrue(node: ASTBooleanLiteralTrue?): Unit {
+    public fun printASTBooleanLiteralTrue(node: ASTBooleanLiteralTrue?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85056,7 +85054,7 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBooleanLiteralTrue(node: ASTBooleanLiteralTrue?): Unit {
+    public fun freeASTBooleanLiteralTrue(node: ASTBooleanLiteralTrue?) {
         if ((node != null)) {
         }
     }
@@ -85065,7 +85063,7 @@ public fun close() {
         tmp.id = 185
         return tmp
     }
-    public fun printASTBooleanLiteralFalse(node: ASTBooleanLiteralFalse?): Unit {
+    public fun printASTBooleanLiteralFalse(node: ASTBooleanLiteralFalse?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85073,11 +85071,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBooleanLiteralFalse(node: ASTBooleanLiteralFalse?): Unit {
+    public fun freeASTBooleanLiteralFalse(node: ASTBooleanLiteralFalse?) {
         if ((node != null)) {
         }
     }
-    public fun printASTString(node: ASTString?): Unit {
+    public fun printASTString(node: ASTString?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85097,7 +85095,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTString(node: ASTString?): Unit {
+    public fun freeASTString(node: ASTString?) {
         if ((node != null)) {
             when (node.id) {
                 279 -> {
@@ -85120,7 +85118,7 @@ public fun close() {
         tmp.id = 279
         return tmp
     }
-    public fun printASTString1(node: ASTString1?): Unit {
+    public fun printASTString1(node: ASTString1?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85129,11 +85127,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTString1(node: ASTString1?): Unit {
+    public fun freeASTString1(node: ASTString1?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTString1_0(node: ASTString1, value: Any): Unit {
+    private fun astAssign_ASTString1_0(node: ASTString1, value: Any) {
         node.STRING_LITERAL1 = (value as String)
     }
     private fun allocASTString2(): ASTString2 {
@@ -85141,7 +85139,7 @@ public fun close() {
         tmp.id = 280
         return tmp
     }
-    public fun printASTString2(node: ASTString2?): Unit {
+    public fun printASTString2(node: ASTString2?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85150,11 +85148,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTString2(node: ASTString2?): Unit {
+    public fun freeASTString2(node: ASTString2?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTString2_0(node: ASTString2, value: Any): Unit {
+    private fun astAssign_ASTString2_0(node: ASTString2, value: Any) {
         node.STRING_LITERAL2 = (value as String)
     }
     private fun allocASTString1long(): ASTString1long {
@@ -85162,7 +85160,7 @@ public fun close() {
         tmp.id = 281
         return tmp
     }
-    public fun printASTString1long(node: ASTString1long?): Unit {
+    public fun printASTString1long(node: ASTString1long?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85171,11 +85169,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTString1long(node: ASTString1long?): Unit {
+    public fun freeASTString1long(node: ASTString1long?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTString1long_0(node: ASTString1long, value: Any): Unit {
+    private fun astAssign_ASTString1long_0(node: ASTString1long, value: Any) {
         node.STRING_LITERAL_LONG1 = (value as String)
     }
     private fun allocASTString2long(): ASTString2long {
@@ -85183,7 +85181,7 @@ public fun close() {
         tmp.id = 282
         return tmp
     }
-    public fun printASTString2long(node: ASTString2long?): Unit {
+    public fun printASTString2long(node: ASTString2long?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85192,14 +85190,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTString2long(node: ASTString2long?): Unit {
+    public fun freeASTString2long(node: ASTString2long?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTString2long_0(node: ASTString2long, value: Any): Unit {
+    private fun astAssign_ASTString2long_0(node: ASTString2long, value: Any) {
         node.STRING_LITERAL_LONG2 = (value as String)
     }
-    public fun printASTiri(node: ASTiri?): Unit {
+    public fun printASTiri(node: ASTiri?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85213,7 +85211,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTiri(node: ASTiri?): Unit {
+    public fun freeASTiri(node: ASTiri?) {
         if ((node != null)) {
             when (node.id) {
                 171 -> {
@@ -85230,7 +85228,7 @@ public fun close() {
         tmp.id = 171
         return tmp
     }
-    public fun printASTiriRef(node: ASTiriRef?): Unit {
+    public fun printASTiriRef(node: ASTiriRef?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85239,14 +85237,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTiriRef(node: ASTiriRef?): Unit {
+    public fun freeASTiriRef(node: ASTiriRef?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTiriRef_0(node: ASTiriRef, value: Any): Unit {
+    private fun astAssign_ASTiriRef_0(node: ASTiriRef, value: Any) {
         node.IRIREF = (value as String)
     }
-    public fun printASTPrefixedName(node: ASTPrefixedName?): Unit {
+    public fun printASTPrefixedName(node: ASTPrefixedName?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85260,7 +85258,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTPrefixedName(node: ASTPrefixedName?): Unit {
+    public fun freeASTPrefixedName(node: ASTPrefixedName?) {
         if ((node != null)) {
             when (node.id) {
                 172 -> {
@@ -85277,7 +85275,7 @@ public fun close() {
         tmp.id = 172
         return tmp
     }
-    public fun printASTPrefixedNameLN(node: ASTPrefixedNameLN?): Unit {
+    public fun printASTPrefixedNameLN(node: ASTPrefixedNameLN?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85286,11 +85284,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPrefixedNameLN(node: ASTPrefixedNameLN?): Unit {
+    public fun freeASTPrefixedNameLN(node: ASTPrefixedNameLN?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTPrefixedNameLN_0(node: ASTPrefixedNameLN, value: Any): Unit {
+    private fun astAssign_ASTPrefixedNameLN_0(node: ASTPrefixedNameLN, value: Any) {
         node.PNAME_LN = (value as String)
     }
     private fun allocASTPrefixedNameNS(): ASTPrefixedNameNS {
@@ -85298,7 +85296,7 @@ public fun close() {
         tmp.id = 173
         return tmp
     }
-    public fun printASTPrefixedNameNS(node: ASTPrefixedNameNS?): Unit {
+    public fun printASTPrefixedNameNS(node: ASTPrefixedNameNS?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85307,14 +85305,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTPrefixedNameNS(node: ASTPrefixedNameNS?): Unit {
+    public fun freeASTPrefixedNameNS(node: ASTPrefixedNameNS?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTPrefixedNameNS_0(node: ASTPrefixedNameNS, value: Any): Unit {
+    private fun astAssign_ASTPrefixedNameNS_0(node: ASTPrefixedNameNS, value: Any) {
         node.PNAME_NS = (value as String)
     }
-    public fun printASTBlankNode(node: ASTBlankNode?): Unit {
+    public fun printASTBlankNode(node: ASTBlankNode?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85328,7 +85326,7 @@ public fun close() {
             }
         }
     }
-    public fun freeASTBlankNode(node: ASTBlankNode?): Unit {
+    public fun freeASTBlankNode(node: ASTBlankNode?) {
         if ((node != null)) {
             when (node.id) {
                 238 -> {
@@ -85345,7 +85343,7 @@ public fun close() {
         tmp.id = 238
         return tmp
     }
-    public fun printASTBlankNodeLabel(node: ASTBlankNodeLabel?): Unit {
+    public fun printASTBlankNodeLabel(node: ASTBlankNodeLabel?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85354,11 +85352,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBlankNodeLabel(node: ASTBlankNodeLabel?): Unit {
+    public fun freeASTBlankNodeLabel(node: ASTBlankNodeLabel?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTBlankNodeLabel_0(node: ASTBlankNodeLabel, value: Any): Unit {
+    private fun astAssign_ASTBlankNodeLabel_0(node: ASTBlankNodeLabel, value: Any) {
         node.BLANK_NODE_LABEL = (value as String)
     }
     private fun allocASTBlankNodeANON(): ASTBlankNodeANON {
@@ -85366,7 +85364,7 @@ public fun close() {
         tmp.id = 239
         return tmp
     }
-    public fun printASTBlankNodeANON(node: ASTBlankNodeANON?): Unit {
+    public fun printASTBlankNodeANON(node: ASTBlankNodeANON?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85375,11 +85373,11 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTBlankNodeANON(node: ASTBlankNodeANON?): Unit {
+    public fun freeASTBlankNodeANON(node: ASTBlankNodeANON?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTBlankNodeANON_0(node: ASTBlankNodeANON, value: Any): Unit {
+    private fun astAssign_ASTBlankNodeANON_0(node: ASTBlankNodeANON, value: Any) {
         node.ANON = (value as String)
     }
     private fun allocASTNILParam(): ASTNILParam {
@@ -85387,7 +85385,7 @@ public fun close() {
         tmp.id = 169
         return tmp
     }
-    public fun printASTNILParam(node: ASTNILParam?): Unit {
+    public fun printASTNILParam(node: ASTNILParam?) {
         if ((node == null)) {
             print("null")
         } else {
@@ -85396,15 +85394,14 @@ public fun close() {
             print("},")
         }
     }
-    public fun freeASTNILParam(node: ASTNILParam?): Unit {
+    public fun freeASTNILParam(node: ASTNILParam?) {
         if ((node != null)) {
         }
     }
-    private fun astAssign_ASTNILParam_0(node: ASTNILParam, value: Any): Unit {
+    private fun astAssign_ASTNILParam_0(node: ASTNILParam, value: Any) {
         node.NIL = (value as String)
     }
     public fun getResult(): ASTSparqlDoc {
         return (stack.last() as ASTSparqlDoc)
     }
-internal fun intPtrToDefiniteInt(value: Int?) = value?.let{it}?:0}
-
+    internal fun intPtrToDefiniteInt(value: Int?) = value?.let { it } ?: 0 }

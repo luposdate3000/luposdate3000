@@ -19,13 +19,8 @@ package lupos.optimizer.logical
 import lupos.operator.arithmetik.AOPBase
 import lupos.operator.arithmetik.generated.AOPAnd
 import lupos.operator.arithmetik.generated.AOPBuildInCallBOUND
-import lupos.operator.arithmetik.generated.AOPNot
-import lupos.operator.arithmetik.generated.AOPOr
-import lupos.operator.arithmetik.multiinput.AOPBuildInCallCOALESCE
 import lupos.operator.base.Query
 import lupos.operator.logical.singleinput.LOPFilter
-import lupos.shared.BugException
-import lupos.shared.SanityCheck
 import lupos.shared.operator.IOPBase
 
 public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query, EOptimizerIDExt.LogicalOptimizerFilterMergeANDID, "LogicalOptimizerFilterMergeAND") {
@@ -34,8 +29,8 @@ public class LogicalOptimizerFilterMergeAND(query: Query) : OptimizerBase(query,
         if (node is LOPFilter) {
             val child = node.getChildren()[0]
             if (child is LOPFilter) {
-                    res = LOPFilter(query, AOPAnd(query, node.getChildren()[1] as AOPBase, child.getChildren()[1] as AOPBase), child.getChildren()[0])
-                    onChange()
+                res = LOPFilter(query, AOPAnd(query, node.getChildren()[1] as AOPBase, child.getChildren()[1] as AOPBase), child.getChildren()[0])
+                onChange()
             }
         }
         return res

@@ -178,7 +178,6 @@ import lupos.parser.sparql.ASTBuiltInCallStr
 import lupos.parser.sparql.ASTBuiltInCallStrAfter
 import lupos.parser.sparql.ASTBuiltInCallStrBefore
 import lupos.parser.sparql.ASTBuiltInCallStrDt
-import lupos.parser.sparql.ASTVarOptional
 import lupos.parser.sparql.ASTBuiltInCallStrEnds
 import lupos.parser.sparql.ASTBuiltInCallStrLang
 import lupos.parser.sparql.ASTBuiltInCallStrLen
@@ -388,6 +387,7 @@ import lupos.parser.sparql.ASTValuesClause
 import lupos.parser.sparql.ASTVar
 import lupos.parser.sparql.ASTVar1
 import lupos.parser.sparql.ASTVar2
+import lupos.parser.sparql.ASTVarOptional
 import lupos.parser.sparql.ASTVarOrTerm
 import lupos.parser.sparql.ASTVerb
 import lupos.parser.sparql.ASTVerbPath
@@ -715,57 +715,60 @@ public class OperatorGraphVisitor(public val query: Query) {
         }
         val returning = LOPDistinct(
             query,
-LOPFilter(query,
-AOPAnd(query,
-AOPAnd(query, 
-AOPBuildInCallBOUND(query,AOPVariable(query,"s")),
-AOPBuildInCallBOUND(query,AOPVariable(query,"p")),
-),
-AOPBuildInCallBOUND(query,AOPVariable(query,"o")),
-),
-            LOPProjection(
+            LOPFilter(
                 query,
-                labels.map { AOPVariable(query, it) }.toMutableList(),
-                constructTriples.map {
-                    val constants = mutableListOf<Pair<String, AOPConstant>>()
-                    val variables = mutableListOf<Pair<String, AOPVariable>>()
-                    for (i in 0 until 3) {
-                        if (it.children[i] is AOPConstant) {
-                            constants.add(labels[i] to it.children[i] as AOPConstant)
+                AOPAnd(
+                    query,
+                    AOPAnd(
+                        query,
+                        AOPBuildInCallBOUND(query, AOPVariable(query, "s")),
+                        AOPBuildInCallBOUND(query, AOPVariable(query, "p")),
+                    ),
+                    AOPBuildInCallBOUND(query, AOPVariable(query, "o")),
+                ),
+                LOPProjection(
+                    query,
+                    labels.map { AOPVariable(query, it) }.toMutableList(),
+                    constructTriples.map {
+                        val constants = mutableListOf<Pair<String, AOPConstant>>()
+                        val variables = mutableListOf<Pair<String, AOPVariable>>()
+                        for (i in 0 until 3) {
+                            if (it.children[i] is AOPConstant) {
+                                constants.add(labels[i] to it.children[i] as AOPConstant)
+                            } else {
+                                variables.add(labels[i] to it.children[i] as AOPVariable)
+                            }
+                        }
+                        val cc = if (constants.size > 0) {
+                            LOPValues(query, constants.map { (first) -> AOPVariable(query, first) }, listOf(AOPValue(query, constants.map { it2 -> it2.second })))
                         } else {
-                            variables.add(labels[i] to it.children[i] as AOPVariable)
+                            null
                         }
-                    }
-                    val cc = if (constants.size > 0) {
-                        LOPValues(query, constants.map { (first) -> AOPVariable(query, first) }, listOf(AOPValue(query, constants.map { it2 -> it2.second })))
-                    } else {
-                        null
-                    }
-                    val vv = if (variables.size > 0) {
-                        var x: IOPBase = dataSource.cloneOP()
-                        x = LOPProjection(query, variables.map { it2 -> it2.second }.toMutableList(), x)
-                        x = LOPDistinct(query, x)
-                        for ((first, second) in variables) {
-                            x = createBind(AOPVariable(query, "construct#$first"), second, x)
+                        val vv = if (variables.size > 0) {
+                            var x: IOPBase = dataSource.cloneOP()
+                            x = LOPProjection(query, variables.map { it2 -> it2.second }.toMutableList(), x)
+                            x = LOPDistinct(query, x)
+                            for ((first, second) in variables) {
+                                x = createBind(AOPVariable(query, "construct#$first"), second, x)
+                            }
+                            x = LOPProjection(query, variables.map { (first) -> AOPVariable(query, "construct#$first") }.toMutableList(), x)
+                            for ((first) in variables) {
+                                x = createBind(AOPVariable(query, first), AOPVariable(query, "construct#$first"), x)
+                            }
+                            x
+                        } else {
+                            null
                         }
-                        x = LOPProjection(query, variables.map { (first) -> AOPVariable(query, "construct#$first") }.toMutableList(), x)
-                        for ((first) in variables) {
-                            x = createBind(AOPVariable(query, first), AOPVariable(query, "construct#$first"), x)
+                        if (vv == null) {
+                            cc!!
+                        } else if (cc == null) {
+                            vv
+                        } else {
+                            LOPJoin(query, cc, vv, false)
                         }
-                        x
-                    } else {
-                        null
-                    }
-                    if (vv == null) {
-                        cc!!
-                    } else if (cc == null) {
-                        vv
-                    } else {
-                        LOPJoin(query, cc, vv, false)
-                    }
-                }.reduce { s, t -> createUnion(query, s, t) },
-            )
-),
+                    }.reduce { s, t -> createUnion(query, s, t) },
+                ),
+            ),
         )
         return returning
     }
@@ -1734,14 +1737,14 @@ AOPBuildInCallBOUND(query,AOPVariable(query,"o")),
     private fun visit074(node: ASTConstructTriplesOptional): List<LOPTriple> = node.variable0?.let { visit002(it) }
         ?: listOf()
 
-private fun visit070b(node: ASTVarOptional):AOPVariable{
-val v=node.variable0
-return if(v!=null){
-visit153(v)
-}else{
-AOPVariable(query,"_VarOptional#${counter++}")
-}
-}
+    private fun visit070b(node: ASTVarOptional): AOPVariable {
+        val v = node.variable0
+        return if (v != null) {
+            visit153(v)
+        } else {
+            AOPVariable(query, "_VarOptional#${counter++}")
+        }
+    }
     private fun visit070(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTClassOfExpressionAndVarOptional): Pair<AOPBase, AOPVariable> = visit033(graph, graphVar, graphOverride, node.variable0!!) to visit070b(node.variable1!!)
 
     private fun visit073(graph: String, graphVar: Boolean, graphOverride: Boolean, node: ASTHavingCondition) = visit155(graph, graphVar, graphOverride, node.variable0!!)

@@ -19,13 +19,10 @@ package lupos.dictionary
 import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.DictionaryValueTypeArray
-import lupos.shared.ETripleComponentTypeExt
 import lupos.shared.Luposdate3000Instance
 import lupos.shared.SanityCheck
 import lupos.shared.dictionary.IDictionary
 import lupos.shared.dynamicArray.ByteArrayWrapper
-import lupos.shared.inline.DictionaryHelper
-import lupos.shared.inline.fileformat.DictionaryIntermediateReader
 import kotlin.jvm.JvmField
 
 public abstract class ADictionary(
@@ -83,55 +80,7 @@ public abstract class ADictionary(
         return res
     }
 
-    internal companion object {
-        internal fun addEntry(id: DictionaryValueType, i: DictionaryValueType, mymapping2: DictionaryValueTypeArray): DictionaryValueTypeArray {
-            var mymapping = mymapping2
-            if (mymapping.size <= id) {
-                var newSize = 1
-                while (newSize <= id) {
-                    newSize *= 2
-                }
-                val tmp = mymapping
-                mymapping = DictionaryValueTypeArray(newSize)
-                tmp.copyInto(mymapping)
-            }
-            mymapping[DictionaryValueHelper.toInt(id)] = i
-            return mymapping
-        }
-    }
-
-    @Suppress("NOTHING_TO_INLINE")
     override fun importFromDictionaryFile(filename: String): Pair<DictionaryValueTypeArray, Int> {
-        var mymapping = DictionaryValueTypeArray(0)
-        var lastid = DictionaryValueHelper.NULL
-        val buffer = ByteArrayWrapper()
-        DictionaryIntermediateReader(filename).readAll(buffer) { id ->
-            if (id > lastid) {
-                lastid = id
-            }
-            val type = DictionaryHelper.byteArrayToType(buffer)
-            val i = when (type) {
-                ETripleComponentTypeExt.BOOLEAN -> {
-                    val b = DictionaryHelper.byteArrayToBoolean(buffer)
-                    if (b) {
-                        DictionaryValueHelper.booleanTrueValue
-                    } else {
-                        DictionaryValueHelper.booleanFalseValue
-                    }
-                }
-                ETripleComponentTypeExt.BLANK_NODE -> {
-                    createNewBNode()
-                }
-                else -> {
-                    var res = createValue(buffer)
-                    if (isLocal) {
-                        res = res or DictionaryValueHelper.flagLocal
-                    }
-                    res
-                }
-            }
-            mymapping = addEntry(id, i, mymapping)
-        }
-        return Pair(mymapping, DictionaryValueHelper.toInt(lastid + 1))
+        TODO("use DictionaryCacheLayer.importFromDictionaryFile instead")
     }
 }

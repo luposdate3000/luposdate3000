@@ -259,7 +259,8 @@ public class POPGroup : POPBase {
         return EvalGroup(
             children[0].evaluate(parent),
             bindings,
-            by.map { it.name }.toTypedArray(),projectedVariables.toTypedArray(),
+            by.map { it.name }.toTypedArray(),
+            projectedVariables.toTypedArray(),
         )
     }
 

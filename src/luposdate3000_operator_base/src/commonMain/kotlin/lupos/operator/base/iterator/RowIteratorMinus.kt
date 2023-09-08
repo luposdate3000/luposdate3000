@@ -88,13 +88,13 @@ public open class RowIteratorMinus(@JvmField public val a: RowIterator, @JvmFiel
                             if (aIdx >= 0) {
                                 loop2@ while (true) {
                                     for (i in 0 until compCount) {
-                                        if (a.buf[i+aIdx] < b.buf[i+bIdx]) {
+                                        if (a.buf[i + aIdx] < b.buf[i + bIdx]) {
                                             res = 0
                                             for (k in mapping.indices) {
                                                 buf[k] = a.buf[mapping[k] + aIdx]
                                             }
                                             break@loop
-                                        } else if (a.buf[i+aIdx] > b.buf[i+bIdx]) {
+                                        } else if (a.buf[i + aIdx] > b.buf[i + bIdx]) {
                                             bIdx = b.next()
                                             if (bIdx < 0) {
                                                 flag = 1

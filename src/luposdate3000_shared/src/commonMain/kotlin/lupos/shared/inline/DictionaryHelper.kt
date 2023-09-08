@@ -15,8 +15,6 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 package lupos.shared.inline
-import lupos.shared.IncompatibleTypesDuringCompareException
-import lupos.shared.Luposdate3000Exception
 import com.ionspin.kotlin.bignum.decimal.BigDecimal
 import com.ionspin.kotlin.bignum.decimal.toBigDecimal
 import com.ionspin.kotlin.bignum.integer.BigInteger
@@ -26,6 +24,7 @@ import lupos.shared.DictionaryValueHelper
 import lupos.shared.DictionaryValueType
 import lupos.shared.ETripleComponentType
 import lupos.shared.ETripleComponentTypeExt
+import lupos.shared.IncompatibleTypesDuringCompareException
 import lupos.shared.InvalidInputException
 import lupos.shared.UnreachableException
 import lupos.shared.XMLElement
@@ -329,9 +328,9 @@ public object DictionaryHelper {
             if (timezoneHours == -99 && timezoneMinutes == -99) {
                 return ""
             }
-if(timezoneHours<0){
-timezoneHours=-timezoneHours
-}
+            if (timezoneHours < 0) {
+                timezoneHours = -timezoneHours
+            }
             return "-${timezoneHours.toString().padStart(2, '0')}:${timezoneMinutes.toString().padStart(2, '0')}"
         }
     }
@@ -759,13 +758,13 @@ timezoneHours=-timezoneHours
             val c = if (reverse) b else a
             val d = if (reverse) a else b
             val res = if (typeC == ETripleComponentTypeExt.UNDEF) {
-throw               IncompatibleTypesDuringCompareException()
+                throw IncompatibleTypesDuringCompareException()
             } else if (typeD == ETripleComponentTypeExt.UNDEF) {
-     throw          IncompatibleTypesDuringCompareException()
+                throw IncompatibleTypesDuringCompareException()
             } else if (typeC == ETripleComponentTypeExt.ERROR) {
-          throw     IncompatibleTypesDuringCompareException()
+                throw IncompatibleTypesDuringCompareException()
             } else if (typeD == ETripleComponentTypeExt.ERROR) {
-             throw  IncompatibleTypesDuringCompareException()
+                throw IncompatibleTypesDuringCompareException()
             } else if (typeC == ETripleComponentTypeExt.BLANK_NODE) {
                 -1
             } else if (typeD == ETripleComponentTypeExt.BLANK_NODE) {

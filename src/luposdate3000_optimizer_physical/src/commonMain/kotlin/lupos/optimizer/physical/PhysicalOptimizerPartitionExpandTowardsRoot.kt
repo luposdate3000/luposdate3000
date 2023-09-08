@@ -27,7 +27,6 @@ import lupos.operator.physical.partition.POPSplitPartition
 import lupos.operator.physical.partition.POPSplitPartitionFromStore
 import lupos.operator.physical.partition.POPSplitPartitionFromStoreCount
 import lupos.operator.physical.singleinput.POPBind
-import lupos.shared.IQuery
 import lupos.operator.physical.singleinput.POPFilter
 import lupos.operator.physical.singleinput.POPGroup
 import lupos.operator.physical.singleinput.POPProjection
@@ -35,25 +34,26 @@ import lupos.operator.physical.singleinput.modifiers.POPReduced
 import lupos.optimizer.logical.EOptimizerIDExt
 import lupos.optimizer.logical.OptimizerBase
 import lupos.shared.EPartitionModeExt
+import lupos.shared.IQuery
 import lupos.shared.operator.IOPBase
 import lupos.triple_store_manager.POPTripleStoreIterator
 
 public class PhysicalOptimizerPartitionExpandTowardsRoot(query: Query) : OptimizerBase(query, EOptimizerIDExt.PhysicalOptimizerPartitionExpandTowardsRootID, "PhysicalOptimizerPartitionExpandTowardsRoot") {
     // this optimizer moves the partitioning upwards to the root
-private fun createPOPMergePartition(
-query: IQuery,
-    projectedVariables: List<String>,
-     partitionVariable: String?,
-     partitionCount: Int,
-     partitionID: Int,
-    child: IOPBase,
-):IOPBase{
-return if(projectedVariables.isEmpty()){
- POPMergePartitionCount(query,projectedVariables,partitionVariable!!,partitionCount,partitionID,child)
-}else{
- POPMergePartition(query,projectedVariables,partitionVariable,partitionCount,partitionID,child)
-}
-}
+    private fun createPOPMergePartition(
+        query: IQuery,
+        projectedVariables: List<String>,
+        partitionVariable: String?,
+        partitionCount: Int,
+        partitionID: Int,
+        child: IOPBase,
+    ): IOPBase {
+        return if (projectedVariables.isEmpty()) {
+            POPMergePartitionCount(query, projectedVariables, partitionVariable!!, partitionCount, partitionID, child)
+        } else {
+            POPMergePartition(query, projectedVariables, partitionVariable, partitionCount, partitionID, child)
+        }
+    }
     override /*suspend*/ fun optimize(node: IOPBase, parent: IOPBase?, onChange: () -> Unit): IOPBase {
         var res = node
         if (query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Thread || query.getInstance().LUPOS_PARTITION_MODE == EPartitionModeExt.Process) {

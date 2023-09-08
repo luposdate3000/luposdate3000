@@ -90,7 +90,7 @@ public class QueryResultToMemoryTable : IResultFormat {
             val columnNames: List<String>
             if (columnProjectionOrder.isNotEmpty()) {
                 columnNames = columnProjectionOrder
-                if (SanityCheck.enabled) { if (!(child.names.toSet().containsAll(columnNames))) { throw Exception("SanityCheck failed"+child.names.toSet()+columnNames.toSet()) } }
+                if (SanityCheck.enabled) { if (!(child.names.toSet().containsAll(columnNames))) { throw Exception("SanityCheck failed" + child.names.toSet() + columnNames.toSet()) } }
             } else {
                 columnNames = child.names.toList()
             }
