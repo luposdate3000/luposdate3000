@@ -143,10 +143,23 @@ function createDownloadResultButtons(result) {
 }
 
 export function updateResultTab(result) {
-    result.html = resultXMLToHTML(result.xml, result.namespaces)
-    jquery("#result").empty();
+jquery("#result").empty();
     const target = document.getElementById('result');
+if ("error" in result){
+const div = document.createElement('div');
+
+
+if(result.error.includes("An operation is not implemented: found token -1 unexpectedly in node")){
+div.textContent="Syntax error at position "+result.error.substring(result.error.lastIndexOf(" ") + 1);
+}else{
+div.textContent=result.error
+}
+target.appendChild(div);
+}else{
+    result.html = resultXMLToHTML(result.xml, result.namespaces)
     target.appendChild(createDownloadResultButtons(result))
     target.appendChild(result.html);
+}
     document.querySelector("#result-tab-nav-item").style.display = "list-item"
+    jquery("#result-tab-trigger").click()
 }

@@ -149,5 +149,5 @@ jquery("#save-btn").on("click", function() {
 });
 
 const urlParams = new URLSearchParams(window.location.search);
-loadData(urlParams.get('data'));
 loadConfig(urlParams.get('config'));
+loadData(urlParams.get('data'));

@@ -1,6 +1,7 @@
 const luposdate3000 = require("../../luposdate3000_endpoint/build/developmentExecutable/luposdate3000_endpoint.js")
 
 function evaluate(env, sparql, rdf, useRDF, withGraph, callback) {
+try{
     if (useRDF) {
         luposdate3000.lupos.endpoint.LuposdateEndpoint.close()
         env.instance = luposdate3000.lupos.endpoint.LuposdateEndpoint.initialize()
@@ -28,9 +29,13 @@ function evaluate(env, sparql, rdf, useRDF, withGraph, callback) {
             xml: luposdate3000.lupos.endpoint.LuposdateEndpoint.evaluate_sparql_to_result_b(env.instance, sparql)
         });
     }
+}catch(error){
+console.log(error.message)
+callback({error:error.message});
+}
 }
 export function init(env) {
     env.evaluate = evaluate;
-    env.instance = luposdate3000.lupos.endpoint.LuposdateEndpoint.initialize()
+    env.instance = luposdate3000.lupos.endpoint.LuposdateEndpoint.initialize();
     return env
 }
