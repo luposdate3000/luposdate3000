@@ -1,4 +1,4 @@
-const luposdate3000 = require("../../luposdate3000_endpoint/build/distributions/luposdate3000_endpoint.js")
+const luposdate3000 = require("../../luposdate3000_endpoint/build/developmentExecutable/luposdate3000_endpoint.js")
 
 function evaluate(env, sparql, rdf, useRDF, withGraph, callback) {
     if (useRDF) {

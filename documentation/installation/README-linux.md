@@ -4,7 +4,7 @@ You can copy paste execute the following script.
 Make sure you read the following comments as they may provide useful information.
 
 ```bash
-# if you are using the ifis gitlab-repository disable the ssl verification, because the ifis-git uses incorrect ssl.
+# if you are using the ifis gitlab-repository disable the ssl verification, because the ifis-git uses self-signed ssl.
 git config --global http.sslVerify false
 # Prevent repeatingly typing the password on commit.
 git config --global credential.helper store
@@ -53,7 +53,7 @@ dependencieshome=/opt
 ```
 
 #if you have less than 8GB of memory  
-Look at this guide [compile with a few GB of RAM](..README-compile-with-too-less-RAM.md)
+Look at this guide [compile with a few GB of RAM](../README-compile-with-too-less-RAM.md)
 
 # usage
 

@@ -47,7 +47,7 @@ function loadInstruments() {
         instruments[inst] = new Tone.Sampler({
             urls: SampleLibrary[inst],
             release: 1,
-            baseUrl: '/samples/' + inst + "/"
+            baseUrl: 'samples/' + inst + "/"
         }).toDestination();
     }
     Tone.loaded().then(() => {

@@ -61,7 +61,7 @@ public class DictionaryKV internal constructor(
     internal var uuidCounter: Int = 0
 
     @JvmField
-    internal val rootPage: BufferManagerPageWrapper = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:65"/*SOURCE_FILE_END*/, rootPageID)
+    internal val rootPage: BufferManagerPageWrapper = bufferManager.getPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:63"/*SOURCE_FILE_END*/, rootPageID)
 
     @JvmField
     internal var closed = false
@@ -71,7 +71,7 @@ public class DictionaryKV internal constructor(
             closed = true
             kv.close()
             vk.close()
-            bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:75"/*SOURCE_FILE_END*/, rootPageID)
+            bufferManager.releasePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:73"/*SOURCE_FILE_END*/, rootPageID)
         }
     }
 
@@ -79,7 +79,7 @@ public class DictionaryKV internal constructor(
         lock.withWriteLock {
             kv.delete()
             vk.delete()
-            bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:83"/*SOURCE_FILE_END*/, rootPageID)
+            bufferManager.deletePage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:81"/*SOURCE_FILE_END*/, rootPageID)
             File(instance.BUFFER_HOME + "dict.page").deleteRecursively()
         }
     }
@@ -149,8 +149,8 @@ public class DictionaryKV internal constructor(
             vkPage = BufferManagerPage.readInt4(rootPage, offsetvkPage)
             uuidCounter = BufferManagerPage.readInt4(rootPage, offsetuuidCounter)
         } else {
-            kvPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:153"/*SOURCE_FILE_END*/)
-            vkPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:154"/*SOURCE_FILE_END*/)
+            kvPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:151"/*SOURCE_FILE_END*/)
+            vkPage = bufferManager.allocPage(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_dictionary/src/commonMain/kotlin/lupos/dictionary/DictionaryKV.kt:152"/*SOURCE_FILE_END*/)
             if (instance.allowDistributedBNodeAssignment) {
                 bNodeCounter = DictionaryValueHelper.fromInt(instance.LUPOS_PROCESS_ID)
                 uuidCounter = instance.LUPOS_PROCESS_ID

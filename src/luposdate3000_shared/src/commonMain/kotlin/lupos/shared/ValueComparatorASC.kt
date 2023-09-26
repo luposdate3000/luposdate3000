@@ -34,7 +34,7 @@ public class ValueComparatorASC(@JvmField public val query: IQuery) : Comparator
         } catch (e: Luposdate3000Exception) {
             return (b - a).toInt()
         } catch (e: Throwable) {
-            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ValueComparatorASC.kt:37"/*SOURCE_FILE_END*/)
+            e.myPrintStackTrace(/*SOURCE_FILE_START*/"/src/luposdate3000/src/luposdate3000_shared/src/commonMain/kotlin/lupos/shared/ValueComparatorASC.kt:36"/*SOURCE_FILE_END*/)
             return (b - a).toInt()
         }
 /*Coverage Unreachable*/

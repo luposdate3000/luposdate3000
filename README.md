@@ -45,6 +45,7 @@ If you chose Windows, the compiler is about 25% slower compared to the linux ver
 
 [readme linux](documentation/installation/README-linux.md)
 [readme windows](documentation/installation/README-windows.md)
+[readme js-client](documentation/installation/README-js-client.md)
 
 Installation instructions for VLDB'21 Demo:
 
