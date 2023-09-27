@@ -57,17 +57,55 @@
       </li>
     </ul>
   </nav>
-  <div>
-    <ul class="nav nav-tabs" role="tablist">
-      <li class="nav-item" role="presentation"><button aria-controls="config" aria-selected="false" class="nav-link" data-bs-target="#config" data-bs-toggle="tab" role="tab" type="button">Config</button></li>
-      <li class="nav-item" role="presentation"><button aria-controls="sparql" aria-selected="true" class="nav-link active" data-bs-target="#sparql" data-bs-toggle="tab" role="tab" type="button">SPARQL</button></li>
-      <li class="nav-item" role="presentation"><button aria-controls="rdf" aria-selected="false" class="nav-link" data-bs-target="#rdf" data-bs-toggle="tab" role="tab" type="button">RDF</button></li>
-      <li class="nav-item hidden" id="result-tab-nav-item" role="presentation"><button aria-controls="result" aria-selected="false" class="nav-link" data-bs-target="#result" data-bs-toggle="tab" id="result-tab-trigger" role="tab" type="button">Result</button></li>
-      <li class="nav-item hidden" id="result-graph-tab-nav-item" role="presentation"><button aria-controls="result-graph" aria-selected="false" class="nav-link" data-bs-target="#result-graph" data-bs-toggle="tab" id="result-graph-tab-trigger" role="tab" type="button">Result Graph</button></li>
-      <li class="nav-item hidden" id="result-sonification-tab-nav-item" role="presentation"><button aria-controls="result-sonification" aria-selected="false" class="nav-link" data-bs-target="#result-sonification" data-bs-toggle="tab" id="result-sonification-tab-trigger" role="tab" type="button">Result Sonification</button></li>
+  <div class="split" id="split-3">
+    <div id="split-3-0">
+      <ul class="nav nav-tabs" id="split-3-0-nav"></ul>
+      <div class="tab-content" id="split-3-0-content"></div>
+    </div>
+    <div id="split-3-1">
+      <ul class="nav nav-tabs" id="split-3-1-nav"></ul>
+      <div class="tab-content" id="split-3-1-content"></div>
+    </div>
+    <div id="split-3-2">
+      <ul class="nav nav-tabs" id="split-3-2-nav"></ul>
+      <div class="tab-content" id="split-3-2-content"></div>
+    </div>
+  </div>
+  <div class="split" id="split-2">
+    <div id="split-2-0">
+      <ul class="nav nav-tabs" id="split-2-0-nav"></ul>
+      <div class="tab-content" id="split-2-0-content"></div>
+    </div>
+    <div id="split-2-1">
+      <ul class="nav nav-tabs" id="split-2-1-nav"></ul>
+      <div class="tab-content" id="split-2-1-content"></div>
+    </div>
+  </div>
+  <div id="split-1">
+    <ul class="nav nav-tabs" id="split-1-0-nav">
+      <li class="nav-item" id="config-tab-nav-item"><button class="nav-link" id="config-tab-trigger" type="button">Config</button></li>
+      <li class="nav-item" id="sparql-tab-nav-item"><button class="nav-link" id="sparql-tab-trigger" type="button">SPARQL</button></li>
+      <li class="nav-item" id="rdf-tab-nav-item"><button class="nav-link" id="rdf-tab-trigger" type="button">RDF</button></li>
+      <li class="nav-item hidden" id="result-tab-nav-item"><button class="nav-link" id="result-tab-trigger" type="button">Result</button></li>
+      <li class="nav-item hidden" id="result-graph-tab-nav-item"><button class="nav-link" id="result-graph-tab-trigger" type="button">Result Graph</button></li>
+      <li class="nav-item hidden" id="result-sonification-tab-nav-item"><button class="nav-link" id="result-sonification-tab-trigger" type="button">Result Sonification</button></li>
     </ul>
-    <div class="tab-content">
-      <div aria-labelledby="config-tab" class="tab-pane fade" id="config" role="tabpanel">
+    <div class="tab-content" id="split-1-0-content">
+      <div aria-labelledby="config-tab" class="tab-pane fade" id="config">
+        <div class="rcorners2 mb-3">
+          <div class="mb-3">
+            Layout
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" id="splitViewTabs1" name="splitViewTabs" type="radio" value="1"> <label class="form-check-label" for="splitViewTabs1">Full-Screen</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" id="splitViewTabs2" name="splitViewTabs" type="radio" value="2"> <label class="form-check-label" for="splitViewTabs2">Split-Screen 2</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" id="splitViewTabs3" name="splitViewTabs" type="radio" value="3"> <label class="form-check-label" for="splitViewTabs3">Split-Screen 3</label>
+          </div>
+        </div>
         <div class="rcorners2 mb-3">
           <div class="mb-3">
             Endpoint
@@ -112,21 +150,21 @@
           </div>
         </div>
       </div>
-      <div aria-labelledby="sparql-tab" class="tab-pane fade show active" id="sparql" role="tabpanel">
+      <div aria-labelledby="sparql-tab" class="tab-pane fade" id="sparql">
         <form>
           <button class="btn btn-primary" id="evaluate" type="button">Evaluate</button>
           <div id="sparqlEditorTarget"></div>
           <textarea id="sparqlEditorSource" name="sparqlEditorSource"></textarea>
         </form>
       </div>
-      <div aria-labelledby="rdf-tab" class="tab-pane fade" id="rdf" role="tabpanel">
+      <div aria-labelledby="rdf-tab" class="tab-pane fade" id="rdf">
         <form>
           <div id="rdfEditorTarget"></div>
           <textarea id="rdfEditorSource" name="rdfEditorSource"></textarea>
         </form>
       </div>
-      <div aria-labelledby="result-tab" class="tab-pane fade" id="result" role="tabpanel"></div>
-      <div aria-labelledby="result-graph-tab" class="tab-pane fade" id="result-graph" role="tabpanel">
+      <div aria-labelledby="result-tab" class="tab-pane fade" id="result"></div>
+      <div aria-labelledby="result-graph-tab" class="tab-pane fade" id="result-graph">
         <div class="input-group mb-3">
           <div class="input-group-text">
             <input class="form-control form-control" id="result-graph-view-input" type="number" value="0">
@@ -134,7 +172,7 @@
         </div>
         <div id="result-graph-view" style="border:1px solid black;width:800px;height:600px;margin: 0 auto;"></div>
       </div>
-      <div aria-labelledby="result-sonification-tab" class="tab-pane fade" id="result-sonification" role="tabpanel">
+      <div aria-labelledby="result-sonification-tab" class="tab-pane fade" id="result-sonification">
         <div class="text-center">
           <button class="btn" id="result-sonification-btn-fbw" type="button"><i class="fa fa-fast-backward"></i></button> <button class="btn" id="result-sonification-btn-bw" type="button"><i class="fa fa-backward"></i></button> <button class="btn" id="result-sonification-btn-play" type="button"><i class="fa fa-play"></i></button> <button class="btn" id="result-sonification-btn-stop" type="button"><i class="fa fa-stop"></i></button> <button class="btn" id="result-sonification-btn-fw" type="button"><i class="fa fa-forward"></i></button> <button class="btn" id="result-sonification-btn-ffw" type="button"><i class="fa fa-fast-forward"></i></button>
         </div>

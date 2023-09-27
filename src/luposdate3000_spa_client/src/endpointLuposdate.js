@@ -20,20 +20,22 @@ function evaluate(env, sparql, rdf, useRDF, withGraph, callback) {
         data: data,
         dataType: 'json',
         success: function(responseData, textStatus, jqXHR) {
-console.log(responseData)
-console.log(textStatus)
-console.log(jqXHR)
-if("queryError" in responseData){
-callback({error:responseData.queryError.errorMessage,
-line:responseData.queryError.line,
-column:responseData.queryError.column})
-}else{
-            for (const response of responseData.XML) {
+            console.log(responseData)
+            console.log(textStatus)
+            console.log(jqXHR)
+            if ("queryError" in responseData) {
                 callback({
-                    xml: response
-                });
+                    error: responseData.queryError.errorMessage,
+                    line: responseData.queryError.line,
+                    column: responseData.queryError.column
+                })
+            } else {
+                for (const response of responseData.XML) {
+                    callback({
+                        xml: response
+                    });
+                }
             }
-}
         },
         error: function(responseData, textStatus, errorThrown) {
             console.log("error", responseData, textStatus, errorThrown)

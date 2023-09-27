@@ -59,7 +59,7 @@ export function updateResultSonificationTab(result) {
     if ("optimization_steps" in result && "animation" in result) {
         cacheAnimation = []
         animationSpeed = 0
-        document.querySelector("#result-sonification-tab-nav-item").style.display = "list-item"
+        jquery("#result-sonification-tab-nav-item").removeClass("hidden")
         cacheGraph = result.optimization_steps[result.optimization_steps.length - 1]
         extractRanges(result, cacheGraph, sonificationRanges, sonificationRangesReverse)
         for (const nn in result.animation) {
@@ -96,7 +96,7 @@ export function updateResultSonificationTab(result) {
         setStep(0)
         createConfigHtml(sonificationRanges)
     } else {
-        document.querySelector("#result-sonification-tab-nav-item").style.display = "none"
+        jquery("#result-sonification-tab-nav-item").addClass("hidden")
     }
 }
 

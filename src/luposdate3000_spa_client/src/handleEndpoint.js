@@ -91,15 +91,15 @@ jquery("#evaluate").click(
         const useRDF = getUseRDF()
         const withGraph = getWithGraph()
         endpoint.evaluate(endpoint, sparql, rdf, useRDF, withGraph, function(result) {
-            if ("error" in result){
-updateResultTab(result)
-}else{
-            result.namespaces = namespaces
-            updateResultTab(result)
-            if (withGraph) {
-                updateResultGraphTab(result)
-                updateResultSonificationTab(result)
-}
+            if ("error" in result) {
+                updateResultTab(result)
+            } else {
+                result.namespaces = namespaces
+                updateResultTab(result)
+                if (withGraph) {
+                    updateResultGraphTab(result)
+                    updateResultSonificationTab(result)
+                }
             }
         });
     }

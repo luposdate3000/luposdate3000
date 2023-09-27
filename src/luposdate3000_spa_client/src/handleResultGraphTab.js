@@ -17,7 +17,7 @@ var network = null;
 var cacheGraphs = []
 export function updateResultGraphTab(result) {
     if ("optimization_steps" in result) {
-        document.querySelector("#result-graph-tab-nav-item").style.display = "list-item"
+        jquery("#result-graph-tab-nav-item").removeClass("hidden")
         cacheGraphs = []
         const cacheGraphsMinified = []
         for (const r of result.optimization_steps) {
@@ -53,7 +53,7 @@ export function updateResultGraphTab(result) {
             showGraph(cacheGraphs[0])
         }, 100);
     } else {
-        document.querySelector("#result-graph-tab-nav-item").style.display = "none"
+        jquery("#result-graph-tab-nav-item").addClass("hidden")
     }
 }
 

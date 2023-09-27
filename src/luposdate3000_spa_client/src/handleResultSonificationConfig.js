@@ -215,7 +215,7 @@ function createConfigHtmlForLabel(targetParent, sonificationRanges, label) {
                     }
                     case "range": {
                         function nestedChangeFunc2() {
-                            const value2 = jquery("#sonification-" + label + "-"+k).val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
+                            const value2 = jquery("#sonification-" + label + "-" + k).val() * 0.01 * (sonificationOptions[label].max - sonificationOptions[label].min) + sonificationOptions[label].min
                             sonificationConf[label].value[v] = value2
                         }
                         target.appendChild(createLabelWithSlider(v, "sonification-" + label + "-" + k, defaultValue, ["mt-3"], nestedChangeFunc2))
